@@ -1,0 +1,36 @@
+
+.container2{
+  
+    width: 30%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  
+    position: absolute;
+    z-index: 2;
+    top: 250px;
+    left: 0;
+    right: 0;
+  
+    
+  }
+  .backgroundPicture{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-size : initial;
+    position: relative;
+    z-index: 1;
+  }
+
+  
+  .mainPicture{
+    opacity: 0.5;
+    
+  }
+  
+  .titletext{
+    font-size: 70px;
+  }
+  
