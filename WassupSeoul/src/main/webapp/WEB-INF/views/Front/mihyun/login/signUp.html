@@ -9,61 +9,155 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/bootstrap.css">
     <style>
-        .backgroundPicture {
-            background-image: url("../img/서울2.jpg");
-            background-size: initial;
-            width: auto;
-            height: 1400px;
+        @import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+        
+        .container2 {
+            padding-right: 15px;
+            padding-left: 15px;
 
-            opacity: 0.5;
+            width: 100%;
+            height: 100%;
+            text-align: center;
             position: relative;
             z-index: 1;
+        }
 
+        .container2::after {
+            width: 100%;
+            height: 100%;
+            content: "";
+            background: url("../img/서울2.jpg");
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+
+        body {
+            height: 1000px;
         }
 
         .infoBox {
-            width: auto;
-            height: 500px;
             background-color: white;
-            margin-top: 200px;
-
-            position: absolute;
-            z-index: 2;
-            left: 0;
-            right: 0;
-            opacity: 0.5;
-
-
+            background-color: rgba(255, 255, 255, 0.5);
+            width: 800px;
+            height: 700px;
         }
 
-        .infoBox2 {
-            
-            position: absolute;
-            z-index: 3;
-
+        /* number 태그 화살표 제거 */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
+    
+        
     </style>
 
     <title> SignUp </title>
 </head>
 
 <body>
-    <div class="backgroundPicture">
-        <div class="container">
+    <div class="container2">
 
+
+        <div class="row">
             <div class="col-md-12">
+                <h1 class="mt-5" style="font-size: 70px;">Who Are U?</h1><br>
 
-                <div class="infoBox">
+                <div class="infoBox mx-auto">
 
-                    <div class="infoBox2">
-                        <h1 class="nanum">회원가입</h1>
+                    <form action="" class="">
+                        <br><br>
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label for="" class="nanum float-right" style="font-size: 25px">* 이메일</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" placeholder=" 사용하실 이메일을 입력해주세요" class="nanum form-control float-left" >
+                            </div>
+                        </div>
 
-                    </div>
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label for="" class="nanum float-right" style="font-size: 25px;">*비밀번호</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="password" placeholder=" 영문대소문자+숫자 6자 이상" class="nanum form-control float-left">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label for="" class="nanum float-right" style="font-size: 25px;">* 비밀번호 확인</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="password" placeholder=" 비밀번호를 확인해주세요" class="nanum form-control float-left">
+                            </div>
+                        </div>
+
+
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label for="" class="nanum float-right" style="font-size: 25px;">* 이름</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" placeholder=" 이름을 입력해주세요" class="nanum form-control float-left">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label for="" class="nanum float-right" style="font-size: 25px;">* 닉네임</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" placeholder=" 사용하실 닉네임을 설정해주세요" class="nanum form-control float-left">
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label for="" class="nanum float-right" style="font-size: 25px;">* 전화번호</label>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-control" name="phone1" required>
+                                    <option value="">010</option>
+                                    <option>011</option>
+                                    <option>016</option>
+                                    <option>016</option>
+                                    <option>070</option>
+                                    <option>019</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="phone2" maxlength="4" required>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" name="phone3" maxlength="4" required>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col-md-4">
+                                <label for="" class="nanum float-right" style="font-size: 25px;">* 성별</label>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="gender" class="nanum" >남성</label>
+                                <input type="radio" id="gender" name="selectGender">
+                                <label for="gender" class="nanum" >여성</label>
+                                <input type="radio" id="gender" name="selectGender">
+                            </div>
+
+                    </form>
                 </div>
-
             </div>
         </div>
     </div>
+
+
 </body>
 
 </html>
