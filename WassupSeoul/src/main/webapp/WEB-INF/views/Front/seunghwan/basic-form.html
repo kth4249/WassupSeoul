@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>basic-form</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+    <style>
+      .profileBox{
+        width: 100%;
+        height: 120px; 
+        border-radius: 70%;
+        overflow: hidden;
+      }
+      .profileImage {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      }
+      </style>
+</head>
+
+<body>
+    <!-- start -->
+    <!-- Button trigger modal -->
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        드롭다운 예제
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item nanum" data-toggle="modal" data-target="#profileModal">내정보 조회</a>
+        <a class="dropdown-item nanum" data-toggle="modal" data-target="#golmokModal">내골목 조회</a>
+      </div>
+   </div>
+  
+  <!-- profile Modal -->
+  <div class="modal fade" id="profileModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title nanum" id="profileModalLabel" style="font-weight: bold;">내정보 조회</h2>
+        </div>
+        <div class="modal-body">
+          <!-- content start -->
+            <!-- profile image start -->
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <div class="profileBox">
+                  <img class="profileImage" src="img/골목.jpg" alt="이미지">
+                </div>
+              </div>
+              <div class="col-md-4"></div>
+            </div>
+            <!-- profile image end-->
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <input type="text" value="호부호형" class="nanum form-control-plaintext text-center" style="font-size: 30px;font-weight: bold;" readonly>
+              </div>
+              <div class="col-md-4"></div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;">이름</label>
+              <div class="col-sm-4">
+                  <input type="text" readonly class="nanum form-control-plaintext text-center" value="홍길동" style="font-size: 25px;">
+              </div>
+              <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;">나이</label>
+              <div class="col-sm-4">
+                  <input type="text" readonly class="nanum form-control-plaintext text-center" value="20" style="font-size: 25px;">
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;">성별</label>
+              <div class="col-sm-4">
+                  <input type="text" readonly class="nanum form-control-plaintext text-center" value="남성" style="font-size: 25px;">
+              </div>
+              <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;">전화번호</label>
+              <div class="col-sm-4">
+                  <input type="text" readonly class="nanum form-control-plaintext text-center" value="010-1234-1234" style="font-size: 25px;">
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-3 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;">관심분야</label>
+              <div class="col-sm-9"><input type="text" readonly class="nanum form-control-plaintext" value="#활빈당" style="font-size: 25px;color: blue;"></div>
+              <label class="col-sm-3 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;"></label>
+              <div class="col-sm-9"><input type="text" readonly class="nanum form-control-plaintext" value="#허균은 홍길동전의 저자이다" style="font-size: 25px;color: blue;"></div>
+              <label class="col-sm-3 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;"></label>
+              <div class="col-sm-9"><input type="text" readonly class="nanum form-control-plaintext" value="#율도국" style="font-size: 25px;color: blue;"></div>
+            </div>
+
+           
+            <div class="row">
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary btn-lg btn-block nanum" style="font-weight: bold;">회원 탈퇴</button>
+              </div>
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary btn-lg btn-block nanum" style="font-weight: bold;">내 정보수정</button>
+              </div>
+            </div>
+          <!-- content end -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary nanum" data-dismiss="modal" style="font-weight: bold;">나가기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end -->
+
+  <!-- golmok Modal -->
+  <div class="modal fade" id="golmokModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="golmokModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title nanum" id="golmokModalLabel" style="font-weight: bold;">내골목 조회</h2>
+        </div>
+        <div class="modal-body">
+          <!-- content start -->
+           
+          <!-- content end -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary nanum" data-dismiss="modal" style="font-weight: bold;">나가기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end -->
+
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
