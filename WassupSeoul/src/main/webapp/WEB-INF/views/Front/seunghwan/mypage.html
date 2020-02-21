@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>mypage</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="css/mypage.css" type="text/css">
+    <link rel="stylesheet" href="css/common.css" type="text/css">
+    <style>@import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');</style>
+</head>
+
+<body>
+    <!-- start -->
+    <!-- Button trigger modal -->
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        드롭다운 예제
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item nanum" data-toggle="modal" data-target="#profileModal">내정보 조회</a>
+        <a class="dropdown-item nanum" data-toggle="modal" data-target="#golmokModal">내골목 조회</a>
+      </div>
+   </div>
+  
+  <!-- profile Modal -->
+  <div class="modal fade" id="profileModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title nanum" id="profileModalLabel" style="font-weight: bold;">내정보 조회</h2>
+        </div>
+        <div class="modal-body">
+          <!-- content start -->
+            <!-- profile image start -->
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <div class="profileBox">
+                  <img class="profileImage" src="img/골목.jpg" alt="이미지">
+                </div>
+              </div>
+              <div class="col-md-4"></div>
+            </div>
+            <!-- profile image end-->
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
+                <input type="text" value="호부호형" class="nanum form-control-plaintext text-center" style="font-size: 35px;font-weight: bold;" readonly>
+              </div>
+              <div class="col-md-4"></div>
+            </div>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-8"><input type="text" value="honggildong@gmail.com" class="nanum form-control-plaintext text-center" style="font-size: 25px;font-weight: bold;" readonly></div>
+              <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+              <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">이름</label>
+              <div class="col-sm-4">
+                  <input type="text" readonly class="nanum form-control-plaintext text-center" value="홍길동" style="font-size: 25px;">
+              </div>
+              <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">나이</label>
+              <div class="col-sm-4">
+                  <input type="text" readonly class="nanum form-control-plaintext text-center" value="20" style="font-size: 25px;">
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">성별</label>
+              <div class="col-sm-4">
+                  <input type="text" readonly class="nanum form-control-plaintext text-center" value="남성" style="font-size: 25px;">
+              </div>
+              <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">전화번호</label>
+              <div class="col-sm-4">
+                  <input type="text" readonly class="nanum form-control-plaintext text-center" value="010-1234-1234" style="font-size: 22px;">
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">관심분야</label>
+              <div class="col-sm-10"><input type="text" readonly class="nanum form-control-plaintext" value="#활빈당" style="font-size: 25px;color: blue;"></div>
+              <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;"></label>
+              <div class="col-sm-10"><input type="text" readonly class="nanum form-control-plaintext" value="#허균은 홍길동전의 저자이다" style="font-size: 25px;color: blue;"></div>
+              <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;"></label>
+              <div class="col-sm-10"><input type="text" readonly class="nanum form-control-plaintext" value="#율도국" style="font-size: 25px;color: blue;"></div>
+            </div>
+
+           
+            <div class="row">
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary btn-lg btn-block nanum" style="font-weight: bold;">회원 탈퇴</button>
+              </div>
+              <div class="col-md-6">
+                <button type="button" class="btn btn-primary btn-lg btn-block nanum" style="font-weight: bold;">내 정보수정</button>
+              </div>
+            </div>
+          <!-- content end -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary nanum" data-dismiss="modal" style="font-weight: bold;">나가기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end -->
+
+  <!-- golmok Modal -->
+  <div class="modal fade" id="golmokModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="golmokModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title nanum" id="golmokModalLabel" style="font-weight: bold;">내골목 조회</h2>
+        </div>
+        <div class="modal-body">
+          <!-- content start -->
+          <div class="container-fluid">
+
+            <!-- 골목 1 시작 -->
+            <div class="row">
+              <div class="col-md-4 golmokImage">
+                <img src="img/골목5.jpg" alt="이미지" width="100%" height="100%" style="position: absolute; z-index: 10;">
+                <img src="img/iconmonstr-certificate-3-48.png" style="position: absolute; z-index: 100;">
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-7">
+                <div class="row">
+                  <div class="col-md-9"><input type="text" readonly class="form-control-plaintext nanum" value="중구 KH정보교육원 골목" style="font-weight: bold;font-size: 25px;"></div>
+                  <div class="col-md-3"><button type="button" class="btn btn-outline-success text-center" disabled style="font-size: 13px;font-weight: bold;">중구</button></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12"><textarea rows="5" cols="65" style="resize: none;" readonly>우리 골목은 (NCS)반응형 스마트웹&콘텐츠 개발자 양성과정 1회차 교육을 받는다</textarea></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81;"><input type="text" readonly class="form-control-plaintext" value="#강사님은 백동현강사님입니다" style="color: white;"></div>
+                  <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81;"><input type="text" readonly class="form-control-plaintext" value="#강의시간은 오전 9시부터" style="color: white;"></div>
+                  <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81;"><input type="text" readonly class="form-control-plaintext" value="#수료일은 3월 입니다" style="color: white;"></div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">골목 총 인원</label>
+                  <div class="col-sm-3"><input type="text" readonly class="nanum form-control-plaintext" value="29" style="font-size: 25px;"></div>
+                  <label class="col-sm-3 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;">골목대장</label>
+                  <div class="col-sm-3"><input type="text" readonly class="nanum form-control-plaintext" value="백동현" style="font-size: 25px;"></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12"><button type="button" class="btn btn-primary btn-lg btn-block nanum" style="font-weight: bold;">골목 이동</button></div>
+                </div>
+              </div>
+            </div>
+            <!-- 골목 1 끝 -->
+
+            <hr>
+          
+            <!-- 골목 2 시작 -->
+            <div class="row">
+              <div class="col-md-4 golmokImage">
+                <img src="img/골목2.jpg" alt="이미지" width="100%" height="100%" style="position: absolute; z-index: 10;">
+                <img src="img/iconmonstr-certificate-3-48.png" style="position: absolute; z-index: 100;">
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-7">
+                <div class="row">
+                  <div class="col-md-9"><input type="text" readonly class="form-control-plaintext nanum" value="노원구 맛집탐방 골목" style="font-weight: bold;font-size: 25px;"></div>
+                  <div class="col-md-3"><button type="button" class="btn btn-outline-success text-center" disabled style="font-size: 13px;font-weight: bold;">노원구</button></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12"><textarea rows="5" cols="65" style="resize: none;" readonly>우리 골목은 맛집을 공유하는 모임입니다.</textarea></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81;"><input type="text" readonly class="form-control-plaintext" value="#음식 종류는 제한 없음" style="color: white;"></div>
+                  <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81;"><input type="text" readonly class="form-control-plaintext" value="#누구든지 환영" style="color: white;"></div>
+                  <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81;"><input type="text" readonly class="form-control-plaintext" value="#정기모임은 공지확인" style="color: white;"></div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">골목 총 인원</label>
+                  <div class="col-sm-3"><input type="text" readonly class="nanum form-control-plaintext" value="10" style="font-size: 25px;"></div>
+                  <label class="col-sm-3 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;">골목대장</label>
+                  <div class="col-sm-3"><input type="text" readonly class="nanum form-control-plaintext" value="김유저" style="font-size: 25px;"></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12"><button type="button" class="btn btn-primary btn-lg btn-block nanum" style="font-weight: bold;">골목 이동</button></div>
+                </div>
+              </div>
+            </div>
+            <!-- 골목 2 끝 -->
+
+            <hr>
+
+            <!-- 골목 3 시작 -->
+            <div class="row">
+              <div class="col-md-4 golmokImage">
+                <img src="img/골목.jpg" alt="이미지" width="100%" height="100%" style="position: absolute; z-index: 10;">
+                <img src="img/iconmonstr-certificate-3-48.png" style="position: absolute; z-index: 100;">
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-7">
+                <div class="row">
+                  <div class="col-md-9"><input type="text" readonly class="form-control-plaintext nanum" value="일이삼사오육칠팔구십일이삼사오" style="font-weight: bold;font-size: 25px;"></div>
+                  <div class="col-md-3"><button type="button" class="btn btn-outline-success text-center" disabled style="font-size: 13px;font-weight: bold;">동대문구</button></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12"><textarea rows="5" cols="65" style="resize: none;" readonly>우리 골목은 스터디전문 모임입니다</textarea></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81;"><input type="text" readonly class="form-control-plaintext" value="#스카이캐슬은 JTBC에서 방영" style="color: white;"></div>
+                  <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81;"><input type="text" readonly class="form-control-plaintext" value="#금토요일 오후 11시" style="color: white;"></div>
+                  <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81;"><input type="text" readonly class="form-control-plaintext" value="#20부작" style="color: white;"></div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-3 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">골목 총 인원</label>
+                  <div class="col-sm-3"><input type="text" readonly class="nanum form-control-plaintext" value="20" style="font-size: 25px;"></div>
+                  <label class="col-sm-3 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;">골목대장</label>
+                  <div class="col-sm-3"><input type="text" readonly class="nanum form-control-plaintext" value="강예서" style="font-size: 25px;"></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12"><button type="button" class="btn btn-primary btn-lg btn-block nanum" style="font-weight: bold;">골목 이동</button></div>
+                </div>
+              </div>
+            </div>
+            <!-- 골목 3 끝 -->
+
+          </div>
+          <!-- content end -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary nanum" data-dismiss="modal" style="font-weight: bold;">나가기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end -->
+  
+
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
