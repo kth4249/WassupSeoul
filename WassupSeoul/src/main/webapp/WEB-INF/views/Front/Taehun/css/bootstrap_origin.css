@@ -590,6 +590,8 @@ pre code {
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
+  /*여기*/
+  /* margin-top: 55px; */
 }
 
 @media (min-width: 576px) {
@@ -645,8 +647,9 @@ pre code {
 .col-xl-auto {
   position: relative;
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
+  /*여기*/
+  /* padding-right: 15px;
+  padding-left: 15px;  */
 }
 
 .col {
@@ -11144,4 +11147,3 @@ pre {
 .img-thumbnail {
   border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
 }
-
