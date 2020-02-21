@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="css/common.css">
         <title>Wassup, Seoul Lounge</title>
+        
     </head>
     <style>
         .layoutTest{
@@ -15,7 +17,7 @@
         .loungeBack{
             position: relative;
         }
-        .loungeBack:after{
+        .loungeBack::after{
             content : "";
             display: block;
             position: absolute;
@@ -30,12 +32,17 @@
             background-repeat: no-repeat;
         }
 
-        .btn-size{
-            height: 50px;
+        .headerOpacity{
+            background-color: rgba(255, 255, 255, 0.4) !important;
         }
+
+        .streetBtn{
+            background-color: rgba(100, 255, 255, 0.2);
+        }
+
     </style>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top headerOpacity">
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="검색할 골목 키워드">
                 <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
@@ -49,31 +56,119 @@
         <div class="container-fluid loungeBack">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="layoutTest">
+                    <div class="layoutTest headerMargin">
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <div class="btn-group-vertical">
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">중구</button>
-                        <button type="button" class="btn btn-secondary btn-size">Button</button>
-                    </div>
+                    <div class="list-group streetBtn">
+                        <a href="#" class="list-group-item list-group-item-action disabled">
+                          지역구 선택
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">송파구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">강동구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">송파구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">강동구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">송파구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">강동구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">송파구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">강동구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">송파구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">강동구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">송파구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">강동구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">송파구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">강동구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">송파구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">강동구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">송파구</a>
+                        <a href="#" class="list-group-item list-group-item-action streetBtn">강동구</a>
+                      </div>
                 </div>
                 <div class="col-md-10">
+                    <div class="row">
 
+                        <div class="col-lg-3 col-md-4 mb-4">
+                          <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                              <h4 class="card-title">
+                                <a href="#">Item One</a>
+                              </h4>
+                              <h5>$24.99</h5>
+                              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                            </div>
+                            <div class="card-footer">
+                              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                            </div>
+                          </div>
+                        </div>
+              
+                        <div class="col-lg-3 col-md-4 mb-4">
+                          <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                              <h4 class="card-title">
+                                <a href="#">Item Two</a>
+                              </h4>
+                              <h5>$24.99</h5>
+                              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+                            </div>
+                            <div class="card-footer">
+                              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                            </div>
+                          </div>
+                        </div>
+              
+                        <div class="col-lg-3 col-md-4 mb-4">
+                          <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                              <h4 class="card-title">
+                                <a href="#">Item Three</a>
+                              </h4>
+                              <h5>$24.99</h5>
+                              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                            </div>
+                            <div class="card-footer">
+                              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                            </div>
+                          </div>
+                        </div>
+              
+                        <div class="col-lg-3 col-md-4 mb-4">
+                          <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                              <h4 class="card-title">
+                                <a href="#">Item Four</a>
+                              </h4>
+                              <h5>$24.99</h5>
+                              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur!</p>
+                            </div>
+                            <div class="card-footer">
+                              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                            </div>
+                          </div>
+                        </div>
+              
+                        <div class="col-lg-3 col-md-4 mb-4">
+                          <div class="card h-100">
+                            <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                            <div class="card-body">
+                              <h4 class="card-title">
+                                <a href="#">Item Five</a>
+                              </h4>
+                              <h5>$24.99</h5>
+                              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur! Lorem ipsum dolor sit amet.</p>
+                            </div>
+                            <div class="card-footer">
+                              <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                            </div>
+                          </div>
+                        </div>
+              
                 </div>
             </div>
             <div class="row">
