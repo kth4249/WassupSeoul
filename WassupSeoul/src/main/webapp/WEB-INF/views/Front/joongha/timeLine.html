@@ -9,8 +9,6 @@
     <title>타임라인</title>
 
 <style>
-	 @import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
-
 
 	#searchBtn{
 		width : 13%;
@@ -31,10 +29,6 @@
 		margin-bottom: 3%;
 	}
 
-	#profileImgArea{
-		width : 25%;
-	}
-
 	#profileNameArea{
 		width : 65%;
 	}
@@ -43,7 +37,7 @@
 		margin-bottom: 3%;
 	}
 
-	.inputPostArea{
+	#inputPostArea{
 		width : 100%;
 		height: 200px;
 
@@ -52,11 +46,32 @@
 	#writePostBtn{
 		float: right;
 		width: 15%;
+		display: inline;
+	
 	}
 
 	#writePostOption{
-		width: 80%;
+		width: 85%;
+		display: inline;
 	}
+
+	#writePostArea{
+		width: 100%;
+		height: 100%;
+
+	}
+
+	textarea {
+    border: none;
+    overflow: auto;
+    outline: none;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    resize: none; /*remove the resize handle on the bottom right*/
+}
 
 
 
@@ -105,15 +120,19 @@
 									
 									
 								<div class="writePost">
-									<input class="inputPostArea">
+									<textarea class="postArea" id="writePostArea" rows="3" placeholder="새로운 게시글을 작성해보세요"></textarea>
+									<!--<input type="text" class="form-control" id="inputPostArea">-->
 								</div>
 
-								<div class="postCountView" style="border: 1px solid black;">
+								<div class="postCountView" style="border: 1px solid black; height: 45px; ">
 									
-									<div id="writePostOption">
+									<span id="writePostOption" style="display: inline-block;">
 									  <h5 class="nanum">작성 추가 옵션, 작성 버튼</h5>
-									</div>		
-									<button type="submit" class="btn " id="writePostBtn">작성</button>
+									</span>	
+
+									<span id="writePostBtn">	
+										<button type="submit" class="btn" style="height: 40px; display: inline-block; float: right;" >작성</button>
+									</span>		
 
 								</div>
 								
@@ -134,13 +153,22 @@
 								<div class="postLayoutView" style="padding: 0%;">
 
 									<div class="postMainWrap" style="border: 1px solid black;">
-										<div class="profileImgArea" id="profileImgArea">
+										<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;">
 											<h5>사진</h5>
 										</div>
-										<div class="profileNameArea" id="profileNameArea">
-											<h5>프로필영역</h5>
+										<div class="profileNameArea" id="profileNameArea" style="display: inline-block; width: 78%; margin-bottom: 0px; height: 50px;">
+											<div>
+												<h6>작성자</h6>
+											</div>
+											<div>
+												<h6>작성날짜</h6>
+											</div>
+										</div>
+										<div style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;">
+											<h6>버튼</h6>	
 										</div>
 									</div>
+
 
 									<div class="postItemWrap">
 										<h5 class="nanum">타임라인 영역 게시글</h5><br>
@@ -151,12 +179,49 @@
 									</div>
 
 									<div class="postMoreOptionWrap" style="border: 1px solid black;" >
-										<h5 class="nanum">스티커, 댓글쓰기 </h5>
+										<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 48%; margin-bottom: 0px; height: 50px;">
+											<h5>스티커</h5>
+										</div>
+										<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 48%; margin-bottom: 0px; height: 50px;">
+											<h5>댓글</h5>
+										</div>
 									</div>
 
 									<div class="postCommentMainView" style="border: 1px solid black;">
-										<h5 class="nanum">댓글 영역</h5>
+										<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;">
+											<h5>사진</h5>
+										</div>
+										<div class="profileNameArea" id="profileNameArea" style="display: inline-block; width: 78%; margin-bottom: 0px; height: 50px;">
+											<div>
+												<h6>작성자</h6>
+											</div>
+											<div>
+												<h6>댓글내용</h6>
+											</div>
+											<div>
+												<h6>작성날짜</h6>
+											</div>
+										</div>
+										<div style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;">
+											<h6>버튼</h6>	
+										</div>
 									</div>
+
+									<div class="postItemWrap">
+
+										<div style="width: 10%; display: inline-block;">
+											<h6>버튼</h6>	
+										</div>
+								     	<div style="width: 70%; display: inline-block;">
+										   <textarea class="CommentArea" id="writeCommentArea" rows="1" placeholder="댓글 작성 영역"
+										   style="width: 100%;">
+										   </textarea>										
+										</div>
+										 <div style="width: 10%; display: inline-block;">
+											 <h6>버튼</h6>	
+										 </div>
+									</div>
+
 
 								</div>		
 							</div>  
@@ -164,132 +229,7 @@
 
 
 
-							<div class="container box111" id="postArea" >
-								<div class="postLayoutView" style="padding: 2%;">
-									<div class="postMainWrap">
-										<h5>프로필영역</h5>
-									</div>
-
-									<div class="postItemWrap">
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-									</div>
-									<div class="postCountView">
-										<h5 class="nanum">조회수, 댓글 열기 닫기</h5>
-									
-									</div>
-									<div class="postMoreOptionWrap">
-										<h5 class="nanum">스티커, 댓글쓰기 </h5>
-									
-									</div>
-									<div class="postCommentMainView">
-										<h5 class="nanum">댓글 영역</h5>
-									
-									</div>
-								</div>		
-							</div>  
-
-
-
-
-							<div class="container box111" id="postArea" >
-								<div class="postLayoutView" style="padding: 2%;">
-									<div class="postMainWrap">
-										<h5>프로필영역</h5>
-									</div>
-
-									<div class="postItemWrap">
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-									</div>
-									<div class="postCountView">
-										<h5 class="nanum">조회수, 댓글 열기 닫기</h5>
-									
-									</div>
-									<div class="postMoreOptionWrap">
-										<h5 class="nanum">스티커, 댓글쓰기 </h5>
-									
-									</div>
-									<div class="postCommentMainView">
-										<h5 class="nanum">댓글 영역</h5>
-									
-									</div>
-								</div>		
-							</div>  
-
-
-
-
-							<div class="container box111" id="postArea" >
-								<div class="postLayoutView" style="padding: 2%;">
-									<div class="postMainWrap">
-										<h5>프로필영역</h5>
-									</div>
-
-									<div class="postItemWrap">
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-									</div>
-									<div class="postCountView">
-										<h5 class="nanum">조회수, 댓글 열기 닫기</h5>
-									
-									</div>
-									<div class="postMoreOptionWrap">
-										<h5 class="nanum">스티커, 댓글쓰기 </h5>
-									
-									</div>
-									<div class="postCommentMainView">
-										<h5 class="nanum">댓글 영역</h5>
-									
-									</div>
-								</div>		
-							</div>  
-
-
-
-
-							<div class="container box111" id="postArea" >
-								<div class="postLayoutView" style="padding: 2%;">
-									<div class="postMainWrap">
-										<h5>프로필영역</h5>
-									</div>
-
-									<div class="postItemWrap">
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-										<h5 class="nanum">타임라인 영역 게시글</h5><br>
-									</div>
-									<div class="postCountView">
-										<h5 class="nanum">조회수, 댓글 열기 닫기</h5>
-									
-									</div>
-									<div class="postMoreOptionWrap">
-										<h5 class="nanum">스티커, 댓글쓰기 </h5>
-									
-									</div>
-									<div class="postCommentMainView">
-										<h5 class="nanum">댓글 영역</h5>
-									
-									</div>
-								</div>		
-							</div>  
-
-
-							
-							
-
-
-
+						
 
 						</div>
 						<!-- 게시글영역 끝-->
@@ -306,11 +246,17 @@
                     </div>
 				</div>
 			</div>
-
         
     </div>
     <!-- 컨텐츠영역 종료 -->
 
+
+	<!--  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script> 
+	<script type="text/javascript"> 
+	var images = ['golmok.jpg', 'golmok2.jpg', 'golmok3.jpg', 'golmok4.jpg', 'golmok5.jpg', 'golmok6.jpg',]; 
+	$('body').css({'background-image': 'url(./img/' + images[Math.floor(Math.random() * images.length)] + ')'});
+	$('body').css(opacity, 0.4 ); 
+	</script>   -->
 
 
 
