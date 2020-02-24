@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../css/bootstrap.css">
+  <title>Wassup, Seoul BaseForm</title>
+
+  <style>
+    .messengerbox {
+      width: 420px;
+      height: 600px;
+      border: 1px solid black;
+    }
+
+    .nav-item {
+      text-align: center;
+    }
+
+    .col-md-4 {
+      padding-right: 0px;
+      padding-left: 0px;
+    }
+
+    .tab-pane p {
+      text-align: center;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="messengerbox container">
+    <ul class="nav nav-tabs row">
+      <li class="nav-item col-md-4">
+        <a class="nav-link active" data-toggle="tab" href="#home">친구목록</a>
+      </li>
+      <li class="nav-item col-md-4">
+        <a class="nav-link" data-toggle="tab" href="#profile">친구대화</a>
+      </li>
+      <li class="nav-item col-md-4">
+        <a class="nav-link" data-toggle="tab" href="#dropdown1">친구요청</a>
+      </li>
+    </ul>
+
+
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade show active" id="home">
+        <div>
+          <img src="../img/usericon.png" width="45px" height="45px">
+          <p>친구 안중하 남성 31세 </p>
+          <span>#축구</span> <span>#운동</span> <span>#제주</span>
+        </div>
+        <hr>
+        <div>
+          <img src="../img/usericon.png" width="45px" height="45px">
+          <p>친구 정승환 남성 30세</p>
+          <span>#테니스</span> <span>#강아지</span> <span>#독서</span>
+        </div>
+        <hr>
+        <div>
+          <img src="../img/usericon.png" width="45px" height="45px">
+          <p>친구 김지원 여성 26세</p>
+          <span>#쇼핑</span> <span>#패션</span> <span>#대구</span>
+        </div>
+        <hr>
+        <img src="../img/usericon.png" width="45px" height="45px">
+        <div><p>친구 김태훈 남성 25세</p>
+          <span>#연애</span> <span>#음주</span> <span>#담배</span>
+        </div>
+        <hr>
+      </div>
+      <div class="tab-pane fade" id="profile">
+        <div>
+          <img src="../img/usericon.png" width="45px" height="45px">
+          <p>김지원 : 마 뭐하노 뭐하는데 연락이 안되는데...</p>
+          <span class="badge badge-pill badge-danger">5</span>
+        </div>
+        <div>
+          <img src="../img/usericon.png" width="45px" height="45px">
+          <p>김태훈 : 병 형신이야?</p>
+          <span class="badge badge-pill badge-danger">3</span>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="dropdown1">
+        <div>
+          <img src="../img/usericon.png" width="45px" height="45px">
+          <p>조미현님이 친구요청을 하셨습니다.</p>
+          <button class="btn btn-success">수락</button><button class="btn btn-warning">거절</button>
+        </div>
+        <hr>
+        <div>
+          <img src="../img/usericon.png" width="45px" height="45px">
+          <p>백동현님이 친구요청을 하셨습니다.</p>
+          <button class="btn btn-success">수락</button><button class="btn btn-warning">거절</button>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"></script>
+  </div>
+</body>
+
+</html>
