@@ -7,3 +7,9 @@
 .headerMargin{
   margin-top: 55px;
 }
+
+#headerImg>img{
+  width: 40px;
+  height: 40px;
+  border-radius: 20px 20px;
+}
