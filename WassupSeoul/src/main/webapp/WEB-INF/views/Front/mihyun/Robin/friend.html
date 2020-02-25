@@ -5,15 +5,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="../css/bootstrap.css">
-  <link rel="stylesheet" href="../css/mihyun_01.css">
   <link rel="stylesheet" href="../css/common.css">
-  <title>Wassup, Seoul BaseForm</title>
+  <title>Messenger</title>
 
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+
+
+    .container2 {
+      margin-top: 200px;
+      margin-right: 90px;
+      padding-right: 15px;
+      padding-left: 15px;
+
+      position: fixed;
+      bottom: 20;
+      right: 0;
+
+
+
+    }
+
     .messengerbox {
-      width: 420px;
-      height: 600px;
-      border: 1px solid black;
+      width: 400px;
+      height: auto;
     }
 
     .nav-item {
@@ -28,147 +45,366 @@
     .tab-pane p {
       text-align: center;
     }
+
+    .tab-content {
+      border: 2px solid black;
+    }
+
+    .modal {
+      text-align: center;
+    }
+
+    @media screen and (min-width: 768px) {
+      .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+      }
+    }
+
+    .modal-dialog {
+      display: inline-block;
+      text-align: left;
+      vertical-align: middle;
+
+      max-width: 100%;
+      width: auto;
+    }
+
+    .iconImg {
+      width: 50px;
+      height: 50px;
+      padding: 0;
+      border: none;
+      margin-top: 840px;
+      margin-right: 30px;
+      position: fixed;
+
+      bottom: 10;
+      right: 0;
+
+    }
+
+    .back {
+      height: 1500px;
+    }
+
+
   </style>
+
+  <script>
+    var iconStatus = true;
+    $(function () {
+
+
+      $('button.iconImg').click(function () {
+        if (iconStatus == true) {
+          $('.container2').hide(200);
+          iconStatus = false;
+        } else {
+          $('.container2').show(200);
+          iconStatus = true;
+        }
+        console.log(iconStatus)
+      });
+    });
+
+
+
+
+  </script>
 
 </head>
 
 <body>
-  <div class="messengerbox container" style="overflow: scroll; height: 600px;">
-    <ul class="nav nav-tabs row">
-      <li class="nav-item col-md-4">
-        <a class="nav-link active" data-toggle="tab" href="#home">친구목록</a>
-      </li>
-      <li class="nav-item col-md-4">
-        <a class="nav-link" data-toggle="tab" href="#profile">친구대화</a>
-      </li>
-      <li class="nav-item col-md-4">
-        <a class="nav-link" data-toggle="tab" href="#dropdown1">친구요청</a>
-      </li>
-    </ul>
+
+  <div class="back">
 
 
-    <div id="myTabContent" class="tab-content">
-      <div class="tab-pane fade show active" id="home">
+    <button type="button" class="iconImg"><img src="../img/msgicon2.png" alt="" width="50px"></button>
 
-        <div class="nanum">
-          <br>
-          <img src="../img/usericon.png" width="40px" height="40px">
-          &nbsp;
-          <span class="" style="font-size: 20px;">안중하</span>
-          &nbsp;
-          <span>남성</span>
-          <span>31세</span><br><br>
-          <span>#축구</span> <span>#운동</span> <span>#제주</span>
+    <!-- <img src="../img/msgicon2.png" alt="" style="width: 50px; margin-top: 840px; margin-right: 40px;"> -->
+
+
+
+
+
+    <div class="container2">
+
+      <div class="messengerbox">
+
+        <div class="tabBox">
+          <ul class="nav nav-tabs nanum">
+            <li class="nav-item col-md-4">
+              <a class="nav-link active" data-toggle="tab" href="#home">친구목록</a>
+            </li>
+            <li class="nav-item col-md-4">
+              <a class="nav-link" data-toggle="tab" href="#profile">친구대화</a>
+            </li>
+            <li class="nav-item col-md-4">
+              <a class="nav-link" data-toggle="tab" href="#dropdown1">친구요청</a>
+            </li>
+          </ul>
         </div>
 
-        <hr>
 
-        <div class="nanum">
-          <img src="../img/usericon.png" width="40px" height="40px">
-          &nbsp;
-          <span class="" style="font-size: 20px;">안중하</span>
-          &nbsp;
-          <span>남성</span>
-          <span>31세</span><br><br>
-          <span>#축구</span> <span>#운동</span> <span>#제주</span>
-        </div>
-        <hr>
+        <div id="myTabContent" class="tab-content" style="overflow: scroll; height: 600px;">
+          <div class="tab-pane fade show active" id="home">
 
-        <div class="nanum">
-          <img src="../img/usericon.png" width="40px" height="40px">
-          &nbsp;
-          <span class="" style="font-size: 20px;">안중하</span>
-          &nbsp;
-          <span>남성</span>
-          <span>31세</span><br><br>
-          <span>#축구</span> <span>#운동</span> <span>#제주</span>
-        </div>
-        <hr>
+            <div class="nanum">
+              <br>
+              <img src="../img/usericon.png" width="40px" height="40px" class="ml-3">
+              &nbsp;
+              <span class="" style="font-size: 20px;">안중하</span>
+              &nbsp;
+              <span>남성</span>
+              <span>31세</span>
+              <button type="button" class="btn btn-outline-info btn-sm nanum float-right mr-3">대화</button>
+              <br>
+              <button type="button" class="btn btn-outline-danger btn-sm nanum float-right mr-3" data-toggle="modal"
+                data-target="#blockBtn">차단</button>
+              <br>
+              <div class="ml-4">
+                <span>#축구</span> <span>#운동</span> <span>#제주</span>
+              </div>
+            </div>
 
-        <div class="nanum">
-          <img src="../img/usericon.png" width="40px" height="40px">
-          &nbsp;
-          <span class="" style="font-size: 20px;">안중하</span>
-          &nbsp;
-          <span>남성</span>
-          <span>31세</span><br><br>
-          <span>#축구</span> <span>#운동</span> <span>#제주</span>
-        </div>
+            <hr>
 
-        <hr>
+            <div class="nanum">
+              <img src="../img/usericon.png" width="40px" height="40px" class="ml-3">
+              &nbsp;
+              <span class="" style="font-size: 20px;">안중하</span>
+              &nbsp;
+              <span>남성</span>
+              <span>31세</span>
+              <button type="button" class="btn btn-outline-info btn-sm nanum float-right mr-3">대화</button>
+              <br>
+              <button type="button" class="btn btn-outline-danger btn-sm nanum float-right mr-3" data-toggle="modal"
+                data-target="#blockBtn">차단</button>
+              <br>
+              <div class="ml-4">
+                <span>#축구</span> <span>#운동</span> <span>#제주</span>
+              </div>
+            </div>
+            <hr>
 
-        <div class="nanum">
-          <img src="../img/usericon.png" width="40px" height="40px">
-          &nbsp;
-          <span class="" style="font-size: 20px;">안중하</span>
-          &nbsp;
-          <span>남성</span>
-          <span>31세</span><br><br>
-          <span>#축구</span> <span>#운동</span> <span>#제주</span>
-        </div>
+            <div class="nanum">
+              <img src="../img/usericon.png" width="40px" height="40px" class="ml-3">
+              &nbsp;
+              <span class="" style="font-size: 20px;">안중하</span>
+              &nbsp;
+              <span>남성</span>
+              <span>31세</span>
+              <button type="button" class="btn btn-outline-info btn-sm nanum float-right mr-3">대화</button>
+              <br>
+              <button type="button" class="btn btn-outline-danger btn-sm nanum float-right mr-3" data-toggle="modal"
+                data-target="#blockBtn">차단</button>
+              <br>
+              <div class="ml-4">
+                <span>#축구</span> <span>#운동</span> <span>#제주</span>
+              </div>
+            </div>
+            <hr>
 
-        <hr>
+            <div class="nanum">
+              <img src="../img/usericon.png" width="40px" height="40px" class="ml-3">
+              &nbsp;
+              <span class="" style="font-size: 20px;">안중하</span>
+              &nbsp;
+              <span>남성</span>
+              <span>31세</span>
+              <button type="button" class="btn btn-outline-info btn-sm nanum float-right mr-3">대화</button>
+              <br>
+              <button type="button" class="btn btn-outline-danger btn-sm nanum float-right mr-3" data-toggle="modal"
+                data-target="#blockBtn">차단</button>
+              <br>
+              <div class="ml-4">
+                <span>#축구</span> <span>#운동</span> <span>#제주</span>
+              </div>
+            </div>
 
-        <div class="nanum">
-          <img src="../img/usericon.png" width="40px" height="40px">
-          &nbsp;
-          <span class="" style="font-size: 20px;">안중하</span>
-          &nbsp;
-          <span>남성</span>
-          <span>31세</span><br><br>
-          <span>#축구</span> <span>#운동</span> <span>#제주</span>
-        </div>
+            <hr>
 
-        <hr>
+            <div class="nanum">
+              <img src="../img/usericon.png" width="40px" height="40px" class="ml-3">
+              &nbsp;
+              <span class="" style="font-size: 20px;">안중하</span>
+              &nbsp;
+              <span>남성</span>
+              <span>31세</span>
+              <button type="button" class="btn btn-outline-info btn-sm nanum float-right mr-3">대화</button>
+              <br>
+              <button type="button" class="btn btn-outline-danger btn-sm nanum float-right mr-3" data-toggle="modal"
+                data-target="#blockBtn">차단</button>
+              <br>
+              <div class="ml-4">
+                <span>#축구</span> <span>#운동</span> <span>#제주</span>
+              </div>
+            </div>
 
-        <div class="nanum">
-          <img src="../img/usericon.png" width="40px" height="40px">
-          &nbsp;
-          <span class="" style="font-size: 20px;">안중하</span>
-          &nbsp;
-          <span>남성</span>
-          <span>31세</span><br><br>
-          <span>#축구</span> <span>#운동</span> <span>#제주</span>
-        </div>
-        
-      </div>
+            <hr>
 
-      <div class="tab-pane fade" id="profile">
-        <div>
-          <img src="../img/usericon.png" width="45px" height="45px">
-          <p>김지원 : 마 뭐하노 뭐하는데 연락이 안되는데...</p>
-          <span class="badge badge-pill badge-danger">5</span>
+            <div class="nanum">
+              <img src="../img/usericon.png" width="40px" height="40px" class="ml-3">
+              &nbsp;
+              <span class="" style="font-size: 20px;">안중하</span>
+              &nbsp;
+              <span>남성</span>
+              <span>31세</span>
+              <button type="button" class="btn btn-outline-info btn-sm nanum float-right mr-3">대화</button>
+              <br>
+              <button type="button" class="btn btn-outline-danger btn-sm nanum float-right mr-3" data-toggle="modal"
+                data-target="#blockBtn">차단</button>
+              <br>
+              <div class="ml-4">
+                <span>#축구</span> <span>#운동</span> <span>#제주</span>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="nanum">
+              <img src="../img/usericon.png" width="40px" height="40px" class="ml-3">
+              &nbsp;
+              <span class="" style="font-size: 20px;">안중하</span>
+              &nbsp;
+              <span>남성</span>
+              <span>31세</span>
+              <button type="button" class="btn btn-outline-info btn-sm nanum float-right mr-3">대화</button>
+              <br>
+              <button type="button" class="btn btn-outline-danger btn-sm nanum float-right mr-3" data-toggle="modal"
+                data-target="#blockBtn">차단</button>
+              <br>
+              <div class="ml-4">
+                <span>#축구</span> <span>#운동</span> <span>#제주</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="profile">
+
+            <div class="nanum mt-3 ml-3">
+
+              <div class="chatPf" style="display: inline-block;">
+                <img src="../img/usericon.png" width="40px" height="40px" class="chatProfile"> &nbsp;
+              </div>
+
+              <div class="chatCt" ondblclick="chatBox()" style="display: inline-block;">
+                <span>김지원</span>
+                <span class="mr-0">: 마뭐하노 뭐하는데 연락이 안되는데...</span>
+              </div>
+              <span class="badge badge-pill badge-danger float-right mr-3 mt-2">5</span>
+
+            </div>
+
+            <hr>
+
+            <div class="nanum ml-3">
+              <div class="chatPf" style="display: inline-block;">
+                <img src="../img/usericon.png" width="40px" height="40px" class="chatProfile"> &nbsp;
+              </div>
+              <div ondblclick="chatBox()" style="display: inline-block;">
+                <span>김태훈</span>
+                <span>: 병 형신이야?</span>
+              </div>
+              <span class="badge badge-pill badge-danger float-right mr-3 mt-2">3</span>
+            </div>
+
+            <hr>
+
+          </div>
+
+          <!-- 대화창 -->
+          <div class="chat">
+
+
+          </div>
+
+          <div class="tab-pane fade" id="dropdown1">
+            <div class="nanum mt-3 ml-3">
+              <img src="../img/usericon.png" width="45px" height="45px"> &nbsp;
+              <span>조미현님이 친구요청을 하셨습니다.</span>&nbsp;
+              <button class="btn btn-info btn-sm nanum">수락</button>
+              <button class="btn btn-danger btn-sm nanum" data-toggle="modal" data-target="#nopeBtn">거절</button>
+            </div>
+            <hr>
+            <div class="nanum ml-3">
+              <img src="../img/usericon.png" width="45px" height="45px"> &nbsp;
+              <span>백동현님이 친구요청을 하셨습니다.</span>&nbsp;
+              <button class="btn btn-info btn-sm nanum">수락</button>
+              <button class="btn btn-danger btn-sm nanum" data-toggle="modal" data-target="#nopeBtn">거절</button>
+            </div>
+            <hr>
+          </div>
         </div>
-        <div>
-          <img src="../img/usericon.png" width="45px" height="45px">
-          <p>김태훈 : 병 형신이야?</p>
-          <span class="badge badge-pill badge-danger">3</span>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="dropdown1">
-        <div>
-          <img src="../img/usericon.png" width="45px" height="45px">
-          <p>조미현님이 친구요청을 하셨습니다.</p>
-          <button class="btn btn-success">수락</button><button class="btn btn-warning">거절</button>
-        </div>
-        <hr>
-        <div>
-          <img src="../img/usericon.png" width="45px" height="45px">
-          <p>백동현님이 친구요청을 하셨습니다.</p>
-          <button class="btn btn-success">수락</button><button class="btn btn-warning">거절</button>
-        </div>
-        <hr>
       </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"></script>
+
+    <!-- 친구요청 : 거절버튼 -->
+    <div class="modal fade" id="nopeBtn">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title nanum" style="font-size: 30px;">알림메세지</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="">
+              <span class="nanum">친구 요청 메세지를 거절하셨습니다.</span>
+              <span class="nanum" style="color: red;">차단</span>
+              <span class="nanum">목록에 추가하시겠습니까?</span>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger nanum">차단하기</button>
+            <button type="button" class="btn btn-primary nanum" data-dismiss="modal">삭제하기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 친구목록 : 차단버튼 -->
+    <div class="modal fade" id="blockBtn">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title nanum" style="font-size: 30px;">알림메세지</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" style="font-size: 20px;">
+            <form action="">
+              <span class="nanum" style="color: olivedrab;">안중하</span>
+              <span class="nanum">님을 차단하셨습니다.</span>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger nanum">차단목록</button>
+            <button type="button" class="btn btn-primary nanum" data-dismiss="modal">확인</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <script>
+    function chatBox() {
+      alert("테스트입니다");
+    }
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
