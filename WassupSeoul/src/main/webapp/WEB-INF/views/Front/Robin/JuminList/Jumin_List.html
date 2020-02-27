@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+      
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>photoAlbum</title>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+
+
+        <link rel="stylesheet" href="../css/bootstrap.css" type="text/css">
+        <link rel="stylesheet" href="../css/common.css" type="text/css">
+
+
+
+        <style>@import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+        .site-header {
+  background-color: rgba(0, 0, 0, .85);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+.site-header a {
+  color:white;
+  transition: ease-in-out color .15s;
+  text-decoration: none;
+}
+.site-header a:hover {
+  color: black;
+  text-decoration: none;
+}
+        </style>
+    </head>
+    <body>
+        <!-- 컨텐츠 -->
+        <div class="container-fluid">
+
+            <!-- 네비바 시작 -->
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                  <nav class="navbar navbar-dark bg-dark site-header sticky-top py-1">
+                    <div class="container d-flex flex-column flex-md-row justify-content-between">
+                        <a class="py-1" href="#" aria-label="Product"></a>
+                        <a class="py-1 d-none d-md-inline-block nanum" href="#">게시판</a> 
+                        <a class="py-1 d-none d-md-inline-block nanum" href="#">사진첩</a> 
+                        <a class="py-1 d-none d-md-inline-block nanum" href="#">일정</a> 
+                        <a class="py-1 d-none d-md-inline-block nanum" href="#">주민목록</a> 
+                        <a class="py-1" href="#" aria-label="Product"></a>
+                    </div>
+                  </nav>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+            <!-- 네비바 끝-->
+            <br><br>
+            <div class="row">
+                <!-- 여백1 시작 -->
+                <div class="col-md-2"></div>
+                <!-- 여백1 끝 -->
+
+                <!-- 사이드 1 시작 -->
+                <div class="col-md-2">
+                  <div class="card mb-3">
+                    <img style="height: 200px; width: 100%; display: block;" src="img/골목.jpg" alt="Card image">
+                    <div class="card-body">
+                      <input type="text" class="form-control-plaintext nanum" value="중구 KH정보교육원모임" style="font-size: 25px; font-weight: bold;">
+                      <div class="form-group row">
+                        <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 15px;">멤버</label>
+                        <div class="col-sm-8">
+                          <input type="text" readonly class="form-control-plaintext nanum" value="150" style="font-size: 15px;">
+                        </div>
+                        <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 15px;">골목대장</label>
+                        <div class="col-sm-8">
+                          <input type="text" readonly class="form-control-plaintext nanum" value="남궁민수" style="font-size: 15px;">
+                        </div>
+                      </div>
+                      <div class="col-sm-12"><textarea class="form-control nanum" rows="2" readonly style="resize: none;">우리 골목을 소개하는 소개글입니다.</textarea></div><br>
+                      <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81; border-radius: 20px; margin-bottom: 5px;"><input type="text" readonly class="form-control-plaintext nanum" value="#우리골목의 키워드1입니다" style="color: white;"></div>
+                      <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81; border-radius: 20px; margin-bottom: 5px;"><input type="text" readonly class="form-control-plaintext nanum" value="#우리골목의 키워드2입니다" style="color: white;"></div>
+                      <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81; border-radius: 20px; margin-bottom: 5px;"><input type="text" readonly class="form-control-plaintext nanum" value="#우리골목의 키워드3입니다" style="color: white;"></div>
+                    </div>
+                    <div class="card-body">
+                      <button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;">골목 가입하기</button><br>
+                      <a href="#" class="card-link nanum">골목 탈퇴하기</a><br>
+
+                      <a href="#" class="card-link nanum">골목 변경하기</a>
+                      <a href="#" class="card-link nanum">활동보고서 작성</a>
+                    </div>
+                    <div class="card-footer text-muted nanum">
+                      누구나 골목을 검색해 찾을 수 있고, <br>게시물을 볼 수 있습니다.
+                    </div>
+                    <div class="card-footer text-muted nanum">
+                      이 골목은 누구나 검색해 찾을 수 있지만, 게시물은 주민만 볼 수 있습니다.
+                    </div>
+                  </div>
+                </div>
+                <!-- 사이드 1 끝 -->
+
+                <!-- 본문 시작 -->
+                <div class="col-md-4 nanum">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr class="table-info">
+                        <th scope="col">프사</th>
+                        <th scope="col">주민</th>
+                        <th scope="col">나이, 성별</th>
+                        <th scope="col">관심사</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="table-active">
+                        <th scope="row"><img src="../img/usericon.png" width="45px" height="45px"></th>
+                        <td>로빈</td>
+                        <td>31세, 남</td>
+                        <td>#넷플릭스 #미드 #외드</td>
+                      </tr>
+                      <tr class="table-active">
+                        <th scope="row"><img src="../img/usericon.png" width="45px" height="45px"></th>
+                        <td>제주머슬맨</td>
+                        <td>31세, 남</td>
+                        <td>#축구 #해축 #헬스</td>
+                      </tr>
+                      <tr class="table-active">
+                        <th scope="row"><img src="../img/usericon.png" width="45px" height="45px"></th>
+                        <td>섹시개발자</td>
+                        <td>26세, 남</td>
+                        <td>#연애 #술 #음주</td>
+                      </tr>
+                      <tr class="table-active">
+                        <th scope="row"><img src="../img/usericon.png" width="45px" height="45px"></th>
+                        <td>디원곤듀</td>
+                        <td>27세, 여</td>
+                        <td>#패션 #쇼핑 #맛집</td>
+                      </tr>
+                      <tr class="table-active">
+                        <th scope="row"><img src="../img/usericon.png" width="45px" height="45px"></th>
+                        <td>이지역의나달은나야</td>
+                        <td>30세, 남</td>
+                        <td>#테니스 #운동 #독서</td>
+                      </tr>
+                      <tr class="table-active">
+                        <th scope="row"><img src="../img/usericon.png" width="45px" height="45px"></th>
+                        <td>미미</td>
+                        <td>24세, 여</td>
+                        <td>#음주 #음주 #음주</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="form-group">
+                    <label class="nanum" for="SearchKey">검색할 항목을 선택하세요.</label>
+                    <select class="form-control nanum" id="SearchKey">
+                      <option>닉네임</option>
+                      <option>관심사</option>
+                    </select> 
+                  </div>
+                  <div class="form-group">
+                    <label class="col-form-label nanum" for="SearchValue"></label>
+                    <input type="text" class="form-control nanum" placeholder="검색어를 써주세요" id="SearchValue">
+                  </div>
+
+
+
+
+                </div>
+                <!-- 본문 끝 -->
+               
+
+                <!-- 사이드 2 시작 -->
+                <div class="col-md-2">
+                  <div class="card border-primary mb-3" style="max-width: 20rem;">
+                    <div class="card-header nanum" style="font-size: 25px;">다가오는 일정</div>
+                    <div class="card-body">
+                      <h4 class="card-title nanum" style="font-weight: bolder;">2월</h4>
+                      <p class="card-text nanum">13일 - 일정이 지정한 내용1</p>
+                      <p class="card-text nanum">17일 - 일정이 지정한 내용2</p>
+                    </div>
+                  </div>
+                  <!-- 친구목록 버튼 -->
+                  <div style="border-radius: 70%; background-color: gray; width: 100px; height: 100px; position:relative;">
+                    <div style="position:absolute; top: 15px; left: 20px;"><img src="img/iconmonstr-user-8-64.png" alt="이미지" style="cursor: pointer;"></div>
+                  </div>
+
+                  <!-- 탑버튼 -->
+                  <a style="display:scroll;position:fixed;bottom:10px;right:10px;" href="#" title="맨 위로"><img src="img/img_top.png" alt="탑버튼" style="width: 70px; height: 100px;"></a>
+
+                </div>
+                <!-- 사이드 2 끝 -->
+
+                <!-- 여백2 시작-->
+                <div class="col-md-2"></div>
+                <!-- 여백2 끝-->
+            </div>
+
+        </div>
+        <!-- 컨텐츠 -->
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    </body>
+</html>
