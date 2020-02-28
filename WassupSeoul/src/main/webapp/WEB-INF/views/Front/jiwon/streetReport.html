@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="common.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+    </style>
+
+    <title>Wassup, Seoul 골목활동보고서 </title>
+</head>
+
+<body>
+
+    <form>
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <h1 class="nanum">활동보고서 작성</h1>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <h5 class="nanum">오프라인모임 일시</h5>
+                        <hr>
+                    </div>
+                    <div class="col-md-12">
+                        <input class="nanum" type="date">
+                        <input class="nanum" type="time">
+                        &nbsp;
+                        <span class="nanum">(시작일시)부터</span>
+                        <br><br>
+                        <input class="nanum" type="date">
+                        <input class="nanum" type="time">
+                        &nbsp;
+                        <span class="nanum">(종료일시)까지</span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br><br>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <h5 class="nanum">오프라인모임 장소</h5>
+                        <hr>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br><br>
+            </div>
+
+
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <h5 class="nanum">오프라인모임 참여 인원</h5>
+                        <hr>
+                    </div>
+                    <div class="col-md-12">
+
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br><br>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <h5 class="nanum">오프라인모임 활동내역</h5>
+                        <hr>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br><br>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <h5 class="nanum">사건&사고 발생여부</h5>
+                        <hr>
+                    </div>
+                    <div class="col-md-12 nanum">
+                        <label>발생사건 종류</label>
+                        &nbsp;&nbsp;
+                        <select class="nanum">
+                            <option>어떠한 사건사고도 발생하지 않음</option>
+                            <option>성관련 사건 발생</option>
+                            <option>사기 사건 발생</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br><br>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6" style="text-align: center;">
+                    <span class="nanum" style="font-size: 12px; color: red;">
+                        * 제출된 활동보고서 일부 정보가 누락되거나 위조시 활동점수에 반영되지 않으며 해당 골목에 패널티가 부여될수 있습니다.
+                    </span>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br><br>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6 nanum" style="text-align: center;">
+                    <input type="checkbox" name="check" id="check">
+                    <label for="check">주의사항을 확인했습니다.</label>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br><br>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block nanum">제출하기</button>
+                </div>
+                <div class="col-md-2" style="text-align: center;">
+                    <button type="button" class="btn btn-secondary btn-lg btn-block nanum">취소</button>
+                </div>
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+        </div>
+    </form>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
