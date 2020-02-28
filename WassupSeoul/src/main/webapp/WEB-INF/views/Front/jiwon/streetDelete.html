@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="common.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+    </style>
+
+    <title>Wassup, Seoul 골목삭제 </title>
+</head>
+
+<body>
+
+    <form>
+        <div class="container-fluid">
+            <!-- 골목 삭제 -->
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <h1 class="nanum">골목 삭제하기</h1>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 nanum">
+                        <h5 class="nanum">골목대장 위임하기</h5>
+                    </div>
+                    <div class="col-md-12 nanum">
+                        <table class="table table-hover" style="text-align: center; line-height: 50px;">
+                            <thead>
+                                <tr>
+                                    <th scope="col">번호</th>
+                                    <th scope="col">주민이름</th>
+                                    <th scope="col">상세정보</th>
+                                    <th scope="col">위임하기</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>김태훈</td>
+                                    <td><button type="button" class="btn btn-secondary nanum">상세정보조회</button></td>
+                                    <td><button type="button" class="btn btn-info nanum">위임하기</button></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>정승환</td>
+                                    <td><button type="button" class="btn btn-secondary nanum">상세정보조회</button></td>
+                                    <td><button type="button" class="btn btn-info nanum">위임하기</button></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>안중하</td>
+                                    <td><button type="button" class="btn btn-secondary nanum">상세정보조회</button></td>
+                                    <td><button type="button" class="btn btn-info nanum">위임하기</button></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4</th>
+                                    <td>문영준</td>
+                                    <td><button type="button" class="btn btn-secondary nanum">상세정보조회</button></td>
+                                    <td><button type="button" class="btn btn-info nanum">위임하기</button></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5</th>
+                                    <td>조미현</td>
+                                    <td><button type="button" class="btn btn-secondary nanum">상세정보조회</button></td>
+                                    <td><button type="button" class="btn btn-info nanum">위임하기</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12 nanum" style="text-align: center;">
+                        <div style="display: inline-block; width: 50%;">
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">&laquo;</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">1</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">2</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">3</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">4</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">5</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">&raquo;</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+
+            <div class="row">
+                <br>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 nanum">
+                        <label class="col-form-label" for="newLeader">새로 지정된 골목대장</label>
+                        &nbsp;&nbsp;
+                        <input id="newLeader" name="newLeader" class="form-control nanum" type="text" value="지정된 골목대장 이름">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+
+            <div class="row">
+                <br>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 nanum">
+                        <h5 class="nanum">골목 탈퇴 & 삭제하기</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <table class="table table-hover nanum" style="text-align: center; line-height: 50px;">
+                            <tbody>
+                                <tr>
+                                    <th>골목탈퇴</th>
+                                    <td><button type="button" class="btn btn-warning nanum">골목탈퇴</button type="button"
+                                            class="btn btn-secondary nanum"></td>
+                                </tr>
+                                <tr>
+                                    <th>골목삭제</th>
+                                    <td><button type="button" class="btn btn-danger nanum">골목삭제</button type="button"
+                                            class="btn btn-secondary nanum"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+
+            <div class="row">
+                <br>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6" style="text-align: center;">
+                    <div style="display: inline-block;">
+                        <button class="btn btn-primary nanum" type="button">나가기</button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </form>
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

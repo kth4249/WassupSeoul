@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="common.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+        /* input[type=text]:-ms-clear{
+            display: none;
+        }
+
+        #streetTitleClear {
+            position: absolute;
+            right: 3px;
+            top: 0;
+            bottom: 0;
+            width: 10px;
+            height: 14px;
+            margin: auto;
+            font-size: 12px;
+            cursor: pointer;
+            color: #ccc;
+            background-color: #fff;
+        } */
+
+        /* input 태그 clear 버튼 */
+        /* ::-ms-clear{
+            display: none;
+        }
+
+        .form-control-clear{
+            z-index: 10;
+            pointer-events: auto;
+            cursor: pointer;
+        } */
+        /* ---------------------- */
+
+    </style>
+    <title>Wassup, Seoul 골목 수정</title>
+</head>
+
+<body>
+    <form>
+
+        <!-- input 태그 clear 버튼 -->
+        <!-- <div class="input-group">
+            <div class="form-group has-feedback has-clear">
+                <input type="text" class="form-control" placeholder="Enter">
+                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
+            </div>
+            <div class="input-group-btn">
+                <button>X</button>
+            </div>
+        </div>
+        <script>
+            $('.form-control').on('input change', function(){
+                var $this = $(this);
+                var visible = Boolean($this.val());
+                $('.form-control-clear').toggleClass('hidden', !visible);
+            }).trigger('propertychange');
+
+            $('.form-control-clear').on('click', function(){
+                $('.form-control').val('').trigger('change').focus();
+                $(this).toggleClass('hidden', true);
+            });
+        </script> -->
+        <!-- ------------------------------------------------------------------------- -->
+        <div class="container-fluid">
+            <!-- 골목명 & 지역구 수정 -->
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <h1 class="nanum">골목명 & 지역구 수정하기</h1>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 nanum">
+                        <h5 class="nanum">골목명</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control nanum has-pure-clear-button" name="streetTitle" id="streetTitle"
+                            value="기존 골목명">
+                        <!-- <span id="streetTitleClear">X</span> -->
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br>
+            </div>
+            <script>
+                var $ipt = $('#streetTitle'),
+                    $clearIpt = $('#streetTitleClear');
+
+                $ipt.keyup(function(){
+                    $("#streetTitleClear").toggle(Boolean($(this).val()));
+                });
+
+                $clearIpt.toggle(Boolean($ipt.val()));
+                $clearIpt.click(function(){
+                    $("#streetTitle").val('').focus();
+                    $(this).hide();
+                });
+            </script>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 nanum">
+                        <h5 class="nanum">지역구</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <select class="form-control nanum" name="areaName" id="areaName">
+                            <option value="강서구">강서구</option>
+                            <option value="양천구">양천구</option>
+                            <option>구로구</option>
+                            <option>영등포구</option>
+                            <option>금천구</option>
+                            <option>동작구</option>
+                            <option>관악구</option>
+                            <option>서초구</option>
+                            <option>강남구</option>
+                            <option>송파구</option>
+                            <option>강동구</option>
+                            <option>광진구</option>
+                            <option>중랑구</option>
+                            <option>노원구</option>
+                            <option>도봉구</option>
+                            <option>성동구</option>
+                            <option>동대문구</option>
+                            <option>성북구</option>
+                            <option>강북구</option>
+                            <option>성동구</option>
+                            <option>중구</option>
+                            <option>종로구</option>
+                            <option>용산구</option>
+                            <option>서대문구</option>
+                            <option>은평구</option>
+                            <option>마포구</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br><br>
+            </div>
+            <!-- 골목소개 수정 -->
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <h1 class="nanum">골목소개 수정하기</h1>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 nanum">
+                        <h5 class="nanum">골목소개</h5>
+                    </div>
+                    <div class="col-md-12">
+<textarea class="form-control nanum" name="streetIntrouce" id="streetIntrouce"
+          style="resize: none; width: 100%; height: 100px;">
+</textarea>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br><br>
+            </div>
+            <!-- 골목 공개여부 & 골목 총 인원 수 수정 -->
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <h1 class="nanum">골목 공개여부 & 골목 총 인원수</h1>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 nanum">
+                        <h5 class="nanum">골목 공개여부</h5>
+                    </div>
+                    <div class="col-md-12 nanum">
+                        <input type="radio" name="streetPublic" id="public" value="public">
+                        <label for="public">공개</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span style="font-size: smaller;">
+                            골목에 게시된 일반게시글은 골목에 가입한 회원만 볼 수 있습니다.
+                        </span>
+                        <br>
+                        <input type="radio" name="streetPublic" id="private" value="private">
+                        <label for="private">비공개</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span style="font-size: smaller;">
+                            골목에 게시된 일반게시글을 누구나 볼 수 있습니다.
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 nanum">
+                        <h5 class="nanum">골목 총 회원수</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <select class="form-control nanum" name="streetTotalMember" id="streetTotalMember">
+                            <option>50</option>
+                            <option>100</option>
+                            <option>150</option>
+                            <option>200</option>
+                            <option>250</option>
+                            <option>300</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                </div>
+            </div>
+            <!-- 골목 키워드 & 골목 커버 수정 -->
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <h1 class="nanum">골목 키워드 & 골목 커버 수정하기</h1>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <br>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 nanum">
+                        <h5 class="nanum">골목 키워드</h5>
+                    </div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control nanum" name="streetKeyword1" id="streetKeyword1"
+                            value="기존 골목키워드1">
+                        <br>
+                        <input type="text" class="form-control nanum" name="streetKeyword2" id="streetKeyword2"
+                            value="기존 골목키워드2">
+                        <br>
+                        <input type="text" class="form-control nanum" name="streetKeyword3" id="streetKeyword3"
+                            value="기존 골목키워드3">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 nanum">
+                        <h5 class="nanum">골목 커버</h5>
+                    </div>
+                    <div class="col-md-12 nanum">
+                        <label for="streetThumnail">선택한 골목 커버</label>
+                    </div>
+                    <!-- 골목 커버 미리보기 -->
+                    <div class="col-md-12">
+                        <div style="border: 1px solid black; width: 302px; height: 152px;" id="streetThumnailArea">
+                            <img id="streetThumnail" style="width: 300px; height: 150px;">
+                        </div>
+                    </div>
+                    <br>
+                    <!-- 골목 커버 기본 제공 이미지 4개 -->
+                    <div class="col-md-12 nanum">
+                        <label>기본 제공 이미지</label>
+                    </div>
+                    <div class="col-md-12">
+                        <div style="border: 1px solid black; width: 302px; height: 152px;">
+                            <img class="streetCover" id="streetCover1" src="img/골목.jpg" style="width: 300px; height: 150px;">
+                        </div>
+                        <div style="border: 1px solid black; width: 302px; height: 152px;">
+                            <img class="streetCover" id="streetCover2" src="img/골목2.jpg" style="width: 300px; height: 150px;">
+                        </div>
+                        <div style="border: 1px solid black; width: 302px; height: 152px;">
+                            <img class="streetCover" id="streetCover3" src="img/골목3.jpg" style="width: 300px; height: 150px;">
+                        </div>
+                        <div style="border: 1px solid black; width: 302px; height: 152px;">
+                            <img class="streetCover" id="streetCover4" src="img/골목4.jpg" style="width: 300px; height: 150px;">
+                        </div>
+                        
+                    </div>
+                    <!-- 파일업로드부분 -->
+                    <div class="col-md-12" id="fileArea">
+                        <br>
+                        <input type="file" class="form-control nanum" id="streetCover" name="streetCover"
+                               onchange="LoadImg(this,1)">
+                        <br>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+            <script>
+                $(function(){
+                    $("#fileArea").hide();
+
+                    $("#streetThumnailArea").click(function(){
+                        $("#streetCover").click();
+                    });
+
+                    $(".streetCover").click(function(){
+                        var a = $(this).attr("src");
+                        $("#streetThumnail").prop("src", a);
+                    });
+                });
+
+                function LoadImg(value, num){
+                    if(value.files && value.files[0]){
+                        var reader = new FileReader();
+                        reader.onload = function(e){
+                            switch(num){
+                                case 1 : $("#streetThumnail").prop("src", e.target.result); break;
+                            }
+                        }
+                        reader.readAsDataURL(value.files[0]);
+                    }
+                }
+            </script>
+            <div class="row">
+                <div class="col-md-12">
+                    <br>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-2" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block nanum">수정하기</button>
+                </div>
+                <div class="col-md-2" style="text-align: center;">
+                    <button type="button" class="btn btn-secondary btn-lg btn-block nanum">취소</button>
+                </div>
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-3">
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
