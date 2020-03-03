@@ -215,6 +215,7 @@
                         <h5 class="nanum">골목 공개여부</h5>
                     </div>
                     <div class="col-md-12 nanum">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="radio" name="streetPublic" id="public" value="public">
                         <label for="public">공개</label>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -222,6 +223,7 @@
                             골목에 게시된 일반게시글은 골목에 가입한 회원만 볼 수 있습니다.
                         </span>
                         <br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <input type="radio" name="streetPublic" id="private" value="private">
                         <label for="private">비공개</label>
                         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -308,39 +310,63 @@
                     <div class="col-md-12 nanum">
                         <h5 class="nanum">골목 커버</h5>
                     </div>
-                    <div class="col-md-12 nanum">
-                        <label for="streetThumnail">선택한 골목 커버</label>
-                    </div>
                     <!-- 골목 커버 미리보기 -->
+                    <div class="col-md-12 nanum">
+                        <label for="streetThumbnail">선택한 골목 커버</label>
+                    </div>
                     <div class="col-md-12">
                         <div style="border: 1px solid black; width: 302px; height: 152px;" id="streetThumnailArea">
-                            <img id="streetThumnail" style="width: 300px; height: 150px;">
+                            <img id="streetThumbnail" style="width: 300px; height: 150px;">
+                        </div>
+                        <div style="border: 1px solid black; width: 200px; height: 150px;
+                                    background-image: url(jiwon_img/streetCover4.jpg); background-repeat: no-repeat;
+                background-position: 50%; background-size: 400px auto;">
+                        </div>
+                        <div style="border: 1px solid black; width: 100px; height: 150px;
+                                    background-image: url(jiwon_img/streetCover4.jpg); background-repeat: no-repeat;
+                background-position: 50%; background-size: 400px auto;">
                         </div>
                     </div>
                     <br>
+                    <!-- 내 커버 추가하기 -->
+                    <div class="col-md-12 nanum">
+                        <label for="myStreetCover">내 커버 추가하기</label>
+                    </div>
+                    <div class="col-md-12">
+                        <div style="border: 1px solid black; width: 150px; height: 150px; background-color: rgb(236, 233, 233); position: relative; cursor: pointer;" id="myStreetCoverArea">
+                            <div style="position:absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">
+                                <img id="myStreetCover" src="jiwon_img/camera3(64px).png" style="width: 64px; height: 64px;">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
                     <!-- 골목 커버 기본 제공 이미지 4개 -->
                     <div class="col-md-12 nanum">
                         <label>기본 제공 이미지</label>
                     </div>
                     <div class="col-md-12">
-                        <div style="border: 1px solid black; width: 302px; height: 152px;">
-                            <img class="streetCover" id="streetCover1" src="img/골목.jpg" style="width: 300px; height: 150px;">
+                        <div style="border: 1px solid black; width: 150px; height: 150px;">
+                            <img class="streetCover" id="streetCover1" src="jiwon_img/streetCover1.jpg" style="width: 148px; height: 148px;">
                         </div>
-                        <div style="border: 1px solid black; width: 302px; height: 152px;">
-                            <img class="streetCover" id="streetCover2" src="img/골목2.jpg" style="width: 300px; height: 150px;">
+                        <div style="border: 1px solid black; width: 150px; height: 150px;">
+                            <img class="streetCover" id="streetCover2" src="jiwon_img/streetCover2.jpg" style="width: 148px; height: 148px;">
                         </div>
-                        <div style="border: 1px solid black; width: 302px; height: 152px;">
-                            <img class="streetCover" id="streetCover3" src="img/골목3.jpg" style="width: 300px; height: 150px;">
+                        <div style="border: 1px solid black; width: 150px; height: 150px;">
+                            <img class="streetCover" id="streetCover3" src="jiwon_img/streetCover3.jpg" style="width: 148px; height: 148px;">
                         </div>
-                        <div style="border: 1px solid black; width: 302px; height: 152px;">
-                            <img class="streetCover" id="streetCover4" src="img/골목4.jpg" style="width: 300px; height: 150px;">
+                        <div style="border: 1px solid black; width: 150px; height: 150px;">
+                            <img class="streetCover" id="streetCover4" src="jiwon_img/streetCover4.jpg" style="width: 148px; height: 148px;">
+                        </div>
+                        <div style="border: 1px solid black; width: 150px; height: 150px;
+                                    background-image: url(jiwon_img/streetCover4.jpg);">
                         </div>
                         
                     </div>
                     <!-- 파일업로드부분 -->
                     <div class="col-md-12" id="fileArea">
                         <br>
-                        <input type="file" class="form-control nanum" id="streetCover" name="streetCover"
+                        <input type="file" class="form-control nanum" id="streetCoverUpload" name="streetCoverUpload"
                                onchange="LoadImg(this,1)">
                         <br>
                     </div>
@@ -352,13 +378,13 @@
                 $(function(){
                     $("#fileArea").hide();
 
-                    $("#streetThumnailArea").click(function(){
-                        $("#streetCover").click();
+                    $("#myStreetCoverArea").click(function(){
+                        $("#streetCoverUpload").click();
                     });
 
                     $(".streetCover").click(function(){
                         var a = $(this).attr("src");
-                        $("#streetThumnail").prop("src", a);
+                        $("#streetThumbnail").prop("src", a);
                     });
                 });
 
@@ -367,7 +393,7 @@
                         var reader = new FileReader();
                         reader.onload = function(e){
                             switch(num){
-                                case 1 : $("#streetThumnail").prop("src", e.target.result); break;
+                                case 1 : $("#streetThumbnail").prop("src", e.target.result); break;
                             }
                         }
                         reader.readAsDataURL(value.files[0]);
