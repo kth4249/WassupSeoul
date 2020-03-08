@@ -1,13 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="ko">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/common.css">
-  <title>Wassup, Seoul Lounge</title>
-
+<meta charset="UTF-8">
+<title>Wassup, Seoul Lounge</title>
 </head>
 <style>
   .loungeHeader {
@@ -26,7 +23,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-image: url('img/골목4.jpg');
+    background-image: url('${contextPath}/resources/img/골목4.jpg');
     background-size: cover;
     width: 100%;
     height: 100%;
@@ -37,7 +34,7 @@
 
 
   .streetBtn {
-    background-color: rgba(100, 255, 255, 0.2);
+    background-color: rgba(100, 255, 255, 0.2) !important;
   }
 
   #createStreet {
@@ -51,62 +48,14 @@
     color: black;
   }
 
-  .streetSort {
+  .streetSort{
     width: 17%;
     margin: 20px 20px;
   }
 </style>
 
-<body class="nanum">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top headerOpacity">
-    <form class="form-inline my-2 my-lg-0" onsubmit="return searchValidate();">
-      <input class="form-control mr-sm-2" type="text" placeholder="검색할 골목 키워드" id="searchStreet" name="searchStreet"
-        size="50">
-      <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-    </form>
-    <script>
-      function searchValidate() {
-        var regExp = /^[\w가-힣]{2,}$/;
-        if (!regExp.test($("#searchStreet").val())) {
-          alert("키워드를 2글자 이상 입력해주세요.");
-          return false;
-        }
-      }
-
-    </script>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav mr-auto">
-      </ul>
-
-
-      <div class="dropdown">
-        <div class="dropdown-toggle headerImg" type="button" id="alarmButton" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          <img src="img/alarm2.png">
-        </div>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alarmButton">
-          <a class="dropdown-item nanum" data-toggle="modal" data-target="#profileModal">'조미현'님이 친구요청을 수락하셨습니다.</a>
-          <a class="dropdown-item nanum" data-toggle="modal" data-target="#golmokModal">'20대 인싸들' 골목에서 추방당하셨습니다.</a>
-        </div>
-      </div>
-
-
-      <div class="dropdown">
-        <div class="dropdown-toggle headerImg" type="button" id="mypageButton" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          <img src="img/골목.jpg">
-        </div>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="mypageButton">
-          <a class="dropdown-item nanum" data-toggle="modal">내 정보</a>
-          <a class="dropdown-item nanum" data-toggle="modal">내골목 조회</a>
-          <a class="dropdown-item nanum" data-toggle="modal">1:1 문의</a>
-          <a class="dropdown-item nanum" data-toggle="modal">공지사항</a>
-          <hr>
-          <a class="dropdown-item nanum" data-toggle="modal">로그아웃</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+<body>
+<%@include file="common/header.jsp" %>
   <div class="container-fluid loungeBack">
     <div class="row">
       <div class="col-md-12">
@@ -116,7 +65,7 @@
           <div id="createStreet">
             <div class="form-group" style="display: inline-block;">
               <select class="custom-select nanum">
-                <option selected="">인기 골목 순</option>
+                <option selected>인기 골목 순</option>
                 <option value="1">주민 많은 순</option>
                 <option value="2">주민 적은 순</option>
                 <option value="3">최신 개설 순</option>
@@ -131,7 +80,7 @@
     <div class="row">
       <div class="col-md-2">
         <ul class="nav nav-tabs">
-          <a class="btn btn-primary" style="color: white;">
+          <a href="#" class="btn btn-primary" style="color: white;">
             전체
           </a>
           <li class="nav-item">
@@ -316,33 +265,12 @@
     </div>
 
 
-    <div class="row">
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-12">
-            <span class="ml-5"> <small>다양한 이용 방법: Wassup을
-                방문하거나, 리셀러를 찾아보거나, 070-0000-0000번으로 전화하세요.<br>
-              </small></span>
-            <hr>
-            <span class="ml-5"><small> Copyright © 2019
-                Wassup Inc. 모든 권리 보유.</small></span><br> <span class="ml-5"><small>
-                사업자등록번호 : 101-01-00000 | 통신판매업신고번호 : 제 2019-서울-00000호 | 대표이사 :
-                NUGUNGA HAGETGE | 주소 : 서울 특별시 예쁘구 귀엽동 | 대표전화 : 02-1234-1234 | 팩스 :
-                02-4321-4321</small> </span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%@ include file="common/footer.jsp" %>
+    
+    
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
-</body>
 
+
+</body>
 </html>

@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+
+.nanum{
+    font-family: 'Poor Story', cursive;
+}
+  
+.headerMargin{
+  margin-top: 55px;
+}
+
+/* .headerImg{
+  padding-left: 70px;
+} */
+
+
+.headerImg>img{
+  width: 40px;
+  height: 40px;
+  border-radius: 20px 20px;
+}
+
+#alarmButton>img{
+  margin-right: 15px;
+}
+
+.headerOpacity{
+  background-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+
+.headerImg::after {
+  content: none;
+}
