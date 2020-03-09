@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="streetMapper">
+	
+	<resultMap type="Street" id="streetResultSet">
+		<id property="streetNo" column="STREET_NO"/>
+		
+		<result property="streetNm" column="STREET_NM"/>
+		<result property="streetIntro" column="STREET_INTRO"/>
+		<result property="streetStatus" column="STREET_STATUS"/>
+		<result property="streetMaxMember" column="STREET_MAX_MAMBER"/>
+		<result property="streetPoint" column="STREET_POINT"/>
+		<result property="imgNo" column="IMG_NO"/>
+		<result property="districtNo" column="DISTRICT_NO"/>
+	</resultMap>
+	
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM STREET
+		WHERE STREET_STATUS = 'Y'
+	</select>
+	
+	<select id="selectList" resultMap="streetResultSet">
+		SELECT STREET_NO, STREET_NM, STREET_MAX_MEMBER, 
+				STREET_POINT, IMG_NO
+		FROM STREET
+		WHERE STREET_STATUS = 'Y'
+		ORDER BY STREET_NO DESC
+	</select>
+	
+</mapper>

@@ -124,143 +124,32 @@
       </div>
       <div class="col-md-10">
         <div class="row">
-
-          <div class="streetSort">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title nanum">
-                  <a href="#">골목 이름</a>
-                </h4>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="streetSort">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title nanum">
-                  <a href="#">골목 이름</a>
-                </h4>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="streetSort">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title nanum">
-                  <a href="#">골목 이름</a>
-                </h4>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="streetSort">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title nanum">
-                  <a href="#">골목 이름</a>
-                </h4>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="streetSort">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title nanum">
-                  <a href="#">골목 이름</a>
-                </h4>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="streetSort">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title nanum">
-                  <a href="#">골목 이름</a>
-                </h4>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="streetSort">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title nanum">
-                  <a href="#">골목 이름</a>
-                </h4>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="streetSort">
-            <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-              <div class="card-body">
-                <h4 class="card-title nanum">
-                  <a href="#">골목 이름</a>
-                </h4>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-                <p class="card-text">#키워드</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-              </div>
-            </div>
-          </div>
+		
+			<c:if test="${!empty list}">
+				<c:forEach var="street" items="${list}" varStatus="vs">
+		          <div class="streetSort">
+		            <div class="card h-100">
+		              <a href="streetMain?streetNo=${street.streetNo}"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+		              <div class="card-body">
+		                <h4 class="card-title nanum">
+		                  <a href="#">${street.streetNm }</a>
+		                </h4>
+		                <p class="card-text">streetNo(test) : ${street.streetNo}</p>
+		                <p class="card-text">#키워드</p>
+		                <p class="card-text">#키워드</p>
+		              </div>
+		              <div class="card-footer">
+		                <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+		              </div>
+		            </div>
+		          </div>
+         		 </c:forEach>
+	         </c:if>
+          
+          
         </div>
+        <!-- row end -->
+        
       </div>
     </div>
 
