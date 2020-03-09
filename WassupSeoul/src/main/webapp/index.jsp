@@ -93,7 +93,7 @@
 	<p class="type_text typeitCenter" style="text-align:center; color:#d5d4f7; font-size:18pt"></p>
 	
 	<div id="indexBtn" class="btnCenter">
-		<button id="visual-btn" onclick="javascript:location.href='main';">Visit our Site!</button>
+		<button id="visual-btn" onclick="javascript:location.href='squre';">Visit our Site!</button>
 	</div>
 	
 	<div class="video-background">

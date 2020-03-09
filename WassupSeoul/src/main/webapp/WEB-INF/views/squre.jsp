@@ -45,7 +45,7 @@
 
   .btn-custom {
     background-color: rgba(100, 255, 255, 0.5) !important;
-    color: black;
+    color: black !important;
   }
 
   .streetSort{
