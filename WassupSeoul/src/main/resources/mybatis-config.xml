@@ -8,11 +8,11 @@
 	
 	<!-- 2. 별칭 작성 부분 -->
 	<typeAliases>
-		<typeAlias type="com.kh.spring.member.model.vo.Member" alias="Member"/>
+		<!-- <typeAlias type="com.kh.spring.member.model.vo.Member" alias="Member"/> -->
 	</typeAliases>
 	
 	<!-- mapper 파일 등록 부분 -->
 	<mappers>
-		<mapper resource="/mappers/member-mapper.xml"/>
+		<!-- <mapper resource="/mappers/member-mapper.xml"/> -->
 	</mappers>
 </configuration>
