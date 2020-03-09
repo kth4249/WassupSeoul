@@ -2,240 +2,267 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../css/bootstrap.css">
-    <link rel="stylesheet" href="../css/common.css">
-    <title>Wassup, Seoul BaseForm</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="../css/bootstrap.css">
+  <link rel="stylesheet" href="../css/common.css">
+  <title>Wassup, Seoul BaseForm</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+
+    .searchdiv> {
+      padding: 50px 20px;
+    }
+  </style>
 </head>
 
-<body  class="nanum container">
+<body class="nanum">
+  <div class="container">
     <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#member">회원관리</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#street">골목관리</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#like">관심사관리</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#report">활동보고서</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#complain">1:1문의</a>
-        </li>
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#member">회원관리</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#street">골목관리</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#like">관심사관리</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#report">활동보고서</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#complain">1:1문의</a>
+      </li>
     </ul>
 
     <div id="myTabContent" class="tab-content">
 
-        <div class="tab-pane fade show active" id="member">
-            <table class="table table-hover">
-                <thead>
-                    <tr class="table-dark">
-                        <th scope="col">이름</th>
-                        <th scope="col">상세보기</th>
-                        <th scope="col">회원강퇴</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="table-Active">
-                        <th scope="row">김태훈</th>
-                        <td><button class="btn btn-outline-info nanum" data-toggle="modal" data-target="#adminModal1">상세보기</button></td>
-                        <td><button class="btn btn-outline-danger nanum" data-toggle="modal" data-target="#adminModal2">회원강퇴</button></td>
-                    </tr>
-                    <tr class="table-Active">
-                        <th scope="row">김지원</th>
-                        <td><button class="btn btn-outline-info nanum">상세보기</button></td>
-                        <td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
-                    </tr>
-                    <tr class="table-Active">
-                        <th scope="row">정승환</th>
-                        <td><button class="btn btn-outline-info nanum">상세보기</button></td>
-                        <td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
-                    </tr>
-                    <tr class="table-Active">
-                        <th scope="row">안중하</th>
-                        <td><button class="btn btn-outline-info nanum">상세보기</button></td>
-                        <td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
-                    </tr>
-                    <tr class="table-Active">
-                        <th scope="row">조미현</th>
-                        <td><button class="btn btn-outline-info nanum">상세보기</button></td>
-                        <td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
-                    </tr>
-                </tbody>
-            </table>
-            <select style="width: 150px"; class="form-control nanum">
-              <option class="nanum" value="nickname">회원 닉네임</option>
-            </select>
-            <input style="width: 150px"; type="text" class="form-control nanum" name="searchValue" >
-            <button class="btn btn-outline-success">검색</button>
-        </div>
-
-        <div class="tab-pane fade" id="street">
-            <table class="table table-hover">
-                <thead>
-                    <tr class="table-dark">
-                    <th scope="col">골목이름</th>
-                    <th scope="col">경고메일</th>
-                    <th scope="col">골목폐쇄</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">강동구 청춘남녀들</a></th>
-                    <td><button class="btn btn-outline-info nanum" data-toggle="modal" data-target="#adminModal3">경고메일</button></td>
-                    <td><button  class="btn btn-outline-danger nanum" data-toggle="modal" data-target="#adminModal4">골목폐쇄</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">영등포구 풋살하는 사람 모여라</a></th>
-                    <td><button class="btn btn-outline-info nanum">경고메일</button></td>
-                    <td><button  class="btn btn-outline-danger nanum">골목폐쇄</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">면목동 이쁜이들</a></th>
-                    <td><button class="btn btn-outline-info nanum">경고메일</button></td>
-                    <td><button  class="btn btn-outline-danger nanum">골목폐쇄</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">마포구 드라마쟁이들</a></th>
-                    <td><button class="btn btn-outline-info nanum">경고메일</button></td>
-                    <td><button  class="btn btn-outline-danger nanum">골목폐쇄</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">테니스치는 모임</a></th>
-                    <td><button class="btn btn-outline-info nanum">경고메일</button></td>
-                    <td><button  class="btn btn-outline-danger nanum">골목폐쇄</button></td>
-                  </tr>
-                </tbody>
-            </table>
-            <select style="width: 150px"; class="form-control nanum">
-              <option class="nanum" value="nickname">골목 이름</option>
-            </select>
-            <input style="width: 150px"; type="text" class="form-control nanum" name="searchValue" >
-            <button class="btn btn-outline-success">검색</button>            
-        </div>
-
-        <div class="tab-pane fade" id="like">
-            <table class="table table-hover">
-                <thead>
-                    <tr class="table-dark">
-                    <th scope="col">관심사명</th>
-                    <th scope="col">인원수</th>
-                    <th scope="col">삭제</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="table-Active">
-                    <th scope="row"><span>축구</span></th>
-                    <td><span>57명</span></td>
-                    <td><button class="btn btn-outline-danger nanum">삭제</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><span>영화</span></th>
-                    <td><span>203명</span></td>
-                    <td><button class="btn btn-outline-danger nanum">삭제</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><span>술</span></th>
-                    <td><span>178명</span></td>
-                    <td><button class="btn btn-outline-danger nanum">삭제</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><span>연애</span></th>
-                    <td><span>382명</span></td>
-                    <td><button class="btn btn-outline-danger nanum">삭제</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><span>운동</span></th>
-                    <td><span>192명</span></td>
-                    <td><button class="btn btn-outline-danger nanum">삭제</button></td>
-                  </tr>
-                </tbody>
-            </table>
-            <select style="width: 150px"; class="form-control nanum">
-              <option class="nanum" value="nickname">관심사명</option>
-            </select>
-            <input style="width: 150px"; type="text" class="form-control nanum" name="searchValue" >
-            <button class="btn btn-outline-success">검색</button>  
-        </div>
-
-        <div class="tab-pane fade" id="report">
-            <table class="table table-hover">
-                <thead>
-                    <tr class="table-dark">
-                    <th scope="col">골목 이름</th>
-                    <th scope="col">보고서 확인</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">강동구 청춘남녀들</a></th>
-                    <td><button class="btn btn-outline-info nanum" data-toggle="modal" data-target="#adminModal5">보고서 확인</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">영등포구 풋살하는 사람 모여라</a></th>
-                    <td><button class="btn btn-outline-info nanum">보고서 확인</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">면목동 이쁜이들</a></th>
-                    <td><button class="btn btn-outline-info nanum">보고서 확인</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">마포구 드라마쟁이들</a></th>
-                    <td><button class="btn btn-outline-info nanum">보고서 확인</button></td>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">테니스치는 모임</a></th>
-                    <td><button class="btn btn-outline-info nanum">보고서 확인</button></td>
-                  </tr>
-                </tbody>
-            </table>  
-            <select style="width: 150px"; class="form-control nanum">
-              <option class="nanum" value="nickname">골목 이름</option>
-            </select>
-            <input style="width: 150px"; type="text" class="form-control nanum" name="searchValue" >
-            <button class="btn btn-outline-success">검색</button>
-        </div>
-
-        <div class="tab-pane fade" id="complain">
-            <table class="table table-hover">
-                <thead>
-                    <tr class="table-dark">
-                    <th scope="col">1:1 문의글</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none" data-toggle="modal" data-target="#adminModal6">이런 기능을 추가해줄 수 없나요?</a></th>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">자꾸 광고목적으로 가입해서 도배하는 사람좀 어떻게 해줘잉</a></th>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">골목대장이 잠수 타서 골목 관리가 안돼요 ㅡㅡ</a></th>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">아니 ㅡㅡ 관리자 뭐함 </a></th>
-                  </tr>
-                  <tr class="table-Active">
-                    <th scope="row"><a href="#" style="text-decoration:none">비밀번호가 안 찾아져요</a></th>
-                  </tr>
-                </tbody>
-            </table>  
-            <select style="width: 150px"; class="form-control nanum">
+      <div class="tab-pane fade show active" id="member">
+        <table class="table table-hover">
+          <thead>
+            <tr class="table-dark">
+              <th scope="col">이름</th>
+              <th scope="col">상세보기</th>
+              <th scope="col">회원강퇴</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-Active">
+              <th scope="row">김태훈</th>
+              <td><button class="btn btn-outline-info nanum" data-toggle="modal"
+                  data-target="#adminModal1">상세보기</button>
+              </td>
+              <td><button class="btn btn-outline-danger nanum" data-toggle="modal"
+                  data-target="#adminModal2">회원강퇴</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row">김지원</th>
+              <td><button class="btn btn-outline-info nanum">상세보기</button></td>
+              <td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row">정승환</th>
+              <td><button class="btn btn-outline-info nanum">상세보기</button></td>
+              <td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row">안중하</th>
+              <td><button class="btn btn-outline-info nanum">상세보기</button></td>
+              <td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row">조미현</th>
+              <td><button class="btn btn-outline-info nanum">상세보기</button></td>
+              <td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row justify-content-md-center">
+            <select style="width: 150px" ; class="form-control nanum">
               <option class="nanum" value="nickname">회원 닉네임</option>
               <option class="nanum" value="nickname">내용</option>
               <option class="nanum" value="nickname">회원 닉네임 + 내용</option>
             </select>
-            <input style="width: 150px"; type="text" class="form-control nanum" name="searchValue" >
+            <input style="width: 150px" ; type="text" class="form-control nanum" name="searchValue">
             <button class="btn btn-outline-success">검색</button>
         </div>
+      </div>
+
+      <div class="tab-pane fade" id="street">
+        <table class="table table-hover">
+          <thead>
+            <tr class="table-dark">
+              <th scope="col">골목이름</th>
+              <th scope="col">경고메일</th>
+              <th scope="col">골목폐쇄</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">강동구 청춘남녀들</a></th>
+              <td><button class="btn btn-outline-info nanum" data-toggle="modal"
+                  data-target="#adminModal3">경고메일</button>
+              </td>
+              <td><button class="btn btn-outline-danger nanum" data-toggle="modal"
+                  data-target="#adminModal4">골목폐쇄</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">영등포구 풋살하는 사람 모여라</a></th>
+              <td><button class="btn btn-outline-info nanum">경고메일</button></td>
+              <td><button class="btn btn-outline-danger nanum">골목폐쇄</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">면목동 이쁜이들</a></th>
+              <td><button class="btn btn-outline-info nanum">경고메일</button></td>
+              <td><button class="btn btn-outline-danger nanum">골목폐쇄</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">마포구 드라마쟁이들</a></th>
+              <td><button class="btn btn-outline-info nanum">경고메일</button></td>
+              <td><button class="btn btn-outline-danger nanum">골목폐쇄</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">테니스치는 모임</a></th>
+              <td><button class="btn btn-outline-info nanum">경고메일</button></td>
+              <td><button class="btn btn-outline-danger nanum">골목폐쇄</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row justify-content-md-center">
+          <select style="width: 150px" ; class="form-control nanum">
+            <option class="nanum" value="nickname">골목 이름</option>
+          </select>
+          <input style="width: 150px" ; type="text" class="form-control nanum" name="searchValue">
+          <button class="btn btn-outline-success">검색</button>
+        </div>
+      </div>
+
+
+      <div class="tab-pane fade" id="like">
+        <table class="table table-hover">
+          <thead>
+            <tr class="table-dark">
+              <th scope="col">관심사명</th>
+              <th scope="col">인원수</th>
+              <th scope="col">삭제</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-Active">
+              <th scope="row"><span>축구</span></th>
+              <td><span>57명</span></td>
+              <td><button class="btn btn-outline-danger nanum">삭제</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><span>영화</span></th>
+              <td><span>203명</span></td>
+              <td><button class="btn btn-outline-danger nanum">삭제</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><span>술</span></th>
+              <td><span>178명</span></td>
+              <td><button class="btn btn-outline-danger nanum">삭제</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><span>연애</span></th>
+              <td><span>382명</span></td>
+              <td><button class="btn btn-outline-danger nanum">삭제</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><span>운동</span></th>
+              <td><span>192명</span></td>
+              <td><button class="btn btn-outline-danger nanum">삭제</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row justify-content-md-center">
+          <select style="width: 150px" ; class="form-control nanum">
+            <option class="nanum" value="nickname">관심사명</option>
+          </select>
+          <input style="width: 150px" ; type="text" class="form-control nanum" name="searchValue">
+          <button class="btn btn-outline-success">검색</button>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="report">
+        <table class="table table-hover">
+          <thead>
+            <tr class="table-dark">
+              <th scope="col">골목 이름</th>
+              <th scope="col">보고서 확인</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">강동구 청춘남녀들</a></th>
+              <td><button class="btn btn-outline-info nanum" data-toggle="modal" data-target="#adminModal5">보고서
+                  확인</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">영등포구 풋살하는 사람 모여라</a></th>
+              <td><button class="btn btn-outline-info nanum">보고서 확인</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">면목동 이쁜이들</a></th>
+              <td><button class="btn btn-outline-info nanum">보고서 확인</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">마포구 드라마쟁이들</a></th>
+              <td><button class="btn btn-outline-info nanum">보고서 확인</button></td>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">테니스치는 모임</a></th>
+              <td><button class="btn btn-outline-info nanum">보고서 확인</button></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row justify-content-md-center">
+          <select style="width: 150px" ; class="form-control nanum">
+            <option class="nanum" value="nickname">골목 이름</option>
+          </select>
+          <input style="width: 150px" ; type="text" class="form-control nanum" name="searchValue">
+          <button class="btn btn-outline-success">검색</button>
+        </div>
+      </div>
+
+
+      <div class="tab-pane fade" id="complain">
+        <table class="table table-hover">
+          <thead>
+            <tr class="table-dark">
+              <th scope="col">1:1 문의글</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none" data-toggle="modal" data-target="#adminModal6">이런
+                  기능을 추가해줄 수 없나요?</a></th>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">자꾸 광고목적으로 가입해서 도배하는 사람좀 어떻게 해줘잉</a></th>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">골목대장이 잠수 타서 골목 관리가 안돼요 ㅡㅡ</a></th>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">아니 ㅡㅡ 관리자 뭐함 </a></th>
+            </tr>
+            <tr class="table-Active">
+              <th scope="row"><a href="#" style="text-decoration:none">비밀번호가 안 찾아져요</a></th>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row justify-content-md-center">
+          <select style="width: 150px" ; class="form-control nanum">
+            <option class="nanum" value="title">글 제목</option>
+            <option class="nanum" value="nickname">닉네임</option>
+          </select>
+          <input style="width: 150px" ; type="text" class="form-control nanum" name="searchValue">
+          <button class="btn btn-outline-success">검색</button>
+        </div>
+      </div>
+
 
     </div>
 
@@ -302,7 +329,7 @@
       </div>
     </div>
 
-    
+
     <!-- 메일 보내기 모달 (메일 API 도입후 어떻게 할지 결정)-->
     <div class="modal fade" id="adminModal3">
       <div class="modal-dialog" role="document">
@@ -419,17 +446,17 @@
       </div>
     </div>
 
+  </div>
 
 
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
