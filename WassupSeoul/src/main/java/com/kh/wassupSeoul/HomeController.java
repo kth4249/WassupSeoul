@@ -22,6 +22,7 @@ import com.kh.wassupSeoul.street.model.vo.Street;
  * Handles requests for the application home page.
  */
 @Controller
+@RequestMapping("/home/*")
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -58,5 +59,12 @@ public class HomeController {
 		
 		return "squre";
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 }
