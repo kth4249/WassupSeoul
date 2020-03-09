@@ -18,96 +18,14 @@
 
 
 </head>
-<style>
-.modal {
-
-display: none;
-
-/* Hidden by default */
-
-position: fixed;
-
-/* Stay in place */
-
-z-index: 1;
-
-/* Sit on top */
-
-padding-top: 100px;
-
-/* Location of the box */
-
-left: 0;
-
-top: 0;
-
-width: 100%;
-
-/* Full width */
-
-height: 100%;
-
-/* Full height */
-
-overflow: auto;
-
-/* Enable scroll if needed */
-
-background-color: rgb(0, 0, 0);
-
-/* Fallback color */
-
-background-color: rgba(0, 0, 0, 0.9);
-
-/* Black w/ opacity */
-
-}
-
-/* Modal Content (image) */
-
-
-
-.modal-content {
-
-margin: auto;
-
-display: block;
-
-width: 80%;
-
-max-width: 700px;
-
-}
-
-.caption {
-
-margin: auto;
-
-display: block;
-
-width: 80%;
-
-max-width: 700px;
-
-text-align: center;
-
-color: #ccc;
-
-padding: 10px 0;
-
-height: 150px;
-}
-
-
-</style>
 
 <body>
 	<div class="container-fluid" style="margin-top: 50px;">
-	<div class="row">
+	  <div class="row">
 	
-		<div class="col-md-12">
-			<nav class="navbar navbar-dark bg-dark  py-1">
-				<div class="container d-flex flex-column flex-md-row justify-content-between">
+		<div class="col-md-12" disabled>
+			<nav class="navbar navbar-dark bg-dark py-1" disabled>
+				<div class="container" disabled>
 					<a class="py-1" href="#" aria-label="Product"></a>
 					<a class="py-1 d-none d-md-inline-block nanum" href="#" >게시판</a>
 					<a class="py-1 d-none d-md-inline-block nanum" href="#">사진첩</a>
@@ -118,8 +36,16 @@ height: 150px;
 			</nav>
 		</div>
 
+	 </div>
 	</div>
-</div>
+
+
+	<!-- 이미지 Modal -->
+	<div id="myModal" class="modal" style="position: absolute; left: 10%; top: 10%;">
+		<span class="close">×</span>
+		<img class="modal-content" id="img01">
+		<div id="caption"></div>
+  	</div>
 
 
 	<!-- 컨텐츠영역-->
@@ -199,9 +125,9 @@ height: 150px;
 							<form method="GET" id="login-form-input">
 								<div style="margin: 0px; width:100%; ">
 									<input type="text" class="form-control nanum" placeholder=" 내용, @작성자 검색"
-										id="searchBox" style="width: 90%;">
+										id="searchBox" style="width: 90%; margin-right: 10px; border-right: black 2px solid;">
 									<button type="submit" class="btn " id="searchBtn"><img src="img/searchButton.png"
-											style="width: 90%; height: 90%; "></button>
+											style="width: 90%; height: 90%; border-left: black 2px solid; "></button>
 								</div>
 							</form>
 
@@ -218,11 +144,11 @@ height: 150px;
 						<form method="GET" id="login-form-input">
 
 
-						
+							<div class="writePost">
 								<textarea class="postArea nanum" id="writePostArea" rows="3" 
 									placeholder="새로운 게시글을 작성해보세요"></textarea>
 								<!--<input type="text" class="form-control" id="inputPostArea">-->
-							
+							</div>
 
 							<div class="postCountView" style="border: 1px solid black; height: 45px; ">
 							
@@ -309,7 +235,7 @@ height: 150px;
 										<div class="optionChevron">
 											<img src="img/download.png" style="width: 17px; height: 15px;
 													position: relative;
-													bottom:2px;">
+													bottom:2px;" id="chev">
 											<div id="postMenu" class="hide nanum" style="width: 100px; height: 80px;
 																	 border: black 2px solid; 
 																	 background-color: white; float:right;
@@ -345,10 +271,16 @@ height: 150px;
 									<p>Wassup Seoul 게시글 테스트중</p>
 									<p>Wassup Seoul 게시글 테스트중</p>
 									<p>Wassup Seoul 게시글 테스트중</p>
-									<img src="img/서울5.jpg"  class="click_img" style=" width:100%;" id="testPop">
+									<img id="myImg" src="img/서울5.jpg"  class="click_img" style=" width:100%; cursor:pointer;" 
+											
+							         onclick="javascript:viewPic('img/서울5.jpg')">
+
+									
 								</div>
 							</div>
 							<!-- 게시글내용 -->
+
+							
 
 													
 
@@ -363,10 +295,39 @@ height: 150px;
 									<img class="likeBtn shake" src="img/like.png" style="display: inline-block; width: 20px; height: 20px;float: right;
 																		position: relative;
 																		right: 40px; bottom: 1px;">
-									<p style="margin-bottom: 0; display: inline-block;float: right;">10</p>
-								</div>
+									<p class="likeNum" style="margin-bottom: 0; display: inline-block;float: right;">10</p>
 
+
+									<div class="hide nanum" id="postMenu2" style="width: 120px; height: 150px; 
+																		border: black 2px solid; 
+																	 background-color: white; float:right; 
+																	 position: relative;
+																	right: 20px; bottom: 170px;">
+																	<ul style="padding-left: 5%;">
+																		<li>
+																			<div style="width:20%; display: inline-block;">
+																				<img src="img/account.png" style="width: 100%; height: 100%; ">
+																			</div>
+																			<div style="width:75%; display: inline-block;">
+																				<p style="margin-bottom: 0;">홍길동</p>
+																			</div>
+																		</li>
+																		<li>
+																			<div style="width:20%; display: inline-block;">
+																				<img src="img/account.png" style="width: 100%; height: 100%; ">
+																			</div>
+																			<div style="width:75%; display: inline-block;">
+																				<p style="margin-bottom: 0;">홍길동</p>
+																			</div>
+																		</li>
+																	</ul>
+									</div>
+
+									
+								</div>
 							</div>
+
+							
 							<!-- 댓글수, 좋아요버튼 -->
 
 
@@ -406,10 +367,10 @@ height: 150px;
 
 								<!-- 댓글작성 -->
 							
-								<div class="inputCommentWrap" style="border: 1px solid black; ">
+								<div class="inputCommentWrap" style="border: 1px solid black; " onkeydown="resize2(this)" onkeyup="resize2(this)">
 
 									<div class="writePost" style="width: 80%; display: inline-block; margin-left:3px; ">
-										<textarea class="writeCommentArea nanum" id="writeCommentAreaStyle" rows="1"
+										<textarea class="writeCommentArea nanum autosize"   onkeydown="resize(this)" onkeyup="resize(this)" id="writeCommentAreaStyle" rows="1"
 											style=" font-size: 15px; " placeholder="댓글을 작성해 보세요"></textarea>
 
 									</div>
@@ -726,6 +687,7 @@ height: 150px;
 														style="display: inline-block; width: 10%; margin-bottom: 0px;">
 														<p style="margin-bottom: 0px;font-size: 13px;">2</p>
 													</div>
+													
 
 
 												</div>
@@ -809,6 +771,546 @@ height: 150px;
 					<!-- 게시글1 끝-->
 
 
+
+
+							<!-- 게시글2-->
+							<div class="container box111" id="postArea">
+								<div class="postLayoutView" style="padding: 0%;">
+		
+		
+									<!-- 프로필사진, 작성자명, 날짜 -->
+									<div class="post MainWrap" style="border: 1px solid black; border-bottom: 0px">
+										<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
+																										padding-left: 10px;">
+											<img src="img/account.png" style="width: 80%; height: 80%;">
+		
+		
+		
+		
+										</div>
+										<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
+																										position: relative;
+																										top: 14px">
+											<div>
+												<p style="margin-bottom: 0;">홍길동</p>
+											</div>
+											<div style="margin-bottom: 0;">
+												<p style="margin-bottom: 0;">2020. 2. 20 pm 3:35 </p>
+											</div>
+		
+										</div>
+										<div
+											style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float:right;">
+		
+		
+											<div>
+												<div class="optionChevron">
+													<img src="img/download.png" style="width: 17px; height: 15px;
+															position: relative;
+															bottom:2px;" id="chev">
+													<div id="postMenu" class="hide nanum" style="width: 100px; height: 80px;
+																			 border: black 2px solid; 
+																			 background-color: white; float:right;
+																			 position: relative;
+																			right: 18px; bottom: 12px;">
+		
+														<ul>
+															<li>
+																<a href="#" name="deletePost" style="color:black;">글 삭제</a>
+															</li>
+															<li>
+																<a href="#" name="deletePost" style="color:black;">글 수정</a>
+															</li>
+															<li>
+																<a href="#" name="deletePost" style="color:black;">글 신고</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+		
+										</div>
+		
+									</div>
+									<!-- 프로필사진, 작성자명, 날짜 -->
+		
+		
+									<!-- 게시글내용 -->
+									<div class="postMainWrap  nanum"
+										style=" border: 1px solid black; border-top: 0; border-bottom: 0; width:100% ">
+										<div style="padding-left: 10px; padding-right: 10px; width:100%">
+		
+											<p>Wassup Seoul 게시글 테스트중</p>
+											<p>Wassup Seoul 게시글 테스트중</p>
+											<p>Wassup Seoul 게시글 테스트중</p>
+											<img id="myImg" src="img/서울5.jpg"  class="click_img" style=" width:100%; cursor:pointer;" 
+											
+											onclick="doImgPop('img/서울5.jpg')">
+
+										</div>
+									</div>
+									<!-- 게시글내용 -->
+		
+									
+		
+															
+		
+									<!-- 댓글수, 좋아요버튼 -->
+									<div class="postCountView" style="border: 1px solid black; border-top: 0; height: 30%; padding-top: 5px; ">
+										<div class="commentArea nanum" style="display: inline-block; width: 82%; margin-bottom: 0px; 
+																										padding-left: 10px;">
+											<p style="margin-bottom: 0;">댓글2</p>
+										</div>
+										<div style=" width: 14%; margin-bottom: 0px; height: 100%; float: right; ">
+		
+											<img class="likeBtn shake" src="img/like.png" style="display: inline-block; width: 20px; height: 20px;float: right;
+																				position: relative;
+																				right: 40px; bottom: 1px;">
+											<p style="margin-bottom: 0; display: inline-block;float: right;">10</p>
+										</div>
+		
+									</div>
+									<!-- 댓글수, 좋아요버튼 -->
+		
+		
+									<!-- 표정짓기, 댓글달기 -->
+									<!-- <div class="postMoreOptionWrap" style="border: 1px solid black;">
+										<div style="display: inline-block; width: 50%; margin-bottom: 0px;
+																								border-right: 1px solid black;  ">
+		
+											<div style="display:  inline-block; margin-bottom: 0px;  width:45%;">
+												<img src="img/emotion-smile.png" style="width: 20%; height: 20%;
+																									position: relative;
+																									left: 95px; bottom: 1px;">
+											</div>
+											<div class="emojiArea  nanum"
+												style="display: inline-block; width:40%; margin-bottom: 0px; height: 100%;">
+												<p style="margin-bottom: 0;">표정짓기</p>
+											</div>
+										</div>
+										<div style="display: inline-block; width:40%; margin-bottom: 0px; height: 100%;">
+											<div style="display:  inline-block; margin-bottom: 0px;  width:50%;">
+												<img id="commentImg" src="img/comment.png" style="width: 25%; height: 25%;
+																									position: relative;
+																									left: 83px; ">
+		
+											</div>
+											<div class="writeCommentButton  nanum"
+												style="display: inline-block; width:40%; margin-bottom: 0px; height: 100%;">
+												<p style="margin-bottom: 0;">댓글작성</p>
+											</div>
+		
+										</div>
+									</div> -->
+									<!-- 표정짓기, 댓글달기 -->
+		
+									<!-- 댓글영역 -->
+									<div class="CommentWrap " style="display: none;">
+		
+										<!-- 댓글작성 -->
+									
+										<div class="inputCommentWrap" style="border: 1px solid black; " onkeydown="resize2(this)" onkeyup="resize2(this)">
+		
+											<div class="writePost" style="width: 80%; display: inline-block; margin-left:3px; ">
+												<textarea class="writeCommentArea nanum autosize"   onkeydown="resize(this)" onkeyup="resize(this)" id="writeCommentAreaStyle" rows="1"
+													style=" font-size: 15px; " placeholder="댓글을 작성해 보세요"></textarea>
+		
+											</div>
+											<div style="width: 20%; display: inline-block; position: absolute;">
+												<button type="submit" class="btn nanum" style="width:100%; font-size: 18px; font-weight:bolder; position: relative; left:10px;
+												bottom: 7px">작성</button>
+											</div>
+										</div>
+										<!-- 댓글작성 -->
+		
+		
+										<!-- 댓글보기 -->
+										<div style="border: 1px solid black;">
+		
+											<div style="position: relative;	left: 14px; border: 0px white; width: 98%;">
+												<div class="postMainWrap" style=" border-bottom: 0px; height: 80%;">
+													<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
+																											padding-left: 10px;">
+														<img src="img/ogong.jpg"
+															style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
+													</div>
+													<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
+																											position: relative; 
+																											top: 14px; font-weight: bolder; font-size: 17px;">
+														<div>
+															<p style="margin-bottom: 0; ">손오공</p>
+														</div>
+														<div style="margin-bottom: 0; display: inline-block;">
+															<p style="margin-bottom: 0; ">2020. 2. 20 pm 3:45
+															</p>
+														</div>
+														<div class="doubleCommentArea" style="display: inline-block; width: 14%; margin-bottom: 0px; 
+																												padding-left: 2%;">
+															<p style="margin-bottom: 0; font-size: 13px;">댓글2</p>
+														</div>
+														<div
+															style="display: inline-block; width: 5%; margin-bottom: 0px; height: 100%;">
+		
+															<img class="likeBtn shake" src="img/like.png" style="width: 16px; height: 16px;
+																						position: relative; 
+																						 bottom: 3px;">
+														</div>
+														<div class="likeCount" style="display: inline-block; width: 10%; margin-bottom: 0px; 
+																												">
+															<p style="margin-bottom: 0;font-size: 13px;">5</p>
+														</div>
+		
+		
+													</div>
+													<div
+														style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float:right;">
+		
+														<div>
+															<div class="optionChevron">
+																<img src="img/download.png" style="width: 17px; height: 15px; position: relative;
+																bottom:2px; right: 7px;">
+																<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
+																				border: black 2px solid; 
+																			 background-color: white; float:right; 
+																			 position: relative;
+																			right: 25px; bottom: 12px;">
+		
+		
+																	<ul>
+																		<li>
+																			<a href="#" name="deletePost" style="color:black;">댓글 삭제</a>
+																		</li>
+																		<li>
+																			<a href="#" name="deletePost" style="color:black;">댓글 수정</a>
+																		</li>
+																		<li>
+																			<a href="#" name="deletePost" style="color:black;">댓글 신고</a>
+																		</li>
+																	</ul>
+																</div>
+															</div>
+														</div>
+		
+													</div>
+												</div>
+		
+												<div class="commentContentWrap nanum">
+													<div style="padding-left: 10px; font-weight: bolder;">
+														<p>Wassup Seoul 댓글 테스트중</p>
+													</div>
+												</div>
+		
+		
+		
+											</div>
+											<!-- 댓글 1 -->
+		
+		
+		
+		
+		
+											<!-- 대댓글 -->
+											<div class="doubleCommentWrap" style="display: none;">
+												<!-- style="display: none;" -->
+		
+		
+		
+												<!-- 대댓글보기1 -->
+												<div style="border: px solid black; border-top: 2px solid black;">
+													<!-- display: none; class="CommentWrap" -->
+													<div style="position: relative;	left: 40px; border: 0px white; width: 92%;">
+														<div class="postMainWrap" style=" border-bottom: 0px">
+															<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
+																													padding-left: 10px;">
+																<img src="img/account.png"
+																	style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
+															</div>
+															<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
+																													position: relative;
+																													top: 14px; font-weight: bolder; font-size: 17px;">
+																<div>
+																	<p style="margin-bottom: 0; ">삼장법사</p>
+																</div>
+																<div style="margin-bottom: 0; display: inline-block;">
+																	<p style="margin-bottom: 0; ">2020. 2. 20 pm
+																		3:47
+																	</p>
+																</div>
+																<div
+																	style="display: inline-block; width: 8%; margin-bottom: 0px; height: 100%;">
+		
+																	<img class="likeBtn shake" src="img/like.png" style="width: 15px; height:  15px;
+																								position: relative; float: right; top: 1px;">
+																</div>
+																<div class="likeCount"
+																	style="display: inline-block; width: 5%; margin-bottom: 0px; ">
+																	<p style="margin-bottom: 0;font-size: 13px;">2</p>
+																</div>
+		
+		
+															</div>
+															<div
+																style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float:right;">
+		
+																<div>
+																	<div class="optionChevron">
+																		<img src="img/download.png" style="width: 17px; height: 15px; position: relative;
+																											bottom:2px; right: 3px;">
+																		<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
+																				border: black 2px solid; 
+																			 background-color: white; float:right; 
+																			 position: relative;
+																			right: 21px; bottom: 12px;">
+																			<ul>
+																				<li>
+																					<a href="#" name="deletePost" style="color:black;">댓글 삭제</a>
+																				</li>
+																				<li>
+																					<a href="#" name="deletePost" style="color:black;">댓글 수정</a>
+																				</li>
+																				<li>
+																					<a href="#" name="deletePost" style="color:black;">댓글 신고</a>
+																				</li>
+																			</ul>
+																		</div>
+																	</div>
+																</div>
+		
+															</div>
+														</div>
+		
+														<div class="commentContentWrap nanum" sytle="font-weight: bolder;">
+		
+															<p>Wassup Seoul 대댓글 테스트중</p>
+		
+		
+														</div>
+		
+		
+													</div>
+												</div>
+												<!-- 대댓글 -->
+		
+		
+												<!-- 대댓글보기2 -->
+												<div style="border: px solid black; border-top: 2px solid black;">
+													<!-- display: none; class="CommentWrap" -->
+													<div style="position: relative;	left: 40px; border: 0px white; width: 92%;">
+														<div class="postMainWrap" style=" border-bottom: 0px">
+															<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
+																													padding-left: 10px;">
+																<img src="img/account.png"
+																	style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
+															</div>
+															<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 70%; margin-bottom: 0px; height: 100%;
+																													position: relative;
+																													top: 14px; font-weight: bolder; font-size: 17px;">
+																<div>
+																	<p style="margin-bottom: 0; ">사오정</p>
+																</div>
+																<div style="margin-bottom: 0; display: inline-block;">
+																	<p style="margin-bottom: 0; ">2020. 2. 20 pm
+																		3:48
+																	</p>
+																</div>
+																<div
+																	style="display: inline-block; width: 8%; margin-bottom: 0px; height: 100%;">
+		
+																	<img class="likeBtn shake" src="img/like.png" style="width: 15px; height:  15px;
+																								position: relative; float: right; top: 1px;">
+																</div>
+																<div class="likeCount" style="display: inline-block; width: 5%; margin-bottom: 0px; 
+																														">
+																	<p style="margin-bottom: 0;font-size: 13px;">2</p>
+																</div>
+		
+		
+															</div>
+															<div
+																style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float:right;">
+		
+																<div>
+																	<div class="optionChevron">
+																		<img src="img/download.png" style="width: 17px; height: 15px; position: relative;
+																											bottom:2px; right: 3px;">
+																		<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
+																				border: black 2px solid; 
+																			 background-color: white; float:right; 
+																			 position: relative;
+																			right: 20px; bottom: 12px;">
+																			<ul>
+																				<li>
+																					<a href="#" name="deletePost" style="color:black;">댓글 삭제</a>
+																				</li>
+																				<li>
+																					<a href="#" name="deletePost" style="color:black;">댓글 수정</a>
+																				</li>
+																				<li>
+																					<a href="#" name="deletePost" style="color:black;">댓글 신고</a>
+																				</li>
+																			</ul>
+																		</div>
+																	</div>
+																</div>
+		
+															</div>
+														</div>
+		
+														<div class="commentContentWrap nanum" sytle="font-weight: bolder;">
+		
+															<p>Wassup Seoul 대댓글 테스트중</p>
+		
+		
+														</div>
+		
+		
+													</div>
+												</div>
+												<!-- 대댓글2 -->
+		
+		
+		
+		
+		
+		
+												<!-- 대댓글작성 -->
+												<div class="inputCommentWrap" style="border: 1px solid black; ">
+													<!-- display: none; -->
+		
+													<div class="writePost"
+														style="width: 80%; display: inline-block; margin-left:3px; ">
+														<textarea class="writeCommentArea2 nanum" id="writeCommentAreaStyle" rows="1"
+															style="border-left: none;" placeholder="댓글을 작성해 보세요"></textarea>
+														<!--<input type="text" class="form-control" id="inputPostArea">-->
+													</div>
+													<div style="width: 20%; display: inline-block; position: absolute;">
+														<button type="submit" class="btn nanum"
+															style="width:100%; font-size: 18px; font-weight:bolder; position: relative; left:10px; bottom: 7px">
+															작성</button>
+													</div>
+												</div>
+												<!-- 대댓글작성 -->
+		
+											</div>
+											<!-- 댓글보기 -->
+		
+											<!-- 댓글보기2 -->
+											<div style="border: 1px solid black;">
+		
+												<div style="position: relative;	left: 14px; border: 0px white; width: 98%;">
+													<div class="postMainWrap" style=" border-bottom: 0px; height: 80%;">
+														<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
+																											padding-left: 10px;">
+															<img src="img/ogong.jpg"
+																style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
+														</div>
+														<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
+																											position: relative; 
+																											top: 14px; font-weight: bolder; font-size: 17px;">
+															<div>
+																<p style="margin-bottom: 0; ">손오공동생</p>
+															</div>
+															<div style="margin-bottom: 0; display: inline-block;">
+																<p style="margin-bottom: 0; ">2020. 2. 20 pm 3:49
+																</p>
+															</div>
+															<div class="doubleCommentArea2" style="display: inline-block; width: 14%; margin-bottom: 0px; 
+																												padding-left: 2%;">
+																<p style="margin-bottom: 0; font-size: 13px;">댓글</p>
+															</div>
+															<div
+																style="display: inline-block; width: 5%; margin-bottom: 0px; height: 100%;">
+		
+																<img class="likeBtn shake" src="img/like.png" style="width: 16px; height: 16px;
+																						position: relative;
+																						bottom: 3px;">
+															</div>
+															<div class="likeCount"
+																style="display: inline-block; width: 10%; margin-bottom: 0px;">
+																<p style="margin-bottom: 0px;font-size: 13px;">2</p>
+															</div>
+		
+		
+														</div>
+														<div
+															style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float:right;">
+		
+															<div>
+																<div class="optionChevron">
+																	<img src="img/download.png" style="width: 17px; height: 15px; position: relative;
+																bottom:2px; right: 7px;">
+																	<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
+																				border: black 2px solid; 
+																			 background-color: white; float:right; 
+																			 position: relative;
+																			right: 25px; bottom: 12px;">
+		
+		
+																		<ul>
+																			<li>
+																				<a href="#" name="deletePost" style="color:black;">댓글 삭제</a>
+																			</li>
+																			<li>
+																				<a href="#" name="deletePost" style="color:black;">댓글 수정</a>
+																			</li>
+																			<li>
+																				<a href="#" name="deletePost" style="color:black;">댓글 신고</a>
+																			</li>
+																		</ul>
+																	</div>
+																</div>
+															</div>
+		
+														</div>
+													</div>
+		
+													<div class="commentContentWrap nanum">
+														<div style="padding-left: 10px; font-weight: bolder;">
+															<p>Wassup Seoul 댓글 테스트중</p>
+														</div>
+													</div>
+		
+		
+		
+												</div>
+												<!-- 댓글2 -->
+		
+												<div class="doubleCommentWrap2" style="display: none;">
+		
+													<!-- 대댓글작성 -->
+													<div class="inputCommentWrap" style="border-top: 2px solid black; ">
+														<!-- display: none; -->
+		
+														<div class="writePost"
+															style="width: 80%; display: inline-block; margin-left:3px; ">
+															<textarea class="writeCommentArea3 nanum" id="writeCommentAreaStyle"
+																rows="1" style="border-left: none;"
+																placeholder="댓글을 작성해 보세요"></textarea>
+															
+														</div>
+														<div style="width: 20%; display: inline-block; position: absolute;">
+															<button type="submit" class="btn nanum"
+																style="width:100%; font-size: 18px; font-weight:bolder; position: relative; left:10px; bottom: 7px">
+																작성</button>
+														</div>
+													</div>
+													<!-- 대댓글작성 -->
+		
+		
+												</div>
+		
+											</div>
+											<!-- 댓글2 -->
+		
+		
+										</div>
+										<!-- 댓글영역 -->
+		
+									</div>
+								</div>
+							</div>
+							<!-- 게시글2 끝-->	
+
 				</div>
 				<!-- 게시글영역 끝-->
 
@@ -868,17 +1370,71 @@ height: 150px;
 
 			});
 
+			// 이미지 모달 보기 시작
+			var modal = document.getElementById('myModal');
+			
+			// Get the image and insert it inside the modal - use its "alt" text as a caption
+			var img = document.getElementById('myImg');
+			var modalImg = document.getElementById("img01");
+			var captionText = document.getElementById("caption");
+				img.onclick = function(){
+				modal.style.display = "block";
+				modal.style.width = "80%";
+				modal.style.height = "80%";
+				modal.style.border = "black solid 2px";
+				modal.style.background = "white";
+				
+				modalImg.src = this.src;
+				modalImg.alt = this.alt;
+				captionText.innerHTML = this.alt;
+			}
+			
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName("close")[0];
+			
+			// When the user clicks on <span> (x), close the modal
+			span.onclick = function() { 
+				modal.style.display = "none";
+			}
+			modalImg.onclick = function() { 
+				modal.style.display = "none";
+			}
+			// 이미지 모달 보기 종료
 
-			// 이미지 새창 보기
-			// var img = document.getElementsByClassName('click_img'); 
-			// for (var x = 0; x < img.length; x++) { 
-			// 	img.item(x).onclick=function() {window.open(this.src)}; 
-			// }
+
+			// 외부영역 클릭시 이벤트 발생
+			// $('html').click(function(e) {
+			// 	 if(!$(e.target).hasClass("area")) {
+			// 		  alert('영역 밖입니다.'); 
+			// 	} 
+			// });
 
 			//  게시글, 댓글 수정/삭제 메뉴창 보이기, 숨기기
 			$(".optionChevron>img").click(function () {
 				$(this).next("div").toggleClass("hide");
 			});
+
+		
+			$(".likeNum").click(function () {
+				$(this).next("div").toggleClass("hide");
+			});
+
+
+
+// 			// textArea 자동늘리기
+// 			function resize(obj) {
+//   obj.style.height = "1px";
+//   obj.style.height = (12+obj.scrollHeight)+"px";
+// }
+
+// function resize2(obj) {
+//   obj.style.height = "1px";
+//   obj.style.height = (12+obj.scrollHeight)+"px";
+// }
+
+
+
+			// 댓글, 대댓글 해당 게시물것만 숨기고 보이게 ★★★★★
 
 			// 댓글 영역 숨기기
 			$(".commentArea").click(function () {
@@ -887,7 +1443,6 @@ height: 150px;
 				$('.writeCommentArea').focus();
 			});
 		
-
 			// 대댓글 영역 숨기기
 			$(".doubleCommentArea").click(function () {
 				$(".doubleCommentWrap").toggle(100);
@@ -901,7 +1456,6 @@ height: 150px;
 				// $(".inputCommentWrap").toggle(500);
 				$('.writeCommentArea3').focus();
 			})
-
 
 			// 댓글작성 눌렀을 때 커서이동
 			$(".writeCommentButton").click(function () {
@@ -921,6 +1475,22 @@ height: 150px;
 			// });
 			// $('.writePost').find('textarea').keyup();
 
+
+
+		    // 게시글 작성 영역 높이 자동증가
+				$('.writePost').on('keyup', 'textarea', function (e) {
+				$(this).css('height', 'auto');
+				$(this).height(this.scrollHeight);
+			});
+			$('.writePost').find('textarea').keyup();
+
+			// 댓글 작성 영역 높이 자동증가
+			$('.inputCommentWrap').on('keyup', 'textarea', function (e) {
+				$(this).css('height', 'auto');
+				$(this).height(this.scrollHeight);
+			});
+			$('.inputCommentWrap').find('textarea').keyup();	
+
 			// 댓글 출력 영역 높이 자동증가
 			$('.commentContentWrap').on('keyup', 'textarea', function (e) {
 				$(this).css('height', 'auto');
@@ -935,20 +1505,102 @@ height: 150px;
 			});
 			$('.postMainWrap').find('textarea').keyup();
 
+			// var imgCommonPreview = new Image(); 
+
+			// function viewPic(filepath) { 
+			// 		if(filepath == "") { alert('등록된 이미지가 없습니다.'); return; } 
+			// 		imgCommonPreview.src = filepath; setTimeout("createPreviewWin(imgCommonPreview)", 100); } 
+				
+			// function createPreviewWin(imgCommonPreview) { 
+			// 		if(!imgCommonPreview.complete) { 
+			// 		setTimeout("createPreviewWin(imgCommonPreview)", 100); 
+			// 		return; 
+			// 		} 
+					
+			// 		var scrollsize = 17; 
+			// 		var swidth = screen.width - 10; 
+			// 		var sheight = screen.height - 90; 
+			// 		var wsize = imgCommonPreview.width; 
+			// 		var hsize = imgCommonPreview.height; 
+					
+			// 		if(wsize < 50) wsize = 50; // 가로 최소 크기
+			// 		if(hsize < 50) hsize = 50; // 세로 최소 크기 
+			// 		if(wsize > swidth) wsize = swidth; // 가로 최대 크기 
+			// 		if(hsize > sheight) hsize = sheight; // 세로 최대 크기 
+					
+			// 		// 세로가 최대크기를 초과한경우 세로스크롤바 자리 확보 
+			// 		if((wsize < swidth-scrollsize) && hsize >= sheight) wsize += scrollsize; 
+					
+			// 		// 가로가 최대크기를 초과한경우 가로스크롤바 자리 확보 
+			// 		if((hsize < sheight-scrollsize) && wsize >= swidth) hsize += scrollsize; 
+					
+			// 		// IE 6,7 전용 : 가로세로 크기가 보통일때 세로 스크롤바 자리 확보 
+			// 		if((wsize < swidth-scrollsize) && hsize < sheight 
+			// 		&& (navigator.userAgent.indexOf("MSIE 6.0") > -1 
+			// 		|| navigator.userAgent.indexOf("MSIE 7.0") > -1))wsize += scrollsize; 
+					
+			// 		// 듀얼 모니터에서 팝업 가운데 정렬하기 
+			// 		var mtWidth = document.body.clientWidth;
+					
+			// 		 // 현재 브라우저가 있는 모니터의 화면 폭 사이즈 
+			// 		 var mtHeight = document.body.clientHeight; 
+					 
+			// 		 // 현재 브라우저가 있는 모니터의 화면 높이 사이즈 
+			// 		 var scX = window.screenLeft; 
+					 
+			// 		 // 현재 브라우저의 x 좌표(모니터 두 대를 합한 총 위치 기준) 
+			// 		 var scY = window.screenTop; 
+					 
+			// 		 // 현재 브라우저의 y 좌표(모니터 두 대를 합한 총 위치 기준)
+			// 		  var popX = scX + (mtWidth - wsize) / 2 - 50; 
+					  
+			// 		  // 팝업 창을 띄울 x 위치 지정(모니터 두 대를 합한 총 위치 기준) 
+			// 		  var popY = scY + (mtHeight - hsize) / 2 - 50; 
+					  
+			// 		  // 팝업 창을 띄울 y 위치 지정(모니터 두 대를 합한 총 위치 기준) 
+					  
+			// 		  // window.open('주소', '이름(공란가능)', '속성'); 
+					  
+			// 		  imageWin = window.open("", "", "top=" + popY + ",left=" + popX + ",width=" + wsize + ",height=" + hsize +",scrollbars=yes,resizable=yes,status=no"); 
+					  
+			// 		  imageWin.document.write("<html><title>Preview</title><body style='margin:0;cursor:pointer;' title='Close' onclick='window.close()'>");
+					  
+			// 		  imageWin.document.write("<img src='" + imgCommonPreview.src + "'>"); 
+					   
+			// 		  imageWin.document.write("</body></html>"); }
+
+
+
+						// 이미지 클릭시 원본 크기로 팝업 보기
+						// function doImgPop(img){
+						// 	img1=new Image();
+						// 	img1.src=(img);
+						// 	imgControll(img);
+						// }
+
+						// function imgControll(img){
+						// 	if((img1.width!=0)&&(img1.height!=0)){
+						// 		viewImage(img);
+						// 	}else{
+						// 		controller="imgControll('"+img+"')";
+						// 		intervalId=setTimeout(controller,20);
+						// 	}
+						// }
+
+						// function viewImage(img){
+						// 	W=img1.width;
+						// 	Himg1.height;
+						// 	O="width="+W+",height="+H+",scrollbars=yes";
+						// 	imgWin=windows.open("","",O);
+						// 	imgWin.document.write("<html><head><title>:*:*:*:이미지상세보기 :*:*:*:*:* </title></head>");
+						// 	imgWin.document.write("<body topmargin=0 leftmargin=0>");
+						// }
+
 
 		});
 
-		$("#testPop").magnificPopup({type: 'image'});
 	</script>
 		
-	<!-- Magnific Popup core CSS file -->
-<link rel="stylesheet" href="magnific-popup/magnific-popup.css">
-
-<!-- jQuery 1.7.2+ or Zepto.js 1.0+ -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-<!-- Magnific Popup core JS file -->
-<script src="magnific-popup/jquery.magnific-popup.js"></script>
 
 </body>
 
