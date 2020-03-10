@@ -29,7 +29,7 @@ public class SquareController {
 	private SquareService squareService;
 	/**
 	 * Simply selects the home view to render by returning its name.
-	 */
+	 */ 
 	@RequestMapping(value = "square", method = RequestMethod.GET)
 	public String square(Locale locale,
 						Model model,

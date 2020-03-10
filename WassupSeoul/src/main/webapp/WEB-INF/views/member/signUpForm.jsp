@@ -126,6 +126,7 @@
                                 <input type="email" id="email" name="memberEmail" placeholder=" 사용하실 이메일을 입력해주세요"
                                     class="nanum form-control float-left" required>
                                 <input type="hidden" name="emailDup" id="emailDup" value="false">
+                                <div><span id="checkEmail"></span></div>
                             </div>
                         </div>
 
@@ -313,7 +314,7 @@
     </div>
     
      <script>
-        /* // 각 유효성 검사 결과를 저장할 객체
+         // 각 유효성 검사 결과를 저장할 객체
         var signUpCheck = { 
         		"email":false,
         		"emailDup":false,
@@ -469,7 +470,7 @@
 		} 
 		
 		
-		 */
+		 
         </script>
     
     
