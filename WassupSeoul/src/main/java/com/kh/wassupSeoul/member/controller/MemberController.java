@@ -85,7 +85,7 @@ public class MemberController{
 				rdAttr.addFlashAttribute("msg", msg);
 				model.addAttribute("loginMember", loginMember);
 				return "redirect:/square"; 
-			} else {
+			} else { 
 				msg = "로그인 실패";
 				rdAttr.addFlashAttribute("msg", msg);
 				return "redirect:/";
