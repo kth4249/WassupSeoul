@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>QNA</title>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="../css/bootstrap.css" type="text/css">
+        <link rel="stylesheet" href="../css/common.css" type="text/css">
+        <style>@import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+  
+        </style>
+        
+    </head>
+    <body>
+        <!-- 컨텐츠 -->
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-md-5"><h1 class="nanum">Wassup,Seoul 1:1문의</h1></div>
+                <div class="col-md-6"></div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <!-- 본문 시작 -->
+                <div class="col-md-8">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                          <a class="nav-link active nanum" data-toggle="tab" href="#insertQNA">1:1문의</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link nanum" data-toggle="tab" href="#QNAList">문의내역 확인</a>
+                        </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div class="tab-pane fade active show" id="insertQNA">
+                            <!-- 1:1 작성 -->
+                            <form action="#">
+                                <br>
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <fieldset class="form-group">
+                                            <legend class="nanum">문의제목</legend>
+                                            <input type="text" class="form-control nanum" name="QNATitle" placeholder="1:1문의 제목을 입력하세요">
+                                            <small class="form-text text-muted nanum">*특수문자를 제외한 한글로 작성하시기 바랍니다.</small>
+                                        </fieldset>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <fieldset class="form-group">
+                                            <legend class="nanum">문의내용</legend>
+                                            <textarea class="form-control nanum" name="QNAContent" rows="10"  style="resize: none;" placeholder="문의 내용을 입력하세요"></textarea>
+                                            <small class="form-text text-muted nanum">*질문을 구체적으로 입력해주세요. 정확하고 빠른 답변에 도움이 됩니다.</small>
+                                        </fieldset>    
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-3"></div>
+                                    <div class="col-sm-3"><button type="submit" class="btn btn-info btn-lg btn-block nanum" style="font-weight: bold;">작성하기</button></div>
+                                    <div class="col-sm-3"><button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-weight: bold;">취소하기</button></div>
+                                    <div class="col-sm-3"></div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="QNAList">
+                            <!-- 1:1 목록 시작 -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table">
+                                        <thead>
+                                            <tr class="table-primary nanum">
+                                                <th>글번호</th>
+                                                <th>제목</th>
+                                                <th>답변여부</th>
+                                                <th>작성일</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="nanum">
+                                                <td>1</td>
+                                                <td>1:1문의 제목1</td>
+                                                <td style="color: red;">답변미완료</td>
+                                                <td>2020.03.06</td>
+                                            </tr>
+                                            <tr class="nanum">
+                                                <td>2</td>
+                                                <td>1:1문의 제목2</td>
+                                                <td style="color: green;">답변완료</td>
+                                                <td>2020.03.05</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                
+                                    <!-- 페이징바 시작 -->
+                                    <div>
+                                        <ul class="pagination justify-content-center">
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">&laquo;</a>
+                                        </li>
+                                        <li class="page-item active">
+                                            <a class="page-link" href="#">1</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">2</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">3</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">4</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">5</a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">&raquo;</a>
+                                        </li>
+                                        </ul>
+                                    </div>              
+                                    <!-- 페이징바 끝 -->
+                                </div>
+                            </div>
+                            <!-- 1:1 목록 끝 -->
+                            <!-- 검색창 시작 -->
+                            <form action="#">
+                                <div class="form-row">
+                                    <div class="form-group col-md-2"></div>
+                                    <div class="form-group col-md-8">
+                                        <div class="input-group-text">
+                                            <select class="form-control nanum" name="QNASearchKey">
+                                                <option value="title">문의제목</option>
+                                                <option value="content">문의내용</option>
+                                                <option value="titleAndContent">제목 또는 내용</option>
+                                            </select>
+                                            <input class="form-control mr-sm-2 ml-sm-2 col-sm-7 nanum" type="text" name="QNASearchContent" placeholder="검색 내용 입력">
+                                            <button class="btn btn-secondary my-2 my-sm-0 nanum" type="submit"><img src="../final/img/search.png" style="width: 25px; height: 25px;"></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-2"></div>
+                                </div>
+                            </form>
+                            <!-- 검색창 끝 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 본문 끝 -->
+                <div class="col-md-2"></div>
+            </div>
+            
+
+        </div>
+        <!-- 컨텐츠 -->
+         
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    </body>
+</html>
