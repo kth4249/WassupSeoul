@@ -1,4 +1,4 @@
-package com.kh.wassupSeoul;
+package com.kh.wassupSeoul.square.model.dao;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 @Repository
-public class HomeDAO {
+public class SquareDAO {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
