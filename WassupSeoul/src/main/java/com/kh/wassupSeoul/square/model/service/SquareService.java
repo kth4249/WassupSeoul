@@ -1,4 +1,4 @@
-package com.kh.wassupSeoul;
+package com.kh.wassupSeoul.square.model.service;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 @Service
-public interface HomeService {
+public interface SquareService {
 
 	
 	/** 골목 조회용 Service

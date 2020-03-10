@@ -1,7 +1,5 @@
-package com.kh.wassupSeoul;
+package com.kh.wassupSeoul.square.controller;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,35 +14,35 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kh.wassupSeoul.common.Pagination;
 import com.kh.wassupSeoul.common.vo.PageInfo;
+import com.kh.wassupSeoul.square.model.service.SquareService;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
-@RequestMapping("/home/*")
-public class HomeController {
+public class SquareController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(SquareController.class);
 	
 	@Autowired
-	private HomeService homeService;
+	private SquareService squareService;
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = "squre", method = RequestMethod.GET)
-	public String squre(Locale locale, 
+	@RequestMapping(value = "square", method = RequestMethod.GET)
+	public String squre(Locale locale,
 						Model model,
 						@RequestParam(value="currentPage", required=false) Integer currentPage) {
 		
 		try {
-			int listCount = homeService.getListCount();
+			int listCount = squareService.getListCount();
 			
 			if(currentPage == null) currentPage = 1;
 			
 			PageInfo pInf = Pagination.getPageInfo(10, 10, currentPage, listCount);
 			
-			List<Street> list = homeService.selectList(pInf);
+			List<Street> list = squareService.selectList(pInf);
 			
 			for(Street street : list) {
 				System.out.println(street);
@@ -57,11 +55,8 @@ public class HomeController {
 			e.printStackTrace();
 		}
 		
-		return "squre";
+		return "square";
 	}
-	
-	
-	
 	
 	
 	
