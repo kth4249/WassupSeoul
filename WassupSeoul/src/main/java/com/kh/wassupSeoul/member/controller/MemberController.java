@@ -107,7 +107,17 @@ public class MemberController{
 	}
 		
 	
-	
+	//이메일찾기
+	@RequestMapping("FindEmail")
+	public String findEmail(Member member, Model model) {
+		try {
+			int result = memberService.findEmail(member);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
 	
 	
 	
