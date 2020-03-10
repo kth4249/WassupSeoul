@@ -1,3 +1,4 @@
+
 package com.kh.wassupSeoul.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,5 +107,5 @@ public class MemberController{
 		return "redirect:/";
 	}
 	
-	
+
 }
