@@ -31,7 +31,7 @@ public class SquareController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "square", method = RequestMethod.GET)
-	public String squre(Locale locale,
+	public String square(Locale locale,
 						Model model,
 						@RequestParam(value="currentPage", required=false) Integer currentPage) {
 		
