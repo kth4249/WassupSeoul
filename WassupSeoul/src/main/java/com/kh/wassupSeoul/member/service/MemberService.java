@@ -18,4 +18,12 @@ public interface MemberService {
 	 */
 	Member loginMember(Member member) throws Exception;
 
+	/** 이메일 찾기용 Service
+	 * @param member
+	 * @return result
+	 * @throws Exception
+	 */
+	int findEmail(Member member) throws Exception;
+	
+
 }

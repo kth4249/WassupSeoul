@@ -40,6 +40,13 @@
     background-color: rgba(100, 255, 255, 0.2);
   }
 
+  .streetBtnActive {
+    color: #212529;
+    background-color: #f7f7f9;
+  }
+  
+  
+
   #createStreet {
     position: absolute;
     bottom: 0px;
@@ -116,7 +123,7 @@
           <div id="createStreet">
             <div class="form-group" style="display: inline-block;">
               <select class="custom-select nanum">
-                <option selected="">인기 골목 순</option>
+                <option selected value="0">인기 골목 순</option>
                 <option value="1">주민 많은 순</option>
                 <option value="2">주민 적은 순</option>
                 <option value="3">최신 개설 순</option>
@@ -142,35 +149,35 @@
           </li>
         </ul>
         <div id="myTabContent" class="tab-content">
-          <div class="list-group streetBtn tab-pane fade active show" id="gangnam">
-            <a href="#" class="list-group-item list-group-item-action streetBtn">강동구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">송파구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">강남구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">서초구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">동작구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">관악구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">금천구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">양천구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">영등포구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">강서구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">구로구</a>
-          </div>
-          <div class="list-group streetBtn tab-pane fade" id="gangbuk">
-            <a href="#" class="list-group-item list-group-item-action streetBtn">강북구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">노원구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">도봉구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">광진구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">중랑구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">성동구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">동대문구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">성북구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">중구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">종로구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">용산구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">서대문구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">은평구</a>
-            <a href="#" class="list-group-item list-group-item-action streetBtn">마포구</a>
-          </div>
+          <ul class="list-group streetBtn tab-pane fade active show" id="gangnam">
+            <li class="list-group-item list-group-item-action streetBtn">강남구</li>
+            <li class="list-group-item list-group-item-action streetBtn">강동구</li>
+            <li class="list-group-item list-group-item-action streetBtn">강서구</li>
+            <li class="list-group-item list-group-item-action streetBtn">구로구</li>
+            <li class="list-group-item list-group-item-action streetBtn">금천구</li>
+            <li class="list-group-item list-group-item-action streetBtn">관악구</li>
+            <li class="list-group-item list-group-item-action streetBtn">동작구</li>
+            <li class="list-group-item list-group-item-action streetBtn">서초구</li>
+            <li class="list-group-item list-group-item-action streetBtn">송파구</li>
+            <li class="list-group-item list-group-item-action streetBtn">양천구</li>
+            <li class="list-group-item list-group-item-action streetBtn">영등포구</li>
+          </ul>
+          <ul class="list-group streetBtn tab-pane fade" id="gangbuk">
+            <li class="list-group-item list-group-item-action streetBtn">강북구</li>
+            <li class="list-group-item list-group-item-action streetBtn">광진구</li>
+            <li class="list-group-item list-group-item-action streetBtn">노원구</li>
+            <li class="list-group-item list-group-item-action streetBtn">도봉구</li>
+            <li class="list-group-item list-group-item-action streetBtn">동대문구</li>
+            <li class="list-group-item list-group-item-action streetBtn">마포구</li>
+            <li class="list-group-item list-group-item-action streetBtn">서대문구</li>
+            <li class="list-group-item list-group-item-action streetBtn">성동구</li>
+            <li class="list-group-item list-group-item-action streetBtn">성북구</li>
+            <li class="list-group-item list-group-item-action streetBtn">용산구</li>
+            <li class="list-group-item list-group-item-action streetBtn">은평구</li>
+            <li class="list-group-item list-group-item-action streetBtn">중구</li>
+            <li class="list-group-item list-group-item-action streetBtn">중랑구</li>
+            <li class="list-group-item list-group-item-action streetBtn">종로구</li>
+          </ul>
         </div>
       </div>
       <div class="col-md-10">

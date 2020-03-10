@@ -84,7 +84,7 @@ public class MemberController{
 				msg = "로그인 성공";
 				rdAttr.addFlashAttribute("msg", msg);
 				model.addAttribute("loginMember", loginMember);
-				return "redirect:/home/squre"; 
+				return "redirect:/square"; 
 			} else {
 				msg = "로그인 실패";
 				rdAttr.addFlashAttribute("msg", msg);
@@ -105,6 +105,17 @@ public class MemberController{
 		status.setComplete();
 		return "redirect:/";
 	}
-		
 	
+	//이메일찾기
+	@RequestMapping("FindEmail")
+	public String findEmail(Member member, Model model) {
+		try {
+			int result = memberService.findEmail(member);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+
 }
