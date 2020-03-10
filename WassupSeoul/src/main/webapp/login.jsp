@@ -91,16 +91,16 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="">
+          <form action="/member/searchEmail">
             <span class="nanum" style="font-size: 25px; color: tomato;">Email</span>
             <span class="nanum" style="font-size: 25px;">을 잊으셨나요?</span>
             <br><br>
             <label for="" class="nanum">제 이름은</label>
-            <input type="text" class="nanum" size="10"> 
+            <input name="memberNm" type="text" class="nanum" size="10"> 
             <span class="nanum">이고,</span>
             <label for="" class="nanum">휴대폰 번호는</label>
             <span class="nanum" style="font-size: 15px; color: gray;">(' - ' 포함)</span>&nbsp;&nbsp;
-            <input type="text" class="nanum" size="20">
+            <input type="text" name="memberPhone" class="nanum" size="20">
             <span class="nanum">이에요. &nbsp; </span> 
           </form>
         </div>

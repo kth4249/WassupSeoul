@@ -114,7 +114,7 @@
 
                 <div class="infoBox mx-auto">
 
-                    <form method="POST" action="${pageContext.request.contextPath}/member/signUp" name="signUpForm">
+                    <form method="POST" action="${pageContext.request.contextPath}/member/signUp" name="signUpForm" onsubmit="return validate();">
                         <br><br>
 
                         <!-- 이메일 입력 -->
@@ -123,8 +123,9 @@
                                 <label for="" class="nanum float-right" style="font-size: 25px">* 이메일</label>
                             </div>
                             <div class="col-md-6">
-                                <input type="email" name="memberEmail" placeholder=" 사용하실 이메일을 입력해주세요"
-                                    class="nanum form-control float-left">
+                                <input type="email" id="email" name="memberEmail" placeholder=" 사용하실 이메일을 입력해주세요"
+                                    class="nanum form-control float-left" required>
+                                <input type="hidden" name="emailDup" id="emailDup" value="false">
                             </div>
                         </div>
 
@@ -134,8 +135,8 @@
                                 <label for="" class="nanum float-right" style="font-size: 25px;">*비밀번호</label>
                             </div>
                             <div class="col-md-6">
-                                <input type="password" name="memberPwd" placeholder=" 영문대소문자+숫자 6자 이상"
-                                    class="nanum form-control float-left" maxlength="8">
+                                <input type="password" id="pwd1" name="memberPwd" placeholder=" 영문대소문자+숫자 6자 이상"
+                                    class="nanum form-control float-left" maxlength="8" required>
                             </div>
                         </div>
 
@@ -145,8 +146,8 @@
                                 <label for="" class="nanum float-right" style="font-size: 25px;">* 비밀번호 확인</label>
                             </div>
                             <div class="col-md-6">
-                                <input type="password" placeholder=" 비밀번호를 확인해주세요" class="nanum form-control float-left"
-                                    maxlength="8">
+                                <input type="password" id="pwd2" placeholder=" 비밀번호를 확인해주세요" class="nanum form-control float-left"
+                                    maxlength="8" required>
                             </div>
                         </div>
 
@@ -156,8 +157,8 @@
                                 <label for="" class="nanum float-right" style="font-size: 25px;">* 이름</label>
                             </div>
                             <div class="col-md-6">
-                                <input type="text" name="memberNm" placeholder=" 이름을 입력해주세요" class="nanum form-control float-left"
-                                    maxlength="4">
+                                <input type="text" id="name" name="memberNm" placeholder=" 이름을 입력해주세요" class="nanum form-control float-left"
+                                    maxlength="4" required>
                             </div>
                         </div>
 
@@ -167,8 +168,8 @@
                                 <label for="" class="nanum float-right" style="font-size: 25px;">* 닉네임</label>
                             </div>
                             <div class="col-md-6">
-                                <input type="text" name="memberNickname" placeholder=" 사용하실 닉네임을 설정해주세요" class="nanum form-control float-left"
-                                    maxlength="5">
+                                <input type="text" id="nickName" name="memberNickname" placeholder=" 사용하실 닉네임을 설정해주세요" class="nanum form-control float-left"
+                                    maxlength="5" required>
                             </div>
                         </div>
 
@@ -178,7 +179,7 @@
                                 <label for="" class="nanum float-right" style="font-size: 25px;">* 전화번호</label>
                             </div>
                             <div class="col-md-2">
-                                <select class="form-control" name="phone1" required>
+                                <select class="form-control" id="phone1" name="phone1" required>
                                     <option selected>010</option>
                                     <option>011</option>
                                     <option>016</option>
@@ -188,10 +189,10 @@
                                 </select>
                             </div>
                             <div class="col-md-2">
-                                <input type="number" class="form-control" name="phone2" maxlength="4" required>
+                                <input type="number" class="form-control" id="phone2" name="phone2" maxlength="4" required>
                             </div>
                             <div class="col-md-2">
-                                <input type="number" class="form-control" name="phone3" maxlength="4" required>
+                                <input type="number" class="form-control" id="phone3" name="phone3" maxlength="4" required>
                             </div>
                         </div>
 
@@ -221,7 +222,7 @@
 
                             <div class="col-md-6">
                                 <input type="number" name="memberAge" class="nanum form-control" maxlength="3"
-                                    placeholder=" 나이를 입력해주세요(숫자만)" required>
+                                    placeholder=" 나이를 입력해주세요(숫자만)">
                             </div>
                         </div>
 
@@ -305,13 +306,176 @@
                             </div>
                             <div class="col-md-2"></div>
                         </div>
-
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    
+     <script>
+        /* // 각 유효성 검사 결과를 저장할 객체
+        var signUpCheck = { 
+        		"email":false,
+        		"emailDup":false,
+				"pwd1":false,
+				"pwd2":false,
+				"name":false,
+				"nickName":false,
+				"phone":false,
+				};
+        
+   	 	// 실시간 입력 형식 검사
+		// 정규표현식
+		$(document).ready(function(){
+			
+			// jQuery 변수 : 변수에 직접적으로 jQuery메소드를 사용할 수 있음.
+			var $email = $("#email");
+			var $emailDup = $("#emailDup");
+			var $pwd1 = $("#pwd1");
+			var $pwd2 = $("#pwd2");
+			var $name = $("#name");
+			var $nickName = $("#nickName");
+			var $phone = $("#phone");
+			
+			
+			// 아이디  유효성 검사
+			$id.on("input", function(){
+				// 영어 대,소문자 + 숫자, 총 6~12글자
+				var regExp = /^[A-Za-z0-9]{6,12}$/;
+				if(!regExp.test($id.val())){
+                	$("#checkEmail").text("이메일 형식이 유효하지 않습니다.").css({"color":"red","font-weight":"bold"});
+                	signUpCheck.id = false;
+                }else{
+                	signUpCheck.id = true;
+                	 $.ajax({
+                		url : "idDupCheck",
+                		data : {memberEmail: $id.val() },
+                		type : "post",
+                		success : function(result){
+                			
+                			if(result == "true"){
+                				$("#checkEmail").text("사용 가능한 이메일 입니다.").css({"color":"green","font-weight":"bold"});
+                				signUpCheck.idDup = true;
+                			}else{
+                				$("#checkEmail").text("사용할 수 없는 이메일 입니다.").css({"color":"red","font-weight":"bold"});
+                				signUpCheck.idDup = false;
+                			}
+                		},
+                		
+                		error : function(e){
+                			console.log("ajax 통신 실패");
+                			console.log(e);
+                		}
+                	}); 
+                	
+                }
+			});
+
+			// 비밀번호  유효성 검사
+			$pwd1.on("input", function(){
+				//영어 대,소문자 + 숫자, 총 6~12글자
+				var regExp = /^[A-Za-z0-9]{6,12}$/;
+				if(!regExp.test($pwd1.val())){ 
+                	$("#checkPwd1").text("비밀번호 형식이 유효하지 않습니다.").css("color","red");
+                	signUpCheck.pwd1 = false;
+                }else{
+                	$("#checkPwd1").text("유효한 비밀번호 형식입니다.").css("color","green");
+                	signUpCheck.pwd1 = true;
+                }
+
+			});
+			
+			
+			// 비밀번호 일치 여부
+			$pwd2.on("input", function(){
+				if($pwd1.val().trim() != $pwd2.val().trim()){
+					$("#checkPwd2").text("비밀번호 불일치").css("color","red");
+					signUpCheck.pwd2 = false;
+				}else{
+					$("#checkPwd2").text("비밀번호 일치").css("color","green");
+					signUpCheck.pwd2 = true;
+				}
+			});
+			
+			
+			// 이름 유효성 검사
+			$name.on("input", function(){
+				var regExp =  /^[가-힣]{2,}$/; // 한글 두 글자 이상
+				
+				if(!regExp.test($(this).val())){ // 이름이 정규식을 만족하지 않을경우
+					$("#checkName").text("한글 두 글자 이상을 입력하세요").css("color","red");
+					signUpCheck.name = false;
+				}else{
+					$("#checkName").text("정상입력").css("color","green");
+					signUpCheck.name = true;
+				}
+			});
+			
+			
+			// 전화번호 관련
+		 	$(".phone").on("input",function(){
+		 		
+				// 전화번호 input 태그에 4글자 이상 입력하지 못하게 하는 이벤트
+                if ($(this).val().length > $(this).prop("maxLength")){
+                    $(this).val($(this).val().slice(0, $(this).prop("maxLength")));
+                }
+                
+				// 전화번호 유효성 검사
+                var regExp1 =  /^\d{3,4}$/; // 숫자 3~4 글자
+                var regExp2 =  /^\d{4,4}$/; // 숫자 4 글자
+                
+                if(!regExp1.test($phone2.val()) || !regExp2.test($phone3.val())){
+                	$("#checkPhone").text("전화번호가 유효하지 않습니다.").css("color","red");
+					signUpCheck.phone = false;
+                }else{
+					$("#checkPhone").text("유효한 전화번호입니다.").css("color","green");
+					signUpCheck.phone = true;
+				}
+				
+				
+            });
+			
+			// 이메일 유효성 검사
+			$email.on("input", function(){
+				var regExp =  /^[\w]{4,}@[\w]+(\.[\w]+){1,3}$/; // 한글 두 글자 이상
+				
+				if(!regExp.test($(this).val())){ // 이름이 정규식을 만족하지 않을경우
+					$("#checkEmail").text("이메일 형식이 유효하지 않습니다.").css("color","red");
+					signUpCheck.email = false;
+				}else{
+					$("#checkEmail").text("유효한 이메일 형식입니다.").css("color","green");
+					signUpCheck.email = true;
+				}
+			});
+			
+			
+		});
+        
+		// submit 동작
+		function validate(){
+			
+			// 아이디 중복 검사 결과
+			//if( $("#idDup").val() == "true")	signUpCheck.idDup = true;
+			//else				  				signUpCheck.idDup = false;
+			
+			for(var key in signUpCheck){
+				if(!signUpCheck[key]){
+					alert("일부 입력값이 잘못되었습니다.");
+					var id = "#"+key;
+					$(id).focus();
+					return false;
+				}
+			}
+		} */
+		
+		
+		
+        </script>
+    
+    
+    
+    
+    
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
