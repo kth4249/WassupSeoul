@@ -9,8 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../css/bootstrap.css">
-    <link rel="stylesheet" href="../../css/common.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
     <title>agree</title>
 
     <script src="http://code.jquery.com/jquery-3.4.1.min.js"
@@ -35,10 +35,10 @@
         width: 100%;
         height: 100%;
         content: "";
-        background: url("../img/서울2.jpg");
+        background: url("${pageContext.request.contextPath}/resources/img/서울2.jpg");
         position: absolute;
         top: 0;
-        left: 0;
+        left: 0; 
         z-index: -1;
         opacity: 0.5;
     }
@@ -167,8 +167,10 @@
 	
 	                        <br>
 	                        <br>
-	                        <input type="button" class="btn btn-danger btn-lg nanum" 
-	                        onclick="location.href='${pageContext.request.contextPath}/member/signUpForm'">다음 단계로 !</input>
+							
+							<button type="button" class="btn btn-danger btn-lg nanum" 
+							onclick="location.href='${pageContext.request.contextPath}/member/signUpForm'">다음 단계로 !</button>
+
 	
 	                        <p class="mt-5 mb-3 text-muted small text-center">&copy; WS Corp. All Rights Reserved.</p>
                     </fieldset>

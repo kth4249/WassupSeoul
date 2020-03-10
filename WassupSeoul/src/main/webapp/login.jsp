@@ -71,10 +71,11 @@
         </div>
         <button class="btn btn-lg btn-primary btn-block nanum" type="submit">드루와</button>
         <br>
-        <a href="#" style="font-size: 20px;" data-toggle="modal" data-target="#findEmailModal">Find
-          Email</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="#" style="font-size: 20px;" data-toggle="modal" data-target="#findEmailModal">Find Email</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="#" style="font-size: 20px;" data-toggle="modal" data-target="#findPwdModal">Find Password</a>
-        <a href="${pageContext.request.contextPath}/member/agreeForm" style="font-size: 20px;">회원가입</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="${pageContext.request.contextPath}/member/agreeForm" style="font-size: 20px;">Join us</a>
       </form>
 
       <!-- Eamil 찾기 -->

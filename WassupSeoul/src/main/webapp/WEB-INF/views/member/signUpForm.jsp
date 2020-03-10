@@ -10,8 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
 
     <script src="http://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -35,7 +35,7 @@
             width: 100%;
             height: 100%;
             content: "";
-            background: url("img/서울2.jpg");
+            background: url("${pageContext.request.contextPath}/resources/img/서울2.jpg");
             position: absolute;
             top: 0;
             left: 0;
@@ -179,7 +179,7 @@
                             </div>
                             <div class="col-md-2">
                                 <select class="form-control" name="phone1" required>
-                                    <option value="">010</option>
+                                    <option selected>010</option>
                                     <option>011</option>
                                     <option>016</option>
                                     <option>016</option>
