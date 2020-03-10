@@ -106,7 +106,6 @@ public class MemberController{
 		return "redirect:/";
 	}
 	
-	
 	//이메일찾기
 	@RequestMapping("FindEmail")
 	public String findEmail(Member member, Model model) {
@@ -118,7 +117,5 @@ public class MemberController{
 		return null;
 		
 	}
-	
-	
-	
+
 }
