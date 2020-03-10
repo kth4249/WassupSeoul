@@ -9,9 +9,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/mihyun_01.css">
-  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mihyun_01.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
 
   <title>Wassup, Seoul</title>
 
@@ -50,7 +50,7 @@
 <body>
   
   <div class="backgroundPicture">
-    <img src="img/서울4.jpg" class="mainPicture">
+    <img src="${pageContext.request.contextPath}/resources/img/서울4.jpg" class="mainPicture">
 
     <div class="container2">
       <span class="titletext">Wassup, Seoul</span>
