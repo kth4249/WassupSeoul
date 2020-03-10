@@ -11,9 +11,6 @@
 	<link rel="stylesheet" href="css/fullcalendar.css" type="text/css">
 	<link rel="stylesheet" href="css/daygrid.css" type="text/css">
 
-	<script type="text/javascript" src=".../UI/Script/timeline.js"></script>
-
-
 	<title>타임라인</title>
 
 
@@ -1321,8 +1318,12 @@
 								
 									<div class="nanum " style=" font-size: 20px; text-align: center; ">
 										<div style="height:200px"></div>
-										<p> 게시물이 없습니다. </p>
-										<p> 첫 게시물을 작성해 보세요. </p>
+										<div class="noPostSignArea container" style="width: 50%;">
+											<p class=" noPostSign"> 게시물이 없습니다. <br>
+										     첫 게시물을 작성해 보세요. </p>
+										</div>		
+									
+										
 									</div>
 		
 		
@@ -1489,6 +1490,13 @@
 				$(this).height(this.scrollHeight);
 			});
 			$('.postMainWrap').find('textarea').keyup();
+
+
+			// 게시물 없을때 게시글 작성 클릭시 커서 이동
+			$(".noPostSignArea").click(function () {
+				$('.postArea').focus();
+			});			
+
 
 		});
 

@@ -61,6 +61,11 @@ p {
    cursor:pointer;
 }
 
+.noPostSign:hover {
+   color: gray;
+   cursor:pointer;
+}
+
 .commentArea:hover {
    
    cursor:pointer;
