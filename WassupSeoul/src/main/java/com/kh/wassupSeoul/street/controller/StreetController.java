@@ -13,7 +13,7 @@ import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.service.StreetService;
 
 
-@RequestMapping("/street/*")
+
 @Controller
 public class StreetController {
 	
@@ -29,17 +29,29 @@ public class StreetController {
 		
 		System.out.println("골목번호 : "+ streetNo);
 		
+		String beforeUrl = request.getHeader("referer");
+		
 		try {
-			Street street = streetService.selectStreet();
+			Street street = streetService.selectStreet(streetNo);
+			
+			System.out.println("street : " + street );
+			
+			if(street != null) {
+				
+				model.addAttribute("street", street);
+				
+				return "street/streetMain";
+				
+			} else {
+				rdAttr.addFlashAttribute("msg", "골목 상세 조회 실패");
+				return "redirect:" + beforeUrl;
+			}
 			
 		}catch(Exception e) {
-			
+			e.printStackTrace();
+			return "redirect:" + beforeUrl;
 		}
 		
-		return null;
 	}
-	
-	
-	
 	
 }
