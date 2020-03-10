@@ -30,6 +30,10 @@
 		AND MEMBER_STATUS = 'Y'
   	</select>
 	
-	
+	<!-- 이메일 찾기용 -->
+	<select id="findEmail" parameterType="Member" resultType="_int">
+		SELECT MEMBER_EMAIL 
+		WHERE MEMBER_NO="#{member}", MEMBER_NM="#{member}",  MEMBER_PHONE="#{member}"
+	</select>
 	
 </mapper>

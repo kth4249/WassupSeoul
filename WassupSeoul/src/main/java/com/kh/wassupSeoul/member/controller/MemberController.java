@@ -1,3 +1,4 @@
+
 package com.kh.wassupSeoul.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,7 @@ public class MemberController{
 				rdAttr.addFlashAttribute("msg", msg);
 				model.addAttribute("loginMember", loginMember);
 				return "redirect:/square"; 
-			} else { 
+			} else {
 				msg = "로그인 실패";
 				rdAttr.addFlashAttribute("msg", msg);
 				return "redirect:/";
@@ -106,9 +107,5 @@ public class MemberController{
 		return "redirect:/";
 	}
 	
-	
-	
-	
-	
-	
+
 }
