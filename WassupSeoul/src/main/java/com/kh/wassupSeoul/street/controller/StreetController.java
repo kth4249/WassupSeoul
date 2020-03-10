@@ -13,8 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kh.wassupSeoul.street.service.StreetService;
 
 
-//@RequestMapping("/street/*")
-//@Controller
+@RequestMapping("/street/*")
+@Controller
 public class StreetController {
 	
 //	@Autowired
