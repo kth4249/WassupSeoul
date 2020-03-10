@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.kh.wassupSeoul.common.vo.PageInfo;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 @Service
@@ -23,6 +24,14 @@ public interface SquareService {
 	 * @throws Exception
 	 */
 	public abstract List<Street> selectList(PageInfo pInf) throws Exception;
+
+
+	/** 골목 키워드 조회용 Service
+	 * @param sList
+	 * @return kList
+	 * @throws Exception
+	 */
+	public abstract List<Keyword> selectKeywordList(List<Street> sList) throws Exception;
 	
 
 
