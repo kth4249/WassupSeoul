@@ -1,5 +1,7 @@
 package com.kh.wassupSeoul.street.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.service.StreetService;
-
 
 
 @Controller
@@ -33,6 +34,10 @@ public class StreetController {
 		
 		try {
 			Street street = streetService.selectStreet(streetNo);
+			
+			List<Board> board = streetService.selectBoard(streetNo);
+					
+			// 게시글, 댓글 조회해서 같이 넘겨줘야함 
 			
 			System.out.println("street : " + street );
 			

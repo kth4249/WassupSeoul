@@ -15,6 +15,21 @@
 	</resultMap>
 	
 	
+	<!--  Board -->
+	<resultMap type="Board" id="boardResultSet">
+		<id property="boardNo" column="BOARD_NO"/>
+		
+		<result property="boardContent" column="BOARD_CONTENT"/>
+		<result property="boardWriteDt" column="BOARD_WRITE_DT"/>
+		<result property="boardStatus" column="BOARD_STATUS"/>
+		<result property="boardLevel" column="BOARD_LEVEL"/>
+		<result property="StreetNo" column="STREET_NO"/>
+		<result property="MemberNo" column="MEMBER_NO"/>
+		<result property="typeNo" column="TYPE_NO"/>
+	</resultMap>
+	
+	
+	
 	<resultMap type="Keyword" id="keywordResultSet">
 		<id property="keywordNo" column="KEYWORD_NO"/>
 		

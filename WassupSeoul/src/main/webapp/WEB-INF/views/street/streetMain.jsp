@@ -13,17 +13,19 @@
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/fullcalendar.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/daygrid.css" type="text/css">
 
-	<script type="text/javascript" src=".../UI/Script/timeline.js"></script>
-	
 <title>타임라인</title>
 </head>
 
+<style>
+.nanum{
+    font-family: 'Poor Story', cursive;
+}
+</style>
 <body>
-
-<div class="container-fluid" style="margin-top: 50px;">
+	<div class="container-fluid" style="margin-top: 50px;">
 	  <div class="row">
 	
-		<div class="col-md-12" disabled>
+		<div class="col-md-12" style="padding: 0px;">
 			<nav class="navbar navbar-dark bg-dark py-1" disabled>
 				<div class="container" disabled>
 					<a class="py-1" href="#" aria-label="Product"></a>
@@ -47,11 +49,8 @@
 		<div id="caption"></div>
   	</div>
 
-
 	<!-- 컨텐츠영역-->
 	<div class="container" style="margin-top: 10px;">
-
-
 
 		<div class="row">
 			<div class="col-md-3" id="devideArea">
@@ -59,7 +58,7 @@
 				<!-- 사이드 1 시작 -->
 				<div class="row" style="background-color:  rgb(221, 233, 218);">
 					<div class="card mb-3">
-						<img style="height: 200px; width: 100%; display: block;" src="${pageContext.request.contextPath}/resources/img/골목.jpg" alt="Card image">
+						<img style="height: 200px; width: 100%; display: block;" src="${contextPath}/resources/img/골목.jpg" alt="Card image">
 						<div class="card-body">
 							<input type="text" class="form-control-plaintext nanum" value="중구 KH정보교육원모임"
 								style="font-size: 25px; font-weight: bold;">
@@ -115,17 +114,16 @@
 			<!-- 타임라인-->
 			<div class="col-md-6" id="devideArea">
 
-
 				<!-- 검색Bar-->
 				<div class="row" id="searchArea" style="width: 99%; margin-left: 1px;">
-					<div class="container" id="searchBox" style="padding :0; width:100%;  ">
+					<div class="container" id="searchBox" style="padding :0; width:100%; background-color:  rgb(221, 233, 218)  ">
 						<div id="searchWrap">
 
 							<form method="GET" id="login-form-input">
-								<div style="margin: 0px; width:100%; ">
+								<div style="margin: 0px; width:100%; background-color:  rgb(221, 233, 218);">
 									<input type="text" class="form-control nanum" placeholder=" 내용, @작성자 검색"
 										id="searchBox" style="width: 90%; margin-right: 10px; border-right: black 2px solid;">
-									<button type="submit" class="btn " id="searchBtn"><img src="${pageContext.request.contextPath}/resources/img/searchButton.png"
+									<button type="submit" class="btn " id="searchBtn"><img src="${contextPath}/resources/img/searchButton.png"
 											style="width: 90%; height: 90%; border-left: black 2px solid; "></button>
 								</div>
 							</form>
@@ -150,35 +148,34 @@
 							<div class="postCountView" style="border: 1px solid black; height: 45px; ">
 							
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${pageContext.request.contextPath}/resources/img/imageIcon.png" >
+									<img class="writeOption" src="${contextPath}/resources/img/imageIcon.png" >
 									<p class="arrow_box">사진</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${pageContext.request.contextPath}/resources/img/film.png" >
+									<img class="writeOption" src="${contextPath}/resources/img/film.png" >
 									<p class="arrow_box">동영상</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${pageContext.request.contextPath}/resources/img/paperclip.png" >
+									<img class="writeOption" src="${contextPath}/resources/img/paperclip.png" >
 									<p class="arrow_box">파일첨부</p>
 								</div> 
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${pageContext.request.contextPath}/resources/img/vote.png" >
+									<img class="writeOption" src="${contextPath}/resources/img/vote.png" >
 									<p class="arrow_box">투표</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${pageContext.request.contextPath}/resources/img/pie-chart.png" >
+									<img class="writeOption" src="${contextPath}/resources/img/pie-chart.png" >
 									<p class="arrow_box">N빵</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${pageContext.request.contextPath}/resources/img/map.png" >
+									<img class="writeOption" src="${contextPath}/resources/img/map.png" >
 									<p class="arrow_box">지도</p>
 								</div>
 								<div class="writeOptionArea shake" >
-									<img class="writeOption" src="${pageContext.request.contextPath}/resources/img/sketch.png">
+									<img class="writeOption" src="${contextPath}/resources/img/sketch.png">
 									<p class="arrow_box">스케치</p>
 								</div>
 								
-
 								<div id="writePostBtn"
 									style="display: inline-block; width: 18%; margin-bottom: 0px; height: 100%; float:right;">
 									<button type="submit" class="btn nanum" style="height: 40px;   font-size: 18px; font-weight:bolder; position: relative;
@@ -192,11 +189,13 @@
 				</div>
 				<!-- 글작성 영역 -->
 
+				<div class="row" style="height: 20px; background-color: rgb(221, 233, 218);"></div>
+
 				<!-- 게시글영역-->
 				<div class="postWrapView">
 
 					<!-- 게시글1-->
-					<div class="container box111" id="postArea">
+					<div class="container box111" id="postArea" >
 						<div class="postLayoutView" style="padding: 0%;">
 
 
@@ -204,10 +203,7 @@
 							<div class="post MainWrap" style="border: 1px solid black; border-bottom: 0px">
 								<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
 																								padding-left: 10px;">
-									<img src="${pageContext.request.contextPath}/resources/img/account.png" style="width: 80%; height: 80%;">
-
-
-
+									<img src="${contextPath}/resources/img/account.png" style="width: 80%; height: 80%;">
 
 								</div>
 								<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
@@ -227,7 +223,7 @@
 
 									<div>
 										<div class="optionChevron">
-											<img src="${pageContext.request.contextPath}/resources/img/download.png" style="width: 17px; height: 15px;
+											<img src="${contextPath}/resources/img/download.png" style="width: 17px; height: 15px;
 													position: relative;
 													bottom:2px;" id="chev">
 											<div id="postMenu" class="hide nanum" style="width: 100px; height: 80px;
@@ -265,9 +261,13 @@
 									<p>Wassup Seoul 게시글 테스트중</p>
 									<p>Wassup Seoul 게시글 테스트중</p>
 									<p>Wassup Seoul 게시글 테스트중</p>
-									<img id="myImg" src="${pageContext.request.contextPath}/resources/img/서울5.jpg"  class="click_img" style=" width:100%; cursor:pointer;" 
-											
-							         onclick="javascript:viewPic('img/서울5.jpg')">
+									<p>Wassup Seoul 게시글 테스트중</p>
+									<p>Wassup Seoul 게시글 테스트중</p>
+									<p>Wassup Seoul 게시글 테스트중</p>
+									<p>Wassup Seoul 게시글 테스트중</p>
+									<p>Wassup Seoul 게시글 테스트중</p>
+
+									<img id="myImg" src="${contextPath}/resources/img/서울5.jpg"  class="click_img" style=" width:100%; cursor:pointer;" >
 
 									
 								</div>
@@ -282,7 +282,7 @@
 								</div>
 								<div style=" width: 14%; margin-bottom: 0px; height: 100%; float: right; ">
 
-									<img class="likeBtn shake" src="${pageContext.request.contextPath}/resources/img/like.png" style="display: inline-block; width: 20px; height: 20px;float: right;
+									<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="display: inline-block; width: 20px; height: 20px;float: right;
 																		position: relative;
 																		right: 40px; bottom: 1px;">
 									<p class="likeNum" style="margin-bottom: 0; display: inline-block;float: right;">10</p>
@@ -296,7 +296,7 @@
 																	<ul style="padding-left: 5%;">
 																		<li>
 																			<div style="width:20%; display: inline-block;">
-																				<img src="${pageContext.request.contextPath}/resources/img/account.png" style="width: 100%; height: 100%; ">
+																				<img src="${contextPath}/resources/img/account.png" style="width: 100%; height: 100%; ">
 																			</div>
 																			<div style="width:75%; display: inline-block;">
 																				<p style="margin-bottom: 0;">홍길동</p>
@@ -304,7 +304,7 @@
 																		</li>
 																		<li>
 																			<div style="width:20%; display: inline-block;">
-																				<img src="${pageContext.request.contextPath}/resources/img/account.png" style="width: 100%; height: 100%; ">
+																				<img src="${contextPath}/resources/img/account.png" style="width: 100%; height: 100%; ">
 																			</div>
 																			<div style="width:75%; display: inline-block;">
 																				<p style="margin-bottom: 0;">홍길동</p>
@@ -316,11 +316,8 @@
 									
 								</div>
 							</div>
-
 							
 							<!-- 댓글수, 좋아요버튼 -->
-
-
 
 							<!-- 댓글영역 -->
 							<div class="CommentWrap " style="display: none;">
@@ -341,15 +338,14 @@
 								</div>
 								<!-- 댓글작성 -->
 
-
 								<!-- 댓글보기 -->
 								<div style="border: 1px solid black;">
 
 									<div style="position: relative;	left: 14px; border: 0px white; width: 98%;">
 										<div class="postMainWrap" style=" border-bottom: 0px; height: 80%;">
-											<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
+											<div class="profile${contextPath}/resources/img/Area" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
 																									padding-left: 10px;">
-												<img src="${pageContext.request.contextPath}/resources/img/ogong.jpg"
+												<img src="${contextPath}/resources/img/ogong.jpg"
 													style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
 											</div>
 											<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
@@ -369,7 +365,7 @@
 												<div
 													style="display: inline-block; width: 5%; margin-bottom: 0px; height: 100%;">
 
-													<img class="likeBtn shake" src="${pageContext.request.contextPath}/resources/img/like.png" style="width: 16px; height: 16px;
+													<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 16px; height: 16px;
 																				position: relative; 
 																				 bottom: 3px;">
 												</div>
@@ -385,14 +381,13 @@
 
 												<div>
 													<div class="optionChevron">
-														<img src="${pageContext.request.contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
+														<img src="${contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
 														bottom:2px; right: 7px;">
 														<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
 																		border: black 2px solid; 
 																	 background-color: white; float:right; 
 																	 position: relative;
 																	right: 25px; bottom: 12px;">
-
 
 															<ul>
 																<li>
@@ -418,15 +413,12 @@
 											</div>
 										</div>
 
-
-
 									</div>
 									<!-- 댓글 1 -->
 
 									<!-- 대댓글 -->
 									<div class="doubleCommentWrap" style="display: none;">
 										<!-- style="display: none;" -->
-
 
 										<!-- 대댓글보기1 -->
 										<div style="border: px solid black; border-top: 2px solid black;">
@@ -435,7 +427,7 @@
 												<div class="postMainWrap" style=" border-bottom: 0px">
 													<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
 																											padding-left: 10px;">
-														<img src="${pageContext.request.contextPath}/resources/img/account.png"
+														<img src="${contextPath}/resources/img/account.png"
 															style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
 													</div>
 													<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
@@ -452,7 +444,7 @@
 														<div
 															style="display: inline-block; width: 8%; margin-bottom: 0px; height: 100%;">
 
-															<img class="likeBtn shake" src="${pageContext.request.contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
+															<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
 																						position: relative; float: right; top: 1px;">
 														</div>
 														<div class="likeCount"
@@ -467,7 +459,7 @@
 
 														<div>
 															<div class="optionChevron">
-																<img src="${pageContext.request.contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
+																<img src="${contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
 																									bottom:2px; right: 3px;">
 																<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
 																		border: black 2px solid; 
@@ -512,7 +504,7 @@
 												<div class="postMainWrap" style=" border-bottom: 0px">
 													<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
 																											padding-left: 10px;">
-														<img src="${pageContext.request.contextPath}/resources/img/account.png"
+														<img src="${contextPath}/resources/img/account.png"
 															style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
 													</div>
 													<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 70%; margin-bottom: 0px; height: 100%;
@@ -529,7 +521,7 @@
 														<div
 															style="display: inline-block; width: 8%; margin-bottom: 0px; height: 100%;">
 
-															<img class="likeBtn shake" src="${pageContext.request.contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
+															<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
 																						position: relative; float: right; top: 1px;">
 														</div>
 														<div class="likeCount" style="display: inline-block; width: 5%; margin-bottom: 0px; 
@@ -544,7 +536,7 @@
 
 														<div>
 															<div class="optionChevron">
-																<img src="${pageContext.request.contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
+																<img src="${contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
 																									bottom:2px; right: 3px;">
 																<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
 																		border: black 2px solid; 
@@ -581,7 +573,6 @@
 										</div>
 										<!-- 대댓글2 -->
 
-
 										<!-- 대댓글작성 -->
 										<div class="inputCommentWrap" style="border: 1px solid black; ">
 											<!-- display: none; -->
@@ -610,7 +601,7 @@
 											<div class="postMainWrap" style=" border-bottom: 0px; height: 80%;">
 												<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
 																									padding-left: 10px;">
-													<img src="${pageContext.request.contextPath}/resources/img/ogong.jpg"
+													<img src="${contextPath}/resources/img/ogong.jpg"
 														style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
 												</div>
 												<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
@@ -623,14 +614,14 @@
 														<p style="margin-bottom: 0; ">2020. 2. 20 pm 3:49
 														</p>
 													</div>
-													<div class="doubleCommentArea2" style="display: inline-block; width: 14%; margin-bottom: 0px; 
+													<div class="doubleCommentArea" style="display: inline-block; width: 14%; margin-bottom: 0px; 
 																										padding-left: 2%;">
 														<p style="margin-bottom: 0; font-size: 13px;">댓글</p>
 													</div>
 													<div
 														style="display: inline-block; width: 5%; margin-bottom: 0px; height: 100%;">
 
-														<img class="likeBtn shake" src="${pageContext.request.contextPath}/resources/img/like.png" style="width: 16px; height: 16px;
+														<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 16px; height: 16px;
 																				position: relative;
 																				bottom: 3px;">
 													</div>
@@ -647,7 +638,7 @@
 
 													<div>
 														<div class="optionChevron">
-															<img src="${pageContext.request.contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
+															<img src="${contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
 														bottom:2px; right: 7px;">
 															<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
 																		border: black 2px solid; 
@@ -680,12 +671,10 @@
 												</div>
 											</div>
 
-
-
 										</div>
 										<!-- 댓글2 -->
 
-										<div class="doubleCommentWrap2" style="display: none;">
+										<div class="doubleCommentWrap" style="display: none;">
 
 											<!-- 대댓글작성 -->
 											<div class="inputCommentWrap" style="border-top: 2px solid black; ">
@@ -721,7 +710,7 @@
 					</div>
 					<!-- 게시글1 끝-->
 
-
+					<div class="row" style="height: 20px; background-color: rgb(221, 233, 218);"></div>
 
 							<!-- 게시글2-->
 							<div class="container box111" id="postArea">
@@ -732,7 +721,7 @@
 									<div class="post MainWrap" style="border: 1px solid black; border-bottom: 0px">
 										<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
 																										padding-left: 10px;">
-											<img src="${pageContext.request.contextPath}/resources/img/account.png" style="width: 80%; height: 80%;">
+											<img src="${contextPath}/resources/img/account.png" style="width: 80%; height: 80%;">
 		
 		
 		
@@ -755,7 +744,7 @@
 		
 											<div>
 												<div class="optionChevron">
-													<img src="${pageContext.request.contextPath}/resources/img/download.png" style="width: 17px; height: 15px;
+													<img src="${contextPath}/resources/img/download.png" style="width: 17px; height: 15px;
 															position: relative;
 															bottom:2px;" id="chev">
 													<div id="postMenu" class="hide nanum" style="width: 100px; height: 80px;
@@ -784,8 +773,7 @@
 									</div>
 									<!-- 프로필사진, 작성자명, 날짜 -->
 		
-		
-									<!-- 게시글내용 -->
+								<!-- 게시글내용 -->
 									<div class="postMainWrap  nanum"
 										style=" border: 1px solid black; border-top: 0; border-bottom: 0; width:100% ">
 										<div style="padding-left: 10px; padding-right: 10px; width:100%">
@@ -793,15 +781,12 @@
 											<p>Wassup Seoul 게시글 테스트중</p>
 											<p>Wassup Seoul 게시글 테스트중</p>
 											<p>Wassup Seoul 게시글 테스트중</p>
-											<img id="myImg" src="${pageContext.request.contextPath}/resources/img/서울5.jpg"  class="click_img" style=" width:100%; cursor:pointer;" 
-											
-											onclick="doImgPop('${pageContext.request.contextPath}/resources/img/서울5.jpg')">
+											<img id="myImg" src="${contextPath}/resources/img/서울2.jpg"  class="click_img" style=" width:100%; cursor:pointer;">
 
 										</div>
 									</div>
 									<!-- 게시글내용 -->
-	
-	
+		
 									<!-- 댓글수, 좋아요버튼 -->
 									<div class="postCountView" style="border: 1px solid black; border-top: 0; height: 30%; padding-top: 5px; ">
 										<div class="commentArea nanum" style="display: inline-block; width: 82%; margin-bottom: 0px; 
@@ -810,16 +795,15 @@
 										</div>
 										<div style=" width: 14%; margin-bottom: 0px; height: 100%; float: right; ">
 		
-											<img class="likeBtn shake" src="${pageContext.request.contextPath}/resources/img/like.png" style="display: inline-block; width: 20px; height: 20px;float: right;
+											<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="display: inline-block; width: 20px; height: 20px; float: right;
 																				position: relative;
 																				right: 40px; bottom: 1px;">
-											<p style="margin-bottom: 0; display: inline-block;float: right;">10</p>
+											<p style="margin-bottom: 0; display: inline-block; float: right;">10</p>
 										</div>
 		
 									</div>
 									<!-- 댓글수, 좋아요버튼 -->
 		
-				
 									<!-- 댓글영역 -->
 									<div class="CommentWrap " style="display: none;">
 		
@@ -838,8 +822,7 @@
 											</div>
 										</div>
 										<!-- 댓글작성 -->
-		
-		
+				
 										<!-- 댓글보기 -->
 										<div style="border: 1px solid black;">
 		
@@ -847,7 +830,7 @@
 												<div class="postMainWrap" style=" border-bottom: 0px; height: 80%;">
 													<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
 																											padding-left: 10px;">
-														<img src="${pageContext.request.contextPath}/resources/img/ogong.jpg"
+														<img src="${contextPath}/resources/img/ogong.jpg"
 															style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
 													</div>
 													<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
@@ -867,7 +850,7 @@
 														<div
 															style="display: inline-block; width: 5%; margin-bottom: 0px; height: 100%;">
 		
-															<img class="likeBtn shake" src="${pageContext.request.contextPath}/resources/img/like.png" style="width: 16px; height: 16px;
+															<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 16px; height: 16px;
 																						position: relative; 
 																						 bottom: 3px;">
 														</div>
@@ -883,7 +866,7 @@
 		
 														<div>
 															<div class="optionChevron">
-																<img src="${pageContext.request.contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
+																<img src="${contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
 																bottom:2px; right: 7px;">
 																<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
 																				border: black 2px solid; 
@@ -920,17 +903,12 @@
 		
 											</div>
 											<!-- 댓글 1 -->
-		
-		
-		
-		
-		
+			
 											<!-- 대댓글 -->
 											<div class="doubleCommentWrap" style="display: none;">
 												<!-- style="display: none;" -->
 		
-		
-		
+			
 												<!-- 대댓글보기1 -->
 												<div style="border: px solid black; border-top: 2px solid black;">
 													<!-- display: none; class="CommentWrap" -->
@@ -938,7 +916,7 @@
 														<div class="postMainWrap" style=" border-bottom: 0px">
 															<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
 																													padding-left: 10px;">
-																<img src="${pageContext.request.contextPath}/resources/img/account.png"
+																<img src="${contextPath}/resources/img/account.png"
 																	style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
 															</div>
 															<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
@@ -955,22 +933,21 @@
 																<div
 																	style="display: inline-block; width: 8%; margin-bottom: 0px; height: 100%;">
 		
-																	<img class="likeBtn shake" src="${pageContext.request.contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
+																	<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
 																								position: relative; float: right; top: 1px;">
 																</div>
 																<div class="likeCount"
 																	style="display: inline-block; width: 5%; margin-bottom: 0px; ">
 																	<p style="margin-bottom: 0;font-size: 13px;">2</p>
 																</div>
-		
-		
+				
 															</div>
 															<div
 																style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float:right;">
 		
 																<div>
 																	<div class="optionChevron">
-																		<img src="${pageContext.request.contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
+																		<img src="${contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
 																											bottom:2px; right: 3px;">
 																		<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
 																				border: black 2px solid; 
@@ -998,10 +975,8 @@
 														<div class="commentContentWrap nanum" sytle="font-weight: bolder;">
 		
 															<p>Wassup Seoul 대댓글 테스트중</p>
-		
-		
+	
 														</div>
-		
 		
 													</div>
 												</div>
@@ -1015,7 +990,7 @@
 														<div class="postMainWrap" style=" border-bottom: 0px">
 															<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
 																													padding-left: 10px;">
-																<img src="${pageContext.request.contextPath}/resources/img/account.png"
+																<img src="${contextPath}/resources/img/account.png"
 																	style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
 															</div>
 															<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 70%; margin-bottom: 0px; height: 100%;
@@ -1032,7 +1007,7 @@
 																<div
 																	style="display: inline-block; width: 8%; margin-bottom: 0px; height: 100%;">
 		
-																	<img class="likeBtn shake" src="${pageContext.request.contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
+																	<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
 																								position: relative; float: right; top: 1px;">
 																</div>
 																<div class="likeCount" style="display: inline-block; width: 5%; margin-bottom: 0px; 
@@ -1047,7 +1022,7 @@
 		
 																<div>
 																	<div class="optionChevron">
-																		<img src="${pageContext.request.contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
+																		<img src="${contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
 																											bottom:2px; right: 3px;">
 																		<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
 																				border: black 2px solid; 
@@ -1083,12 +1058,7 @@
 													</div>
 												</div>
 												<!-- 대댓글2 -->
-		
-		
-		
-		
-		
-		
+
 												<!-- 대댓글작성 -->
 												<div class="inputCommentWrap" style="border: 1px solid black; ">
 													<!-- display: none; -->
@@ -1117,7 +1087,7 @@
 													<div class="postMainWrap" style=" border-bottom: 0px; height: 80%;">
 														<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
 																											padding-left: 10px;">
-															<img src="${pageContext.request.contextPath}/resources/img/ogong.jpg"
+															<img src="${contextPath}/resources/img/ogong.jpg"
 																style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
 														</div>
 														<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
@@ -1130,14 +1100,14 @@
 																<p style="margin-bottom: 0; ">2020. 2. 20 pm 3:49
 																</p>
 															</div>
-															<div class="doubleCommentArea2" style="display: inline-block; width: 14%; margin-bottom: 0px; 
+															<div class="doubleCommentArea" style="display: inline-block; width: 14%; margin-bottom: 0px; 
 																												padding-left: 2%;">
 																<p style="margin-bottom: 0; font-size: 13px;">댓글</p>
 															</div>
 															<div
 																style="display: inline-block; width: 5%; margin-bottom: 0px; height: 100%;">
 		
-																<img class="likeBtn shake" src="${pageContext.request.contextPath}/resources/img/like.png" style="width: 16px; height: 16px;
+																<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 16px; height: 16px;
 																						position: relative;
 																						bottom: 3px;">
 															</div>
@@ -1153,7 +1123,7 @@
 		
 															<div>
 																<div class="optionChevron">
-																	<img src="${pageContext.request.contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
+																	<img src="${contextPath}/resources/img/download.png" style="width: 17px; height: 15px; position: relative;
 																bottom:2px; right: 7px;">
 																	<div class="hide nanum" id="postMenu2" style="width: 100px; height: 80px; 
 																				border: black 2px solid; 
@@ -1191,7 +1161,7 @@
 												</div>
 												<!-- 댓글2 -->
 		
-												<div class="doubleCommentWrap2" style="display: none;">
+												<div class="doubleCommentWrap" style="display: none;">
 		
 													<!-- 대댓글작성 -->
 													<div class="inputCommentWrap" style="border-top: 2px solid black; ">
@@ -1227,13 +1197,30 @@
 							</div>
 							<!-- 게시글2 끝-->	
 
+							<div class="row" style="height: 20px; background-color: rgb(221, 233, 218);"></div>
+
+							<!-- 게시글 없을때-->
+							<div class="container box111" id="postArea">
+								<div class="postLayoutView" style="padding: 0%; height: 500px; border:solid black 1px">
+								
+									<div class="nanum " style=" font-size: 20px; text-align: center; ">
+										<div style="height:200px"></div>
+										<div class="noPostSignArea container" style="width: 50%;">
+											<p class=" noPostSign"> 게시물이 없습니다. <br>
+										     첫 게시물을 작성해 보세요. </p>
+										</div>		
+															
+									</div>
+		
+								</div>
+							</div>
+							<!-- 게시물 없을때 끝-->	
+
 				</div>
 				<!-- 게시글영역 끝-->
 
 			</div>
 			<!-- 타임라인-->
-
-
 
 			<div class="col-md-3" id="devideArea">
 
@@ -1250,13 +1237,13 @@
 					<!-- 친구목록 버튼 -->
 					<div
 						style="border-radius: 70%; background-color: gray; width: 100px; height: 100px; position:relative;">
-						<div style="position:absolute; top: 15px; left: 20px;"><img src="${pageContext.request.contextPath}/resources/img/iconmonstr-user-8-64.png"
+						<div style="position:absolute; top: 15px; left: 20px;"><img src="${contextPath}/resources/img/iconmonstr-user-8-64.png"
 								alt="이미지" style="cursor: pointer;"></div>
 					</div>
 
 					<!-- 탑버튼 -->
 					<a style="display:scroll;position:fixed;bottom:10px;right:10px;" href="#" title="맨 위로"><img
-							src="${pageContext.request.contextPath}/resources/img/img_top.png" alt="탑버튼" style="width: 70px; height: 100px;"></a>
+							src="${contextPath}/resources/img/img_top.png" alt="탑버튼" style="width: 70px; height: 100px;"></a>
 
 				</div>
 				<!-- 사이드 2 끝 -->
@@ -1265,8 +1252,6 @@
 		</div>
 	</div>
 	<!-- 컨텐츠영역 종료 -->
-
-	
 
 	<script>
 		$(document).ready(function () {
@@ -1278,10 +1263,10 @@
 
 				if (a == "img/like.png") {
 
-					$(this).attr('src', '${pageContext.request.contextPath}/resources/img/like2.png');
+					$(this).attr('src', '${contextPath}/resources/img/like2.png');
 
 				} else {
-					$(this).attr('src', '${pageContext.request.contextPath}/resources/img/like.png');
+					$(this).attr('src', '${contextPath}/resources/img/like.png');
 				}
 
 			});
@@ -1315,50 +1300,32 @@
 			modalImg.onclick = function() { 
 				modal.style.display = "none";
 			}
+			// 이미지 모달 보기 종료
 
+			
+			
 			//  게시글, 댓글 수정/삭제 메뉴창 보이기, 숨기기
 			$(".optionChevron>img").click(function () {
 				$(this).next("div").toggleClass("hide");
 			});
-
 		
 			$(".likeNum").click(function () {
 				$(this).next("div").toggleClass("hide");
 			});
 
-			// 댓글, 대댓글 해당 게시물것만 숨기고 보이게 ★★★★★
-
 			// 댓글 영역 숨기기
 			$(".commentArea").click(function () {
-				$(".CommentWrap").toggle(100);
-				// $(".inputCommentWrap").toggle(500);
+				$(this).parent().next("div").toggle(100);
 				$('.writeCommentArea').focus();
 			});
-		
+				
 			// 대댓글 영역 숨기기
 			$(".doubleCommentArea").click(function () {
-				$(".doubleCommentWrap").toggle(100);
+				$(this).parent().parent().parent().next("div").toggle(100);
 				// $(".inputCommentWrap").toggle(500);
 				$('.writeCommentArea2').focus();
-			});
+			});			
 
-			// 대댓글 영역 숨기기2
-			$(".doubleCommentArea2").click(function () {
-				$(".doubleCommentWrap2").toggle(100);
-				// $(".inputCommentWrap").toggle(500);
-				$('.writeCommentArea3').focus();
-			})
-
-			// 댓글작성 눌렀을 때 커서이동
-			$(".writeCommentButton").click(function () {
-				$('.writeCommentArea').focus();
-			});
-
-			// 대댓글작성 눌렀을 때 커서이동
-			$(".doubleCommentArea").click(function () {
-				$('.writeCommentArea2').focus();
-			});
-			
 		    // 게시글 작성 영역 높이 자동증가
 				$('.writePost').on('keyup', 'textarea', function (e) {
 				$(this).css('height', 'auto');
@@ -1387,11 +1354,15 @@
 			});
 			$('.postMainWrap').find('textarea').keyup();
 
-		
+
+			// 게시물 없을때 게시글 작성 클릭시 커서 이동
+			$(".noPostSignArea").click(function () {
+				$('.postArea').focus();
+			});			
+
 		});
 
 	</script>
-		
 
 </body>
 </html>
