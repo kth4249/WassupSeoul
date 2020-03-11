@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.service.StreetService;
 
@@ -40,6 +41,11 @@ public class StreetController {
 			// 게시글, 댓글 조회해서 같이 넘겨줘야함 
 			
 			System.out.println("street : " + street );
+			
+			for(int i= 0; i <board.size(); i++) {
+				System.out.println("골목 게시글 조회 : "+ board.get(i));
+			}
+			
 			
 			if(street != null) {
 				

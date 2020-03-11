@@ -9,8 +9,8 @@ public class Board {
 	private Date boardWriteDt;
 	private String boardStatus;
 	private String boardLevel;
-	private int StreetNo;
-	private int MemberNo;
+	private int streetNo;
+	private int memberNo;
 	private int typeNo;
 	
 	public Board() {
@@ -24,8 +24,8 @@ public class Board {
 		this.boardWriteDt = boardWriteDt;
 		this.boardStatus = boardStatus;
 		this.boardLevel = boardLevel;
-		StreetNo = streetNo;
-		MemberNo = memberNo;
+		this.streetNo = streetNo;
+		this.memberNo = memberNo;
 		this.typeNo = typeNo;
 	}
 
@@ -70,20 +70,20 @@ public class Board {
 		this.boardLevel = boardLevel;
 	}
 
-	public int getStreetNo() {
-		return StreetNo;
+	public int getstreetNo() {
+		return streetNo;
 	}
 
-	public void setStreetNo(int streetNo) {
-		StreetNo = streetNo;
+	public void setstreetNo(int streetNo) {
+		this.streetNo = streetNo;
 	}
 
-	public int getMemberNo() {
-		return MemberNo;
+	public int getmemberNo() {
+		return memberNo;
 	}
 
-	public void setMemberNo(int memberNo) {
-		MemberNo = memberNo;
+	public void setmemberNo(int memberNo) {
+		this.memberNo = memberNo;
 	}
 
 	public int getTypeNo() {
@@ -98,8 +98,8 @@ public class Board {
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardContent=" + boardContent + ", boardWriteDt=" + boardWriteDt
-				+ ", boardStatus=" + boardStatus + ", boardLevel=" + boardLevel + ", StreetNo=" + StreetNo
-				+ ", MemberNo=" + MemberNo + ", typeNo=" + typeNo + "]";
+				+ ", boardStatus=" + boardStatus + ", boardLevel=" + boardLevel + ", streetNo=" + streetNo
+				+ ", memberNo=" + memberNo + ", typeNo=" + typeNo + "]";
 	}
 
 	

@@ -23,12 +23,11 @@
 		<result property="boardWriteDt" column="BOARD_WRITE_DT"/>
 		<result property="boardStatus" column="BOARD_STATUS"/>
 		<result property="boardLevel" column="BOARD_LEVEL"/>
-		<result property="StreetNo" column="STREET_NO"/>
-		<result property="MemberNo" column="MEMBER_NO"/>
+		<result property="streetNo" column="STREET_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
 		<result property="typeNo" column="TYPE_NO"/>
 	</resultMap>
-	
-	
+		
 	
 	<resultMap type="Keyword" id="keywordResultSet">
 		<id property="keywordNo" column="KEYWORD_NO"/>
@@ -36,6 +35,7 @@
 		<result property="keywordContent" column="KEYWORD_CONTENT"/>
 		<result property="streetNo" column="STREET_NO"/>
 	</resultMap>
+	
 	
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*)
@@ -58,10 +58,20 @@
 		</foreach>
 	</select>
 	
+	<!-- 골목조회  -->
 	<select id="selectStreet" parameterType="_int" resultMap="streetResultSet">
 		SELECT *
 		FROM V_STREET
 		WHERE STREET_NO = #{streetNo}
 	</select>
+	
+	  	 
+  	 <select id="selectBoardList" parameterType="_int" resultMap="boardResultSet">
+  	 
+  	 	 SELECT * FROM BOARD
+  	 	 WHERE STREET_NO = #{streetNo} 
+ 		 AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'
+  	 	 	
+  	 </select>
 	
 </mapper>
