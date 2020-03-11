@@ -53,15 +53,16 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	
-	
+
 	/** 이메일 찾기용 Service
 	 * @param member
 	 * @return result
 	 * @throws Exception
 	 */
 	@Override
-	public int findEmail(Member member) throws Exception {
+	public String findEmail(Member member) throws Exception {
 		return memberDAO.findEmail(member);
+
 	}
 	
 	

@@ -31,9 +31,10 @@
   	</select>
 	
 	<!-- 이메일 찾기용 -->
-	<select id="findEmail" parameterType="Member" resultType="_int">
+	<select id="findEmail" parameterType="Member" resultType="string">
 		SELECT MEMBER_EMAIL 
-		WHERE MEMBER_NO="#{member}", MEMBER_NM="#{member}",  MEMBER_PHONE="#{member}"
+		FROM MEMBER
+		WHERE MEMBER_NM=#{memberNm} AND MEMBER_PHONE=#{memberPhone}
 	</select>
 	
 </mapper>

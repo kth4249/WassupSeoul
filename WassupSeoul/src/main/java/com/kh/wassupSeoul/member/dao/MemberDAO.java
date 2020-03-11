@@ -29,8 +29,9 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.loginMember", member);
 	}
 
-	public int findEmail(Member member) throws Exception{
-		return sqlSession.selectOne("memberMapper.findEmail",member);
+
+	public String findEmail(Member member) throws Exception{
+		return sqlSession.selectOne("memberMapper.findEmail", member);
 	}
 
 }
