@@ -7,6 +7,10 @@
    display: none;
 }
 
+.nanum{
+    font-family: 'Poor Story', cursive;
+}
+
 
 /* 말풍선 상자  */
 .triangle-isosceles {

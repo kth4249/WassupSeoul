@@ -56,6 +56,26 @@ p {
 }
 
 
+.likeNum:hover {
+   color: blue;
+   cursor:pointer;
+}
+
+.noPostSign:hover {
+   color: gray;
+   cursor:pointer;
+}
+
+.commentArea:hover {
+   
+   cursor:pointer;
+}
+
+.doubleCommentArea:hover {
+  
+   cursor:pointer;
+}
+
 a:hover {
    
    color: #0d0d0d;
@@ -115,7 +135,7 @@ body {
 .box111 {
    border: 1px solid black;
    width: 100%;
-   margin-bottom: 3%;
+  
 }
 
 #profileNameArea {
@@ -326,3 +346,18 @@ img:hover+p.arrow_box {
    box-shadow: none;
  }
 /* 말풍선 숨기고 보이기 */
+
+
+textarea,
+textarea.form-control,
+button,
+button.form-control{
+   border-radius: 0px;
+}
+
+
+ .navbar {
+   border-width: 2px;
+   border-style: solid;
+   border-radius: 0px;
+ }
