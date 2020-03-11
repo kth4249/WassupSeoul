@@ -43,4 +43,10 @@
 		</foreach>
 	</select>
 	
+	<select id="selectStreet" parameterType="_int" resultMap="streetResultSet">
+		SELECT *
+		FROM V_STREET
+		WHERE STREET_NO = #{streetNo}
+	</select>
+	
 </mapper>
