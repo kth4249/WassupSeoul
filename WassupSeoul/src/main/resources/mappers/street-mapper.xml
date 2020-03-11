@@ -14,18 +14,33 @@
 		<result property="districtNo" column="DISTRICT_NO"/>
 	</resultMap>
 	
+	
+	<resultMap type="Keyword" id="keywordResultSet">
+		<id property="keywordNo" column="KEYWORD_NO"/>
+		
+		<result property="keywordContent" column="KEYWORD_CONTENT"/>
+		<result property="streetNo" column="STREET_NO"/>
+	</resultMap>
+	
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*)
-		FROM STREET
-		WHERE STREET_STATUS = 'Y'
+		FROM V_STREET
 	</select>
 	
 	<select id="selectList" resultMap="streetResultSet">
-		SELECT STREET_NO, STREET_NM, STREET_MAX_MEMBER, 
-				STREET_POINT, IMG_NO
-		FROM STREET
-		WHERE STREET_STATUS = 'Y'
-		ORDER BY STREET_NO DESC
+		SELECT *
+		FROM V_STREET
+		ORDER BY STREET_POINT DESC
+	</select>
+	
+	
+	<select id="selectKeywordList" parameterType="list" resultMap="keywordResultSet">
+		SELECT *
+		FROM KEYWORD
+		WHERE STREET_NO IN
+		<foreach collection="list" open="(" separator="," close=")" item="street" >
+			#{street.streetNo}
+		</foreach>
 	</select>
 	
 </mapper>
