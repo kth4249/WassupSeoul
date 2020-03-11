@@ -1,6 +1,5 @@
 package com.kh.wassupSeoul.square.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,9 +47,9 @@ public class SquareController {
 			PageInfo pInf = Pagination.getPageInfo(10, 10, currentPage, listCount);
 			
 			List<Street> sList = squareService.selectList(pInf);
-			for(Street street : sList) {
+			/*for(Street street : sList) {
 				System.out.println("street : " + street);
-			}
+			}*/
 			
 			List<Keyword> kList = null;
 			if(!sList.isEmpty()) {
