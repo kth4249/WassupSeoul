@@ -51,18 +51,28 @@ public class MemberServiceImpl implements MemberService{
 		}
 		return loginMember;
 	}
-
 	
 
 	/** 이메일 찾기용 Service
 	 * @param member
-	 * @return result
+	 * @return memberEmail
 	 * @throws Exception
 	 */
 	@Override
 	public String findEmail(Member member) throws Exception {
 		return memberDAO.findEmail(member);
 
+	}
+
+
+	/** 이메일 중복 체크
+	 * @param memberEmail
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int emailDupCheck(String memberEmail) throws Exception {
+		return memberDAO.emailDupcheck(memberEmail);
 	}
 	
 	
@@ -71,4 +81,8 @@ public class MemberServiceImpl implements MemberService{
 	
 	
 	
-}
+	
+	
+	
+	
+} // ServiceImpl 종료

@@ -17,13 +17,15 @@
   		<result property="memberStatus" column="MEMBER_STATUS"/>
 	</resultMap>
 	
+	<!-- 회원가입용 -->
 	<insert id="signUp" parameterType="Member">
   		INSERT INTO MEMBER
-  		VALUES(SEQ_MEMBER.NEXTVAL, #{memberEmail}, #{memberPwd},
+  		VALUES(SEQ_MEMBER.NEXTVAL, #{memberEmail}, #{memberPwd}, 
   				#{memberNm}, #{memberNickname}, #{memberPhone},
-  				DEFAULT, #{memberAge}, DEFAULT,	DEFAULT, DEFAULT, DEFAULT)
+  				#{memberGender}, #{memberAge}, DEFAULT,	DEFAULT, DEFAULT, DEFAULT)
   	</insert>
   	
+  	<!-- 로그인용 -->
   	<select id="loginMember" parameterType="Member" resultMap="memberResultSet">
   		SELECT * FROM MEMBER
   		WHERE MEMBER_EMAIL = #{memberEmail}
@@ -36,5 +38,15 @@
 		FROM MEMBER
 		WHERE MEMBER_NM=#{memberNm} AND MEMBER_PHONE=#{memberPhone}
 	</select>
+	
+	<!-- 이메일 중복 확인용 -->
+	<select id="emailDipcheck" parameterType="string" resultType="_int">
+		SELECT COUNT (*)
+		FROM MEMBER
+		WHERE MEMBER_EMAIL = #{memberEmail}
+	</select>
+	
+	
+	
 	
 </mapper>
