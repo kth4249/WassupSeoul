@@ -30,8 +30,27 @@ public class MemberDAO {
 	}
 
 
+	/** 이메일 찾기용 DAO (미현아 이거 빼먹지말고 써줘, 알겠지? 응 나도 사랑해)
+	 * @param member
+	 * @return memberEmail
+	 * @throws Exception
+	 */
 	public String findEmail(Member member) throws Exception{
 		return sqlSession.selectOne("memberMapper.findEmail", member);
 	}
 
-}
+	public int emailDupcheck(String memberEmail) throws Exception{
+		return sqlSession.selectOne("memberMapper.emailDipcheck", memberEmail);
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+} // DAO 종료

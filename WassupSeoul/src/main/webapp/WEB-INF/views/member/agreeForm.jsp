@@ -108,7 +108,6 @@
 
 					
                     <fieldset class="join_contentback">
-						
 	                        <form class="form1 font-weight-bold text-center" >
 	                            <input type="checkbox" id="total_agree" class="check-all">
 	                            <label for="total_agree">
@@ -170,7 +169,6 @@
 							
 							<button type="button" class="btn btn-danger btn-lg nanum" 
 							onclick="location.href='${pageContext.request.contextPath}/member/signUpForm'">다음 단계로 !</button>
-
 	
 	                        <p class="mt-5 mb-3 text-muted small text-center">&copy; WS Corp. All Rights Reserved.</p>
                     </fieldset>

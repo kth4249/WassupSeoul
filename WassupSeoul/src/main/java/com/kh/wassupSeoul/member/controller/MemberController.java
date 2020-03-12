@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -122,5 +123,38 @@ public class MemberController {
 		}
 		return null;
 	}
+	
+	@ResponseBody
+	@RequestMapping("emailDupCheck")
+	public String emailDupCheck(String memberEmail, Model model) {
+		try {
+			int test = memberService.emailDupCheck(memberEmail);
+			return memberService.emailDupCheck(memberEmail) == 0 ? true + "" : false + "";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "아이디 중복체크 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+		
+	}
 
-}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+} // 컨트롤러 종료

@@ -21,10 +21,20 @@ public interface MemberService {
 
 	/** 이메일 찾기용 Service
 	 * @param member
-	 * @return result
+	 * @return memberEmail
 	 * @throws Exception
 	 */
 	String findEmail(Member member) throws Exception;
+
+	/** 이메일 중복 체크
+	 * @param memberEmail
+	 * @return result
+	 * @throws Exception
+	 */
+	int emailDupCheck(String memberEmail) throws Exception;
 	
 
-}
+	
+	
+	
+} // Service 종료
