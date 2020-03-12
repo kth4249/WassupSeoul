@@ -70,19 +70,19 @@ public class Board {
 		this.boardLevel = boardLevel;
 	}
 
-	public int getstreetNo() {
+	public int getStreetNo() {
 		return streetNo;
 	}
 
-	public void setstreetNo(int streetNo) {
+	public void setStreetNo(int streetNo) {
 		this.streetNo = streetNo;
 	}
 
-	public int getmemberNo() {
+	public int getMemberNo() {
 		return memberNo;
 	}
 
-	public void setmemberNo(int memberNo) {
+	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
 	}
 

@@ -24,8 +24,22 @@ public class StreetDAO {
 		return sqlSession.selectOne("streetMapper.selectStreet", streetNo );
 	}
 
+	/** 게시글 조회용 DAO
+	 * @param streetNo
+	 * @return list
+	 * @throws Exception
+	 */
 	public List<Board> selectBoard(Integer streetNo) throws Exception{
 		return sqlSession.selectList("streetMapper.selectBoardList", streetNo );
+	}
+
+	/** 게시글 등록용 DAO
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public int insertBoard(Board board) throws Exception {
+		return sqlSession.insert("streetMapper.insertBoard", board );
 	}
 
 }

@@ -73,5 +73,23 @@
  		 AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'
   	 	 	
   	 </select>
+  	 
+  	 
+  	
+  	 <insert id="insertBoard" parameterType="Board">
+	
+		  INSERT INTO BOARD
+		  VALUES(SEQ_BOARD.NEXTVAL, 
+		  #{boardContent}, 
+		  SYSDATE, 
+		  'Y', 
+		  0 ,
+		  #{streetNo}, 
+		  #{memberNo}, 
+		  #{typeNo})
+	
+	</insert>
+  	 
+  	 
 	
 </mapper>
