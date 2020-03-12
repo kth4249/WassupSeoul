@@ -36,19 +36,32 @@
 		<result property="streetNo" column="STREET_NO"/>
 	</resultMap>
 	
-	
-	<select id="getListCount" resultType="_int">
+	<!-- 전체 골목 수 조회 -->
+	<select id="getListCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
 		FROM V_STREET
+		<where>
+			<if test="districtNo != null">
+				DISTRICT_NO = #{districtNo}
+			</if>
+		</where>
 	</select>
 	
+	<!-- 골목 리스트 조회 -->
 	<select id="selectList" resultMap="streetResultSet">
 		SELECT *
 		FROM V_STREET
-		ORDER BY STREET_POINT DESC
+		<choose>
+			<when test="streetSort == 0">
+				ORDER BY STREET_POINT DESC
+			</when>
+			<when test="streetSort == 1">
+				
+			</when>
+		</choose>
 	</select>
 	
-	
+	<!-- 골목 키워드 조회 -->
 	<select id="selectKeywordList" parameterType="list" resultMap="keywordResultSet">
 		SELECT *
 		FROM KEYWORD
@@ -67,7 +80,6 @@
 	
 	  	 
   	 <select id="selectBoardList" parameterType="_int" resultMap="boardResultSet">
-  	 
   	 	 SELECT * FROM BOARD
   	 	 WHERE STREET_NO = #{streetNo} 
  		 AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'

@@ -1,6 +1,7 @@
 package com.kh.wassupSeoul.square.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -31,10 +32,10 @@ public class SquareDAO {
 	 * @return sList
 	 * @throws Exception
 	 */
-	public List<Street> selectList(PageInfo pInf) throws Exception{
+	public List<Street> selectList(PageInfo pInf, Map<String, Object> map) throws Exception{
 		int offset = (pInf.getCurrentPage() - 1) * pInf.getLimit();
 		RowBounds rowBounds = new RowBounds(offset, pInf.getLimit());
-		return sqlSession.selectList("streetMapper.selectList", null, rowBounds);
+		return sqlSession.selectList("streetMapper.selectList", map, rowBounds);
 	}
 
 

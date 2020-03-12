@@ -1,6 +1,7 @@
 package com.kh.wassupSeoul.square.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,8 @@ public class SquareServiceImpl implements SquareService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<Street> selectList(PageInfo pInf) throws Exception{
-		return squareDAO.selectList(pInf);
+	public List<Street> selectList(PageInfo pInf, Map<String, Object> map) throws Exception{
+		return squareDAO.selectList(pInf, map);
 	}
 	
 	
