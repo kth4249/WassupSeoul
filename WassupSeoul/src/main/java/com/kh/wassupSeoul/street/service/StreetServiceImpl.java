@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wassupSeoul.street.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
@@ -35,6 +36,20 @@ public class StreetServiceImpl implements StreetService{
 	public List<Board> selectBoard(Integer streetNo) throws Exception {
 		return streetDAO.selectBoard(streetNo);
 	}
+
+	
+	/** 게시글 등록용 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor= Exception.class)
+	@Override
+	public int insertBoard(Board board) throws Exception {
+		return streetDAO.insertBoard(board);
+	}
+	
+	
 	
 	
 	

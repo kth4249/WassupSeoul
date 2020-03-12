@@ -24,5 +24,13 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract List<Board> selectBoard(Integer streetNo) throws Exception;
+
+
+	/** 게시글 등록용 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int insertBoard(Board board) throws Exception ;
 	 
 }
