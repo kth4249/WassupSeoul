@@ -1,7 +1,9 @@
 package com.kh.wassupSeoul.square.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /*import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;*/
@@ -35,18 +37,24 @@ public class SquareController {
 	 * Simply selects the home view to render by returning its name.
 	 */ 
 	@RequestMapping(value = "square", method = RequestMethod.GET)
-	public String square(Locale locale,
-						Model model,
-						@RequestParam(value="currentPage", required=false) Integer currentPage) {
-		
+	public String square(Model model,
+						@RequestParam(value="currentPage", required=false) Integer currentPage,
+						@RequestParam(required=false) Integer districtNo,
+						@RequestParam(required=false) Integer streetSort){
+		System.out.println("currentPage : " + currentPage + ", districtNo : " + districtNo
+							+ ", streetSort : " + streetSort);
 		try {
 			int listCount = squareService.getListCount();
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("districtNo", districtNo);
+			map.put("streetSort", streetSort);
+			
 			
 			if(currentPage == null) currentPage = 1;
 			
 			PageInfo pInf = Pagination.getPageInfo(10, 10, currentPage, listCount);
 			
-			List<Street> sList = squareService.selectList(pInf);
+			List<Street> sList = squareService.selectList(pInf, map);
 			/*for(Street street : sList) {
 				System.out.println("street : " + street);
 			}*/

@@ -1,6 +1,7 @@
 package com.kh.wassupSeoul.square.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public interface SquareService {
 	 * @return list
 	 * @throws Exception
 	 */
-	public abstract List<Street> selectList(PageInfo pInf) throws Exception;
+	public abstract List<Street> selectList(PageInfo pInf, Map<String, Object> map) throws Exception;
 
 
 	/** 골목 키워드 조회용 Service
