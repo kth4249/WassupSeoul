@@ -55,10 +55,13 @@ public class StreetController {
 			System.out.println("street : " + street );
 			
 			for(int i= 0; i <board.size(); i++) {
+
 				
 				System.out.println("날짜 출력 : " + board.get(i).getBoardWriteDt());
 			
 				System.out.println("골목 게시글 조회 : "+ board.get(i));
+
+
 			}
 			
 			if(street != null) {

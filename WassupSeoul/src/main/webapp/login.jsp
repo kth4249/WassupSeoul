@@ -92,21 +92,27 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="FindEmail" method="POST" onsubmit="return emailValidate();">
-            <span class="nanum" style="font-size: 25px; color: tomato;">Email</span>
-            <span class="nanum" style="font-size: 25px;">을 잊으셨나요?</span>
-            <br><br>
-            <label for="" class="nanum">제 이름은</label>
-            <input type="text" name="memberNm"class="nanum" size="10"> 
-            <span class="nanum">이고,</span>
-            <label for="" class="nanum">휴대폰 번호는</label>
-            <span class="nanum" name="memberPhone" style="font-size: 15px; color: gray;">(' - ' 포함)</span>&nbsp;&nbsp;
-            <input type="text" class="nanum" size="20">
-            <span class="nanum">이에요. &nbsp; </span> 
-          </form>
+          <span class="nanum" style="font-size: 25px; color: tomato;">Email</span>
+          <span class="nanum" style="font-size: 25px;">을 잊으셨나요?</span>
+          <br><br>
+          <label for="" class="nanum">제 이름은</label>
+          <input type="text" id="memberNm"class="nanum" size="10"> 
+          <span class="nanum">이고,</span>
+          <label for="" class="nanum">휴대폰 번호는</label>
+          <span class="nanum" style="font-size: 15px; color: gray;">(' - ' 포함)</span>&nbsp;&nbsp;
+          <input type="text" id="memberPhone" class="nanum" size="20">
+          <span class="nanum">이에요. &nbsp; </span> 
+          <br>
+           <div id="resultArea">
+          <div class="result-body">
+            <span class="nanum" style="font-size: 25px; ">당신의 Email은</span>
+            <span class="nanum" id="printEmail" style="font-size: 25px; color: tomato;" ></span>
+            <span class="nanum" style="font-size: 25px; ">입니다 ^3^</span>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success nanum" onclick="">이메일 찾기</button>
+          <button type="button" class="btn btn-success nanum" id="searchEmailBtn" >이메일 찾기</button>
           <button type="button" class="btn btn-primary nanum" data-dismiss="modal">닫기</button>
         </div>
       </div>
@@ -171,8 +177,40 @@
       </div>
     </div>
   </div>
+  
+   <script>
+            $(function(){
+            $("#resultArea").hide();
 
-  <!-- </0div> -->
+            $("#searchEmailBtn").on("click",function(){
+              var name = $("#memberNm").val();
+              var phone = $("#memberPhone").val();
+              
+              console.log(name);
+              console.log(phone);
+
+             $.ajax({
+
+                url : "member/findEmail",
+                data : {name, phone},
+                success:function(result){
+	              $("#printEmail").text(result);
+	              
+	              $("#resultArea").show();
+                },
+                error:function(){
+                	console.log("ajax통신 실패")
+                },
+
+              })
+
+            });            
+
+            $(".closeModal").on("click",function(){
+              $("#resultArea").hide();
+            });
+          });
+          </script>
 
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"

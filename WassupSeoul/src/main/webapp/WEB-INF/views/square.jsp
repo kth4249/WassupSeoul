@@ -23,7 +23,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background-image: url('${contextPath}/resources/img/골목4.jpg');
+    background-image: url('${contextPath}/resources/img/서울3.jpg');
     background-size: cover;
     width: 100%;
     height: 100%;
@@ -36,6 +36,13 @@
   .streetBtn {
     background-color: rgba(100, 255, 255, 0.2) !important;
   }
+  
+  /* .streetBtn:hover{
+  	z-index: 0;
+    color: #333;
+    text-decoration: none;
+    background-color: #dee2e6 !important;
+  } */
   
   .streetBtnActive {
     color: #212529;
@@ -97,8 +104,8 @@
         </ul>
         <div id="myTabContent" class="tab-content">
           <ul class="list-group streetBtn tab-pane fade active show" id="gangnam">
-            <li class="list-group-item list-group-item-action streetBtn">강남구</li>
-            <li class="list-group-item list-group-item-action streetBtn">강동구</li>
+            <li class="list-group-item list-group-item-action streetBtnActive" value=3>강남구</li>
+            <li class="list-group-item list-group-item-action streetBtn" value=1>강동구</li>
             <li class="list-group-item list-group-item-action streetBtn">강서구</li>
             <li class="list-group-item list-group-item-action streetBtn">구로구</li>
             <li class="list-group-item list-group-item-action streetBtn">금천구</li>
@@ -154,7 +161,11 @@
           
         </div>
         <!-- row end -->
-        
+        <script>
+        	$("#streetBtn").click(function(){
+        		location.href = "square"
+        	})
+        </script>
       </div>
     </div>
 

@@ -87,27 +87,63 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title nanum" style="font-size: 30px;">Email 찾기</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close closeModal" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form action="">
-            <span class="nanum" style="font-size: 25px; color: tomato;">Email</span>
-            <span class="nanum" style="font-size: 25px;">을 잊으셨나요?</span>
-            <br><br>
-            <label for="" class="nanum">제 이름은</label>
-            <input type="text" class="nanum" size="10"> 
-            <span class="nanum">이고,</span>
-            <label for="" class="nanum">휴대폰 번호는</label>
-            <span class="nanum" style="font-size: 15px; color: gray;">(' - ' 포함)</span>&nbsp;&nbsp;
-            <input type="text" class="nanum" size="20">
-            <span class="nanum">이에요. &nbsp; </span> 
-          </form>
+          <span class="nanum" style="font-size: 25px; color: tomato;">Email</span>
+          <span class="nanum" style="font-size: 25px;">을 잊으셨나요?</span>
+          <br><br>
+          <label for="" class="nanum">제 이름은</label>
+          <input type="text" class="nanum" id="name" size="10"> 
+          <span class="nanum">이고,</span>
+          <label for="" class="nanum">휴대폰 번호는</label>
+          <span class="nanum" style="font-size: 15px; color: gray;">(' - ' 포함)</span>&nbsp;&nbsp;
+          <input type="text" class="nanum" id="phone" size="20">
+          <span class="nanum">이에요. &nbsp; </span> 
+          <br>
+          <div id="resultArea">
+            <div class="result-body">
+              <span class="nanum" style="font-size: 25px; ">당신의 Email은</span>
+              <span class="nanum" style="font-size: 25px; color: tomato;" >hold1593@naver.com</span>
+              <span class="nanum" style="font-size: 25px; ">입니다 ^3^</span>
+            </div>
+          </div>
+
+          <script>
+            $(function(){
+            $("#resultArea").hide();
+
+            $("#searchEmailBtn").on("click",function(){
+              var name = $("#name").val();
+              var phone = $("#phone").val();
+
+             /* $.ajax({
+
+                url : ~~,
+                data : {name, phone},
+                success:function(result){},
+                error:function(){},
+
+              })*/
+
+              $("#printEmail").text("hold1593@naver.com");
+              
+              $("#resultArea").show();
+            });            
+
+            $(".closeModal").on("click",function(){
+              $("#resultArea").hide();
+            });
+          });
+          </script>
+
+
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success nanum">이메일 찾기</button>
-          <button type="button" class="btn btn-primary nanum" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-success nanum" id="searchEmailBtn">이메일 찾기</button>
+          <button type="button" class="btn btn-primary nanum closeModal" data-dismiss="modal">닫기</button>
         </div>
       </div>
     </div>
@@ -124,7 +160,7 @@
         </div>
         <div class="modal-body">
             <span class="nanum" style="font-size: 25px; ">당신의 Email은</span>
-            <span class="nanum" style="font-size: 25px; color: tomato;" >hold1593@naver.com</span>
+            <span class="nanum" style="font-size: 25px; color: tomato;" id="printEmail"></span>
             <span class="nanum" style="font-size: 25px; ">입니다 ^3^</span>
         </div>
         <div class="modal-footer">
