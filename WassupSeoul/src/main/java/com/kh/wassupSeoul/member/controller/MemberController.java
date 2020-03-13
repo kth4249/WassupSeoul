@@ -2,7 +2,11 @@
 package com.kh.wassupSeoul.member.controller;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.wassupSeoul.email.controller.EmailController;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.service.MemberService;
 
@@ -108,13 +113,70 @@ public class MemberController {
 	// 이메일 찾기
 	@RequestMapping("findEmail")
 	public String findEmail(String name, String phone, Model model, HttpServletResponse response) {
+		
 		Member member = new Member();
+		member.setMemberNm(name);
+		member.setMemberPhone(phone);
+		
 		try {
 			String memberEmail = memberService.findEmail(member);
 			System.out.println("이거: "+memberEmail);
 			
 			PrintWriter out = response.getWriter();
 			out.print(memberEmail);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	// 비밀번호 찾기
+	@RequestMapping("findPassword")
+	public String findPassword(String name, String phone, String email, Model model, 
+			HttpServletResponse response, HttpServletRequest request) {
+		Member member = new Member();
+		
+		member.setMemberNm(name);
+		member.setMemberEmail(email);
+		member.setMemberPhone(phone);
+		
+		
+		try {
+			String memberPassword = memberService.findPassword(member);
+			
+			if(memberPassword != null) { // 계정이 있으면 난수발생하여 DB상의 비밀번호 변경하기
+				
+				// 난수 비밀번호 생성
+				Random rnd =new Random();
+	            StringBuffer buf =new StringBuffer();
+	            
+	            for(int i=0;i<10;i++){
+	                // rnd.nextBoolean() 는 랜덤으로 true, false 를 리턴. true일 시 랜덤 한 소문자를, false 일 시 랜덤 한 숫자를 StringBuffer 에 append 한다.
+	                if(rnd.nextBoolean()){
+	                    buf.append((char)((int)(rnd.nextInt(26))+97));
+	                }else{
+	                    buf.append((rnd.nextInt(10)));
+	                }
+	            }
+	            System.out.println("난수 비밀번호 :" +  buf);
+	            String randomPwd = buf.toString();
+	            
+	            Map<String, String> randomMap = new HashMap<String, String>();
+	            
+	            randomMap.put("randomPwd", randomPwd);
+	            randomMap.put("email", email);
+	            
+	            int result = memberService.makeRandomPwd(randomMap);
+				System.out.println("리저트값이다!!!: "+result);
+				
+				return new EmailController().sendEmail(model,request,randomMap);
+				
+				
+			}else {
+				PrintWriter out = response.getWriter();
+				out.print(memberPassword);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -137,25 +199,21 @@ public class MemberController {
 	}
 	
 	// 닉네임 중복 검사
-		@ResponseBody
-		@RequestMapping("nickNameDupCheck")
-		public String nickNameDupCheck(String memberNickname, Model model) {
-			try {
-				int result = memberService.nickNameDupCheck(memberNickname);
-				return memberService.nickNameDupCheck(memberNickname) == 0 ? true + "" : false + "";
-			} catch (Exception e) {
-				e.printStackTrace();
-				model.addAttribute("errorMsg", "닉네임 중복 체크 과정에서 오류발생");
-				return "/common/errorPage";
-			}
-			
+	@ResponseBody
+	@RequestMapping("nickNameDupCheck")
+	public String nickNameDupCheck(String memberNickname, Model model) {
+		try {
+			int result = memberService.nickNameDupCheck(memberNickname);
+			return memberService.nickNameDupCheck(memberNickname) == 0 ? true + "" : false + "";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "닉네임 중복 체크 과정에서 오류발생");
+			return "/common/errorPage";
 		}
+		
+	}
+	
 
-	
-	
-	
-	
-	
 	
 	
 	

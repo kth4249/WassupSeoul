@@ -1,6 +1,9 @@
 package com.kh.wassupSeoul.member.dao;
 
 import org.springframework.stereotype.Repository;
+
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.kh.wassupSeoul.member.model.vo.Member;
@@ -30,7 +33,7 @@ public class MemberDAO {
 	}
 
 
-	/** 이메일 찾기용 DAO (미현아 이거 빼먹지말고 써줘, 알겠지? 응 나도 사랑해)
+	/** 이메일 찾기용 DAO
 	 * @param member
 	 * @return memberEmail
 	 * @throws Exception
@@ -38,6 +41,17 @@ public class MemberDAO {
 	public String findEmail(Member member) throws Exception{
 		return sqlSession.selectOne("memberMapper.findEmail", member);
 	}
+	
+	/** 비밀번호 찾기용 DAO
+	 * @param member
+	 * @return memberPassword
+	 * @throws Exception
+	 */
+	public String findPassword(Member member) throws Exception{
+		return sqlSession.selectOne("memberMapper.findPassword", member);
+	}
+
+	
 
 	/** 이메일 중복 검사용 DAO
 	 * @param memberEmail
@@ -57,6 +71,16 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.nickNameDupcheck", memberNickname);
 	}
 
+	/**
+	 * @param randomPsd
+	 * @return randomPsd
+	 * @throws Exception
+	 */
+	public int makeRandomPwd(Map <String,String> randomMap) throws Exception{
+		return sqlSession.update("memberMapper.makeRandomPwd",randomMap);
+	}
+
+	
 	
 	
 	
