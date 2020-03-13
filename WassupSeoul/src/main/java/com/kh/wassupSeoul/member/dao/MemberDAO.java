@@ -39,8 +39,22 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.findEmail", member);
 	}
 
+	/** 이메일 중복 검사용 DAO
+	 * @param memberEmail
+	 * @return result
+	 * @throws Exception
+	 */
 	public int emailDupcheck(String memberEmail) throws Exception{
-		return sqlSession.selectOne("memberMapper.emailDipcheck", memberEmail);
+		return sqlSession.selectOne("memberMapper.emailDupcheck", memberEmail);
+	}
+
+	/** 닉네임 중복 검사용 DAO
+	 * @param memberNickname
+	 * @return result
+	 * @throws Exception
+	 */
+	public int nickNameDupcheck(String memberNickname) throws Exception{
+		return sqlSession.selectOne("memberMapper.nickNameDupcheck", memberNickname);
 	}
 
 	

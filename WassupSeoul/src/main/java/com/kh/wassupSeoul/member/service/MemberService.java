@@ -32,6 +32,13 @@ public interface MemberService {
 	 * @throws Exception
 	 */
 	int emailDupCheck(String memberEmail) throws Exception;
+
+	/** 닉네임 중복 체크
+	 * @param memberNickname
+	 * @return result
+	 * @throws Exception
+	 */
+	int nickNameDupCheck(String memberNickname) throws Exception;
 	
 
 	
