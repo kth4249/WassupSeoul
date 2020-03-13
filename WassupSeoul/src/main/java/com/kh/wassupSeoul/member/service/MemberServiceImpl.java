@@ -1,5 +1,8 @@
 package com.kh.wassupSeoul.member.service;
 
+import java.util.Map;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -65,6 +68,19 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 
+	/** 비밀번호 찾기용 Service
+	 * @param member
+	 * @return memberPassword
+	 * @throws Exception
+	 */
+	@Override
+	public String findPassword(Member member) throws Exception {
+		return memberDAO.findPassword(member);
+	}
+	
+	
+
+
 	/** 이메일 중복 체크
 	 * @param memberEmail
 	 * @return result
@@ -85,9 +101,24 @@ public class MemberServiceImpl implements MemberService{
 	public int nickNameDupCheck(String memberNickname) throws Exception {
 		return memberDAO.nickNameDupcheck(memberNickname);
 	}
-	
-	
-	
+
+
+	/** 랜덤 비밀번호 발생 Service
+	 * @param buf
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int makeRandomPwd(Map <String,String> randomMap) throws Exception {
+		String meme = randomMap.get("randomPwd");
+		String newPwd = bcryptPasswordEncoder.encode(meme);
+		randomMap.put("newPwd", newPwd);
+		return memberDAO.makeRandomPwd(randomMap);
+	}
+
+
+
+
 	
 	
 	

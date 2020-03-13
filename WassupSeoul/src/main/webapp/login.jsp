@@ -125,72 +125,7 @@
     </div>
   </div>
  
- <script>
-   
-   $(function(){
-   $("#emailResultArea").hide();
-   $("#emailResultFalseArea").hide();
-   
-   $("#searchEmailBtn").on("click",function(){
-	   
- 		if($("#memberNm1").val().trim().length == 0){
-			alert("이름을 입력하세요.");
-			$("#memberNm1").focus();
-			return false;
-		}
-		if($("#memberPhone1").val().trim().length == 0){
-			alert("전화번호를 입력하세요.");
-			$("#memberPhone1").focus();
-			return false;
-		}
-		
 
-     var name = $("#memberNm1").val();
-     var phone = $("#memberPhone1").val();
-     
-     console.log(name);
-     console.log(phone);
-
-    	$.ajax({
-    		
-	       url : "member/findEmail",
-	       data : {name, phone},
-	       success:function(result){
-      	
-	       	 if(result != 'null'){
-		         $("#printEmail").text(result);
-		         $("#emailResultArea").show();
-		         $("#emailResultFalseArea").hide();
-	       	 }else{
-	       		 $("#resultFalseArea").show();
-	       		$("#emailResultFalseArea").hide();
-      		 }
-	     	 
-     		},
-	       	error:function(){
-	       	console.log("ajax통신 실패");
-     		},
-
-		})
-
- 	}); 
-      
-   $(".close").on("click",function(){
-	     $("#memberNm1").val("");
-	     $("#memberPhone1").val("");
-	     $("#emailResultArea").hide();
-	     $("#emailResultFalseArea").hide();
-	     
-   });
-   $("#closeBtn1").on("click",function(){
-	  	 $("#memberNm1").val("");
-	     $("#memberPhone1").val("");
-   		$("#emailResultArea").hide();
-     	$("#emailResultFalseArea").hide();
-   });
- });
-  </script>
-  
 
   <!-- Pwd 찾기 -->
 
@@ -239,7 +174,73 @@
   
   
  <script>
-   
+ 
+ 	/* 이메일 찾기  */
+ 	$(function(){
+	   $("#emailResultArea").hide();
+	   $("#emailResultFalseArea").hide();
+	   
+	   $("#searchEmailBtn").on("click",function(){
+		   
+	 		if($("#memberNm1").val().trim().length == 0){
+				alert("이름을 입력하세요.");
+				$("#memberNm1").focus();
+				return false;
+			}
+			if($("#memberPhone1").val().trim().length == 0){
+				alert("전화번호를 입력하세요.");
+				$("#memberPhone1").focus();
+				return false;
+			}
+			
+
+	     var name = $("#memberNm1").val();
+	     var phone = $("#memberPhone1").val();
+	     
+	     console.log(name);
+	     console.log(phone);
+
+	    	$.ajax({
+	    		
+		       url : "member/findEmail",
+		       data : {name, phone},
+		       success:function(result){
+	      	
+		       	 if(result != 'null'){
+			         $("#printEmail").text(result);
+			         $("#emailResultArea").show();
+			         $("#emailResultFalseArea").hide();
+		       	 }else{
+		       		 $("#resultFalseArea").show();
+		       		$("#emailResultFalseArea").hide();
+	      		 }
+		     	 
+	     		},
+		       	error:function(){
+		       	console.log("ajax통신 실패");
+	     		},
+
+			})
+
+	 	}); 
+	      
+	   $(".close").on("click",function(){
+		     $("#memberNm1").val("");
+		     $("#memberPhone1").val("");
+		     $("#emailResultArea").hide();
+		     $("#emailResultFalseArea").hide();
+		     
+	   });
+	   $("#closeBtn1").on("click",function(){
+		  	 $("#memberNm1").val("");
+		     $("#memberPhone1").val("");
+	   		$("#emailResultArea").hide();
+	     	$("#emailResultFalseArea").hide();
+	   });
+	});
+
+ 
+   /* 비밀번호 찾기  */
    $(function(){
    $("#passwordResultArea").hide();
    $("#passwordResultFalseArea").hide();
@@ -264,26 +265,25 @@
 		
 
      var name = $("#memberNm2").val();
-     var phone = $("#memberPhone2").val();
      var email = $("#memberEmail").val();
+     var phone = $("#memberPhone2").val();
      
      console.log(name);
-     console.log(phone);
      console.log(email);
+     console.log(phone);
 
     	$.ajax({
     		
-	       url : "member/findEmail",
-	       data : {name, phone, email},
+	       url : "member/findPassword",
+	       data : {name, email, phone},
 	       success:function(result){
       	
 	       	 if(result != 'null'){
-		         $("#printEmail").text(result);
 		         $("#passwordResultArea").show();
 		         $("#passwordResultFalseArea").hide();
 	       	 }else{
-	       		 $("#passwordResultArea").show();
-	       		$("#passwordResultFalseArea").hide();
+	       		 $("#passwordResultFalseArea").show();
+	       		$("#passwordResultArea").hide();
       		 }
 	     	 
      		},

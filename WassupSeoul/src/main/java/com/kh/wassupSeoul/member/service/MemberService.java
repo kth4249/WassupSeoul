@@ -1,5 +1,8 @@
 package com.kh.wassupSeoul.member.service;
 
+import java.util.Map;
+
+
 import com.kh.wassupSeoul.member.model.vo.Member;
 
 public interface MemberService {
@@ -25,6 +28,15 @@ public interface MemberService {
 	 * @throws Exception
 	 */
 	String findEmail(Member member) throws Exception;
+	
+
+	/** 비밀번호 찾기용 Service
+	 * @param member
+	 * @return memberPassword
+	 * @throws Exception
+	 */
+	String findPassword(Member member) throws Exception;
+	
 
 	/** 이메일 중복 체크
 	 * @param memberEmail
@@ -39,6 +51,15 @@ public interface MemberService {
 	 * @throws Exception
 	 */
 	int nickNameDupCheck(String memberNickname) throws Exception;
+
+	/** 랜덤 비밀번호 발생 Service
+	 * @param buf
+	 * @return result
+	 * @throws Exception
+	 */
+	int makeRandomPwd(Map <String,String> randomMap) throws Exception;
+
+
 	
 
 	
