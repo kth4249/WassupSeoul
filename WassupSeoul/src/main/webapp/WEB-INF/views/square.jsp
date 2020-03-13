@@ -90,10 +90,13 @@
 						<script>
 			            	$("#streetSort").on("change", function(e){
 								<c:url var="detailUrl" value="square">
-									<c:param name="currentPage" value="${pInf.currentPage}" />
 									<c:if test="${!empty param.districtNo}">
 										<c:param name="districtNo" value="${param.districtNo}" />
 									</c:if>
+									<c:if test="${!empty param.searchStreet}">
+										<c:param name="searchStreet" value="${param.searchStreet}" />
+									</c:if>
+									<c:param name="currentPage" value="1"/>
 								</c:url>
 			            		
 			            		console.log($(this).val())
@@ -116,7 +119,7 @@
 		<div class="row">
 			<div class="col-md-2">
 				<ul class="nav nav-tabs">
-					<a href="#" class="btn btn-primary" style="color: white;"> 전체 </a>
+					<a href="square" class="btn btn-primary" style="color: white;"> 전체 </a>
 					<li class="nav-item"><a class="nav-link active"
 						data-toggle="tab" href="#gangnam" id="gangnamFor">강남</a></li>
 					<li class="nav-item"><a class="nav-link" data-toggle="tab"
@@ -170,9 +173,13 @@
 										<h4 class="card-title nanum">
 											<a href="#">${street.streetNm }</a>
 										</h4>
-										<p class="card-text">streetNo(test) : ${street.streetNo}</p>
-										<p class="card-text">#키워드</p>
-										<p class="card-text">#키워드</p>
+										<c:if test="${!empty kList}">
+											<c:forEach var="keyword" items="${kList}">
+												<c:if test="${keyword.streetNo == street.streetNo }">
+													<p class="card-text">${keyword.keywordContent}</p>
+												</c:if>
+											</c:forEach>
+										</c:if>
 									</div>
 									<div class="card-footer">
 										<small class="text-muted">&#9733; &#9733; &#9733;
@@ -183,48 +190,183 @@
 						</c:forEach>
 					</c:if>
 					<script>
-	        	$(".districtTab li").on("click", function(e){
-	        		<c:url var="detailUrl" value="square">
-						<c:param name="currentPage" value="${pInf.currentPage}" />
-						<c:if test="${!empty param.streetSort}">
-							<c:param name="streetSort" value="${param.streetSort}" />
-						</c:if>
-					</c:url>
-	        		var districtNo = $(e.target).val();
-	        		location.href = "${detailUrl}&districtNo="+districtNo;
-	        	})
-	        	
-            	<c:if test="${!empty param.districtNo}">
-            		$(".districtTab li").each(function(index, item){
-            			if($(item).val() == "${param.districtNo}"){
-	            			console.log($(item).val())
-            				$(item).prop("class", "list-group-item list-group-item-action streetBtnActive");
-	            			console.log($(item).parent().prop("id"))
-	            			var division = $(item).parent().prop("id");
-	            			if(division == "gangnam") {
-	            				$("#"+division).prop("class", "list-group streetBtn tab-pane fade active show")
-	            				$("#gangbuk").prop("class", "list-group streetBtn tab-pane fade")
-	            				division = division + "For";
-	            				$("#"+division).prop("class", "nav-link active")
-	            				$("#gangbukFor").prop("class", "nav-link")
-	            				
-	            			} else {
-	            				$("#"+division).prop("class", "list-group streetBtn tab-pane fade active show")
-	            				$("#gangnam").prop("class", "list-group streetBtn tab-pane fade")
-	            				division = division + "For";
-	            				$("#"+division).prop("class", "nav-link active")
-	            				$("#gangnamFor").prop("class", "nav-link")
-	            				
-	            			}
-            			}
-            		})
-            	</c:if>
-	        	
-	        </script>
-
-				</div>
-				<!-- row end -->
+			        	$(".districtTab li").on("click", function(e){
+			        		var districtNo = $(e.target).val();
+			        		<c:url var="detailUrl" value="square">
+								<c:if test="${!empty param.streetSort}">
+									<c:param name="streetSort" value="${param.streetSort}" />
+								</c:if>
+								<c:if test="${!empty param.searchStreet}">
+									<c:param name="searchStreet" value="${param.searchStreet}" />
+								</c:if>
+								<c:param name="currentPage" value="1"/>
+							</c:url>
+			        		location.href = "${detailUrl}&districtNo="+districtNo;
+			        	})
+			        	
+		            	<c:if test="${!empty param.districtNo}">
+		            		$(".districtTab li").each(function(index, item){
+		            			if($(item).val() == "${param.districtNo}"){
+			            			console.log($(item).val())
+		            				$(item).prop("class", "list-group-item list-group-item-action streetBtnActive");
+			            			console.log($(item).parent().prop("id"))
+			            			var division = $(item).parent().prop("id");
+			            			if(division == "gangnam") {
+			            				$("#"+division).prop("class", "list-group streetBtn tab-pane fade active show")
+			            				$("#gangbuk").prop("class", "list-group streetBtn tab-pane fade")
+			            				division = division + "For";
+			            				$("#"+division).prop("class", "nav-link active")
+			            				$("#gangbukFor").prop("class", "nav-link")
+			            				
+			            			} else {
+			            				$("#"+division).prop("class", "list-group streetBtn tab-pane fade active show")
+			            				$("#gangnam").prop("class", "list-group streetBtn tab-pane fade")
+			            				division = division + "For";
+			            				$("#"+division).prop("class", "nav-link active")
+			            				$("#gangnamFor").prop("class", "nav-link")
+			            				
+			            			}
+		            			}
+		            		})
+		            	</c:if>
+			        	
+			        </script>
+				</div> <!-- row end -->
 			</div>
+			
+			
+		  	<%-- <c:url var="detailUrl" value="square">
+				<c:param name="currentPage" value="${pInf.currentPage}" />
+				<c:if test="${!empty param.districtNo}">
+					<c:param name="districtNo" value="${param.districtNo}" />
+				</c:if>
+				<c:if test="${!empty param.streetSort}">
+					<c:param name="streetSort" value="${param.streetSort}" />
+				</c:if>
+				<c:if test="${!empty param.searchStreet}">
+					<c:param name="searchStreet" value="${param.searchStreet}" />
+				</c:if>
+			</c:url> --%>
+			
+			
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-12 d-flex justify-content-center">
+						<div class="text-center">
+							<br><br>
+						  	<ul class="pagination">
+							
+							<c:if test="${pInf.currentPage >= pInf.startPage + 10}">
+							    <li class="page-item">
+				    			  	<c:url var="detailUrl" value="square">
+										<c:if test="${!empty param.districtNo}">
+											<c:param name="districtNo" value="${param.districtNo}" />
+										</c:if>
+										<c:if test="${!empty param.streetSort}">
+											<c:param name="streetSort" value="${param.streetSort}" />
+										</c:if>
+										<c:if test="${!empty param.searchStreet}">
+											<c:param name="searchStreet" value="${param.searchStreet}" />
+										</c:if>
+										<c:param name="currentPage" value="${pInf.currentPage-1}" />
+									</c:url>
+												    	
+							    	<a class="page-link" href="${detailUrl}">&laquo;</a>
+							    </li>
+							</c:if>
+							<c:if test="${pInf.currentPage < pInf.startPage + 10}">
+								<c:url var="detailUrl" value="square">
+									<c:if test="${!empty param.districtNo}">
+										<c:param name="districtNo" value="${param.districtNo}" />
+									</c:if>
+									<c:if test="${!empty param.streetSort}">
+										<c:param name="streetSort" value="${param.streetSort}" />
+									</c:if>
+									<c:if test="${!empty param.searchStreet}">
+										<c:param name="searchStreet" value="${param.searchStreet}" />
+									</c:if>
+									<c:param name="currentPage" value="${pInf.startPage}" />
+								</c:url>
+							    <li class="page-item 
+							    	<c:if test="${pInf.currentPage == pInf.startPage }">
+							    		disabled
+							    	</c:if>">
+							      <a class="page-link" href="${detailUrl}">&laquo;</a>
+							    </li>
+							</c:if>
+						    
+						    <c:forEach var="p" begin="${pInf.startPage}" end="${pInf.endPage}">
+						    	<c:url var="detailUrl" value="square">
+									<c:if test="${!empty param.districtNo}">
+										<c:param name="districtNo" value="${param.districtNo}" />
+									</c:if>
+									<c:if test="${!empty param.streetSort}">
+										<c:param name="streetSort" value="${param.streetSort}" />
+									</c:if>
+									<c:if test="${!empty param.searchStreet}">
+										<c:param name="searchStreet" value="${param.searchStreet}" />
+									</c:if>
+									<c:param name="currentPage" value="${p}" />
+								</c:url>
+						    	<c:if test="${p == pInf.currentPage}">
+								    <li class="page-item active">
+								      <a class="page-link">${p}</a>
+								    </li>
+								</c:if>
+								<c:if test="${p != pInf.currentPage}">
+								    <li class="page-item">
+								      <a class="page-link" 
+								      	href="${detailUrl}">${p}</a>
+								    </li>
+								</c:if>
+							</c:forEach>
+							
+							<c:if test="${pInf.currentPage <= pInf.maxPage - 10 }">
+								<c:url var="detailUrl" value="square">
+									<c:if test="${!empty param.districtNo}">
+										<c:param name="districtNo" value="${param.districtNo}" />
+									</c:if>
+									<c:if test="${!empty param.streetSort}">
+										<c:param name="streetSort" value="${param.streetSort}" />
+									</c:if>
+									<c:if test="${!empty param.searchStreet}">
+										<c:param name="searchStreet" value="${param.searchStreet}" />
+									</c:if>
+									<c:param name="currentPage" value="${pInf.currentPage+10}" />
+								</c:url>
+							    <li class="page-item">
+							    	<a class="page-link" href="${detailUrl}">&raquo;</a>
+							    </li>
+							 </c:if>
+							<c:if test="${pInf.currentPage > pInf.maxPage - 10 }">
+								<c:url var="detailUrl" value="square">
+									<c:if test="${!empty param.districtNo}">
+										<c:param name="districtNo" value="${param.districtNo}" />
+									</c:if>
+									<c:if test="${!empty param.streetSort}">
+										<c:param name="streetSort" value="${param.streetSort}" />
+									</c:if>
+									<c:if test="${!empty param.searchStreet}">
+										<c:param name="searchStreet" value="${param.searchStreet}" />
+									</c:if>
+									<c:param name="currentPage" value="${pInf.maxPage}" />
+								</c:url>
+							    <li class="page-item 
+							    	<c:if test="${pInf.currentPage == pInf.maxPage}">
+							    		disabled
+							    	</c:if>"
+							    >
+							    	<a class="page-link" href="${detailUrl}">&raquo;</a>
+							    </li>
+							 </c:if>
+						    
+						    
+						  </ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			
 		</div>
 
 

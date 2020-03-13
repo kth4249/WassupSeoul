@@ -22,8 +22,8 @@ public class SquareDAO {
 	 * @return listCount
 	 * @throws Exception
 	 */
-	public int getListCount() throws Exception{
-		return sqlSession.selectOne("streetMapper.getListCount");
+	public int getListCount(Map<String, Object> map) throws Exception{
+		return sqlSession.selectOne("streetMapper.getListCount", map);
 	}
 	
 	

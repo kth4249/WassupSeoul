@@ -2,7 +2,6 @@ package com.kh.wassupSeoul.square.controller;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /*import org.slf4j.Logger;
@@ -39,16 +38,21 @@ public class SquareController {
 	@RequestMapping(value = "square", method = RequestMethod.GET)
 	public String square(Model model,
 						@RequestParam(value="currentPage", required=false) Integer currentPage,
-						@RequestParam(required=false) Integer districtNo,
-						@RequestParam(required=false) Integer streetSort){
+						@RequestParam(value="districtNo", required=false) Integer districtNo,
+						@RequestParam(value="streetSort", required=false) Integer streetSort, 
+						@RequestParam(value="searchStreet", required=false) String keyword){
 		System.out.println("currentPage : " + currentPage + ", districtNo : " + districtNo
 							+ ", streetSort : " + streetSort);
 		try {
-			int listCount = squareService.getListCount();
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("districtNo", districtNo);
+			map.put("keyword", keyword);
+			if(streetSort == null) {
+				streetSort = 0;
+			}
 			map.put("streetSort", streetSort);
 			
+			int listCount = squareService.getListCount(map);
 			
 			if(currentPage == null) currentPage = 1;
 			
@@ -62,11 +66,11 @@ public class SquareController {
 			List<Keyword> kList = null;
 			if(!sList.isEmpty()) {
 				kList = squareService.selectKeywordList(sList);
+				for(Keyword key : kList) {
+					System.out.println("keyword : " + key);
+				}
 			}
 			
-			for(Keyword key : kList) {
-				System.out.println("keyword : " + key);
-			}
 			
 			
 			model.addAttribute("sList", sList);
