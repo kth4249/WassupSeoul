@@ -109,9 +109,6 @@ public class MemberController {
 	@RequestMapping("findEmail")
 	public String findEmail(String name, String phone, Model model, HttpServletResponse response) {
 		Member member = new Member();
-		member.setMemberNm(name);
-		member.setMemberPhone(phone);
-
 		try {
 			String memberEmail = memberService.findEmail(member);
 			System.out.println(memberEmail);
@@ -124,11 +121,11 @@ public class MemberController {
 		return null;
 	}
 	
+	// 이메일 중복 검사
 	@ResponseBody
 	@RequestMapping("emailDupCheck")
 	public String emailDupCheck(String memberEmail, Model model) {
 		try {
-			int test = memberService.emailDupCheck(memberEmail);
 			return memberService.emailDupCheck(memberEmail) == 0 ? true + "" : false + "";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -137,6 +134,21 @@ public class MemberController {
 		}
 		
 	}
+	
+	// 닉네임 중복 검사
+		@ResponseBody
+		@RequestMapping("nickNameDupCheck")
+		public String nickNameDupCheck(String memberNickname, Model model) {
+			try {
+				int result = memberService.nickNameDupCheck(memberNickname);
+				return memberService.nickNameDupCheck(memberNickname) == 0 ? true + "" : false + "";
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMsg", "닉네임 중복 체크 과정에서 오류발생");
+				return "/common/errorPage";
+			}
+			
+		}
 
 	
 	
