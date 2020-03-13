@@ -83,6 +83,7 @@
   	 	 SELECT * FROM BOARD
   	 	 WHERE STREET_NO = #{streetNo} 
  		 AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'
+ 		 ORDER BY BOARD_NO
   	 	 	
   	 </select>
   	 
@@ -99,6 +100,7 @@
 		  #{streetNo}, 
 		  #{memberNo}, 
 		  #{typeNo})
+		  
 	
 	</insert>
   	 

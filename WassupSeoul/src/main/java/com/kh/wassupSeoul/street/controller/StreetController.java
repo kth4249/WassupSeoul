@@ -24,6 +24,7 @@ import com.kh.wassupSeoul.street.service.StreetService;
 
 @SessionAttributes({"loginMember", "msg", "streetNo"})
 @Controller
+@RequestMapping("/street/*")
 public class StreetController {
 	
 	@Autowired
@@ -117,10 +118,12 @@ public class StreetController {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-			return "redirect:streetMain"; 
+			return "redirect:streetMain?streetNo=" + streetNo;
 			
 		}
 		
 	}
+	
+	
 	
 }
