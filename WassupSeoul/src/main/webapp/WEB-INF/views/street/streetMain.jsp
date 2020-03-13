@@ -6,8 +6,10 @@
 <head>
 <meta charset="UTF-8">
 
-	<script src="http://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/fullcalendar.css" type="text/css">
@@ -22,6 +24,8 @@
 }
 </style>
 <body>
+
+
 	<div class="container-fluid" style="margin-top: 50px;">
 	  <div class="row">
 	
@@ -220,7 +224,7 @@
 								
 							
 												<!-- 게시글1-->
-					<div class="container box111" id="postArea" >
+					<div class="container box111" id="postArea" style="margin-bottom:0px" >
 						<div class="postLayoutView" style="padding: 0%;">
 
 
@@ -296,19 +300,29 @@
 									<p style="margin-bottom: 0;">댓글2</p>
 								</div>
 								<div style=" width: 14%; margin-bottom: 0px; height: 100%; float: right; ">
-
-									<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="display: inline-block; width: 20px; height: 20px;float: right;
-																		position: relative;
-																		right: 40px; bottom: 1px;">
-									<p class="likeNum" style="margin-bottom: 0; display: inline-block;float: right;">10</p>
+								
+									
+									
+									<button type="submit" class="btn nanum" style="padding: 0px; position: relative; bottom: 4px;" >
+									
+									<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="display: inline-block; width: 20px; 
+									height: 20px; float: right;">
+									
+   									</button>
+									
+									
+									
+									<p class="likeNum" style="margin-bottom: 0; display: inline-block;">10</p>
 
 
 									<div class="hide nanum" id="postMenu2" style="width: 120px; height: 150px; 
 																		border: black 2px solid; 
 																	 background-color: white; float:right; 
-																	 position: relative;
-																	right: 20px; bottom: 170px;">
+																	 position: absolute;
+																	right: 20px; bottom: 40px; z-index: 10;">
 																	<ul style="padding-left: 5%;">
+																	
+																	
 																		<li>
 																			<div style="width:20%; display: inline-block;">
 																				<img src="${contextPath}/resources/img/account.png" style="width: 100%; height: 100%; ">
@@ -317,6 +331,7 @@
 																				<p style="margin-bottom: 0;">홍길동</p>
 																			</div>
 																		</li>
+																		
 																		<li>
 																			<div style="width:20%; display: inline-block;">
 																				<img src="${contextPath}/resources/img/account.png" style="width: 100%; height: 100%; ">
@@ -325,12 +340,11 @@
 																				<p style="margin-bottom: 0;">홍길동</p>
 																			</div>
 																		</li>
+																		
 																	</ul>
 									</div>
-									
 								</div>
 							</div>
-							
 							<!-- 댓글수, 좋아요버튼 -->
 
 							<!-- 댓글영역 -->
@@ -766,8 +780,9 @@
 		</div>
 	</div>
 	<!-- 컨텐츠영역 종료 -->
-
-	<script>
+	
+	
+<script>
 		$(document).ready(function () {
 
 			// 좋아요 클릭시 버튼 이미지 변경
@@ -775,7 +790,7 @@
 
 				var a = $(this).attr("src");
 
-				if (a == "img/like.png") {
+				if (a == "${contextPath}/resources/img/like.png") {
 
 					$(this).attr('src', '${contextPath}/resources/img/like2.png');
 
@@ -785,38 +800,8 @@
 
 			});
 
-			// 이미지 모달 보기 시작
-			var modal = document.getElementById('myModal');
-			
-			// Get the image and insert it inside the modal - use its "alt" text as a caption
-			var img = document.getElementById('myImg');
-			var modalImg = document.getElementById("img01");
-			var captionText = document.getElementById("caption");
-				img.onclick = function(){
-				modal.style.display = "block";
-				modal.style.width = "80%";
-				modal.style.height = "80%";
-				modal.style.border = "black solid 2px";
-				modal.style.background = "white";
-				
-				modalImg.src = this.src;
-				modalImg.alt = this.alt;
-				captionText.innerHTML = this.alt;
-			}
-			
-			// Get the <span> element that closes the modal
-			var span = document.getElementsByClassName("close")[0];
-			
-			// When the user clicks on <span> (x), close the modal
-			span.onclick = function() { 
-				modal.style.display = "none";
-			}
-			modalImg.onclick = function() { 
-				modal.style.display = "none";
-			}
-			// 이미지 모달 보기 종료
-
-			
+	
+	
 			
 			//  게시글, 댓글 수정/삭제 메뉴창 보이기, 숨기기
 			$(".optionChevron>img").click(function () {
@@ -872,9 +857,13 @@
 			// 게시물 없을때 게시글 작성 클릭시 커서 이동
 			$(".noPostSignArea").click(function () {
 				$('.postArea').focus();
-			});			
+			});		
+			
+			
+		
 
 		});
+		
 
 	</script>
 

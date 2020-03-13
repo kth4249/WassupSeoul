@@ -164,7 +164,7 @@
 						<c:forEach var="street" items="${sList}" varStatus="vs">
 							<div class="streetSize">
 								<div class="card h-100">
-									<a href="streetMain?streetNo=${street.streetNo}"><img
+									<a href="street/streetMain?streetNo=${street.streetNo}"><img
 										class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
 									<div class="card-body">
 										<h4 class="card-title nanum">
