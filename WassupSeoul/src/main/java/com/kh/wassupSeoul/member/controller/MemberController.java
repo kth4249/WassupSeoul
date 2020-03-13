@@ -114,10 +114,11 @@ public class MemberController {
 
 		try {
 			String memberEmail = memberService.findEmail(member);
-			System.out.println(memberEmail);
+			System.out.println("이거: "+memberEmail);
 			
 			PrintWriter out = response.getWriter();
 			out.print(memberEmail);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
