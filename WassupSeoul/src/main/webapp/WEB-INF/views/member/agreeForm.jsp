@@ -105,69 +105,69 @@
                 <h1 class="mt-5" style="font-size: 80px;">Terms of Use</h1><br>
 				
                 <div class="infoBox mx-auto">
-
 					
                     <fieldset class="join_contentback">
-	                        <form class="form1 font-weight-bold text-center" >
-	                            <input type="checkbox" id="total_agree" class="check-all">
-	                            <label for="total_agree">
-	                                <h5 class="nanum mt-5" style="font-size: 35px;"><strong>모두 확인, 동의합니다.</strong></h5>
+                             <div class="custom-control custom-checkbox">
+	                            <input type="checkbox" id="total_agree" class="check-all custom-control-input">
+	                            <label for="total_agree" class="mt-3 custom-control-label">
+	                                <h5 class="nanum" style="font-size: 35px;"><strong>모두 확인, 동의합니다.</strong></h5>
 	                            </label>
-	                        </form>
+                            </div>
 	                        <br>
 	
-	                        <form>
+	                        <div class="custom-control custom-checkbox">
 	                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                            <input type="checkbox" id="agree1" class="cb">
-	                            <label for="agree1" class="nanum">&nbsp;만 14세 이상입니다.<strong>(필수)</strong></label>
-	                        </form>
+	                            <input type="checkbox" id="agree1" class="cb custom-control-input">
+	                            <label for="agree1" name="agree" class="nanum custom-control-label">&nbsp;만 14세 이상입니다.<strong>(필수)</strong></label>
+	                        </div>
 	
-	                        <form>
+	                        <div class="custom-control custom-checkbox">
 	                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                            <input type="checkbox" id="agree2" class="cb">
-	                            <label for="agree2" class="nanum">&nbsp;이용약관 동의<strong>(필수)</strong></label>
+	                            <input type="checkbox" id="agree2" class="cb custom-control-input">
+	                            <label for="agree2" name="agree" class="nanum custom-control-label">&nbsp;이용약관 동의<strong>(필수)</strong></label>
 	
 	                            <!-- 하이퍼링크로 만들기 -->
 	                            &nbsp;
 	                            <a href="#" data-toggle="modal" data-target="#exampleModalScrollable">
 	                                <u class="nanum"><small>내용보기</small></u>
 	                            </a>
-	                        </form>
+	                        </div>
 	
-	                        <form>
+	                        <div class="custom-control custom-checkbox">
 	                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                            <input type="checkbox" id="agree3" class="cb">
-	                            <label for="agree3" class="nanum">&nbsp;개인정보 수집 및 이용 동의<strong>(필수)</strong></label>
+	                            <input type="checkbox" id="agree3" class="cb custom-control-input">
+	                            <label for="agree3" name="agree" class="nanum custom-control-label">&nbsp;개인정보 수집 및 이용 동의<strong>(필수)</strong></label>
 	
 	                            &nbsp;
 	                            <!-- 하이퍼링크로 만들기 -->
 	                            <a href="#" data-toggle="modal" data-target="#exampleModalScrollable">
 	                                <u class="nanum"><small>내용보기</small></u>
 	                            </a>
-	                        </form>
-	
-	                        <form>
+	                        </div>
+	                        
+	                        
+	                        <div class="custom-control custom-checkbox">
 	                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                            <input type="checkbox" id="agree4" class="cb">
-	                            <label for="agree4" class="nanum">&nbsp;이메일 마케팅 수신 동의</label>
-	                        </form>
+	                            <input type="checkbox" id="agree4" class="cb custom-control-input">
+	                            <label for="agree4" class="nanum custom-control-label">&nbsp;이메일 마케팅 수신 동의</label>
+	                        </div>
 	
-	                        <form>
+	                        <div class="custom-control custom-checkbox">
 	                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                            <input type="checkbox" id="agree5" class="cb">
-	                            <label for="agree5" class="nanum">&nbsp;생년월일과 성별 및 수집및 이용동의</label>
-	                        </form>
+	                            <input type="checkbox" id="agree5" class="cb custom-control-input">
+	                            <label for="agree5" class="nanum custom-control-label">&nbsp;생년월일과 성별 및 수집및 이용동의</label>
+	                        </div>
 	
-	                        <form>
+	                        <div class="custom-control custom-checkbox">
 	                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	                            <input type="checkbox" id="agree6" class="cb">
-	                            <label for="agree6" class="nanum">&nbsp;개인정보 유효기간 3년 지정(미동의 시 1년)</label>
-	                        </form>
+	                            <input type="checkbox" id="agree6" class="cb custom-control-input">
+	                            <label for="agree6" class="nanum custom-control-label">&nbsp;개인정보 유효기간 3년 지정(미동의 시 1년)</label>
+	                        </div>
 	
 	                        <br>
 	                        <br>
 							
-							<button type="button" class="btn btn-danger btn-lg nanum" 
+							<button id="nextnext" type="button" class="btn btn-danger btn-lg nanum" 
 							onclick="location.href='${pageContext.request.contextPath}/member/signUpForm'">다음 단계로 !</button>
 	
 	                        <p class="mt-5 mb-3 text-muted small text-center">&copy; WS Corp. All Rights Reserved.</p>
@@ -176,6 +176,34 @@
             </div>
         </div>
     </div>
+    
+    <!-- 체크해야 버튼 넘어가게 하는 동작 -->
+	<!--  <script>             
+	var agree1 = $('#agree1');
+	var agree2 = $('#agree2');
+	var agree3 = $('#agree3');
+ 
+	if($(':radio[name="agree"]:checked').length < 1){
+	    alert('카테고리를 선택해주세요');                        
+	    agree1.focus();
+	    event.preventDefault();
+	}                        
+		                        
+	</script>        -->            
+		                        
+	                        
+	                        
+	                        
+	
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalScrollable">

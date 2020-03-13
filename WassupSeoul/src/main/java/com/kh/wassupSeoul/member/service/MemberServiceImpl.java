@@ -74,6 +74,17 @@ public class MemberServiceImpl implements MemberService{
 	public int emailDupCheck(String memberEmail) throws Exception {
 		return memberDAO.emailDupcheck(memberEmail);
 	}
+
+
+	/** 닉네임 중복 체크
+	 * @param memberNickname
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int nickNameDupCheck(String memberNickname) throws Exception {
+		return memberDAO.nickNameDupcheck(memberNickname);
+	}
 	
 	
 	

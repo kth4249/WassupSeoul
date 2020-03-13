@@ -151,9 +151,9 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<div class="col-md-6">
 								<input type="password" id="pwd1" name="memberPwd"
 									placeholder=" 영문대소문자+숫자 6자 이상"
-									class="nanum form-control float-left" maxlength="8" required>
+									class="nanum form-control float-left" maxlength="20" required>
 								<div>
-									<span id="checkpwd1"></span>
+									<span id="checkPwd1"></span>
 								</div>
 							</div>
 						</div>
@@ -166,9 +166,9 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							</div>
 							<div class="col-md-6">
 								<input type="password" id="pwd2" placeholder=" 비밀번호를 확인해주세요"
-									class="nanum form-control float-left" maxlength="8" required>
+									class="nanum form-control float-left" maxlength="20" required>
 								<div>
-									<span id="checkpwd2"></span>
+									<span id="checkPwd2"></span>
 								</div>
 							</div>
 						</div>
@@ -182,7 +182,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<div class="col-md-6">
 								<input type="text" id="name" name="memberNm"
 									placeholder=" 이름을 입력해주세요" class="nanum form-control float-left"
-									maxlength="4" required>
+									maxlength="15" required>
+								<div>
+									<span id="checkName"></span>
+								</div>
 							</div>
 						</div>
 
@@ -195,7 +198,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<div class="col-md-6">
 								<input type="text" id="nickName" name="memberNickname"
 									placeholder=" 사용하실 닉네임을 설정해주세요"
-									class="nanum form-control float-left" maxlength="5" required>
+									class="nanum form-control float-left" maxlength="10" required>
+								<div>
+									<span id="checknickName"></span>
+								</div>
 							</div>
 						</div>
 
@@ -204,6 +210,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<div class="col-md-4">
 								<label for="" class="nanum float-right" style="font-size: 25px;">*
 									전화번호</label>
+									
 							</div>
 							<div class="col-md-2">
 								<select class="form-control" id="phone1" name="phone1" required>
@@ -216,55 +223,33 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								</select>
 							</div>
 							<div class="col-md-2">
-								<input type="number" class="form-control" id="phone2"
+								<input type="number" class="form-control phone" id="phone2"
 									name="phone2" maxlength="4" required>
 							</div>
 							<div class="col-md-2">
-								<input type="number" class="form-control" id="phone3"
+								<input type="number" class="form-control phone" id="phone3"
 									name="phone3" maxlength="4" required>
 							</div>
+							
+						<span id="checkPhone" style="margin-left:380px;" ></span> <br><br>
 						</div>
-
-
 
 
 						<!-- 성별 선택 -->
-						<div class="row form-group">
+						 <div class="row form-group">
 							<div class="col-md-4">
 								<label for="" class="nanum float-right" style="font-size: 25px;">*성별</label>
 							</div>
-							<div class="col-md-3">
-								<input type="radio" id="man" name="memberGender" value="M">
-								 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-								<label for="man" class="nanum"
-									style="font-size: 25px;">남성</label>
-							</div>
-							<div class="col-md-3">
-								<input type="radio" id="woman" name="memberGender" value="W">
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
-								<label for="woman" class="nanum"
-									style="font-size: 25px;">여성</label>
-							</div>
-						</div>
-
-						
-						<!-- 아트디렉터 조미현님께 검토를 구합니다. -->
-						<!-- <div class="row form-group">
-						<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px;">*성별</label>
+							
+							<div class="col-md-3 custom-control custom-radio">
+								<input type="radio" id="man" name="memberGender" value="M" class="custom-control-input"> 
+								<label class="custom-control-label nanum" for="man" style="font-size: 25px;">남자</label>
 							</div>
 							<div class="col-md-3 custom-control custom-radio">
-								<input type="radio" id="customRadio1" name="customRadio" class="custom-control-input"> 
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<label class="custom-control-label nanum" for="customRadio1" style="font-size: 25px;">남자</label>
+								<input type="radio" id="female" name="memberGender" value="F" class="custom-control-input"> 
+								<label class="custom-control-label nanum" for="female" style="font-size: 25px;">여자</label>
 							</div>
-							<div class="col-md-3 custom-control custom-radio">
-								<input type="radio" id="customRadio2" name="customRadio"
-									class="custom-control-input"> 
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<label class="custom-control-label nanum" for="customRadio2" style="font-size: 25px;">여자</label>
-							</div>
-						</div> -->
+						</div> 
 
 
 						<!-- 나이 입력 -->
@@ -344,7 +329,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<div class="col-md-6">
 								<!-- <input type="image" src="../img/골목.jpg" class="profile rounded-circle"> -->
 								<div class="profileDiv">
-									<img id="img" class="profile" src="img/wm1.png">
+									<img id="img" class="profile" src="${pageContext.request.contextPath}/resources/img/wm1.png">
 								</div>
 							</div>
 						</div>
@@ -379,7 +364,11 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		var signUpCheck = {
 			"email" : false,
 			"emailDup" : false,
-
+			"pwd1" : false,
+			"pwd2" : false,
+			"name" : false,
+			"nickName" : false,
+			"phone":false
 		};
 
 		// 실시간 입력 형식 검사
@@ -390,6 +379,13 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					// jQuery 변수 : 변수에 직접적으로 jQuery메소드를 사용할 수 있음.
 					var $email = $("#email");
 					var $emailDup = $("#emailDup");
+					var $pwd1 = $("#pwd1");
+					var $pwd2 = $("#pwd2");
+					var $name = $("#name");
+					var $nickName = $("#nickName");
+					var $nickNameDup = $("#nickNameDup");
+					var $phone2 = $("#phone2");
+					var $phone3 = $("#phone3");
 
 					// 이메일 유효성 검사
 					$email.on("input", function() {
@@ -436,40 +432,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							});
 						}
 					});
-
-					/* // 닉네임  유효성 검사
-					$id.on("input", function(){
-						// 영어 대,소문자 + 숫자, 총 6~12글자
-						var regExp = /^[A-Za-z0-9]{6,12}$/;
-						if(!regExp.test($id.val())){
-					    	$("#checkEmail").text("이메일 형식이 유효하지 않습니다.").css({"color":"red","font-weight":"bold"});
-					    	signUpCheck.id = false;
-					    }else{
-					    	signUpCheck.id = true;
-					    	 $.ajax({
-					    		url : "idDupCheck",
-					    		data : {memberEmail: $id.val() },
-					    		type : "post",
-					    		success : function(result){
-					    			
-					    			if(result == "true"){
-					    				$("#checkEmail").text("사용 가능한 이메일 입니다.").css({"color":"green","font-weight":"bold"});
-					    				signUpCheck.idDup = true;
-					    			}else{
-					    				$("#checkEmail").text("사용할 수 없는 이메일 입니다.").css({"color":"red","font-weight":"bold"});
-					    				signUpCheck.idDup = false;
-					    			}
-					    		},
-					    		
-					    		error : function(e){
-					    			console.log("ajax 통신 실패");
-					    			console.log(e);
-					    		}
-					    	}); 
-					    	
-					    }
-					});
-
+					
 					
 					// 비밀번호  유효성 검사
 					$pwd1.on("input", function(){
@@ -485,7 +448,6 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 					});
 					
-					
 					// 비밀번호 일치 여부
 					$pwd2.on("input", function(){
 						if($pwd1.val().trim() != $pwd2.val().trim()){
@@ -497,21 +459,50 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						}
 					});
 					
-					
 					// 이름 유효성 검사
 					$name.on("input", function(){
 						var regExp =  /^[가-힣]{2,}$/; // 한글 두 글자 이상
-						
-						if(!regExp.test($(this).val())){ // 이름이 정규식을 만족하지 않을경우
+						if(!regExp.test($(this).val())){ 
 							$("#checkName").text("한글 두 글자 이상을 입력하세요").css("color","red");
 							signUpCheck.name = false;
 						}else{
-							$("#checkName").text("정상입력").css("color","green");
+							$("#checkName").text("").css("color","green");
 							signUpCheck.name = true;
 						}
 					});
 					
-					
+
+					 // 닉네임  유효성 검사
+					$nickName.on("input", function(){
+						// 한글,영어 대,소문자 + 숫자, 총 1~12글자
+						var regExp = /^[A-Za-z0-9가-힣]{1,12}$/;
+						if(!regExp.test($nickName.val())){
+					    	$("#checknickName").text("닉네임 형식이 유효하지 않습니다.").css({"color":"red","font-weight":"bold"});
+					    	signUpCheck.nickName = false;
+					    }else{
+					    	signUpCheck.nickName = true;
+					    	 $.ajax({
+					    		url : "nickNameDupCheck",
+					    		data : {memberNickname: $nickName.val() },
+					    		type : "post",
+					    		success : function(result){
+					    			
+					    			if(result == "true"){
+					    				$("#checknickName").text("사용 가능한 닉네임 입니다.").css({"color":"green","font-weight":"bold"});
+					    				signUpCheck.nickNameDup = true;
+					    			}else{
+					    				$("#checknickName").text("사용할 수 없는 닉네임 입니다.").css({"color":"red","font-weight":"bold"});
+					    				signUpCheck.nickNameDup = false;
+					    			}
+					    		},
+					    		error : function(e){
+					    			console.log("ajax 통신 실패");
+					    			console.log(e);
+					    		}
+					    	}); 
+					    }
+					});
+
 					// 전화번호 관련
 					$(".phone").on("input",function(){
 						
@@ -531,9 +522,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							$("#checkPhone").text("유효한 전화번호입니다.").css("color","green");
 							signUpCheck.phone = true;
 						}
-						
-					}); */
-
+					}); 
 				});
 		// submit 동작
 		function validate() {
@@ -563,6 +552,28 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 		crossorigin="anonymous"></script>
+		
+		
+		<!-- <div class="row form-group">
+							<div class="col-md-4">
+								<label for="" class="nanum float-right" style="font-size: 25px;">*성별</label>
+							</div>
+							<div class="col-md-3">
+								<input type="radio" id="man" name="memberGender" value="M">
+								 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+								<label for="man" class="nanum"
+									style="font-size: 25px;">남성</label>
+							</div>
+							<div class="col-md-3">
+								<input type="radio" id="female" name="memberGender" value="W">
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+								<label for="woman" class="nanum"
+									style="font-size: 25px;">여성</label>
+							</div>
+						</div> -->
+		
+		
+		
 
 </body>
 
