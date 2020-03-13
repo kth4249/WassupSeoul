@@ -5,6 +5,7 @@ import java.sql.Date;
 public class Board {
 
 	private int boardNo;
+	private String boardWriter;
 	private String boardContent;
 	private Date boardWriteDt;
 	private String boardStatus;
@@ -12,14 +13,17 @@ public class Board {
 	private int streetNo;
 	private int memberNo;
 	private int typeNo;
+	private int thumbCount;
+	private int replyCount;
 	
 	public Board() {
 	}
 
-	public Board(int boardNo, String boardContent, Date boardWriteDt, String boardStatus, String boardLevel,
-			int streetNo, int memberNo, int typeNo) {
+	public Board(int boardNo, String boardWriter, String boardContent, Date boardWriteDt, String boardStatus,
+			String boardLevel, int streetNo, int memberNo, int typeNo, int thumbCount, int replyCount) {
 		super();
 		this.boardNo = boardNo;
+		this.boardWriter = boardWriter;
 		this.boardContent = boardContent;
 		this.boardWriteDt = boardWriteDt;
 		this.boardStatus = boardStatus;
@@ -27,15 +31,24 @@ public class Board {
 		this.streetNo = streetNo;
 		this.memberNo = memberNo;
 		this.typeNo = typeNo;
+		this.thumbCount = thumbCount;
+		this.replyCount = replyCount;
 	}
 
-	
 	public int getBoardNo() {
 		return boardNo;
 	}
 
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
+	}
+
+	public String getBoardWriter() {
+		return boardWriter;
+	}
+
+	public void setBoardWriter(String boardWriter) {
+		this.boardWriter = boardWriter;
 	}
 
 	public String getBoardContent() {
@@ -93,15 +106,30 @@ public class Board {
 	public void setTypeNo(int typeNo) {
 		this.typeNo = typeNo;
 	}
-	
+
+	public int getThumbCount() {
+		return thumbCount;
+	}
+
+	public void setThumbCount(int thumbCount) {
+		this.thumbCount = thumbCount;
+	}
+
+	public int getReplyCount() {
+		return replyCount;
+	}
+
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
 
 	@Override
 	public String toString() {
-		return "Board [boardNo=" + boardNo + ", boardContent=" + boardContent + ", boardWriteDt=" + boardWriteDt
-				+ ", boardStatus=" + boardStatus + ", boardLevel=" + boardLevel + ", streetNo=" + streetNo
-				+ ", memberNo=" + memberNo + ", typeNo=" + typeNo + "]";
+		return "Board [boardNo=" + boardNo + ", boardWriter=" + boardWriter + ", boardContent=" + boardContent
+				+ ", boardWriteDt=" + boardWriteDt + ", boardStatus=" + boardStatus + ", boardLevel=" + boardLevel
+				+ ", streetNo=" + streetNo + ", memberNo=" + memberNo + ", typeNo=" + typeNo + ", thumbCount="
+				+ thumbCount + ", replyCount=" + replyCount + "]";
 	}
 
-	
 	
 }

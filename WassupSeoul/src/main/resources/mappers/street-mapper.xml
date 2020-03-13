@@ -20,6 +20,7 @@
 		<id property="boardNo" column="BOARD_NO"/>
 		
 		<result property="boardContent" column="BOARD_CONTENT"/>
+		<result property="boardWriter" column="MEMBER_NICKNAME"/>
 		<result property="boardWriteDt" column="BOARD_WRITE_DT"/>
 		<result property="boardStatus" column="BOARD_STATUS"/>
 		<result property="boardLevel" column="BOARD_LEVEL"/>
@@ -78,17 +79,16 @@
 		WHERE STREET_NO = #{streetNo}
 	</select>
 	
-	  	 
+	<!-- 골목 게시글 조회 -->  	 
   	 <select id="selectBoardList" parameterType="_int" resultMap="boardResultSet">
-  	 	 SELECT * FROM BOARD
+  	 	 SELECT * FROM V_BOARD
   	 	 WHERE STREET_NO = #{streetNo} 
  		 AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'
  		 ORDER BY BOARD_NO
   	 	 	
   	 </select>
-  	 
-  	 
   	
+  	<!-- 게시글 등록용 -->
   	 <insert id="insertBoard" parameterType="Board">
 	
 		  INSERT INTO BOARD
@@ -101,9 +101,53 @@
 		  #{memberNo}, 
 		  #{typeNo})
 		  
-	
 	</insert>
+	
+	<!-- 좋아요조회  -->
+	<select id="likeCheck" parameterType="Member" resultType="string">
+	
+		SELECT THUMB_STATUS
+		FROM THUMB
+		WHERE 
+		MEMBER_NO = #{memberNo} AND
+		BOARD_NO = #{memberAge}
+		
+	</select>
+	
+	<!-- 좋아요 기록용  -->
+	 <insert id="recordLike" parameterType="Member">
+	
+		  INSERT INTO THUMB
+		  VALUES(SEQ_THUMB.NEXTVAL, 
+		  'Y', 
+		  #{memberNo}, 
+		  #{memberAge})
+		  
+	</insert>
+	
+	<!-- 좋아요 업데이트 -->
+	<update id="updateLike"  parameterType="Member" >
+	
+		UPDATE THUMB
+		
+		SET
+		
+		THUMB_STATUS = #{memberNm}
+
+		WHERE MEMBER_NO=#{memberNo}
+	
+	</update>
   	 
+  	<!-- 좋아요, 댓글 카운트용  --> 
+  	<select id="checkLikeReplyNum" parameterType="_int" resultType="list">
+	
+		SELECT THUMB_STATUS
+		FROM THUMB
+		WHERE 
+		MEMBER_NO = #{memberNo} AND
+		BOARD_NO = #{memberAge}
+		
+	</select>
   	 
 	
 </mapper>
