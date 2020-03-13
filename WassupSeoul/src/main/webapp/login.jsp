@@ -96,50 +96,100 @@
           <span class="nanum" style="font-size: 25px;">을 잊으셨나요?</span>
           <br><br>
           <label for="" class="nanum">제 이름은</label>
-          <input type="text" id="memberNm"class="nanum" size="10"> 
+          <input type="text" id="memberNm1" class="nanum" size="10"> 
           <span class="nanum">이고,</span>
           <label for="" class="nanum">휴대폰 번호는</label>
           <span class="nanum" style="font-size: 15px; color: gray;">(' - ' 포함)</span>&nbsp;&nbsp;
-          <input type="text" id="memberPhone" class="nanum" size="20">
+          <input type="text" id="memberPhone1" class="nanum" size="20">
           <span class="nanum">이에요. &nbsp; </span> 
           <br>
-           <div id="resultArea">
-          <div class="result-body">
-            <span class="nanum" style="font-size: 25px; ">당신의 Email은</span>
-            <span class="nanum" id="printEmail" style="font-size: 25px; color: tomato;" ></span>
-            <span class="nanum" style="font-size: 25px; ">입니다 ^3^</span>
-            </div>
+          <br>
+          <div id="emailResultArea">
+         	 <div class="result-body">
+	            <span class="nanum" style="font-size: 25px; ">회원님의 Email은</span>
+	            <span class="nanum" id="printEmail" style="font-size: 25px; color: tomato;" ></span>
+	            <span class="nanum" style="font-size: 25px; ">입니다 ^3^</span>
+           	 </div>
+          </div>
+          <div id="emailResultFalseArea">
+         	 <div class="result-body">
+	            <span class="nanum" style="font-size: 25px; ">가입된 계정이 없습니다 !</span>
+           	 </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success nanum" id="searchEmailBtn" >이메일 찾기</button>
-          <button type="button" class="btn btn-primary nanum" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-success nanum" id="searchEmailBtn">이메일 찾기</button>
+          <button type="button" class="btn btn-primary nanum" data-dismiss="modal" id="closeBtn1">닫기</button>
         </div>
       </div>
     </div>
   </div>
-  
-  <script>
- 	function emailValidate(){
- 		if($("#memberNm").val().trim().length == 0){
-			alert("이름 입력하세요.");
-			$("#memberNm").focus();
-			
+ 
+ <script>
+   
+   $(function(){
+   $("#emailResultArea").hide();
+   $("#emailResultFalseArea").hide();
+   
+   $("#searchEmailBtn").on("click",function(){
+	   
+ 		if($("#memberNm1").val().trim().length == 0){
+			alert("이름을 입력하세요.");
+			$("#memberNm1").focus();
 			return false;
 		}
-		
-		if($("#memberPhone").val().trim().length == 0){
+		if($("#memberPhone1").val().trim().length == 0){
 			alert("전화번호를 입력하세요.");
-			$("#memberPhone").focus();
-			
+			$("#memberPhone1").focus();
 			return false;
 		}
 		
-		return true;
- 	}
-  
+
+     var name = $("#memberNm1").val();
+     var phone = $("#memberPhone1").val();
+     
+     console.log(name);
+     console.log(phone);
+
+    	$.ajax({
+    		
+	       url : "member/findEmail",
+	       data : {name, phone},
+	       success:function(result){
+      	
+	       	 if(result != 'null'){
+		         $("#printEmail").text(result);
+		         $("#emailResultArea").show();
+		         $("#emailResultFalseArea").hide();
+	       	 }else{
+	       		 $("#resultFalseArea").show();
+	       		$("#emailResultFalseArea").hide();
+      		 }
+	     	 
+     		},
+	       	error:function(){
+	       	console.log("ajax통신 실패");
+     		},
+
+		})
+
+ 	}); 
+      
+   $(".close").on("click",function(){
+	     $("#memberNm1").val("");
+	     $("#memberPhone1").val("");
+	     $("#emailResultArea").hide();
+	     $("#emailResultFalseArea").hide();
+	     
+   });
+   $("#closeBtn1").on("click",function(){
+	  	 $("#memberNm1").val("");
+	     $("#memberPhone1").val("");
+   		$("#emailResultArea").hide();
+     	$("#emailResultFalseArea").hide();
+   });
+ });
   </script>
-  
   
 
   <!-- Pwd 찾기 -->
@@ -154,63 +204,116 @@
           </button>
         </div>
         <div class="modal-body">
-          <form action="FindPassword">
             <span class="nanum" style="font-size: 25px; color: tomato;">Password</span>
             <span class="nanum" style="font-size: 25px;">를 잊으셨나요??</span>
             <br><br>
             <label for="" class="nanum">제 이름은</label>
-            <input type="text" class="nanum" size="10"> 
+            <input type="text" id="memberNm2" class="nanum" size="10"> 
             <span class="nanum">이고,</span>
             <label for="" class="nanum">Email은</label>
-            <input type="email" class="nanum" size="20"> 
+            <input type="email" id="memberEmail" class="nanum" size="20"> 
             <span class="nanum">이에요. &nbsp; </span> 
             <label for="" class="nanum">휴대폰 번호는 </label>
             <span class="nanum" style="font-size: 15px; color: gray;">(' - ' 포함)</span>&nbsp;&nbsp;
-            <input type="text" class="nanum" size="20">
-            <span class="nanum">입니다. &nbsp; </span> <br>
-          </form>
+            <input type="text" id="memberPhone2" class="nanum" size="20">
+            <span class="nanum">입니다. &nbsp; </span> 
+            <br><br>
+            <div id="passwordResultArea">
+         	 <div class="result-body">
+	            <span class="nanum" style="font-size: 25px; ">회원님의 Email로 임시 비밀번호를 발송하였습니다 !</span>
+           	 </div>
+          	</div>
+          <div id="passwordResultFalseArea">
+         	 <div class="result-body">
+	            <span class="nanum" style="font-size: 25px; ">가입된 계정이 없습니다 !</span>
+           	 </div>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success nanum">비밀번호 찾기</button>
-          <button type="button" class="btn btn-primary nanum" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-success nanum" id="searchPasswordBtn">비밀번호 찾기</button>
+          <button type="button" class="btn btn-primary nanum" data-dismiss="modal" id="closeBtn2">닫기</button>
         </div>
       </div>
     </div>
   </div>
   
-   <script>
-            $(function(){
-            $("#resultArea").hide();
+  
+ <script>
+   
+   $(function(){
+   $("#passwordResultArea").hide();
+   $("#passwordResultFalseArea").hide();
+   
+   $("#searchPasswordBtn").on("click",function(){
+	   
+ 		if($("#memberNm2").val().trim().length == 0){
+			alert("이름을 입력하세요.");
+			$("#memberNm2").focus();
+			return false;
+		}
+ 		if($("#memberEmail").val().trim().length == 0){
+			alert("이메일을 입력하세요.");
+			$("#memberEmail").focus();
+			return false;
+ 		}
+		if($("#memberPhone2").val().trim().length == 0){
+			alert("전화번호를 입력하세요.");
+			$("#memberPhone2").focus();
+			return false;
+		}
+		
 
-            $("#searchEmailBtn").on("click",function(){
-              var name = $("#memberNm").val();
-              var phone = $("#memberPhone").val();
-              
-              console.log(name);
-              console.log(phone);
+     var name = $("#memberNm2").val();
+     var phone = $("#memberPhone2").val();
+     var email = $("#memberEmail").val();
+     
+     console.log(name);
+     console.log(phone);
+     console.log(email);
 
-             $.ajax({
+    	$.ajax({
+    		
+	       url : "member/findEmail",
+	       data : {name, phone, email},
+	       success:function(result){
+      	
+	       	 if(result != 'null'){
+		         $("#printEmail").text(result);
+		         $("#passwordResultArea").show();
+		         $("#passwordResultFalseArea").hide();
+	       	 }else{
+	       		 $("#passwordResultArea").show();
+	       		$("#passwordResultFalseArea").hide();
+      		 }
+	     	 
+     		},
+	       	error:function(){
+	       	console.log("ajax통신 실패");
+     		},
 
-                url : "member/findEmail",
-                data : {name, phone},
-                success:function(result){
-	              $("#printEmail").text(result);
-	              
-	              $("#resultArea").show();
-                },
-                error:function(){
-                	console.log("ajax통신 실패")
-                },
+		})
 
-              })
-
-            });            
-
-            $(".closeModal").on("click",function(){
-              $("#resultArea").hide();
-            });
-          });
-          </script>
+ 	}); 
+      
+   $(".close").on("click",function(){
+	     $("#memberNm2").val("");
+	     $("#memberEmail").val("");
+	     $("#memberPhone2").val("");
+	     $("#passwordResultArea").hide();
+	     $("#passwordResultFalseArea").hide();
+	     
+   });
+   $("#closeBtn2").on("click",function(){
+	  	$("#memberNm2").val("");	
+	  	$("#memberEmail").val("");
+	    $("#memberPhone2").val("");
+   		$("#passwordResultArea").hide();
+     	$("#passwordResultFalseArea").hide();
+   });
+ });
+  </script>
+  
+   
 
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
