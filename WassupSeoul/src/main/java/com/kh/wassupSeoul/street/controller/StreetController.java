@@ -165,19 +165,15 @@ public class StreetController {
 		
 	
 		try {
-		int[] arrayCount = streetService.checkLikeReplyNum( postNo );
 	
-		System.out.println("좋아요 기록 조회:"+test);
-		System.out.println("변경된 loginMemer:"+ postNo);
 			
-			return streetService.checkLikeReplyNum( postNo ) == 1 ? true + "" : false + "";
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errorMsg", "좋아요 기록 과정에서 오류발생");
 			return "/common/errorPage";
 		}
-		
+		return "/common/errorPage";
 	}
 	
 	
