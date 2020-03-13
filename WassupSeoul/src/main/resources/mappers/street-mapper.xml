@@ -38,27 +38,50 @@
 	
 	<!-- 전체 골목 수 조회 -->
 	<select id="getListCount" parameterType="map" resultType="_int">
-		SELECT COUNT(*)
+		SELECT COUNT(DISTINCT(STREET_NO))
 		FROM V_STREET
 		<where>
 			<if test="districtNo != null">
 				DISTRICT_NO = #{districtNo}
 			</if>
+			<if test="keyword != null">
+				KEYWORD_CONTENT LIKE '%' || #{keyword} || '%'
+				OR STREET_NM LIKE '%' || #{keyword} || '%'
+			</if>
 		</where>
 	</select>
 	
 	<!-- 골목 리스트 조회 -->
-	<select id="selectList" resultMap="streetResultSet">
-		SELECT *
+	<select id="selectList" parameterType="map" resultMap="streetResultSet">
+		SELECT STREET_NO, STREET_NM, STREET_MAX_MEMBER, STREET_POINT,
+        		IMG_URL, STREET_STATUS, MEMBER_COUNT
 		FROM V_STREET
+		<where>
+			<if test="districtNo != null">
+				DISTRICT_NO = #{districtNo}
+			</if>
+			<if test="keyword != null">
+				KEYWORD_CONTENT LIKE '%' || #{keyword} || '%'
+				OR STREET_NM LIKE '%' || #{keyword} || '%'
+			</if>
+		</where>
+		GROUP BY STREET_NO, STREET_NM, STREET_MAX_MEMBER, STREET_POINT,
+				IMG_URL, STREET_STATUS, MEMBER_COUNT
 		<choose>
 			<when test="streetSort == 0">
 				ORDER BY STREET_POINT DESC
 			</when>
 			<when test="streetSort == 1">
-				
+				ORDER BY MEMBER_COUNT DESC
 			</when>
+			<when test="streetSort == 2">
+				ORDER BY MEMBER_COUNT ASC
+			</when>
+			<otherwise>
+				ORDER BY STREET_NO DESC
+			</otherwise>
 		</choose>
+		
 	</select>
 	
 	<!-- 골목 키워드 조회 -->

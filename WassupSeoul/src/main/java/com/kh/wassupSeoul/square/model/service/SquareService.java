@@ -9,7 +9,6 @@ import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
-@Service
 public interface SquareService {
 
 	
@@ -17,7 +16,7 @@ public interface SquareService {
 	 * @return listCount
 	 * @throws Exception
 	 */
-	public abstract int getListCount() throws Exception;
+	public abstract int getListCount(Map<String, Object> map) throws Exception;
 
 	
 	/** 전체 골목 조회용 Service

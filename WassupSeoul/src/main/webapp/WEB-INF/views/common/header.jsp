@@ -20,9 +20,18 @@
 	</c:if>
 	
 	
+	<c:url var="detailUrl" value="square">
+		<c:param name="currentPage" value="1" />
+		<c:if test="${!empty param.districtNo}">
+			<c:param name="districtNo" value="${param.districtNo}" />
+		</c:if>
+		<c:if test="${!empty param.streetSort}">
+			<c:param name="streetSort" value="${param.streetSort}" />
+		</c:if>
+	</c:url>
 	<nav
 		class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top headerOpacity">
-		<form class="form-inline my-2 my-lg-0"
+		<form class="form-inline my-2 my-lg-0" action="${detailUrl}"
 			onsubmit="return searchValidate();">
 			<input class="form-control mr-sm-2" type="text"
 				placeholder="검색할 골목 키워드" id="searchStreet" name="searchStreet"
@@ -31,6 +40,8 @@
 		</form>
 		<script>
 			function searchValidate() {
+				alert("${param.districtNo}")
+				alert("${param.streetSort}")
 				var regExp = /^[\w가-힣]{2,}$/;
 				if (!regExp.test($("#searchStreet").val())) {
 					alert("키워드를 2글자 이상 입력해주세요.");
