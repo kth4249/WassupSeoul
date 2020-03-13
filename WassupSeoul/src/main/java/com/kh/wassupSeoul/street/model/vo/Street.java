@@ -7,15 +7,16 @@ public class Street {
 	private char streetStatus;
 	private int streetMaxMember;
 	private int streetPoint;
-	private int imgNo;
+	private String imgUrl;
 	private int districtNo;
 	
 	public Street() {
 		// TODO Auto-generated constructor stub
 	}
 
+
 	public Street(int streetNo, String streetNm, String streetIntro, char streetStatus, int streetMaxMember,
-			int streetPoint, int imgNo, int districtNo) {
+			int streetPoint, String imgUrl, int districtNo) {
 		super();
 		this.streetNo = streetNo;
 		this.streetNm = streetNm;
@@ -23,9 +24,11 @@ public class Street {
 		this.streetStatus = streetStatus;
 		this.streetMaxMember = streetMaxMember;
 		this.streetPoint = streetPoint;
-		this.imgNo = imgNo;
+		this.imgUrl = imgUrl;
 		this.districtNo = districtNo;
 	}
+
+
 
 	public int getStreetNo() {
 		return streetNo;
@@ -75,13 +78,6 @@ public class Street {
 		this.streetPoint = streetPoint;
 	}
 
-	public int getImgNo() {
-		return imgNo;
-	}
-
-	public void setImgNo(int imgNo) {
-		this.imgNo = imgNo;
-	}
 
 	public int getDistrictNo() {
 		return districtNo;
@@ -91,12 +87,22 @@ public class Street {
 		this.districtNo = districtNo;
 	}
 
-	
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Street [streetNo=" + streetNo + ", streetNm=" + streetNm + ", streetIntro=" + streetIntro
 				+ ", streetStatus=" + streetStatus + ", streetMaxMember=" + streetMaxMember + ", streetPoint="
-				+ streetPoint + ", imgNo=" + imgNo + ", districtNo=" + districtNo + "]";
+				+ streetPoint + ", imgUrl=" + imgUrl + ", districtNo=" + districtNo + "]";
 	}
 	
 	
