@@ -62,6 +62,7 @@ public class MemberController {
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/" + "/profileImage";
 		System.out.println("savePath : " + savePath);
+		// 이 주소까지 직접 찾아가서 파일을 억지로 넣었는데도 이클립스 폴더상에 추가 되지 않음.
 
 		File folder = new File(savePath);
 		if(!folder.exists()) folder.mkdir();
