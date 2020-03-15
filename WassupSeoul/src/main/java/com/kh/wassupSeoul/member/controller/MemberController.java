@@ -50,28 +50,30 @@ public class MemberController {
 	// 회원가입
 	@RequestMapping("signUp")
 	public String signUp(Member member, Model model, String phone1, String phone2, String phone3,
-			RedirectAttributes rdAttr, HttpServletRequest request, 
-			@RequestParam(value="memberProfileUrl" , required=false) MultipartFile profileImg) {
+			RedirectAttributes rdAttr, HttpServletRequest request) 
+			//@RequestParam(value="memberProfileUrl" , required=false) MultipartFile profileImg) 
+	{
 
-		String filefile = profileImg.getOriginalFilename();
-		// 여기서 왜 에러가 나는지 도대체 모르겠다고 진짜로 망할
-		System.out.println("profileImg : " + filefile);
+		//String filefile = profileImg.getOriginalFilename();
+		// (1.MultipartFile 방식) 여기서 왜 에러가 나는지 도대체 모르겠다고 진짜로 망할
 		
 		String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
 
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/" + "/profileImage";
+		System.out.println("savePath : " + savePath);
+
 		File folder = new File(savePath);
 		if(!folder.exists()) folder.mkdir();
 
 
 		try {
-//			String url = member.getMemberProfileUrl();
-//			url = FileRename.renameProfile(url);
-//			member.setMemberProfileUrl(url);
+			String url = member.getMemberProfileUrl();
+			url = FileRename.renameProfile(url);
+			member.setMemberProfileUrl(url);
 
 //			String newProfile = FileRename.renameProfile(profileImg.getOriginalFilename());
-			
+			// (1.MultipartFile 방식)
 			
 			Member signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
 					member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), member.getMemberProfileUrl());
@@ -80,9 +82,13 @@ public class MemberController {
 
 			if (result > 0) {
 				 
-				profileImg.transferTo(new File(savePath+"/"+member.getMemberProfileUrl()));
+				//profileImg.transferTo(new File(savePath+"/"+member.getMemberProfileUrl()));
+				// (1.MultipartFile 방식)
+				
 				//File what = new File(savePath+"/"+member.getMemberProfileUrl());
-				//System.out.println("what : " + what);
+				File what = new File(member.getMemberProfileUrl());
+				
+				System.out.println("what : " + what);
 				
 				
 				msg = "가입성공";
