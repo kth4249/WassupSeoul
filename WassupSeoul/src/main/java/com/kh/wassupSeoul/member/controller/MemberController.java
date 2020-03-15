@@ -1,6 +1,7 @@
 
 package com.kh.wassupSeoul.member.controller;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,11 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.email.controller.EmailController;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.service.MemberService;
@@ -46,20 +50,41 @@ public class MemberController {
 	// 회원가입
 	@RequestMapping("signUp")
 	public String signUp(Member member, Model model, String phone1, String phone2, String phone3,
-			RedirectAttributes rdAttr) {
+			RedirectAttributes rdAttr, HttpServletRequest request, 
+			@RequestParam(value="memberProfileUrl" , required=false) MultipartFile profileImg) {
 
+		String filefile = profileImg.getOriginalFilename();
+		// 여기서 왜 에러가 나는지 도대체 모르겠다고 진짜로 망할
+		System.out.println("profileImg : " + filefile);
+		
 		String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
 
-		Member signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
-				member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge());
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "/" + "/profileImage";
+		File folder = new File(savePath);
+		if(!folder.exists()) folder.mkdir();
 
-		System.out.println(signUpMember);
 
 		try {
+//			String url = member.getMemberProfileUrl();
+//			url = FileRename.renameProfile(url);
+//			member.setMemberProfileUrl(url);
+
+//			String newProfile = FileRename.renameProfile(profileImg.getOriginalFilename());
+			
+			
+			Member signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
+					member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), member.getMemberProfileUrl());
 			int result = memberService.signUp(signUpMember);
 			String msg = null;
 
 			if (result > 0) {
+				 
+				profileImg.transferTo(new File(savePath+"/"+member.getMemberProfileUrl()));
+				//File what = new File(savePath+"/"+member.getMemberProfileUrl());
+				//System.out.println("what : " + what);
+				
+				
 				msg = "가입성공";
 				rdAttr.addFlashAttribute("msg", msg);
 				return "redirect:/";
@@ -88,25 +113,6 @@ public class MemberController {
 				msg = "로그인 성공";
 				rdAttr.addFlashAttribute("msg", msg);
 				model.addAttribute("loginMember", loginMember);
-				
-				
-				
-				
-
-				
-
-
-
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				return "redirect:/square";
 			} else {
 				msg = "로그인 실패";

@@ -32,8 +32,7 @@ public class MemberServiceImpl implements MemberService{
 	public int signUp(Member signUpMember) throws Exception {
 		String encPwd = bcryptPasswordEncoder.encode(signUpMember.getMemberPwd());
 		signUpMember.setMemberPwd(encPwd);
-		int result = memberDAO.signUp(signUpMember);
-		return result;
+		return memberDAO.signUp(signUpMember);
 	}
 	
 	
