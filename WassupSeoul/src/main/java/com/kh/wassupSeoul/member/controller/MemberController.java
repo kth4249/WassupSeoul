@@ -24,11 +24,13 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.email.controller.EmailController;
+import com.kh.wassupSeoul.hobby.model.vo.Hobby;
+import com.kh.wassupSeoul.hobby.model.vo.SearchHobby;
 import com.kh.wassupSeoul.member.model.service.MemberService;
 import com.kh.wassupSeoul.member.model.vo.Member;
-import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 
@@ -114,10 +116,16 @@ public class MemberController {
 				
 				// 1) 해당 관심사 가져오기
 				List<Hobby> myHobby = memberService.selectHobby(loginMember.getMemberNo());
+				for(int k=0;k<myHobby.size();k++) {
+					System.out.println(myHobby.get(k));
+				}
 				model.addAttribute("myHobby",myHobby);
 				
 				// 2) 해당 골목 가져오기
 				List<ProfileStreet> myStreet = memberService.selectProfileStreet(loginMember.getMemberNo());
+				for(int k=0;k<myStreet.size();k++) {
+					System.out.println(myStreet.get(k));
+				}
 				
 				// 골목 keyword에 사용할 컬렉션 선언
 				List<Keyword> myStreetKeyword = new ArrayList<Keyword>(); 
@@ -286,6 +294,145 @@ public class MemberController {
 		
 	}
 	
+	// 회원 탈퇴 페이지 이동
+	@RequestMapping("deleteForm")
+	public String deleteForm() {
+		return "member/secession";
+	} 
+		
+	// 회원 수정 페이지 이동
+	@RequestMapping("updateForm")
+	public String updateForm(Model model) {
+		return "member/updateForm";
+	} 
+	
+	// 현재비밀번호 일치 검사
+	@ResponseBody
+	@RequestMapping(value="beforePwdCheck", method = RequestMethod.POST)
+	public String beforePwdCheck(String beforePwd,int memberNo,Model model) {
+		try {	
+			return memberService.beforePwdCheck(beforePwd,memberNo) == 1 ? true+"" : false+"";
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg","현재 비밀번호 확인 과정에서 오류 발생");
+			return "common/errorPage";
+		}
+	}
+	
+	// 관심사 검색 조회
+	@ResponseBody
+	@RequestMapping("searchHobby")
+	public void searchHobby(HttpServletResponse response,String searchHobbyContent) {
+		try {
+			System.out.println("검색관심사 : " + searchHobbyContent);
+			
+			// 검색 결과 전송용 리스트
+			ArrayList<SearchHobby> searchHobbyList = new ArrayList<SearchHobby>();
+			
+			// DB조회용 리스트
+			List<Hobby> hobbyList = memberService.searchHobby(searchHobbyContent);
+			for(int b=0;b<hobbyList.size();b++) {
+				System.out.println(hobbyList.get(b));
+			}
+			
+			for(int i=0;i<hobbyList.size();i++) {
+				SearchHobby temp = new SearchHobby(); // 임시 저장
+				int count = memberService.selectHobbyCount(hobbyList.get(i).getHobbyName());
+				
+				// 전송할 관심사 정보 객체 저장
+				temp.setHobbyNo(hobbyList.get(i).getHobbyNo());
+				temp.setHobbyNm(hobbyList.get(i).getHobbyName());
+				temp.setHobbyCount(count);
+				
+				searchHobbyList.add(temp);
+			}
+			response.setCharacterEncoding("UTF-8");
+			new Gson().toJson(searchHobbyList, response.getWriter());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// 회원 정보 수정
+	@RequestMapping(value="update", method = RequestMethod.POST)
+	public String updateMember(String phone1,String phone2,String phone3,String memberNickname,
+							   @RequestParam(value="memberProfileUrl", required=false) MultipartFile memberProfileUrl,
+							   @RequestParam(value="newPwd", required=false) String newPwd,
+							   @RequestParam(value="maintainPwd", required=false) String maintainPwd,
+							   String[] hobbyNmArr, Model model, HttpServletRequest request) {
+		try {
+			Member member = (Member)model.getAttribute("loginMember");
+			
+			// 닉네임 변경
+			member.setMemberNickname(memberNickname);
+			
+			// 전화번호 변경
+			String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
+			member.setMemberPhone(memberPhone);
+			
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String profileSavePath = root + "/profileImage/";
+			File folder = new File(profileSavePath);
+			if(!folder.exists()) folder.mkdir();
+			
+			// 프로필사진 변경
+			if(memberProfileUrl != null) {
+				String updateProfileUrl = profileSavePath + memberProfileUrl.getOriginalFilename();
+				member.setMemberProfileUrl(updateProfileUrl);
+			} else {
+				member.setMemberProfileUrl(profileSavePath + member.getMemberProfileUrl());
+				String a = profileSavePath + member.getMemberProfileUrl();
+				System.out.println("a : " + a);
+			}
+			
+			// 비밀번호 변경
+			int flag = 0;
+			if(maintainPwd != null) {
+				String memberPwd = memberService.selectMemberPwd(member.getMemberNo());
+				member.setMemberPwd(memberPwd);
+				flag = 0;
+			} else {
+				member.setMemberPwd(newPwd);
+				flag = 1;
+			}
+			
+			// 1)Member 테이블 update
+			int result = memberService.updateMember(member,flag);
+			
+			if(result > 0)	{
+				model.addAttribute("msg","회원정보 수정 성공");
+				String memberPwd = memberService.selectMemberPwd(member.getMemberNo());
+				member.setMemberPwd(memberPwd);
+				member.setMemberProfileUrl(member.getMemberProfileUrl().substring(profileSavePath.length()));
+				model.addAttribute("loginMember",member);
+				
+				// 파일을 서버에 저장
+				memberProfileUrl.transferTo(new File(profileSavePath + memberProfileUrl.getOriginalFilename()));
+			}
+			else {
+				model.addAttribute("msg","회원정보 수정 실패");
+			}
+			return "redirect:updateForm";
+			
+			// 2)Member_Hobby , Hobby 테이블 update -> 중복된 값, 새로 추가된 값 구별하여 추가
+			
+			
+			
+			// 수정된 회원정보 조회 후 session저장
+			// 수정된 관심사 조회 후 session저장
+			
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg","회원 정보 수정과정 중 오류 발생");
+			return "common/errorPage";
+		}
+		
+		
+	}
+	
+	
+
 
 	
 	

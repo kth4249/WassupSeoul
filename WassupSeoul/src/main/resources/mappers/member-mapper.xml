@@ -17,6 +17,31 @@
   		<result property="memberStatus" column="MEMBER_STATUS"/>
 	</resultMap>
 	
+	<resultMap type="Hobby" id="hobbyResultSet">
+		<id property="hobbyNo" column="HOBBY_NO"/>
+		<result property="hobbyName" column="HOBBY_NM"/>
+	</resultMap>
+	
+	<resultMap type="ProfileStreet" id="ProfileStreetResultSet">	
+		<id property="streetNo" column="STREET_NO"/>
+		<result property="streetNm" column="STREET_NM"/>
+		<result property="streetIntro" column="STREET_INTRO"/>
+		<result property="streetMaxMember" column="STREET_MAX_MEMBER"/>
+		<result property="streetPoint" column="STREET_POINT"/>
+		<result property="imgNo" column="IMG_NO"/>
+		<result property="districtNo" column="DISTRICT_NO"/>
+		<result property="imgUrl" column="IMG_URL"/>
+		<result property="memberNm" column="MEMBER_NM"/>
+		<result property="districtNm" column="DISTRICT_NM"/>
+		<result property="citizenGrade" column="CITIZEN_GRADE"/>		
+	</resultMap>
+	
+	<resultMap type="Keyword" id="KeywordResultSet">
+		<id property="keywordNo" column="KEYWORD_NO" />
+		<result property="keywordContent" column="KEYWORD_CONTENT" />
+		<result property="streetNo" column="STREET_NO" />
+	</resultMap>
+	
 	<!-- 회원가입용 -->
 	<insert id="signUp" parameterType="Member">
   		INSERT INTO MEMBER
@@ -67,6 +92,68 @@
 		UPDATE MEMBER SET 
 		MEMBER_PWD = #{newPwd}
 		WHERE MEMBER_EMAIL = #{email}
+	</update>
+	
+	<!-- 로그인 회원 관심사 조회 -->
+  	<select id="selectHobby" parameterType="_int" resultMap="hobbyResultSet">
+  		SELECT * FROM HOBBY
+  		JOIN MEMBER_HOBBY USING(HOBBY_NO)
+  		WHERE MEMBER_NO = #{memberNo}
+  	</select>
+  	
+  	<!-- 내골목 조회 -->
+	<select id="selectProfileStreet" parameterType="_int" resultMap="ProfileStreetResultSet">
+		SELECT STREET_NO, STREET_NM, STREET_INTRO, STREET_MAX_MEMBER, DISTRICT_NM, IMG_URL, CITIZEN_GRADE FROM STREET
+		JOIN DISTRICT USING(DISTRICT_NO)
+		JOIN STREET_JOIN USING(STREET_NO)
+		JOIN STREET_IMG USING(IMG_NO)
+		WHERE MEMBER_NO = #{memberNo} AND IMG_LEVEL='1' AND STREET_STATUS = 'Y' AND CITIZEN_STATUS='Y'
+	</select>
+	
+	<!-- 내골목 골목대장 조회 -->
+	<select id="selectStreetMaster" parameterType="_int" resultType="string">
+		SELECT MEMBER_NM FROM STREET
+		JOIN STREET_JOIN USING(STREET_NO)
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE STREET_NO = #{streetNo} AND CITIZEN_GRADE='M' AND STREET_STATUS = 'Y'
+	</select>
+	
+	<!-- 내골목 키워드 조회 -->
+	<select id="selectMyKeyword" parameterType="_int" resultMap="KeywordResultSet">
+		SELECT STREET_NO,KEYWORD_CONTENT FROM STREET
+		JOIN KEYWORD USING(STREET_NO)
+		WHERE STREET_NO = #{streetNo}
+	</select>
+	
+	<!-- 현재 비밀번호 조회 -->
+	<select id="selectMemberPwd" parameterType="_int" resultType="string">
+		SELECT MEMBER_PWD FROM MEMBER
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<!-- 검색된 관심사 조회 -->
+	<select id="searchHobby" parameterType="string" resultMap="hobbyResultSet">
+		<bind name="sv" value="'%' + _parameter + '%'" />
+		SELECT * FROM HOBBY
+		WHERE HOBBY_NM LIKE #{sv}
+	</select>
+	
+	<!-- 검색된 관심사 지정 회원수 조회 -->
+	<select id="selectHobbyCount" parameterType="string" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		JOIN MEMBER_HOBBY USING(MEMBER_NO)
+		JOIN HOBBY USING(HOBBY_NO)
+		WHERE HOBBY_NM = #{hobbyName}
+	</select>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="updateMember" parameterType="Member">
+		UPDATE MEMBER
+		SET MEMBER_PWD = #{memberPwd},
+		MEMBER_NICKNAME = #{memberNickname},
+		MEMBER_PHONE = #{memberPhone},
+		MEMBER_PROFILE_URL = #{memberProfileUrl}
+		WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
 	
