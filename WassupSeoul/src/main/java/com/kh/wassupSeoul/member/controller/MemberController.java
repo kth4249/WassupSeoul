@@ -4,6 +4,7 @@ package com.kh.wassupSeoul.member.controller;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -26,8 +27,11 @@ import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.email.controller.EmailController;
 import com.kh.wassupSeoul.member.model.service.MemberService;
 import com.kh.wassupSeoul.member.model.vo.Member;
+import com.kh.wassupSeoul.member.model.vo.Hobby;
+import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 
-@SessionAttributes({ "loginMember", "msg" })
+@SessionAttributes({ "loginMember", "msg", "myHobby", "myStreet","myStreetKeyword" })
 @RequestMapping("/member/*")
 @Controller
 public class MemberController {
@@ -116,6 +120,57 @@ public class MemberController {
 			Member loginMember = memberService.loginMember(member);
 			String msg = null;
 			if (loginMember != null) {
+				
+				//
+				// 골목번호 배열
+				int[] streetNoArr = new int[3];
+				
+				// 1) 해당 관심사 가져오기
+				List<Hobby> myHobby = memberService.selectHobby(loginMember.getMemberNo());
+				model.addAttribute("myHobby",myHobby);
+				
+				// 2) 해당 골목 가져오기
+				List<ProfileStreet> myStreet = memberService.selectProfileStreet(loginMember.getMemberNo());
+				
+				// 골목 keyword에 사용할 컬렉션 선언
+				List<Keyword> myStreetKeyword = new ArrayList<Keyword>(); 
+				
+				if(!myStreet.isEmpty()) {
+					
+					for(int i=0;i<myStreet.size();i++) {
+						
+						// 골목번호
+						int streetNo = myStreet.get(i).getStreetNo();
+						
+						// 2_1) 골목대장 가져오기
+						String StreetMaster = memberService.selectStreetMaster(streetNo);
+						myStreet.get(i).setMemberNm(StreetMaster);
+						streetNoArr[i] = streetNo; // 골목번호 구분용 배열
+					}	
+					
+					// 2_2) 키워드 가져오기
+					for(int i=0;i<streetNoArr.length;i++) {
+						switch(i) {
+						case 0: List<Keyword> myStreetKeyword1 = memberService.selectMyKeyword(streetNoArr[i]);
+								myStreetKeyword.addAll(myStreetKeyword1);break;
+						case 1: List<Keyword> myStreetKeyword2 = memberService.selectMyKeyword(streetNoArr[i]);
+								myStreetKeyword.addAll(myStreetKeyword2);break; 						
+						case 2: List<Keyword> myStreetKeyword3 = memberService.selectMyKeyword(streetNoArr[i]);
+								myStreetKeyword.addAll(myStreetKeyword3);break;
+						}
+					}
+					model.addAttribute("myStreetKeyword",myStreetKeyword);
+					for(int g=0;g<myStreetKeyword.size();g++) {
+						System.out.println("myStreetKeyword : " + myStreetKeyword.get(g));
+					}
+					for(int t=0;t<myStreet.size();t++) {
+						System.out.println("내골목 : " + myStreet.get(t));
+					}
+					model.addAttribute("myStreet", myStreet);
+					
+				}
+				//
+				
 				msg = "로그인 성공";
 				rdAttr.addFlashAttribute("msg", msg);
 				model.addAttribute("loginMember", loginMember);
