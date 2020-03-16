@@ -66,7 +66,6 @@ public class MemberController {
 		File folder = new File(savePath);
 		if(!folder.exists()) folder.mkdir();
  
-
 		try {
 			String newProfileImg = FileRename.renameProfile(originProfileUrl.getOriginalFilename());
 			
