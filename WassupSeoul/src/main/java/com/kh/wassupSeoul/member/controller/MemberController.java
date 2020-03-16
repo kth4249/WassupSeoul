@@ -51,45 +51,32 @@ public class MemberController {
 	@RequestMapping("signUp")
 	public String signUp(Member member, Model model, String phone1, String phone2, String phone3,
 			RedirectAttributes rdAttr, HttpServletRequest request, 
-			@RequestParam(value="memberProfileUrl" , required=false) MultipartFile profileImg) 
+			@RequestParam(value="originProfileUrl" , required=false) MultipartFile originProfileUrl) 
 	{
 
-		// String prifileImage = profileImg.getOriginalFilename();
-		// (1.MultipartFile 방식) 
-		
 		String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
 
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "/" + "/profileImage";
-		// System.out.println("savePath : " + savePath);
-		// 이 주소까지 직접 찾아가서 파일을 억지로 넣었는데도 이클립스 폴더상에 추가 되지 않음.
-
+		String savePath = root + "/" + "profileImage";
 		File folder = new File(savePath);
 		if(!folder.exists()) folder.mkdir();
-
+ 
 
 		try {
-			String url = member.getMemberProfileUrl();
-			//url = FileRename.renameProfile(url);
-			//member.setMemberProfileUrl(url);
-
-			String newProfileImg = FileRename.renameProfile(profileImg.getOriginalFilename());
-			// (1.MultipartFile 방식)
+			String newProfileImg = FileRename.renameProfile(originProfileUrl.getOriginalFilename());
 			
 			Member signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
 					member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), newProfileImg);
+			
 			int result = memberService.signUp(signUpMember);
+			
+			System.out.println("signUpMember :" + signUpMember);
+			
 			String msg = null;
 
 			if (result > 0) {
 				 
-				profileImg.transferTo(new File(savePath+"/"+member.getMemberProfileUrl()));
-				// (1.MultipartFile 방식)
-				
-				//File what = new File(savePath+"/"+member.getMemberProfileUrl());
-				//File what = new File(member.getMemberProfileUrl());
-				//System.out.println("what : " + what);
-				
+				originProfileUrl.transferTo(new File(savePath+"/"+signUpMember.getMemberProfileUrl()));
 				
 				msg = "가입성공";
 				rdAttr.addFlashAttribute("msg", msg);

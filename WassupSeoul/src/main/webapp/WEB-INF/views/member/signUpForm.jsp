@@ -337,7 +337,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<label for=""></label>
 							</div>
 							<div class="col-md-6">
-								<input type="file" id="profile_img" name="memberProfileUrl">
+								<input type="file" id="profile_img" name="originProfileUrl">
+								
 							</div>
 						</div>
 
@@ -457,9 +458,9 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					
 					// 이름 유효성 검사
 					$name.on("input", function(){
-						var regExp =  /^[가-힣]{2,}$/; // 한글 두 글자 이상
+						var regExp =  /^[A-Za-z가-힣\s]{2,15}$/; // 한글 두 글자 이상
 						if(!regExp.test($(this).val())){ 
-							$("#checkName").text("한글 두 글자 이상을 입력하세요").css("color","red");
+							$("#checkName").text("올바르게 작성해주세요").css("color","red");
 							signUpCheck.name = false;
 						}else{
 							$("#checkName").text("").css("color","green");
@@ -470,7 +471,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					 // 닉네임  유효성 검사
 					$nickName.on("input", function(){
 						// 한글,영어 대,소문자 + 숫자, 총 1~12글자
-						var regExp = /^[A-Za-z0-9가-힣]{1,12}$/;
+						var regExp = /^[A-Za-z0-9가-힣\s]{1,12}$/;
 						if(!regExp.test($nickName.val())){
 					    	$("#checknickName").text("닉네임 형식이 유효하지 않습니다.").css({"color":"red","font-weight":"bold"});
 					    	signUpCheck.nickName = false;
