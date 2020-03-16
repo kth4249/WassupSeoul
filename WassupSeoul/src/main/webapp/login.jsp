@@ -62,7 +62,7 @@
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" id="inputEmail" name="memberEmail" class="form-control nanum" placeholder="이메일을 입력하세요" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" name="memberPwd" class="form-control nanum" placeholder="비밀번호를 입력하세요" required>
+        <input type="password" id="inputPassword" name="memberPwd" class="form-control nanum" placeholder="비밀번호를 입력하세요" required>
         <div class="checkbox mb-3">
           <br>
           <label>

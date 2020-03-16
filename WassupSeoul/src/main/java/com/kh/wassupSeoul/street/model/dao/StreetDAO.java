@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+
+import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -42,4 +44,40 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.insertBoard", board );
 	}
 
+	/** 좋아요 체크용 DAO
+	 * @param loginMember
+	 * @return result
+	 * @throws Exception
+	 */
+	public String likeCheck(Member loginMember) throws Exception {
+		return sqlSession.selectOne("streetMapper.likeCheck", loginMember );
+	}
+
+	/** 좋아요 기록용 DAO
+	 * @param loginMember
+	 * @return result
+	 * @throws Exception
+	 */
+	public int recordLike(Member loginMember) throws Exception {
+		
+		return sqlSession.insert("streetMapper.recordLike", loginMember );
+	}
+
+	/** 좋아요 업데이트용 DAO
+	 * @param loginMember
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateLike(Member loginMember) throws Exception {
+		return sqlSession.update("streetMapper.updateLike", loginMember );
+	}
+
+	/** 좋아요, 댓글수 조회용 DAO
+	 * @param postNo
+	 * @return 
+	 * @throws Exception
+	 */
+	public int[] checkLikeReplyNum(int postNo) throws Exception{
+		return sqlSession.selectOne("streetMapper.checkLikeReplyNum", postNo );
+	}
 }

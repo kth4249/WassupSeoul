@@ -44,21 +44,25 @@ object-fit: cover;
 	</c:url>
 	<nav
 		class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top headerOpacity">
-		<form class="form-inline my-2 my-lg-0" action="${detailUrl}"
-			onsubmit="return searchValidate();">
+		<%-- <form class="form-inline my-2 my-lg-0" action="${contextPath }/square"
+			onsubmit="return searchValidate();"> --%>
 			<input class="form-control mr-sm-2" type="text"
 				placeholder="검색할 골목 키워드" id="searchStreet" name="searchStreet"
-				size="50">
-			<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-		</form>
+				style="width: 300px">
+			<button class="btn btn-secondary my-2 my-sm-0" type="button"
+			 		onclick="searchValidate()">Search</button>
+		<!-- </form> -->
 		<script>
 			function searchValidate() {
-				alert("${param.districtNo}")
-				alert("${param.streetSort}")
+				/* alert("${param.districtNo}")
+				alert("${param.streetSort}") */
 				var regExp = /^[\w가-힣]{2,}$/;
-				if (!regExp.test($("#searchStreet").val())) {
-					alert("키워드를 2글자 이상 입력해주세요.");
-					return false;
+				var searchStreet = $("#searchStreet").val();
+				console.log(searchStreet);
+				if (!regExp.test(searchStreet)){
+					alert("2글자 이상의 완성된 글자를 입력해주세요.");
+				} else {
+					location.href = "${detailUrl}&searchStreet=" + searchStreet;
 				}
 			}
 		</script>
@@ -85,7 +89,7 @@ object-fit: cover;
 				<div class="dropdown-toggle headerImg" type="button"
 					id="mypageButton" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false">
-					<img src="${contextPath}/resources/memberImg/${loginMember.memberProfileUrl}">
+					<img src="${contextPath}/resources/profileImage/${loginMember.memberProfileUrl}">
 				</div>
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="mypageButton">
@@ -117,7 +121,7 @@ object-fit: cover;
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
                     <div class="profileBox">
-                    <img class="profileImage" src="${contextPath}/resources/memberImg/${loginMember.memberProfileUrl}" alt="이미지">
+                    <img class="profileImage" src="${contextPath}/resources/profileImage/${loginMember.memberProfileUrl}" alt="이미지">
                     </div>
                 </div>
                 <div class="col-md-4"></div>
@@ -172,13 +176,13 @@ object-fit: cover;
                 			<c:when test="${vs.index == 0}">
                 				<label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">관심분야</label>
                 				<div class="col-sm-10">
-                					<input type="text" readonly class="nanum form-control-plaintext" value="#${hobby.hobbyNm}" style="font-size: 25px;color: blue;">
+                					<input type="text" readonly class="nanum form-control-plaintext" value="#${hobby.hobbyName}" style="font-size: 25px;color: blue;">
                 				</div>
                 			</c:when>
                 			<c:otherwise>
                 				<label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;"></label>
 		                		<div class="col-sm-10">
-		                			<input type="text" readonly class="nanum form-control-plaintext" value="#${hobby.hobbyNm}" style="font-size: 25px;color: blue;">
+		                			<input type="text" readonly class="nanum form-control-plaintext" value="#${hobby.hobbyName}" style="font-size: 25px;color: blue;">
 		                		</div>
                 			</c:otherwise>
                 		</c:choose>	
@@ -216,6 +220,7 @@ object-fit: cover;
 						<%-- 골목이 있는 경우 --%>
 							<c:forEach var="street" items="${myStreet}" varStatus="vs">
 								<!-- 골목 2 시작 -->
+								<br>
 			                    <div class="row">
 			                    	<div class="col-md-4" style="position: relative">
 				                        <img src="${contextPath}/resources/img/${street.imgUrl}" alt="이미지" width="100%" height="100%" style="position: absolute; z-index: 10;">
@@ -237,7 +242,7 @@ object-fit: cover;
 				                        <c:forEach var="streetKeyword" items="${myStreetKeyword}" varStatus="vs">
 				                        	<c:if test="${street.streetNo eq streetKeyword.streetNo}">
 				                        		<div class="row">
-					                        		<div class="col-md-12 golmokKeywordBox" style="background-color: #36be81;">
+					                        		<div class="col-md-12 golmokKeywordBox mt-1 mb-1" style="background-color: #36be81;">
 					                        			<input type="text" readonly class="form-control-plaintext nanum" value="#${streetKeyword.keywordContent}" style="color: white;">
 					                       			</div>
 				                       			</div>

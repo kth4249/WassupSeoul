@@ -1,6 +1,5 @@
 package com.kh.wassupSeoul.street.controller;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -51,7 +51,7 @@ public class StreetController {
 			List<Board> board = streetService.selectBoard(streetNo);
 			Collections.reverse(board);
 			
-			// 게시글, 댓글 조회해서 같이 넘겨줘야함 
+			
 			
 			System.out.println("street : " + street );
 			
@@ -84,6 +84,8 @@ public class StreetController {
 		
 	}
 	
+	
+	// 게시글 작성
 	@RequestMapping("insert")
 	public String insertBoard(Board board, // 커맨드 객체    @ModelAttribute 생략되어 있는 상태
 							  Model model, // session 접근용
@@ -93,6 +95,7 @@ public class StreetController {
 								) {
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
+		System.out.println(loginMember);
 		int boardWriter = loginMember.getMemberNo();
 		System.out.println(boardWriter);
 		
@@ -123,6 +126,70 @@ public class StreetController {
 		}
 		
 	}
+	
+	// 좋아요 등록, 해제
+	@ResponseBody
+	@RequestMapping("likeFunction")
+	public String likeFunction(int postNo, Model model) {
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		System.out.println("글번호 출력 : "+postNo);
+		
+		// memberAge에 게시글 번호 담아서 재활용
+		loginMember.setMemberAge(postNo);
+		
+		try {
+//			int test = streetService.likeCheck( loginMember );
+//			
+//			System.out.println("좋아요 기록 조회:"+test);
+//			System.out.println("변경된 loginMemer:"+ loginMember);
+			
+			return streetService.likeCheck( loginMember ) == 1 ? true + "" : false + "";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "좋아요 기록 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+		
+	}
+	
+	// 좋아요, 댓글수 조회
+	@ResponseBody
+	@RequestMapping("checkLikeReplyNum")
+	public String checkLikeReplyNum(int postNo, Model model) {
+		
+		System.out.println("글번호 출력 : "+postNo);
+		
+	
+		try {
+	
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "좋아요 기록 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+		return "/common/errorPage";
+	}
+	
+	
+	// 골목 개설 화면 이동
+	@RequestMapping("streetInsert")
+	public String insertStreetForm() {
+		return "street/streetInsert"; 
+	}
+	
+	
+	// 골목 개설
+	@RequestMapping("insertStreet")
+	public String insertStreet() {
+		return "";
+	}
+	
+	
 	
 	
 	

@@ -1,25 +1,32 @@
 package com.kh.wassupSeoul.street.model.vo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Board {
 
 	private int boardNo;
+	private String boardWriter;
 	private String boardContent;
-	private Date boardWriteDt;
+	private Timestamp boardWriteDt;
 	private String boardStatus;
 	private String boardLevel;
 	private int streetNo;
 	private int memberNo;
 	private int typeNo;
+	private int thumbCount;
+	private int replyCount;
+	private String memberProfile;
 	
 	public Board() {
 	}
 
-	public Board(int boardNo, String boardContent, Date boardWriteDt, String boardStatus, String boardLevel,
-			int streetNo, int memberNo, int typeNo) {
+	public Board(int boardNo, String boardWriter, String boardContent, Timestamp boardWriteDt, String boardStatus,
+			String boardLevel, int streetNo, int memberNo, int typeNo, int thumbCount, int replyCount,
+			String memberProfile) {
 		super();
 		this.boardNo = boardNo;
+		this.boardWriter = boardWriter;
 		this.boardContent = boardContent;
 		this.boardWriteDt = boardWriteDt;
 		this.boardStatus = boardStatus;
@@ -27,15 +34,25 @@ public class Board {
 		this.streetNo = streetNo;
 		this.memberNo = memberNo;
 		this.typeNo = typeNo;
+		this.thumbCount = thumbCount;
+		this.replyCount = replyCount;
+		this.memberProfile = memberProfile;
 	}
 
-	
 	public int getBoardNo() {
 		return boardNo;
 	}
 
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
+	}
+
+	public String getBoardWriter() {
+		return boardWriter;
+	}
+
+	public void setBoardWriter(String boardWriter) {
+		this.boardWriter = boardWriter;
 	}
 
 	public String getBoardContent() {
@@ -46,11 +63,11 @@ public class Board {
 		this.boardContent = boardContent;
 	}
 
-	public Date getBoardWriteDt() {
+	public Timestamp getBoardWriteDt() {
 		return boardWriteDt;
 	}
 
-	public void setBoardWriteDt(Date boardWriteDt) {
+	public void setBoardWriteDt(Timestamp boardWriteDt) {
 		this.boardWriteDt = boardWriteDt;
 	}
 
@@ -93,15 +110,38 @@ public class Board {
 	public void setTypeNo(int typeNo) {
 		this.typeNo = typeNo;
 	}
-	
+
+	public int getThumbCount() {
+		return thumbCount;
+	}
+
+	public void setThumbCount(int thumbCount) {
+		this.thumbCount = thumbCount;
+	}
+
+	public int getReplyCount() {
+		return replyCount;
+	}
+
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
+
+	public String getMemberProfile() {
+		return memberProfile;
+	}
+
+	public void setMemberProfile(String memberProfile) {
+		this.memberProfile = memberProfile;
+	}
 
 	@Override
 	public String toString() {
-		return "Board [boardNo=" + boardNo + ", boardContent=" + boardContent + ", boardWriteDt=" + boardWriteDt
-				+ ", boardStatus=" + boardStatus + ", boardLevel=" + boardLevel + ", streetNo=" + streetNo
-				+ ", memberNo=" + memberNo + ", typeNo=" + typeNo + "]";
+		return "Board [boardNo=" + boardNo + ", boardWriter=" + boardWriter + ", boardContent=" + boardContent
+				+ ", boardWriteDt=" + boardWriteDt + ", boardStatus=" + boardStatus + ", boardLevel=" + boardLevel
+				+ ", streetNo=" + streetNo + ", memberNo=" + memberNo + ", typeNo=" + typeNo + ", thumbCount="
+				+ thumbCount + ", replyCount=" + replyCount + ", memberProfile=" + memberProfile + "]";
 	}
 
-	
 	
 }
