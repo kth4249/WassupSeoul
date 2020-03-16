@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+<<<<<<< HEAD
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
@@ -98,6 +99,49 @@ public class StreetServiceImpl implements StreetService{
 	@Override
 	public int[] checkLikeReplyNum(int postNo) throws Exception {
 		return streetDAO.checkLikeReplyNum(postNo);
+=======
+import com.kh.wassupSeoul.street.model.dao.StreetDAO;
+import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Street;
+
+@Service
+public class StreetServiceImpl implements StreetService{
+
+	
+	@Autowired
+	private StreetDAO streetDAO;
+
+
+	/** 골목 조회용 service
+	 * @return street
+	 * @throws Exception
+	 */
+	@Override
+	public Street selectStreet(Integer streetNo) throws Exception {
+		return streetDAO.selectStreet(streetNo);
+	}
+
+	/** 골목 게시글 조회용 service
+	 * @param streetNo
+	 * @return list
+	 * @throws Exception
+	 */
+	@Override
+	public List<Board> selectBoard(Integer streetNo) throws Exception {
+		return streetDAO.selectBoard(streetNo);
+	}
+
+	
+	/** 게시글 등록용 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor= Exception.class)
+	@Override
+	public int insertBoard(Board board) throws Exception {
+		return streetDAO.insertBoard(board);
+>>>>>>> branch 'master' of https://github.com/kth4249/WassupSeoul.git
 	}
 	
 	

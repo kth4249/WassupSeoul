@@ -22,8 +22,8 @@ public class SquareServiceImpl implements SquareService{
 	 * @throws Exception
 	 */
 	@Override
-	public int getListCount() throws Exception {
-		return squareDAO.getListCount();
+	public int getListCount(Map<String, Object> map) throws Exception {
+		return squareDAO.getListCount(map);
 	}
 	
 	
