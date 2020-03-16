@@ -120,7 +120,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 					<form method="POST"
 						action="${pageContext.request.contextPath}/member/signUp"
-						name="signUpForm" onsubmit="return validate();">
+						name="signUpForm" onsubmit="return validate();"
+						enctype="multipart/form-data">
 						<br>
 						<br>
 
@@ -248,7 +249,6 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<label class="custom-control-label nanum" for="female" style="font-size: 25px;">여자</label>
 							</div>
 						</div> 
-
 
 						<!-- 나이 입력 -->
 						<div class="row form-group">

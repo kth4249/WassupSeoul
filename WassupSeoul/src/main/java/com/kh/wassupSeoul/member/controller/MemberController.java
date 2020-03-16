@@ -50,18 +50,18 @@ public class MemberController {
 	// 회원가입
 	@RequestMapping("signUp")
 	public String signUp(Member member, Model model, String phone1, String phone2, String phone3,
-			RedirectAttributes rdAttr, HttpServletRequest request) 
-			//@RequestParam(value="memberProfileUrl" , required=false) MultipartFile profileImg) 
+			RedirectAttributes rdAttr, HttpServletRequest request, 
+			@RequestParam(value="memberProfileUrl" , required=false) MultipartFile profileImg) 
 	{
 
-		//String filefile = profileImg.getOriginalFilename();
-		// (1.MultipartFile 방식) 여기서 왜 에러가 나는지 도대체 모르겠다고 진짜로 망할
+		// String prifileImage = profileImg.getOriginalFilename();
+		// (1.MultipartFile 방식) 
 		
 		String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
 
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/" + "/profileImage";
-		System.out.println("savePath : " + savePath);
+		// System.out.println("savePath : " + savePath);
 		// 이 주소까지 직접 찾아가서 파일을 억지로 넣었는데도 이클립스 폴더상에 추가 되지 않음.
 
 		File folder = new File(savePath);
@@ -70,26 +70,25 @@ public class MemberController {
 
 		try {
 			String url = member.getMemberProfileUrl();
-			url = FileRename.renameProfile(url);
-			member.setMemberProfileUrl(url);
+			//url = FileRename.renameProfile(url);
+			//member.setMemberProfileUrl(url);
 
-//			String newProfile = FileRename.renameProfile(profileImg.getOriginalFilename());
+			String newProfileImg = FileRename.renameProfile(profileImg.getOriginalFilename());
 			// (1.MultipartFile 방식)
 			
 			Member signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
-					member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), member.getMemberProfileUrl());
+					member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), newProfileImg);
 			int result = memberService.signUp(signUpMember);
 			String msg = null;
 
 			if (result > 0) {
 				 
-				//profileImg.transferTo(new File(savePath+"/"+member.getMemberProfileUrl()));
+				profileImg.transferTo(new File(savePath+"/"+member.getMemberProfileUrl()));
 				// (1.MultipartFile 방식)
 				
 				//File what = new File(savePath+"/"+member.getMemberProfileUrl());
-				File what = new File(member.getMemberProfileUrl());
-				
-				System.out.println("what : " + what);
+				//File what = new File(member.getMemberProfileUrl());
+				//System.out.println("what : " + what);
 				
 				
 				msg = "가입성공";
