@@ -297,7 +297,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							</div>
 						</div>
 
-						<!-- 관심분야 선택창 -->
+						<!-- 관심분야 3개 선택창 -->
 						<div class="row form-group">
 							<div class="col-md-4">
 								<label for=""></label>

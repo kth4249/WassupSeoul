@@ -3,6 +3,7 @@ package com.kh.wassupSeoul.member.controller;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.email.controller.EmailController;
 import com.kh.wassupSeoul.member.model.service.MemberService;
 import com.kh.wassupSeoul.member.model.vo.Member;
-import com.kh.wassupSeoul.member.model.vo.Hobby;
+import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 
@@ -65,7 +66,6 @@ public class MemberController {
 		File folder = new File(savePath);
 		if(!folder.exists()) folder.mkdir();
  
-
 		try {
 			String newProfileImg = FileRename.renameProfile(originProfileUrl.getOriginalFilename());
 			
