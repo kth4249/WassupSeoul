@@ -44,11 +44,11 @@
 		FROM V_STREET
 		<where>
 			<if test="districtNo != null">
-				DISTRICT_NO = #{districtNo}
+				AND DISTRICT_NO = #{districtNo}
 			</if>
-			<if test="keyword != null">
-				KEYWORD_CONTENT LIKE '%' || #{keyword} || '%'
-				OR STREET_NM LIKE '%' || #{keyword} || '%'
+			<if test="searchStreet != null">
+				AND (KEYWORD_CONTENT LIKE '%' || #{searchStreet} || '%'
+				OR STREET_NM LIKE '%' || #{searchStreet} || '%')
 			</if>
 		</where>
 	</select>
@@ -60,11 +60,11 @@
 		FROM V_STREET
 		<where>
 			<if test="districtNo != null">
-				DISTRICT_NO = #{districtNo}
+				AND DISTRICT_NO = #{districtNo}
 			</if>
-			<if test="keyword != null">
-				KEYWORD_CONTENT LIKE '%' || #{keyword} || '%'
-				OR STREET_NM LIKE '%' || #{keyword} || '%'
+			<if test="searchStreet != null">
+				AND (KEYWORD_CONTENT LIKE '%' || #{searchStreet} || '%'
+				OR STREET_NM LIKE '%' || #{searchStreet} || '%')
 			</if>
 		</where>
 		GROUP BY STREET_NO, STREET_NM, STREET_MAX_MEMBER, STREET_POINT,
