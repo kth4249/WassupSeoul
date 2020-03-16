@@ -140,7 +140,7 @@
         </div>
         <div class="modal-body">
             <span class="nanum" style="font-size: 25px; color: tomato;">Password</span>
-            <span class="nanum" style="font-size: 25px;">를 잊으셨나요??</span>
+            <span class="nanum" style="font-size: 25px;">를 잊으셨나요?</span>
             <br><br>
             <label for="" class="nanum">제 이름은</label>
             <input type="text" id="memberNm2" class="nanum" size="10"> 
@@ -148,7 +148,7 @@
             <label for="" class="nanum">Email은</label>
             <input type="email" id="memberEmail" class="nanum" size="20"> 
             <span class="nanum">이에요. &nbsp; </span> 
-            <label for="" class="nanum">휴대폰 번호는 </label>
+            <label for="" class="nanum">휴대폰 번호는</label>
             <span class="nanum" style="font-size: 15px; color: gray;">(' - ' 포함)</span>&nbsp;&nbsp;
             <input type="text" id="memberPhone2" class="nanum" size="20">
             <span class="nanum">입니다. &nbsp; </span> 

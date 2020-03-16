@@ -26,10 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.kh.wassupSeoul.common.FileRename;
+import com.kh.wassupSeoul.member.model.service.MemberService;
+import com.kh.wassupSeoul.mail.model.vo.App;
 import com.kh.wassupSeoul.email.controller.EmailController;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.hobby.model.vo.SearchHobby;
-import com.kh.wassupSeoul.member.model.service.MemberService;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -110,7 +111,7 @@ public class MemberController {
 			String msg = null;
 			if (loginMember != null) {
 				
-				//
+				/*
 				// 골목번호 배열
 				/*int[] streetNoArr = new int[3];
 				
@@ -251,7 +252,9 @@ public class MemberController {
 	            int result = memberService.makeRandomPwd(randomMap);
 				System.out.println("리저트값이다!!!: "+result);
 				
-				return new EmailController().sendEmail(model,request,randomMap);
+				/* return new EmailController().sendEmail(model,request,randomMap); */
+				App app = new App();
+				app.sendEmail(randomMap);
 				
 				
 			}else {
