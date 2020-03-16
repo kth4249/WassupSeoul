@@ -230,6 +230,7 @@
 							<div class="post MainWrap" style="border: 1px solid black; border-bottom: 0px">
 								<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
 																								padding-left: 10px;">
+																								
 									<img src="${contextPath}/resources/img/account.png" style="width: 80%; height: 80%;">
 
 								</div>
@@ -310,7 +311,7 @@
 									
 									
 									
-									<p class="likeCount${board.boardNo}" style="margin-bottom: 0; display: inline-block;">10</p>
+									<p class="likeCount" style="margin-bottom: 0; display: inline-block;">10</p>
 
 
 									<div class="hide nanum" id="postMenu2" style="width: 120px; height: 150px; 
@@ -395,10 +396,9 @@
 																				position: relative; 
 																				 bottom: 3px;">
 												</div>
-												<div class="likeCount" style="display: inline-block; width: 10%; margin-bottom: 0px; 
-																										">
-													<p style="margin-bottom: 0;font-size: 13px;">5</p>
-												</div>
+												
+													<p style="margin-bottom: 0;font-size: 13px; display: inline-block;">5</p>
+											
 
 
 											</div>
@@ -471,11 +471,9 @@
 															<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
 																						position: relative; float: right; top: 1px;">
 														</div>
-														<div class="likeCount"
-															style="display: inline-block; width: 5%; margin-bottom: 0px; ">
-															<p style="margin-bottom: 0;font-size: 13px;">2</p>
-														</div>
-
+													
+															<p style="margin-bottom: 0;font-size: 13px;  display: inline-block;">2</p>
+														
 
 													</div>
 													<div
@@ -548,10 +546,9 @@
 															<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
 																						position: relative; float: right; top: 1px;">
 														</div>
-														<div class="likeCount" style="display: inline-block; width: 5%; margin-bottom: 0px; 
-																												">
-															<p style="margin-bottom: 0;font-size: 13px;">2</p>
-														</div>
+														
+															<p style="margin-bottom: 0;font-size: 13px;  display: inline-block;" >2</p>
+													
 
 
 													</div>
@@ -649,10 +646,9 @@
 																				position: relative;
 																				bottom: 3px;">
 													</div>
-													<div class="likeCount"
-														style="display: inline-block; width: 10%; margin-bottom: 0px;">
-														<p style="margin-bottom: 0px;font-size: 13px;">2</p>
-													</div>
+													
+														<p style="margin-bottom: 0px;font-size: 13px;  display: inline-block;">2</p>
+												
 													
 
 
@@ -785,15 +781,21 @@
 
 	 	 		var postNo = $(this).attr("name");
 				var img = $(this).attr("src");
-				var likCount= $(this)
-				
+				var likeCount= $(this).parent().next("p").text()
+			
+				console.log(likeCount);
 
 				if (img == "${contextPath}/resources/img/like.png") {
-
+					likeCount++;
+					console.log(likeCount);
 					$(this).attr('src', '${contextPath}/resources/img/like2.png');
+					$(this).parent().next("p").text(likeCount);
 
 				} else {
+					likeCount--;
+					console.log(likeCount);
 					$(this).attr('src', '${contextPath}/resources/img/like.png');
+					$(this).parent().next("p").text(likeCount);
 				}
 				
 				$.ajax({

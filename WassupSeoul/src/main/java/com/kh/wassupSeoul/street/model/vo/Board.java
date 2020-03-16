@@ -16,12 +16,14 @@ public class Board {
 	private int typeNo;
 	private int thumbCount;
 	private int replyCount;
+	private String memberProfile;
 	
 	public Board() {
 	}
 
 	public Board(int boardNo, String boardWriter, String boardContent, Timestamp boardWriteDt, String boardStatus,
-			String boardLevel, int streetNo, int memberNo, int typeNo, int thumbCount, int replyCount) {
+			String boardLevel, int streetNo, int memberNo, int typeNo, int thumbCount, int replyCount,
+			String memberProfile) {
 		super();
 		this.boardNo = boardNo;
 		this.boardWriter = boardWriter;
@@ -34,6 +36,7 @@ public class Board {
 		this.typeNo = typeNo;
 		this.thumbCount = thumbCount;
 		this.replyCount = replyCount;
+		this.memberProfile = memberProfile;
 	}
 
 	public int getBoardNo() {
@@ -124,14 +127,21 @@ public class Board {
 		this.replyCount = replyCount;
 	}
 
+	public String getMemberProfile() {
+		return memberProfile;
+	}
+
+	public void setMemberProfile(String memberProfile) {
+		this.memberProfile = memberProfile;
+	}
+
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardWriter=" + boardWriter + ", boardContent=" + boardContent
 				+ ", boardWriteDt=" + boardWriteDt + ", boardStatus=" + boardStatus + ", boardLevel=" + boardLevel
 				+ ", streetNo=" + streetNo + ", memberNo=" + memberNo + ", typeNo=" + typeNo + ", thumbCount="
-				+ thumbCount + ", replyCount=" + replyCount + "]";
+				+ thumbCount + ", replyCount=" + replyCount + ", memberProfile=" + memberProfile + "]";
 	}
-
 
 	
 }

@@ -51,7 +51,7 @@ public class StreetController {
 			List<Board> board = streetService.selectBoard(streetNo);
 			Collections.reverse(board);
 			
-			// 게시글, 댓글 조회해서 같이 넘겨줘야함 
+			
 			
 			System.out.println("street : " + street );
 			

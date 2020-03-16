@@ -3,6 +3,7 @@ package com.kh.wassupSeoul.member.controller;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,19 +24,13 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-<<<<<<< HEAD
-=======
 import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.email.controller.EmailController;
->>>>>>> branch 'master' of https://github.com/kth4249/WassupSeoul.git
 import com.kh.wassupSeoul.member.model.service.MemberService;
 import com.kh.wassupSeoul.member.model.vo.Member;
-<<<<<<< HEAD
-=======
-import com.kh.wassupSeoul.member.model.vo.Hobby;
+import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
->>>>>>> branch 'master' of https://github.com/kth4249/WassupSeoul.git
 
 @SessionAttributes({ "loginMember", "msg", "myHobby", "myStreet","myStreetKeyword" })
 @RequestMapping("/member/*")
@@ -116,7 +111,7 @@ public class MemberController {
 				
 				//
 				// 골목번호 배열
-				int[] streetNoArr = new int[3];
+				/*int[] streetNoArr = new int[3];
 				
 				// 1) 해당 관심사 가져오기
 				List<Hobby> myHobby = memberService.selectHobby(loginMember.getMemberNo());
@@ -161,7 +156,7 @@ public class MemberController {
 					}
 					model.addAttribute("myStreet", myStreet);
 					
-				}
+				}*/
 				//
 				
 				msg = "로그인 성공";
