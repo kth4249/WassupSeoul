@@ -83,8 +83,7 @@
 								<option value="3">최신 개설 순</option>
 							</select>
 						</div>
-						<button type="button" class="btn btn-primary btn-custom nanum">골목
-							개설</button>
+						<a href="street/streetInsert" class="btn btn-primary btn-custom nanum">골목개설</a>
 
 
 						<script>

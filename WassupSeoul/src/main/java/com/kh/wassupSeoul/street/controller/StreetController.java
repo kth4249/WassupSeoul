@@ -176,4 +176,21 @@ public class StreetController {
 	}
 	
 	
+	// 골목 개설 화면 이동
+	@RequestMapping("streetInsert")
+	public String insertStreetForm() {
+		return "street/streetInsert"; 
+	}
+	
+	
+	// 골목 개설
+	@RequestMapping("insertStreet")
+	public String insertStreet() {
+		return "";
+	}
+	
+	
+	
+	
+	
 }
