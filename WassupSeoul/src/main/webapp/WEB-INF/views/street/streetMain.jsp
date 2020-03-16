@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>  
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>	
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -241,7 +243,9 @@
 										<p style="margin-bottom: 0;">${board.boardWriter}</p>
 									</div>
 									<div style="margin-bottom: 0;">
-										<p style="margin-bottom: 0;">${board.boardWriteDt}</p>
+										<p style="margin-bottom: 0;"><fmt:formatDate value="${board.boardWriteDt}" pattern="yyyy-MM-dd (E)"/></p>
+										
+
 									</div>
 
 								</div>
