@@ -1,11 +1,11 @@
-package com.kh.wassupSeoul.member.service;
+package com.kh.wassupSeoul.member.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kh.wassupSeoul.member.dao.MemberDAO;
+import com.kh.wassupSeoul.member.model.dao.MemberDAO;
 import com.kh.wassupSeoul.member.model.vo.Member;
 
 @Service

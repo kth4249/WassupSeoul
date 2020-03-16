@@ -1,4 +1,4 @@
-package com.kh.wassupSeoul.street.service;
+package com.kh.wassupSeoul.street.model.service;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wassupSeoul.member.model.vo.Member;
-import com.kh.wassupSeoul.street.dao.StreetDAO;
+import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Street;
 

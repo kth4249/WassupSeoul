@@ -1,4 +1,4 @@
-package com.kh.wassupSeoul.street.dao;
+package com.kh.wassupSeoul.street.model.dao;
 
 import java.util.List;
 

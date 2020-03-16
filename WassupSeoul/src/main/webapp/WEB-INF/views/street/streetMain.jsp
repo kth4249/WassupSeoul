@@ -146,8 +146,6 @@
 							<div class="writePost">
 								<textarea class="postArea nanum" id="writePostArea"  name="boardContent" rows="3" 
 									placeholder="새로운 게시글을 작성해보세요"></textarea>
-									
-								<!--<input type="text" class="form-control" id="inputPostArea">-->
 							</div>
 
 							<div class="postCountView" style="border: 1px solid black; height: 45px; ">
@@ -223,7 +221,7 @@
 							<c:forEach var="board" items="${board}" varStatus="vs">
 								
 							
-												<!-- 게시글1-->
+					<!-- 게시글1-->
 					<div class="container box111" id="postArea" style="margin-bottom:0px" >
 						<div class="postLayoutView" style="padding: 0%;">
 
@@ -446,11 +444,9 @@
 
 									<!-- 대댓글 -->
 									<div class="doubleCommentWrap" style="display: none;">
-										<!-- style="display: none;" -->
 
 										<!-- 대댓글보기1 -->
 										<div style="border: px solid black; border-top: 2px solid black;">
-											<!-- display: none; class="CommentWrap" -->
 											<div style="position: relative;	left: 40px; border: 0px white; width: 92%;">
 												<div class="postMainWrap" style=" border-bottom: 0px">
 													<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
@@ -706,7 +702,6 @@
 
 											<!-- 대댓글작성 -->
 											<div class="inputCommentWrap" style="border-top: 2px solid black; ">
-												<!-- display: none; -->
 
 												<div class="writePost"
 													style="width: 80%; display: inline-block; margin-left:3px; ">
@@ -829,7 +824,7 @@
 			});  
 			
 			
-			// 좋아요, 댓글수 조회
+			/* // 좋아요, 댓글수 조회
 	 	 	$.ajax({
 				url : "checkLikeReplyNum",
 				data : { postNo:postNo	},
@@ -853,7 +848,7 @@
 					console.log("ajax 통신 실패");
 					console.log(e);
 				}
-			});
+			}); */
 	
 	
 			

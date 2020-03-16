@@ -1,4 +1,4 @@
-package com.kh.wassupSeoul.street.service;
+package com.kh.wassupSeoul.street.model.service;
 
 import java.util.List;
 

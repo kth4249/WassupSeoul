@@ -1,13 +1,14 @@
 package com.kh.wassupSeoul.street.model.vo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Board {
 
 	private int boardNo;
 	private String boardWriter;
 	private String boardContent;
-	private Date boardWriteDt;
+	private Timestamp boardWriteDt;
 	private String boardStatus;
 	private String boardLevel;
 	private int streetNo;
@@ -19,7 +20,7 @@ public class Board {
 	public Board() {
 	}
 
-	public Board(int boardNo, String boardWriter, String boardContent, Date boardWriteDt, String boardStatus,
+	public Board(int boardNo, String boardWriter, String boardContent, Timestamp boardWriteDt, String boardStatus,
 			String boardLevel, int streetNo, int memberNo, int typeNo, int thumbCount, int replyCount) {
 		super();
 		this.boardNo = boardNo;
@@ -59,11 +60,11 @@ public class Board {
 		this.boardContent = boardContent;
 	}
 
-	public Date getBoardWriteDt() {
+	public Timestamp getBoardWriteDt() {
 		return boardWriteDt;
 	}
 
-	public void setBoardWriteDt(Date boardWriteDt) {
+	public void setBoardWriteDt(Timestamp boardWriteDt) {
 		this.boardWriteDt = boardWriteDt;
 	}
 
@@ -130,6 +131,7 @@ public class Board {
 				+ ", streetNo=" + streetNo + ", memberNo=" + memberNo + ", typeNo=" + typeNo + ", thumbCount="
 				+ thumbCount + ", replyCount=" + replyCount + "]";
 	}
+
 
 	
 }
