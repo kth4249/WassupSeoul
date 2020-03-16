@@ -16,8 +16,7 @@ public class App {
 		
 		
         Mail mail = new Mail();
-        mail.setMailFrom("mihyun0416@gmail.com");
-        //mail.setMailTo("to@gmail.com");
+        mail.setMailFrom("WassupSeoul0403@gmail.com");
         mail.setMailTo(randomMap.get("email"));
         mail.setMailSubject("[임시비밀번호 발송]Wassup, Seoul 에서 임시 비밀번호 발송 안내 드립니다. ");
         mail.setMailContent("안녕하세요. Wassup, Seoul 입니다 :) \n임시 비밀번호 발송 안내드립니다.\n"
