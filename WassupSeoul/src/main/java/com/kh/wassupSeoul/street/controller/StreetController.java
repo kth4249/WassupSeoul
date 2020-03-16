@@ -18,9 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.wassupSeoul.member.model.vo.Member;
+import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Street;
-import com.kh.wassupSeoul.street.service.StreetService;
 
 @SessionAttributes({"loginMember", "msg", "streetNo"})
 @Controller

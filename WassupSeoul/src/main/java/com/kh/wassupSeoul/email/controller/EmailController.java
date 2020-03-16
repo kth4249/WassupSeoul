@@ -10,7 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.kh.wassupSeoul.email.service.EmailServiceImpl;
+import com.kh.wassupSeoul.email.model.service.EmailServiceImpl;
+
 
 @SessionAttributes({ "loginMember", "msg" })
 @RequestMapping("/email/*")

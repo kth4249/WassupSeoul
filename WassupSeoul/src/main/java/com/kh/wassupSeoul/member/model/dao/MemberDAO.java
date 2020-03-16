@@ -1,4 +1,4 @@
-package com.kh.wassupSeoul.member.dao;
+package com.kh.wassupSeoul.member.model.dao;
 
 import org.springframework.stereotype.Repository;
 

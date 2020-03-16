@@ -24,8 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.email.controller.EmailController;
+import com.kh.wassupSeoul.member.model.service.MemberService;
 import com.kh.wassupSeoul.member.model.vo.Member;
-import com.kh.wassupSeoul.member.service.MemberService;
 
 @SessionAttributes({ "loginMember", "msg" })
 @RequestMapping("/member/*")
