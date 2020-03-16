@@ -310,7 +310,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							</div>
 						</div>
 
-						<!-- 관심분야 선택창 -->
+						<!-- 관심분야 3개 선택창 -->
 						<div class="row form-group">
 							<div class="col-md-4">
 								<label for=""></label>
@@ -678,6 +678,11 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		
 	</script>
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> branch 'master' of https://github.com/kth4249/WassupSeoul.git
 	<script
 		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"

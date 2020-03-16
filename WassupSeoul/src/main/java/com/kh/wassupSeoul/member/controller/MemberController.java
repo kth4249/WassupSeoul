@@ -68,7 +68,6 @@ public class MemberController {
 		File folder = new File(savePath);
 		if(!folder.exists()) folder.mkdir();
  
-
 		try {
 			String newProfileImg = FileRename.renameProfile(originProfileUrl.getOriginalFilename());
 			
@@ -113,7 +112,7 @@ public class MemberController {
 				
 				//
 				// 골목번호 배열
-				int[] streetNoArr = new int[3];
+				/*int[] streetNoArr = new int[3];
 				
 				// 1) 해당 관심사 가져오기
 				List<Hobby> myHobby = memberService.selectHobby(loginMember.getMemberNo());
@@ -164,7 +163,7 @@ public class MemberController {
 					}
 					model.addAttribute("myStreet", myStreet);
 					
-				}
+				}*/
 				//
 				
 				msg = "로그인 성공";
