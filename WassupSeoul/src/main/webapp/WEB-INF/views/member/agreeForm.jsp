@@ -113,7 +113,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				<div class="infoBox mx-auto">
 
 					<fieldset class="join_contentback">
-					<form class="form1" action="joinForm" method="GET" name="agreeForm" id="form1"
+					<form class="form1" action="${pageContext.request.contextPath}/member/signUpForm" method="GET" name="agreeForm" id="form1"
                      onsubmit="return validate();">
 						<div class="custom-control custom-checkbox">
 							<input type="checkbox" id="total_agree"
@@ -182,10 +182,12 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 						<br> <br>
 
-						<button id="nextnext" type="button"
+						<%-- <button id="nextnext" type="button"
 							class="btn btn-danger btn-lg nanum"
 							onclick="location.href='${pageContext.request.contextPath}/member/signUpForm'">다음
-							단계로 !</button>
+							단계로 !</button> --%>
+						<button id="nextnext" type="submit"
+							class="btn btn-danger btn-lg nanum">다음 단계로 !</button>
 						</form>
 
 						<p class="mt-5 mb-3 text-muted small text-center">&copy; WS
@@ -222,22 +224,20 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 						<div id="myTabContent" class="tab-content">
 							<div class="tab-pane fade show active" id="terms1">
-
 								<pre style="white-space: pre-wrap" id="prespace">
-
-어려서부터 우리집은 가난했었고 
-</pre>
+대충 만 14세 이상이어야 한다는 내용
+								</pre>
 							</div>
 
 							<div class="tab-pane fade" id="terms2">
 								<pre style="white-space: pre-wrap" id="prespace">
-모두)가라 가라 갇혀 확 갇혀 내 안에 갇혀 확 갇혀 
-                </pre>
+대충 이용약관에 동의하라는 내용
+                				</pre>
 							</div>
 							<div class="tab-pane fade" id="terms3">
 								<pre style="white-space: pre-wrap" id="prespace">
-학!학!학!학!학교를 안갔어 학!학!학!학!학교를 안갔어
-</pre>
+대충 개인정보 수집하는데 동의하라는 내용
+								</pre>
 							</div>
 						</div>
 					</div>
@@ -249,12 +249,6 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				</div>
 			</div>
 		</div>
-
-
-
-
-
-
 	
       
    </script>
@@ -268,80 +262,108 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 			crossorigin="anonymous"></script>
 			
+		 <script>
+		// 필수요소 체크 검사 결과를 저장할 객체
+		var checkCheck = {
+			"agree1" : false,
+			"agree2" : false,
+			"agree3" : false,
+			"total_agree" : false
+		};
 			
-			<!-- 체크해야 버튼 넘어가게 하는 동작 -->
-	<script>
-      var doc = document; 
-      var form1 = doc.getElementById('form1'); 
-      var inputs = form1.getElementsByTagName('INPUT'); 
-      var form1_data = {
-         "agree1": false, 
-         "agree2": false, 
-         "agree3": false
-      }; 
-   
-      var agree1 = doc.getElementById('agree1'); 
-      var agree2 = doc.getElementById('agree2'); 
-      var agree3 = doc.getElementById('agree3'); 
-      
-      function checkboxListener() {
-         form1_data[this.name] = this.checked; 
+		$(document).ready(
+				function() {
 
-         if(this.checked) {
-            // submit 할때 체크하지 않아 색이 변한 font 를 다시 원래 색으로 바꾸는 부분. 
-            this.parentNode.style.color = "#000"; 
-         }
-      }
-      
-      agree1.onclick = agree2.onclick = agree3.onclick = checkboxListener; 
+					// jQuery 변수 : 변수에 직접적으로 jQuery메소드를 사용할 수 있음.
+					var $agree1 = $("#agree1");
+					var $agree2 = $("#agree2");
+					var $agree3 = $("#agree3");
+					var $total_agree = $("#total_agree");
+					
+					// 체크 유효성 검사
+					$agree1.on("input", function(){
+						if(!$(agree1).prop("checked")){ 
+							checkCheck.agree1 = false;
+						}else{
+							checkCheck.agree1 = true;
+						}
+					});
+					
+					$agree2.on("input", function(){
+						if(!$(agree2).prop("checked")){ 
+							checkCheck.agree2 = false;
+						}else{
+							checkCheck.agree2 = true;
+						}
+					});
+					
+					$agree3.on("input", function(){
+						if(!$(agree3).prop("checked")){ 
+							checkCheck.agree3 = false;
+						}else{
+							checkCheck.agree3 = true;
+						}
+					});
+					
+					$total_agree.on("input", function(){
+						if(!$(total_agree).prop("checked")){ 
+							checkCheck.total_agree = false;
+						}else{
+							checkCheck.total_agree = true;
+						}
+					});
+					
+					
+			        // submit 할때 체크하지 않아 색이 변한 font 를 다시 원래 색으로 바꾸는 부분. 
+					function checkboxListener() {
+			             checkCheck[this.name] = this.checked; 
 
-      var all = doc.getElementById('check-all'); 
+			             if(this.checked) {
+			                this.parentNode.style.color = "#000"; 
+			             }
+			          }
+					agree1.onclick = agree2.onclick = agree3.onclick = checkboxListener; 
 
-      all.onclick = function() {
-         if (this.checked) {
-            setCheckbox(form1_data, true); 
-         } else {
-            setCheckbox(form1_data, false); 
-         }
-      }; 
-      
-      function setCheckbox(obj, state) {
-         for (var x in obj) {
-            obj[x] = state; 
+				      var all = doc.getElementById('total_agree'); 
 
-            for(var i = 0; i < inputs.length; i++) {
-               if(inputs[i].type == "checkbox") {
-                  inputs[i].checked = state; 
-               }
-            }
+				      all.onclick = function() {
+				         if (this.checked) {
+				            setCheckbox(checkCheck, true); 
+				         } else {
+				            setCheckbox(checkCheck, false); 
+				         }
+				      }; 
+				      // 여기까지 원래색 바꾸는 코드
+				      
+					 
+				});//레디함수 종료
+		
+		// submit 동작 
+		 function validate() {
 
-         }
-      }
-      
-      form1.onsubmit = function(e) {
-         e.preventDefault(); // 서브밋 될때 화면이 깜빡이지 않게 방지
+		      if (checkCheck['total_agree'] ) {
+		            return true; 
+			     }
+		         
+			 if ( !checkCheck['agree1'] ) {
+		            alert('14세 이상을 선택을 하지 않았습니다'); 
+		            agree1.parentNode.style.color = 'red'; 
+		            return false; 
+		         }
 
-         if ( !form1_data['agree1'] ) {
-            alert('14세 이상을 선택을 하지 않았습니다'); 
-            agree1.parentNode.style.color = 'red'; 
-            return false; 
-         }
-
-         if ( !form1_data['agree2'] ) {
-            alert('이용약관에 동의하여 주시길 바랍니다.'); 
-            agree2.parentNode.style.color = 'red';
-            return false; 
-         }
-         
-         if ( !form1_data['agree3'] ) {
-            alert('개인정보수집에 동의하여 주시길 바랍니다.'); 
-            return false; 
-         }
-
-         this.submit(); 
-      }; 
-			
-			
+		         if ( !checkCheck['agree2'] ) {
+		            alert('이용약관에 동의하여 주시길 바랍니다.'); 
+		            agree2.parentNode.style.color = 'red';
+		            return false; 
+		         }
+		         
+		         if ( !checkCheck['agree3'] ) {
+		            alert('개인정보수집에 동의하여 주시길 바랍니다.'); 
+		            agree3.parentNode.style.color = 'red';
+		            return false; 
+		         }
+		} 
+					
+      </script> 
 </body>
-
 </html>
