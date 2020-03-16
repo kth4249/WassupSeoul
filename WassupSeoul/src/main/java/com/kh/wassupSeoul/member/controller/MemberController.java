@@ -1,11 +1,8 @@
 
 package com.kh.wassupSeoul.member.controller;
 
-import java.io.File;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -17,22 +14,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.email.controller.EmailController;
-import com.kh.wassupSeoul.member.model.service.MemberService;
 import com.kh.wassupSeoul.member.model.vo.Member;
-import com.kh.wassupSeoul.hobby.model.vo.Hobby;
-import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
-import com.kh.wassupSeoul.street.model.vo.Keyword;
+import com.kh.wassupSeoul.member.service.MemberService;
 
-@SessionAttributes({ "loginMember", "msg", "myHobby", "myStreet","myStreetKeyword" })
+@SessionAttributes({ "loginMember", "msg" })
 @RequestMapping("/member/*")
 @Controller
 public class MemberController {
@@ -55,34 +46,20 @@ public class MemberController {
 	// 회원가입
 	@RequestMapping("signUp")
 	public String signUp(Member member, Model model, String phone1, String phone2, String phone3,
-			RedirectAttributes rdAttr, HttpServletRequest request, 
-			@RequestParam(value="originProfileUrl" , required=false) MultipartFile originProfileUrl) 
-	{
+			RedirectAttributes rdAttr) {
 
 		String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
 
-		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "/" + "profileImage";
-		File folder = new File(savePath);
-		if(!folder.exists()) folder.mkdir();
- 
+		Member signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
+				member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge());
+
+		System.out.println(signUpMember);
 
 		try {
-			String newProfileImg = FileRename.renameProfile(originProfileUrl.getOriginalFilename());
-			
-			Member signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
-					member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), newProfileImg);
-			
 			int result = memberService.signUp(signUpMember);
-			
-			System.out.println("signUpMember :" + signUpMember);
-			
 			String msg = null;
 
 			if (result > 0) {
-				 
-				originProfileUrl.transferTo(new File(savePath+"/"+signUpMember.getMemberProfileUrl()));
-				
 				msg = "가입성공";
 				rdAttr.addFlashAttribute("msg", msg);
 				return "redirect:/";
@@ -108,57 +85,6 @@ public class MemberController {
 			Member loginMember = memberService.loginMember(member);
 			String msg = null;
 			if (loginMember != null) {
-				
-				//
-				// 골목번호 배열
-				/*int[] streetNoArr = new int[3];
-				
-				// 1) 해당 관심사 가져오기
-				List<Hobby> myHobby = memberService.selectHobby(loginMember.getMemberNo());
-				model.addAttribute("myHobby",myHobby);
-				
-				// 2) 해당 골목 가져오기
-				List<ProfileStreet> myStreet = memberService.selectProfileStreet(loginMember.getMemberNo());
-				
-				// 골목 keyword에 사용할 컬렉션 선언
-				List<Keyword> myStreetKeyword = new ArrayList<Keyword>(); 
-				
-				if(!myStreet.isEmpty()) {
-					
-					for(int i=0;i<myStreet.size();i++) {
-						
-						// 골목번호
-						int streetNo = myStreet.get(i).getStreetNo();
-						
-						// 2_1) 골목대장 가져오기
-						String StreetMaster = memberService.selectStreetMaster(streetNo);
-						myStreet.get(i).setMemberNm(StreetMaster);
-						streetNoArr[i] = streetNo; // 골목번호 구분용 배열
-					}	
-					
-					// 2_2) 키워드 가져오기
-					for(int i=0;i<streetNoArr.length;i++) {
-						switch(i) {
-						case 0: List<Keyword> myStreetKeyword1 = memberService.selectMyKeyword(streetNoArr[i]);
-								myStreetKeyword.addAll(myStreetKeyword1);break;
-						case 1: List<Keyword> myStreetKeyword2 = memberService.selectMyKeyword(streetNoArr[i]);
-								myStreetKeyword.addAll(myStreetKeyword2);break; 						
-						case 2: List<Keyword> myStreetKeyword3 = memberService.selectMyKeyword(streetNoArr[i]);
-								myStreetKeyword.addAll(myStreetKeyword3);break;
-						}
-					}
-					model.addAttribute("myStreetKeyword",myStreetKeyword);
-					for(int g=0;g<myStreetKeyword.size();g++) {
-						System.out.println("myStreetKeyword : " + myStreetKeyword.get(g));
-					}
-					for(int t=0;t<myStreet.size();t++) {
-						System.out.println("내골목 : " + myStreet.get(t));
-					}
-					model.addAttribute("myStreet", myStreet);
-					
-				}*/
-				//
-				
 				msg = "로그인 성공";
 				rdAttr.addFlashAttribute("msg", msg);
 				model.addAttribute("loginMember", loginMember);

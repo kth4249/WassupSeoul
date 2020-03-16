@@ -1,4 +1,4 @@
-package com.kh.wassupSeoul.street.model.service;
+package com.kh.wassupSeoul.street.service;
 
 import java.util.List;
 
@@ -49,6 +49,5 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int[] checkLikeReplyNum(int postNo) throws Exception;
-
 	 
 }

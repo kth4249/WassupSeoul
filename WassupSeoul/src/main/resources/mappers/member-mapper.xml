@@ -22,7 +22,7 @@
   		INSERT INTO MEMBER
   		VALUES(SEQ_MEMBER.NEXTVAL, #{memberEmail}, #{memberPwd}, 
   				#{memberNm}, #{memberNickname}, #{memberPhone},
-  				#{memberGender}, #{memberAge}, #{memberProfileUrl},	DEFAULT, DEFAULT, DEFAULT)
+  				#{memberGender}, #{memberAge}, DEFAULT,	DEFAULT, DEFAULT, DEFAULT)
   	</insert>
   	
   	<!-- 로그인용 -->

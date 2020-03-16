@@ -111,6 +111,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 <body>
 	<div class="container2">
+
+
 		<div class="row">
 			<div class="col-md-12">
 				<h1 class="mt-5" style="font-size: 80px;">Who Are U?</h1>
@@ -120,8 +122,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 
 					<form method="POST"
 						action="${pageContext.request.contextPath}/member/signUp"
-						name="signUpForm" onsubmit="return validate();"
-						enctype="multipart/form-data">
+						name="signUpForm" onsubmit="return validate();">
 						<br>
 						<br>
 
@@ -250,6 +251,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							</div>
 						</div> 
 
+
 						<!-- 나이 입력 -->
 						<div class="row form-group">
 							<div class="col-md-4">
@@ -283,7 +285,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<div class="row form-group">
 							<div class="col-md-4">
 								<p class="nanum float-right" style="color: midnightblue;">(1개
-									이상의 선택을 꼭 권장합니다.)</p>
+									이상 필수 선택)</p>
 							</div>
 							<div class="col-md-6">
 								<select multiple="" class="nanum form-control"
@@ -337,8 +339,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<label for=""></label>
 							</div>
 							<div class="col-md-6">
-								<input type="file" id="profile_img" name="originProfileUrl">
-								
+
+								<input type="file" id="profile_img">
 							</div>
 						</div>
 
@@ -431,6 +433,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						}
 					});
 					
+					
 					// 비밀번호  유효성 검사
 					$pwd1.on("input", function(){
 						//영어 대,소문자 + 숫자, 총 6~12글자
@@ -458,9 +461,9 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					
 					// 이름 유효성 검사
 					$name.on("input", function(){
-						var regExp =  /^[A-Za-z가-힣\s]{2,15}$/; // 한글 두 글자 이상
+						var regExp =  /^[가-힣]{2,}$/; // 한글 두 글자 이상
 						if(!regExp.test($(this).val())){ 
-							$("#checkName").text("올바르게 작성해주세요").css("color","red");
+							$("#checkName").text("한글 두 글자 이상을 입력하세요").css("color","red");
 							signUpCheck.name = false;
 						}else{
 							$("#checkName").text("").css("color","green");
@@ -468,10 +471,11 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						}
 					});
 					
+
 					 // 닉네임  유효성 검사
 					$nickName.on("input", function(){
 						// 한글,영어 대,소문자 + 숫자, 총 1~12글자
-						var regExp = /^[A-Za-z0-9가-힣\s]{1,12}$/;
+						var regExp = /^[A-Za-z0-9가-힣]{1,12}$/;
 						if(!regExp.test($nickName.val())){
 					    	$("#checknickName").text("닉네임 형식이 유효하지 않습니다.").css({"color":"red","font-weight":"bold"});
 					    	signUpCheck.nickName = false;
@@ -523,6 +527,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		// submit 동작
 		function validate() {
 
+			// 아이디 중복 검사 결과
+			//if( $("#idDup").val() == "true")	signUpCheck.idDup = true;
+			//else				  				signUpCheck.idDup = false;
+
 			for ( var key in signUpCheck) {
 				if (!signUpCheck[key]) {
 					alert("일부 입력값이 잘못되었습니다.");
@@ -532,14 +540,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 				}
 			}
 		}
-		
 	</script>
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> branch 'master' of https://github.com/kth4249/WassupSeoul.git
 	<script
 		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -548,6 +552,28 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 		crossorigin="anonymous"></script>
+		
+		
+		<!-- <div class="row form-group">
+							<div class="col-md-4">
+								<label for="" class="nanum float-right" style="font-size: 25px;">*성별</label>
+							</div>
+							<div class="col-md-3">
+								<input type="radio" id="man" name="memberGender" value="M">
+								 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+								<label for="man" class="nanum"
+									style="font-size: 25px;">남성</label>
+							</div>
+							<div class="col-md-3">
+								<input type="radio" id="female" name="memberGender" value="W">
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+								<label for="woman" class="nanum"
+									style="font-size: 25px;">여성</label>
+							</div>
+						</div> -->
+		
+		
+		
 
 </body>
 

@@ -1,11 +1,10 @@
-package com.kh.wassupSeoul.street.model.dao;
+package com.kh.wassupSeoul.street.dao;
 
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
@@ -80,4 +79,5 @@ public class StreetDAO {
 	public int[] checkLikeReplyNum(int postNo) throws Exception{
 		return sqlSession.selectOne("streetMapper.checkLikeReplyNum", postNo );
 	}
+
 }

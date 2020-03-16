@@ -1,4 +1,4 @@
-package com.kh.wassupSeoul.email.model.service;
+package com.kh.wassupSeoul.email.service;
 
 
 import java.util.Map;
@@ -13,8 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.kh.wassupSeoul.email.model.dao.EmailDAO;
-
+import com.kh.wassupSeoul.email.dao.EmailDAO;
 
 @Service
 public class EmailServiceImpl {

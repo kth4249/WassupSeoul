@@ -1,4 +1,4 @@
-package com.kh.wassupSeoul.member.model.service;
+package com.kh.wassupSeoul.member.service;
 
 import java.util.Map;
 

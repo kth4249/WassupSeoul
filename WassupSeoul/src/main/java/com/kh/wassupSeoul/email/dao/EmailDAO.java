@@ -1,4 +1,4 @@
-package com.kh.wassupSeoul.email.model.dao;
+package com.kh.wassupSeoul.email.dao;
 
 import javax.servlet.http.HttpServletRequest;
 

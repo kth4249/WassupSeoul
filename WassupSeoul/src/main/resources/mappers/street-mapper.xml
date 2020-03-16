@@ -27,7 +27,6 @@
 		<result property="streetNo" column="STREET_NO"/>
 		<result property="memberNo" column="MEMBER_NO"/>
 		<result property="typeNo" column="TYPE_NO"/>
-		<result property="memberProfile" column="MEMBER_PROFILE_URL"/>
 	</resultMap>
 		
 	
@@ -109,10 +108,6 @@
   	 	 WHERE STREET_NO = #{streetNo} 
  		 AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'
  		 ORDER BY BOARD_NO
- 		 
- 		 <!-- 
- 		 	SELECT BOARD_CONTENT, TO_CHAR(BOARD_WRITE_DT, 'YYYY"년" MM"월" DAY AM HH:MM ')
-			FROM BOARD; -->
   	 	 	
   	 </select>
   	
@@ -176,8 +171,6 @@
 		BOARD_NO = #{memberAge}
 		
 	</select>
-  	 
-  	 
   	 
 	
 </mapper>

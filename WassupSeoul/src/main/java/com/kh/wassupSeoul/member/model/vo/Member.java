@@ -20,9 +20,11 @@ public class Member {
 	public Member() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 
 	public Member(String memberEmail, String memberPwd, String memberNm, String memberNickname, String memberPhone,
-			String memberGender, int memberAge, String memberProfileUrl) {
+			String memberGender, int memberAge) {
 		super();
 		this.memberEmail = memberEmail;
 		this.memberPwd = memberPwd;
@@ -31,8 +33,9 @@ public class Member {
 		this.memberPhone = memberPhone;
 		this.memberGender = memberGender;
 		this.memberAge = memberAge;
-		this.memberProfileUrl = memberProfileUrl;
 	}
+
+
 
 	public Member(int memberNo, String memberEmail, String memberPwd, String memberNm, String memberNickname,
 			String memberPhone, String memberGender, int memberAge, String memberProfileUrl, String memberGrade,

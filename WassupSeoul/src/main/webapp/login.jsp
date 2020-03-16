@@ -58,7 +58,7 @@
       <form class="form-signin" form method="POST" action="${pageContext.request.contextPath}/member/login" name="login">
         <img class="mb-4" src="{{ site.baseurl }}/docs/{{ site.docs_version }}/assets/brand/bootstrap-solid.svg" alt=""
           width="72" height="72">
-        <h1 class="h1 mb-3 font-weight-bold nanum">우리랑 같이 놀래?</h1>
+        <h1 class="h1 mb-3 font-weight-bold nanum">우리랑 같이 놀래?</h1>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" id="inputEmail" name="memberEmail" class="form-control nanum" placeholder="이메일을 입력하세요" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
@@ -69,7 +69,7 @@
             <input type="checkbox" value="remember-me"> Remember me
           </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block nanum" type="submit">드루와</button>
+        <button class="btn btn-lg btn-primary btn-block nanum" type="submit">드루와</button>
         <br>
         <a href="" style="font-size: 20px;" data-toggle="modal" data-target="#findEmailModal">Find Email</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

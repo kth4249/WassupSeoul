@@ -1,4 +1,4 @@
-package com.kh.wassupSeoul.member.model.service;
+package com.kh.wassupSeoul.member.service;
 
 import java.util.Map;
 
@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kh.wassupSeoul.member.model.dao.MemberDAO;
+import com.kh.wassupSeoul.member.dao.MemberDAO;
 import com.kh.wassupSeoul.member.model.vo.Member;
 
 @Service
@@ -32,7 +32,8 @@ public class MemberServiceImpl implements MemberService{
 	public int signUp(Member signUpMember) throws Exception {
 		String encPwd = bcryptPasswordEncoder.encode(signUpMember.getMemberPwd());
 		signUpMember.setMemberPwd(encPwd);
-		return memberDAO.signUp(signUpMember);
+		int result = memberDAO.signUp(signUpMember);
+		return result;
 	}
 	
 	
