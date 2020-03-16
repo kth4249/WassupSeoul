@@ -1,5 +1,6 @@
 package com.kh.wassupSeoul.member.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -8,8 +9,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.dao.MemberDAO;
 import com.kh.wassupSeoul.member.model.vo.Member;
+import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -113,6 +117,112 @@ public class MemberServiceImpl implements MemberService{
 		String newPwd = bcryptPasswordEncoder.encode(meme);
 		randomMap.put("newPwd", newPwd);
 		return memberDAO.makeRandomPwd(randomMap);
+	}
+
+	/** 프로필 관심사 조회용 Service
+	 * @param memberNo
+	 * @return myHobby
+	 * @throws Exception
+	 */
+	@Override
+	public List<Hobby> selectHobby(int memberNo) throws Exception{
+		return memberDAO.selectHobby(memberNo);
+	}
+
+	/** 내골목 조회용 Service
+	 * @param memberNo
+	 * @return myStreet
+	 * @throws Exception
+	 */
+	@Override
+	public List<ProfileStreet> selectProfileStreet(int memberNo) throws Exception {
+		return memberDAO.selectProfileStreet(memberNo);
+	}
+
+	/** 내골목 골목대장 조회용 Service
+	 * @param streetNo
+	 * @return streetMaster
+	 * @throws Exception
+	 */
+	@Override
+	public String selectStreetMaster(int streetNo) throws Exception {
+		return memberDAO.selectStreetMaster(streetNo);
+	}
+
+	/** 내골목 키워드 조회용 Service
+	 * @param i
+	 * @return myKeyword
+	 * @throws Exception
+	 */
+	@Override
+	public List<Keyword> selectMyKeyword(int i) throws Exception {
+		int streetNo = i;
+		return memberDAO.selecyMyKeyword(streetNo);
+	}
+
+	/** 현재 비밀번호 일치여부 조회용 Service
+	 * @param beforePwd
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int beforePwdCheck(String beforePwd, int memberNo) throws Exception {
+		// 현재 비밀번호 가져오기
+		String currentPwd = memberDAO.selectMemberPwd(memberNo);
+		
+		// 비밀번호 일치여부 검사
+		if(!bcryptPasswordEncoder.matches(beforePwd, currentPwd)) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
+	/** 검색된 관심사 조회용 Service
+	 * @param searchHobbyContent
+	 * @return hobbyList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Hobby> searchHobby(String searchHobbyContent) throws Exception {
+		return memberDAO.searchHobby(searchHobbyContent);
+	}
+
+	/** 검색된 관심사 지정 회원수 조회용 Service
+	 * @param hobbyNm
+	 * @return count
+	 * @throws Exception
+	 */
+	@Override
+	public int selectHobbyCount(String hobbyName) throws Exception {
+		return memberDAO.selectHobbyCount(hobbyName);
+	}
+
+	/** 현재 비밀번호 조회용 Service
+	 * @param memberNo
+	 * @return memberPwd
+	 * @throws Exception
+	 */
+	@Override
+	public String selectMemberPwd(int memberNo) throws Exception {
+		return memberDAO.selectMemberPwd(memberNo);
+	}
+
+	/** 회원 정보 수정용 Service
+	 * @param member
+	 * @param flag
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateMember(Member member, int flag) throws Exception {
+		if(flag > 0) { // 비밀번호 변경할 경우
+			String encPwd = bcryptPasswordEncoder.encode(member.getMemberPwd());
+			member.setMemberPwd(encPwd);			
+		} 
+		int result = memberDAO.updateMember(member);
+		return result;
 	}
 
 

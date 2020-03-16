@@ -262,6 +262,22 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 									maxlength="3" placeholder=" 나이를 입력해주세요(숫자만)">
 							</div>
 						</div>
+						
+						<!-- 관심분야 직접입력 -->
+						<div class="row form-group">
+							<div class="col-md-4">
+								<label for="" class="nanum float-right" style="font-size: 25px;">*
+									관심분야 작성</label>
+							</div>
+							<div class="col-md-4">
+								<input type="text" class="nanum form-control border-primary" id="writeHobbyNm"
+									placeholder="  관심분야 직접 입력">
+							</div>
+							<div class="col-md-2">
+								<button class="nanum badge badge-primary" id="insertHobby" type="button"
+									style="font-size: 19px;">선 택</button>
+							</div>
+						</div>
 
 						<!-- 관심분야 검색 -->
 						<div class="row form-group">
@@ -270,11 +286,11 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 									관심분야</label>
 							</div>
 							<div class="col-md-4">
-								<input type="number" class="nanum form-control border-primary"
+								<input type="text" class="nanum form-control border-primary" id="searchHobbyNm"
 									placeholder="  관심분야 검색">
 							</div>
 							<div class="col-md-2">
-								<button class="nanum badge badge-primary"
+								<button class="nanum badge badge-primary" type="button" id="searchHobby"
 									style="font-size: 19px;">검 색</button>
 							</div>
 						</div>
@@ -288,11 +304,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<div class="col-md-6">
 								<select multiple="" class="nanum form-control"
 									id="exampleSelect2">
-									<option>와인 (100명)</option>
-									<option>와인만들기 (65명)</option>
-									<option>와인시음회 (14명)</option>
-									<option>레드와인 (22명)</option>
-									<option>화이트와인 (78명)</option>
+									<option>검색 결과가 조회됩니다.</option>
+									<%-- <option>와인 (100명)</option> --%>
 								</select>
 							</div>
 						</div>
@@ -304,13 +317,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							</div>
 							<div class="col-md-6">
 								<div class="card" style="max-width: 30rem;">
-									<div class="card-body">
-										<span class="nanum">프랑스여행</span>
-										<button class="badge badge-pill badge-danger">X</button>
-										<span class="nanum">와인만들기</a>
-											<button class="badge badge-pill badge-danger">X</button> <span
-											class="nanum">여행</a>
-												<button class="badge badge-pill badge-danger">X</button>
+									<div class="card-body" id="selectHobby">
+										<!-- 지정된 관심사 출력부분 -->
 									</div>
 								</div>
 							</div>
@@ -368,6 +376,141 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			"nickName" : false,
 			"phone":false
 		};
+		
+		/* 관심사 제거 버튼 클릭시 관심사 제거 */
+    	$(document).on("click",".deleteHobby",function(){
+    		// 지정 관심사가 1개인 경우
+    		if($("input[name=hobbyNmArr]").length < 2) { 
+    			alert("지정관심사는 최소 1개는 지정이 되어야 합니다.");
+    		} 
+    		// 지정 관심사가 2개이상인 경우
+    		else {
+    			$(this).parent().parent().remove();	
+    		}
+    	});
+		
+		/* 관심사 직접 입력후 버튼 클릭시 관심사 추가 */
+    	$(document).on("click","#insertHobby",function(){
+    		// 지정관심사가 3개인 경우
+    		if( $("input[name=hobbyNmArr]").length > 2) { 
+    			alert("지정관심사는 최대 3개만 지정할 수 있습니다.");
+    			$("#writeHobbyNm").val("");
+    		} 
+    		else if($("#writeHobbyNm").val() == "") {
+    			alert("관심사를 입력하세요.");
+    		}
+    		// 지정관심사가 3개미만인 경우
+    		else {
+    			var inputs = $("#selectHobby").find("input");
+    			var insertVal = $("#writeHobbyNm").val();
+    			var count = 0;
+    			$.each(inputs,function(index,item){
+                    if(insertVal == $(item).val()) {
+                        count++;
+                    } 
+                });
+    			// 중복값이 있는 경우
+    			if(count > 0){
+    				alert("중복된 관심사를 지정할 수 없습니다.");
+        			$("#writeHobbyNm").val("");
+    			}
+    			// 중복값이 없는 경우
+    			else {
+    				// 중복값에 따라 취미번호 변경
+    				
+    				
+    				// ajax를 이용해서 중복값이 있으면 no가져오고 아니면 0으로 지정
+    				/*
+    				$.ajax({
+    					url : "hoobyDupCheck",
+                		data : {hobbyNm : $("#writeHobbyNm").val()},
+                		type : "post",
+                		success : function(result) {
+                			if(result == 0) {
+                				
+                			}
+                		}
+    				});
+    				*/
+    				var writeHobby = $("#writeHobbyNm").val();
+                	var $divPlus = $("<div></div>").addClass("form-group row");
+    	       		var $divPlus1 = $("<div></div>").addClass("col-sm-9");
+    	       		var $divPlus2 = $("<div></div>").addClass("col-sm-3");
+    	       		var $divPlus3 = $("<div></div>").addClass("col-sm-11").css({"background-color":"black","height":"2px"});
+    	       		var inputPlus = $("<input></input>")
+						.prop({"type":"text", "readonly":"true", "name":"hobbyNmArr"})
+						.val(writeHobby).addClass("form-control-plaintext nanum")
+						.css({"font-size":"16px","color":"blue"});
+					var buttonPlus = $("<button></button>").prop("type","button").addClass("badge badge-pill badge-danger deleteHobby").html("X");		
+					$divPlus1 = $divPlus1.append(inputPlus);
+    	            $divPlus2 = $divPlus2.append(buttonPlus);
+    	           	$divPlus = $divPlus.append($divPlus1).append($divPlus2).append($divPlus3);
+    	      			
+                   $("#selectHobby").append($divPlus);
+                   $("#writeHobbyNm").val("");
+                   
+    			}
+    		}
+    		 
+        });
+		
+	    /* 관심사 검색 버튼 클릭시 검색결과 출력*/
+	    $("#searchHobby").on("click",function(){
+	    var $searchHobbyNm = $("#searchHobbyNm");
+	        		
+       		$.ajax({
+           		url : "searchHobby",
+           		data : {searchHobbyContent: $searchHobbyNm.val() },
+           		type : "post",
+           		dataType : "json",
+           		success : function(list){
+           			
+   					var $searchHobbyList = $("#searchHobbyList");
+           			$searchHobbyList.html("");
+     					
+           			if(list.length > 0) {
+           				
+           				$.each(list,function(i){
+           					var liPlus = $("<li></li>").addClass("list-group-item");
+                   			var divPlus = $("<div></div>").addClass("form-group row").css("margin-bottom","0px");
+                   			var divPlus1 = $("<div></div>").addClass("col-sm-7");
+                   			var divPlus2 = $("<div></div>").addClass("col-sm-2");
+                   			var divPlus3 = $("<div></div>").addClass("col-sm-3");
+               				var inputPlus1 = $("<input></input>")
+       						 			 .prop({"type":"text", "readonly":"true"})
+         						 			 .addClass("form-control-plaintext nanum")
+         									 .css("color","blue").val("#" + list[i].hobbyNm);
+       						var inputPlus2 = $("<input></input>")
+       		 							 .prop({"type":"text", "readonly":"true"})
+       									 .addClass("form-control-plaintext nanum").val(list[i].hobbyCount + "명");
+       						var buttonPlus = $("<button></button>").prop("type","button")
+   										 .addClass("btn btn-primary nanum insertSearchHobby").html("선택")
+   							var hobbyNoPlus = $("<input>").prop("type","text").val(list[i].hobbyNo);
+       						
+       						divPlus1 = divPlus1.append(inputPlus1);
+       						divPlus2 = divPlus2.append(inputPlus2);
+       						divPlus3 = divPlus3.append(buttonPlus);
+       						divPlus = divPlus.append(divPlus1).append(divPlus2).append(divPlus3);
+       						liPlus = liPlus.append(divPlus).append(hobbyNoPlus);
+       						$searchHobbyList.append(liPlus);
+               			});
+           				
+           			} else {
+           				var liPlus = $("<li></li>").addClass("list-group-item");
+           				var hPlus = "<h5 class='nanum'>검색결과가 없습니다</h5>";
+           				liPlus = liPlus.append(hPlus);
+           				$searchHobbyList.append(liPlus);
+           				
+           			}
+       				
+           		},
+           		
+           		error : function(e){
+           			console.log("ajax 통신 실패");
+           			console.log(e);
+           		}
+           	});
+	    });
 
 		// 실시간 입력 형식 검사
 		// 정규표현식
