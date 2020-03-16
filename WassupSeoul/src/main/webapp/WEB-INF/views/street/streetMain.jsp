@@ -146,8 +146,6 @@
 							<div class="writePost">
 								<textarea class="postArea nanum" id="writePostArea"  name="boardContent" rows="3" 
 									placeholder="새로운 게시글을 작성해보세요"></textarea>
-									
-								<!--<input type="text" class="form-control" id="inputPostArea">-->
 							</div>
 
 							<div class="postCountView" style="border: 1px solid black; height: 45px; ">
@@ -223,7 +221,7 @@
 							<c:forEach var="board" items="${board}" varStatus="vs">
 								
 							
-												<!-- 게시글1-->
+					<!-- 게시글1-->
 					<div class="container box111" id="postArea" style="margin-bottom:0px" >
 						<div class="postLayoutView" style="padding: 0%;">
 
@@ -232,6 +230,7 @@
 							<div class="post MainWrap" style="border: 1px solid black; border-bottom: 0px">
 								<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
 																								padding-left: 10px;">
+																								
 									<img src="${contextPath}/resources/img/account.png" style="width: 80%; height: 80%;">
 
 								</div>
@@ -239,7 +238,7 @@
 																								position: relative;
 																								top: 14px">
 									<div>
-										<p style="margin-bottom: 0;">홍길동</p>
+										<p style="margin-bottom: 0;">${board.boardWriter}</p>
 									</div>
 									<div style="margin-bottom: 0;">
 										<p style="margin-bottom: 0;">${board.boardWriteDt}</p>
@@ -297,22 +296,22 @@
 							<div class="postCountView" style="border: 1px solid black; border-top: 0; height: 30%; padding-top: 5px; ">
 								<div class="commentArea nanum" style="display: inline-block; width: 82%; margin-bottom: 0px; 
 																								padding-left: 10px;">
-									<p style="margin-bottom: 0;">댓글2</p>
+									<p class="commentCount${board.boardNo}" style="margin-bottom: 0;">댓글2</p>
 								</div>
 								<div style=" width: 14%; margin-bottom: 0px; height: 100%; float: right; ">
 								
 									
 									
-									<button type="submit" class="btn nanum" style="padding: 0px; position: relative; bottom: 4px;" >
+									<button type="submit" class="btn nanum" style="padding: 0px; position: relative; bottom: 4px;" onclick="'javascript: like_func();'" >
 									
-									<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="display: inline-block; width: 20px; 
+									<img class="likeBtn shake" name="${board.boardNo}" src="${contextPath}/resources/img/like.png" style="display: inline-block; width: 20px; 
 									height: 20px; float: right;">
 									
    									</button>
 									
 									
 									
-									<p class="likeNum" style="margin-bottom: 0; display: inline-block;">10</p>
+									<p class="likeCount" style="margin-bottom: 0; display: inline-block;">10</p>
 
 
 									<div class="hide nanum" id="postMenu2" style="width: 120px; height: 150px; 
@@ -397,10 +396,9 @@
 																				position: relative; 
 																				 bottom: 3px;">
 												</div>
-												<div class="likeCount" style="display: inline-block; width: 10%; margin-bottom: 0px; 
-																										">
-													<p style="margin-bottom: 0;font-size: 13px;">5</p>
-												</div>
+												
+													<p style="margin-bottom: 0;font-size: 13px; display: inline-block;">5</p>
+											
 
 
 											</div>
@@ -446,11 +444,9 @@
 
 									<!-- 대댓글 -->
 									<div class="doubleCommentWrap" style="display: none;">
-										<!-- style="display: none;" -->
 
 										<!-- 대댓글보기1 -->
 										<div style="border: px solid black; border-top: 2px solid black;">
-											<!-- display: none; class="CommentWrap" -->
 											<div style="position: relative;	left: 40px; border: 0px white; width: 92%;">
 												<div class="postMainWrap" style=" border-bottom: 0px">
 													<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px;
@@ -475,11 +471,9 @@
 															<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
 																						position: relative; float: right; top: 1px;">
 														</div>
-														<div class="likeCount"
-															style="display: inline-block; width: 5%; margin-bottom: 0px; ">
-															<p style="margin-bottom: 0;font-size: 13px;">2</p>
-														</div>
-
+													
+															<p style="margin-bottom: 0;font-size: 13px;  display: inline-block;">2</p>
+														
 
 													</div>
 													<div
@@ -552,10 +546,9 @@
 															<img class="likeBtn shake" src="${contextPath}/resources/img/like.png" style="width: 15px; height:  15px;
 																						position: relative; float: right; top: 1px;">
 														</div>
-														<div class="likeCount" style="display: inline-block; width: 5%; margin-bottom: 0px; 
-																												">
-															<p style="margin-bottom: 0;font-size: 13px;">2</p>
-														</div>
+														
+															<p style="margin-bottom: 0;font-size: 13px;  display: inline-block;" >2</p>
+													
 
 
 													</div>
@@ -653,10 +646,9 @@
 																				position: relative;
 																				bottom: 3px;">
 													</div>
-													<div class="likeCount"
-														style="display: inline-block; width: 10%; margin-bottom: 0px;">
-														<p style="margin-bottom: 0px;font-size: 13px;">2</p>
-													</div>
+													
+														<p style="margin-bottom: 0px;font-size: 13px;  display: inline-block;">2</p>
+												
 													
 
 
@@ -706,7 +698,6 @@
 
 											<!-- 대댓글작성 -->
 											<div class="inputCommentWrap" style="border-top: 2px solid black; ">
-												<!-- display: none; -->
 
 												<div class="writePost"
 													style="width: 80%; display: inline-block; margin-left:3px; ">
@@ -785,21 +776,81 @@
 <script>
 		$(document).ready(function () {
 
-			// 좋아요 클릭시 버튼 이미지 변경
-			$(".likeBtn").click(function () {
+			// 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
+	 	 	$(".likeBtn").click(function () {
 
-				var a = $(this).attr("src");
+	 	 		var postNo = $(this).attr("name");
+				var img = $(this).attr("src");
+				var likeCount= $(this).parent().next("p").text()
+			
+				console.log(likeCount);
 
-				if (a == "${contextPath}/resources/img/like.png") {
-
+				if (img == "${contextPath}/resources/img/like.png") {
+					likeCount++;
+					console.log(likeCount);
 					$(this).attr('src', '${contextPath}/resources/img/like2.png');
+					$(this).parent().next("p").text(likeCount);
 
 				} else {
+					likeCount--;
+					console.log(likeCount);
 					$(this).attr('src', '${contextPath}/resources/img/like.png');
+					$(this).parent().next("p").text(likeCount);
 				}
+				
+				$.ajax({
+					url : "likeFunction",
+					data : { postNo:postNo	},
+					type : "post",
+					success : function(result) {
 
-			});
+						if (result == "true") {
+							
+							system.out.println("좋아요 등록 성공")
+							console.log("좋아요 등록 성공");
+							
+						} else {
+							
+							system.out.println("좋아요 해제 성공")
+							console.log("좋아요 해제 성공");
+							
+						}
+					},
 
+					error : function(e) {
+						console.log("ajax 통신 실패");
+						console.log(e);
+					}
+				});
+
+			});  
+			
+			
+			/* // 좋아요, 댓글수 조회
+	 	 	$.ajax({
+				url : "checkLikeReplyNum",
+				data : { postNo:postNo	},
+				type : "post",
+				success : function(result) {
+
+					if (result == "true") {
+						
+						system.out.println("좋아요 등록 성공")
+						console.log("좋아요 등록 성공");
+						
+					} else {
+						
+						system.out.println("좋아요 해제 성공")
+						console.log("좋아요 해제 성공");
+						
+					}
+				},
+
+				error : function(e) {
+					console.log("ajax 통신 실패");
+					console.log(e);
+				}
+			}); */
 	
 	
 			
@@ -859,9 +910,49 @@
 				$('.postArea').focus();
 			});		
 			
-			
-		
+						// 좋아요 기능
+				/* 	$(".likeBtn").click(function () {
 
+						var postNo = $(this).attr("name");
+						var imgSrc = $(this).attr("src");	
+
+						if (imgSrc == "${contextPath}/resources/img/like.png") {
+							// 좋아요 눌렀을때 컬러 로 변경
+							$(this).attr('src', '${contextPath}/resources/img/like2.png');
+
+						} else {
+							// 좋아요 한번더 눌렀을때 좋아요 해제   	 흑백 변경
+							$(this).attr('src', '${contextPath}/resources/img/like.png');
+						}	
+
+						$.ajax({
+							url : "likeFunction",
+							data : { postNo:postNo	},
+							type : "post",
+							success : function(result) {
+
+								if (result == "true") {
+									
+									system.out.println("좋아요 등록 성공")
+									console.log("좋아요 등록 성공");
+									
+								} else {
+									
+									system.out.println("좋아요 해제 성공")
+									console.log("좋아요 해제 성공");
+									
+								}
+							},
+
+							error : function(e) {
+								console.log("ajax 통신 실패");
+								console.log(e);
+							}
+						});
+					}); */
+					
+				
+			
 		});
 		
 
