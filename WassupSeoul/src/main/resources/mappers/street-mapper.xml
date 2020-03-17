@@ -176,7 +176,19 @@
 		BOARD_NO = #{memberAge}
 		
 	</select>
-  	 
+	
+	 <!-- 게시글 삭제용 -->
+  	 <update id="deletePost"  parameterType="_int" >
+	
+		UPDATE BOARD
+		
+		SET
+		
+		BOARD_STATUS = 'N'
+
+		WHERE BOARD_NO=#{boardNo}
+	
+	</update>
   	 
   	 
 	
