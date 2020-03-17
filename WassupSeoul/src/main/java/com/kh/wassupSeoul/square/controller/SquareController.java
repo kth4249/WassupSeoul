@@ -59,9 +59,9 @@ public class SquareController {
 			PageInfo pInf = Pagination.getPageInfo(10, 10, currentPage, listCount);
 			
 			List<Street> sList = squareService.selectList(pInf, map);
-			for(Street street : sList) {
+			/*for(Street street : sList) {
 				System.out.println("street : " + street);
-			}
+			}*/
 			
 			List<Keyword> kList = null;
 			if(!sList.isEmpty()) {

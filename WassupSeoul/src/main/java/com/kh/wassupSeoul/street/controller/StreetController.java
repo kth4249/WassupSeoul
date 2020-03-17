@@ -214,6 +214,13 @@ public class StreetController {
 	
 	
 	
-	
+	// 추천 친구 페이지 이동
+	@RequestMapping("recommendFriend")
+	public String recommendFriend(Model model) {
+		int streetNo = (int)model.getAttribute("streetNo");
+		
+		
+		return "street/recommendFriend";
+	}
 	
 }
