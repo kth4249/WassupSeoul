@@ -140,10 +140,10 @@ public class StreetController {
 		loginMember.setMemberAge(postNo);
 		
 		try {
-//			int test = streetService.likeCheck( loginMember );
-//			
-//			System.out.println("좋아요 기록 조회:"+test);
-//			System.out.println("변경된 loginMemer:"+ loginMember);
+		int test = streetService.likeCheck( loginMember );
+		
+		System.out.println("좋아요 기록 조회:"+test);
+			System.out.println("변경된 loginMemer:"+ loginMember);
 			
 			return streetService.likeCheck( loginMember ) == 1 ? true + "" : false + "";
 			
