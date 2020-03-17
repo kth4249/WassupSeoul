@@ -231,7 +231,7 @@
 	                                	<button type="button" class="btn btn-primary nanum deleteHobby">제거</button>
 	                                </div>
 	                                <div class="col-sm-11" style="background-color: black;height: 2px;"></div>
-	                                <input type="text" value="${hobby.hobbyNo}">
+	                                <input type="text" name="hobbyNoArr" value="${hobby.hobbyNo}">
 	                            </div>	
 	                     	</c:forEach>
                      	</div>
