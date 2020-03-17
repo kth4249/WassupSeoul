@@ -111,7 +111,7 @@ public class MemberController {
 			String msg = null;
 			if (loginMember != null) {
 				
-				/*
+				
 				// 골목번호 배열
 				int[] streetNoArr = new int[3];
 				
