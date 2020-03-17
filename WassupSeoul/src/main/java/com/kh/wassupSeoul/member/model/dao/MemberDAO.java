@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
+import com.kh.wassupSeoul.hobby.model.vo.MemberHobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -155,6 +156,49 @@ public class MemberDAO {
 	 */
 	public int updateMember(Member member) throws Exception{
 		return sqlSession.update("memberMapper.updateMember", member);
+	}
+
+	/** 직접 작성한 관심사 중복 여부 조회용 DAO
+	 * @param hobbyName
+	 * @return
+	 */
+	public Hobby hobbyDupCheck(String hobbyName) {
+		return sqlSession.selectOne("memberMapper.hobbyDupCheck", hobbyName);
+	}
+
+	/** 기존 관심사 제거용 DAO
+	 * @return result1
+	 * @throws Exception
+	 */
+	public int deleteMemberHobby(int memberNo) throws Exception{
+		return sqlSession.delete("memberMapper.deleteMemberHobby",memberNo);
+	}
+
+	/** 변경된 관심사 추가용 DAO -> 덮어쓰기 필요
+	 * @param myHobby
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateMemberHobby(MemberHobby memberHobby) throws Exception{
+		return sqlSession.insert("memberMapper.updateMemberHobby",memberHobby);
+	}
+	
+	/** 해당 관심사 번호 조회용 DAO
+	 * @param hobbyName
+	 * @return hobbyNo
+	 * @throws Exception
+	 */
+	public int getInsertHobbyNo(String hobbyName) throws Exception{
+		return sqlSession.selectOne("memberMapper.getInsertHobbyNo", hobbyName);
+	}
+
+	/** 관심사 추가용 DAO
+	 * @param hobbyName
+	 * @return addResult
+	 * @throws Exception
+	 */
+	public int insertHobby(String hobbyName) throws Exception{
+		return sqlSession.insert("memberMapper.insertHobby", hobbyName);
 	}
 
 	

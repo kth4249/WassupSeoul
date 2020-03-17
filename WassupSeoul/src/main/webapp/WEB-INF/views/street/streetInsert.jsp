@@ -30,7 +30,8 @@
 	<%@include file="../common/header.jsp"%>
 
 
-	<form method="POST" action="insertStreet" enctype="multipart/form-data" role="form" onsubmit="">
+	<form method="POST" action="insertStreet" enctype="multipart/form-data"
+		role="form" onsubmit="">
 
 		<!-- input 태그 clear 버튼 -->
 		<!-- <div class="input-group">
@@ -91,8 +92,8 @@
 					<div class="form-group col-md-6 nanum" style="float: left;">
 						<h3 class="nanum" style="font-weight: bold;">지역구</h3>
 						<div class="col-xs-4">
-							<select class="form-control nanum" name="districtNo" id="districtNo"
-								required>
+							<select class="form-control nanum" name="districtNo"
+								id="districtNo" required>
 								<option value="10">강서구</option>
 								<option value="8">양천구</option>
 								<option value="11">구로구</option>
@@ -161,11 +162,9 @@
 					<div class="form-group col-md-6 nanum" style="float: left;">
 						<h3 class="nanum" style="font-weight: bold;">골목소개</h3>
 						<div class="col-xs-4">
-							<input type="text" class="form-control nanum"
-								name="streetIntro" id="streetIntro"
-								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
-								class="nanum" id="checkStreetIntro"
-								style="font-size: smaller;">&nbsp;</span>
+							<input type="text" class="form-control nanum" name="streetIntro"
+								id="streetIntro" placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
+								class="nanum" id="checkStreetIntro" style="font-size: smaller;">&nbsp;</span>
 						</div>
 					</div>
 
@@ -212,7 +211,7 @@
 							<input type="text" class="form-control nanum"
 								name="streetKeyword1" id="streetKeyword1"
 								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
-								class="nanum" id="checkStreetKeyword2"
+								class="nanum" id="checkStreetKeyword1"
 								style="font-size: smaller;">&nbsp;</span> <br>
 						</div>
 					</div>
@@ -233,15 +232,15 @@
 				<div class="col-md-6 offset-md-3">
 					<div class="form-group col-md-2 nanum"
 						style="float: left; text-align: center;">
-						<label for="streetKeyword1" class="nanum"
+						<label for="streetKeyword2" class="nanum"
 							style="font-size: 20px; font-weight: bolder;">키워드2 : </label>
 					</div>
 					<div class="form-group col-md-5 nanum" style="float: left;">
 						<div class="col-xs-4">
 							<input type="text" class="form-control nanum"
-								name="streetKeyword1" id="streetKeyword1"
+								name="streetKeyword2" id="streetKeyword2"
 								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
-								class="nanum" id="checkStreetKeyword1"
+								class="nanum" id="checkStreetKeyword2"
 								style="font-size: smaller;">&nbsp;</span> <br>
 						</div>
 					</div>
@@ -270,7 +269,7 @@
 							<input type="text" class="form-control nanum"
 								name="streetKeyword3" id="streetKeyword3"
 								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
-								class="nanum" id="checkStreetKeyword2"
+								class="nanum" id="checkStreetKeyword3"
 								style="font-size: smaller;">&nbsp;</span> <br>
 						</div>
 					</div>
@@ -304,86 +303,89 @@
 				</div>
 			</div>
 
+			
 			<div class="row">
 				<div class="col-md-6 offset-md-3">
 					<div class="col-md-12 nanum" style="margin: 3px auto;">
-						<!-- 골목 커버 미리보기 -->
-						<div style="float: left; box-sizing: border-box;">
-							<p
-								style="display: inline-block; font-size: smaller; margin-bottom: 1px;">골목
-								커버 미리보기</p>
-							<div
-								style="border: 1px solid black; width: 492px; height: 282px;"
-								id="streetThumnailArea">
-								<img id="streetThumbnail" style="width: 490px; height: 280px;">
+						<div style="float: left">
+							<!-- 골목 커버 미리보기 -->
+							<div style="float: left; box-sizing: border-box;">
+								<p style="display: inline-block; margin-bottom: 1px;">골목 커버
+									미리보기</p>
+								<div
+									style="border: 1px solid black; width: 506px; height: 290px;"
+									id="streetThumbnailArea">
+									<img id="streetThumbnail" style="width: 504px; height: 288px;">
+								</div>
 							</div>
 						</div>
+						<div style="float: left; margin: 1px;">
+							<!-- 내 커버 추가하기 -->
+							<div
+								style="margin-left: 1px; margin-right: 1px; box-sizing: border-box;">
+								<p
+									style="display: inline-block; margin-bottom: 1px;">내
+									커버</p>
+								<div
+									style="border: 1px solid black; width: 300px; height: 80px; background-color: rgb(236, 233, 233); position: relative; cursor: pointer;"
+									id="myStreetCoverArea">
+									<div
+										style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+										<img id="myStreetCover"
+											src="${contextPath}/resources/img/camera3(64px).png"
+											style="width: 32px; height: 32px;">
+									</div>
+								</div>
+							</div>
+							<!-- 기본 제공 이미지-->
+							<div style="margin: auto; box-sizing: border-box;">
+								<div>
+									<p class="nanum"
+										style="display: inline-block; margin-bottom: 1px; margin-left: 1px;">
+										기본 이미지</p>
+								</div>
+
+								<div style="float: left;">
+									<div
+										style="border: 1px solid black; width: 156px; height: 90px; margin-bottom: 1px; cursor: pointer;">
+										<img class="streetCover" id="streetCover1"
+											src="${contextPath}/resources/img/골목.jpg"
+											style="width: 154px; height: 88px;">
+									</div>
+									<div
+										style="border: 1px solid black; width: 156px; height: 90px; margin-top: 1px; cursor: pointer;">
+										<img class="streetCover" id="streetCover2"
+											src="${contextPath}/resources/img/골목2.jpg"
+											style="width: 154px; height: 88px;">
+									</div>
+								</div>
+
+								<div style="float: left; margin-left: 1px;">
+									<div
+										style="border: 1px solid black; width: 156px; height: 90px; margin-bottom: 1px; cursor: pointer;">
+										<img class="streetCover" id="streetCover3"
+											src="${contextPath}/resources/img/골목3.jpg"
+											style="width: 154px; height: 88px;">
+									</div>
+									<div
+										style="border: 1px solid black; width: 156px; height: 90px; margin-top: 1px; cursor: pointer;">
+										<img class="streetCover" id="streetCover4"
+											src="${contextPath}/resources/img/골목4.jpg"
+											style="width: 154px; height: 88px;">
+									</div>
+								</div>
+							</div>
+						</div>
+
+
 					</div>
 				</div>
 			</div>
 
 
-			<div class="row">
-				<div class="col-md-6 offset-md-3">
-					<div class="col-md-12 nanum" style="margin: 3px auto;">
-						<!-- 내 커버 추가하기 -->
-						<div
-							style="float: left; margin-left: 1px; margin-right: 1px; box-sizing: border-box;">
-							<p
-								style="font-size: smaller; display: inline-block; margin-bottom: 1px;">내
-								커버</p>
-							<div
-								style="border: 1px solid black; width: 250px; height: 165px; background-color: rgb(236, 233, 233); position: relative; cursor: pointer;"
-								id="myStreetCoverArea">
-								<div
-									style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-									<img id="myStreetCover"
-										src="${contextPath}/resources/img/camera3(64px).png"
-										style="width: 32px; height: 32px;">
-								</div>
-							</div>
-						</div>
-						<!-- 기본 제공 이미지-->
-						<div style="float: left; margin: auto; box-sizing: border-box;">
-							<div>
-								<p class="nanum"
-									style="display: inline-block; font-size: smaller; margin-bottom: 1px; margin-left: 1px;">
-									기본 이미지</p>
-							</div>
 
-							<div style="float: left;">
-								<div
-									style="border: 1px solid black; width: 142px; height: 82px; margin-bottom: 1px; cursor: pointer;">
-									<img class="streetCover" id="streetCover1"
-										src="${contextPath}/resources/img/골목.jpg"
-										style="width: 140px; height: 80px;">
-								</div>
-								<div
-									style="border: 1px solid black; width: 142px; height: 82px; margin-top: 1px; cursor: pointer;">
-									<img class="streetCover" id="streetCover2"
-										src="${contextPath}/resources/img/골목2.jpg"
-										style="width: 140px; height: 80px;">
-								</div>
-							</div>
 
-							<div style="float: left; margin-left: 1px;">
-								<div
-									style="border: 1px solid black; width: 142px; height: 82px; margin-bottom: 1px; cursor: pointer;">
-									<img class="streetCover" id="streetCover3"
-										src="${contextPath}/resources/img/골목3.jpg"
-										style="width: 140px; height: 80px;">
-								</div>
-								<div
-									style="border: 1px solid black; width: 142px; height: 82px; margin-top: 1px; cursor: pointer;">
-									<img class="streetCover" id="streetCover4"
-										src="${contextPath}/resources/img/골목4.jpg"
-										style="width: 140px; height: 80px;">
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+
 			<div class="row">
 				<div class="col-md-12">
 					<br>
@@ -479,31 +481,31 @@
 		}
 
 		// 골목이름 실시간 유효성 검사
-		$("#streetTitle").on(
+		$("#streetNm").on(
 				"input",
 				function() {
 					var regExp = /^[A-Za-z가-힣0-9]{2,15}$/;
 
 					if (!regExp.test($(this).val())) {
-						$("#checkStreetTitle").text("골목이름 형식이 유효하지 않습니다.").css(
+						$("#checkStreetNm").text("골목이름 형식이 유효하지 않습니다.").css(
 								"color", "red");
 					} else {
-						$("#checkStreetTitle").text("유효한 골목이름 형식입니다.").css(
+						$("#checkStreetNm").text("유효한 골목이름 형식입니다.").css(
 								"color", "green");
 					}
 				});
 
 		// 골목소개 실시간 유효성 검사
-		$("#streetIntroduce").on(
+		$("#streetIntro").on(
 				"input",
 				function() {
 					var regExp = /^[A-Za-z가-힣0-9]{0,15}$/;
 
 					if (!regExp.test($(this).val())) {
-						$("#checkStreetIntroduce").text("골목소개 형식이 유효하지 않습니다.")
+						$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.")
 								.css("color", "red");
 					} else {
-						$("#checkStreetIntroduce").text("유효한 골목소개 형식입니다.").css(
+						$("#checkStreetIntro").text("유효한 골목소개 형식입니다.").css(
 								"color", "green");
 					}
 				});

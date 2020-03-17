@@ -29,6 +29,7 @@ import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.member.model.service.MemberService;
 import com.kh.wassupSeoul.mail.model.vo.App;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
+import com.kh.wassupSeoul.hobby.model.vo.MemberHobby;
 import com.kh.wassupSeoul.hobby.model.vo.SearchHobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
@@ -110,9 +111,9 @@ public class MemberController {
 			String msg = null;
 			if (loginMember != null) {
 				
-				/*
+				
 				// 골목번호 배열
-				/*int[] streetNoArr = new int[3];
+				int[] streetNoArr = new int[3];
 				
 				// 1) 해당 관심사 가져오기
 				List<Hobby> myHobby = memberService.selectHobby(loginMember.getMemberNo());
@@ -163,7 +164,7 @@ public class MemberController {
 					}
 					model.addAttribute("myStreet", myStreet);
 					
-				}*/
+				}
 				//
 				
 				msg = "로그인 성공";
@@ -356,81 +357,144 @@ public class MemberController {
 	}
 	
 	// 회원 정보 수정
-	@RequestMapping(value="update", method = RequestMethod.POST)
-	public String updateMember(String phone1,String phone2,String phone3,String memberNickname,
-							   @RequestParam(value="memberProfileUrl", required=false) MultipartFile memberProfileUrl,
-							   @RequestParam(value="newPwd", required=false) String newPwd,
-							   @RequestParam(value="maintainPwd", required=false) String maintainPwd,
-							   String[] hobbyNmArr, Model model, HttpServletRequest request) {
-		try {
-			Member member = (Member)model.getAttribute("loginMember");
-			
-			// 닉네임 변경
-			member.setMemberNickname(memberNickname);
-			
-			// 전화번호 변경
-			String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
-			member.setMemberPhone(memberPhone);
-			
-			String root = request.getSession().getServletContext().getRealPath("resources");
-			String profileSavePath = root + "/profileImage/";
-			File folder = new File(profileSavePath);
-			if(!folder.exists()) folder.mkdir();
-			
-			// 프로필사진 변경
-			if(memberProfileUrl != null) {
-				String updateProfileUrl = profileSavePath + memberProfileUrl.getOriginalFilename();
-				member.setMemberProfileUrl(updateProfileUrl);
-			} else {
-				member.setMemberProfileUrl(profileSavePath + member.getMemberProfileUrl());
-				String a = profileSavePath + member.getMemberProfileUrl();
-				System.out.println("a : " + a);
-			}
-			
-			// 비밀번호 변경
-			int flag = 0;
-			if(maintainPwd != null) {
-				String memberPwd = memberService.selectMemberPwd(member.getMemberNo());
-				member.setMemberPwd(memberPwd);
-				flag = 0;
-			} else {
-				member.setMemberPwd(newPwd);
-				flag = 1;
-			}
-			
-			// 1)Member 테이블 update
-			int result = memberService.updateMember(member,flag);
-			
-			if(result > 0)	{
-				model.addAttribute("msg","회원정보 수정 성공");
-				String memberPwd = memberService.selectMemberPwd(member.getMemberNo());
-				member.setMemberPwd(memberPwd);
-				member.setMemberProfileUrl(member.getMemberProfileUrl().substring(profileSavePath.length()));
-				model.addAttribute("loginMember",member);
+		@RequestMapping(value="update", method = RequestMethod.POST)
+		public String updateMember(String phone1,String phone2,String phone3,String memberNickname,
+								   @RequestParam(value="memberProfileUrl", required=false) MultipartFile memberProfileUrl,
+								   @RequestParam(value="newPwd", required=false) String newPwd,
+								   @RequestParam(value="maintainPwd", required=false) String maintainPwd,
+								   int[] hobbyNoArr, String[] hobbyNmArr,
+								   Model model, HttpServletRequest request) {
+			try {
+				Member member = (Member)model.getAttribute("loginMember");
 				
-				// 파일을 서버에 저장
-				memberProfileUrl.transferTo(new File(profileSavePath + memberProfileUrl.getOriginalFilename()));
+				// 닉네임 변경
+				member.setMemberNickname(memberNickname);
+				
+				
+				// 전화번호 변경
+				String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
+				member.setMemberPhone(memberPhone);
+				
+				String root = request.getSession().getServletContext().getRealPath("resources");
+				String savePath = root + "/" + "profileImage";
+				File folder = new File(savePath);
+				if(!folder.exists()) folder.mkdir();
+				
+				// 프로필사진 변경
+				if(!memberProfileUrl.getOriginalFilename().equals("")) {
+					String updateProfileUrl = FileRename.rename(memberProfileUrl.getOriginalFilename());
+					member.setMemberProfileUrl(updateProfileUrl);
+					
+				} 
+				
+				// 비밀번호 변경
+				int flag = 0;
+				if(maintainPwd != null) {
+					String memberPwd = memberService.selectMemberPwd(member.getMemberNo());
+					member.setMemberPwd(memberPwd);
+					flag = 0;
+				} else {
+					member.setMemberPwd(newPwd);
+					flag = 1;
+				}
+				
+				// 1)Member 테이블 update
+				int result = memberService.updateMember(member,flag);
+				
+				if(result > 0)	{
+					//model.addAttribute("msg","회원정보 수정 성공");
+					String memberPwd = memberService.selectMemberPwd(member.getMemberNo());
+					member.setMemberPwd(memberPwd);
+					// 파일을 서버에 저장
+					if(!memberProfileUrl.getOriginalFilename().equals("")) {
+						memberProfileUrl.transferTo(new File(savePath+"/"+member.getMemberProfileUrl()));
+					}
+					// 수정된 회원정보 조회 후 session저장
+					model.addAttribute("loginMember",member);
+				
+				// 2)Member_Hobby , Hobby 테이블 update -> 중복된 값, 새로 추가된 값 구별하여 추가
+					List<Hobby> myHobby = new ArrayList<Hobby>(); // session에 저장할 값
+					List<MemberHobby> changeHobby = new ArrayList<MemberHobby>(); // MEMBER_HOBBY에 저장할때 사용하는 리스트
+					
+					// 새로 추가된 관심사가 있는 경우 관심사 추가 및 해당하는 hobbyNo얻기
+					for(int i=0;i<hobbyNoArr.length;i++) {
+						if(hobbyNoArr[i] == 0) {
+							// 새로 추가된 관심사를 hobby 테이블에 추가
+							String tempHobbyName = hobbyNmArr[i].substring(1);
+							int addResult = memberService.insertHobby(tempHobbyName);
+							if(addResult > 0) { // 추가 성공
+								// 해당하는 hobbyNo얻기 
+								int hobbyNo = memberService.getInsertHobbyNo(tempHobbyName);
+								hobbyNoArr[i] = hobbyNo;
+								System.out.println("추가한 관심사의 관심사번호 : " + hobbyNo);
+							} else {
+								model.addAttribute("msg","관심사 추가 실패");
+								return "redirect:/";
+							}
+							
+						}
+					}
+					
+					for(int i=0;i<hobbyNoArr.length;i++) {
+						MemberHobby temp = new MemberHobby(member.getMemberNo(), hobbyNoArr[i]);
+						changeHobby.add(temp);
+					}
+					
+					// 기존 관심사 모두 제거(MEMBER_HOBBY 테이블)
+					int result1 = memberService.deleteMemberHobby(member.getMemberNo());
+					// 변경된 관심사 모두 추가(MEMBER_HOBBY 테이블)
+					if(result1 > 0) {
+						result1 = memberService.updateMemberHobby(changeHobby);
+						if(result1 > 0) {
+							
+							for(int i=0;i<hobbyNmArr.length;i++) {
+								// 변경된 hobby들 저장
+								String tempHobbyName = hobbyNmArr[i].substring(1);
+								System.out.println("관심사 : " +tempHobbyName);
+								Hobby temp = new Hobby(hobbyNoArr[i],tempHobbyName);
+								myHobby.add(temp);
+							}
+							
+							model.addAttribute("myHobby",myHobby);
+							//model.addAttribute("msg","관심사 수정 성공");
+						} else {
+							model.addAttribute("msg","관심사 수정 실패");
+							return "redirect:/";
+						}
+					} else {
+						model.addAttribute("msg","관심사 삭제 과정 실패");
+						return "redirect:/";
+					}
+							
+				}
+				else {
+					model.addAttribute("msg","회원정보 수정 실패");
+					return "redirect:/";
+				}
+				
+				model.addAttribute("msg","회원정보 수정 성공");
+				return "redirect:updateForm";
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMsg","회원 정보 수정과정 중 오류 발생");
+				return "common/errorPage";
 			}
-			else {
-				model.addAttribute("msg","회원정보 수정 실패");
-			}
-			return "redirect:updateForm";
 			
-			// 2)Member_Hobby , Hobby 테이블 update -> 중복된 값, 새로 추가된 값 구별하여 추가
-			
-			
-			
-			// 수정된 회원정보 조회 후 session저장
-			// 수정된 관심사 조회 후 session저장
-			
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errorMsg","회원 정보 수정과정 중 오류 발생");
-			return "common/errorPage";
 		}
-		
-		
+	
+	// 직접 입력한 관심사 중복 조회
+	@ResponseBody
+	@RequestMapping("hobbyDupCheck")
+	public String hobbyDupCheck(String hobbyName) {
+		Hobby hobby = memberService.hobbyDupCheck(hobbyName);
+		System.out.println("직접입력 : " + hobby);
+		if(hobby != null)	{
+			return hobby.getHobbyNo()+"";
+		}
+		else {
+			return "0";
+		}
 	}
 	
 	

@@ -140,10 +140,10 @@ public class StreetController {
 		loginMember.setMemberAge(postNo);
 		
 		try {
-//			int test = streetService.likeCheck( loginMember );
-//			
-//			System.out.println("좋아요 기록 조회:"+test);
-//			System.out.println("변경된 loginMemer:"+ loginMember);
+		int test = streetService.likeCheck( loginMember );
+		
+		System.out.println("좋아요 기록 조회:"+test);
+			System.out.println("변경된 loginMemer:"+ loginMember);
 			
 			return streetService.likeCheck( loginMember ) == 1 ? true + "" : false + "";
 			
@@ -185,12 +185,42 @@ public class StreetController {
 	
 	// 골목 개설
 	@RequestMapping("insertStreet")
-	public String insertStreet() {
+	public String insertStreet(Street street, 
+							   @RequestParam(value="", required=false) String streetKeyword1,
+							   @RequestParam(value="", required=false) String streetKeyword2,
+							   @RequestParam(value="", required=false) String streetKeyword3,
+							   Model model) {
+		
+		
+		// Street
+		
+		// img 먼저 넣고... 
+		// 이미지 번호 받아서 street 넣고... 
+		// streetNo 받아서 keyword 넣고 
+		// session에서 loginMember memberNo 받아서 
+		// 골목대장 등급 넣기 'M'
+		
+		
+		try {
+			
+			
+			
+		}catch (Exception e) {
+			
+		}
+		
 		return "";
 	}
 	
 	
 	
-	
+	// 추천 친구 페이지 이동
+	@RequestMapping("recommendFriend")
+	public String recommendFriend(Model model) {
+		int streetNo = (int)model.getAttribute("streetNo");
+		
+		
+		return "street/recommendFriend";
+	}
 	
 }

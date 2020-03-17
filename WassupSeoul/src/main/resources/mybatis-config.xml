@@ -16,6 +16,7 @@
 		<typeAlias type="com.kh.wassupSeoul.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Board" alias="Board"/>
 		<typeAlias type="com.kh.wassupSeoul.hobby.model.vo.Hobby" alias="Hobby"/>
+		<typeAlias type="com.kh.wassupSeoul.hobby.model.vo.MemberHobby" alias="MemberHobby"/>
 		<typeAlias type="com.kh.wassupSeoul.member.model.vo.ProfileStreet" alias="ProfileStreet"/>
 	</typeAliases>
 	
