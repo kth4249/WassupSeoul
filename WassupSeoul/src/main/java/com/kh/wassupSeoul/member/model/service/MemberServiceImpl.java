@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
+import com.kh.wassupSeoul.hobby.model.vo.MemberHobby;
 import com.kh.wassupSeoul.member.model.dao.MemberDAO;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
@@ -223,6 +224,36 @@ public class MemberServiceImpl implements MemberService{
 		} 
 		int result = memberDAO.updateMember(member);
 		return result;
+	}
+
+	/** 직접 작성한 관심사 중복 여부 조회용 Service
+	 * @param hobbyName
+	 * @return hobby
+	 */
+	@Override
+	public Hobby hobbyDupCheck(String hobbyName){
+		return memberDAO.hobbyDupCheck(hobbyName);
+	}
+
+	/** 기존 관심사 삭제용 Service
+	 * @return result1
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteMemberHobby(int memberNo) throws Exception {
+		return memberDAO.deleteMemberHobby(memberNo);
+	}
+
+	/** 변경된 관심사 추가용 Service
+	 * @param myHobby
+	 * @return result1
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateMemberHobby(List<MemberHobby> changeHobby) throws Exception {
+		return memberDAO.updateMemberHobby(changeHobby);
 	}
 
 

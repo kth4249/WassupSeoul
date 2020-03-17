@@ -29,6 +29,7 @@ import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.member.model.service.MemberService;
 import com.kh.wassupSeoul.mail.model.vo.App;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
+import com.kh.wassupSeoul.hobby.model.vo.MemberHobby;
 import com.kh.wassupSeoul.hobby.model.vo.SearchHobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
@@ -112,7 +113,7 @@ public class MemberController {
 				
 				/*
 				// 골목번호 배열
-				/*int[] streetNoArr = new int[3];
+				int[] streetNoArr = new int[3];
 				
 				// 1) 해당 관심사 가져오기
 				List<Hobby> myHobby = memberService.selectHobby(loginMember.getMemberNo());
@@ -163,7 +164,7 @@ public class MemberController {
 					}
 					model.addAttribute("myStreet", myStreet);
 					
-				}*/
+				}
 				//
 				
 				msg = "로그인 성공";
@@ -361,7 +362,8 @@ public class MemberController {
 							   @RequestParam(value="memberProfileUrl", required=false) MultipartFile memberProfileUrl,
 							   @RequestParam(value="newPwd", required=false) String newPwd,
 							   @RequestParam(value="maintainPwd", required=false) String maintainPwd,
-							   String[] hobbyNmArr, Model model, HttpServletRequest request) {
+							   int[] hobbyNoArr, String[] hobbyNmArr,
+							   Model model, HttpServletRequest request) {
 		try {
 			Member member = (Member)model.getAttribute("loginMember");
 			
@@ -379,13 +381,9 @@ public class MemberController {
 			
 			// 프로필사진 변경
 			if(memberProfileUrl != null) {
-				String updateProfileUrl = profileSavePath + memberProfileUrl.getOriginalFilename();
+				String updateProfileUrl = FileRename.rename(memberProfileUrl.getOriginalFilename());
 				member.setMemberProfileUrl(updateProfileUrl);
-			} else {
-				member.setMemberProfileUrl(profileSavePath + member.getMemberProfileUrl());
-				String a = profileSavePath + member.getMemberProfileUrl();
-				System.out.println("a : " + a);
-			}
+			} 
 			
 			// 비밀번호 변경
 			int flag = 0;
@@ -406,6 +404,7 @@ public class MemberController {
 				String memberPwd = memberService.selectMemberPwd(member.getMemberNo());
 				member.setMemberPwd(memberPwd);
 				member.setMemberProfileUrl(member.getMemberProfileUrl().substring(profileSavePath.length()));
+				// 수정된 회원정보 조회 후 session저장
 				model.addAttribute("loginMember",member);
 				
 				// 파일을 서버에 저장
@@ -414,15 +413,66 @@ public class MemberController {
 			else {
 				model.addAttribute("msg","회원정보 수정 실패");
 			}
-			return "redirect:updateForm";
+			
 			
 			// 2)Member_Hobby , Hobby 테이블 update -> 중복된 값, 새로 추가된 값 구별하여 추가
+			List<Hobby> myHobby = new ArrayList<Hobby>();
+			List<MemberHobby> changeHobby = new ArrayList<MemberHobby>();
+			
+			// 새로 추가된 관심사가 있는 경우 관심사 추가 및 해당하는 hobbyNo얻기
+			for(int i=0;i<hobbyNoArr.length;i++) {
+				if(hobbyNoArr[i] == 0) {
+					// 새로 추가된 관심사를 hooby 테이블에 추가
+					int addResult = 0;
+					//int addResult = memberService.insertHobby(hobbyNmArr[i]);
+					if(addResult == 0) { // 추가 성공
+						// 해당하는 hobbyNo얻기 
+						int hobbyNo = 0;
+						//int hobbyNo = memberService.getInsertHobbyNo(hobbyNmArr[i]);
+						hobbyNoArr[i] = hobbyNo;
+					} else {
+						model.addAttribute("msg","관심사 추가 실패");
+						return "redirect:updateForm";
+					}
+					
+				}
+			}
+			
+			for(int i=0;i<hobbyNmArr.length;i++) {
+				MemberHobby temp = new MemberHobby(member.getMemberNo(), hobbyNoArr[i]);
+				changeHobby.add(temp);
+			}
 			
 			
 			
-			// 수정된 회원정보 조회 후 session저장
+			
+			// 기존 관심사 모두 제거
+			int result1 = memberService.deleteMemberHobby(member.getMemberNo());
+			// 변경된 관심사 모두 추가
+			if(result1 > 0) {
+				result1 = memberService.updateMemberHobby(changeHobby);
+				if(result1 > 0) {
+					
+					for(int i=0;i<hobbyNmArr.length;i++) {
+						// 변경된 hobby들 저장
+						System.out.println("관심사 : " + hobbyNmArr[i]);
+						Hobby temp = new Hobby(hobbyNoArr[i], hobbyNmArr[i]);
+						myHobby.add(temp);
+					}
+					
+					model.addAttribute("myHobby",myHobby);
+					model.addAttribute("msg","관심사 수정 성공");
+				} else {
+					model.addAttribute("msg","관심사 수정 실패");
+					return "redirect:updateForm";
+				}
+			} else {
+				model.addAttribute("msg","관심사 삭제 과정 실패");
+				return "redirect:updateForm";
+			}
+			
 			// 수정된 관심사 조회 후 session저장
-			
+			return "redirect:updateForm";
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -431,6 +481,20 @@ public class MemberController {
 		}
 		
 		
+	}
+	
+	// 직접 입력한 관심사 중복 조회
+	@ResponseBody
+	@RequestMapping("hobbyDupCheck")
+	public String hobbyDupCheck(String hobbyName) {
+		Hobby hobby = memberService.hobbyDupCheck(hobbyName);
+		System.out.println("직접입력 : " + hobby);
+		if(hobby != null)	{
+			return hobby.getHobbyNo()+"";
+		}
+		else {
+			return "0";
+		}
 	}
 	
 	
