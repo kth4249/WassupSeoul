@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
+import com.kh.wassupSeoul.hobby.model.vo.MemberHobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -125,6 +126,25 @@ public interface MemberService {
 	 * @throws Exception
 	 */
 	int updateMember(Member member, int flag) throws Exception;
+
+	/** 직접 작성한 관심사 중복 여부 조회용 Service
+	 * @param hobbyName
+	 * @return hobby
+	 */
+	Hobby hobbyDupCheck(String hobbyName);
+
+	/** 기존 관심사 삭제용 Service
+	 * @return result1
+	 * @throws Exception
+	 */
+	int deleteMemberHobby(int memberNo) throws Exception;
+
+	/** 변경된 관심사 추가용 Service
+	 * @param myHobby
+	 * @return result1
+	 * @throws Exception
+	 */
+	int updateMemberHobby(List<MemberHobby> changeHobby) throws Exception;
 	
 	
 

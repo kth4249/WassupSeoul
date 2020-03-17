@@ -22,7 +22,7 @@
 		<result property="hobbyName" column="HOBBY_NM"/>
 	</resultMap>
 	
-	<resultMap type="ProfileStreet" id="ProfileStreetResultSet">	
+	<resultMap type="ProfileStreet" id="profileStreetResultSet">	
 		<id property="streetNo" column="STREET_NO"/>
 		<result property="streetNm" column="STREET_NM"/>
 		<result property="streetIntro" column="STREET_INTRO"/>
@@ -36,10 +36,15 @@
 		<result property="citizenGrade" column="CITIZEN_GRADE"/>		
 	</resultMap>
 	
-	<resultMap type="Keyword" id="KeywordResultSet">
+	<resultMap type="Keyword" id="keywordResultSet">
 		<id property="keywordNo" column="KEYWORD_NO" />
 		<result property="keywordContent" column="KEYWORD_CONTENT" />
 		<result property="streetNo" column="STREET_NO" />
+	</resultMap>
+	
+	<resultMap type="MemberHobby" id="memberHobbyResultSet">
+		<id property="memberNo" column="MEMBER_NO"/>
+		<result property="hobbyNo" column="HOBBY_NO"/>
 	</resultMap>
 	
 	<!-- 회원가입용 -->
@@ -102,7 +107,7 @@
   	</select>
   	
   	<!-- 내골목 조회 -->
-	<select id="selectProfileStreet" parameterType="_int" resultMap="ProfileStreetResultSet">
+	<select id="selectProfileStreet" parameterType="_int" resultMap="profileStreetResultSet">
 		SELECT STREET_NO, STREET_NM, STREET_INTRO, STREET_MAX_MEMBER, DISTRICT_NM, IMG_URL, CITIZEN_GRADE FROM STREET
 		JOIN DISTRICT USING(DISTRICT_NO)
 		JOIN STREET_JOIN USING(STREET_NO)
@@ -119,7 +124,7 @@
 	</select>
 	
 	<!-- 내골목 키워드 조회 -->
-	<select id="selectMyKeyword" parameterType="_int" resultMap="KeywordResultSet">
+	<select id="selectMyKeyword" parameterType="_int" resultMap="keywordResultSet">
 		SELECT STREET_NO,KEYWORD_CONTENT FROM STREET
 		JOIN KEYWORD USING(STREET_NO)
 		WHERE STREET_NO = #{streetNo}
@@ -155,6 +160,22 @@
 		MEMBER_PROFILE_URL = #{memberProfileUrl}
 		WHERE MEMBER_NO = #{memberNo}
 	</update>
+	
+	<!-- 직접 입력한 관심사 중복여부 조회 -->
+	<select id="hobbyDupCheck" parameterType="string" resultMap="hobbyResultSet">
+		SELECT * FROM HOBBY
+		WHERE HOBBY_NM = #{hobbyName}
+	</select>
+	
+	<!-- 기존 관심사 제거 -->
+	<delete id="deleteMemberHobby">
+		DELETE FROM MEMBER_HOBBY
+		WHERE MEMBER_NO = #{memberNo} 
+	</delete>
+	
+	<!-- 변경된 관심사 추가 -->
+	
+
 	
 	
 	

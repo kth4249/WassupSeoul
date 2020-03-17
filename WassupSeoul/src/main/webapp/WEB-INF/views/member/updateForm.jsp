@@ -309,21 +309,22 @@
     			// 중복값이 없는 경우
     			else {
     				// 중복값에 따라 취미번호 변경
-    				
+    				var $hobbyNoPlus = $("<input>").prop({"type" : "text", "name" : "hobbyNoArr"});
     				
     				// ajax를 이용해서 중복값이 있으면 no가져오고 아니면 0으로 지정
-    				/*
     				$.ajax({
-    					url : "hoobyDupCheck",
-                		data : {hobbyNm : $("#writeHobbyNm").val()},
+    					url : "hobbyDupCheck",
+                		data : {hobbyName : $("#writeHobbyNm").val()},
                 		type : "post",
                 		success : function(result) {
-                			if(result == 0) {
-                				
-                			}
+                			console.log(result);
+                			$hobbyNoPlus = $hobbyNoPlus.val(result);
+                		},
+                		error : function(e){
+                			console.log("ajax 통신 실패");
+                			console.log(e);
                 		}
     				});
-    				*/
     				
     				var writeHobby = $("#writeHobbyNm").val();
     	       		var $divPlus = $("<div></div>").addClass("form-group row");
@@ -338,7 +339,7 @@
     	       		
     	            $divPlus1 = $divPlus1.append(inputPlus);
     	            $divPlus2 = $divPlus2.append(buttonPlus);
-    	           	$divPlus = $divPlus.append($divPlus1).append($divPlus2).append($divPlus3);
+    	           	$divPlus = $divPlus.append($divPlus1).append($divPlus2).append($divPlus3).append($hobbyNoPlus);
     	      			
                    $("#selectHobby").append($divPlus);
                    $("#writeHobbyNm").val("");
@@ -440,7 +441,7 @@
     	       						.val(searchHobbyVal).addClass("form-control-plaintext nanum")
     	       						.css({"font-size":"20px","color":"blue"});
     	       		var buttonPlus = $("<button></button>").prop("type","button").addClass("btn btn-primary nanum deleteHobby").html("제거");
-    	       		var hobbyNoPlus = $("<input>").prop({"type": "text"}).val(searchHobbyNo);
+    	       		var hobbyNoPlus = $("<input>").prop({"type": "text","name" : "hobbyNoArr"}).val(searchHobbyNo);
     	       		
     	            divPlus1 = divPlus1.append(inputPlus);
     	            divPlus2 = divPlus2.append(buttonPlus);
