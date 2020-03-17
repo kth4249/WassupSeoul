@@ -174,6 +174,22 @@
 	</delete>
 	
 	<!-- 변경된 관심사 추가 -->
+	<insert id="updateMemberHobby" parameterType="MemberHobby">
+		INSERT INTO MEMBER_HOBBY VALUES
+		(#{memberNo}, #{hobbyNo})
+	</insert>
+	
+	<!-- 해당 관심사 번호 조회 -->
+	<select id="getInsertHobbyNo" parameterType="string" resultType="_int">
+		SELECT HOBBY_NO FROM HOBBY 
+		WHERE HOBBY_NM = #{hobbyName} 
+	</select>
+	
+	<!-- 관심사 추가 -->
+	<insert id="insertHobby" parameterType="string">
+		INSERT INTO HOBBY 
+		VALUES (SEQ_HOBBY.NEXTVAL,#{hobbyName})
+	</insert>
 	
 
 	
