@@ -30,7 +30,8 @@
 	<%@include file="../common/header.jsp"%>
 
 
-	<form method="POST" action="insertStreet" enctype="multipart/form-data" role="form" onsubmit="">
+	<form method="POST" action="insertStreet" enctype="multipart/form-data"
+		role="form" onsubmit="">
 
 		<!-- input 태그 clear 버튼 -->
 		<!-- <div class="input-group">
@@ -91,8 +92,8 @@
 					<div class="form-group col-md-6 nanum" style="float: left;">
 						<h3 class="nanum" style="font-weight: bold;">지역구</h3>
 						<div class="col-xs-4">
-							<select class="form-control nanum" name="districtNo" id="districtNo"
-								required>
+							<select class="form-control nanum" name="districtNo"
+								id="districtNo" required>
 								<option value="10">강서구</option>
 								<option value="8">양천구</option>
 								<option value="11">구로구</option>
@@ -161,11 +162,9 @@
 					<div class="form-group col-md-6 nanum" style="float: left;">
 						<h3 class="nanum" style="font-weight: bold;">골목소개</h3>
 						<div class="col-xs-4">
-							<input type="text" class="form-control nanum"
-								name="streetIntro" id="streetIntro"
-								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
-								class="nanum" id="checkStreetIntro"
-								style="font-size: smaller;">&nbsp;</span>
+							<input type="text" class="form-control nanum" name="streetIntro"
+								id="streetIntro" placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
+								class="nanum" id="checkStreetIntro" style="font-size: smaller;">&nbsp;</span>
 						</div>
 					</div>
 
@@ -309,9 +308,8 @@
 					<div class="col-md-12 nanum" style="margin: 3px auto;">
 						<!-- 골목 커버 미리보기 -->
 						<div style="float: left; box-sizing: border-box;">
-							<p
-								style="display: inline-block; font-size: smaller; margin-bottom: 1px;">골목
-								커버 미리보기</p>
+							<p style="display: inline-block; margin-bottom: 1px;">골목 커버
+								미리보기</p>
 							<div
 								style="border: 1px solid black; width: 492px; height: 282px;"
 								id="streetThumnailArea">
@@ -384,6 +382,91 @@
 					</div>
 				</div>
 			</div>
+
+
+
+			<div class="row">
+				<div class="col-md-6 offset-md-3">
+					<div class="col-md-12 nanum" style="margin: 3px auto;">
+						<div style="float: left">
+							<!-- 골목 커버 미리보기 -->
+							<div style="float: left; box-sizing: border-box;">
+								<p style="display: inline-block; margin-bottom: 1px;">골목 커버
+									미리보기</p>
+								<div
+									style="border: 1px solid black; width: 492px; height: 282px;"
+									id="streetThumnailArea">
+									<img id="streetThumbnail" style="width: 490px; height: 280px;">
+								</div>
+							</div>
+						</div>
+						<div style="float: left; margin: 1px;">
+							<!-- 내 커버 추가하기 -->
+							<div
+								style="margin-left: 1px; margin-right: 1px; box-sizing: border-box;">
+								<p
+									style="display: inline-block; margin-bottom: 1px;">내
+									커버</p>
+								<div
+									style="border: 1px solid black; width: 300px; height: 80px; background-color: rgb(236, 233, 233); position: relative; cursor: pointer;"
+									id="myStreetCoverArea">
+									<div
+										style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+										<img id="myStreetCover"
+											src="${contextPath}/resources/img/camera3(64px).png"
+											style="width: 32px; height: 32px;">
+									</div>
+								</div>
+							</div>
+							<!-- 기본 제공 이미지-->
+							<div style="margin: auto; box-sizing: border-box;">
+								<div>
+									<p class="nanum"
+										style="display: inline-block; margin-bottom: 1px; margin-left: 1px;">
+										기본 이미지</p>
+								</div>
+
+								<div style="float: left;">
+									<div
+										style="border: 1px solid black; width: 142px; height: 82px; margin-bottom: 1px; cursor: pointer;">
+										<img class="streetCover" id="streetCover1"
+											src="${contextPath}/resources/img/골목.jpg"
+											style="width: 140px; height: 80px;">
+									</div>
+									<div
+										style="border: 1px solid black; width: 142px; height: 82px; margin-top: 1px; cursor: pointer;">
+										<img class="streetCover" id="streetCover2"
+											src="${contextPath}/resources/img/골목2.jpg"
+											style="width: 140px; height: 80px;">
+									</div>
+								</div>
+
+								<div style="float: left; margin-left: 1px;">
+									<div
+										style="border: 1px solid black; width: 142px; height: 82px; margin-bottom: 1px; cursor: pointer;">
+										<img class="streetCover" id="streetCover3"
+											src="${contextPath}/resources/img/골목3.jpg"
+											style="width: 140px; height: 80px;">
+									</div>
+									<div
+										style="border: 1px solid black; width: 142px; height: 82px; margin-top: 1px; cursor: pointer;">
+										<img class="streetCover" id="streetCover4"
+											src="${contextPath}/resources/img/골목4.jpg"
+											style="width: 140px; height: 80px;">
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+
+
+
+
+
 			<div class="row">
 				<div class="col-md-12">
 					<br>

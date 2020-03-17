@@ -28,7 +28,6 @@ import com.google.gson.Gson;
 import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.member.model.service.MemberService;
 import com.kh.wassupSeoul.mail.model.vo.App;
-import com.kh.wassupSeoul.email.controller.EmailController;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.hobby.model.vo.SearchHobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
