@@ -118,6 +118,28 @@
 			<!-- 타임라인-->
 			<div class="col-md-6" id="devideArea">
 
+
+				 <div id="map" style="width:500px;height:400px;"></div>
+                <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840">
+    
+                </script>
+            
+                <script>
+                    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+                      
+                      
+                      var options = { //지도를 생성할 때 필요한 기본 옵션
+
+                         center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+
+                         level: 3 //지도의 레벨(확대, 축소 정도)
+
+                      };
+            
+                     var map = new kakao.maps.Map(container, options);
+            
+                </script>
+
 				<!-- 검색Bar-->
 				<div class="row" id="searchArea" style="width: 99%; margin-left: 1px;">
 					<div class="container" id="searchBox" style="padding :0; width:100%; background-color:  rgb(221, 233, 218)  ">

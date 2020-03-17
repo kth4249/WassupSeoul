@@ -62,7 +62,6 @@ public class StreetController {
 			
 				System.out.println("골목 게시글 조회 : "+ board.get(i));
 
-
 			}
 			
 			if(street != null) {
