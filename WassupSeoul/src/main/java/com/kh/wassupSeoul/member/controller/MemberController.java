@@ -56,51 +56,90 @@ public class MemberController {
 	}
 
 	// 회원가입
-	@RequestMapping("signUp")
-	public String signUp(Member member, Model model, String phone1, String phone2, String phone3,
-			RedirectAttributes rdAttr, HttpServletRequest request, 
-			@RequestParam(value="originProfileUrl" , required=false) MultipartFile originProfileUrl) 
-	{
+		@RequestMapping("signUp")
+		public String signUp(Member member, Model model, String phone1, String phone2, String phone3,
+				RedirectAttributes rdAttr, HttpServletRequest request, 
+				int[] hobbyNoArr, String[] hobbyNmArr,
+				@RequestParam(value="originProfileUrl" , required=false) MultipartFile originProfileUrl) 
+		{
+			// 생성된 회원번호 가져오기
+			String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
 
-		String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
-
-		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "/" + "profileImage";
-		File folder = new File(savePath);
-		if(!folder.exists()) folder.mkdir();
- 
-		try {
-			String newProfileImg = FileRename.renameProfile(originProfileUrl.getOriginalFilename());
-			
-			Member signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
-					member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), newProfileImg);
-			
-			int result = memberService.signUp(signUpMember);
-			
-			System.out.println("signUpMember :" + signUpMember);
-			
-			String msg = null;
-
-			if (result > 0) {
-				 
-				originProfileUrl.transferTo(new File(savePath+"/"+signUpMember.getMemberProfileUrl()));
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "/" + "profileImage";
+			System.out.println("이미지 저장 경로 : " + savePath);
+			File folder = new File(savePath);
+			if(!folder.exists()) folder.mkdir();
+	 
+			try {
+				int memberNo = memberService.selectMemberNo();
+				String newProfileImg = FileRename.renameProfile(originProfileUrl.getOriginalFilename());
 				
-				msg = "가입성공";
-				rdAttr.addFlashAttribute("msg", msg);
-				return "redirect:/";
-			} else {
-				msg = "가입실패";
-				rdAttr.addFlashAttribute("msg", msg);
-				return "redirect:/";
+				Member signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
+						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), newProfileImg);
+				
+				int result = memberService.signUp(signUpMember);
+				
+				System.out.println("signUpMember :" + signUpMember);
+				
+				String msg = null;
+
+				if (result > 0) {
+					 
+					originProfileUrl.transferTo(new File(savePath+"/"+signUpMember.getMemberProfileUrl()));
+					
+					// 추가부분(관심사) 시작
+					List<MemberHobby> insertHobby = new ArrayList<MemberHobby>(); // MEMBER_HOBBY에 저장할때 사용하는 리스트
+					
+					// 새로 추가된 관심사가 있는 경우 관심사 추가 및 해당하는 hobbyNo얻기
+					for(int i=0;i<hobbyNoArr.length;i++) {
+						if(hobbyNoArr[i] == 0) {
+							// 새로 추가된 관심사를 hobby 테이블에 추가
+							String tempHobbyName = hobbyNmArr[i].substring(1);
+							int addResult = memberService.insertHobby(tempHobbyName);
+							if(addResult > 0) { // 추가 성공
+								// 해당하는 hobbyNo얻기 
+								int hobbyNo = memberService.getInsertHobbyNo(tempHobbyName);
+								hobbyNoArr[i] = hobbyNo;
+								System.out.println("추가한 관심사의 관심사번호 : " + hobbyNo);
+							} else {
+								model.addAttribute("msg","관심사 추가 실패");
+								return "redirect:/square";
+							}
+							
+						}
+					}
+					
+					for(int i=0;i<hobbyNoArr.length;i++) {
+						MemberHobby temp = new MemberHobby(memberNo, hobbyNoArr[i]);
+						System.out.println(temp);
+						insertHobby.add(temp);
+					}
+					
+					// MEMBER_HOBBY테이블에 추가
+					int result2 = memberService.updateMemberHobby(insertHobby);
+					if(result2 == 0) {
+						model.addAttribute("msg","관심사 수정 실패");
+						return "redirect:/";
+					} 
+					// 추가부분(관심사) 끝
+									
+					msg = "가입성공";
+					rdAttr.addFlashAttribute("msg", msg);
+					return "redirect:/";
+				} else {
+					msg = "가입실패";
+					rdAttr.addFlashAttribute("msg", msg);
+					return "redirect:/";
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMsg", "회원 가입 과정에서 오류 과정");
+				return "/common/errorPage";
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errorMsg", "회원 가입 과정에서 오류 과정");
-			return "/common/errorPage";
 		}
-
-	}
 
 	// 로그인
 	@RequestMapping(value = "login", method = RequestMethod.POST)
@@ -496,6 +535,81 @@ public class MemberController {
 			return "0";
 		}
 	}
+	
+	// 회원 탈퇴
+		@RequestMapping(value="delete", method = RequestMethod.POST)
+		public String deleteMember(String memberPwd ,Model model,SessionStatus status,RedirectAttributes rdAttr) {
+			
+			Member member = (Member)model.getAttribute("loginMember");
+			try {
+				
+				// 1) 비밀번호 일치 여부
+				int result = memberService.beforePwdCheck(memberPwd,member.getMemberNo());
+				if(result == 0) { // 비밀번호가 불일치시
+					model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
+					return "redirect:deleteForm";
+				}
+				
+				// 2) 회원탈퇴 (update)
+				result = memberService.deleteMember(member.getMemberNo());
+				if(result == 0) { // 회원탈퇴 실패시
+					model.addAttribute("msg", "회원 탈퇴 실패");
+					return "redirect:deleteForm";
+				}
+				
+				// 3) 회원관심사 삭제
+				result = memberService.deleteMemberHobby(member.getMemberNo());
+				if(result == 0) { // 회원 관심사 삭제 실패시
+					model.addAttribute("msg", "회원 관심사 삭제 실패");
+					return "redirect:deleteForm";
+				}
+				
+				// 4) 회원가입골목 삭제
+				// 4_1) 가입한 골목이 있는지 확인
+				result = memberService.selectJoinStreetList(member.getMemberNo());
+				if(result > 0) { // 가입한 골목이 있는 경우
+					result = memberService.deleteJoinStreetList(member.getMemberNo());
+					if(result == 0) {
+						model.addAttribute("msg", "가입한 골목 목록 삭제 실패");
+						return "redirect:deleteForm";
+					}
+				}
+				
+				// 5) 알람목록 삭제
+				// 5_1) 알림목록이 있는지 확인
+				result = memberService.selectAlarmList(member.getMemberNo());
+				if(result > 0) { // 알림목록이 있는 경우
+					result = memberService.deleteAlarmList(member.getMemberNo());
+					if(result == 0) {
+						model.addAttribute("msg", "알림 목록 삭제 실패");
+						return "redirect:deleteForm";
+					}
+					
+				}
+				
+				// 6) 친구목록 삭제
+				// 6_1) 친구목록이 있는지 확인
+				result = memberService.selectFriendList(member.getMemberNo());
+				if(result > 0) { // 친구목록이 있는 경우
+					result = memberService.deleteFriendList(member.getMemberNo());
+					if(result == 0) {
+						model.addAttribute("msg", "친구 목록 삭제 실패");
+						return "redirect:deleteForm";
+					}
+					
+				}
+				
+				rdAttr.addFlashAttribute("msg","회원 탈퇴 성공");
+				status.setComplete();
+				return "redirect:/";
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMsg","회원 탈퇴과정중 오류 발생 ");
+				return "common/errorPage";
+			}
+		
+		}
 	
 	
 

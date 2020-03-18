@@ -12,6 +12,7 @@
 		<result property="streetPoint" column="STREET_POINT"/>
 		<result property="imgNo" column="IMG_NO"/>
 		<result property="districtNo" column="DISTRICT_NO"/>
+		<result property="streetPublic" column="STREET_PUBLIC"/>
 	</resultMap>
 	
 	
@@ -99,7 +100,7 @@
 	<!-- 골목조회  -->
 	<select id="selectStreet" parameterType="_int" resultMap="streetResultSet">
 		SELECT *
-		FROM V_STREET
+		FROM STREET
 		WHERE STREET_NO = #{streetNo}
 	</select>
 	
@@ -191,6 +192,12 @@
 	</update>
   	
   	
+  	<!-- 골목 커버 정보 삽입 IMG_NO, IMG_URL, IMG_LEVEL -->
+	<insert id="insertStreetCover" parameterType="string">
+  		INSERT INTO STREET_IMG
+  		VALUES(SEQ_STREET_IMG.NEXTVAL, #{streetImgUrl}, 1) 
+  	</insert> 
+  	   
   	
   	<!-- 골목 개설 -->
   	<insert id="insertStreet" parameterType="street">
@@ -198,6 +205,12 @@
   		VALUES(SEQ_STREET.NEXTVAL, #{streetNm}, #{streetIntro}, DEFAULT, #{streetMaxMember}, DEFAULT, IMG_NO, #{districtNo})  	
   	</insert>
   	 
+  	 
+  	<!-- 골목 가입 -->
+  	<insert id="streetJoin" parameterType="map">
+  		INSERT INTO STREET_JOIN
+  		VALUES(#{memberNo}, #{streetNo}, DEFAULT, DEFAULT)
+  	</insert>
   	 
 	
 </mapper>

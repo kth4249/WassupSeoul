@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +33,7 @@
   width:200px;
   height:700px;
   z-index:1;
+
 }
 
 /* .mapModal{
@@ -46,19 +47,18 @@
 
 
 #modal button {
-  display:inline-block;
-  width:60px;
-  margin-left:calc(100% - 100px - 10px);
+	display: inline-block;
+	width: 60px;
+	margin-left: calc(100% - 100px - 10px);
 }
 
-
 #modal .modal_content {
-  width:500px;
   height:700px;
-  margin:100px auto;
-  padding:20px 10px;
-  background:#fff;
-  border:2px solid #666;
+	width: 700px;
+	margin: 100px auto;
+	padding: 20px 10px;
+	background: #fff;
+	border: 2px solid #666;
 }
 
 #modal .modal_layer {
@@ -72,8 +72,8 @@
 }    
 </style>
 <body>
-<%--  <%@include file="../common/header.jsp"%>  --%>
-<!-- <script>
+	<%--  <%@include file="../common/header.jsp"%>  --%>
+	<!-- <script>
 $(document).ready(function(){
 	  var modalLink = $(".img1");
 	  var modalCont = $(".modalContent");
@@ -173,23 +173,31 @@ $(document).ready(function(){
 							</div>
 						</div>
 						<div class="card-body">
-							<button type="button" class="btn btn-secondary btn-lg btn-block nanum"
-								style="font-size: 20px; font-weight: bold;" onclick="streetJoin()">골목 가입하기</button><br>
+							<button type="button"
+								class="btn btn-secondary btn-lg btn-block nanum"
+								style="font-size: 20px; font-weight: bold;"
+								onclick="streetJoin()">골목 가입하기</button>
+							<br>
 							<script>
 								function streetJoin() {
 									if(confirm("가입을 신청하시겠습니까?")){
 										$.ajax({
 											url : "${contextPath}/street/streetJoin",
 											success : function(result) {
-												
+												if(result == -1){
+													alert("더 이상 골목에 가입할 수 없습니다");
+												}
+												alert("골목 가입 신청 완료");
 											},
+											error : function() {
+												alert("골목 가입 신청 과정 중 오류 발생");
+											}
 										})
 									}
 								}
 							</script>
-							<a href="#" class="card-link nanum">골목 탈퇴하기</a><br>
-
-							<a href="#" class="card-link nanum">골목 변경하기</a> <a href="#"
+							<a href="#" class="card-link nanum">골목 탈퇴하기</a><br> <a
+								href="#" class="card-link nanum">골목 변경하기</a> <a href="#"
 								class="card-link nanum">활동보고서 작성</a>
 						</div>
 						<div class="card-footer text-muted nanum">
@@ -205,9 +213,6 @@ $(document).ready(function(){
 
 			<!-- 타임라인-->
 			<div class="col-md-6" id="devideArea">
-
-
-				
 
 				<!-- 검색Bar-->
 				<div class="row" id="searchArea"
@@ -255,29 +260,82 @@ $(document).ready(function(){
 									<img class="writeOption img1" src="${contextPath}/resources/img/imageIcon.png">
 									<p class="arrow_box">사진</p>
 								</div>
-						
-								
+
+
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/film.png">
+									<img class="writeOption"
+										src="${contextPath}/resources/img/film.png">
 									<p class="arrow_box">동영상</p>
 								</div>
+								
+								
+								
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/paperclip.png">
+								
+									<input type="file" name="file1" style="display: none;"
+										class="writeOption" id="fileBtn" onchange="readURL(this)">
+									<img src='${contextPath}/resources/img/paperclip.png'
+										class="writeOption" border='0'
+										onclick='document.all.file1.click(); document.all.file2.value=document.all.file1.value'>
 									<p class="arrow_box">파일첨부</p>
+								
 								</div>
+								
+								<script>
+								// file 업로드 이미지 미리보기
+								
+								function readURL(input) {
+						        if (input.files && input.files[0]) {
+						            var reader = new FileReader();
+						            reader.readAsDataURL(input.files[0]);
+
+						            reader.onload = function (e) {
+
+						                var tempImage = new Image();
+						                tempImage.src = reader.result;
+						                console.log(tempImage);
+						                tempImage.onload = function () {
+						                    var canvas = document.createElement('canvas');
+						                    var canvasContext = canvas.getContext("2d");
+
+
+						                    var img = new Image();
+						                    img.src = e.target.result;
+
+
+						                    canvas.width = img.width * 0.5;
+						                    canvas.height = img.height * 0.5;
+
+						                    canvasContext.drawImage(this, 0, 0, canvas.width, canvas.height);
+
+						                    var dataURI = canvas.toDataURL("image/png");
+
+						                    document.querySelector("#thumbnail").src = dataURI;
+
+						                }
+						            };
+
+						        }
+								</script>
+								
+								
+								
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/vote.png">
+									<img class="writeOption"
+										src="${contextPath}/resources/img/vote.png">
 									<p class="arrow_box">투표</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/pie-chart.png">
+									<img class="writeOption"
+										src="${contextPath}/resources/img/pie-chart.png">
 									<p class="arrow_box">N빵</p>
 								</div>
-								<div class="writeOptionArea shake" >
-									<img class="writeOption mapOption" src="${contextPath}/resources/img/map.png">
+								<div class="writeOptionArea shake">
+									<img class="writeOption mapOption"
+										src="${contextPath}/resources/img/map.png">
 									<p class="arrow_box">지도</p>
 								</div>
-								
+
 								<div id="modal" class="nanum mapModal">
 								   
 								    <div class="modal_content" style="padding: 3px;">
@@ -295,83 +353,6 @@ $(document).ready(function(){
 								  	  <div class="modal_layer"></div>
 								</div> 
 								
-								
-								<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> 
-								<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script> 
-								
-								<script>
-								var mapContainer = document.getElementById('map'), 
-								
-								// 지도를 표시할 
-								div mapOption = { center: new daum.maps.LatLng(37.537187, 127.005476), 
-								// 지도의 중심좌표 
-								level: 5 
-								// 지도의 확대 레벨
-								}; 
-								//지도를 미리 생성 
-								var map = new daum.maps.Map(mapContainer, mapOption); 
-								//주소-좌표 변환 객체를 생성 
-								var geocoder = new daum.maps.services.Geocoder(); 
-								//마커를 미리 생성 
-								var marker = new daum.maps.Marker({ 
-									
-									position: new daum.maps.LatLng(37.537187, 127.005476), map: map });
-								
-								function sample5_execDaumPostcode() { 
-									
-									new daum.Postcode({ oncomplete: function(data) { 
-									
-									// 각 주소의 노출 규칙에 따라 주소를 조합한다. 
-									
-									// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다. var fullAddr = data.address; 
-									
-									// 최종 주소 변수
-									var extraAddr = ''; 
-									
-									// 조합형 주소 변수 
-									
-									// 기본 주소가 도로명 타입일때 조합한다. 
-									if(data.addressType === 'R'){ 
-										
-									//법정동명이 있을 경우 추가한다. 
-									if(data.bname !== ''){ extraAddr += data.bname; } 
-									
-									// 건물명이 있을 경우 추가한다. 
-									
-									if(data.buildingName !== ''){ extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName); } 
-									
-									// 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다. 
-									fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : ''); } 
-									
-									// 주소 정보를 해당 필드에 넣는다. 
-									document.getElementById("sample5_address").value = fullAddr; 
-									
-									// 주소로 상세 정보를 검색 
-									geocoder.addressSearch(data.address, 
-											
-									function(results, status) { 
-										
-									// 정상적으로 검색이 완료됐으면 
-									
-									if (status === daum.maps.services.Status.OK) { 
-										var result = results[0]; 
-										
-									//첫번째 결과의 값을 활용 
-									// 해당 주소에 대한 좌표를 받아서
-									var coords = new daum.maps.LatLng(result.y, result.x); 
-									
-									// 지도를 보여준다. 
-									
-									mapContainer.style.display = "block"; map.relayout(); 
-									
-									// 지도 중심을 변경한다. 
-									map.setCenter(coords); 
-									
-									// 마커를 결과값으로 받은 위치로 옮긴다. 
-									marker.setPosition(coords) } 
-									}); }
-								}).open(); }
-								</script>​
 								
 								<!-- <div id="modal" class="nanum mapModal">
 								   
@@ -410,9 +391,10 @@ $(document).ready(function(){
 						
 											var map = new kakao.maps.Map(container, options);
 										</script>  -->
-								
+
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/sketch.png">
+									<img class="writeOption"
+										src="${contextPath}/resources/img/sketch.png">
 									<p class="arrow_box">스케치</p>
 								</div>
 
@@ -457,7 +439,8 @@ $(document).ready(function(){
 						<!-- 게시물 없을때 끝-->
 
 					</c:if>
-					<c:if test="${!empty board }">
+					
+					<c:if test="${!empty board}">
 						<c:forEach var="board" items="${board}" varStatus="vs">
 
 
@@ -472,11 +455,11 @@ $(document).ready(function(){
 										style="border: 1px solid black; border-bottom: 0px">
 										<div class="profileImgArea" id="profileImgArea"
 											style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px; padding-left: 10px;">
-											
+
 											<!-- 프로필 사진 있을시 넣기 -->
 											<img src="${contextPath}/resources/img/account.png"
 												style="width: 80%; height: 80%;">
-											
+
 										</div>
 										<div class="profileNameArea  nanum" id="profileNameArea"
 											style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%; position: relative; top: 14px">
@@ -484,15 +467,17 @@ $(document).ready(function(){
 												<p style="margin-bottom: 0;">${board.boardWriter}</p>
 											</div>
 											<div style="margin-bottom: 0;">
-												<p style="margin-bottom: 0;"><fmt:formatDate value="${board.boardWriteDt}" pattern="yyyy년 MM월 dd일 aa hh:mm"/></p>
+												<p style="margin-bottom: 0;">
+													<fmt:formatDate value="${board.boardWriteDt}"
+														pattern="yyyy년 MM월 dd일 aa hh:mm" />
+												</p>
 											</div>
 
 										</div>
 										
 										<c:if test="${loginMember.memberNickname ne board.boardWriter}">
-								
-										</c:if>
 										
+										</c:if>
 										
 										<c:if test="${loginMember.memberNickname eq board.boardWriter}">
 										<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
@@ -509,11 +494,10 @@ $(document).ready(function(){
 															<li><a href="#" class="updatePost" id="${board.boardNo}
 																style="color: black;">글 수정</a></li>
 														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
 										</c:if>
+
+
+										
 
 
 									</div>
@@ -1029,7 +1013,7 @@ $(document).ready(function(){
 							}							
 							});
 						refreshList()
-					});
+			});
 
 			// 글수정
 			$(".updatePost").click(function() {
@@ -1151,11 +1135,8 @@ $(document).ready(function(){
 				$(".noPostSignArea").click(function() {
 					$('.postArea').focus();
 				});
-				
-				
-				
 
-			});
+		});
 		
 		// 모달 창 열기 
 		$(".mapOption").click(function(){
@@ -1166,6 +1147,7 @@ $(document).ready(function(){
 			$(this).parent().parent("div").attr("style", "display:none");
 	    });     
 	</script>
+
 
 </body>
 </html>

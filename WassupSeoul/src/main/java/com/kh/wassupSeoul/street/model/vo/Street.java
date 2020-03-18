@@ -9,6 +9,8 @@ public class Street {
 	private int streetPoint;
 	private String imgUrl;
 	private int districtNo;
+	private char streetPublic;
+	private int imgNo;
 	
 	public Street() {
 		// TODO Auto-generated constructor stub
@@ -27,7 +29,40 @@ public class Street {
 		this.imgUrl = imgUrl;
 		this.districtNo = districtNo;
 	}
+	
 
+	public Street(int streetNo, String streetNm, String streetIntro, char streetStatus, int streetMaxMember,
+			int streetPoint, String imgUrl, int districtNo, char streetPublic) {
+		super();
+		this.streetNo = streetNo;
+		this.streetNm = streetNm;
+		this.streetIntro = streetIntro;
+		this.streetStatus = streetStatus;
+		this.streetMaxMember = streetMaxMember;
+		this.streetPoint = streetPoint;
+		this.imgUrl = imgUrl;
+		this.districtNo = districtNo;
+		this.streetPublic = streetPublic;
+	}
+
+	
+	
+	
+
+	public Street(int streetNo, String streetNm, String streetIntro, char streetStatus, int streetMaxMember,
+			int streetPoint, String imgUrl, int districtNo, char streetPublic, int imgNo) {
+		super();
+		this.streetNo = streetNo;
+		this.streetNm = streetNm;
+		this.streetIntro = streetIntro;
+		this.streetStatus = streetStatus;
+		this.streetMaxMember = streetMaxMember;
+		this.streetPoint = streetPoint;
+		this.imgUrl = imgUrl;
+		this.districtNo = districtNo;
+		this.streetPublic = streetPublic;
+		this.imgNo = imgNo;
+	}
 
 
 	public int getStreetNo() {
@@ -98,12 +133,32 @@ public class Street {
 	}
 
 
+	public char getStreetPublic() {
+		return streetPublic;
+	}
+
+
+	public void setStreetPublic(char streetPublic) {
+		this.streetPublic = streetPublic;
+	}
+
+
+	public int getImgNo() {
+		return imgNo;
+	}
+
+
+	public void setImgNo(int imgNo) {
+		this.imgNo = imgNo;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Street [streetNo=" + streetNo + ", streetNm=" + streetNm + ", streetIntro=" + streetIntro
 				+ ", streetStatus=" + streetStatus + ", streetMaxMember=" + streetMaxMember + ", streetPoint="
-				+ streetPoint + ", imgUrl=" + imgUrl + ", districtNo=" + districtNo + "]";
-	}
-	
+				+ streetPoint + ", imgUrl=" + imgUrl + ", districtNo=" + districtNo + ", streetPublic=" + streetPublic
+				+ ", imgNo=" + imgNo + "]";
+	}	
 	
 }
