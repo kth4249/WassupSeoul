@@ -60,6 +60,7 @@
 .streetSize {
 	width: 17%;
 	margin: 20px 20px;
+	cursor: pointer;
 }
 </style>
 
@@ -164,9 +165,9 @@
 
 					<c:if test="${!empty sList}">
 						<c:forEach var="street" items="${sList}" varStatus="vs">
-							<div class="streetSize">
+							<div class="streetSize" onclick="location.href='street/streetMain?streetNo=${street.streetNo}'">
 								<div class="card h-100">
-									<a href="street/streetMain?streetNo=${street.streetNo}"><img
+									<a><img
 										class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
 									<div class="card-body">
 										<h4 class="card-title nanum">
@@ -189,6 +190,10 @@
 						</c:forEach>
 					</c:if>
 					<script>
+						/* $(".selectStreet").click(function(event){
+							console.log($(this));
+							street/streetMain?streetNo=${street.streetNo}
+						}) */
 			        	$(".districtTab li").on("click", function(e){
 			        		var districtNo = $(e.target).val();
 			        		<c:url var="detailUrl" value="square">

@@ -28,12 +28,11 @@
 
 <style>
 #modal {
-  display: none;
-  position: absolute;
-  width:200px;
-  height:700px;
-  z-index:1;
-
+	display: none;
+	position: absolute;
+	width: 200px;
+	height: 700px;
+	z-index: 1;
 }
 
 /* .mapModal{
@@ -44,8 +43,6 @@
   z-index:1;
 
 } */
-
-
 #modal button {
 	display: inline-block;
 	width: 60px;
@@ -53,7 +50,7 @@
 }
 
 #modal .modal_content {
-  height:700px;
+	height: 700px;
 	width: 700px;
 	margin: 100px auto;
 	padding: 20px 10px;
@@ -62,14 +59,14 @@
 }
 
 #modal .modal_layer {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0, 0, 0, 0.5);
-  z-index:-1;
-}    
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: -1;
+}
 </style>
 <body>
 	<%--  <%@include file="../common/header.jsp"%>  --%>
@@ -180,19 +177,20 @@ $(document).ready(function(){
 							<br>
 							<script>
 								function streetJoin() {
-									if(confirm("가입을 신청하시겠습니까?")){
-										$.ajax({
-											url : "${contextPath}/street/streetJoin",
-											success : function(result) {
-												if(result == -1){
-													alert("더 이상 골목에 가입할 수 없습니다");
-												}
-												alert("골목 가입 신청 완료");
-											},
-											error : function() {
-												alert("골목 가입 신청 과정 중 오류 발생");
-											}
-										})
+									if (confirm("가입을 신청하시겠습니까?")) {
+										$
+												.ajax({
+													url : "${contextPath}/street/streetJoin",
+													success : function(result) {
+														if (result == -1) {
+															alert("더 이상 골목에 가입할 수 없습니다");
+														}
+														alert("골목 가입 신청 완료");
+													},
+													error : function() {
+														alert("골목 가입 신청 과정 중 오류 발생");
+													}
+												})
 									}
 								}
 							</script>
@@ -257,7 +255,8 @@ $(document).ready(function(){
 								style="border: 1px solid black; height: 45px;">
 
 								<div class="writeOptionArea shake">
-									<img class="writeOption img1" src="${contextPath}/resources/img/imageIcon.png">
+									<img class="writeOption img1"
+										src="${contextPath}/resources/img/imageIcon.png">
 									<p class="arrow_box">사진</p>
 								</div>
 
@@ -267,59 +266,59 @@ $(document).ready(function(){
 										src="${contextPath}/resources/img/film.png">
 									<p class="arrow_box">동영상</p>
 								</div>
-								
-								
-								
+
+								<!-- 파일첨부 -->
 								<div class="writeOptionArea shake">
-								
-									<input type="file" name="file1" style="display: none;"
-										class="writeOption" id="fileBtn" onchange="readURL(this)">
-									<img src='${contextPath}/resources/img/paperclip.png'
-										class="writeOption" border='0'
-										onclick='document.all.file1.click(); document.all.file2.value=document.all.file1.value'>
+									<img class="writeOption mapOption"
+										src='${contextPath}/resources/img/paperclip.png'>
 									<p class="arrow_box">파일첨부</p>
-								
 								</div>
-								
+
 								<script>
-								// file 업로드 이미지 미리보기
-								
-								function readURL(input) {
-						        if (input.files && input.files[0]) {
-						            var reader = new FileReader();
-						            reader.readAsDataURL(input.files[0]);
+									// file 업로드 이미지 미리보기
 
-						            reader.onload = function (e) {
+									function readURL(input) {
+										if (input.files && input.files[0]) {
+											var reader = new FileReader();
+											reader
+													.readAsDataURL(input.files[0]);
 
-						                var tempImage = new Image();
-						                tempImage.src = reader.result;
-						                console.log(tempImage);
-						                tempImage.onload = function () {
-						                    var canvas = document.createElement('canvas');
-						                    var canvasContext = canvas.getContext("2d");
+											reader.onload = function(e) {
 
+												var tempImage = new Image();
+												tempImage.src = reader.result;
+												console.log(tempImage);
+												tempImage.onload = function() {
+													var canvas = document
+															.createElement('canvas');
+													var canvasContext = canvas
+															.getContext("2d");
 
-						                    var img = new Image();
-						                    img.src = e.target.result;
+													var img = new Image();
+													img.src = e.target.result;
 
+													canvas.width = img.width * 0.5;
+													canvas.height = img.height * 0.5;
 
-						                    canvas.width = img.width * 0.5;
-						                    canvas.height = img.height * 0.5;
+													canvasContext.drawImage(
+															this, 0, 0,
+															canvas.width,
+															canvas.height);
 
-						                    canvasContext.drawImage(this, 0, 0, canvas.width, canvas.height);
+													var dataURI = canvas
+															.toDataURL("image/png");
 
-						                    var dataURI = canvas.toDataURL("image/png");
+													document
+															.querySelector("#thumbnail").src = dataURI;
 
-						                    document.querySelector("#thumbnail").src = dataURI;
+												}
+											};
 
-						                }
-						            };
-
-						        }
+										}
 								</script>
-								
-								
-								
+
+
+
 								<div class="writeOptionArea shake">
 									<img class="writeOption"
 										src="${contextPath}/resources/img/vote.png">
@@ -330,30 +329,35 @@ $(document).ready(function(){
 										src="${contextPath}/resources/img/pie-chart.png">
 									<p class="arrow_box">N빵</p>
 								</div>
+
+
 								<div class="writeOptionArea shake">
 									<img class="writeOption mapOption"
 										src="${contextPath}/resources/img/map.png">
 									<p class="arrow_box">지도</p>
 								</div>
 
+								<!-- 지도 모달  -->
 								<div id="modal" class="nanum mapModal">
-								   
-								    <div class="modal_content" style="padding: 3px;">
-								        <button type="button" id="modal_close_btn" style="width: 20px; height: 20px; font-size: 5px; 
-																							float: right; ">X</button>
 
-										<textarea class=" nanum" id="writePostArea"
-										 rows="6" placeholder="게시글내용을 입력하세요."
-										style="border: 1px solid black; color: black; font-size: 17px; height:200px"></textarea>													
-										<input type="text" id="sample5_address" placeholder="주소"> 
-										<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
-								       	<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div> 
-								    </div>
-								   
-								  	  <div class="modal_layer"></div>
-								</div> 
-								
-								
+									<div class="modal_content" style="padding: 3px;">
+										<button type="button" id="modal_close_btn"
+											style="width: 20px; height: 20px; font-size: 5px; float: right;">X</button>
+
+										<textarea class=" nanum" id="writePostArea" rows="6"
+											placeholder="게시글내용을 입력하세요."
+											style="border: 1px solid black; color: black; font-size: 17px; height: 200px"></textarea>
+										<input type="text" id="sample5_address" placeholder="주소">
+										<input type="button" onclick="sample5_execDaumPostcode()"
+											value="주소 검색"><br>
+										<div id="map"
+											style="width: 300px; height: 300px; margin-top: 10px; display: none"></div>
+									</div>
+
+									<div class="modal_layer"></div>
+								</div>
+
+
 								<!-- <div id="modal" class="nanum mapModal">
 								   
 								    <div class="modal_content" style="padding: 3px;">
@@ -371,7 +375,7 @@ $(document).ready(function(){
 								   
 								  	  <div class="modal_layer"></div>
 								</div> -->
-																
+
 								<!-- <script type="text/javascript"
 											src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840">
 											
@@ -439,7 +443,7 @@ $(document).ready(function(){
 						<!-- 게시물 없을때 끝-->
 
 					</c:if>
-					
+
 					<c:if test="${!empty board}">
 						<c:forEach var="board" items="${board}" varStatus="vs">
 
@@ -474,9 +478,10 @@ $(document).ready(function(){
 											</div>
 
 										</div>
-										
-										<c:if test="${loginMember.memberNickname ne board.boardWriter}">
-										
+
+										<c:if
+											test="${loginMember.memberNickname ne board.boardWriter}">
+
 										</c:if>
 										
 										<c:if test="${loginMember.memberNickname eq board.boardWriter}">
@@ -501,7 +506,7 @@ $(document).ready(function(){
 										</c:if>
 
 
-										
+
 
 
 									</div>
@@ -987,63 +992,220 @@ $(document).ready(function(){
 
 
 	<script>
-		$(document).ready(function() {
-			
-			// 새로고침
-			function refreshList(){
-				location.reload();
-			}
-			
-			// 글삭제
-			$(".deletePost").click(function() {
-						var postNo = $(this).attr("id");
-						//var divBox = $(this).parent(".box111");
-						
-						$.ajax({
-							url : "deletePost",
-							data : {postNo : postNo	},
-							type : "post",
-							success : function(	result) {
-								if (result == "true") {
-									system.out.println("게시글 삭제 성공")
-									//divBox.remove();
-							} else {
-									system.out.println("게시글 삭제 실패")
+		$(document)
+					.ready(
+							function() {
+
+								// 새로고침
+								function refreshList() {
+									location.reload();
 								}
-							},
-							error : function(e) {
-								console.log("ajax 통신 실패");
-								console.log(e);
-							}							
+
+								// 글삭제
+								$(".deletePost").click(function() {
+									var postNo = $(this).attr("id");
+									//var divBox = $(this).parent(".box111");
+
+									$.ajax({
+										url : "deletePost",
+										data : {
+											postNo : postNo
+										},
+										type : "post",
+										success : function(result) {
+											if (result == "true") {
+												system.out.println("게시글 삭제 성공")
+												//divBox.remove();
+											} else {
+												system.out.println("게시글 삭제 실패")
+											}
+										},
+										error : function(e) {
+											console.log("ajax 통신 실패");
+											console.log(e);
+										}
+									});
+									refreshList()
+									});
+								});
+
+								// 글수정
+								$(".updatePost").click(function() {
+									var postNo = $(this).attr("id");
+									//var divBox = $(this).parent(".box111");
+
+									$.ajax({
+										url : "updatePost",
+										data : {
+											postNo : postNo
+										},
+										type : "post",
+										success : function(result) {
+											if (result == "true") {
+												system.out.println("게시글 삭제 성공")
+												//divBox.remove();
+											} else {
+												system.out.println("게시글 삭제 실패")
+											}
+										},
+										error : function(e) {
+											console.log("ajax 통신 실패");
+											console.log(e);
+										}
+									});
+									refreshList()
+								});
+
+								// 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
+								$(".likeBtn")
+										.click(
+												function() {
+													var postNo = $(this).attr(
+															"name");
+													var img = $(this).attr(
+															"src");
+													var likeCount = $(this)
+															.parent().next("p")
+															.text()
+
+													if (img == "${contextPath}/resources/img/like.png") {
+														likeCount++;
+														$(this)
+																.attr('src',
+																		'${contextPath}/resources/img/like2.png');
+														$(this).parent().next(
+																"p").text(
+																likeCount);
+
+													} else {
+														likeCount--;
+														$(this)
+																.attr('src',
+																		'${contextPath}/resources/img/like.png');
+														$(this).parent().next(
+																"p").text(
+																likeCount);
+													}
+
+													$
+															.ajax({
+																url : "likeFunction",
+																data : {
+																	postNo : postNo
+																},
+																type : "post",
+																success : function(
+																		result) {
+																	if (result == "true") {
+																		system.out
+																				.println("좋아요 등록 성공")
+																	} else {
+																		system.out
+																				.println("좋아요 해제 성공")
+																	}
+																},
+																error : function(
+																		e) {
+																	console
+																			.log("ajax 통신 실패");
+																	console
+																			.log(e);
+																}
+															});
+												});
+
+								//  게시글, 댓글 수정/삭제 메뉴창 보이기, 숨기기
+								$(".optionChevron>img").click(function() {
+									$(this).next("div").toggleClass("hide");
+								});
+
+								$(".likeNum").click(function() {
+									$(this).next("div").toggleClass("hide");
+								});
+
+								// 댓글 영역 숨기기
+								$(".commentArea").click(function() {
+									$(this).parent().next("div").toggle(100);
+									$('.writeCommentArea').focus();
+								});
+
+								// 대댓글 영역 숨기기
+								$(".doubleCommentArea").click(
+										function() {
+											$(this).parent().parent().parent()
+													.next("div").toggle(100);
+											// $(".inputCommentWrap").toggle(500);
+											$('.writeCommentArea2').focus();
+										});
+
+								// 게시글 작성 영역 높이 자동증가
+								$('.writePost').on('keyup', 'textarea',
+										function(e) {
+											$(this).css('height', 'auto');
+											$(this).height(this.scrollHeight);
+										});
+								$('.writePost').find('textarea').keyup();
+
+								// 댓글 작성 영역 높이 자동증가
+								$('.inputCommentWrap').on('keyup', 'textarea',
+										function(e) {
+											$(this).css('height', 'auto');
+											$(this).height(this.scrollHeight);
+										});
+								$('.inputCommentWrap').find('textarea').keyup();
+
+								// 댓글 출력 영역 높이 자동증가
+								$('.commentContentWrap').on('keyup',
+										'textarea', function(e) {
+											$(this).css('height', 'auto');
+											$(this).height(this.scrollHeight);
+										});
+								$('.commentContentWrap').find('textarea')
+										.keyup();
+
+								// 게시글 출력 영역 높이 자동증가
+								$('.postMainWrap').on('keyup', 'textarea',
+										function(e) {
+											$(this).css('height', 'auto');
+											$(this).height(this.scrollHeight);
+										});
+								$('.postMainWrap').find('textarea').keyup();
+
+								// 게시물 없을때 게시글 작성 클릭시 커서 이동
+								$(".noPostSignArea").click(function() {
+									$('.postArea').focus();
+								});
+
+								// 지도 모달 창 열기 
+								$(".mapOption").click(
+										function() {
+
+											//var modal = $(this).parent().next("div");
+
+											$(this).parent().next("div").attr(
+													"style", "display:block");
+										});
+
+								$("#modal_close_btn").click(
+										function() {
+											$(this).parent().parent("div")
+													.attr("style",
+															"display:none");
+										});
+
 							});
 						refreshList()
 				});
+			// 모달 창 열기 
+			$(".mapOption").click(function() {
+				$(this).parent().next("div").attr("style", "display:block");
 			});
 
-			// 글수정
-			$(".updatePost").click(function() {
-				var postNo = $(this).attr("id");
-				//var divBox = $(this).parent(".box111");
-				
-				$.ajax({
-					url : "updatePost",
-					data : {postNo : postNo	},
-					type : "post",
-					success : function(	result) {
-						if (result == "true") {
-							system.out.println("게시글 삭제 성공")
-							//divBox.remove();
-					} else {
-							system.out.println("게시글 삭제 실패")
-						}
-					},
-					error : function(e) {
-						console.log("ajax 통신 실패");
-						console.log(e);
-					}							
-					});
-				refreshList()
+			$("#modal_close_btn").click(function() {
+				$(this).parent().parent("div").attr("style", "display:none");
 			});
+		}
+);
 
 			// 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
 			$(".likeBtn").click(function() {
@@ -1103,6 +1265,7 @@ $(document).ready(function(){
 							// $(".inputCommentWrap").toggle(500);
 							$('.writeCommentArea2').focus();
 						});
+				)
 
 				// 게시글 작성 영역 높이 자동증가
 				$('.writePost').on('keyup', 'textarea',
@@ -1140,9 +1303,21 @@ $(document).ready(function(){
 				$(".noPostSignArea").click(function() {
 					$('.postArea').focus();
 				});
+				
+				
+				// 지도 모달 창 열기 
+				$(".mapOption").click(function(){
 
+					//var modal = $(this).parent().next("div");
+					
+					$(this).parent().next("div").attr("style", "display:block");
+			    });
+			   
+			     $("#modal_close_btn").click(function(){
+					$(this).parent().parent("div").attr("style", "display:none");
+			    }); 
+			     
 		});
-		
 		// 모달 창 열기 
 		$(".mapOption").click(function(){
 			$(this).parent().next("div").attr("style", "display:block");
