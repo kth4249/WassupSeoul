@@ -283,6 +283,92 @@ public class MemberServiceImpl implements MemberService{
 	public int insertHobby(String hobbyName) throws Exception {
 		return memberDAO.insertHobby(hobbyName);
 	}
+	
+	/** 생성된 회원번호 조회용 Service
+	 * @return memberNo
+	 * @throws Exception
+	 */
+	@Override
+	public int selectMemberNo() throws Exception {
+		return memberDAO.selectMemberNo();
+	}
+	
+	/** 회원 탈퇴용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteMember(int memberNo) throws Exception {
+		return memberDAO.deleteMember(memberNo);
+	}
+
+	/** 가입한 골목수 조회
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int selectJoinStreetList(int memberNo) throws Exception {
+		return memberDAO.selectJoinStreetList(memberNo);
+	}
+
+	/** 회원 가입 골목 목록 삭제용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteJoinStreetList(int memberNo) throws Exception{
+		return memberDAO.deleteJoinStreetList(memberNo);
+	}
+
+	/** 회원 알람 목록수 조회용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int selectAlarmList(int memberNo) throws Exception {
+		return memberDAO.selectAlarmList(memberNo);
+	}
+
+	/** 회원 알람목록 삭제용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteAlarmList(int memberNo) throws Exception{
+		return memberDAO.deleteAlarmList(memberNo);
+	}
+
+	/** 회원 친구 목록수 조회용  Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int selectFriendList(int memberNo) throws Exception {
+		return memberDAO.selectFriendList(memberNo);
+	}
+	
+	/** 회원 친구 목록 삭제용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteFriendList(int memberNo) throws Exception {
+		return memberDAO.deleteFriendList(memberNo);
+	}
+
+
+
 
 
 
