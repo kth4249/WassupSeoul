@@ -15,7 +15,7 @@
     <!-- 헤더 추가  끝-->
     <div class="container-fluid">
         <!-- 회원탈퇴 시작 -->
-        <form action="#">
+        <form action="${contextPath}/member/delete" method="POST" role="form" onsubmit="return validate();">
         <br>    
         <div class="form-group row">
             <div class="col-md-3"></div>
@@ -28,7 +28,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;font-size: 20px;">이름</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control-plaintext nanum" value="홍길동" style="font-size: 20px;">
+                        <input type="text" class="form-control-plaintext nanum" value="${loginMember.memberNm}" style="font-size: 20px;">
                     </div>
                     <div class="col-sm-5"></div>
                 </div>
@@ -36,7 +36,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;font-size: 20px;">아이디</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control-plaintext nanum" value="hongd@abc.com" style="font-size: 20px;">
+                        <input type="text" class="form-control-plaintext nanum" value="${loginMember.memberEmail}" style="font-size: 20px;">
                     </div>
                     <div class="col-sm-5"></div>
                 </div>
@@ -44,15 +44,15 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*비밀번호 입력</label>
                     <div class="col-sm-5">
-                        <input type="password" class="form-control nanum" name="memberPwd" value="" style="font-size: 20px;" placeholder="비밀번호 입력">
+                        <input type="password" class="form-control nanum" id="pwdCheck" name="memberPwd" style="font-size: 20px;" placeholder="비밀번호 입력">
                     </div>
-                    <div class="col-sm-5"></div>
+                    <div class="col-sm-5"><span class="nanum" id="pwdCheckResult"></span></div>
                 </div>
                 <br>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*탈퇴사유</label>
                     <div class="col-sm-5">
-                        <textarea class="form-control nanum" rows="5" cols="65" style="resize: none;" name="reason">공부해야 되서 모임 안함</textarea>
+                        <textarea class="form-control nanum" rows="5" cols="65" style="resize: none;" name="reason" id="deleteReason"></textarea>
                     </div>
                     <div class="col-sm-5"></div>
                 </div>
@@ -90,7 +90,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-1"></div>
-                    <div class="col-sm-5"><button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 25px;">취소하기</button></div>
+                    <div class="col-sm-5"><a class="btn btn-secondary btn-lg btn-block nanum" href="${contextPath}/square" role="button" style="font-size: 25px;">광장으로</a></div>
                     <div class="col-sm-5"><button type="submit" class="btn btn-primary btn-lg btn-block nanum" style="font-size: 25px;">탈퇴하기</button></div>
                     <div class="col-sm-1"></div>
                 </div>
@@ -100,7 +100,87 @@
         </form>
         <!-- 회원탈퇴 끝 -->
     </div>
+    <script>
+    
+ 	// 각 유효성 검사 결과를 저장할 객체
+    var signUpCheck = { 
+    		"deleteCheck":false,
+    		"pwdCheck":false,
+    		"reasonCheck":false
+			};
+ 	
+ 	// 유효성 검사
+ 	$(function(){
+ 		var $pwdCheck = $("#pwdCheck");
+ 		var $agree = $("#agree");
+ 		var $deleteReason = $("#deleteReason");
+ 		
+ 		
+ 		// 비밀번호 검사
+ 		$("#pwdCheck").on("input",function(){
+ 			var regExp = /^[a-zA-Z0-9]{6,12}$/;
+ 			if(!regExp.test($pwdCheck.val())) {
+				$pwdCheck.removeClass("is-valid");
+				$pwdCheck.addClass("is-invalid");
+				$("#pwdCheckResult").text("비밀번호 형식이 유효하지 않습니다.").css({"color":"red","font-size":"20px"})
+				signUpCheck.pwdCheck = false;
+ 			} else {
+ 				$pwdCheck.removeClass("is-invalid");
+				$pwdCheck.addClass("is-valid");
+				$("#pwdCheckResult").text("유효한 형식의 비밀번호입니다.").css({"color":"green","font-size":"20px"});
+				signUpCheck.pwdCheck = true;
+ 			}
+ 		});
+ 		
+ 		
+ 		// 체크박스 검사
+ 		$("#agree").on("input",function(){
+ 			if(!$agree.prop("checked")) {
+ 				signUpCheck.deleteCheck = false;
+ 			} else {
+ 				signUpCheck.deleteCheck = true;
+ 			}
+ 		});
+ 		
+ 		
+ 		// 탈퇴사유 검사
+ 		$("#deleteReason").on("input",function(){
+ 			if($deleteReason.val().trim().length == 0) {
+ 				signUpCheck.reasonCheck = false;
+ 			} else {
+ 				signUpCheck.reasonCheck = true;
+ 			}
+ 		});
+ 		
+ 	});
+ 	
+ 	// 유효성 함수
+ 	function validate(){
+ 		
+ 		for(var key in signUpCheck){
+ 			
+			if(!signUpCheck[key]){
+				if(key == "deleteCheck") {
+					alert("약관에 동의하셔야 회원탈퇴가 가능합니다.");
+					return false;	
+				} else if(key == "pwdCheck") {
+					alert("일부 입력값이 잘못되었습니다.");
+					$("#pwdCheck").focus();
+					return false;	
+				} else {
+					alert("탈퇴사유를 입력하셔야 회원탈퇴가 가능합니다.");
+					return false;	
+				}
+				
+			}
+		}
+ 		
+ 	}
+ 	
+ 	
+ 	</script>
 	<jsp:include page="../common/footer.jsp"/>
+	
 </body>
 
 </html>

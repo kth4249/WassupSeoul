@@ -50,7 +50,7 @@
 	<!-- 회원가입용 -->
 	<insert id="signUp" parameterType="Member">
   		INSERT INTO MEMBER
-  		VALUES(SEQ_MEMBER.NEXTVAL, #{memberEmail}, #{memberPwd}, 
+  		VALUES(SEQ_MEMBER.CURRVAL, #{memberEmail}, #{memberPwd}, 
   				#{memberNm}, #{memberNickname}, #{memberPhone},
   				#{memberGender}, #{memberAge}, #{memberProfileUrl},	DEFAULT, DEFAULT, DEFAULT)
   	</insert>
@@ -127,7 +127,7 @@
 	<select id="selectMyKeyword" parameterType="_int" resultMap="keywordResultSet">
 		SELECT STREET_NO,KEYWORD_CONTENT FROM STREET
 		JOIN KEYWORD USING(STREET_NO)
-		WHERE STREET_NO = #{streetNo}
+		WHERE STREET_NO = #{streetNo} 
 	</select>
 	
 	<!-- 현재 비밀번호 조회 -->
@@ -190,6 +190,54 @@
 		INSERT INTO HOBBY 
 		VALUES (SEQ_HOBBY.NEXTVAL,#{hobbyName})
 	</insert>
+	
+	<!-- 생성된 회원번호 조회 -->
+	<select id="selectMemberNo" resultType="_int">
+		SELECT SEQ_MEMBER.NEXTVAL FROM DUAL
+	</select>
+	
+		<!-- 회원 탈퇴 -->
+	<update id="deleteMember" parameterType="_int">
+		UPDATE MEMBER
+		SET MEMBER_STATUS = 'N'
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+
+<!-- 가입 골목수 조회 -->
+	<select id="selectJoinStreetList" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM STREET_JOIN
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+
+	<!-- 회원 가입 골목 목록 삭제 -->
+	<delete id="deleteJoinStreet" parameterType="_int">
+		DELETE FROM STREET_JOIN 
+		WHERE MEMBER_NO = #{memberNo}
+	</delete>
+
+	<!-- 회원 알람목록수 조회 -->
+	<select id="selectAlarmList" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM ALARM
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+
+	<!-- 회원 알림 목록 삭제 -->
+	<delete id="deleteAlarmList" parameterType="_int">
+		DELETE FROM ALARM
+		WHERE MEMBER_NO = #{memberNo}
+	</delete>
+
+	<!-- 회원 친구목록수 조회 -->
+	<select id="selectFriendList" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM RELATIONSHIP
+		WHERE MY_NO = #{memberNo}
+	</select>
+	
+	<!-- 회원 친구목록 삭제 -->
+	<delete id="deleteFriendList" parameterType="_int">
+		DELETE FROM RELATIONSHIP
+		WHERE MY_NO = #{memberNo}
+	</delete>
 	
 
 	

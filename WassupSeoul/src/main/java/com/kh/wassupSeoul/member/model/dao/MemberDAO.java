@@ -200,6 +200,77 @@ public class MemberDAO {
 	public int insertHobby(String hobbyName) throws Exception{
 		return sqlSession.insert("memberMapper.insertHobby", hobbyName);
 	}
+	
+	/** 생성된 회원번호 조회용 DAO
+	 * @return memberNo
+	 * @throws Exception
+	 */
+	public int selectMemberNo() throws Exception{
+		return sqlSession.selectOne("memberMapper.selectMemberNo");
+	}
+	
+/** 가입 골목수 조회용 DAO
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int selectJoinStreetList(int memberNo) throws Exception{
+		return sqlSession.selectOne("memberMapper.selectJoinStreetList", memberNo);
+	}
+
+	/** 회원 가입 골목 목록 삭제용 DAO
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteJoinStreetList(int memberNo) throws Exception{
+		return sqlSession.delete("memberMapper.deleteJoinStreet", memberNo);
+	}
+
+	/** 회원 알람 목록수 조회용 DAO
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int selectAlarmList(int memberNo) throws Exception{
+		return sqlSession.selectOne("memberMapper.selectAlarmList", memberNo);
+	}
+
+	/** 회원 알람 목록 삭제용 DAO
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteAlarmList(int memberNo) throws Exception{
+		return sqlSession.delete("memberMapper.deleteAlarmList", memberNo);
+	}
+
+	/** 회원 친구 목록수 조회용 DAO
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int selectFriendList(int memberNo) throws Exception{
+		return sqlSession.selectOne("memberMapper.selectFriendList", memberNo);
+	}
+
+	/** 회원 친구 목록 삭제용 DAO
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteFriendList(int memberNo) throws Exception{
+		return sqlSession.delete("memberMapper.deleteFriendList", memberNo);
+	}
+
+	/** 회원 탈퇴용 DAO
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteMember(int memberNo) throws Exception{
+		return sqlSession.delete("memberMapper.deleteMember",memberNo);
+	}
 
 	
 	

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,13 +27,12 @@
 </head>
 
 <style>
-
 #modal {
-  display: none;
-  position: absolute;
-  width:200px;
-  height:200px;
-  z-index:1;
+	display: none;
+	position: absolute;
+	width: 200px;
+	height: 200px;
+	z-index: 1;
 }
 
 /* .mapModal{
@@ -44,40 +43,37 @@
   z-index:1;
 
 } */
-
 #modal h2 {
-  margin:0;   
+	margin: 0;
 }
 
 #modal button {
-  display:inline-block;
-  width:60px;
-  margin-left:calc(100% - 100px - 10px);
+	display: inline-block;
+	width: 60px;
+	margin-left: calc(100% - 100px - 10px);
 }
 
 #modal .modal_content {
-  width:700px;
-  margin:100px auto;
-  padding:20px 10px;
-  background:#fff;
-  border:2px solid #666;
+	width: 700px;
+	margin: 100px auto;
+	padding: 20px 10px;
+	background: #fff;
+	border: 2px solid #666;
 }
 
 #modal .modal_layer {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0, 0, 0, 0.5);
-  z-index:-1;
-}   
-
-
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: -1;
+}
 </style>
 <body>
-<%--  <%@include file="../common/header.jsp"%>  --%>
-<!-- <script>
+	<%--  <%@include file="../common/header.jsp"%>  --%>
+	<!-- <script>
 $(document).ready(function(){
 	  var modalLink = $(".img1");
 	  var modalCont = $(".modalContent");
@@ -177,8 +173,11 @@ $(document).ready(function(){
 							</div>
 						</div>
 						<div class="card-body">
-							<button type="button" class="btn btn-secondary btn-lg btn-block nanum"
-								style="font-size: 20px; font-weight: bold;" onclick="streetJoin()">골목 가입하기</button><br>
+							<button type="button"
+								class="btn btn-secondary btn-lg btn-block nanum"
+								style="font-size: 20px; font-weight: bold;"
+								onclick="streetJoin()">골목 가입하기</button>
+							<br>
 							<script>
 								function streetJoin() {
 									if(confirm("가입을 신청하시겠습니까?")){
@@ -197,9 +196,8 @@ $(document).ready(function(){
 									}
 								}
 							</script>
-							<a href="#" class="card-link nanum">골목 탈퇴하기</a><br>
-
-							<a href="#" class="card-link nanum">골목 변경하기</a> <a href="#"
+							<a href="#" class="card-link nanum">골목 탈퇴하기</a><br> <a
+								href="#" class="card-link nanum">골목 변경하기</a> <a href="#"
 								class="card-link nanum">활동보고서 작성</a>
 						</div>
 						<div class="card-footer text-muted nanum">
@@ -218,7 +216,7 @@ $(document).ready(function(){
 
 
 				<!-- <div id="map" style="width: 500px; height: 400px;"></div> -->
-				
+
 				<!-- <script type="text/javascript"
 					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840">
 					
@@ -282,52 +280,108 @@ $(document).ready(function(){
 								style="border: 1px solid black; height: 45px;">
 
 								<div class="writeOptionArea shake">
-										<img class="writeOption img1"
+									<img class="writeOption img1"
 										src="${contextPath}/resources/img/imageIcon.png">
-										<p class="arrow_box">사진</p>
+									<p class="arrow_box">사진</p>
 								</div>
-						
-								
+
+
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/film.png">
+									<img class="writeOption"
+										src="${contextPath}/resources/img/film.png">
 									<p class="arrow_box">동영상</p>
 								</div>
+								
+								
+								
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/paperclip.png">
+								
+									<input type="file" name="file1" style="display: none;"
+										class="writeOption" id="fileBtn" onchange="readURL(this)">
+									<img src='${contextPath}/resources/img/paperclip.png'
+										class="writeOption" border='0'
+										onclick='document.all.file1.click(); document.all.file2.value=document.all.file1.value'>
 									<p class="arrow_box">파일첨부</p>
+								
 								</div>
+								
+								
+								<script>
+								// file 업로드 이미지 미리보기
+								
+								function readURL(input) {
+						        if (input.files && input.files[0]) {
+						            var reader = new FileReader();
+						            reader.readAsDataURL(input.files[0]);
+
+						            reader.onload = function (e) {
+
+						                var tempImage = new Image();
+						                tempImage.src = reader.result;
+						                console.log(tempImage);
+						                tempImage.onload = function () {
+						                    var canvas = document.createElement('canvas');
+						                    var canvasContext = canvas.getContext("2d");
+
+
+						                    var img = new Image();
+						                    img.src = e.target.result;
+
+
+						                    canvas.width = img.width * 0.5;
+						                    canvas.height = img.height * 0.5;
+
+						                    canvasContext.drawImage(this, 0, 0, canvas.width, canvas.height);
+
+						                    var dataURI = canvas.toDataURL("image/png");
+
+						                    document.querySelector("#thumbnail").src = dataURI;
+
+						                }
+						            };
+
+						        }
+								</script>
+								
+								
+								
+								
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/vote.png">
+									<img class="writeOption"
+										src="${contextPath}/resources/img/vote.png">
 									<p class="arrow_box">투표</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/pie-chart.png">
+									<img class="writeOption"
+										src="${contextPath}/resources/img/pie-chart.png">
 									<p class="arrow_box">N빵</p>
 								</div>
-								<div class="writeOptionArea shake" >
-									<img class="writeOption mapOption" src="${contextPath}/resources/img/map.png">
+								<div class="writeOptionArea shake">
+									<img class="writeOption mapOption"
+										src="${contextPath}/resources/img/map.png">
 									<p class="arrow_box">지도</p>
 								</div>
-								
+
 								<div id="modal" class="nanum mapModal">
-								   
-								    <div class="modal_content">
+
+									<div class="modal_content">
 										<p>모달 창</p>
-								       
-								        <p>모달 창 입니다.</p>
+
+										<p>모달 창 입니다.</p>
 										<input type="text" placeholder="주소 입력 ">
 										<button type="button"></button>
-								        <button type="button" id="modal_close_btn">모달 창 닫기</button>
-								       
-								    </div>
-								   
-								    <div class="modal_layer"></div>
+										<button type="button" id="modal_close_btn">모달 창 닫기</button>
+
+									</div>
+
+									<div class="modal_layer"></div>
 								</div>
-																
-								
-								
+
+
+
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/sketch.png">
+									<img class="writeOption"
+										src="${contextPath}/resources/img/sketch.png">
 									<p class="arrow_box">스케치</p>
 								</div>
 
@@ -387,11 +441,11 @@ $(document).ready(function(){
 										style="border: 1px solid black; border-bottom: 0px">
 										<div class="profileImgArea" id="profileImgArea"
 											style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px; padding-left: 10px;">
-											
+
 											<!-- 프로필 사진 있을시 넣기 -->
 											<img src="${contextPath}/resources/img/account.png"
 												style="width: 80%; height: 80%;">
-											
+
 										</div>
 										<div class="profileNameArea  nanum" id="profileNameArea"
 											style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%; position: relative; top: 14px">
@@ -399,52 +453,63 @@ $(document).ready(function(){
 												<p style="margin-bottom: 0;">${board.boardWriter}</p>
 											</div>
 											<div style="margin-bottom: 0;">
-												<p style="margin-bottom: 0;"><fmt:formatDate value="${board.boardWriteDt}" pattern="yyyy년 MM월 dd일 aa hh:mm"/></p>
+												<p style="margin-bottom: 0;">
+													<fmt:formatDate value="${board.boardWriteDt}"
+														pattern="yyyy년 MM월 dd일 aa hh:mm" />
+												</p>
 											</div>
 
 										</div>
-										
-										<c:if test="${loginMember.memberNickname ne board.boardWriter}">
-										<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
-											<div>
-												<div class="optionChevron">
-													<img src="${contextPath}/resources/img/download.png"
-														style="width: 17px; height: 15px; position: relative; bottom: 2px;"
-														id="chev">
-													<div id="postMenu" class="hide nanum"
-														style="width: 100px; height: 30px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
-														<ul>
-															<li><a href="#" name="reportPost"
-																style="color: black;">글 신고</a></li>
-														</ul>
+
+										<c:if
+											test="${loginMember.memberNickname ne board.boardWriter}">
+											<div
+												style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
+												<div>
+													<div class="optionChevron">
+														<img src="${contextPath}/resources/img/download.png"
+															style="width: 17px; height: 15px; position: relative; bottom: 2px;"
+															id="chev">
+														<div id="postMenu" class="hide nanum"
+															style="width: 100px; height: 30px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
+															<ul>
+																<li><a href="#" name="reportPost"
+																	style="color: black;">글 신고</a></li>
+															</ul>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
 										</c:if>
-										
-										
-										<c:if test="${loginMember.memberNickname eq board.boardWriter}">
-										<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
-											<div>
-												<div class="optionChevron">
-													<img src="${contextPath}/resources/img/download.png"
-														style="width: 17px; height: 15px; position: relative; bottom: 2px;"
-														id="chev">
-													<div id="postMenu" class="hide nanum"
-														style="width: 100px; height: 80px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
-														<ul>
-															<li><a href="#" class="deletePost" id="${board.boardNo}"
-																style="color: black;">글 삭제</a></li>
-															<li><a href="#" class="updatePost" id="${board.boardNo}
-																style="color: black;">글 수정</a></li>
-															<li><a href="#" class="reportPost" id="${board.boardNo}
-																style="color: black;">글 신고</a></li>
-														</ul>
+
+
+										<c:if
+											test="${loginMember.memberNickname eq board.boardWriter}">
+											<div
+												style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
+												<div>
+													<div class="optionChevron">
+														<img src="${contextPath}/resources/img/download.png"
+															style="width: 17px; height: 15px; position: relative; bottom: 2px;"
+															id="chev">
+														<div id="postMenu" class="hide nanum"
+															style="width: 100px; height: 80px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
+															<ul>
+																<li><a href="#" class="deletePost"
+																	id="${board.boardNo}" style="color: black;">글 삭제</a></li>
+																<li><a href="#" class="updatePost"
+																	id="${board.boardNo}
+																style="color:black;">글
+																		수정</a></li>
+																<li><a href="#" class="reportPost"
+																	id="${board.boardNo}
+																style="color:black;">글
+																		신고</a></li>
+															</ul>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
 										</c:if>
 
 
@@ -1098,7 +1163,11 @@ $(document).ready(function(){
 			    });     
 
 			});
+		
+		
+		
 	</script>
+
 
 </body>
 </html>
