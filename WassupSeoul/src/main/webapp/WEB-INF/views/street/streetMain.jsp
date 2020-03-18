@@ -70,6 +70,8 @@
 	background: rgba(0, 0, 0, 0.5);
 	z-index: -1;
 }
+
+
 </style>
 <body>
 	<%--  <%@include file="../common/header.jsp"%>  --%>
@@ -287,93 +289,41 @@ $(document).ready(function(){
 
 
 								<div class="writeOptionArea shake">
-									<img class="writeOption"
-										src="${contextPath}/resources/img/film.png">
+									<img class="writeOption" src="${contextPath}/resources/img/film.png">
 									<p class="arrow_box">동영상</p>
 								</div>
 								
-								
-								
+								<!-- 파일첨부 -->
 								<div class="writeOptionArea shake">
-								
-									<input type="file" name="file1" style="display: none;"
-										class="writeOption" id="fileBtn" onchange="readURL(this)">
-									<img src='${contextPath}/resources/img/paperclip.png'
-										class="writeOption" border='0'
-										onclick='document.all.file1.click(); document.all.file2.value=document.all.file1.value'>
+									<img class="writeOption mapOption" src='${contextPath}/resources/img/paperclip.png'>
 									<p class="arrow_box">파일첨부</p>
-								
 								</div>
 								
 								
-								<script>
-								// file 업로드 이미지 미리보기
-								
-								function readURL(input) {
-						        if (input.files && input.files[0]) {
-						            var reader = new FileReader();
-						            reader.readAsDataURL(input.files[0]);
-
-						            reader.onload = function (e) {
-
-						                var tempImage = new Image();
-						                tempImage.src = reader.result;
-						                console.log(tempImage);
-						                tempImage.onload = function () {
-						                    var canvas = document.createElement('canvas');
-						                    var canvasContext = canvas.getContext("2d");
-
-
-						                    var img = new Image();
-						                    img.src = e.target.result;
-
-
-						                    canvas.width = img.width * 0.5;
-						                    canvas.height = img.height * 0.5;
-
-						                    canvasContext.drawImage(this, 0, 0, canvas.width, canvas.height);
-
-						                    var dataURI = canvas.toDataURL("image/png");
-
-						                    document.querySelector("#thumbnail").src = dataURI;
-
-						                }
-						            };
-
-						        }
-								</script>
-								
-								
-								
-								
 								<div class="writeOptionArea shake">
-									<img class="writeOption"
-										src="${contextPath}/resources/img/vote.png">
+									<img class="writeOption" src="${contextPath}/resources/img/vote.png">
 									<p class="arrow_box">투표</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<img class="writeOption"
-										src="${contextPath}/resources/img/pie-chart.png">
+									<img class="writeOption" src="${contextPath}/resources/img/pie-chart.png">
 									<p class="arrow_box">N빵</p>
 								</div>
+								
+								
 								<div class="writeOptionArea shake">
-									<img class="writeOption mapOption"
-										src="${contextPath}/resources/img/map.png">
+									<img class="writeOption mapOption" src="${contextPath}/resources/img/map.png">
 									<p class="arrow_box">지도</p>
 								</div>
 
+								<!-- 지도 모달  -->
 								<div id="modal" class="nanum mapModal">
-
 									<div class="modal_content">
 										<p>모달 창</p>
-
 										<p>모달 창 입니다.</p>
 										<input type="text" placeholder="주소 입력 ">
 										<button type="button"></button>
 										<button type="button" id="modal_close_btn">모달 창 닫기</button>
-
 									</div>
-
 									<div class="modal_layer"></div>
 								</div>
 
@@ -1150,7 +1100,7 @@ $(document).ready(function(){
 				});
 				
 				
-				// 모달 창 열기 
+				// 지도 모달 창 열기 
 				$(".mapOption").click(function(){
 
 					//var modal = $(this).parent().next("div");
@@ -1160,7 +1110,21 @@ $(document).ready(function(){
 			   
 			     $("#modal_close_btn").click(function(){
 					$(this).parent().parent("div").attr("style", "display:none");
+			    }); 
+			     
+			     
+			    // 파일첨부 모달창 열기
+				$(".summerOption").click(function(){
+
+					//var modal = $(this).parent().next("div");
+					
+					$(this).parent().next("div").attr("style", "display:block");
+			    });
+			   
+			     $("#modal_close_btn").click(function(){
+					$(this).parent().parent("div").attr("style", "display:none");
 			    });     
+
 
 			});
 		
