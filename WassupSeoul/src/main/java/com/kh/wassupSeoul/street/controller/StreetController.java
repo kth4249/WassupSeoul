@@ -37,7 +37,10 @@ public class StreetController {
 			RedirectAttributes rdAttr, 
 			HttpServletRequest request) { 
 		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
 		System.out.println("골목번호 : "+ streetNo);
+		System.out.println("로그인정보 : "+ loginMember.getMemberNickname());
 		
 		model.addAttribute("streetNo", streetNo);
 		
@@ -62,13 +65,13 @@ public class StreetController {
 			
 				System.out.println("골목 게시글 조회 : "+ board.get(i));
 
-
 			}
 			
 			if(street != null) {
 				
 				model.addAttribute("street", street);
 				model.addAttribute("board", board);
+				model.addAttribute("loginMember", loginMember);
 				
 				return "street/streetMain";
 				
@@ -140,10 +143,10 @@ public class StreetController {
 		loginMember.setMemberAge(postNo);
 		
 		try {
-		int test = streetService.likeCheck( loginMember );
-		
-		System.out.println("좋아요 기록 조회:"+test);
-			System.out.println("변경된 loginMemer:"+ loginMember);
+//		int test = streetService.likeCheck( loginMember );
+//		
+//		System.out.println("좋아요 기록 조회:"+test);
+//			System.out.println("변경된 loginMemer:"+ loginMember);
 			
 			return streetService.likeCheck( loginMember ) == 1 ? true + "" : false + "";
 			
@@ -173,6 +176,27 @@ public class StreetController {
 			return "/common/errorPage";
 		}
 		return "/common/errorPage";
+	}
+	
+	
+	//	게시글 삭제
+	@ResponseBody
+	@RequestMapping("deletePost")
+	public String deletePost(int postNo, Model model) {
+		
+		System.out.println("글삭제 번호 출력 : "+postNo);
+	
+		try {
+	
+			int test = streetService.deletePost( postNo );
+			
+			return  test == 1 ? true + "" : false + "";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "게시글 삭제 과정에서 오류발생");
+			return "/common/errorPage";
+		}
 	}
 	
 	
