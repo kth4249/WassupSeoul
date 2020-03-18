@@ -483,29 +483,26 @@ $(document).ready(function(){
 											test="${loginMember.memberNickname ne board.boardWriter}">
 
 										</c:if>
-
-										<c:if
-											test="${loginMember.memberNickname eq board.boardWriter}">
-											<div
-												style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
-												<div>
-													<div class="optionChevron">
-														<img src="${contextPath}/resources/img/download.png"
-															style="width: 17px; height: 15px; position: relative; bottom: 2px;"
-															id="chev">
-														<div id="postMenu" class="hide nanum"
-															style="width: 100px; height: 60px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
-															<ul>
-																<li><a href="#" class="deletePost"
-																	id="${board.boardNo}" style="color: black;">글 삭제</a></li>
-																<li><a href="#" class="updatePost"
-																	id="${board.boardNo}
-																style="color:black;">글수정</a></li>
-															</ul>
-														</div>
+										
+										<c:if test="${loginMember.memberNickname eq board.boardWriter}">
+										<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
+											<div>
+												<div class="optionChevron">
+													<img src="${contextPath}/resources/img/download.png"
+														style="width: 17px; height: 15px; position: relative; bottom: 2px;"
+														id="chev">
+													<div id="postMenu" class="hide nanum"
+														style="width: 100px; height: 60px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
+														<ul>
+															<li><a href="#" class="deletePost" id="${board.boardNo}"
+																style="color: black;">글 삭제</a></li>
+															<li><a href="#" class="updatePost" id="${board.boardNo}
+																style="color: black;">글 수정</a></li>
+														</ul>
 													</div>
 												</div>
 											</div>
+										</div>
 										</c:if>
 
 
@@ -1197,6 +1194,8 @@ $(document).ready(function(){
 										});
 
 							});
+						refreshList()
+				});
 			// 모달 창 열기 
 			$(".mapOption").click(function() {
 				$(this).parent().next("div").attr("style", "display:block");
