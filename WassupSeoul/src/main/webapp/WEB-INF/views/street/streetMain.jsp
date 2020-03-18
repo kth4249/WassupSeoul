@@ -15,13 +15,43 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/fullcalendar.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/daygrid.css" type="text/css">
     <script type="text/javascript" src="${contextPath}/resources/js/painter.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/js/drawengine.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/resources/js/drawengine.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/resources/js/timeLine.js"></script>
+<%--     <script src="<c:url value="/resources/js/painter.js" />"></script>
+    <script src="<c:url value="/resources/js/drawengine.js" />"></script>
+    <script src="<c:url value="/resources/js/timeLine.js" />"></script> --%>
+    
 <title>타임라인</title>
+
 </head>
 
 <style>
+	.drawColor:hover{
+         cursor: pointer;
+      }
+      #canvas {
+        border: 1px solid black;
+      }
 
+      .jb_table {
+        display: table;
+      }
+
+      .drawing {
+        border-radius: 10px;
+        display: table-row;
+      }
+
+      #draw {
+        display: table-cell;
+        vertical-align: top;
+      }
+
+      .drawColor{
+          width:32px;
+          height: 32px;
+          margin-left: 10px;
+      }
 
 </style>
 <body>
@@ -284,7 +314,7 @@
 										<textarea class=" nanum" id="writePostArea" rows="6"
 											placeholder="게시글내용을 입력하세요."
 											style="border: 1px solid black; color: black; font-size: 17px; height: 280px"></textarea>
-										<input type="text" id="sample5_address" placeholder="주소" style="width:80%;">
+										<input type="text" id="sample5_address" placeholder="주소를 입력하세요." style="width:80%;">
 										<input type="button" onclick="sample5_execDaumPostcode()"
 											value="주소 검색"><br>
 										<div id="map"style="width: 100%; height: 300px; margin-top: 10px; border:2px black solid;"></div>
@@ -314,115 +344,123 @@
 								</div>
 								
 		<!-- 스케치 모달  -->
-		<div id="modal" class="nanum mapModal">
+			<div id="modal" class="nanum mapModal">
 
-			<div class="modal_content" style="padding: 3px;">
-				<button type="button" id="modal_close_btn2"
-					style="width: 20px; height: 20px; font-size: 5px; float: right;">X</button>
-				<textarea class=" nanum" id="writePostArea" rows="6"
-							placeholder="게시글내용을 입력하세요."
-							style="border: 1px solid black; color: black; font-size: 17px; height: 100px"></textarea>
-				<div class="jb_table">
-      <div class="row drawing">
-        <span class="cell">
-          <div>
-            <canvas id="canvas" width="420" height="500"></canvas>
-          </div>
-        </span>
-        <span class="cell" id="draw">
-            <div>
-                <div class="jb_table">
-                  <div class="row drawing">
-                    <span class="cell" id="draw">
-                      <img src="${contextPath}/resources/img/red.png" class="drawColor" onclick="selectColor('red')" />
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">
-                      <img src="${contextPath}/resources/img/orange.png" class="drawColor" onclick="selectColor('orange')"/>
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">
-                      <img src="${contextPath}/resources/img/yellow.png" class="drawColor" onclick="selectColor('yellow')" />
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">
-                      <img src="${contextPath}/resources/img/green.png" class="drawColor" onclick="selectColor('green')"/>
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">
-                      <img src="${contextPath}/resources/img/blue.png" class="drawColor" onclick="selectColor('blue')" />
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">  
-                      <img src="${contextPath}/resources/img/lightblue.png" class="drawColor" onclick="selectColor('lightblue')" />
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">
-                      <img src="${contextPath}/resources/img/brown.png" class="drawColor" onclick="selectColor('brown')"/>
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">
-                      <img src="${contextPath}/resources/img/lightgreen.png" class="drawColor" onclick="selectColor('lightgreen')"/>
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">           
-                      <img src="${contextPath}/resources/img/pink.png" class="drawColor" onclick="selectColor('pink')"/>
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">
-                      <img src="${contextPath}/resources/img/purple.png" class="drawColor" onclick="selectColor('purple')" />
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">
-                      <img src="${contextPath}/resources/img/gray.png" class="drawColor" onclick="selectColor('gray')" />
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">
-                      <img src="${contextPath}/resources/img/lightgray.png" class="drawColor" onclick="selectColor('lightgray')"/>
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">   
-                      <img src="${contextPath}/resources/img/white.png" class="drawColor" onclick="selectColor('white')"/>
-                    </span>
-                  </div>
-                  <div class="row drawing">
-                    <span class="cell" id="draw">
-                      <img src="${contextPath}/resources/img/pencil.png" class="drawColor"  onclick="selectTool('pencil')" style="margin-bottom: 5px;"/>
-                    </span>
-                  </div> 
-                </div>
-              </div>
-           <div>
-            <a id="saveImage" download="image.png">
-                <INPUT type="button" value="Save" onClick="saveImage()" />
-            </a>
-            </div>
-            <div>
-                <INPUT type="button" value="Clear" onClick="initPage()" /> 
-            </div>
-           
-        </span>
-      </div>
-    </div>
-				<button type="button" style="width: 10%; height: 25px; font-size: 17px; float: right; margin-top:10px">작성</button>
+				<div class="modal_content" style="padding: 3px;">
+					<button type="button" id="modal_close_btn2"
+						style="width: 20px; height: 20px; font-size: 5px; float: right;">X</button>
+					<textarea class=" nanum" id="writePostArea" rows="6"
+						placeholder="게시글내용을 입력하세요."
+						style="border: 1px solid black; color: black; font-size: 17px; height: 100px"></textarea>
+					<div class="jb_table">
+						<div class="row drawing">
+							<span class="cell">
+								<div>
+									<canvas id="canvas" width="420" height="485"></canvas>
+								</div>
+							</span> <span class="cell" id="draw">
+								<div>
+									<div class="jb_table">
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/red.png"
+												class="drawColor" onclick="selectColor('red')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/orange.png"
+												class="drawColor" onclick="selectColor('orange')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/yellow.png"
+												class="drawColor" onclick="selectColor('yellow')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/green.png"
+												class="drawColor" onclick="selectColor('green')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/blue.png"
+												class="drawColor" onclick="selectColor('blue')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightblue.png"
+												class="drawColor" onclick="selectColor('lightblue')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/brown.png"
+												class="drawColor" onclick="selectColor('brown')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightgreen.png"
+												class="drawColor" onclick="selectColor('lightgreen')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/pink.png"
+												class="drawColor" onclick="selectColor('pink')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/purple.png"
+												class="drawColor" onclick="selectColor('purple')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/gray.png"
+												class="drawColor" onclick="selectColor('gray')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightgray.png"
+												class="drawColor" onclick="selectColor('lightgray')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/white.png"
+												class="drawColor" onclick="selectColor('white')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/pencil.png"
+												class="drawColor" onclick="selectTool('pencil')"
+												style="margin-bottom: 5px;" />
+											</span>
+										</div>
+									</div>
+								</div>
+								<div>
+									<div>
+										<textarea id="history" cols="40" rows="37"
+											style="display: none;"></textarea>
+
+									</div>
+								</div>
+
+							</span>
+						</div>
+					</div>
+					<div>
+						Title<input id="title" size="15"
+							style="display: inline-block;" /> <a id="saveImage"
+							download="image.png" style="display: inline-block;"> <INPUT
+							type="button" value="Save" onClick="saveImage()" />
+						</a> <INPUT type="button" value="Clear" onClick="initPage()" />
+						<button type="button"
+							style="width: 10%; height: 25px; font-size: 17px; float: right; margin-top: 10px">작성</button>
+					</div>
+
+				</div>
+
+				<div class="modal_layer"></div>
 			</div>
+			<!-- 스케치 모달  -->
 
-			<div class="modal_layer"></div>
-		</div>
-		<!-- 스케치 모달  -->
-								
 
 								<div id="writePostBtn"
 									style="display: inline-block; width: 18%; margin-bottom: 0px; height: 100%; float: right;">
@@ -1108,10 +1146,6 @@
 												}
 											});
 								});
-
-						
-				
-			     
 		});
 		
 		// 지도 모달 창 열기 
@@ -1131,6 +1165,9 @@
 	     $("#modal_close_btn2").click(function(){
 			$(this).parent().parent("div").attr("style", "display:none");
 	    }); 
+	     
+	     
+	     
 	</script>
 
 

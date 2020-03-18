@@ -418,4 +418,14 @@ select.form-control {
           height: 32px;
           margin-left: 10px;
       }
+      
+		.drawColor:hover{
+         cursor: pointer;
+      }
+      
+      #title{
+      	width : 250px;
+      }
+
+      
       /* 스케치 */
