@@ -174,13 +174,31 @@ public class MemberDAO {
 		return sqlSession.delete("memberMapper.deleteMemberHobby",memberNo);
 	}
 
-	/** 변경된 관심사 추가용 DAO
+	/** 변경된 관심사 추가용 DAO -> 덮어쓰기 필요
 	 * @param myHobby
 	 * @return result
 	 * @throws Exception
 	 */
-	public int updateMemberHobby(List<MemberHobby> changeHobby) throws Exception{
-		return sqlSession.insert("memberMapper.updateMemberHobby",changeHobby);
+	public int updateMemberHobby(MemberHobby memberHobby) throws Exception{
+		return sqlSession.insert("memberMapper.updateMemberHobby",memberHobby);
+	}
+	
+	/** 해당 관심사 번호 조회용 DAO
+	 * @param hobbyName
+	 * @return hobbyNo
+	 * @throws Exception
+	 */
+	public int getInsertHobbyNo(String hobbyName) throws Exception{
+		return sqlSession.selectOne("memberMapper.getInsertHobbyNo", hobbyName);
+	}
+
+	/** 관심사 추가용 DAO
+	 * @param hobbyName
+	 * @return addResult
+	 * @throws Exception
+	 */
+	public int insertHobby(String hobbyName) throws Exception{
+		return sqlSession.insert("memberMapper.insertHobby", hobbyName);
 	}
 
 	

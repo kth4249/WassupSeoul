@@ -146,6 +146,20 @@ public interface MemberService {
 	 */
 	int updateMemberHobby(List<MemberHobby> changeHobby) throws Exception;
 	
+	/** 해당 관심사 번호 조회용 Service
+	 * @param string
+	 * @return hobbyNo
+	 * @throws Exception
+	 */
+	int getInsertHobbyNo(String hobbyName) throws Exception;
+
+	/** 관심사 추가용 Service
+	 * @param string
+	 * @return addResult
+	 * @throws Exception
+	 */
+	int insertHobby(String hobbyName) throws Exception;
+	
 	
 
 	

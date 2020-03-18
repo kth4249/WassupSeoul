@@ -59,7 +59,6 @@ $(document).ready(function(){
 	});
 </script> -->
 
-
 	<div class="container-fluid" style="margin-top: 57px;">
 		<div class="row">
 

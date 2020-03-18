@@ -189,6 +189,14 @@
 		WHERE BOARD_NO=#{boardNo}
 	
 	</update>
+  	
+  	
+  	
+  	<!-- 골목 개설 -->
+  	<insert id="insertStreet" parameterType="street">
+  		INSERT INTO STREET
+  		VALUES(SEQ_STREET.NEXTVAL, #{streetNm}, #{streetIntro}, DEFAULT, #{streetMaxMember}, DEFAULT, IMG_NO, #{districtNo})  	
+  	</insert>
   	 
   	 
 	
