@@ -1090,6 +1090,7 @@ $(document).ready(function(){
 							// $(".inputCommentWrap").toggle(500);
 							$('.writeCommentArea2').focus();
 						});
+				)
 
 				// 게시글 작성 영역 높이 자동증가
 				$('.writePost').on('keyup', 'textarea',
@@ -1141,7 +1142,7 @@ $(document).ready(function(){
 					$(this).parent().parent("div").attr("style", "display:none");
 			    }); 
 			     
-		
+		});
 		// 모달 창 열기 
 		$(".mapOption").click(function(){
 			$(this).parent().next("div").attr("style", "display:block");
