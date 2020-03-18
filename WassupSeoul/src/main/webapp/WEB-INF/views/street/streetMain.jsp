@@ -28,11 +28,12 @@
 
 <style>
 #modal {
-	display: none;
-	position: absolute;
-	width: 200px;
-	height: 200px;
-	z-index: 1;
+  display: none;
+  position: absolute;
+  width:200px;
+  height:700px;
+  z-index:1;
+
 }
 
 /* .mapModal{
@@ -43,9 +44,7 @@
   z-index:1;
 
 } */
-#modal h2 {
-	margin: 0;
-}
+
 
 #modal button {
 	display: inline-block;
@@ -54,6 +53,7 @@
 }
 
 #modal .modal_content {
+  height:700px;
 	width: 700px;
 	margin: 100px auto;
 	padding: 20px 10px;
@@ -62,16 +62,14 @@
 }
 
 #modal .modal_layer {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	z-index: -1;
-}
-
-
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0, 0, 0, 0.5);
+  z-index:-1;
+}    
 </style>
 <body>
 	<%--  <%@include file="../common/header.jsp"%>  --%>
@@ -216,29 +214,6 @@ $(document).ready(function(){
 			<!-- 타임라인-->
 			<div class="col-md-6" id="devideArea">
 
-
-				<!-- <div id="map" style="width: 500px; height: 400px;"></div> -->
-
-				<!-- <script type="text/javascript"
-					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840">
-					
-				</script>
-
-				<script>
-					var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-
-					var options = { //지도를 생성할 때 필요한 기본 옵션
-
-						center : new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-
-						level : 3
-					//지도의 레벨(확대, 축소 정도)
-
-					};
-
-					var map = new kakao.maps.Map(container, options);
-				</script> -->
-
 				<!-- 검색Bar-->
 				<div class="row" id="searchArea"
 					style="width: 99%; margin-left: 1px;">
@@ -282,8 +257,7 @@ $(document).ready(function(){
 								style="border: 1px solid black; height: 45px;">
 
 								<div class="writeOptionArea shake">
-									<img class="writeOption img1"
-										src="${contextPath}/resources/img/imageIcon.png">
+									<img class="writeOption img1" src="${contextPath}/resources/img/imageIcon.png">
 									<p class="arrow_box">사진</p>
 								</div>
 
@@ -298,6 +272,44 @@ $(document).ready(function(){
 									<img class="writeOption mapOption" src='${contextPath}/resources/img/paperclip.png'>
 									<p class="arrow_box">파일첨부</p>
 								</div>
+								
+								<script>
+								// file 업로드 이미지 미리보기
+								
+								function readURL(input) {
+						        if (input.files && input.files[0]) {
+						            var reader = new FileReader();
+						            reader.readAsDataURL(input.files[0]);
+
+						            reader.onload = function (e) {
+
+						                var tempImage = new Image();
+						                tempImage.src = reader.result;
+						                console.log(tempImage);
+						                tempImage.onload = function () {
+						                    var canvas = document.createElement('canvas');
+						                    var canvasContext = canvas.getContext("2d");
+
+
+						                    var img = new Image();
+						                    img.src = e.target.result;
+
+
+						                    canvas.width = img.width * 0.5;
+						                    canvas.height = img.height * 0.5;
+
+						                    canvasContext.drawImage(this, 0, 0, canvas.width, canvas.height);
+
+						                    var dataURI = canvas.toDataURL("image/png");
+
+						                    document.querySelector("#thumbnail").src = dataURI;
+
+						                }
+						            };
+
+						        }
+								</script>
+								
 								
 								
 								<div class="writeOptionArea shake">
@@ -317,17 +329,60 @@ $(document).ready(function(){
 
 								<!-- 지도 모달  -->
 								<div id="modal" class="nanum mapModal">
-									<div class="modal_content">
-										<p>모달 창</p>
-										<p>모달 창 입니다.</p>
-										<input type="text" placeholder="주소 입력 ">
-										<button type="button"></button>
-										<button type="button" id="modal_close_btn">모달 창 닫기</button>
-									</div>
-									<div class="modal_layer"></div>
-								</div>
+								   
+								    <div class="modal_content" style="padding: 3px;">
+								        <button type="button" id="modal_close_btn" style="width: 20px; height: 20px; font-size: 5px; 
+																							float: right; ">X</button>
 
+										<textarea class=" nanum" id="writePostArea"
+										 rows="6" placeholder="게시글내용을 입력하세요."
+										style="border: 1px solid black; color: black; font-size: 17px; height:200px"></textarea>													
+										<input type="text" id="sample5_address" placeholder="주소"> 
+										<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+								       	<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div> 
+								    </div>
+								   
+								  	  <div class="modal_layer"></div>
+								</div> 
+								
+								
+								<!-- <div id="modal" class="nanum mapModal">
+								   
+								    <div class="modal_content" style="padding: 3px;">
+								        <button type="button" id="modal_close_btn" style="width: 20px; height: 20px; font-size: 5px; 
+																							float: right; ">X</button>
 
+										<textarea class=" nanum" id="writePostArea"
+										 rows="6" placeholder="게시글내용을 입력하세요."
+										style="border: 1px solid black; color: black; font-size: 17px; height:200px"></textarea>													
+										<input type="text" placeholder="주소 입력 " style="width: 420px; display: inline-block;">
+										<button type="button" style="inline-block; font-size: 15px; width:60px; margin: 0px;">검색 </button>
+								   		 <div id="map" style="width: 600px; height: 400px;"></div>
+								       
+								    </div>
+								   
+								  	  <div class="modal_layer"></div>
+								</div> -->
+																
+								<!-- <script type="text/javascript"
+											src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840">
+											
+										</script>
+						
+										<script>
+											var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+						
+											var options = { //지도를 생성할 때 필요한 기본 옵션
+						
+												center : new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+						
+												level : 3
+											//지도의 레벨(확대, 축소 정도)
+						
+											};
+						
+											var map = new kakao.maps.Map(container, options);
+										</script>  -->
 
 								<div class="writeOptionArea shake">
 									<img class="writeOption"
@@ -376,7 +431,8 @@ $(document).ready(function(){
 						<!-- 게시물 없을때 끝-->
 
 					</c:if>
-					<c:if test="${!empty board }">
+					
+					<c:if test="${!empty board}">
 						<c:forEach var="board" items="${board}" varStatus="vs">
 
 
@@ -410,57 +466,30 @@ $(document).ready(function(){
 											</div>
 
 										</div>
-
-										<c:if
-											test="${loginMember.memberNickname ne board.boardWriter}">
-											<div
-												style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
-												<div>
-													<div class="optionChevron">
-														<img src="${contextPath}/resources/img/download.png"
-															style="width: 17px; height: 15px; position: relative; bottom: 2px;"
-															id="chev">
-														<div id="postMenu" class="hide nanum"
-															style="width: 100px; height: 30px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
-															<ul>
-																<li><a href="#" name="reportPost"
-																	style="color: black;">글 신고</a></li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
+										
+										<c:if test="${loginMember.memberNickname ne board.boardWriter}">
+										
+										</c:if>
+										
+										<c:if test="${loginMember.memberNickname eq board.boardWriter}">
+										<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
+											<div>
+												<div class="optionChevron">
+													<img src="${contextPath}/resources/img/download.png"
+														style="width: 17px; height: 15px; position: relative; bottom: 2px;"
+														id="chev">
+													<div id="postMenu" class="hide nanum"
+														style="width: 100px; height: 60px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
+														<ul>
+															<li><a href="#" class="deletePost" id="${board.boardNo}"
+																style="color: black;">글 삭제</a></li>
+															<li><a href="#" class="updatePost" id="${board.boardNo}
+																style="color: black;">글 수정</a></li>
+														</ul>
 										</c:if>
 
 
-										<c:if
-											test="${loginMember.memberNickname eq board.boardWriter}">
-											<div
-												style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
-												<div>
-													<div class="optionChevron">
-														<img src="${contextPath}/resources/img/download.png"
-															style="width: 17px; height: 15px; position: relative; bottom: 2px;"
-															id="chev">
-														<div id="postMenu" class="hide nanum"
-															style="width: 100px; height: 80px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
-															<ul>
-																<li><a href="#" class="deletePost"
-																	id="${board.boardNo}" style="color: black;">글 삭제</a></li>
-																<li><a href="#" class="updatePost"
-																	id="${board.boardNo}
-																style="color:black;">글
-																		수정</a></li>
-																<li><a href="#" class="reportPost"
-																	id="${board.boardNo}
-																style="color:black;">글
-																		신고</a></li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</div>
-										</c:if>
+										
 
 
 									</div>
@@ -976,7 +1005,7 @@ $(document).ready(function(){
 							}							
 							});
 						refreshList()
-					});
+			});
 
 			// 글수정
 			$(".updatePost").click(function() {
@@ -1112,24 +1141,15 @@ $(document).ready(function(){
 					$(this).parent().parent("div").attr("style", "display:none");
 			    }); 
 			     
-			     
-			    // 파일첨부 모달창 열기
-				$(".summerOption").click(function(){
-
-					//var modal = $(this).parent().next("div");
-					
-					$(this).parent().next("div").attr("style", "display:block");
-			    });
-			   
-			     $("#modal_close_btn").click(function(){
-					$(this).parent().parent("div").attr("style", "display:none");
-			    });     
-
-
-			});
 		
-		
-		
+		// 모달 창 열기 
+		$(".mapOption").click(function(){
+			$(this).parent().next("div").attr("style", "display:block");
+	    });
+	   
+	     $("#modal_close_btn").click(function(){
+			$(this).parent().parent("div").attr("style", "display:none");
+	    });     
 	</script>
 
 

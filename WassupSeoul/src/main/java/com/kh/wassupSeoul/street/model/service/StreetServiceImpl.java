@@ -29,6 +29,7 @@ public class StreetServiceImpl implements StreetService{
 	public Street selectStreet(Integer streetNo) throws Exception {
 		return streetDAO.selectStreet(streetNo);
 	}
+	
 
 	/** 골목 게시글 조회용 service
 	 * @param streetNo

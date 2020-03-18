@@ -100,7 +100,7 @@
 	<!-- 골목조회  -->
 	<select id="selectStreet" parameterType="_int" resultMap="streetResultSet">
 		SELECT *
-		FROM V_STREET
+		FROM STREET
 		WHERE STREET_NO = #{streetNo}
 	</select>
 	
