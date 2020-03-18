@@ -100,4 +100,16 @@ public class StreetServiceImpl implements StreetService{
 	public int[] checkLikeReplyNum(int postNo) throws Exception {
 		return streetDAO.checkLikeReplyNum(postNo);
 	}
+
+	/** 게시글 삭제용 Service
+	 * @param postNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int deletePost(int postNo) throws Exception {
+		return streetDAO.deletePost(postNo);
+	}
+	
+	
 }

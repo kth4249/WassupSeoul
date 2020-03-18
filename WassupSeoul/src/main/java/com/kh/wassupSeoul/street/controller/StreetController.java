@@ -37,10 +37,16 @@ public class StreetController {
 
 	// 타임라인 이동
 	@RequestMapping(value = "streetMain", method = RequestMethod.GET)
-	public String timeLine(Integer streetNo, Model model, RedirectAttributes rdAttr, HttpServletRequest request) {
-
-		System.out.println("골목번호 : " + streetNo);
-
+	public String timeLine(Integer streetNo, 
+			Model model,  
+			RedirectAttributes rdAttr, 
+			HttpServletRequest request) { 
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		System.out.println("골목번호 : "+ streetNo);
+		System.out.println("로그인정보 : "+ loginMember.getMemberNickname());
+		
 		model.addAttribute("streetNo", streetNo);
 
 		String beforeUrl = request.getHeader("referer");
@@ -68,6 +74,8 @@ public class StreetController {
 				model.addAttribute("street", street);
 				model.addAttribute("board", board);
 
+				model.addAttribute("loginMember", loginMember);
+				
 				return "street/streetMain";
 
 			} else {
@@ -143,7 +151,7 @@ public class StreetController {
 			System.out.println("변경된 loginMemer:" + loginMember);
 
 			return streetService.likeCheck(loginMember) == 1 ? true + "" : false + "";
-
+      
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errorMsg", "좋아요 기록 과정에서 오류발생");
@@ -168,7 +176,29 @@ public class StreetController {
 		}
 		return "/common/errorPage";
 	}
-
+	
+	
+	//	게시글 삭제
+	@ResponseBody
+	@RequestMapping("deletePost")
+	public String deletePost(int postNo, Model model) {
+		
+		System.out.println("글삭제 번호 출력 : "+postNo);
+	
+		try {
+	
+			int test = streetService.deletePost( postNo );
+			
+			return  test == 1 ? true + "" : false + "";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "게시글 삭제 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+	}
+	
+	
 	// 골목 개설 화면 이동
 	@RequestMapping("streetInsert")
 	public String insertStreetForm(Model model) {
@@ -307,13 +337,24 @@ public class StreetController {
 			return "common/errorPage";
 		}
 	}
-
-	// 추천 친구 페이지 이동
+	
+	
+	
+	// 추천 친구 페이지 이동  ----> 기능 만들어야함
 	@RequestMapping("recommendFriend")
 	public String recommendFriend(Model model) {
 		int streetNo = (int) model.getAttribute("streetNo");
 
 		return "street/recommendFriend";
 	}
-
+	
+	@RequestMapping("streetJoin")
+	public void streetJoin(Model model) {
+		int streetNo = (int)model.getAttribute("streetNo");
+		Member member = (Member)model.getAttribute("loginMember");
+		
+		
+		
+	}
+	
 }

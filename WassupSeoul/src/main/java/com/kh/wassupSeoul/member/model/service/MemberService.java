@@ -160,6 +160,61 @@ public interface MemberService {
 	 */
 	int insertHobby(String hobbyName) throws Exception;
 	
+	/** 생성된 회원번호 조회용 Service
+	 * @return memberNo
+	 * @throws Exception
+	 */
+	int selectMemberNo() throws Exception;
+	
+	/** 회원 탈퇴용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	int deleteMember(int memberNo) throws Exception;
+
+	/** 가입한 골목수 조회용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	int selectJoinStreetList(int memberNo) throws Exception;
+
+	/** 회원 가입 골목 목록 삭제용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	int deleteJoinStreetList(int memberNo) throws Exception;
+
+	/** 회원 알람 목록수 조회용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	int selectAlarmList(int memberNo) throws Exception;
+	
+	/** 회원 알람목록 삭제용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	int deleteAlarmList(int memberNo) throws Exception;
+
+	/** 회원 친구 목록수 조회용  Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	int selectFriendList(int memberNo) throws Exception;
+	
+	/** 회원 친구 목록 삭제용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	int deleteFriendList(int memberNo) throws Exception;
+	
 	
 
 	

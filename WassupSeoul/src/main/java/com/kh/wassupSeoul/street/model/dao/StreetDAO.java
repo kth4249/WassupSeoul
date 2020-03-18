@@ -80,4 +80,13 @@ public class StreetDAO {
 	public int[] checkLikeReplyNum(int postNo) throws Exception{
 		return sqlSession.selectOne("streetMapper.checkLikeReplyNum", postNo );
 	}
+
+	/** 게시글 삭제용 DAO
+	 * @param postNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deletePost(int postNo) throws Exception{
+		return sqlSession.update("streetMapper.deletePost", postNo );
+	}
 }

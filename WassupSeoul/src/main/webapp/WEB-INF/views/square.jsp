@@ -175,7 +175,7 @@
 										<c:if test="${!empty kList}">
 											<c:forEach var="keyword" items="${kList}">
 												<c:if test="${keyword.streetNo == street.streetNo }">
-													<p class="card-text">${keyword.keywordContent}</p>
+													<p class="card-text">#${keyword.keywordContent}</p>
 												</c:if>
 											</c:forEach>
 										</c:if>
