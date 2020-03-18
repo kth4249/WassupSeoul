@@ -28,11 +28,50 @@
 
 <style>
 
-.mask{width:100%; height:100%; position:fixed; left:0; top:0; z-index:10; background:#000; opacity:.5; filter:alpha(opacity=50);}
+#modal {
+  display: none;
+  position: absolute;
+  width:200px;
+  height:200px;
+  z-index:1;
+}
 
-#modalLayer {display:none; position:absolute;}
-#modalLayer .modalContent{width:440px; height:200px; padding:20px; border:1px solid #ccc; position:fixed; left:50%; top:50%; z-index:11; background:#fff;}
-#modalLayer .modalContent button{position:absolute; right:0; top:0; cursor:pointer;}
+/* .mapModal{
+  display: none;
+  position:relative;
+  width:300px;
+  height:100%;
+  z-index:1;
+
+} */
+
+#modal h2 {
+  margin:0;   
+}
+
+#modal button {
+  display:inline-block;
+  width:60px;
+  margin-left:calc(100% - 100px - 10px);
+}
+
+#modal .modal_content {
+  width:700px;
+  margin:100px auto;
+  padding:20px 10px;
+  background:#fff;
+  border:2px solid #666;
+}
+
+#modal .modal_layer {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0, 0, 0, 0.5);
+  z-index:-1;
+}   
 
 
 </style>
@@ -230,15 +269,7 @@ $(document).ready(function(){
 										src="${contextPath}/resources/img/imageIcon.png">
 										<p class="arrow_box">사진</p>
 								</div>
-
-								<%-- <div id="modalLayer" >
-									<div class="modalContent">
-										<a href="#">모달창 테스트</a>
-										<button type="button"><img class="closeBtn"
-										src="${contextPath}/resources/img/clear.png"></button>
-									</div>
-								</div> --%>
-								
+						
 								
 								<div class="writeOptionArea shake">
 									<img class="writeOption" src="${contextPath}/resources/img/film.png">
@@ -256,10 +287,28 @@ $(document).ready(function(){
 									<img class="writeOption" src="${contextPath}/resources/img/pie-chart.png">
 									<p class="arrow_box">N빵</p>
 								</div>
-								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/map.png">
+								<div class="writeOptionArea shake" >
+									<img class="writeOption mapOption" src="${contextPath}/resources/img/map.png">
 									<p class="arrow_box">지도</p>
 								</div>
+								
+								<div id="modal" class="nanum mapModal">
+								   
+								    <div class="modal_content">
+										<p>모달 창</p>
+								       
+								        <p>모달 창 입니다.</p>
+										<input type="text" placeholder="주소 입력 ">
+										<button type="button"></button>
+								        <button type="button" id="modal_close_btn">모달 창 닫기</button>
+								       
+								    </div>
+								   
+								    <div class="modal_layer"></div>
+								</div>
+																
+								
+								
 								<div class="writeOptionArea shake">
 									<img class="writeOption" src="${contextPath}/resources/img/sketch.png">
 									<p class="arrow_box">스케치</p>
@@ -1017,6 +1066,19 @@ $(document).ready(function(){
 				$(".noPostSignArea").click(function() {
 					$('.postArea').focus();
 				});
+				
+				
+				// 모달 창 열기 
+				$(".mapOption").click(function(){
+
+					//var modal = $(this).parent().next("div");
+					
+					$(this).parent().next("div").attr("style", "display:block");
+			    });
+			   
+			     $("#modal_close_btn").click(function(){
+					$(this).parent().parent("div").attr("style", "display:none");
+			    });     
 
 			});
 	</script>
