@@ -263,22 +263,14 @@ $(document).ready(function(){
 
 
 								<div class="writeOptionArea shake">
-									<img class="writeOption"
-										src="${contextPath}/resources/img/film.png">
+									<img class="writeOption" src="${contextPath}/resources/img/film.png">
 									<p class="arrow_box">동영상</p>
 								</div>
 								
-								
-								
+								<!-- 파일첨부 -->
 								<div class="writeOptionArea shake">
-								
-									<input type="file" name="file1" style="display: none;"
-										class="writeOption" id="fileBtn" onchange="readURL(this)">
-									<img src='${contextPath}/resources/img/paperclip.png'
-										class="writeOption" border='0'
-										onclick='document.all.file1.click(); document.all.file2.value=document.all.file1.value'>
+									<img class="writeOption mapOption" src='${contextPath}/resources/img/paperclip.png'>
 									<p class="arrow_box">파일첨부</p>
-								
 								</div>
 								
 								<script>
@@ -321,21 +313,21 @@ $(document).ready(function(){
 								
 								
 								<div class="writeOptionArea shake">
-									<img class="writeOption"
-										src="${contextPath}/resources/img/vote.png">
+									<img class="writeOption" src="${contextPath}/resources/img/vote.png">
 									<p class="arrow_box">투표</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<img class="writeOption"
-										src="${contextPath}/resources/img/pie-chart.png">
+									<img class="writeOption" src="${contextPath}/resources/img/pie-chart.png">
 									<p class="arrow_box">N빵</p>
 								</div>
+								
+								
 								<div class="writeOptionArea shake">
-									<img class="writeOption mapOption"
-										src="${contextPath}/resources/img/map.png">
+									<img class="writeOption mapOption" src="${contextPath}/resources/img/map.png">
 									<p class="arrow_box">지도</p>
 								</div>
 
+								<!-- 지도 모달  -->
 								<div id="modal" class="nanum mapModal">
 								   
 								    <div class="modal_content" style="padding: 3px;">
@@ -1135,8 +1127,20 @@ $(document).ready(function(){
 				$(".noPostSignArea").click(function() {
 					$('.postArea').focus();
 				});
+				
+				
+				// 지도 모달 창 열기 
+				$(".mapOption").click(function(){
 
-		});
+					//var modal = $(this).parent().next("div");
+					
+					$(this).parent().next("div").attr("style", "display:block");
+			    });
+			   
+			     $("#modal_close_btn").click(function(){
+					$(this).parent().parent("div").attr("style", "display:none");
+			    }); 
+			     
 		
 		// 모달 창 열기 
 		$(".mapOption").click(function(){
