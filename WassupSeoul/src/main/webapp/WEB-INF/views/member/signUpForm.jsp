@@ -482,7 +482,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 	       									 .addClass("form-control-plaintext nanum").val(list[i].hobbyCount + "명");
 	       						var buttonPlus = $("<button></button>").prop("type","button")
 	   										 .addClass("btn btn-primary nanum insertSearchHobby").html("선택")
-	   							var hobbyNoPlus = $("<input>").prop("type","text").val(list[i].hobbyNo);
+	   							var hobbyNoPlus = $("<input>").prop("type","hidden").val(list[i].hobbyNo);
 	       						
 	       						divPlus1 = divPlus1.append(inputPlus1);
 	       						divPlus2 = divPlus2.append(inputPlus2);
