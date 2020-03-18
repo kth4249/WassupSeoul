@@ -1,6 +1,7 @@
 package com.kh.wassupSeoul.street.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class StreetServiceImpl implements StreetService{
 	public Street selectStreet(Integer streetNo) throws Exception {
 		return streetDAO.selectStreet(streetNo);
 	}
+	
 
 	/** 골목 게시글 조회용 service
 	 * @param streetNo
@@ -100,4 +102,26 @@ public class StreetServiceImpl implements StreetService{
 	public int[] checkLikeReplyNum(int postNo) throws Exception {
 		return streetDAO.checkLikeReplyNum(postNo);
 	}
+
+	/** 게시글 삭제용 Service
+	 * @param postNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int deletePost(int postNo) throws Exception {
+		return streetDAO.deletePost(postNo);
+	}
+	
+	
+	/** 골목 가입용 Service
+	 * @param map
+	 * @return result
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int streetJoin(Map<String, Object> map) {
+		return streetDAO.streetJoin(map);
+	}
+	
 }

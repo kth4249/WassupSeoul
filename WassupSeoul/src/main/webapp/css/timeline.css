@@ -329,4 +329,30 @@ img:hover+p.arrow_box {
 .btn:focus {
    box-shadow: none;
  }
+  
 /* 말풍선 숨기고 보이기 */
+
+
+textarea,
+textarea.form-control,
+button,
+button.form-control{
+   border-radius: 0px;
+}
+textarea,
+textarea.form-control,
+select,
+select.form-control {
+  border-radius: 0px !important;
+}
+
+ .navbar {
+   border-width: 2px;
+   border-style: solid;
+   border-radius: 0px;
+ }
+ 
+ .closeBtn {
+ width : 5px;
+ height : 5px;
+ }

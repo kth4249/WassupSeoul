@@ -1,6 +1,7 @@
 package com.kh.wassupSeoul.street.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,4 +81,19 @@ public class StreetDAO {
 	public int[] checkLikeReplyNum(int postNo) throws Exception{
 		return sqlSession.selectOne("streetMapper.checkLikeReplyNum", postNo );
 	}
+
+	/** 게시글 삭제용 DAO
+	 * @param postNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deletePost(int postNo) throws Exception{
+		return sqlSession.update("streetMapper.deletePost", postNo );
+	}
+
+	public int streetJoin(Map<String, Object> map) {
+		return sqlSession.insert("streetMapper.streetJoin", map);
+	}
+
+
 }
