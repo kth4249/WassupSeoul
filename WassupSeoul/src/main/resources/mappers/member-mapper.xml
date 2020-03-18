@@ -112,7 +112,7 @@
 		JOIN DISTRICT USING(DISTRICT_NO)
 		JOIN STREET_JOIN USING(STREET_NO)
 		JOIN STREET_IMG USING(IMG_NO)
-		WHERE MEMBER_NO = #{memberNo} AND IMG_LEVEL='1' AND STREET_STATUS = 'Y' AND CITIZEN_STATUS='Y'
+		WHERE MEMBER_NO = #{memberNo} AND STREET_STATUS = 'Y' AND CITIZEN_STATUS='Y'
 	</select>
 	
 	<!-- 내골목 골목대장 조회 -->
@@ -127,7 +127,7 @@
 	<select id="selectMyKeyword" parameterType="_int" resultMap="keywordResultSet">
 		SELECT STREET_NO,KEYWORD_CONTENT FROM STREET
 		JOIN KEYWORD USING(STREET_NO)
-		WHERE STREET_NO = #{streetNo}
+		WHERE STREET_NO = #{streetNo} 
 	</select>
 	
 	<!-- 현재 비밀번호 조회 -->
