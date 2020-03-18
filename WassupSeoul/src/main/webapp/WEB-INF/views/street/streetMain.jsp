@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +37,7 @@
 
 </style>
 <body>
-
+<%--  <%@include file="../common/header.jsp"%>  --%>
 <!-- <script>
 $(document).ready(function(){
 	  var modalLink = $(".img1");
@@ -59,7 +60,7 @@ $(document).ready(function(){
 </script> -->
 
 
-	<div class="container-fluid" style="margin-top: 50px;">
+	<div class="container-fluid" style="margin-top: 57px;">
 		<div class="row">
 
 			<div class="col-md-12" style="padding: 0px;">
@@ -333,7 +334,7 @@ $(document).ready(function(){
 												<p style="margin-bottom: 0;">${board.boardWriter}</p>
 											</div>
 											<div style="margin-bottom: 0;">
-												<p style="margin-bottom: 0;">${board.boardWriteDt}</p>
+												<p style="margin-bottom: 0;"><fmt:formatDate value="${board.boardWriteDt}" pattern="yyyy년 MM월 dd일 aa hh:mm"/></p>
 											</div>
 
 										</div>
