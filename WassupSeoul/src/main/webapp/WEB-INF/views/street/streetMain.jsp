@@ -992,10 +992,7 @@ $(document).ready(function(){
 
 
 	<script>
-		$(document)
-					.ready(
-							function() {
-
+		$(document).ready(function() {
 								// 새로고침
 								function refreshList() {
 									location.reload();
@@ -1008,9 +1005,7 @@ $(document).ready(function(){
 
 									$.ajax({
 										url : "deletePost",
-										data : {
-											postNo : postNo
-										},
+										data : {postNo : postNo},
 										type : "post",
 										success : function(result) {
 											if (result == "true") {
@@ -1026,11 +1021,11 @@ $(document).ready(function(){
 										}
 									});
 									refreshList()
-									});
 								});
+								
 
 								// 글수정
-								$(".updatePost").click(function() {
+			/* 					$(".updatePost").click(function() {
 									var postNo = $(this).attr("id");
 									//var divBox = $(this).parent(".box111");
 
@@ -1054,65 +1049,43 @@ $(document).ready(function(){
 										}
 									});
 									refreshList()
-								});
+								}); */
 
 								// 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
-								$(".likeBtn")
-										.click(
-												function() {
-													var postNo = $(this).attr(
-															"name");
-													var img = $(this).attr(
-															"src");
-													var likeCount = $(this)
-															.parent().next("p")
-															.text()
+								$(".likeBtn").click(function() {
+									var postNo = $(this).attr("name");
+									var img = $(this).attr("src");
+									var likeCount = $(this).parent().next("p").text()
 
-													if (img == "${contextPath}/resources/img/like.png") {
-														likeCount++;
-														$(this)
-																.attr('src',
-																		'${contextPath}/resources/img/like2.png');
-														$(this).parent().next(
-																"p").text(
-																likeCount);
+									if (img == "${contextPath}/resources/img/like.png") {
+										likeCount++;
+										$(this).attr('src','${contextPath}/resources/img/like2.png');
+										$(this).parent().next("p").text(likeCount);
 
+									} else {
+										likeCount--;
+										$(this).attr('src','${contextPath}/resources/img/like.png');
+										$(this).parent().next("p").text(likeCount);
+									}
+
+									$.ajax({
+												url : "likeFunction",
+												data : {postNo : postNo},
+												type : "post",
+												success : function(
+														result) {
+													if (result == "true") {
+														system.out.println("좋아요 등록 성공")
 													} else {
-														likeCount--;
-														$(this)
-																.attr('src',
-																		'${contextPath}/resources/img/like.png');
-														$(this).parent().next(
-																"p").text(
-																likeCount);
+														system.out.println("좋아요 해제 성공")
 													}
-
-													$
-															.ajax({
-																url : "likeFunction",
-																data : {
-																	postNo : postNo
-																},
-																type : "post",
-																success : function(
-																		result) {
-																	if (result == "true") {
-																		system.out
-																				.println("좋아요 등록 성공")
-																	} else {
-																		system.out
-																				.println("좋아요 해제 성공")
-																	}
-																},
-																error : function(
-																		e) {
-																	console
-																			.log("ajax 통신 실패");
-																	console
-																			.log(e);
-																}
-															});
-												});
+												},
+												error : function(e) {
+													console.log("ajax 통신 실패");
+													console.log(e);
+												}
+											});
+								});
 
 								//  게시글, 댓글 수정/삭제 메뉴창 보이기, 숨기기
 								$(".optionChevron>img").click(function() {
@@ -1131,32 +1104,29 @@ $(document).ready(function(){
 
 								// 대댓글 영역 숨기기
 								$(".doubleCommentArea").click(
-										function() {
-											$(this).parent().parent().parent()
-													.next("div").toggle(100);
-											// $(".inputCommentWrap").toggle(500);
-											$('.writeCommentArea2').focus();
-										});
+									function() {
+									$(this).parent().parent().parent().next("div").toggle(100);
+									// $(".inputCommentWrap").toggle(500);
+									$('.writeCommentArea2').focus();
+								});
 
 								// 게시글 작성 영역 높이 자동증가
 								$('.writePost').on('keyup', 'textarea',
 										function(e) {
 											$(this).css('height', 'auto');
 											$(this).height(this.scrollHeight);
-										});
+								});
 								$('.writePost').find('textarea').keyup();
 
 								// 댓글 작성 영역 높이 자동증가
-								$('.inputCommentWrap').on('keyup', 'textarea',
-										function(e) {
+								$('.inputCommentWrap').on('keyup', 'textarea', function(e) {
 											$(this).css('height', 'auto');
 											$(this).height(this.scrollHeight);
 										});
 								$('.inputCommentWrap').find('textarea').keyup();
 
 								// 댓글 출력 영역 높이 자동증가
-								$('.commentContentWrap').on('keyup',
-										'textarea', function(e) {
+								$('.commentContentWrap').on('keyup','textarea', function(e) {
 											$(this).css('height', 'auto');
 											$(this).height(this.scrollHeight);
 										});
@@ -1179,23 +1149,16 @@ $(document).ready(function(){
 								// 지도 모달 창 열기 
 								$(".mapOption").click(
 										function() {
-
 											//var modal = $(this).parent().next("div");
-
-											$(this).parent().next("div").attr(
-													"style", "display:block");
+											$(this).parent().next("div").attr("style", "display:block");
 										});
 
 								$("#modal_close_btn").click(
-										function() {
-											$(this).parent().parent("div")
-													.attr("style",
-															"display:none");
-										});
+										function(){$(this).parent().parent("div").attr("style","display:none");
+								
 
 							});
-						refreshList()
-				});
+			
 			// 모달 창 열기 
 			$(".mapOption").click(function() {
 				$(this).parent().next("div").attr("style", "display:block");
@@ -1204,8 +1167,7 @@ $(document).ready(function(){
 			$("#modal_close_btn").click(function() {
 				$(this).parent().parent("div").attr("style", "display:none");
 			});
-		}
-);
+	
 
 			// 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
 			$(".likeBtn").click(function() {
@@ -1264,8 +1226,8 @@ $(document).ready(function(){
 									.next("div").toggle(100);
 							// $(".inputCommentWrap").toggle(500);
 							$('.writeCommentArea2').focus();
-						});
-				)
+				});
+				
 
 				// 게시글 작성 영역 높이 자동증가
 				$('.writePost').on('keyup', 'textarea',
@@ -1318,12 +1280,13 @@ $(document).ready(function(){
 			    }); 
 			     
 		});
+		
 		// 모달 창 열기 
 		$(".mapOption").click(function(){
 			$(this).parent().next("div").attr("style", "display:block");
 	    });
 	   
-	     $("#modal_close_btn").click(function(){
+	    $("#modal_close_btn").click(function(){
 			$(this).parent().parent("div").attr("style", "display:none");
 	    });     
 	</script>
