@@ -231,7 +231,7 @@
 	                                	<button type="button" class="btn btn-primary nanum deleteHobby">제거</button>
 	                                </div>
 	                                <div class="col-sm-11" style="background-color: black;height: 2px;"></div>
-	                                <input type="text" name="hobbyNoArr" value="${hobby.hobbyNo}">
+	                                <input type="hidden" name="hobbyNoArr" value="${hobby.hobbyNo}">
 	                            </div>	
 	                     	</c:forEach>
                      	</div>
@@ -309,7 +309,7 @@
     			// 중복값이 없는 경우
     			else {
     				// 중복값에 따라 취미번호 변경
-    				var $hobbyNoPlus = $("<input>").prop({"type" : "text", "name" : "hobbyNoArr"});
+    				var $hobbyNoPlus = $("<input>").prop({"type" : "hidden", "name" : "hobbyNoArr"});
     				
     				// ajax를 이용해서 중복값이 있으면 no가져오고 아니면 0으로 지정
     				$.ajax({
@@ -352,61 +352,65 @@
     	/* 관심사 검색 버튼 클릭시 검색결과 출력*/
     	$("#searchHobby").on("click",function(){
     		var $searchHobbyNm = $("#searchHobbyNm");
-    		
-    		$.ajax({
-        		url : "searchHobby",
-        		data : {searchHobbyContent: $searchHobbyNm.val() },
-        		type : "post",
-        		dataType : "json",
-        		success : function(list){
-        			
-					var $searchHobbyList = $("#searchHobbyList");
-        			$searchHobbyList.html("");
-  					
-        			if(list.length > 0) {
+    		if($searchHobbyNm.val() == ""){
+		    	alert("검색할 관심사를 입력하세요.");
+		    }
+    		else {
+    			$.ajax({
+            		url : "searchHobby",
+            		data : {searchHobbyContent: $searchHobbyNm.val() },
+            		type : "post",
+            		dataType : "json",
+            		success : function(list){
+            			
+    					var $searchHobbyList = $("#searchHobbyList");
+            			$searchHobbyList.html("");
+      					
+            			if(list.length > 0) {
+            				$searchHobbyNm.val("");
+            				$.each(list,function(i){
+            					var liPlus = $("<li></li>").addClass("list-group-item");
+                    			var divPlus = $("<div></div>").addClass("form-group row").css("margin-bottom","0px");
+                    			var divPlus1 = $("<div></div>").addClass("col-sm-7");
+                    			var divPlus2 = $("<div></div>").addClass("col-sm-2");
+                    			var divPlus3 = $("<div></div>").addClass("col-sm-3");
+                				var inputPlus1 = $("<input></input>")
+        						 			 .prop({"type":"text", "readonly":"true"})
+          						 			 .addClass("form-control-plaintext nanum")
+          									 .css("color","blue").val("#" + list[i].hobbyNm);
+        						var inputPlus2 = $("<input></input>")
+        		 							 .prop({"type":"text", "readonly":"true"})
+        									 .addClass("form-control-plaintext nanum").val(list[i].hobbyCount + "명");
+        						var buttonPlus = $("<button></button>").prop("type","button")
+    										 .addClass("btn btn-primary nanum insertSearchHobby").html("선택")
+    							var hobbyNoPlus = $("<input>").prop("type","text").val(list[i].hobbyNo);
+        						
+        						divPlus1 = divPlus1.append(inputPlus1);
+        						divPlus2 = divPlus2.append(inputPlus2);
+        						divPlus3 = divPlus3.append(buttonPlus);
+        						divPlus = divPlus.append(divPlus1).append(divPlus2).append(divPlus3);
+        						liPlus = liPlus.append(divPlus).append(hobbyNoPlus);
+        						$searchHobbyList.append(liPlus);
+                			});
+            				
+            			} else {
+            				var liPlus = $("<li></li>").addClass("list-group-item");
+            				var hPlus = "<h5 class='nanum'>검색결과가 없습니다</h5>";
+            				liPlus = liPlus.append(hPlus);
+            				$searchHobbyList.append(liPlus);
+            				
+            			}
+            			
+            			
         				
-        				$.each(list,function(i){
-        					var liPlus = $("<li></li>").addClass("list-group-item");
-                			var divPlus = $("<div></div>").addClass("form-group row").css("margin-bottom","0px");
-                			var divPlus1 = $("<div></div>").addClass("col-sm-7");
-                			var divPlus2 = $("<div></div>").addClass("col-sm-2");
-                			var divPlus3 = $("<div></div>").addClass("col-sm-3");
-            				var inputPlus1 = $("<input></input>")
-    						 			 .prop({"type":"text", "readonly":"true"})
-      						 			 .addClass("form-control-plaintext nanum")
-      									 .css("color","blue").val("#" + list[i].hobbyNm);
-    						var inputPlus2 = $("<input></input>")
-    		 							 .prop({"type":"text", "readonly":"true"})
-    									 .addClass("form-control-plaintext nanum").val(list[i].hobbyCount + "명");
-    						var buttonPlus = $("<button></button>").prop("type","button")
-										 .addClass("btn btn-primary nanum insertSearchHobby").html("선택")
-							var hobbyNoPlus = $("<input>").prop("type","text").val(list[i].hobbyNo);
-    						
-    						divPlus1 = divPlus1.append(inputPlus1);
-    						divPlus2 = divPlus2.append(inputPlus2);
-    						divPlus3 = divPlus3.append(buttonPlus);
-    						divPlus = divPlus.append(divPlus1).append(divPlus2).append(divPlus3);
-    						liPlus = liPlus.append(divPlus).append(hobbyNoPlus);
-    						$searchHobbyList.append(liPlus);
-            			});
-        				
-        			} else {
-        				var liPlus = $("<li></li>").addClass("list-group-item");
-        				var hPlus = "<h5 class='nanum'>검색결과가 없습니다</h5>";
-        				liPlus = liPlus.append(hPlus);
-        				$searchHobbyList.append(liPlus);
-        				
-        			}
-        			
-        			
-    				
-        		},
-        		
-        		error : function(e){
-        			console.log("ajax 통신 실패");
-        			console.log(e);
-        		}
-        	});
+            		},
+            		
+            		error : function(e){
+            			console.log("ajax 통신 실패");
+            			console.log(e);
+            		}
+            	});	
+    		}
     	});
     	
     	/* 검색된 관심사 선택 버튼 클릭 시 지정관심사 추가 */
@@ -441,7 +445,7 @@
     	       						.val(searchHobbyVal).addClass("form-control-plaintext nanum")
     	       						.css({"font-size":"20px","color":"blue"});
     	       		var buttonPlus = $("<button></button>").prop("type","button").addClass("btn btn-primary nanum deleteHobby").html("제거");
-    	       		var hobbyNoPlus = $("<input>").prop({"type": "text","name" : "hobbyNoArr"}).val(searchHobbyNo);
+    	       		var hobbyNoPlus = $("<input>").prop({"type": "hidden","name" : "hobbyNoArr"}).val(searchHobbyNo);
     	       		
     	            divPlus1 = divPlus1.append(inputPlus);
     	            divPlus2 = divPlus2.append(buttonPlus);

@@ -128,11 +128,11 @@ object-fit: cover;
                 </div>
                 <!-- profile image end-->
                 <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
                     <input type="text" value="${loginMember.memberNickname}" class="nanum form-control-plaintext text-center" style="font-size: 35px;font-weight: bold;" readonly>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-3"></div>
                 </div>
                 <div class="row">
                 <div class="col-md-2"></div>
