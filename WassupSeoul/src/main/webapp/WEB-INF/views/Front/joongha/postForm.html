@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=LIBRARY"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
@@ -18,11 +19,12 @@
 
 <style>
 #modal {
-  display: none;
-  position: absolute;
-  width:200px;
-  height:700px;
-  z-index:1;
+	display: none;
+	position: relative;
+	bottom: 200px;
+	width: 200px;
+	height: 700px;
+	z-index: 1;
 }
 
 /* .mapModal{
@@ -33,33 +35,30 @@
   z-index:1;
 
 } */
-
-
 #modal button {
-  display:inline-block;
-  width:60px;
-  margin-left:calc(100% - 100px - 10px);
+	display: inline-block;
+	width: 60px;
+	margin-left: calc(100% - 100px - 10px);
 }
 
-
 #modal .modal_content {
-  width:500px;
-  height:700px;
-  margin:100px auto;
-  padding:20px 10px;
-  background:#fff;
-  border:2px solid #666;
+	height: 700px;
+	width: 530px;
+	margin: 10px auto;
+	padding: 20px 10px;
+	background: #fff;
+	border: 2px solid #666;
 }
 
 #modal .modal_layer {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0, 0, 0, 0.5);
-  z-index:-1;
-}   
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: -1;
+}
 </style>
 
 <body>
@@ -154,26 +153,77 @@
 			<div class="col-md-6" id="devideArea">
 
 
-                <!-- <div id="map" style="width:500px;height:400px;"></div>
-                <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840">
-    
-                </script>
-            
-                <script>
-                    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-                      
-                      
-                      var options = { //지도를 생성할 때 필요한 기본 옵션
-
-                         center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-
-                         level: 3 //지도의 레벨(확대, 축소 정도)
-
-                      };
-            
-                     var map = new kakao.maps.Map(container, options);
-            
-                </script> -->
+				<input type="text" id="sample5_address" placeholder="주소"> 
+				<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br> 
+				<div id="map" style="width:300px;height:300px;margin-top:10px;"></div> 
+				<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> 
+				<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script> 
+				<script> var mapContainer = document.getElementById('map'), 
+				
+				// 지도를 표시할 div 
+				mapOption = { center: new daum.maps.LatLng(37.537187, 127.005476), 
+					
+					// 지도의 중심좌표 
+					level: 5 
+					// 지도의 확대 레벨 
+				}; 
+					//지도를 미리 생성 
+					var map = new daum.maps.Map(mapContainer, mapOption);
+					//주소-좌표 변환 객체를 생성 
+					var geocoder = new daum.maps.services.Geocoder(); 
+					//마커를 미리 생성 
+					var marker = new daum.maps.Marker({ position: new daum.maps.LatLng(37.537187, 127.005476), map: map }); 
+					function sample5_execDaumPostcode() { new daum.Postcode({ oncomplete: function(data) { 
+						// 각 주소의 노출 규칙에 따라 주소를 조합한다. 
+						// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다. 
+						var fullAddr = data.address; 
+						// 최종 주소 변수 
+						var extraAddr = ''; 
+						// 조합형 주소 변수 
+						// 기본 주소가 도로명 타입일때 조합한다. 
+						if(data.addressType === 'R'){ 
+							
+							//법정동명이 있을 경우 추가한다. 
+							
+							if(data.bname !== ''){ extraAddr += data.bname; } 
+							
+							// 건물명이 있을 경우 추가한다. 
+							
+							if(data.buildingName !== ''){ extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName); } 
+							
+							// 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다. 
+							
+							fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : ''); } 
+							
+							// 주소 정보를 해당 필드에 넣는다.
+							
+							document.getElementById("sample5_address").value = fullAddr; 
+							
+							// 주소로 상세 정보를 검색 
+							
+							geocoder.addressSearch(data.address, function(results, status) { 
+								
+								// 정상적으로 검색이 완료됐으면 
+								
+								if (status === daum.maps.services.Status.OK) { var result = results[0]; 
+									
+									//첫번째 결과의 값을 활용
+									 // 해당 주소에 대한 좌표를 받아서
+									 
+									 var coords = new daum.maps.LatLng(result.y, result.x); 
+									 
+									 // 지도를 보여준다.
+									 
+									 mapContainer.style.display = "block"; map.relayout(); 
+									 
+									 // 지도 중심을 변경한다. 
+									 
+									 map.setCenter(coords); 
+									 
+									 // 마커를 결과값으로 받은 위치로 옮긴다. 
+									 
+									 marker.setPosition(coords) } }); } }).open(); } </script>​
+               
 
 
 				<!-- 검색Bar-->
@@ -197,79 +247,118 @@
 
                 
                 
-                <!-- 글작성 영역 -->
+                <!-- 게시글작성 옵션 영역, 모달로 받기   -->
+				<div class="modal fade" id="deleteMember" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+					<div class="modal-dialog" role="document">
+					  <div class="modal-content">
+						<div class="modal-header">
+						  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+							  aria-hidden="true">&times;</span></button>
+						</div>
+						<div class="modal-body">
+						  이 회원을 삭제하시겠습니까?
+						</div>
+						<div class="modal-footer">
+						  <button type="button" class="btn form-control orange-hover-btn" data-dismiss="modal" id="modalBtn">삭제</button>
+						  <button type="button" class="btn form-control orange-hover-btn" data-dismiss="modal" id="modalBtn">취소</button>
+						</div>
+					  </div>
+					</div>
+				  </div>
+
+                <!-- 게시글작성 옵션 영역, 모달로 받기 종료 -->
+               
+
+
+
+				<!-- 글작성 영역 -->
 				<div class="container box111" id="postArea">
 					<div class="postLayoutView " style="padding: 0%;">
-						<form action="insert" method="post" enctype="multipart/form-data"
-							role="form" onsubmit="return validate();">
+						<form method="GET" id="login-form-input">
 
 
 							<div class="writePost">
-								<textarea class="postArea nanum" id="writePostArea"
-									name="boardContent" rows="3" placeholder="새로운 게시글을 작성해보세요"></textarea>
+								<textarea class="postArea nanum" id="writePostArea" rows="3" 
+									placeholder="새로운 게시글을 작성해보세요"></textarea>
+								<!--<input type="text" class="form-control" id="inputPostArea">-->
 							</div>
 
-							<div class="postCountView"
-								style="border: 1px solid black; height: 45px;">
-
+							<div class="postCountView" style="border: 1px solid black; height: 45px; ">
+							
 								<div class="writeOptionArea shake">
-										<img class="writeOption img1"
-										src="img/imageIcon.png">
-										<p class="arrow_box">사진</p>
+									<button type="button" class="btn" data-toggle="modal"
+									data-target="#deleteMember" id="deleteMemberButton">
+									<img class="writeOption" src="img/imageIcon.png" >
+									<p class="arrow_box">사진</p>
+								  	</button>
 								</div>
-						
-								
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="img/film.png">
+									<a href="#ex2" rel="modal:open"><img class="writeOption" src="img/film.png" ></a>
 									<p class="arrow_box">동영상</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="img/paperclip.png">
+									<a href="#ex3" rel="modal:open"><img class="writeOption" src="img/paperclip.png" ></a>
 									<p class="arrow_box">파일첨부</p>
-								</div>
+								</div> 
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="img/vote.png">
+									<a href="#ex4" rel="modal:open"><img class="writeOption" src="img/vote.png" ></a>
 									<p class="arrow_box">투표</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="img/pie-chart.png">
+									<a href="#ex5" rel="modal:open"><img class="writeOption" src="img/pie-chart.png" ></a>
 									<p class="arrow_box">N빵</p>
 								</div>
-								<div class="writeOptionArea shake" >
+								<div class="writeOptionArea shake">
 									<img class="writeOption mapOption" src="img/map.png" >
 									<p class="arrow_box">지도</p>
 								</div>
-								
-								
-								<div id="modal" class="nanum mapModal">
-								   
-								    <div class="modal_content" style="padding: 3px;">
-								        <button type="button" id="modal_close_btn" style="width: 20px; height: 20px; font-size: 5px; 
-																							float: right; ">X</button>
 
-										<textarea class=" nanum" id="writePostArea"
-										 rows="6" placeholder="게시글내용을 입력하세요."
-										style="border: 1px solid black; color: black; font-size: 17px; height:200px"></textarea>													
-										<input type="text" placeholder="주소 입력 " style="width: 420px; display: inline-block;">
-										<button type="button" style="inline-block; font-size: 15px; width:60px; margin: 0px;">검색 </button>
+<!-- 지도 모달  -->
+<div id="modal" class="nanum mapModal">
 
-										<div style="width:100%; heigth :300px; border: 1px solid black;">	</div>	
-								    </div>
-								   
-								    <div class="modal_layer"></div>
-								</div>
-																
-								
-								
-								<div class="writeOptionArea shake">
-									<img class="writeOption" src="img/sketch.png">
+	<div class="modal_content" style="padding: 3px;">
+		<button type="button" id="modal_close_btn"
+			style="width: 20px; height: 20px; font-size: 5px; float: right;">X</button>
+
+		<textarea class=" nanum" id="writePostArea" rows="6"
+			placeholder="게시글내용을 입력하세요."
+			style="border: 1px solid black; color: black; font-size: 17px; height: 300px"></textarea>
+		<input type="text" id="sample5_address" placeholder="주소" style="width:80%;">
+		<input type="button" onclick="sample5_execDaumPostcode()"
+			value="주소 검색"><br>
+		<div id="map"style="width: 100%; height: 300px; margin-top: 10px; border:2px black solid;"></div>
+	</div>
+
+	<div class="modal_layer"></div>
+</div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
+ <script>
+	var container = document.getElementById('map');
+	var options = {
+		center: new kakao.maps.LatLng(33.450701, 126.570667),
+		level: 3
+	};
+
+	var map = new kakao.maps.Map(container, options);
+</script> 
+
+
+
+
+
+
+
+								<div class="writeOptionArea shake" >
+									<a href="#ex7" rel="modal:open"><img class="writeOption" src="img/sketch.png"></a>
 									<p class="arrow_box">스케치</p>
 								</div>
+								
 
 								<div id="writePostBtn"
-									style="display: inline-block; width: 18%; margin-bottom: 0px; height: 100%; float: right;">
-									<button type="submit" class="btn nanum"
-										style="height: 40px; font-size: 18px; font-weight: bolder; position: relative; bottom: 1px; right: 7px; float: right;">작성</button>
+									style="display: inline-block; width: 18%; margin-bottom: 0px; height: 100%; float:right;">
+									<button type="submit" class="btn nanum" style="height: 40px;   font-size: 18px; font-weight:bolder; position: relative;
+										bottom: 1px; right:7px; float:right;">작성</button>
 								</div>
 
 							</div>
@@ -1456,21 +1545,20 @@
 				$('.postArea').focus();
 			});			
 
-			   
 
 		});
 
-			// 모달 창 열기 
-			$(".mapOption").click(function(){
+		// 지도 모달 창 열기 
+		$(".mapOption").click(function(){
 
-				var modal = $(this).parent().next("div");
+//var modal = $(this).parent().next("div");
 
-					modal.attr("style", "display:block");
-			    });
-			   
-			     $("#modal_close_btn").click(function(){
-					$(this).parent().parent("div").attr("style", "display:none");
-			    });
+$(this).parent().next("div").attr("style", "display:block");
+});
+
+$("#modal_close_btn").click(function(){
+$(this).parent().parent("div").attr("style", "display:none");
+}); 
 
 	</script>
 

@@ -356,3 +356,66 @@ select.form-control {
  width : 5px;
  height : 5px;
  }
+ 
+ 
+ /* 모달 */
+ #modal {
+	display: none;
+	position: absolute;
+	top: 30px;
+	width: 200px;
+	height: 700px;
+	z-index: 1;
+}
+
+
+#modal button {
+	display: inline-block;
+	width: 60px;
+	margin-left: calc(100% - 100px - 10px);
+}
+
+#modal .modal_content {
+	height: 700px;
+	width: 530px;
+	margin: 10px auto;
+	padding: 20px 10px;
+	background: #fff;
+	border: 2px solid #666;
+}
+
+#modal .modal_layer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: -1;
+  /* 모달 */
+}
+ 			/* 스케치 */
+ 	 #canvas {
+        border: 1px solid black;
+      }
+
+      .jb_table {
+        display: table;
+      }
+
+      .drawing {
+        border-radius: 10px;
+        display: table-row;
+      }
+
+      #draw {
+        display: table-cell;
+        vertical-align: top;
+      }
+
+      .drawColor{
+          width:32px;
+          height: 32px;
+          margin-left: 10px;
+      }
+      /* 스케치 */
