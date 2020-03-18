@@ -88,7 +88,7 @@ public class StreetController {
 	}
 	
 	
-	// 게시글 작성
+	// 게시글 작성     // 글작성 시 빈칸 입력해도 글 업로드 되는것 수정할 것 
 	@RequestMapping("insert")
 	public String insertBoard(Board board, // 커맨드 객체    @ModelAttribute 생략되어 있는 상태
 							  Model model, // session 접근용

@@ -4,7 +4,6 @@
 <head>
 	<meta charset="UTF-8">
 
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=LIBRARY"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
@@ -18,14 +17,49 @@
 </head>
 
 <style>
-.modal{
-
-width : 700px;
-height: 700px;
-position: relative;
-
-
+#modal {
+  display: none;
+  position: absolute;
+  width:200px;
+  height:700px;
+  z-index:1;
 }
+
+/* .mapModal{
+  display: none;
+  position:relative;
+  width:300px;
+  height:100%;
+  z-index:1;
+
+} */
+
+
+#modal button {
+  display:inline-block;
+  width:60px;
+  margin-left:calc(100% - 100px - 10px);
+}
+
+
+#modal .modal_content {
+  width:500px;
+  height:700px;
+  margin:100px auto;
+  padding:20px 10px;
+  background:#fff;
+  border:2px solid #666;
+}
+
+#modal .modal_layer {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0, 0, 0, 0.5);
+  z-index:-1;
+}   
 </style>
 
 <body>
@@ -120,7 +154,7 @@ position: relative;
 			<div class="col-md-6" id="devideArea">
 
 
-                <div id="map" style="width:500px;height:400px;"></div>
+                <!-- <div id="map" style="width:500px;height:400px;"></div>
                 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840">
     
                 </script>
@@ -139,7 +173,7 @@ position: relative;
             
                      var map = new kakao.maps.Map(container, options);
             
-                </script>
+                </script> -->
 
 
 				<!-- 검색Bar-->
@@ -163,151 +197,79 @@ position: relative;
 
                 
                 
-                <!-- 게시글작성 옵션 영역, 모달로 받기   -->
-                <!-- 사진  -->
-                <div id="ex1" class="modal">
-                    <p>사진 업로드</p>
-
-                    <input type="text" class="form-control nanum" placeholder="투표 제목"
-                    id="searchBox" style="width: 80%; margin-right: 10px; border-right: black 2px solid; " readonly><input  type="file" id="img1" name="img1" > 
-
-
-                    <a href="#" rel="modal:close">닫기</a>
-                </div>
-
-                <!-- 동영상  -->
-                <div id="ex2" class="modal">
-                    <p>동영상 업로드</p>
-
-                    <input type="text" class="form-control nanum" placeholder="투표 제목"
-                    id="searchBox" style="width: 80%; margin-right: 10px; border-right: black 2px solid; " readonly><input  type="file" id="img1" name="img1" > 
-
-                    <a href="#" rel="modal:close">닫기</a>
-                </div>
-
-
-                <!-- 파일첨부  -->
-                <div id="ex3" class="modal">
-                    <p>파일 첨부</p>
-
-                    <input type="text" class="form-control nanum" placeholder="투표 제목"
-                    id="searchBox" style="width: 80%; margin-right: 10px; border-right: black 2px solid; " readonly><input  type="file" id="img1" name="img1" > 
-
-                    <a href="#" rel="modal:close">닫기</a>
-                </div>
-
-
-                <!-- 투표  -->
-                <div id="ex4" class="modal">
-                    <p>투표</p>
-                    <hr>
-                    <input type="text" class="form-control nanum" placeholder="투표 제목"
-                    id="searchBox" style="width: 80%; margin-right: 10px; border-right: black 2px solid; "><br>
-                    
-                    <p style="width: 10%; margin-right: 0px;">1</p><input type="text" class="form-control nanum" placeholder="항목 입력"
-                    id="searchBox" style="width: 80%; margin-right: 10px; border-right: black 2px solid; display: inline-block;"><br>
-                    
-                    <p style="width: 10%; margin-right: 0px;">2</p><input type="text" class="form-control nanum" placeholder="항목 입력"
-                    id="searchBox" style="width: 80%; margin-right: 10px; border-right: black 2px solid; display: inline-block;"><br>
-                    
-                    <p style="width: 10%; margin-right: 0px;">3</p><input type="text" class="form-control nanum" placeholder="항목 입력"
-					id="searchBox" style="width: 80%; margin-right: 10px; border-right: black 2px solid; display: inline-block;"><br>
-
-                    <a href="#" rel="modal:close">닫기</a>
-                </div>
-
-                <!-- N빵  -->
-                <div id="ex5" class="modal">
-                    <p>N빵</p>
-                    <input type="text" class="form-control nanum" placeholder="금액 입력"
-                    id="searchBox" style="width: 80%; margin-right: 10px; border-right: black 2px solid; "><br>
-                    <br>
-
-                    <input type="text" class="form-control nanum" placeholder="첫번째 인원"
-                    id="searchBox" style="width: 80%; margin-right: 10px; border-right: black 2px solid; "><br>
-                    <br>
-                    <input type="text" class="form-control nanum" placeholder="두번째 인원"
-                    id="searchBox" style="width: 80%; margin-right: 10px; border-right: black 2px solid; "><br>
-                    <br>
-                    <input type="text" class="form-control nanum" placeholder="세번째 인원"
-                    id="searchBox" style="width: 80%; margin-right: 10px; border-right: black 2px solid; "><br>
-                    <br>
-
-
-                    <a href="#" rel="modal:close">닫기</a>
-                </div>
-
-                <!-- 지도  -->
-                <div id="ex6" class="modal">
-                    <p>안녕하세요. 모달창안의 내용부분입니다.</p>
-                    <div id="map" style="width:500px;height:400px;">
-                    
-                    </div>
-                    <a href="#" rel="modal:close">닫기</a>
-                </div>
-
-
-               
-
-
-                <!-- 스케치  -->
-                <div id="ex7" class="modal">
-                    <p>안녕하세요. 모달창안의 내용부분입니다.</p>
-                    <a href="#" rel="modal:close">닫기</a>
-                </div>
-                <!-- 게시글작성 옵션 영역, 모달로 받기 종료 -->
-               
-
-
-
-				<!-- 글작성 영역 -->
+                <!-- 글작성 영역 -->
 				<div class="container box111" id="postArea">
 					<div class="postLayoutView " style="padding: 0%;">
-						<form method="GET" id="login-form-input">
+						<form action="insert" method="post" enctype="multipart/form-data"
+							role="form" onsubmit="return validate();">
 
 
 							<div class="writePost">
-								<textarea class="postArea nanum" id="writePostArea" rows="3" 
-									placeholder="새로운 게시글을 작성해보세요"></textarea>
-								<!--<input type="text" class="form-control" id="inputPostArea">-->
+								<textarea class="postArea nanum" id="writePostArea"
+									name="boardContent" rows="3" placeholder="새로운 게시글을 작성해보세요"></textarea>
 							</div>
 
-							<div class="postCountView" style="border: 1px solid black; height: 45px; ">
-							
+							<div class="postCountView"
+								style="border: 1px solid black; height: 45px;">
+
 								<div class="writeOptionArea shake">
-									<a href="#ex1" rel="modal:open"><img class="writeOption" src="img/imageIcon.png" ></a>
-									<p class="arrow_box">사진</p>
+										<img class="writeOption img1"
+										src="img/imageIcon.png">
+										<p class="arrow_box">사진</p>
 								</div>
+						
+								
 								<div class="writeOptionArea shake">
-									<a href="#ex2" rel="modal:open"><img class="writeOption" src="img/film.png" ></a>
+									<img class="writeOption" src="img/film.png">
 									<p class="arrow_box">동영상</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<a href="#ex3" rel="modal:open"><img class="writeOption" src="img/paperclip.png" ></a>
+									<img class="writeOption" src="img/paperclip.png">
 									<p class="arrow_box">파일첨부</p>
-								</div> 
+								</div>
 								<div class="writeOptionArea shake">
-									<a href="#ex4" rel="modal:open"><img class="writeOption" src="img/vote.png" ></a>
+									<img class="writeOption" src="img/vote.png">
 									<p class="arrow_box">투표</p>
 								</div>
 								<div class="writeOptionArea shake">
-									<a href="#ex5" rel="modal:open"><img class="writeOption" src="img/pie-chart.png" ></a>
+									<img class="writeOption" src="img/pie-chart.png">
 									<p class="arrow_box">N빵</p>
 								</div>
-								<div class="writeOptionArea shake">
-									<a href="#ex6" rel="modal:open"><img class="writeOption" src="img/map.png" ></a>
+								<div class="writeOptionArea shake" >
+									<img class="writeOption mapOption" src="img/map.png" >
 									<p class="arrow_box">지도</p>
 								</div>
-								<div class="writeOptionArea shake" >
-									<a href="#ex7" rel="modal:open"><img class="writeOption" src="img/sketch.png"></a>
+								
+								
+								<div id="modal" class="nanum mapModal">
+								   
+								    <div class="modal_content" style="padding: 3px;">
+								        <button type="button" id="modal_close_btn" style="width: 20px; height: 20px; font-size: 5px; 
+																							float: right; ">X</button>
+
+										<textarea class=" nanum" id="writePostArea"
+										 rows="6" placeholder="게시글내용을 입력하세요."
+										style="border: 1px solid black; color: black; font-size: 17px; height:200px"></textarea>													
+										<input type="text" placeholder="주소 입력 " style="width: 420px; display: inline-block;">
+										<button type="button" style="inline-block; font-size: 15px; width:60px; margin: 0px;">검색 </button>
+
+										<div style="width:100%; heigth :300px; border: 1px solid black;">	</div>	
+								    </div>
+								   
+								    <div class="modal_layer"></div>
+								</div>
+																
+								
+								
+								<div class="writeOptionArea shake">
+									<img class="writeOption" src="img/sketch.png">
 									<p class="arrow_box">스케치</p>
 								</div>
-								
 
 								<div id="writePostBtn"
-									style="display: inline-block; width: 18%; margin-bottom: 0px; height: 100%; float:right;">
-									<button type="submit" class="btn nanum" style="height: 40px;   font-size: 18px; font-weight:bolder; position: relative;
-										bottom: 1px; right:7px; float:right;">작성</button>
+									style="display: inline-block; width: 18%; margin-bottom: 0px; height: 100%; float: right;">
+									<button type="submit" class="btn nanum"
+										style="height: 40px; font-size: 18px; font-weight: bolder; position: relative; bottom: 1px; right: 7px; float: right;">작성</button>
 								</div>
 
 							</div>
@@ -1494,8 +1456,21 @@ position: relative;
 				$('.postArea').focus();
 			});			
 
+			   
 
 		});
+
+			// 모달 창 열기 
+			$(".mapOption").click(function(){
+
+				var modal = $(this).parent().next("div");
+
+					modal.attr("style", "display:block");
+			    });
+			   
+			     $("#modal_close_btn").click(function(){
+					$(this).parent().parent("div").attr("style", "display:none");
+			    });
 
 	</script>
 

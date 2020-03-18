@@ -27,12 +27,11 @@
 </head>
 
 <style>
-
 #modal {
   display: none;
   position: absolute;
   width:200px;
-  height:200px;
+  height:700px;
   z-index:1;
 }
 
@@ -45,9 +44,6 @@
 
 } */
 
-#modal h2 {
-  margin:0;   
-}
 
 #modal button {
   display:inline-block;
@@ -55,8 +51,10 @@
   margin-left:calc(100% - 100px - 10px);
 }
 
+
 #modal .modal_content {
-  width:700px;
+  width:500px;
+  height:700px;
   margin:100px auto;
   padding:20px 10px;
   background:#fff;
@@ -71,9 +69,7 @@
   height:100%;
   background:rgba(0, 0, 0, 0.5);
   z-index:-1;
-}   
-
-
+}    
 </style>
 <body>
 <%--  <%@include file="../common/header.jsp"%>  --%>
@@ -211,27 +207,7 @@ $(document).ready(function(){
 			<div class="col-md-6" id="devideArea">
 
 
-				<!-- <div id="map" style="width: 500px; height: 400px;"></div> -->
 				
-				<!-- <script type="text/javascript"
-					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840">
-					
-				</script>
-
-				<script>
-					var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-
-					var options = { //지도를 생성할 때 필요한 기본 옵션
-
-						center : new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-
-						level : 3
-					//지도의 레벨(확대, 축소 정도)
-
-					};
-
-					var map = new kakao.maps.Map(container, options);
-				</script> -->
 
 				<!-- 검색Bar-->
 				<div class="row" id="searchArea"
@@ -276,9 +252,8 @@ $(document).ready(function(){
 								style="border: 1px solid black; height: 45px;">
 
 								<div class="writeOptionArea shake">
-										<img class="writeOption img1"
-										src="${contextPath}/resources/img/imageIcon.png">
-										<p class="arrow_box">사진</p>
+									<img class="writeOption img1" src="${contextPath}/resources/img/imageIcon.png">
+									<p class="arrow_box">사진</p>
 								</div>
 						
 								
@@ -305,20 +280,136 @@ $(document).ready(function(){
 								
 								<div id="modal" class="nanum mapModal">
 								   
-								    <div class="modal_content">
-										<p>모달 창</p>
-								       
-								        <p>모달 창 입니다.</p>
-										<input type="text" placeholder="주소 입력 ">
-										<button type="button"></button>
-								        <button type="button" id="modal_close_btn">모달 창 닫기</button>
+								    <div class="modal_content" style="padding: 3px;">
+								        <button type="button" id="modal_close_btn" style="width: 20px; height: 20px; font-size: 5px; 
+																							float: right; ">X</button>
+
+										<textarea class=" nanum" id="writePostArea"
+										 rows="6" placeholder="게시글내용을 입력하세요."
+										style="border: 1px solid black; color: black; font-size: 17px; height:200px"></textarea>													
+										<input type="text" id="sample5_address" placeholder="주소"> 
+										<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+								       	<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div> 
+								    </div>
+								   
+								  	  <div class="modal_layer"></div>
+								</div> 
+								
+								
+								<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> 
+								<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script> 
+								
+								<script>
+								var mapContainer = document.getElementById('map'), 
+								
+								// 지도를 표시할 
+								div mapOption = { center: new daum.maps.LatLng(37.537187, 127.005476), 
+								// 지도의 중심좌표 
+								level: 5 
+								// 지도의 확대 레벨
+								}; 
+								//지도를 미리 생성 
+								var map = new daum.maps.Map(mapContainer, mapOption); 
+								//주소-좌표 변환 객체를 생성 
+								var geocoder = new daum.maps.services.Geocoder(); 
+								//마커를 미리 생성 
+								var marker = new daum.maps.Marker({ 
+									
+									position: new daum.maps.LatLng(37.537187, 127.005476), map: map });
+								
+								function sample5_execDaumPostcode() { 
+									
+									new daum.Postcode({ oncomplete: function(data) { 
+									
+									// 각 주소의 노출 규칙에 따라 주소를 조합한다. 
+									
+									// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다. var fullAddr = data.address; 
+									
+									// 최종 주소 변수
+									var extraAddr = ''; 
+									
+									// 조합형 주소 변수 
+									
+									// 기본 주소가 도로명 타입일때 조합한다. 
+									if(data.addressType === 'R'){ 
+										
+									//법정동명이 있을 경우 추가한다. 
+									if(data.bname !== ''){ extraAddr += data.bname; } 
+									
+									// 건물명이 있을 경우 추가한다. 
+									
+									if(data.buildingName !== ''){ extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName); } 
+									
+									// 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다. 
+									fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : ''); } 
+									
+									// 주소 정보를 해당 필드에 넣는다. 
+									document.getElementById("sample5_address").value = fullAddr; 
+									
+									// 주소로 상세 정보를 검색 
+									geocoder.addressSearch(data.address, 
+											
+									function(results, status) { 
+										
+									// 정상적으로 검색이 완료됐으면 
+									
+									if (status === daum.maps.services.Status.OK) { 
+										var result = results[0]; 
+										
+									//첫번째 결과의 값을 활용 
+									// 해당 주소에 대한 좌표를 받아서
+									var coords = new daum.maps.LatLng(result.y, result.x); 
+									
+									// 지도를 보여준다. 
+									
+									mapContainer.style.display = "block"; map.relayout(); 
+									
+									// 지도 중심을 변경한다. 
+									map.setCenter(coords); 
+									
+									// 마커를 결과값으로 받은 위치로 옮긴다. 
+									marker.setPosition(coords) } 
+									}); }
+								}).open(); }
+								</script>​
+								
+								<!-- <div id="modal" class="nanum mapModal">
+								   
+								    <div class="modal_content" style="padding: 3px;">
+								        <button type="button" id="modal_close_btn" style="width: 20px; height: 20px; font-size: 5px; 
+																							float: right; ">X</button>
+
+										<textarea class=" nanum" id="writePostArea"
+										 rows="6" placeholder="게시글내용을 입력하세요."
+										style="border: 1px solid black; color: black; font-size: 17px; height:200px"></textarea>													
+										<input type="text" placeholder="주소 입력 " style="width: 420px; display: inline-block;">
+										<button type="button" style="inline-block; font-size: 15px; width:60px; margin: 0px;">검색 </button>
+								   		 <div id="map" style="width: 600px; height: 400px;"></div>
 								       
 								    </div>
 								   
-								    <div class="modal_layer"></div>
-								</div>
+								  	  <div class="modal_layer"></div>
+								</div> -->
 																
-								
+								<!-- <script type="text/javascript"
+											src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840">
+											
+										</script>
+						
+										<script>
+											var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+						
+											var options = { //지도를 생성할 때 필요한 기본 옵션
+						
+												center : new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+						
+												level : 3
+											//지도의 레벨(확대, 축소 정도)
+						
+											};
+						
+											var map = new kakao.maps.Map(container, options);
+										</script>  -->
 								
 								<div class="writeOptionArea shake">
 									<img class="writeOption" src="${contextPath}/resources/img/sketch.png">
@@ -399,22 +490,7 @@ $(document).ready(function(){
 										</div>
 										
 										<c:if test="${loginMember.memberNickname ne board.boardWriter}">
-										<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
-											<div>
-												<div class="optionChevron">
-													<img src="${contextPath}/resources/img/download.png"
-														style="width: 17px; height: 15px; position: relative; bottom: 2px;"
-														id="chev">
-													<div id="postMenu" class="hide nanum"
-														style="width: 100px; height: 30px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
-														<ul>
-															<li><a href="#" name="reportPost"
-																style="color: black;">글 신고</a></li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
+								
 										</c:if>
 										
 										
@@ -426,14 +502,12 @@ $(document).ready(function(){
 														style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 														id="chev">
 													<div id="postMenu" class="hide nanum"
-														style="width: 100px; height: 80px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
+														style="width: 100px; height: 60px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
 														<ul>
 															<li><a href="#" class="deletePost" id="${board.boardNo}"
 																style="color: black;">글 삭제</a></li>
 															<li><a href="#" class="updatePost" id="${board.boardNo}
 																style="color: black;">글 수정</a></li>
-															<li><a href="#" class="reportPost" id="${board.boardNo}
-																style="color: black;">글 신고</a></li>
 														</ul>
 													</div>
 												</div>
@@ -1079,19 +1153,18 @@ $(document).ready(function(){
 				});
 				
 				
-				// 모달 창 열기 
-				$(".mapOption").click(function(){
-
-					//var modal = $(this).parent().next("div");
-					
-					$(this).parent().next("div").attr("style", "display:block");
-			    });
-			   
-			     $("#modal_close_btn").click(function(){
-					$(this).parent().parent("div").attr("style", "display:none");
-			    });     
+				
 
 			});
+		
+		// 모달 창 열기 
+		$(".mapOption").click(function(){
+			$(this).parent().next("div").attr("style", "display:block");
+	    });
+	   
+	     $("#modal_close_btn").click(function(){
+			$(this).parent().parent("div").attr("style", "display:none");
+	    });     
 	</script>
 
 </body>
