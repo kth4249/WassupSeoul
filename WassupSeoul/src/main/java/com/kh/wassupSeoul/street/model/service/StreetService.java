@@ -50,5 +50,13 @@ public interface StreetService {
 	 */
 	public abstract int[] checkLikeReplyNum(int postNo) throws Exception;
 
+
+	/** 게시글 삭제용 Service
+	 * @param postNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deletePost(int postNo) throws Exception;
+
 	 
 }
