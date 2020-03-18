@@ -2,7 +2,9 @@ package com.kh.wassupSeoul.street.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.wassupSeoul.member.model.vo.Member;
+import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Street;
@@ -247,12 +250,29 @@ public class StreetController {
 		return "street/recommendFriend";
 	}
 	
+	
+	// 골목 가입
+	@ResponseBody
 	@RequestMapping("streetJoin")
-	public void streetJoin(Model model) {
+	public int streetJoin(Model model) {
 		int streetNo = (int)model.getAttribute("streetNo");
 		Member member = (Member)model.getAttribute("loginMember");
+		int memberNo = member.getMemberNo();
 		
+		List<ProfileStreet> myStreet = (List<ProfileStreet>)model.getAttribute("myStreet");
+		if(myStreet != null) {
+			if(myStreet.size() > 3) {
+				return -1;
+			}
+		}
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("streetNo", streetNo);
+		map.put("memberNo", memberNo);
+		
+		int result = streetService.streetJoin(map);
+		
+		return result;
 		
 	}
 	

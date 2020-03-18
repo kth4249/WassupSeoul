@@ -1,6 +1,7 @@
 package com.kh.wassupSeoul.street.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -57,6 +58,13 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int deletePost(int postNo) throws Exception;
+
+
+	/** 골목 가입용 Service
+	 * @param map
+	 * @return result
+	 */
+	public abstract int streetJoin(Map<String, Object> map);
 
 	 
 }

@@ -185,8 +185,14 @@ $(document).ready(function(){
 										$.ajax({
 											url : "${contextPath}/street/streetJoin",
 											success : function(result) {
-												
+												if(result == -1){
+													alert("더 이상 골목에 가입할 수 없습니다");
+												}
+												alert("골목 가입 신청 완료");
 											},
+											error : function() {
+												alert("골목 가입 신청 과정 중 오류 발생");
+											}
 										})
 									}
 								}

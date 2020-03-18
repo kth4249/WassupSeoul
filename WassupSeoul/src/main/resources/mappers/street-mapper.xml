@@ -199,5 +199,11 @@
   	</insert>
   	 
   	 
+  	<!-- 골목 가입 -->
+  	<insert id="streetJoin" parameterType="map">
+  		INSERT INTO STREET_JOIN
+  		VALUES(#{memberNo}, #{streetNo}, DEFAULT, DEFAULT)
+  	</insert>
+  	 
 	
 </mapper>
