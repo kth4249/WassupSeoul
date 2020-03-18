@@ -494,6 +494,10 @@ $(document).ready(function(){
 															<li><a href="#" class="updatePost" id="${board.boardNo}
 																style="color: black;">글 수정</a></li>
 														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
 										</c:if>
 
 
@@ -1013,6 +1017,7 @@ $(document).ready(function(){
 							}							
 							});
 						refreshList()
+				});
 			});
 
 			// 글수정
