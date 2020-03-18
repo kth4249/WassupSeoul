@@ -348,12 +348,29 @@ public class StreetController {
 		return "street/recommendFriend";
 	}
 	
+  
+	// 골목 가입
+	@ResponseBody
 	@RequestMapping("streetJoin")
-	public void streetJoin(Model model) {
+	public int streetJoin(Model model) {
 		int streetNo = (int)model.getAttribute("streetNo");
 		Member member = (Member)model.getAttribute("loginMember");
+		int memberNo = member.getMemberNo();
 		
+		List<ProfileStreet> myStreet = (List<ProfileStreet>)model.getAttribute("myStreet");
+		if(myStreet != null) {
+			if(myStreet.size() > 3) {
+				return -1;
+			}
+		}
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("streetNo", streetNo);
+		map.put("memberNo", memberNo);
+		
+		int result = streetService.streetJoin(map);
+		
+		return result;
 		
 	}
 	

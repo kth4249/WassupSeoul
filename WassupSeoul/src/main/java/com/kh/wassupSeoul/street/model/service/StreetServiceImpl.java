@@ -1,6 +1,7 @@
 package com.kh.wassupSeoul.street.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,5 +112,15 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.deletePost(postNo);
 	}
 	
+	
+	/** 골목 가입용 Service
+	 * @param map
+	 * @return result
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int streetJoin(Map<String, Object> map) {
+		return streetDAO.streetJoin(map);
+	}
 	
 }
