@@ -66,9 +66,9 @@ public class SquareController {
 			List<Keyword> kList = null;
 			if(!sList.isEmpty()) {
 				kList = squareService.selectKeywordList(sList);
-				for(Keyword key : kList) {
-					System.out.println("keyword : " + key);
-				}
+				/*
+				 * for(Keyword key : kList) { System.out.println("keyword : " + key); }
+				 */
 			}
 			
 			

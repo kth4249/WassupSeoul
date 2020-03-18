@@ -238,13 +238,22 @@ public class StreetController {
 	
 	
 	
-	// 추천 친구 페이지 이동
+	// 추천 친구 페이지 이동  ----> 기능 만들어야함
 	@RequestMapping("recommendFriend")
 	public String recommendFriend(Model model) {
 		int streetNo = (int)model.getAttribute("streetNo");
 		
 		
 		return "street/recommendFriend";
+	}
+	
+	@RequestMapping("streetJoin")
+	public void streetJoin(Model model) {
+		int streetNo = (int)model.getAttribute("streetNo");
+		Member member = (Member)model.getAttribute("loginMember");
+		
+		
+		
 	}
 	
 }

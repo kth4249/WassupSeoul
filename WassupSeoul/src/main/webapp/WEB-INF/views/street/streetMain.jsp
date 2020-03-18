@@ -177,10 +177,21 @@ $(document).ready(function(){
 							</div>
 						</div>
 						<div class="card-body">
-							<button type="button"
-								class="btn btn-secondary btn-lg btn-block nanum"
-								style="font-size: 20px; font-weight: bold;">골목 가입하기</button>
-							<br> <a href="#" class="card-link nanum">골목 탈퇴하기</a><br>
+							<button type="button" class="btn btn-secondary btn-lg btn-block nanum"
+								style="font-size: 20px; font-weight: bold;" onclick="streetJoin()">골목 가입하기</button><br>
+							<script>
+								function streetJoin() {
+									if(confirm("가입을 신청하시겠습니까?")){
+										$.ajax({
+											url : "${contextPath}/street/streetJoin",
+											success : function(result) {
+												
+											},
+										})
+									}
+								}
+							</script>
+							<a href="#" class="card-link nanum">골목 탈퇴하기</a><br>
 
 							<a href="#" class="card-link nanum">골목 변경하기</a> <a href="#"
 								class="card-link nanum">활동보고서 작성</a>
