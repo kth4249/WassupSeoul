@@ -94,4 +94,6 @@ public class StreetDAO {
 	public int streetJoin(Map<String, Object> map) {
 		return sqlSession.insert("streetMapper.streetJoin", map);
 	}
+
+
 }

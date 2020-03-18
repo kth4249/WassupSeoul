@@ -57,6 +57,8 @@ public class StreetController {
 
 		try {
 			Street street = streetService.selectStreet(streetNo);
+			
+//			String chkStreetMem = streetService.chkStreetMem();
 
 			List<Board> board = streetService.selectBoard(streetNo);
 			Collections.reverse(board);
