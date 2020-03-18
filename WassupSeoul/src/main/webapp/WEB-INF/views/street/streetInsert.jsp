@@ -209,7 +209,7 @@
 					<div class="form-group col-md-5 nanum" style="float: left;">
 						<div class="col-xs-4">
 							<input type="text" class="form-control nanum"
-								name="streetKeyword1" id="streetKeyword1"
+								name="streetKeywords" id="streetKeyword1"
 								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
 								class="nanum" id="checkStreetKeyword1"
 								style="font-size: smaller;">&nbsp;</span> <br>
@@ -238,7 +238,7 @@
 					<div class="form-group col-md-5 nanum" style="float: left;">
 						<div class="col-xs-4">
 							<input type="text" class="form-control nanum"
-								name="streetKeyword2" id="streetKeyword2"
+								name="streetKeywords" id="streetKeyword2"
 								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
 								class="nanum" id="checkStreetKeyword2"
 								style="font-size: smaller;">&nbsp;</span> <br>
@@ -267,7 +267,7 @@
 					<div class="form-group col-md-5 nanum" style="float: left;">
 						<div class="col-xs-4">
 							<input type="text" class="form-control nanum"
-								name="streetKeyword3" id="streetKeyword3"
+								name="streetKeywords" id="streetKeyword3"
 								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
 								class="nanum" id="checkStreetKeyword3"
 								style="font-size: smaller;">&nbsp;</span> <br>
@@ -409,6 +409,7 @@
 					<div class="col-md-12 nanum form-group">
 						<div class="custom-control custom-radio">
 							<input type="radio" id="public" name="streetPublic"
+								value="Y"
 								class="custom-control-input" checked=""> <label
 								class="custom-control-label" for="public"
 								style="font-size: larger;">공개</label>
@@ -418,6 +419,7 @@
 						</div>
 						<div class="custom-control custom-radio">
 							<input type="radio" id="private" name="streetPublic"
+								value="N"
 								class="custom-control-input"> <label
 								class="custom-control-label" for="private"
 								style="font-size: larger;">비공개</label>

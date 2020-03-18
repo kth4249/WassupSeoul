@@ -12,6 +12,7 @@
 		<result property="streetPoint" column="STREET_POINT"/>
 		<result property="imgNo" column="IMG_NO"/>
 		<result property="districtNo" column="DISTRICT_NO"/>
+		<result property="streetPublic" column="STREET_PUBLIC"/>
 	</resultMap>
 	
 	
@@ -191,6 +192,12 @@
 	</update>
   	
   	
+  	<!-- 골목 커버 정보 삽입 IMG_NO, IMG_URL, IMG_LEVEL -->
+	<insert id="insertStreetCover" parameterType="string">
+  		INSERT INTO STREET_IMG
+  		VALUES(SEQ_STREET_IMG.NEXTVAL, #{streetImgUrl}, 1) 
+  	</insert> 
+  	   
   	
   	<!-- 골목 개설 -->
   	<insert id="insertStreet" parameterType="street">
