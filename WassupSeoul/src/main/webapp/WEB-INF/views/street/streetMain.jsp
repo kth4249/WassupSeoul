@@ -7,17 +7,16 @@
 <head>
 <meta charset="UTF-8">
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-	crossorigin="anonymous"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/fullcalendar.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/daygrid.css" type="text/css">
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+					crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/fullcalendar.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/daygrid.css" type="text/css">
     <script type="text/javascript" src="${contextPath}/resources/js/painter.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/resources/js/drawengine.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/resources/js/timeLine.js"></script>
-<%--     <script src="<c:url value="/resources/js/painter.js" />"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/drawengine.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>
+		<%--     <script src="<c:url value="/resources/js/painter.js" />"></script>
     <script src="<c:url value="/resources/js/drawengine.js" />"></script>
     <script src="<c:url value="/resources/js/timeLine.js" />"></script> --%>
     
@@ -519,10 +518,20 @@
 										style="border: 1px solid black; border-bottom: 0px">
 										<div class="profileImgArea" id="profileImgArea"
 											style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px; padding-left: 10px;">
-
-											<!-- 프로필 사진 있을시 넣기 -->
+											
 											<img src="${contextPath}/resources/img/account.png"
-												style="width: 80%; height: 80%;">
+														style="width: 80%; height: 80%;">
+											
+											<%-- <c:if test="${empty loginMember.memberProfile}">
+												<!-- 프로필 사진 없을때 사진  -->
+												<img src="${contextPath}/resources/img/account.png"
+														style="width: 80%; height: 80%;">
+											</c:if>
+											<c:if test="${!empty loginMember.memberProfile}">
+												<!-- 프로필 사진 없을때 사진  -->
+												<img src="${contextPath}/resources/img/${loginMember.memberProfile}.png"
+														style="width: 80%; height: 80%;">
+											</c:if> --%>
 
 										</div>
 										<div class="profileNameArea  nanum" id="profileNameArea"
