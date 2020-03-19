@@ -1,16 +1,44 @@
 package com.kh.wassupSeoul.street.model.service;
 
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import java.io.File;
+import java.io.PrintWriter;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.multipart.MultipartFile;
+
+
 
 public class WebMvcConfig implements WebMvcConfigurer{
 
-	//web root가 아닌 외부 경로에 있는 리소스를 url로 불러올 수 있도록 설정
-    //현재 localhost:8090/summernoteImage/1234.jpg
-    //로 접속하면 C:/summernote_image/1234.jpg 파일을 불러온다.
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/summernoteImage/**")
-                .addResourceLocations("file:///C:/summernote_image/");
-    }
+	@Override
+	public void fileUpload(String email, MultipartFile file, HttpServletRequest request, 
+			HttpServletResponse response) throws Exception {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		// 업로드할 폴더 경로
+		String realFolder = request.getSession().getServletContext().getRealPath("profileUpload");
+		UUID uuid = UUID.randomUUID();
+
+		// 업로드할 파일 이름
+		String org_filename = file.getOriginalFilename();
+		String str_filename = uuid.toString() + org_filename;
+
+		System.out.println("원본 파일명 : " + org_filename);
+		System.out.println("저장할 파일명 : " + str_filename);
+
+		String filepath = realFolder + "\\" + email + "\\" + str_filename;
+		System.out.println("파일경로 : " + filepath);
+
+		File f = new File(filepath);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		file.transferTo(f);
+		out.println("profileUpload/"+email+"/"+str_filename);
+		out.close();
+	}
 	
 }
