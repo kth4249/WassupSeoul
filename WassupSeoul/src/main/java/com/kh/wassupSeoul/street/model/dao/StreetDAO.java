@@ -108,5 +108,32 @@ public class StreetDAO {
 		return sqlSession.selectList("memberMapper.selectHobby", memberNo);
 	}
 
+	
+	/** 추천 친구 목록 조회용 DAO
+	 * @param map
+	 * @return mList
+	 * @throws Exception
+	 */
+	public List<Member> selectRecommendList(Map<String, Object> map) throws Exception{
+		return sqlSession.selectList("streetMapper.selectRecommendList", map);
+	}
+
+	/** 가입한 골목 수 조회용 Service
+	 * @param memberNo
+	 * @return myStreetCount
+	 */
+	public int myStreetCount(int memberNo){
+		return sqlSession.selectOne("streetMapper.myStreetCount", memberNo);
+	}
+
+	/**
+	 * @param mList
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Hobby> selectHobbyList(List<Member> mList) throws Exception{
+		return sqlSession.selectList("streetMapper.selectHobbyList", mList);
+	}
+
 
 }

@@ -136,4 +136,38 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectHobby(memberNo);
 	}
 	
+	
+	/** 추천 친구 리스트 조회용 Service
+	 * @param map
+	 * @return mList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Member> selectRecommendList(Map<String, Object> map) throws Exception {
+		return streetDAO.selectRecommendList(map);
+	}
+	
+	
+	/** 회원 가입한 골목 수 조회용 Service
+	 * @param memberNo
+	 * @return myStreetCount
+	 * @throws Exception
+	 */
+	@Override
+	public int myStreetCount(int memberNo){
+		return streetDAO.myStreetCount(memberNo);
+	}
+	
+	
+	
+	/** 추천 친구 주민별 관심사 조회용 Service
+	 * @param mList
+	 * @return hList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Hobby> selectHobbyList(List<Member> mList) throws Exception {
+		return streetDAO.selectHobbyList(mList);
+	}
+	
 }

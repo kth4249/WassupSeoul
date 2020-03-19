@@ -40,6 +40,7 @@
 							class="py-1 d-none d-md-inline-block nanum" href="#">사진첩</a> <a
 							class="py-1 d-none d-md-inline-block nanum" href="#">일정</a> <a
 							class="py-1 d-none d-md-inline-block nanum" href="#">주민목록</a> <a
+							class="py-1 d-none d-md-inline-block nanum" href="${contextPath}/street/recommendFriend">추천친구</a> <a
 							class="py-1" href="#" aria-label="Product"></a>
 					</div>
 				</nav>
