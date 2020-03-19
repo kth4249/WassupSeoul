@@ -7,89 +7,55 @@
 <head>
 <meta charset="UTF-8">
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-	crossorigin="anonymous"></script>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/timeline.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/fullcalendar.css"
-	type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/daygrid.css"
-	type="text/css">
-
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+					crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/fullcalendar.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/daygrid.css" type="text/css">
+    <script type="text/javascript" src="${contextPath}/resources/js/painter.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/drawengine.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>
+		<%--     <script src="<c:url value="/resources/js/painter.js" />"></script>
+    <script src="<c:url value="/resources/js/drawengine.js" />"></script>
+    <script src="<c:url value="/resources/js/timeLine.js" />"></script> --%>
+    
 <title>타임라인</title>
+
 </head>
 
 <style>
-#modal {
-	display: none;
-	position: absolute;
-	width: 200px;
-	height: 700px;
-	z-index: 1;
-}
+	.drawColor:hover{
+         cursor: pointer;
+      }
+      #canvas {
+        border: 1px solid black;
+      }
 
-/* .mapModal{
-  display: none;
-  position:relative;
-  width:300px;
-  height:100%;
-  z-index:1;
+      .jb_table {
+        display: table;
+      }
 
-} */
-#modal button {
-	display: inline-block;
-	width: 60px;
-	margin-left: calc(100% - 100px - 10px);
-}
+      .drawing {
+        border-radius: 10px;
+        display: table-row;
+      }
 
-#modal .modal_content {
-	height: 700px;
-	width: 700px;
-	margin: 100px auto;
-	padding: 20px 10px;
-	background: #fff;
-	border: 2px solid #666;
-}
+      #draw {
+        display: table-cell;
+        vertical-align: top;
+      }
 
-#modal .modal_layer {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	z-index: -1;
-}
+      .drawColor{
+          width:32px;
+          height: 32px;
+          margin-left: 10px;
+      }
+
 </style>
 <body>
 	<%--  <%@include file="../common/header.jsp"%>  --%>
-	<!-- <script>
-$(document).ready(function(){
-	  var modalLink = $(".img1");
-	  var modalCont = $(".modalContent");
-	  var marginLeft = modalCont.outerWidth()/2;
-	  var marginTop = modalCont.outerHeight()/2; 
 
-	  modalLink.click(function(){
-		$(this).parent().next("div").fadeIn(0.1);
-	    modalCont.css({"margin-top" : -marginTop, "margin-left" : -marginLeft});
-	    $(this).blur();
-	    $(".modalContent > a").focus(); 
-	    return false;
-	  });
-
-	  $(".modalContent > button").click(function(){
-		$(this).parent().parent("div").fadeOut(0.1);
-	  });		
-	});
-</script> -->
 
 	<div class="container-fluid" style="margin-top: 57px;">
 		<div class="row">
@@ -346,61 +312,154 @@ $(document).ready(function(){
 
 										<textarea class=" nanum" id="writePostArea" rows="6"
 											placeholder="게시글내용을 입력하세요."
-											style="border: 1px solid black; color: black; font-size: 17px; height: 200px"></textarea>
-										<input type="text" id="sample5_address" placeholder="주소">
+											style="border: 1px solid black; color: black; font-size: 17px; height: 280px"></textarea>
+										<input type="text" id="sample5_address" placeholder="주소를 입력하세요." style="width:80%;">
 										<input type="button" onclick="sample5_execDaumPostcode()"
 											value="주소 검색"><br>
-										<div id="map"
-											style="width: 300px; height: 300px; margin-top: 10px; display: none"></div>
+										<div id="map"style="width: 100%; height: 300px; margin-top: 10px; border:2px black solid;"></div>
+										<button type="button" style="width: 10%; height: 25px; font-size: 17px; float: right; margin-top:10px">작성</button>
 									</div>
 
 									<div class="modal_layer"></div>
 								</div>
 
-
-								<!-- <div id="modal" class="nanum mapModal">
-								   
-								    <div class="modal_content" style="padding: 3px;">
-								        <button type="button" id="modal_close_btn" style="width: 20px; height: 20px; font-size: 5px; 
-																							float: right; ">X</button>
-
-										<textarea class=" nanum" id="writePostArea"
-										 rows="6" placeholder="게시글내용을 입력하세요."
-										style="border: 1px solid black; color: black; font-size: 17px; height:200px"></textarea>													
-										<input type="text" placeholder="주소 입력 " style="width: 420px; display: inline-block;">
-										<button type="button" style="inline-block; font-size: 15px; width:60px; margin: 0px;">검색 </button>
-								   		 <div id="map" style="width: 600px; height: 400px;"></div>
-								       
-								    </div>
-								   
-								  	  <div class="modal_layer"></div>
-								</div> -->
-
-								<!-- <script type="text/javascript"
-											src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840">
-											
-										</script>
-						
-										<script>
-											var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-						
-											var options = { //지도를 생성할 때 필요한 기본 옵션
-						
-												center : new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-						
-												level : 3
-											//지도의 레벨(확대, 축소 정도)
-						
-											};
-						
-											var map = new kakao.maps.Map(container, options);
-										</script>  -->
-
+								<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
+								<script>
+									var container = document.getElementById('map');
+									var options = {
+										center: new kakao.maps.LatLng(33.450701, 126.570667),
+										level: 3
+										
+									};
+								</script>
+								
+								
+								
+								
 								<div class="writeOptionArea shake">
-									<img class="writeOption"
+									<img class="writeOption sketchOption"
 										src="${contextPath}/resources/img/sketch.png">
 									<p class="arrow_box">스케치</p>
 								</div>
+								
+		<!-- 스케치 모달  -->
+			<div id="modal" class="nanum mapModal">
+
+				<div class="modal_content" style="padding: 3px;">
+					<button type="button" id="modal_close_btn2"
+						style="width: 20px; height: 20px; font-size: 5px; float: right;">X</button>
+					<textarea class=" nanum" id="writePostArea" rows="6"
+						placeholder="게시글내용을 입력하세요."
+						style="border: 1px solid black; color: black; font-size: 17px; height: 100px"></textarea>
+					<div class="jb_table">
+						<div class="row drawing">
+							<span class="cell">
+								<div>
+									<canvas id="canvas" width="420" height="485"></canvas>
+								</div>
+							</span> <span class="cell" id="draw">
+								<div>
+									<div class="jb_table">
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/red.png"
+												class="drawColor" onclick="selectColor('red')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/orange.png"
+												class="drawColor" onclick="selectColor('orange')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/yellow.png"
+												class="drawColor" onclick="selectColor('yellow')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/green.png"
+												class="drawColor" onclick="selectColor('green')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/blue.png"
+												class="drawColor" onclick="selectColor('blue')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightblue.png"
+												class="drawColor" onclick="selectColor('lightblue')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/brown.png"
+												class="drawColor" onclick="selectColor('brown')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightgreen.png"
+												class="drawColor" onclick="selectColor('lightgreen')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/pink.png"
+												class="drawColor" onclick="selectColor('pink')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/purple.png"
+												class="drawColor" onclick="selectColor('purple')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/gray.png"
+												class="drawColor" onclick="selectColor('gray')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightgray.png"
+												class="drawColor" onclick="selectColor('lightgray')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/white.png"
+												class="drawColor" onclick="selectColor('white')" />
+											</span>
+										</div>
+										<div class="row drawing">
+											<span class="cell" id="draw"> <img src="${contextPath}/resources/img/pencil.png"
+												class="drawColor" onclick="selectTool('pencil')"
+												style="margin-bottom: 5px;" />
+											</span>
+										</div>
+									</div>
+								</div>
+								<div>
+									<div>
+										<textarea id="history" cols="40" rows="37"
+											style="display: none;"></textarea>
+
+									</div>
+								</div>
+
+							</span>
+						</div>
+					</div>
+					<div>
+						Title<input id="title" size="15"
+							style="display: inline-block;" /> <a id="saveImage"
+							download="image.png" style="display: inline-block;"> <INPUT
+							type="button" value="Save" onClick="saveImage()" />
+						</a> <INPUT type="button" value="Clear" onClick="initPage()" />
+						<button type="button"
+							style="width: 10%; height: 25px; font-size: 17px; float: right; margin-top: 10px">작성</button>
+					</div>
+
+				</div>
+
+				<div class="modal_layer"></div>
+			</div>
+			<!-- 스케치 모달  -->
+
 
 								<div id="writePostBtn"
 									style="display: inline-block; width: 18%; margin-bottom: 0px; height: 100%; float: right;">
@@ -459,10 +518,20 @@ $(document).ready(function(){
 										style="border: 1px solid black; border-bottom: 0px">
 										<div class="profileImgArea" id="profileImgArea"
 											style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px; padding-left: 10px;">
-
-											<!-- 프로필 사진 있을시 넣기 -->
+											
 											<img src="${contextPath}/resources/img/account.png"
-												style="width: 80%; height: 80%;">
+														style="width: 80%; height: 80%;">
+											
+											<%-- <c:if test="${empty loginMember.memberProfile}">
+												<!-- 프로필 사진 없을때 사진  -->
+												<img src="${contextPath}/resources/img/account.png"
+														style="width: 80%; height: 80%;">
+											</c:if>
+											<c:if test="${!empty loginMember.memberProfile}">
+												<!-- 프로필 사진 없을때 사진  -->
+												<img src="${contextPath}/resources/img/${loginMember.memberProfile}.png"
+														style="width: 80%; height: 80%;">
+											</c:if> --%>
 
 										</div>
 										<div class="profileNameArea  nanum" id="profileNameArea"
@@ -496,7 +565,7 @@ $(document).ready(function(){
 														<ul>
 															<li><a href="#" class="deletePost" id="${board.boardNo}"
 																style="color: black;">글 삭제</a></li>
-															<li><a href="#" class="updatePost" id="${board.boardNo}
+															<li><a href="#" class="updatePost" id="${board.boardNo}"
 																style="color: black;">글 수정</a></li>
 														</ul>
 													</div>
@@ -1086,202 +1155,9 @@ $(document).ready(function(){
 												}
 											});
 								});
-
-								//  게시글, 댓글 수정/삭제 메뉴창 보이기, 숨기기
-								$(".optionChevron>img").click(function() {
-									$(this).next("div").toggleClass("hide");
-								});
-
-								$(".likeNum").click(function() {
-									$(this).next("div").toggleClass("hide");
-								});
-
-								// 댓글 영역 숨기기
-								$(".commentArea").click(function() {
-									$(this).parent().next("div").toggle(100);
-									$('.writeCommentArea').focus();
-								});
-
-								// 대댓글 영역 숨기기
-								$(".doubleCommentArea").click(
-									function() {
-									$(this).parent().parent().parent().next("div").toggle(100);
-									// $(".inputCommentWrap").toggle(500);
-									$('.writeCommentArea2').focus();
-								});
-
-								// 게시글 작성 영역 높이 자동증가
-								$('.writePost').on('keyup', 'textarea',
-										function(e) {
-											$(this).css('height', 'auto');
-											$(this).height(this.scrollHeight);
-								});
-								$('.writePost').find('textarea').keyup();
-
-								// 댓글 작성 영역 높이 자동증가
-								$('.inputCommentWrap').on('keyup', 'textarea', function(e) {
-											$(this).css('height', 'auto');
-											$(this).height(this.scrollHeight);
-										});
-								$('.inputCommentWrap').find('textarea').keyup();
-
-								// 댓글 출력 영역 높이 자동증가
-								$('.commentContentWrap').on('keyup','textarea', function(e) {
-											$(this).css('height', 'auto');
-											$(this).height(this.scrollHeight);
-										});
-								$('.commentContentWrap').find('textarea')
-										.keyup();
-
-								// 게시글 출력 영역 높이 자동증가
-								$('.postMainWrap').on('keyup', 'textarea',
-										function(e) {
-											$(this).css('height', 'auto');
-											$(this).height(this.scrollHeight);
-										});
-								$('.postMainWrap').find('textarea').keyup();
-
-								// 게시물 없을때 게시글 작성 클릭시 커서 이동
-								$(".noPostSignArea").click(function() {
-									$('.postArea').focus();
-								});
-
-								// 지도 모달 창 열기 
-								$(".mapOption").click(
-										function() {
-											//var modal = $(this).parent().next("div");
-											$(this).parent().next("div").attr("style", "display:block");
-										});
-
-								$("#modal_close_btn").click(
-										function(){$(this).parent().parent("div").attr("style","display:none");
-								
-
-							});
-			
-			// 모달 창 열기 
-			$(".mapOption").click(function() {
-				$(this).parent().next("div").attr("style", "display:block");
-			});
-
-			$("#modal_close_btn").click(function() {
-				$(this).parent().parent("div").attr("style", "display:none");
-			});
-	
-
-			// 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
-			$(".likeBtn").click(function() {
-						var postNo = $(this).attr("name");
-						var img = $(this).attr("src");
-						var likeCount = $(this).parent().next("p").text()
-
-						if (img == "${contextPath}/resources/img/like.png") {
-							likeCount++;
-							$(this).attr('src','${contextPath}/resources/img/like2.png');
-							$(this).parent().next("p").text(likeCount);
-
-						} else {
-							likeCount--;
-							$(this).attr('src','${contextPath}/resources/img/like.png');
-							$(this).parent().next("p").text(likeCount);
-						}
-
-						$.ajax({
-							url : "likeFunction",
-							data : {postNo : postNo	},
-							type : "post",
-							success : function(	result) {
-								if (result == "true") {
-									system.out.println("좋아요 등록 성공")
-							} else {
-									system.out.println("좋아요 해제 성공")
-								}
-							},
-							error : function(e) {
-								console.log("ajax 통신 실패");
-								console.log(e);
-							}							
-							});
-					});
-
-				//  게시글, 댓글 수정/삭제 메뉴창 보이기, 숨기기
-				$(".optionChevron>img").click(function() {
-					$(this).next("div").toggleClass("hide");
-				});
-
-				$(".likeNum").click(function() {
-					$(this).next("div").toggleClass("hide");
-				});
-
-				// 댓글 영역 숨기기
-				$(".commentArea").click(function() {
-					$(this).parent().next("div").toggle(100);
-					$('.writeCommentArea').focus();
-				});
-
-				// 대댓글 영역 숨기기
-				$(".doubleCommentArea").click(
-						function() {
-							$(this).parent().parent().parent()
-									.next("div").toggle(100);
-							// $(".inputCommentWrap").toggle(500);
-							$('.writeCommentArea2').focus();
-				});
-				
-
-				// 게시글 작성 영역 높이 자동증가
-				$('.writePost').on('keyup', 'textarea',
-						function(e) {
-							$(this).css('height', 'auto');
-							$(this).height(this.scrollHeight);
-						});
-				$('.writePost').find('textarea').keyup();
-
-				// 댓글 작성 영역 높이 자동증가
-				$('.inputCommentWrap').on('keyup', 'textarea',
-						function(e) {
-							$(this).css('height', 'auto');
-							$(this).height(this.scrollHeight);
-						});
-				$('.inputCommentWrap').find('textarea').keyup();
-
-				// 댓글 출력 영역 높이 자동증가
-				$('.commentContentWrap').on('keyup', 'textarea',
-						function(e) {
-							$(this).css('height', 'auto');
-							$(this).height(this.scrollHeight);
-						});
-				$('.commentContentWrap').find('textarea').keyup();
-
-				// 게시글 출력 영역 높이 자동증가
-				$('.postMainWrap').on('keyup', 'textarea',
-						function(e) {
-							$(this).css('height', 'auto');
-							$(this).height(this.scrollHeight);
-						});
-				$('.postMainWrap').find('textarea').keyup();
-
-				// 게시물 없을때 게시글 작성 클릭시 커서 이동
-				$(".noPostSignArea").click(function() {
-					$('.postArea').focus();
-				});
-				
-				
-				// 지도 모달 창 열기 
-				$(".mapOption").click(function(){
-
-					//var modal = $(this).parent().next("div");
-					
-					$(this).parent().next("div").attr("style", "display:block");
-			    });
-			   
-			     $("#modal_close_btn").click(function(){
-					$(this).parent().parent("div").attr("style", "display:none");
-			    }); 
-			     
 		});
 		
-		// 모달 창 열기 
+		// 지도 모달 창 열기 
 		$(".mapOption").click(function(){
 			$(this).parent().next("div").attr("style", "display:block");
 	    });
@@ -1289,6 +1165,18 @@ $(document).ready(function(){
 	    $("#modal_close_btn").click(function(){
 			$(this).parent().parent("div").attr("style", "display:none");
 	    });     
+	    
+	 	// 스케치 모달 창 열기 
+		$(".sketchOption").click(function(){
+			$(this).parent().next("div").attr("style", "display:block");
+	    });
+	   
+	     $("#modal_close_btn2").click(function(){
+			$(this).parent().parent("div").attr("style", "display:none");
+	    }); 
+	     
+	     
+	     
 	</script>
 
 
