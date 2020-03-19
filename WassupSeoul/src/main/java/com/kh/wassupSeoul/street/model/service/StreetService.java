@@ -66,6 +66,31 @@ public interface StreetService {
 	 */
 	public abstract int streetJoin(Map<String, Object> map);
 
+	
+	
+	
+	/** 골목 개설 화면 이동용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Excepction
+	 */
+	public abstract int selectMyStreet(int memberNo) throws Exception;
+
+	
+	/** 골목 개설용 Service
+	 * @param changeCoverName
+	 * @param street
+	 * @param memberNo
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int insertStreet(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
+
+
+
+
+
 
 
 	 

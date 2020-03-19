@@ -95,5 +95,91 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.streetJoin", map);
 	}
 
+	/** 골목커버 다음 번호 조회용 DAO
+	 * @return imgNo
+	 * @throws Exception
+	 */
+	public int selectCoverNextNo() throws Exception {
+		
+		return sqlSession.selectOne("streetMapper.selectCoverNextNo");
+	}
+
+	/** 골목커버 등록용 DAO
+	 * @param changeCoverName
+	 * @return result
+	 * @throws Exception
+	 */
+	public int insertStreetCover(String changeCoverName) throws Exception {
+		
+		return sqlSession.insert("streetMapper.insertStreetCover", changeCoverName);
+		
+	}
+
+	/** 골목 개설 화면 이동 조건1 조회용 DAO
+	 * @param memberNo
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectMyStreet(int memberNo) throws Exception {
+		
+		return sqlSession.selectOne("streetMapper.selectMyStreet", memberNo);
+	}
+	
+	/** 골목 개설 화면 이동 조건2 조회용 DAO
+	 * @param memberNo
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectStreetMaster(int memberNo) throws Exception {
+		
+		return sqlSession.selectOne("streetMapper.selectStreetMaster", memberNo);
+	}
+	
+	
+	/** 골목 다음 번호 조회용 DAO
+	 * @return streetNo
+	 * @throws Exception
+	 */
+	public int selectStreetNextNo() throws Exception {
+		
+		return sqlSession.selectOne("streetMapper.selectStreetNextNo");
+	}
+	
+	
+	/** 골목 정보 삽입용 DAO
+	 * @param street
+	 * @return result
+	 * @throws Exception
+	 */
+	public int insertStreet(Street street) throws Exception {
+		
+		return sqlSession.insert("streetMapper.insertStreet", street);
+	}
+
+	/** 골목대장 정보 삽입용 DAO
+	 * @param map
+	 * @return result
+	 * @throws Exception
+	 */
+	public int insertStreetMaster(Map<String, Object> map) throws Exception {
+		
+		return sqlSession.insert("streetMapper.insertStreetMaster", map);
+	}
+
+	/** 골목 키워드 삽입용 DAO
+	 * @param map
+	 * @return result
+	 * @throws Exception
+	 */
+	public int insertStreetKeyword(Map<String, Object> map) throws Exception {
+		
+		return sqlSession.insert("streetMapper.insertStreetKeyword", map);
+	}
+
+	
+
+	
+
+
 
 }
