@@ -301,7 +301,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<p class="nanum float-right" style="color: midnightblue;">(1개
 									이상의 선택을 꼭 권장합니다.)</p>
 							</div>
-							<div class="col-md-6" id="searchHobbyList" style="overflow: auto; height: 270px;">
+							<div class="col-md-6" id="searchHobbyList" style="overflow: auto; max-height: 60px;">
 								<li class="list-group-item">
 									<h5 class="nanum">관심사를 검색하세요</h5>
 								</li>
