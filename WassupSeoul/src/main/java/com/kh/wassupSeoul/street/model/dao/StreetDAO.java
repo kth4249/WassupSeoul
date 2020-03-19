@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 @Repository
@@ -106,6 +107,17 @@ public class StreetDAO {
 	 */
 	public List<Hobby> selectHobby(int memberNo) throws Exception{
 		return sqlSession.selectList("memberMapper.selectHobby", memberNo);
+	}
+
+	
+	
+	/** 댓글 입력용 DAO
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public int writeComment(Reply reply) throws Exception{
+		return sqlSession.insert("streetMapper.writeComment", reply);
 	}
 
 
