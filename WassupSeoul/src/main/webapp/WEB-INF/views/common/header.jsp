@@ -10,6 +10,7 @@
 <c:set var="contextPath" value="${pageContext.servletContext.contextPath }" scope="application"/>
 <link rel="stylesheet" href="${contextPath}/css/bootstrap.css" type="text/css">
 <link rel="stylesheet" href="${contextPath}/css/common.css" type="text/css">
+
 <title>header</title>
 <style>
 .profileBox{

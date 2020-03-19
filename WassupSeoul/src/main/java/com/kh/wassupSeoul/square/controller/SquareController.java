@@ -41,8 +41,10 @@ public class SquareController {
 						@RequestParam(value="districtNo", required=false) Integer districtNo,
 						@RequestParam(value="streetSort", required=false) Integer streetSort, 
 						@RequestParam(value="searchStreet", required=false) String searchStreet){
-		System.out.println("currentPage : " + currentPage + ", districtNo : " + districtNo
-							+ ", streetSort : " + streetSort);
+		/*
+		 * System.out.println("currentPage : " + currentPage + ", districtNo : " +
+		 * districtNo + ", streetSort : " + streetSort);
+		 */
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("districtNo", districtNo);
