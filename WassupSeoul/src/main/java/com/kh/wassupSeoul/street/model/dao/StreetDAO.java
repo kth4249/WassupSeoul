@@ -7,7 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
+import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Street;
@@ -91,8 +91,21 @@ public class StreetDAO {
 		return sqlSession.update("streetMapper.deletePost", postNo );
 	}
 
+	/** 골목 가입용 DAO
+	 * @param map
+	 * @return result
+	 */
 	public int streetJoin(Map<String, Object> map) {
 		return sqlSession.insert("streetMapper.streetJoin", map);
+	}
+
+	/** 회원 관심사 조회용 DAO
+	 * @param memberNo
+	 * @return myHobby
+	 * @throws Exception
+	 */
+	public List<Hobby> selectHobby(int memberNo) throws Exception{
+		return sqlSession.selectList("memberMapper.selectHobby", memberNo);
 	}
 
 
