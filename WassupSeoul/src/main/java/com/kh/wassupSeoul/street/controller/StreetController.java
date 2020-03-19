@@ -47,6 +47,7 @@ public class StreetController {
 
 		System.out.println("골목번호 : " + streetNo);
 		System.out.println("로그인정보 : " + loginMember.getMemberNickname());
+		System.out.println("프로필사진정보 : " + loginMember.getMemberProfileUrl());
 
 		model.addAttribute("streetNo", streetNo);
 

@@ -107,41 +107,24 @@
 							</div>
 
 							<div class="postCountView" style="border: 1px solid black; height: 45px;">
-								
-								<!-- 사진 첨부 -->
+
 								<div class="writeOptionArea shake">
-									<form class="form-signin">
-										<a href="#" data-toggle="modal" data-target="#summerModal"> 
-											<img class="writeOption" src="${contextPath}/resources/img/imageIcon.png" alt="">
-											<p class="arrow_box">사진</p>
-										</a>
-									</form>
+									<img class="writeOption img1" src="${contextPath}/resources/img/imageIcon.png">
+									<p class="arrow_box">사진</p>
 								</div>
 
-								<!-- 동영상 첨부 -->
 								<div class="writeOptionArea shake">
-									<form class="form-signin">
-										<a href="#" data-toggle="modal" data-target="#summerModal"> 
-											<img class="writeOption" src="${contextPath}/resources/img/film.png" alt="">
-											<p class="arrow_box">동영상</p>
-										</a>
-									</form>
+									<img class="writeOption" src="${contextPath}/resources/img/film.png">
+									<p class="arrow_box">동영상</p>
 								</div>
 
 								<!-- 파일첨부 -->
 								<div class="writeOptionArea shake">
-									<form class="form-signin">
-										<a href="#" data-toggle="modal" data-target="#summerModal"> 
-											<img class="writeOption" src="${contextPath}/resources/img/paperclip.png" alt="">
-											<p class="arrow_box">파일첨부</p>
-										</a>
-									</form>
+									<img class="writeOption summerOption" src='${contextPath}/resources/img/paperclip.png'>
+									<p class="arrow_box">파일첨부</p>
 								</div>
+								
 
-                
-                
-                
-                
 								<div class="writeOptionArea shake">
 									<img class="writeOption" src="${contextPath}/resources/img/vote.png">
 									<p class="arrow_box">투표</p>
@@ -352,20 +335,16 @@
 										<div class="profileImgArea" id="profileImgArea"
 											style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px; padding-left: 10px;">
 											
-											<img src="${contextPath}/resources/img/account.png"
-														style="width: 80%; height: 80%;">
-											
-											
-											<%-- <c:if test="${empty loginMember.memberProfile}">
+											<%-- <img src="${contextPath}/resources/img/account.png" style="width: 80%; height: 80%;"> --%>
+																						
+											<c:if test="${empty loginMember.memberProfileUrl}">
 												<!-- 프로필 사진 없을때 사진  -->
-												<img src="${contextPath}/resources/img/account.png"
-														style="width: 80%; height: 80%;">
+												<img src="${contextPath}/resources/img/account.png" style="width: 80%; height: 80%;">
 											</c:if>
-											<c:if test="${!empty loginMember.memberProfile}">
+											<c:if test="${not empty loginMember.memberProfileUrl}">
 												<!-- 프로필 사진 없을때 사진  -->
-												<img src="${contextPath}/resources/img/${loginMember.memberProfile}.png"
-														style="width: 80%; height: 80%;">
-											</c:if> --%>
+												<img src="${contextPath}/resources/profileImage/${loginMember.memberProfileUrl}" style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;">
+											</c:if> 
 
 										</div>
 										<div class="profileNameArea  nanum" id="profileNameArea"
@@ -609,13 +588,8 @@
 										</div>
 										<!-- 댓글영역 -->
 									</div>
-								
 								</div>
-              
-              
-              
-              
-              
+							
 							<div class="row"style="height: 20px; background-color: rgb(221, 233, 218);"></div>
 							<!-- 게시글1 끝-->
 						</c:forEach>
@@ -636,8 +610,6 @@
 		</div>
 	</div>
 	<!-- 컨텐츠영역 종료 -->
-	
-	<%@include file="../street/streetDetail/fileUpload.jsp"%>
 
 
 	<script>
@@ -715,68 +687,69 @@
 								});
 								
 
-		// 글수정
-/* 		$(".updatePost").click(function() {
-			var postNo = $(this).attr("id");
-			//var divBox = $(this).parent(".box111");
+								// 글수정
+			/* 					$(".updatePost").click(function() {
+									var postNo = $(this).attr("id");
+									//var divBox = $(this).parent(".box111");
 
-			$.ajax({
-				url : "updatePost",
-				data : {
-					postNo : postNo
-				},
-				type : "post",
-				success : function(result) {
-					if (result == "true") {
-						system.out.println("게시글 삭제 성공")
-						//divBox.remove();
-					} else {
-						system.out.println("게시글 삭제 실패")
-					}
-				},
-				error : function(e) {
-					console.log("ajax 통신 실패");
-					console.log(e);
-				}
-			});
-			refreshList()
-		}); */
+									$.ajax({
+										url : "updatePost",
+										data : {
+											postNo : postNo
+										},
+										type : "post",
+										success : function(result) {
+											if (result == "true") {
+												system.out.println("게시글 삭제 성공")
+												//divBox.remove();
+											} else {
+												system.out.println("게시글 삭제 실패")
+											}
+										},
+										error : function(e) {
+											console.log("ajax 통신 실패");
+											console.log(e);
+										}
+									});
+									refreshList()
+								}); */
 
-			// 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
-			$(".likeBtn").click(function() {
-				var postNo = $(this).attr("name");
-				var img = $(this).attr("src");
-				var likeCount = $(this).parent().next("p").text()
-	
-				if (img == "${contextPath}/resources/img/like.png") {
-					likeCount++;
-					$(this).attr('src','${contextPath}/resources/img/like2.png');
-					$(this).parent().next("p").text(likeCount);
-	
-				} else {
-					likeCount--;
-					$(this).attr('src','${contextPath}/resources/img/like.png');
-					$(this).parent().next("p").text(likeCount);
-				}
-	
-				$.ajax({
-					url : "likeFunction",
-					data : {postNo : postNo},
-					type : "post",
-					success : function(
-							result) {
-						if (result == "true") {
-							system.out.println("좋아요 등록 성공")
-						} else {
-							system.out.println("좋아요 해제 성공")
-						}
-					},
-					error : function(e) {
-						console.log("ajax 통신 실패");
-						console.log(e);
-					}
-				});
-			});
+								// 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
+								$(".likeBtn").click(function() {
+									var postNo = $(this).attr("name");
+									var img = $(this).attr("src");
+									var likeCount = $(this).parent().next("p").text()
+
+									if (img == "${contextPath}/resources/img/like.png") {
+										likeCount++;
+										$(this).attr('src','${contextPath}/resources/img/like2.png');
+										$(this).parent().next("p").text(likeCount);
+
+									} else {
+										likeCount--;
+										$(this).attr('src','${contextPath}/resources/img/like.png');
+										$(this).parent().next("p").text(likeCount);
+									}
+
+									$.ajax({
+												url : "likeFunction",
+												data : {postNo : postNo},
+												type : "post",
+												success : function(
+														result) {
+													if (result == "true") {
+														system.out.println("좋아요 등록 성공")
+													} else {
+														system.out.println("좋아요 해제 성공")
+													}
+												},
+												error : function(e) {
+													console.log("ajax 통신 실패");
+													console.log(e);
+												}
+											});
+								});
+		});
 		
 		// 지도 모달 창 열기 
 		$(".mapOption").click(function(){
@@ -853,15 +826,6 @@
     		});
     	     
 	</script>
-	
-  
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-		crossorigin="anonymous"></script>
-	
 
 
 </body>
