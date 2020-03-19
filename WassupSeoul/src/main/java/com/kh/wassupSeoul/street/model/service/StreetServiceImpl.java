@@ -289,16 +289,6 @@ public class StreetServiceImpl implements StreetService{
 	
 	
 	
-	/** 회원 관심사 조회용 Service (memberMapper에서)
-	 * @param memberNo
-	 * @return myHobby
-	 * @throws Exception
-	 */
-	@Override
-	public List<Hobby> selectHobby(int memberNo) throws Exception {
-		return streetDAO.selectHobby(memberNo);
-	}
-
 	
 	/**	댓글 입력용 Service
 	 * @param reply
