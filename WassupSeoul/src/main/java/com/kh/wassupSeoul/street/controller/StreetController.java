@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.wassupSeoul.common.FileRename;
+import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.service.StreetService;
@@ -348,7 +349,19 @@ public class StreetController {
 	@RequestMapping("recommendFriend")
 	public String recommendFriend(Model model) {
 		int streetNo = (int) model.getAttribute("streetNo");
-
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		try {
+			List<Hobby> myHobby = streetService.selectHobby(loginMember.getMemberNo());
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("streetNo", streetNo);
+			if(!myHobby.isEmpty() && myHobby != null) {
+				map.put("myHobby", myHobby);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+			
 		return "street/recommendFriend";
 	}
 	
@@ -363,7 +376,7 @@ public class StreetController {
 		
 		List<ProfileStreet> myStreet = (List<ProfileStreet>)model.getAttribute("myStreet");
 		if(myStreet != null) {
-			if(myStreet.size() > 3) {
+			if(myStreet.size() >= 3) {
 				return -1;
 			}
 		}
