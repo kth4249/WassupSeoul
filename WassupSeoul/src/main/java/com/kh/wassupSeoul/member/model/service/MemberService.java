@@ -215,6 +215,12 @@ public interface MemberService {
 	 */
 	int deleteFriendList(int memberNo) throws Exception;
 	
+	/** 회원 정보 조회용 Service
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	Member selectProfileMember(int memberNo) throws Exception;
 	
 
 	

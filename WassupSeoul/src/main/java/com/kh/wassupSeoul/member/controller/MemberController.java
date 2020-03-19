@@ -67,7 +67,7 @@ public class MemberController {
 
 			String root = request.getSession().getServletContext().getRealPath("resources");
 			String savePath = root + "/" + "profileImage";
-			System.out.println("이미지 저장 경로 : " + savePath);
+			//System.out.println("이미지 저장 경로 : " + savePath);
 			File folder = new File(savePath);
 			if(!folder.exists()) folder.mkdir();
 	 
@@ -101,7 +101,7 @@ public class MemberController {
 								// 해당하는 hobbyNo얻기 
 								int hobbyNo = memberService.getInsertHobbyNo(tempHobbyName);
 								hobbyNoArr[i] = hobbyNo;
-								System.out.println("추가한 관심사의 관심사번호 : " + hobbyNo);
+								//System.out.println("추가한 관심사의 관심사번호 : " + hobbyNo);
 							} else {
 								model.addAttribute("msg","관심사 추가 실패");
 								return "redirect:/square";
@@ -112,7 +112,7 @@ public class MemberController {
 					
 					for(int i=0;i<hobbyNoArr.length;i++) {
 						MemberHobby temp = new MemberHobby(memberNo, hobbyNoArr[i]);
-						System.out.println(temp);
+						//System.out.println(temp);
 						insertHobby.add(temp);
 					}
 					
@@ -157,14 +157,14 @@ public class MemberController {
 				// 1) 해당 관심사 가져오기
 				List<Hobby> myHobby = memberService.selectHobby(loginMember.getMemberNo());
 				for(int k=0;k<myHobby.size();k++) {
-					System.out.println(myHobby.get(k));
+					//System.out.println(myHobby.get(k));
 				}
 				model.addAttribute("myHobby",myHobby);
 				
 				// 2) 해당 골목 가져오기
 				List<ProfileStreet> myStreet = memberService.selectProfileStreet(loginMember.getMemberNo());
 				for(int k=0;k<myStreet.size();k++) {
-					System.out.println(myStreet.get(k));
+					//System.out.println(myStreet.get(k));
 				}
 				
 				// 골목 keyword에 사용할 컬렉션 선언
@@ -196,10 +196,10 @@ public class MemberController {
 					}
 					model.addAttribute("myStreetKeyword",myStreetKeyword);
 					for(int g=0;g<myStreetKeyword.size();g++) {
-						System.out.println("myStreetKeyword : " + myStreetKeyword.get(g));
+						//System.out.println("myStreetKeyword : " + myStreetKeyword.get(g));
 					}
 					for(int t=0;t<myStreet.size();t++) {
-						System.out.println("내골목 : " + myStreet.get(t));
+						//System.out.println("내골목 : " + myStreet.get(t));
 					}
 					model.addAttribute("myStreet", myStreet);
 					
@@ -237,7 +237,7 @@ public class MemberController {
 		
 		try {
 			String memberEmail = memberService.findEmail(member);
-			System.out.println("이거: "+memberEmail);
+			//System.out.println("이거: "+memberEmail);
 			
 			PrintWriter out = response.getWriter();
 			out.print(memberEmail);
@@ -276,7 +276,7 @@ public class MemberController {
 	                    buf.append((rnd.nextInt(10)));
 	                }
 	            }
-	            System.out.println("난수 비밀번호 :" +  buf);
+	            //System.out.println("난수 비밀번호 :" +  buf);
 	            String randomPwd = buf.toString();
 	            
 	            Map<String, String> randomMap = new HashMap<String, String>();
@@ -285,7 +285,7 @@ public class MemberController {
 	            randomMap.put("email", email);
 	            
 	            int result = memberService.makeRandomPwd(randomMap);
-				System.out.println("리저트값이다!!!: "+result);
+				//System.out.println("리저트값이다!!!: "+result);
 				
 				/* return new EmailController().sendEmail(model,request,randomMap); */
 				App app = new App();
@@ -461,7 +461,7 @@ public class MemberController {
 								// 해당하는 hobbyNo얻기 
 								int hobbyNo = memberService.getInsertHobbyNo(tempHobbyName);
 								hobbyNoArr[i] = hobbyNo;
-								System.out.println("추가한 관심사의 관심사번호 : " + hobbyNo);
+								//System.out.println("추가한 관심사의 관심사번호 : " + hobbyNo);
 							} else {
 								model.addAttribute("msg","관심사 추가 실패");
 								return "redirect:/";
@@ -485,7 +485,7 @@ public class MemberController {
 							for(int i=0;i<hobbyNmArr.length;i++) {
 								// 변경된 hobby들 저장
 								String tempHobbyName = hobbyNmArr[i].substring(1);
-								System.out.println("관심사 : " +tempHobbyName);
+								//System.out.println("관심사 : " +tempHobbyName);
 								Hobby temp = new Hobby(hobbyNoArr[i],tempHobbyName);
 								myHobby.add(temp);
 							}
@@ -523,7 +523,7 @@ public class MemberController {
 	@RequestMapping("hobbyDupCheck")
 	public String hobbyDupCheck(String hobbyName) {
 		Hobby hobby = memberService.hobbyDupCheck(hobbyName);
-		System.out.println("직접입력 : " + hobby);
+		//System.out.println("직접입력 : " + hobby);
 		if(hobby != null)	{
 			return hobby.getHobbyNo()+"";
 		}
@@ -606,7 +606,39 @@ public class MemberController {
 			}
 		
 		}
-	
+
+		// 회원 정보 및 관심사 조회
+	    @ResponseBody
+		@RequestMapping("selectProfileMember")
+	    public ArrayList<Object>  selectProfileMember(HttpServletResponse response, Member tempMember) {
+	    	ArrayList<Object> mList = new ArrayList<Object>();
+	    	try {
+	    		
+	        	// 1) 회원 정보 가져오기
+	    		Member member = memberService.selectProfileMember(tempMember.getMemberNo());
+	    		System.out.println("모달창 회원 : " + member);
+	    		mList.add(member); // 0번 인덱스에 회원정보
+	    		
+	        	// 2) 회원 관심사 가져오기
+	    		List<Hobby> myHobby = memberService.selectHobby(tempMember.getMemberNo());
+				for(int k=0;k<myHobby.size();k++) {
+					System.out.println("모달창 관심사 : " + myHobby.get(k));
+					mList.add(myHobby.get(k)); // 1~3번 인덱스에 회원 관심사
+				}
+				
+				for(int i=0;i<mList.size();i++) {
+					System.out.println("모달창 회원 : " + mList.get(i));
+				}
+				
+				response.setCharacterEncoding("UTF-8");
+				new Gson().toJson(mList, response.getWriter());
+	    		
+	    	} catch(Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    	
+	    	return null;
+	    }
 	
 
 

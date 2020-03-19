@@ -215,24 +215,58 @@
 	</update>
   	
   	
-  	<!-- 골목 커버 정보 삽입 IMG_NO, IMG_URL, IMG_LEVEL -->
+  	
+  	
+  	
+  	<!-- 골목 개설 조건 조회 1 -->
+  	<select id="selectMyStreet" parameterType="_int" resultType="_int">
+  		SELECT COUNT(*) FROM STREET_JOIN 
+  		WHERE MEMBER_NO = #{memberNo}  		
+  	</select>
+  	
+  	<!-- 골목 개설 조건 조회 2 -->
+  	<select id="selectStreetMaster" parameterType="_int" resultType="_int">
+  		SELECT COUNT(*) FROM STREET_JOIN 
+  		WHERE MEMBER_NO = #{memberNo} AND CITIZEN_GRADE = 'M'  		
+  	</select>
+  	
+  	<!-- 골목 커버 다음 번호 조회 -->
+  	<select id="selectCoverNextNo" resultType="_int">
+  		SELECT SEQ_STREET_IMG.NEXTVAL FROM DUAL 
+  	</select>
+  	  	
+  	
+  	<!-- 골목 커버 정보 삽입 -->
 	<insert id="insertStreetCover" parameterType="string">
   		INSERT INTO STREET_IMG
-  		VALUES(SEQ_STREET_IMG.NEXTVAL, #{streetImgUrl}, 1) 
+  		VALUES(SEQ_STREET_IMG.NEXTVAL, #{changeCoverName}, 1)  
   	</insert> 
-  	   
   	
-  	<!-- 골목 개설 -->
+  	<!-- 골목 다음 번호 조회 -->
+  	<select id="selectStreetNextNo" resultType="_int">
+  		SELECT SEQ_STREET.NEXTVAL FROM DUAL 
+  	</select>  	
+  	
+  	
+  	<!-- 골목 정보 삽입 -->
   	<insert id="insertStreet" parameterType="street">
   		INSERT INTO STREET
-  		VALUES(SEQ_STREET.NEXTVAL, #{streetNm}, #{streetIntro}, DEFAULT, #{streetMaxMember}, DEFAULT, IMG_NO, #{districtNo})  	
+  		VALUES(SEQ_STREET.NEXTVAL, #{streetNm}, #{streetIntro}, 
+  			   DEFAULT, #{streetMaxMember}, DEFAULT, 
+  			   #{imgNo}, #{districtNo})  	
   	</insert>
   	 
   	 
-  	<!-- 골목 가입 -->
-  	<insert id="streetJoin" parameterType="map">
+  	<!-- 골목 대장 정보 삽입 -->
+  	<insert id="insertStreetMaster" parameterType="map">
   		INSERT INTO STREET_JOIN
-  		VALUES(#{memberNo}, #{streetNo}, DEFAULT, DEFAULT)
+  		VALUES(#{memberNo}, #{streetNo}, 'M', 'Y')
+  	</insert>
+  	
+  	<!-- 골목 키워드 삽입 -->
+  	<insert id="insertStreetKeyword" parameterType="map">
+  		INSERT INTO KEYWORD
+  		VALUES(SEQ_KEYWORD.NEXTVAL, #{keyword}, #{streetNo})
   	</insert>
   	
   	
@@ -279,5 +313,14 @@
   			</where>
 		</if>
 	</select>
+  
+  
+  	<!-- 댓글 입력 -->
+  	<insert id="writeComment" parameterType="reply">
+  		INSERT INTO REPLY
+  		VALUES(SEQ_REPLY.NEXTVAL, #{replyContent}, SYSDATE, 'Y', 1, #{memberNo}, #{boardNo}, null )
+  	</insert>
+  	
+  	 
 	
 </mapper>

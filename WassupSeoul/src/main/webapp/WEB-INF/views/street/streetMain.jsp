@@ -7,15 +7,15 @@
 <head>
 <meta charset="UTF-8">
 
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-					crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" 
+		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/fullcalendar.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/daygrid.css" type="text/css">
-    <script type="text/javascript" src="${contextPath}/resources/js/painter.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/js/drawengine.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>
+   <%--  <script type="text/javascript" src="${contextPath}/resources/js/painter.js"></script>
+    <script type="text/javascript" src="${contextPath}/resources/js/drawengine.js"></script> --%>
+ <%--    <script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script> --%>
 		<%--     <script src="<c:url value="/resources/js/painter.js" />"></script>
     <script src="<c:url value="/resources/js/drawengine.js" />"></script>
     <script src="<c:url value="/resources/js/timeLine.js" />"></script> --%>
@@ -66,7 +66,6 @@
 		
 			<!-- 사이드 영역 -->
 			<div class="col-md-3" id="devideArea">
-				
 				<%@include file="../street/streetDetail/streetSide1.jsp"%>
 			</div>
 			<!-- 사이드 영역 -->
@@ -108,40 +107,41 @@
 							</div>
 
 							<div class="postCountView" style="border: 1px solid black; height: 45px;">
-
+								
+								<!-- 사진 첨부 -->
 								<div class="writeOptionArea shake">
-									<img class="writeOption img1" src="${contextPath}/resources/img/imageIcon.png">
-									<p class="arrow_box">사진</p>
+									<form class="form-signin">
+										<a href="#" data-toggle="modal" data-target="#summerModal"> 
+											<img class="writeOption" src="${contextPath}/resources/img/imageIcon.png" alt="">
+											<p class="arrow_box">사진</p>
+										</a>
+									</form>
 								</div>
 
+								<!-- 동영상 첨부 -->
 								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/film.png">
-									<p class="arrow_box">동영상</p>
+									<form class="form-signin">
+										<a href="#" data-toggle="modal" data-target="#summerModal"> 
+											<img class="writeOption" src="${contextPath}/resources/img/film.png" alt="">
+											<p class="arrow_box">동영상</p>
+										</a>
+									</form>
 								</div>
 
 								<!-- 파일첨부 -->
 								<div class="writeOptionArea shake">
-									<img class="writeOption summerOption" src='${contextPath}/resources/img/paperclip.png'>
-									<p class="arrow_box">파일첨부</p>
+									<form class="form-signin">
+										<a href="#" data-toggle="modal" data-target="#summerModal"> 
+											<img class="writeOption" src="${contextPath}/resources/img/paperclip.png" alt="">
+											<p class="arrow_box">파일첨부</p>
+										</a>
+									</form>
 								</div>
-								
-								<!-- 썸머 모달  -->
-								<div id="modal" class="nanum summerModal">
 
-									<div class="modal_content" style="padding: 3px;">
-										<button type="button" id="modal_close_btn"
-											style="width: 20px; height: 20px; font-size: 5px; float: right;">X</button>
-
-										<textarea class=" nanum" id="writePostArea" rows="6"
-											placeholder="게시글내용을 입력하세요."
-											style="border: 1px solid black; color: black; font-size: 17px; height: 280px"></textarea>
-										<input type="text" id="sample5_address" placeholder="주소를 입력하세요." style="width:80%;">
-										<input type="button" onclick="sample5_execDaumPostcode()"
-											value="주소 검색"><br>
-										<div id="map"style="width: 100%; height: 300px; margin-top: 10px; border:2px black solid;"></div>
-										<button type="button" style="width: 10%; height: 25px; font-size: 17px; float: right; margin-top:10px">작성</button>
-									</div>
-
+                
+                
+                
+                
 								<div class="writeOptionArea shake">
 									<img class="writeOption" src="${contextPath}/resources/img/vote.png">
 									<p class="arrow_box">투표</p>
@@ -162,7 +162,7 @@
 									<div class="modal_content" style="padding: 3px;">
 										<button type="button" id="modal_close_btn" style="width: 20px; height: 20px; font-size: 5px; float: right;">X</button>
 
-										<textarea class=" nanum" id="writePostArea" rows="6" placeholder="게시글내용을 입력하세요."
+										<textarea class=" nanum" id="writePostArea1" rows="6" placeholder="게시글내용을 입력하세요."
 											style="border: 1px solid black; color: black; font-size: 17px; height: 280px"></textarea>
 										<input type="text" id="sample5_address" placeholder="주소를 입력하세요." style="width:80%;">
 										<input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
@@ -173,7 +173,7 @@
 									<div class="modal_layer"></div>
 								</div>
 
-								<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
+							<!-- 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
 								<script>
 									var container = document.getElementById('map');
 									var options = {
@@ -181,7 +181,7 @@
 										level: 3
 										
 									};
-								</script>
+								</script> -->
 								
 								<div class="writeOptionArea shake">
 									<img class="writeOption sketchOption"
@@ -194,7 +194,7 @@
 
 				<div class="modal_content" style="padding: 3px;">
 					<button type="button" id="modal_close_btn2" style="width: 20px; height: 20px; font-size: 5px; float: right;">X</button>
-					<textarea class=" nanum" id="writePostArea" rows="6" placeholder="게시글내용을 입력하세요." style="border: 1px solid black; color: black; font-size: 17px; height: 100px"></textarea>
+					<textarea class=" nanum" id="writePostArea2" rows="6" placeholder="게시글내용을 입력하세요." style="border: 1px solid black; color: black; font-size: 17px; height: 100px"></textarea>
 					<div class="jb_table">
 						<div class="row drawing">
 							<span class="cell">
@@ -305,6 +305,7 @@
 									<button type="submit" class="btn nanum" style="height: 40px; font-size: 18px; font-weight: bolder; position: relative; bottom: 1px; right: 7px; float: right;">작성</button>
 								</div>
 							</div>
+							
 						</form>
 					</div>
 				</div>
@@ -473,10 +474,12 @@
 
 											</div>
 											<div style="width: 20%; display: inline-block; position: absolute;">
-												<button type="submit" class="btn nanum" style="width: 100%; font-size: 18px; font-weight: bolder; position: relative; left: 10px; bottom: 7px">작성</button>
+												<button type="submit" class="btn nanum" id="commentBtn" name="${board.boardNo}" style="width: 100%; font-size: 18px; font-weight: bolder; position: relative; left: 10px; bottom: 7px;">작성</button>
 											</div>
 										</div>
 										<!-- 댓글작성 -->
+										
+										
 
 										<!-- 댓글보기 -->
 										<div style="border: 1px solid black;">
@@ -606,16 +609,20 @@
 										</div>
 										<!-- 댓글영역 -->
 									</div>
+								
 								</div>
-							</div>
+              
+              
+              
+              
+              
 							<div class="row"style="height: 20px; background-color: rgb(221, 233, 218);"></div>
 							<!-- 게시글1 끝-->
 						</c:forEach>
 					</c:if>
-
 				</div>
 				<!-- 게시글영역 끝-->
-
+		
 			</div>
 			<!-- 타임라인-->
 			
@@ -624,11 +631,13 @@
 				<%@include file="../street/streetDetail/streetSide2.jsp"%>
 			</div>
 			<!-- 사이드 영역 -->
-
+			
 			
 		</div>
 	</div>
 	<!-- 컨텐츠영역 종료 -->
+	
+	<%@include file="../street/streetDetail/fileUpload.jsp"%>
 
 
 	<script>
@@ -663,70 +672,111 @@
 									refreshList()
 								});
 								
-
-								// 글수정
-			/* 					$(".updatePost").click(function() {
-									var postNo = $(this).attr("id");
+								
+								// 댓글작성
+								$("#commentBtn").click(function() {
+									var postNo = $(this).attr("name");
 									//var divBox = $(this).parent(".box111");
-
+									var commentContent = $(this).parent().prev().find("textarea").val();
+									
+									console.log("댓글입력내용:"+commentContent);
+									console.log("댓글 입력 게시글 번호 :"+postNo);
+																	
 									$.ajax({
-										url : "updatePost",
-										data : {
-											postNo : postNo
-										},
+										url : "writeComment",
+										data : {"postNo" : postNo, "commentContent" : commentContent },
 										type : "post",
 										success : function(result) {
+											
 											if (result == "true") {
-												system.out.println("게시글 삭제 성공")
+												
+												console.log("댓글 작성 성공");
+												system.out.println("댓글 작성 성공")
 												//divBox.remove();
+												$(this).parent().prev().find("textarea").val= "";
+												console.log("댓글 입력 후 내용:"+commentContent);
+												
 											} else {
-												system.out.println("게시글 삭제 실패")
+												console.log("댓글 작성 실패");
+												system.out.println("댓글 작성 실패")
+												$(this).parent().prev().find("textarea").val= "";
+												console.log("댓글 입력 후 내용:"+commentContent);
 											}
 										},
 										error : function(e) {
 											console.log("ajax 통신 실패");
+											$(this).parent().prev().find("textarea").val= "";
+											console.log("댓글 입력 후 내용:"+commentContent);
 											console.log(e);
+											
 										}
 									});
-									refreshList()
-								}); */
-
-								// 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
-								$(".likeBtn").click(function() {
-									var postNo = $(this).attr("name");
-									var img = $(this).attr("src");
-									var likeCount = $(this).parent().next("p").text()
-
-									if (img == "${contextPath}/resources/img/like.png") {
-										likeCount++;
-										$(this).attr('src','${contextPath}/resources/img/like2.png');
-										$(this).parent().next("p").text(likeCount);
-
-									} else {
-										likeCount--;
-										$(this).attr('src','${contextPath}/resources/img/like.png');
-										$(this).parent().next("p").text(likeCount);
-									}
-
-									$.ajax({
-												url : "likeFunction",
-												data : {postNo : postNo},
-												type : "post",
-												success : function(
-														result) {
-													if (result == "true") {
-														system.out.println("좋아요 등록 성공")
-													} else {
-														system.out.println("좋아요 해제 성공")
-													}
-												},
-												error : function(e) {
-													console.log("ajax 통신 실패");
-													console.log(e);
-												}
-											});
+									// refreshList()
 								});
-		});
+								
+
+		// 글수정
+/* 		$(".updatePost").click(function() {
+			var postNo = $(this).attr("id");
+			//var divBox = $(this).parent(".box111");
+
+			$.ajax({
+				url : "updatePost",
+				data : {
+					postNo : postNo
+				},
+				type : "post",
+				success : function(result) {
+					if (result == "true") {
+						system.out.println("게시글 삭제 성공")
+						//divBox.remove();
+					} else {
+						system.out.println("게시글 삭제 실패")
+					}
+				},
+				error : function(e) {
+					console.log("ajax 통신 실패");
+					console.log(e);
+				}
+			});
+			refreshList()
+		}); */
+
+			// 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
+			$(".likeBtn").click(function() {
+				var postNo = $(this).attr("name");
+				var img = $(this).attr("src");
+				var likeCount = $(this).parent().next("p").text()
+	
+				if (img == "${contextPath}/resources/img/like.png") {
+					likeCount++;
+					$(this).attr('src','${contextPath}/resources/img/like2.png');
+					$(this).parent().next("p").text(likeCount);
+	
+				} else {
+					likeCount--;
+					$(this).attr('src','${contextPath}/resources/img/like.png');
+					$(this).parent().next("p").text(likeCount);
+				}
+	
+				$.ajax({
+					url : "likeFunction",
+					data : {postNo : postNo},
+					type : "post",
+					success : function(
+							result) {
+						if (result == "true") {
+							system.out.println("좋아요 등록 성공")
+						} else {
+							system.out.println("좋아요 해제 성공")
+						}
+					},
+					error : function(e) {
+						console.log("ajax 통신 실패");
+						console.log(e);
+					}
+				});
+			});
 		
 		// 지도 모달 창 열기 
 		$(".mapOption").click(function(){
@@ -742,10 +792,76 @@
 			$(this).parent().next("div").attr("style", "display:block");
 	    });
 	   
-    $("#modal_close_btn2").click(function(){
+    	$("#modal_close_btn2").click(function(){
 			$(this).parent().parent("div").attr("style", "display:none");
 	    }); 
+    	
+    	
+    		//  게시글, 댓글 수정/삭제 메뉴창 보이기, 숨기기
+    		$(".optionChevron>img").click(function() {
+    			$(this).next("div").toggleClass("hide");
+    		});
+
+    		$(".likeNum").click(function() {
+    			$(this).next("div").toggleClass("hide");
+    		});
+
+    		// 댓글 영역 숨기기
+    		$(".commentArea").click(function() {
+    			$(this).parent().next("div").toggle(100);
+    			$('.writeCommentArea').focus();
+    		});
+
+    		// 대댓글 영역 숨기기
+    		$(".doubleCommentArea").click(function() {
+    			$(this).parent().parent().parent().next("div").toggle(100);
+    			// $(".inputCommentWrap").toggle(500);
+    			$('.writeCommentArea2').focus();
+    		});
+
+    		// 게시글 작성 영역 높이 자동증가
+    		$('.writePost').on('keyup', 'textarea', function(e) {
+    			$(this).css('height', 'auto');
+    			$(this).height(this.scrollHeight);
+    		});
+    		$('.writePost').find('textarea').keyup();
+
+    		// 댓글 작성 영역 높이 자동증가
+    		$('.inputCommentWrap').on('keyup', 'textarea', function(e) {
+    			$(this).css('height', 'auto');
+    			$(this).height(this.scrollHeight);
+    		});
+    		$('.inputCommentWrap').find('textarea').keyup();
+
+    		// 댓글 출력 영역 높이 자동증가
+    		$('.commentContentWrap').on('keyup', 'textarea', function(e) {
+    			$(this).css('height', 'auto');
+    			$(this).height(this.scrollHeight);
+    		});
+    		$('.commentContentWrap').find('textarea').keyup();
+
+    		// 게시글 출력 영역 높이 자동증가
+    		$('.postMainWrap').on('keyup', 'textarea', function(e) {
+    			$(this).css('height', 'auto');
+    			$(this).height(this.scrollHeight);
+    		});
+    		$('.postMainWrap').find('textarea').keyup();
+
+    		// 게시물 없을때 게시글 작성 클릭시 커서 이동
+    		$(".noPostSignArea").click(function() {
+    			$('.postArea').focus();
+    		});
+    	     
 	</script>
+	
+  
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+	
 
 
 </body>

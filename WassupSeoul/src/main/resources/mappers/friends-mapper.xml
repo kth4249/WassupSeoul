@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="friendsMapper">
+
+	<resultMap type="Relationship" id="RelationshipResultSet">
+		<id property="myNum" column="MY_NO"/>
+		<id property="yourNum" column="YOUR_NO"/>
+		<result property="requestStatus" column="REQUEST_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="Member" id="memberResultSet">
+		<id property="memberNo" column="MEMBER_NO"/>
+   		<result property="memberEmail" column="MEMBER_EMAIL"/>
+  		<result property="memberPwd" column="MEMBER_PWD"/>
+  		<result property="memberNm" column="MEMBER_NM"/>
+  		<result property="memberNickname" column="MEMBER_NICKNAME"/>
+  		<result property="memberPhone" column="MEMBER_PHONE"/>
+  		<result property="memberGender" column="MEMBER_GENDER"/>
+  		<result property="memberAge" column="MEMBER_AGE"/>
+  		<result property="memberProfileUrl" column="MEMBER_PROFILE_URL"/>
+  		<result property="memberGrade" column="MEMBER_GRADE"/>
+  		<result property="memberEnrollDt" column="MEMBER_ENROLL_DT"/>
+  		<result property="memberStatus" column="MEMBER_STATUS"/>
+	</resultMap>
+
+
+
+
+<!-- 친구요청 조회용 -->
+<select id="friendsRequest" parameterType='_int' resultMap="RelationshipResultSet">
+	SELECT * FROM RELATIONSHIP
+	JOIN MEMBER ON(MY_NO = MEMBER_NO)
+	WHERE MY_NO = #{myNum}
+	AND REQUEST_STATUS = 1
+	AND MEMBER_STATUS = 'Y'
+</select> 
+
+<select id="justFriendsReq" parameterType='list' resultMap="memberResultSet">
+	SELECT * FROM MEMBER
+	<where>
+	<if test="list != null">
+		AND MEMBER_NO IN
+		<foreach collection="list" open="(" separator="," close=")" item="member">
+			#{member.yourNum}
+		</foreach>
+	</if>
+		AND MEMBER_STATUS = 'Y'
+	</where>
+</select>
+	
+
+
+</mapper>

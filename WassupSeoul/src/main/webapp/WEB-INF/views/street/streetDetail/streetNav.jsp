@@ -1,24 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-
-		<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-					crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css">
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/fullcalendar.css" type="text/css">
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/daygrid.css" type="text/css">
-    <script type="text/javascript" src="${contextPath}/resources/js/painter.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/js/drawengine.js"></script>
-    <script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>
-		<%--     <script src="<c:url value="/resources/js/painter.js" />"></script>
-    <script src="<c:url value="/resources/js/drawengine.js" />"></script>
-    <script src="<c:url value="/resources/js/timeLine.js" />"></script> --%>
     
 <title>타임라인 사이드,네비바 </title>
 
