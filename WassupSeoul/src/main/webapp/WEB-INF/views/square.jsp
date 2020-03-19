@@ -66,6 +66,8 @@
 
 <body>
 	<%@include file="common/header.jsp"%>
+	
+	
 	<div class="container-fluid loungeBack">
 		<div class="row">
 			<div class="col-md-12">
@@ -374,6 +376,9 @@
 		</div>
 
 
+		 
+		
+		
 		<%@ include file="common/footer.jsp"%>
 
 
