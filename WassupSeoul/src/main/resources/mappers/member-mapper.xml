@@ -239,6 +239,14 @@
 		WHERE MY_NO = #{memberNo}
 	</delete>
 	
+	<!-- 회원정보 조회 -->
+	<select id="selectProfileMember" parameterType="_int" resultMap="memberResultSet">
+		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_NM, MEMBER_NICKNAME, MEMBER_PHONE, 
+			   MEMBER_GENDER, MEMBER_AGE, MEMBER_PROFILE_URL
+		FROM MEMBER
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
 
 	
 	

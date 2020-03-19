@@ -606,7 +606,39 @@ public class MemberController {
 			}
 		
 		}
-	
+
+		// 회원 정보 및 관심사 조회
+	    @ResponseBody
+		@RequestMapping("selectProfileMember")
+	    public ArrayList<Object>  selectProfileMember(HttpServletResponse response, Member tempMember) {
+	    	ArrayList<Object> mList = new ArrayList<Object>();
+	    	try {
+	    		
+	        	// 1) 회원 정보 가져오기
+	    		Member member = memberService.selectProfileMember(tempMember.getMemberNo());
+	    		System.out.println("모달창 회원 : " + member);
+	    		mList.add(member); // 0번 인덱스에 회원정보
+	    		
+	        	// 2) 회원 관심사 가져오기
+	    		List<Hobby> myHobby = memberService.selectHobby(tempMember.getMemberNo());
+				for(int k=0;k<myHobby.size();k++) {
+					System.out.println("모달창 관심사 : " + myHobby.get(k));
+					mList.add(myHobby.get(k)); // 1~3번 인덱스에 회원 관심사
+				}
+				
+				for(int i=0;i<mList.size();i++) {
+					System.out.println("모달창 회원 : " + mList.get(i));
+				}
+				
+				response.setCharacterEncoding("UTF-8");
+				new Gson().toJson(mList, response.getWriter());
+	    		
+	    	} catch(Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    	
+	    	return null;
+	    }
 	
 
 

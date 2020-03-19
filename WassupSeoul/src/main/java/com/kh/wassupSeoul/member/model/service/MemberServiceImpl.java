@@ -366,7 +366,16 @@ public class MemberServiceImpl implements MemberService{
 	public int deleteFriendList(int memberNo) throws Exception {
 		return memberDAO.deleteFriendList(memberNo);
 	}
-
+	
+	/** 회원 정보 조회용 Service
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	@Override
+	public Member selectProfileMember(int memberNo) throws Exception {
+		return memberDAO.selectProfileMember(memberNo);
+	}
 
 
 

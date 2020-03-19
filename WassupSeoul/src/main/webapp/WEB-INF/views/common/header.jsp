@@ -10,7 +10,9 @@
 <c:set var="contextPath" value="${pageContext.servletContext.contextPath }" scope="application"/>
 <link rel="stylesheet" href="${contextPath}/css/bootstrap.css" type="text/css">
 <link rel="stylesheet" href="${contextPath}/css/common.css" type="text/css">
-
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+		crossorigin="anonymous"></script>
 <title>header</title>
 <style>
 .profileBox{
@@ -32,7 +34,6 @@ object-fit: cover;
 		<script>alert("${msg}")</script>
 		<c:remove var="msg"/>
 	</c:if>
-	
 	
 	<c:url var="detailUrl" value="square">
 		<c:param name="currentPage" value="1" />
@@ -94,7 +95,7 @@ object-fit: cover;
 				</div>
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="mypageButton">
-					<a class="dropdown-item nanum" data-toggle="modal" data-target="#profileModal">내정보 조회</a> 
+					<a class="dropdown-item nanum" data-toggle="modal" data-target="#profileModal" id="abcde">내정보 조회</a> 
 					<a class="dropdown-item nanum" data-toggle="modal" data-target="#golmokModal">내골목 조회</a>
 					<a class="dropdown-item nanum" data-toggle="modal">1:1 문의</a> 
 					<a class="dropdown-item nanum" data-toggle="modal">공지사항</a>
@@ -104,6 +105,8 @@ object-fit: cover;
 			</div>
 		</div>
 	</nav>
+	
+	
 	
 	<!-- profile Modal -->
     <div class="modal fade" id="profileModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
@@ -122,7 +125,7 @@ object-fit: cover;
                 <div class="col-md-4"></div>
                 <div class="col-md-4">
                     <div class="profileBox">
-                    <img class="profileImage" src="${contextPath}/resources/profileImage/${loginMember.memberProfileUrl}" alt="이미지">
+                    <img class="profileImage" src="" alt="이미지" id="memberProfileUrl">
                     </div>
                 </div>
                 <div class="col-md-4"></div>
@@ -131,64 +134,39 @@ object-fit: cover;
                 <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <input type="text" value="${loginMember.memberNickname}" class="nanum form-control-plaintext text-center" style="font-size: 35px;font-weight: bold;" readonly>
+                    <input type="text" id="memberNickName" class="nanum form-control-plaintext text-center" style="font-size: 35px;font-weight: bold;" readonly>
                 </div>
                 <div class="col-md-3"></div>
                 </div>
                 <div class="row">
                 <div class="col-md-2"></div>
-                <div class="col-md-8"><input type="text" value="${loginMember.memberEmail}" class="nanum form-control-plaintext text-center" style="font-size: 25px;font-weight: bold;" readonly></div>
+                <div class="col-md-8"><input type="text" id="memberEmail" class="nanum form-control-plaintext text-center" style="font-size: 25px;font-weight: bold;" readonly></div>
                 <div class="col-md-2"></div>
                 </div>
                 <div class="row">
                 <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">이름</label>
                 <div class="col-sm-4">
-                    <input type="text" readonly class="nanum form-control-plaintext text-center" value="${loginMember.memberNm}" style="font-size: 25px;">
+                    <input type="text" readonly id="memberName" class="nanum form-control-plaintext text-center"  style="font-size: 25px;">
                 </div>
                 <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">나이</label>
                 <div class="col-sm-4">
-                    <input type="text" readonly class="nanum form-control-plaintext text-center" value="${loginMember.memberAge}" style="font-size: 25px;">
+                    <input type="text" readonly id="memberAge" class="nanum form-control-plaintext text-center" style="font-size: 25px;">
                 </div>
                 </div>
 
                 <div class="row">
                 <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">성별</label>
                 <div class="col-sm-4">
-                	<c:choose>
-                		<c:when test="${loginMember.memberGender == 'M'}">
-                			<input type="text" readonly class="nanum form-control-plaintext text-center" value="남성" style="font-size: 25px;">	
-                		</c:when>
-                		<c:otherwise>
-                			<input type="text" readonly class="nanum form-control-plaintext text-center" value="여성" style="font-size: 25px;">
-                		</c:otherwise>
-                	</c:choose>
+                	<input type="text" readonly id="memberGender" class="nanum form-control-plaintext text-center" style="font-size: 25px;">
                 </div>
                 <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">전화번호</label>
                 <div class="col-sm-4">
-                    <input type="text" readonly class="nanum form-control-plaintext text-center" value="${loginMember.memberPhone}" style="font-size: 22px;">
+                    <input type="text" readonly id="memberPhone" class="nanum form-control-plaintext text-center" style="font-size: 22px;">
                 </div>
                 </div>
 
-                <div class="row">
-                
-                <c:if test="${!empty sessionScope.myHobby}">
-                	<c:forEach var="hobby" items="${myHobby}" varStatus="vs">
-                		<c:choose>
-                			<c:when test="${vs.index == 0}">
-                				<label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">관심분야</label>
-                				<div class="col-sm-10">
-                					<input type="text" readonly class="nanum form-control-plaintext" value="#${hobby.hobbyName}" style="font-size: 25px;color: blue;">
-                				</div>
-                			</c:when>
-                			<c:otherwise>
-                				<label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;"></label>
-		                		<div class="col-sm-10">
-		                			<input type="text" readonly class="nanum form-control-plaintext" value="#${hobby.hobbyName}" style="font-size: 25px;color: blue;">
-		                		</div>
-                			</c:otherwise>
-                		</c:choose>	
-                	</c:forEach>
-                </c:if>
+                <div class="row" id="memberProfileHobby">
+              	<!-- 관심사 영역 -->
                 </div>
             
                 <div class="row">
@@ -282,10 +260,74 @@ object-fit: cover;
             </div>
         </div>
         <!-- end -->
-
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-		crossorigin="anonymous"></script>
+        
+        <script>
+		/* 내정보 조회용 회원정보,회원관심사 DB조회용 ajax */
+       	$("#abcde").on("click",function(){
+       		$.ajax({
+       			url : "${contextPath}/member/selectProfileMember",
+       			data : {memberEmail : "${loginMember.memberEmail}" , memberNo : ${loginMember.memberNo} },
+       			type : "post",
+       			dataType : "json",
+       			success : function(mList){
+       				
+       				// 회원정보
+       				$("#memberProfileUrl").prop("src","${contextPath}/resources/profileImage/"+mList[0].memberProfileUrl);
+       				$("#memberNickName").val(mList[0].memberNickname);
+       				$("#memberEmail").val(mList[0].memberEmail);
+       				$("#memberName").val(mList[0].memberNm);
+       				$("#memberAge").val(mList[0].memberAge);
+       				$("#memberPhone").val(mList[0].memberPhone);
+       				if(mList[0].memberGender == "M") {
+       					$("#memberGender").val("남성");	
+       				}else {
+       					$("#memberGender").val("여성");
+       				}
+       				// 회원정보 끝
+       				
+            		// 회원 관심사
+       				var $divPlus = $("#memberProfileHobby");
+            		
+       				for(var i=1;i<Object.keys(mList).length;i++){
+       					if(i == 1) { // 제일 처음 관심사
+       						var $divPlus1 = $("<div class='col-sm-10'>");
+       	       				var $labelPlus = $("<label>");
+       	       				var $inputPlus = $("<input>");
+       						$labelPlus.addClass("col-sm-2 col-form-label text-center nanum").css({"font-weight" : "bold","font-size": "16px"}).html("관심분야");
+       						$inputPlus.prop({"type":"text","readonly":"true"}).css({"color" : "blue","font-size": "25px"})
+       								  .addClass("nanum form-control-plaintext").val("#" + mList[1].hobbyName);
+       						$divPlus1.append($inputPlus);
+       						if(document.getElementById("memberProfileHobby").childElementCount < 6) {
+       							$divPlus.append($labelPlus);
+           						$divPlus.append($divPlus1);	
+       						}
+       					} else { // 그 다음 관심사
+       						var $divPlus1 = $("<div class='col-sm-10'>");
+       	       				var $labelPlus = $("<label>");
+       	       				var $inputPlus = $("<input>");
+       						$labelPlus.addClass("col-sm-2 col-form-label text-center nanum").css({"font-weight" : "bold","font-size": "16px"});
+       						$inputPlus.prop({"type":"text","readonly":"true"}).css({"color" : "blue","font-size": "25px"})
+       								  .addClass("nanum form-control-plaintext").val("#" + mList[i].hobbyName);
+       						$divPlus1.append($inputPlus);
+       						if(document.getElementById("memberProfileHobby").childElementCount < 6) {
+       							$divPlus.append($labelPlus);
+           						$divPlus.append($divPlus1);	
+       						}
+       					}
+       				}
+       				// 회원 관심사 끝
+       				
+       			},
+       			error : function(e){
+           			console.log("ajax 통신 실패");
+           			console.log(e);
+           		}
+       			
+       		});
+       		
+       	});
+    </script>
+       
 	<script
 		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
