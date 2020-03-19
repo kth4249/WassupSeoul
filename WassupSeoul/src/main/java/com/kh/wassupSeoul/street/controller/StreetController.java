@@ -28,6 +28,7 @@ import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
+import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 @SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet" })
@@ -63,16 +64,18 @@ public class StreetController {
 
 			List<Board> board = streetService.selectBoard(streetNo);
 			Collections.reverse(board);
+			
+//			List<Reply> reply = streetService.selectReply(streetNo);
 
-			System.out.println("street : " + street);
+//			System.out.println("street : " + street);
 
-			for (int i = 0; i < board.size(); i++) {
-
-				System.out.println("날짜 출력 : " + board.get(i).getBoardWriteDt());
-
-				System.out.println("골목 게시글 조회 : " + board.get(i));
-
-			}
+//			for (int i = 0; i < board.size(); i++) {
+//
+//				System.out.println("날짜 출력 : " + board.get(i).getBoardWriteDt());
+//
+//				System.out.println("골목 게시글 조회 : " + board.get(i));
+//
+//			}
 
 			if (street != null) {
 
@@ -202,6 +205,45 @@ public class StreetController {
 			return "/common/errorPage";
 		}
 	}
+	
+	
+	// 댓글 작성
+	@ResponseBody
+	@RequestMapping("writeComment")
+	public String writeComment(int postNo, Model model, String commentContent) {
+		
+		System.out.println("댓글 작성 번호 출력 : " + postNo);
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		Reply reply = new Reply();
+		
+		System.out.println("댓글 입력 내용 : " + commentContent );
+		
+		reply.setBoardNo(postNo);
+		reply.setMemberNo(loginMember.getMemberNo());
+		reply.setReplyContent(commentContent);
+	
+		try {
+	
+			int test = streetService.writeComment(reply);
+			
+			if ( test > 0) {
+				System.out.println("댓글 입력 완료");
+			}else {
+				System.out.println("댓글 입력 실패");
+			}
+			
+			return  test == 1 ? true + "" : false + "";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "게시글 삭제 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+	}
+	
+	
 	
 	
 	// 골목 개설 화면 이동

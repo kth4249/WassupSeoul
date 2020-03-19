@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 @Service
@@ -74,6 +75,14 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract List<Hobby> selectHobby(int memberNo) throws Exception;
+
+	
+	/**	댓글 입력용 Service
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int writeComment(Reply reply) throws Exception;
 
 
 
