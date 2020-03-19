@@ -340,16 +340,35 @@ public class StreetController {
 		try {
 			List<Hobby> myHobby = streetService.selectHobby(loginMember.getMemberNo());
 			
+			System.out.println(myHobby);
+			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("streetNo", streetNo);
-			if(!myHobby.isEmpty() && myHobby != null) {
+			//if(!myHobby.isEmpty() && myHobby != null) {
 				map.put("myHobby", myHobby);
+			//}
+			
+			List<Member> mList = streetService.selectRecommendList(map);
+			List<Hobby> hList = null;
+			
+			if(mList != null && !mList.isEmpty()) {
+				hList = streetService.selectHobbyList(mList);
 			}
+			
+			System.out.println(mList);
+			System.out.println(hList);
+			
+			model.addAttribute("mList", mList);
+			model.addAttribute("hList", hList);
+			return "street/recommendFriend";
+			
+			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "추천 친구 조회 과정에서 오류 발생");
+			return "common/errorPage";
 		}
 			
-		return "street/recommendFriend";
 	}
 
 	// 골목 가입
@@ -360,11 +379,10 @@ public class StreetController {
 		Member member = (Member) model.getAttribute("loginMember");
 		int memberNo = member.getMemberNo();
 		
-		List<ProfileStreet> myStreet = (List<ProfileStreet>)model.getAttribute("myStreet");
-		if(myStreet != null) {
-			if(myStreet.size() >= 3) {
-				return -1;
-			}
+		int myStreetCount = streetService.myStreetCount(memberNo);
+		
+		if(myStreetCount >= 3) {
+			return -1;
 		}
 
 		Map<String, Object> map = new HashMap<String, Object>();

@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>recommend Friend</title>
 <style>
 .friendRecommendProfile {
 	width: 50px;
@@ -31,6 +32,33 @@
 			
 			</h5>
 		<hr>
+		
+		<c:if test="${!empty mList }">
+			<c:forEach items="${mList}" var="member">
+				<div class="row">
+					<div class="col-md-2">
+						<img src="${contextPath}/resources/profileImage/${member.memberProfileUrl} class="friendRecommendProfile">
+					</div>
+					<div class="col-md-8">
+						<h4 class="nanum friendRecommendName">${member.memberNm }</h4>
+						<h5 class="nanum">
+						<c:if test="${!empty hList}">
+							<c:forEach items="${hList}" var="hobby" >
+								#${hobby.hobbyName}
+							</c:forEach>
+						</c:if>
+						</h5>
+					</div>
+					<div class="col-md-2 mt-2">
+						<button type="button" class="btn btn-sm btn-outline-info">친구추가</button>
+						<button type="button"
+							class="btn btn-sm btn-outline-danger friendRecommendRemove">숨기기</button>
+					</div> 
+				</div>
+				<hr>
+			</c:forEach>
+		
+		</c:if>
 		
 		
 		<div class="row">

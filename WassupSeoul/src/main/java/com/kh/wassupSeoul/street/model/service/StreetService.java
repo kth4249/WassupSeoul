@@ -110,6 +110,30 @@ public interface StreetService {
 	public abstract int writeComment(Reply reply) throws Exception;
 
 
+	
+	/** 추천 친구 리스트 조회용 Service
+	 * @param map
+	 * @return mList
+	 * @throws Exception
+	 */
+	public abstract List<Member> selectRecommendList(Map<String, Object> map) throws Exception;
+
+
+	/** 회원 가입한 골목 수 조회용 Service
+	 * @param memberNo
+	 * @return myStreetCount
+	 */
+	public abstract int myStreetCount(int memberNo);
+
+
+	/** 추천 친구 주민별 관심사 조회용 Service
+	 * @param mList
+	 * @return hList
+	 * @throws Exception
+	 */
+	public abstract List<Hobby> selectHobbyList(List<Member> mList) throws Exception;
+
+
 
 	 
 }

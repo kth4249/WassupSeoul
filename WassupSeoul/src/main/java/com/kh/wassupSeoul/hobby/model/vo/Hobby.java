@@ -4,6 +4,7 @@ public class Hobby {
 	
 	int hobbyNo;
 	String hobbyName;
+	int memberNo;
 
 	public Hobby() {
 		// TODO Auto-generated constructor stub
@@ -13,6 +14,14 @@ public class Hobby {
 		super();
 		this.hobbyNo = hobbyNo;
 		this.hobbyName = hobbyName;
+	}
+	
+
+	public Hobby(int hobbyNo, String hobbyName, int memberNo) {
+		super();
+		this.hobbyNo = hobbyNo;
+		this.hobbyName = hobbyName;
+		this.memberNo = memberNo;
 	}
 
 	public int getHobbyNo() {
@@ -31,11 +40,19 @@ public class Hobby {
 		this.hobbyName = hobbyName;
 	}
 
+	public int getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
+	}
+
 	@Override
 	public String toString() {
-		return "Hobby [hobbyNo=" + hobbyNo + ", hobbyName=" + hobbyName + "]";
+		return "Hobby [hobbyNo=" + hobbyNo + ", hobbyName=" + hobbyName + ", memberNo=" + memberNo + "]";
 	}
-	
+
 	
 	
 }
