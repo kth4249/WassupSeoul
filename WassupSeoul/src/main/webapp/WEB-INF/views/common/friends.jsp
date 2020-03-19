@@ -33,7 +33,7 @@
 	text-align: center;
 }
 
-.tab-content {
+.tab-content22 {
 	border: 2px solid black;
 }
 
@@ -149,7 +149,7 @@
 			</div>
 
 
-			<div id="myTabContent" class="tab-content"
+			<div id="myTabContent" class="tab-content22"
 				style="overflow: auto; height: 500px;">
 				<div class="tab-pane fade show active" id="home">
 
@@ -462,7 +462,7 @@
 	/* 친구 요청 목록 조회 함수 */
 	function friendRequest(){
 		var myNum = "${loginMember.memberNo}";
-		console.log = $myNum;
+		console.log(myNum);
 		$.ajax({
 			url : "friendRequest",
 			type : "POST",
@@ -474,20 +474,19 @@
 				
 			},
 			error : function(){
-				console.log("ajax 댓글 목록 조회 실패")
+				console.log("ajax 댓글 목록 조회 실패");
 			
-			
-			
+			}
 		});
 	};
 	
-	$(function(){
+	/* $(function(){
 		friendRequest();
 		
 		setInterval(function(){
 			friendRequest();
 		}, 10000);
-	});
+	}); */
 	
 	
 	
