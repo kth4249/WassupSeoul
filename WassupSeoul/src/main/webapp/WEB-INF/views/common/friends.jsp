@@ -222,21 +222,21 @@
 				</div>
 
 
-
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 				<!-- 친구요청 div -->
 				<div class="tab-pane fade" id="dropdown1">
 					<div class="nanum mt-3 ml-3" id="friendRequestArea">
-						<img src="${contextPath}/resources/img/usericon.png" width="40px"
+						<img class="rImg" src="${contextPath}/resources/img/usericon.png" width="40px"
 							height="40px" data-toggle="modal" data-target="#profilePicture"
 							style="cursor: pointer"> &nbsp; +
-							<span>조미현님이 친구요청을 하셨습니다.</span>&nbsp;
+							<span class="rUser">조미현님이 친구요청을 하셨습니다.</span>&nbsp;
 						<button class="btn btn-info btn-sm nanum">수락</button>
 						<button class="btn btn-danger btn-sm nanum" data-toggle="modal"
 							data-target="#nopeBtn">거절</button>
 					</div>
 					<hr>
 				</div>
-				
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->			
 
 
 				<!-- 친구요청 : 거절버튼 -->
@@ -474,44 +474,53 @@
 	
 	
 	
-	
+////////////////////////////////////////문영준 메신저 기능 시작 지점 ////////////////////////////////////////	
+
 	/* 친구 요청 목록 조회 함수 */
-/* 	function friendRequest(){
-		var myNum = "${loginMember.memberNo}";
-		$.ajax({
-			url : "friendRequest",
-			type : "POST",
-			data : {"myNum" : myNum},
-			success : function(fList){
-				
-			},
-			error : function(){
-				console.log("ajax 댓글 목록 조회 실패");
-			
-			}
-		});
-	}; */
-	
 	function friendRequest(){
 		$.ajax({
 			url : "friendRequest",
 			type : "POST",
 			data : {},
+			datatype : "json",
 			success : function(result){
-				console.log(result);
+				//console.log(result);
+				var $rArea = $("#friendRequestArea");
+				if(result == ''){
+					$rArea.html("지금은 친구요청이 없네요.")
+				}else {
+					$rArea.html("") // 기존 댓글 목록 삭제
+					
+					$.each(result, function(i){
+					
+						var $rImg = $("<img>").prop("class", "rImg").html(result[i].memberProfileUrl);
+						var $rUser = $("<span>").prop("class", "rUser").html(result[i].memberNickname);
+						var $rOk = $("<button>").prop("class", "btn-info");
+						var $rNo = $("<button>").prop("class", "btn-danger");
+						var $hr = $("<hr>");
+						
+						$rArea.append($rImg).append($rUser).append($rOk).append($rNo).append($hr);
+						
+					}); //$.each 끝
+					
+				} //else 끝
+				
+				
 			},
 			error : function(){
 				console.log("ajax 댓글 목록 조회 실패");
-			
 			}
 		});
 	};
 	
+	
+	
+	/* 에이잭스 실행 함수 */
 	 $(function(){
-		friendRequest();
+		friendRequest(); // 친구 요청 목록
 		
 		setInterval(function(){
-			friendRequest();
+			friendRequest(); 
 		}, 10000);
 	}); 
 	

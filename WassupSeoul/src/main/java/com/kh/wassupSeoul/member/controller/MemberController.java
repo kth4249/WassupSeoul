@@ -60,32 +60,38 @@ public class MemberController {
 		public String signUp(Member member, Model model, String phone1, String phone2, String phone3,
 				RedirectAttributes rdAttr, HttpServletRequest request, 
 				int[] hobbyNoArr, String[] hobbyNmArr,
-				@RequestParam(value="originProfileUrl" , required=false) MultipartFile originProfileUrl) 
+				@RequestParam(value="originProfileUrl" , required=false) MultipartFile originProfileUrl,
+				@RequestParam(value="defaultImg" , required=false) String defaultImg)
 		{
-			// 생성된 회원번호 가져오기
 			String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
 
 			String root = request.getSession().getServletContext().getRealPath("resources");
 			String savePath = root + "/" + "profileImage";
-			//System.out.println("이미지 저장 경로 : " + savePath);
 			File folder = new File(savePath);
 			if(!folder.exists()) folder.mkdir();
 	 
 			try {
 				int memberNo = memberService.selectMemberNo();
-				String newProfileImg = FileRename.renameProfile(originProfileUrl.getOriginalFilename());
 				
-				Member signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
+				Member signUpMember = null;
+				
+				System.out.println("def :" + defaultImg);
+				
+				if(defaultImg != null) {
+				String newDefaultImg = FileRename.rename(originProfileUrl.getOriginalFilename());
+				signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
+						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), newDefaultImg);
+				} else {
+					
+				String newProfileImg = FileRename.rename(originProfileUrl.getOriginalFilename());
+				signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
 						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), newProfileImg);
+				}
 				
 				int result = memberService.signUp(signUpMember);
 				
-				System.out.println("signUpMember :" + signUpMember);
-				
-				String msg = null;
-
 				if (result > 0) {
-					 
+					
 					originProfileUrl.transferTo(new File(savePath+"/"+signUpMember.getMemberProfileUrl()));
 					
 					// 추가부분(관심사) 시작
@@ -124,12 +130,8 @@ public class MemberController {
 					} 
 					// 추가부분(관심사) 끝
 									
-					msg = "가입성공";
-					rdAttr.addFlashAttribute("msg", msg);
 					return "redirect:/";
 				} else {
-					msg = "가입실패";
-					rdAttr.addFlashAttribute("msg", msg);
 					return "redirect:/";
 				}
 
