@@ -217,8 +217,7 @@
 									name="boardContent" rows="3" placeholder="새로운 게시글을 작성해보세요"></textarea>
 							</div>
 
-							<div class="postCountView"
-								style="border: 1px solid black; height: 45px;">
+							<div class="postCountView" style="border: 1px solid black; height: 45px;">
 
 								<div class="writeOptionArea shake">
 									<img class="writeOption img1"
@@ -235,54 +234,30 @@
 
 								<!-- 파일첨부 -->
 								<div class="writeOptionArea shake">
-									<img class="writeOption mapOption"
-										src='${contextPath}/resources/img/paperclip.png'>
+									<img class="writeOption summerOption" src='${contextPath}/resources/img/paperclip.png'>
 									<p class="arrow_box">파일첨부</p>
 								</div>
+								
+								<!-- 썸머 모달  -->
+								<div id="modal" class="nanum summerModal">
 
-								<script>
-									// file 업로드 이미지 미리보기
+									<div class="modal_content" style="padding: 3px;">
+										<button type="button" id="modal_close_btn"
+											style="width: 20px; height: 20px; font-size: 5px; float: right;">X</button>
 
-									function readURL(input) {
-										if (input.files && input.files[0]) {
-											var reader = new FileReader();
-											reader
-													.readAsDataURL(input.files[0]);
+										<textarea class=" nanum" id="writePostArea" rows="6"
+											placeholder="게시글내용을 입력하세요."
+											style="border: 1px solid black; color: black; font-size: 17px; height: 280px"></textarea>
+										<input type="text" id="sample5_address" placeholder="주소를 입력하세요." style="width:80%;">
+										<input type="button" onclick="sample5_execDaumPostcode()"
+											value="주소 검색"><br>
+										<div id="map"style="width: 100%; height: 300px; margin-top: 10px; border:2px black solid;"></div>
+										<button type="button" style="width: 10%; height: 25px; font-size: 17px; float: right; margin-top:10px">작성</button>
+									</div>
 
-											reader.onload = function(e) {
-
-												var tempImage = new Image();
-												tempImage.src = reader.result;
-												console.log(tempImage);
-												tempImage.onload = function() {
-													var canvas = document
-															.createElement('canvas');
-													var canvasContext = canvas
-															.getContext("2d");
-
-													var img = new Image();
-													img.src = e.target.result;
-
-													canvas.width = img.width * 0.5;
-													canvas.height = img.height * 0.5;
-
-													canvasContext.drawImage(
-															this, 0, 0,
-															canvas.width,
-															canvas.height);
-
-													var dataURI = canvas
-															.toDataURL("image/png");
-
-													document
-															.querySelector("#thumbnail").src = dataURI;
-
-												}
-											};
-
-										}
-								</script>
-
+									<div class="modal_layer"></div>
+									
+									
 
 
 								<div class="writeOptionArea shake">
@@ -1172,6 +1147,15 @@
 	    });
 	   
 	     $("#modal_close_btn2").click(function(){
+			$(this).parent().parent("div").attr("style", "display:none");
+	    }); 
+	     
+	  	// 스케치 모달 창 열기 
+		$(".summerOption").click(function(){
+			$(this).parent().next("div").attr("style", "display:block");
+	    });
+	   
+     	$("#modal_close_btn3").click(function(){
 			$(this).parent().parent("div").attr("style", "display:none");
 	    }); 
 	     
