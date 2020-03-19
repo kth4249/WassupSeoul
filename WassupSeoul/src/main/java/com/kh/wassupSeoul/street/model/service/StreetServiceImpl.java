@@ -1,5 +1,6 @@
 package com.kh.wassupSeoul.street.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -123,6 +124,120 @@ public class StreetServiceImpl implements StreetService{
 	@Override
 	public int streetJoin(Map<String, Object> map) {
 		return streetDAO.streetJoin(map);
+	}
+	
+	
+	/** 골목 개설 화면 이동용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Excepction
+	 */
+	@Override
+	public int selectMyStreet(int memberNo) throws Exception {
+		
+		int result = 0;
+		
+		result = streetDAO.selectMyStreet(memberNo); 
+				
+		if(result < 3) { // 골목 가입한게 3개 미만일 경우
+			
+			result = streetDAO.selectStreetMaster(memberNo);
+			
+			if(result == 0) return 1; // 골목 개설한게 없는 경우
+			else return -1;
+			
+		} else {
+			return -1;
+		}
+		
+		// 이거 나중에 다시하자!!!!! 
+		
+	}
+	
+	/** 골목 개설용 Service
+	 * @param changeCoverName
+	 * @param street
+	 * @param memberNo
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int insertStreet(String changeCoverName, Street street, int memberNo, String[] streetKeywords)
+			throws Exception {
+		
+		int result = 0;
+		int imgNo = 0;
+		int streetNo = 0;
+		Map<String, Object> map = null;
+		Map<String, Object> map2 = null;
+		
+		
+		if(changeCoverName != null) { // 새로 등록한 커버일 경우
+			
+			imgNo = streetDAO.selectCoverNextNo(); // 성공
+						
+			if(imgNo > 0) {
+				// 골목 커버 정보 저장
+				//result = streetDAO.insertStreetCover(changeCoverName); // 성공
+							
+				if(result == 0) { // 잠깐 result > 0 && !street.isEmpty()
+					
+					// 골목 정보 저장
+					street.setImgNo(imgNo); // 성공
+					
+					streetNo = streetDAO.selectStreetNextNo(); // 성공	
+					
+					street.setStreetNo(streetNo); // 성공
+					
+					//result = streetDAO.insertStreet(street);
+					
+					if(streetNo > 0) { // (result > 0)
+						
+						// 골목 대장 정보 저장
+						map = new HashMap<String, Object>();
+						map.put("memberNo", memberNo);
+						map.put("streetNo", street.getStreetNo());
+						
+						System.out.println("map 확인 : " + map);
+						
+						// result = streetDAO.insertStreetMaster(map);
+						
+						if(streetKeywords != null) {
+							for (int i = 0; i < streetKeywords.length; i++) {
+
+								map2 = new HashMap<String, Object>();
+								map2.put("streetNo", street.getStreetNo());
+								map2.put("keyword", streetKeywords[i]);
+								
+								System.out.println("map2 확인 : "+ map2);
+
+								//result = streetDAO.insertStreetKeyword(map);
+
+							}
+						}
+					}
+				}
+				
+			} else {
+				
+				return -1;
+				
+			}
+			
+		} else {
+			
+			// imgNo = streetDAO.selectSampleImgNo(imgName);
+			street.setImgNo(imgNo);
+			//streetNo = streetDAO.selectStreetNextNo()
+			street.setStreetNo(streetNo);
+			
+		}
+		
+		
+		
+		
+		return 0;
 	}
 	
 	

@@ -303,7 +303,7 @@
 				</div>
 			</div>
 
-			
+
 			<div class="row">
 				<div class="col-md-6 offset-md-3">
 					<div class="col-md-12 nanum" style="margin: 3px auto;">
@@ -323,9 +323,7 @@
 							<!-- 내 커버 추가하기 -->
 							<div
 								style="margin-left: 1px; margin-right: 1px; box-sizing: border-box;">
-								<p
-									style="display: inline-block; margin-bottom: 1px;">내
-									커버</p>
+								<p style="display: inline-block; margin-bottom: 1px;">내 커버</p>
 								<div
 									style="border: 1px solid black; width: 300px; height: 80px; background-color: rgb(236, 233, 233); position: relative; cursor: pointer;"
 									id="myStreetCoverArea">
@@ -408,9 +406,8 @@
 					</div>
 					<div class="col-md-12 nanum form-group">
 						<div class="custom-control custom-radio">
-							<input type="radio" id="public" name="streetPublic"
-								value="Y"
-								class="custom-control-input" checked=""> <label
+							<input type="radio" id="public" name="streetPublic" value="Y"
+								class="custom-control-input"> <label
 								class="custom-control-label" for="public"
 								style="font-size: larger;">공개</label>
 							<p style="font-size: smaller;">
@@ -418,8 +415,7 @@
 								있습니다.</p>
 						</div>
 						<div class="custom-control custom-radio">
-							<input type="radio" id="private" name="streetPublic"
-								value="N"
+							<input type="radio" id="private" name="streetPublic" value="N"
 								class="custom-control-input"> <label
 								class="custom-control-label" for="private"
 								style="font-size: larger;">비공개</label>
@@ -439,7 +435,7 @@
 			<div class="row">
 				<div class="col-md-2 offset-md-4" style="text-align: center;">
 					<button type="submit"
-						class="btn btn-primary btn-lg btn-block nanum">수정하기</button>
+						class="btn btn-primary btn-lg btn-block nanum">개설하기</button>
 				</div>
 				<div class="col-md-2" style="text-align: center;">
 					<button type="button"
@@ -464,6 +460,10 @@
 			$(".streetCover").click(function() {
 				var a = $(this).attr("src");
 				$("#streetThumbnail").prop("src", a);
+				//$("#streetCoverUpload").
+				//if(!value.files && !value.files[0]){
+					
+				//}
 			});
 		});
 
@@ -504,8 +504,8 @@
 					var regExp = /^[A-Za-z가-힣0-9]{0,15}$/;
 
 					if (!regExp.test($(this).val())) {
-						$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.")
-								.css("color", "red");
+						$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.").css(
+								"color", "red");
 					} else {
 						$("#checkStreetIntro").text("유효한 골목소개 형식입니다.").css(
 								"color", "green");
