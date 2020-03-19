@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 @Service
@@ -67,6 +68,31 @@ public interface StreetService {
 	 */
 	public abstract int streetJoin(Map<String, Object> map);
 
+	
+	
+	
+	/** 골목 개설 화면 이동용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Excepction
+	 */
+	public abstract int selectMyStreet(int memberNo) throws Exception;
+
+	
+	/** 골목 개설용 Service
+	 * @param changeCoverName
+	 * @param street
+	 * @param memberNo
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int insertStreet(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
+
+
+
+
+
 
 	/** 회원 관심사 조회용 Service (memberMapper에서)
 	 * @param memberNo
@@ -74,6 +100,38 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract List<Hobby> selectHobby(int memberNo) throws Exception;
+
+	
+	/**	댓글 입력용 Service
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int writeComment(Reply reply) throws Exception;
+
+
+	
+	/** 추천 친구 리스트 조회용 Service
+	 * @param map
+	 * @return mList
+	 * @throws Exception
+	 */
+	public abstract List<Member> selectRecommendList(Map<String, Object> map) throws Exception;
+
+
+	/** 회원 가입한 골목 수 조회용 Service
+	 * @param memberNo
+	 * @return myStreetCount
+	 */
+	public abstract int myStreetCount(int memberNo);
+
+
+	/** 추천 친구 주민별 관심사 조회용 Service
+	 * @param mList
+	 * @return hList
+	 * @throws Exception
+	 */
+	public abstract List<Hobby> selectHobbyList(List<Member> mList) throws Exception;
 
 
 

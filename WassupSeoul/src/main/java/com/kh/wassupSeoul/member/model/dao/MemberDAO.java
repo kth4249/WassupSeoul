@@ -271,6 +271,15 @@ public class MemberDAO {
 	public int deleteMember(int memberNo) throws Exception{
 		return sqlSession.delete("memberMapper.deleteMember",memberNo);
 	}
+	
+	/** 회원 정보 조회용 DAO
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	public Member selectProfileMember(int memberNo) throws Exception{
+		return sqlSession.selectOne("memberMapper.selectProfileMember", memberNo);
+	}
 
 	
 	

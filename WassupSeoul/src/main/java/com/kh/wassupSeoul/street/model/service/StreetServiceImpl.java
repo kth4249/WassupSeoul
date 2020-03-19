@@ -1,5 +1,6 @@
 package com.kh.wassupSeoul.street.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,9 @@ import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
+
 
 @Service
 public class StreetServiceImpl implements StreetService{
@@ -114,7 +117,7 @@ public class StreetServiceImpl implements StreetService{
 	}
 	
 	
-	/** 골목 가입용 Service
+/** 골목 가입용 Service
 	 * @param map
 	 * @return result
 	 */
@@ -135,5 +138,169 @@ public class StreetServiceImpl implements StreetService{
 	public List<Hobby> selectHobby(int memberNo) throws Exception {
 		return streetDAO.selectHobby(memberNo);
 	}
+	
+	
+	/** 추천 친구 리스트 조회용 Service
+	 * @param map
+	 * @return mList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Member> selectRecommendList(Map<String, Object> map) throws Exception {
+		return streetDAO.selectRecommendList(map);
+	}
+	
+	
+	/** 회원 가입한 골목 수 조회용 Service
+	 * @param memberNo
+	 * @return myStreetCount
+	 * @throws Exception
+	 */
+	@Override
+	public int myStreetCount(int memberNo){
+		return streetDAO.myStreetCount(memberNo);
+	}
+	
+	
+	
+	/** 추천 친구 주민별 관심사 조회용 Service
+	 * @param mList
+	 * @return hList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Hobby> selectHobbyList(List<Member> mList) throws Exception {
+		return streetDAO.selectHobbyList(mList);
+	}
+	
+	
+	/** 골목 개설 화면 이동용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Excepction
+	 */
+	@Override
+	public int selectMyStreet(int memberNo) throws Exception {
+		
+		int result = 0;
+		
+		result = streetDAO.selectMyStreet(memberNo); 
+				
+		if(result < 3) { // 골목 가입한게 3개 미만일 경우
+			
+			result = streetDAO.selectStreetMaster(memberNo);
+			
+			if(result == 0) return 1; // 골목 개설한게 없는 경우
+			else return -1;
+			
+		} else {
+			return -1;
+		}
+		
+		// 이거 나중에 다시하자!!!!! 
+		
+	}
+	
+	/** 골목 개설용 Service
+	 * @param changeCoverName
+	 * @param street
+	 * @param memberNo
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int insertStreet(String changeCoverName, Street street, int memberNo, String[] streetKeywords)
+			throws Exception {
+		
+		int result = 0;
+		int imgNo = 0;
+		int streetNo = 0;
+		Map<String, Object> map = null;
+		Map<String, Object> map2 = null;
+		
+		
+		if(changeCoverName != null) { // 새로 등록한 커버일 경우
+			
+			imgNo = streetDAO.selectCoverNextNo(); // 성공
+						
+			if(imgNo > 0) {
+				// 골목 커버 정보 저장
+				//result = streetDAO.insertStreetCover(changeCoverName); // 성공
+							
+				if(result == 0) { // 잠깐 result > 0 && !street.isEmpty()
+					
+					// 골목 정보 저장
+					street.setImgNo(imgNo); // 성공
+					
+					streetNo = streetDAO.selectStreetNextNo(); // 성공	
+					
+					street.setStreetNo(streetNo); // 성공
+					
+					//result = streetDAO.insertStreet(street);
+					
+					if(streetNo > 0) { // (result > 0)
+						
+						// 골목 대장 정보 저장
+						map = new HashMap<String, Object>();
+						map.put("memberNo", memberNo);
+						map.put("streetNo", street.getStreetNo());
+						
+						System.out.println("map 확인 : " + map);
+						
+						// result = streetDAO.insertStreetMaster(map);
+						
+						if(streetKeywords != null) {
+							for (int i = 0; i < streetKeywords.length; i++) {
+
+								map2 = new HashMap<String, Object>();
+								map2.put("streetNo", street.getStreetNo());
+								map2.put("keyword", streetKeywords[i]);
+								
+								System.out.println("map2 확인 : "+ map2);
+
+								//result = streetDAO.insertStreetKeyword(map);
+
+							}
+						}
+					}
+				}
+				
+			} else {
+				
+				return -1;
+				
+			}
+			
+		} else {
+			
+			// imgNo = streetDAO.selectSampleImgNo(imgName);
+			street.setImgNo(imgNo);
+			//streetNo = streetDAO.selectStreetNextNo()
+			street.setStreetNo(streetNo);
+			
+		}
+		
+		
+		
+		
+		return 0;
+	}
+	
+	
+	
+	
+	/**	댓글 입력용 Service
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int writeComment(Reply reply) throws Exception {
+		return streetDAO.writeComment(reply);
+	}
+	
+	
 	
 }
