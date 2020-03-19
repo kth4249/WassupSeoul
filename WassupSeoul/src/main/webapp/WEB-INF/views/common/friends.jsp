@@ -85,6 +85,20 @@
 
 <script>
 	var iconStatus = true;
+/* 	$(function() {
+
+		$('button.iconImg').click(function() {
+			if (iconStatus == true) {
+				$('.container2').hide(200);
+				iconStatus = false;
+			} else {
+				$('.container2').show(200);
+				iconStatus = true;
+			}
+			console.log(iconStatus)
+		});
+	}); */
+	
 	$(function() {
 
 		$('button.iconImg').click(function() {
@@ -98,6 +112,8 @@
 			console.log(iconStatus)
 		});
 	});
+	
+	
 
 	var chatclick = false;
 
@@ -460,18 +476,29 @@
 	
 	
 	/* 친구 요청 목록 조회 함수 */
-	function friendRequest(){
+/* 	function friendRequest(){
 		var myNum = "${loginMember.memberNo}";
-		console.log(myNum);
 		$.ajax({
 			url : "friendRequest",
 			type : "POST",
 			data : {"myNum" : myNum},
-			datatype : "json",
 			success : function(fList){
 				
-				var $fArea = $("#friendRequestArea");
-				
+			},
+			error : function(){
+				console.log("ajax 댓글 목록 조회 실패");
+			
+			}
+		});
+	}; */
+	
+	function friendRequest(){
+		$.ajax({
+			url : "friendRequest",
+			type : "POST",
+			data : {},
+			success : function(result){
+				console.log(result);
 			},
 			error : function(){
 				console.log("ajax 댓글 목록 조회 실패");
@@ -480,13 +507,13 @@
 		});
 	};
 	
-	/* $(function(){
+	 $(function(){
 		friendRequest();
 		
 		setInterval(function(){
 			friendRequest();
 		}, 10000);
-	}); */
+	}); 
 	
 	
 	
