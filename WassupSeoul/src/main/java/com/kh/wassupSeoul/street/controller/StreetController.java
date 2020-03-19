@@ -22,11 +22,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.wassupSeoul.common.FileRename;
+import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
+import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 @SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet" })
@@ -59,16 +61,18 @@ public class StreetController {
 
 			List<Board> board = streetService.selectBoard(streetNo);
 			Collections.reverse(board);
+			
+//			List<Reply> reply = streetService.selectReply(streetNo);
 
-			System.out.println("street : " + street);
+//			System.out.println("street : " + street);
 
-			for (int i = 0; i < board.size(); i++) {
-
-				System.out.println("날짜 출력 : " + board.get(i).getBoardWriteDt());
-
-				System.out.println("골목 게시글 조회 : " + board.get(i));
-
-			}
+//			for (int i = 0; i < board.size(); i++) {
+//
+//				System.out.println("날짜 출력 : " + board.get(i).getBoardWriteDt());
+//
+//				System.out.println("골목 게시글 조회 : " + board.get(i));
+//
+//			}
 
 			if (street != null) {
 
@@ -197,7 +201,47 @@ public class StreetController {
 			return "/common/errorPage";
 		}
 	}
-
+	
+	
+	// 댓글 작성
+	@ResponseBody
+	@RequestMapping("writeComment")
+	public String writeComment(int postNo, Model model, String commentContent) {
+		
+		System.out.println("댓글 작성 번호 출력 : " + postNo);
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		Reply reply = new Reply();
+		
+		System.out.println("댓글 입력 내용 : " + commentContent );
+		
+		reply.setBoardNo(postNo);
+		reply.setMemberNo(loginMember.getMemberNo());
+		reply.setReplyContent(commentContent);
+	
+		try {
+	
+			int test = streetService.writeComment(reply);
+			
+			if ( test > 0) {
+				System.out.println("댓글 입력 완료");
+			}else {
+				System.out.println("댓글 입력 실패");
+			}
+			
+			return  test == 1 ? true + "" : false + "";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "게시글 삭제 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+	}
+	
+	
+	
+	
 	// 골목 개설 화면 이동
 	@RequestMapping("streetInsert")
 	public String insertStreetForm(Model model) {
@@ -292,7 +336,19 @@ public class StreetController {
 	@RequestMapping("recommendFriend")
 	public String recommendFriend(Model model) {
 		int streetNo = (int) model.getAttribute("streetNo");
-
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		try {
+			List<Hobby> myHobby = streetService.selectHobby(loginMember.getMemberNo());
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("streetNo", streetNo);
+			if(!myHobby.isEmpty() && myHobby != null) {
+				map.put("myHobby", myHobby);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+			
 		return "street/recommendFriend";
 	}
 
@@ -303,10 +359,10 @@ public class StreetController {
 		int streetNo = (int) model.getAttribute("streetNo");
 		Member member = (Member) model.getAttribute("loginMember");
 		int memberNo = member.getMemberNo();
-
-		List<ProfileStreet> myStreet = (List<ProfileStreet>) model.getAttribute("myStreet");
-		if (myStreet != null) {
-			if (myStreet.size() > 3) {
+		
+		List<ProfileStreet> myStreet = (List<ProfileStreet>)model.getAttribute("myStreet");
+		if(myStreet != null) {
+			if(myStreet.size() >= 3) {
 				return -1;
 			}
 		}

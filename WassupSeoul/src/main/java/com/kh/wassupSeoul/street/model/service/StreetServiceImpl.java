@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 @Service
@@ -238,6 +239,31 @@ public class StreetServiceImpl implements StreetService{
 		
 		return 0;
 	}
+	
+	
+	
+	/** 회원 관심사 조회용 Service (memberMapper에서)
+	 * @param memberNo
+	 * @return myHobby
+	 * @throws Exception
+	 */
+	@Override
+	public List<Hobby> selectHobby(int memberNo) throws Exception {
+		return streetDAO.selectHobby(memberNo);
+	}
+
+	
+	/**	댓글 입력용 Service
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int writeComment(Reply reply) throws Exception {
+		return streetDAO.writeComment(reply);
+	}
+	
 	
 	
 }

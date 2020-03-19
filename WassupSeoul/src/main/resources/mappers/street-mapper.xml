@@ -245,6 +245,13 @@
   		INSERT INTO KEYWORD
   		VALUES(SEQ_KEYWORD.NEXTVAL, #{keyword}, #{streetNo})
   	</insert>
+  	
+  	<!-- 댓글 입력 -->
+  	<insert id="writeComment" parameterType="reply">
+  		INSERT INTO REPLY
+  		VALUES(SEQ_REPLY.NEXTVAL, #{replyContent}, SYSDATE, 'Y', 1, #{memberNo}, #{boardNo}, null )
+  	</insert>
+  	
   	 
 	
 </mapper>
