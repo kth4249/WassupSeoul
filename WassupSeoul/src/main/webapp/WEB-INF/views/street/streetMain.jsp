@@ -142,7 +142,7 @@
 			<!-- 타임라인-->
 			<div class="col-md-6" id="devideArea">
 				
-				<%@include file="../street/streetDetail/streetSideNavBar.jsp"%>
+				<%@include file="../street/streetDetail/timeLine.jsp"%>
 				
 			</div>
 			<!-- 타임라인-->
