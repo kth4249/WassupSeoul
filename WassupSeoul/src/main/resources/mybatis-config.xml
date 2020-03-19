@@ -19,6 +19,7 @@
 		<typeAlias type="com.kh.wassupSeoul.hobby.model.vo.Hobby" alias="Hobby"/>
 		<typeAlias type="com.kh.wassupSeoul.hobby.model.vo.MemberHobby" alias="MemberHobby"/>
 		<typeAlias type="com.kh.wassupSeoul.member.model.vo.ProfileStreet" alias="ProfileStreet"/>
+		<typeAlias type="com.kh.wassupSeoul.friends.model.vo.Relationship" alias="Relationship"/>
 	</typeAliases> 
 	
 	<!-- mapper 파일 등록 부분 -->
@@ -28,5 +29,6 @@
 		 -->
 		<mapper resource="/mappers/street-mapper.xml"/>
 		<mapper resource="/mappers/member-mapper.xml"/>
+		<mapper resource="/mappers/friends-mapper.xml"/>
 	</mappers>
 </configuration>
