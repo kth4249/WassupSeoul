@@ -17,7 +17,7 @@
 <style>
 .profileBox{
   width: 100%;
-  height: 120px; 
+  height: 160px; 
   border-radius: 70%;
   overflow: hidden;
 }
@@ -96,7 +96,7 @@ object-fit: cover;
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="mypageButton">
 					<a class="dropdown-item nanum" data-toggle="modal" data-target="#profileModal" id="abcde">내정보 조회</a> 
-					<a class="dropdown-item nanum" data-toggle="modal" data-target="#golmokModal">내골목 조회</a>
+					<a class="dropdown-item nanum" data-toggle="modal" data-target="#golmokModal" id="hoho">내골목 조회</a>
 					<a class="dropdown-item nanum" data-toggle="modal">1:1 문의</a> 
 					<a class="dropdown-item nanum" data-toggle="modal">공지사항</a>
 					<hr>
@@ -110,7 +110,7 @@ object-fit: cover;
 	
 	<!-- profile Modal -->
     <div class="modal fade" id="profileModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog" role="document" style="width:496px;">
         <div class="modal-content">
             <div class="modal-header">
             <h2 class="modal-title nanum" id="profileModalLabel" style="font-weight: bold;">내정보 조회</h2>
@@ -171,7 +171,7 @@ object-fit: cover;
             
                 <div class="row">
                 <div class="col-md-6">
-                    <a class="btn btn-primary btn-lg btn-block nanum" href="${contextPath}/member/updateForm" role="button" style="font-weight: bold;">내정보 수정</a>
+                    <a class="btn btn-primary btn-lg btn-block nanum" href="${contextPath}/member/MoveupdateForm?memberNo=${loginMember.memberNo}" role="button" style="font-weight: bold;">내정보 수정</a>
                 </div>
                 <div class="col-md-6">
                     <a class="btn btn-primary btn-lg btn-block nanum" href="${contextPath}/member/deleteForm" role="button" style="font-weight: bold;">회원 탈퇴</a>
@@ -186,76 +186,21 @@ object-fit: cover;
         
         <!-- golmok Modal -->
         <div class="modal fade" id="golmokModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="golmokModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-lg" role="document" style="width:800px;">
             <div class="modal-content">
                 <div class="modal-header">
                 <h2 class="modal-title nanum" id="golmokModalLabel" style="font-weight: bold;">내골목 조회</h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          	<span aria-hidden="true">&times;</span>
+	        	</button>
                 </div>
                 <div class="modal-body">
                 <!-- content start -->
-                <div class="container-fluid">
-					<c:choose>
-						<c:when test="${!empty myStreet}">
-						<%-- 골목이 있는 경우 --%>
-							<c:forEach var="street" items="${myStreet}" varStatus="vs">
-								<!-- 골목 2 시작 -->
-								<br>
-			                    <div class="row">
-			                    	<div class="col-md-4" style="position: relative">
-				                        <img src="${contextPath}/resources/img/${street.imgUrl}" alt="이미지" width="100%" height="100%" style="position: absolute; z-index: 10;">
-				                        <c:if test="${street.citizenGrade == 'M'.charAt(0) }">
-				                        	<span class="badge badge-pill badge-info" style="position: absolute; z-index: 100; font-size:15px">개설 골목</span>
-				                        </c:if>
-				                        <%-- <img src="${contextPath}/resources/img/iconmonstr-certificate-3-48.png" style="position: absolute; z-index: 100;"> --%>
-				                    </div>
-				                    <div class="col-md-1"></div>
-				                    <div class="col-md-7">
-				                        <div class="row">
-				                        <div class="col-md-9"><input type="text" readonly class="form-control-plaintext nanum" value="${street.streetNm}" style="font-weight: bold;font-size: 25px;"></div>
-				                        <div class="col-md-3"><button type="button" class="btn btn-outline-success text-center" disabled style="font-size: 13px;font-weight: bold;">${street.districtNm}</button></div>
-				                        </div>
-				                        <div class="row">
-				                        <div class="col-md-12"><textarea rows="2" cols="65" style="resize: none;" class="form-control" readonly>${street.streetIntro}</textarea></div>
-				                        </div>
-				                        <%-- 키워드 작성 부분 시작--%>
-				                        <c:forEach var="streetKeyword" items="${myStreetKeyword}" varStatus="vs">
-				                        	<c:if test="${street.streetNo eq streetKeyword.streetNo}">
-				                        		<div class="row">
-					                        		<div class="col-md-12 golmokKeywordBox mt-1 mb-1" style="background-color: #36be81;">
-					                        			<input type="text" readonly class="form-control-plaintext nanum" value="#${streetKeyword.keywordContent}" style="color: white;">
-					                       			</div>
-				                       			</div>
-				                        	</c:if>	
-				                        </c:forEach>
-				                    	<%-- 키워드 작성 부분 끝--%>
-				                        <div class="row">
-				                        <label class="col-sm-3 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">골목 총 인원</label>
-				                        <div class="col-sm-3"><input type="text" readonly class="nanum form-control-plaintext" value="${street.streetMaxMember}" style="font-size: 25px;"></div>
-				                        <label class="col-sm-3 col-form-label text-center nanum" style="font-weight: bold; font-size: 20px;">골목대장</label>
-				                        <div class="col-sm-3"><input type="text" readonly class="nanum form-control-plaintext" value="${street.memberNm}" style="font-size: 25px;"></div>
-				                        </div>
-				                        <div class="row">
-				                        <div class="col-md-12"><button type="button" class="btn btn-primary btn-lg btn-block nanum" style="font-weight: bold;">골목 이동</button></div>
-				                        </div>
-				                    </div>
-			                    </div>
-			                    <!-- 골목 2 끝 -->
-							</c:forEach> 	 
-						</c:when>
-						<c:otherwise>
-						<%-- 골목이 없는 경우 --%>
-						<h4 class="nanum">가입한 골목이 없습니다.</h4>
-						</c:otherwise>
-					</c:choose>
-					
-                      
-                    
-                </div>
+	                <div class="container-fluid" id="myStreetInfomation">
+						<!-- 내골목 정보 구역 -->
+	                </div>
                 <!-- content end -->
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary nanum" data-dismiss="modal" style="font-weight: bold;">나가기</button>
-                </div>
+                 </div>
             </div>
             </div>
         </div>
@@ -297,7 +242,7 @@ object-fit: cover;
        						$inputPlus.prop({"type":"text","readonly":"true"}).css({"color" : "blue","font-size": "25px"})
        								  .addClass("nanum form-control-plaintext").val("#" + mList[1].hobbyName);
        						$divPlus1.append($inputPlus);
-       						if(document.getElementById("memberProfileHobby").childElementCount < 6) {
+       						if(document.getElementById("memberProfileHobby").childElementCount < (Object.keys(mList).length-1)*2) {
        							$divPlus.append($labelPlus);
            						$divPlus.append($divPlus1);	
        						}
@@ -309,7 +254,7 @@ object-fit: cover;
        						$inputPlus.prop({"type":"text","readonly":"true"}).css({"color" : "blue","font-size": "25px"})
        								  .addClass("nanum form-control-plaintext").val("#" + mList[i].hobbyName);
        						$divPlus1.append($inputPlus);
-       						if(document.getElementById("memberProfileHobby").childElementCount < 6) {
+       						if(document.getElementById("memberProfileHobby").childElementCount < (Object.keys(mList).length-1)*2) {
        							$divPlus.append($labelPlus);
            						$divPlus.append($divPlus1);	
        						}
@@ -326,6 +271,148 @@ object-fit: cover;
        		});
        		
        	});
+		
+       	// 내골목 조회용 골목정보,골목 키워드 DB조회용 ajax 
+       	$("#hoho").on("click",function(){
+       		$.ajax({
+       			url : "${contextPath}/member/selectMyStreet",
+       			data : {memberNo : ${loginMember.memberNo}},
+       			type : "post",
+       			dataType : "json",
+       			success : function(streetInfo){
+       				
+       				if(Object.keys(streetInfo).length == 0) {
+       					if(document.getElementById("myStreetInfomation").childElementCount < 1) {
+       						$hPlus = $("<h4 class='nanum'>").html("가입한 골목이 없습니다.");
+           					$("#myStreetInfomation").append($hPlus);	
+       					}
+       				} else {
+       					// 내 골목 수 만큼 반복
+           				for(var i=0;i<Object.keys(streetInfo.myStreet).length;i++){ 
+           					var streetNo = ((streetInfo.myStreet)[i]).streetNo;
+           					var $divPlus = $("<div class='row'>");
+           					var $divPlus1 = $("<div>").addClass("col-md-4").css({"position":"relative","height":"364px"});
+           					var $divPlus2 = $("<div class='col-md-1'>");
+           					var $divPlus3 = $("<div class='col-md-7'>");
+           					
+           					var $divPlus4 = $("<div class='col-md-9'>");
+           					var $divPlus5 = $("<div class='col-md-3'>");
+           					var $divPlus6 = $("<div class='col-md-12'>");
+           					var $imgPlus = $("<img>").prop({"src":"${contextPath}/resources/img/골목2.jpg", "alt":"이미지"})
+           									.css({"position":"absolute","z-index":"10","width":"100%","height":"100%"});
+           					var $spanPlus = $("<span class='badge badge-pill badge-info'>").css({"position":"absolute", "z-index":"100", "font-size":"15px"})
+           									.html("개설 골목");
+           					
+           					// 1
+           					$divPlus1.append($imgPlus);
+           					if( ((streetInfo.myStreet)[i]).citizenGrade == 'M'.charAt(0) ) {
+           						// 개설한 골목일 경우
+           						$divPlus1.append($spanPlus);
+           					}
+           					
+           					// 2
+           					
+           					
+           					// 3_1
+           					var $divPlus31 = $("<div class='row'>"); 
+							var $sector1 = $("<div class='col-md-9'>");
+							var $sector2 = $("<div class='col-md-3'>");
+           					var $sname = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
+										.css({"font-weight":"bold","font-size":"25px"}).val(((streetInfo.myStreet)[i]).streetNm);
+           					$sector1.append($sname);
+           					var $sdistrict = $("<button class='btn btn-outline-success text-center'>").css({"font-weight":"bold","font-size":"13px"})
+											.prop({"disabled":true,"type":"button"}).html(((streetInfo.myStreet)[i]).districtNm);
+           					$sector2.append($sdistrict);
+           					$divPlus31.append($sector1).append($sector2);
+           					
+           					$divPlus3.append($divPlus31);
+           					
+           					// 3_2
+							var $divPlus32 = $("<div class='row'>"); 
+           					var $sector3 = $("<div class='col-md-12'>");
+           					var $sinfo = $("<textarea class='form-control'>").prop({"rows":"2","cols":"65","readonly":true})
+           								.css("resize","none").html(((streetInfo.myStreet)[i]).streetIntro);
+           					$sector3.append($sinfo);
+           					$divPlus32.append($sector3)
+           					
+           					$divPlus3.append($divPlus32);
+           					
+           					// 3_3
+           					var $divPlus33 = $("<div class='row'>");
+           					
+           					// 해당 골목이 키워드를 가지고 있는지 파악
+           					var count = 0;
+           					for(var g=0;g<Object.keys(streetInfo.myStreetKeyword).length;g++){
+           						if( (streetInfo.myStreetKeyword)[g].streetNo == streetNo ) {
+           							count++;
+           						} 
+           					}
+           					
+           					// 키워드가 존재하는 경우
+           					if(count > 0) { 
+           						for(var g=0;g<Object.keys(streetInfo.myStreetKeyword).length;g++){
+               						if( (streetInfo.myStreetKeyword)[g].streetNo == streetNo ) {
+               							var $divPlus7 = $("<div class='col-md-12 golmokKeywordBox mt-1 mb-1'>").css("background-color","#36be81");
+               							var $inputPlus2 = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
+       									.css("color","white").val((streetInfo.myStreetKeyword)[g].keywordContent);
+       									$divPlus7.append($inputPlus2);
+       									$divPlus33.append($divPlus7);       									
+               							$divPlus3.append($divPlus33);
+               						} 
+               					}
+           					} 
+           					
+           					// 3_4
+           					var $divPlus341 = $("<div class='row'>");
+           					var $sector4 = $("<div class='col-md-3'>");
+           					var $labelPlus = $("<label class='col-sm-3 col-form-label text-center nanum'>")
+           									.css({"font-weight":"bold","font-size":"16px"}).html("골목 총 인원");
+							var $inputPlus3 = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
+											.css({"font-weight":"bold","font-size":"25px"}).val(((streetInfo.myStreet)[i]).streetMaxMember);
+							$sector4.append($inputPlus3);
+							$divPlus341.append($labelPlus).append($sector4);
+							
+							var $sector5 = $("<div class='col-md-3'>");
+							var $labelPlus2 = $("<label class='col-sm-3 col-form-label text-center nanum'>")
+											.css({"font-weight":"bold","font-size":"20px"}).html("골목대장");
+							var $inputPlus4 = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
+											.css({"font-weight":"bold","font-size":"25px"}).val(((streetInfo.myStreet)[i]).memberNm);
+							$sector5.append($inputPlus4);
+							$divPlus341.append($labelPlus2).append($sector5);
+							
+							$divPlus3.append($divPlus341);
+           					
+           					// 3_5
+           					var $divPlus35 = $("<div class='row'>");
+           					var $sector6 = $("<div class='col-md-12'>");
+           					var $mstreetbtn = $("<button class='btn btn-primary btn-lg btn-block nanum'>").prop("type","button")
+           									.css("font-weight","bold").html("골목 이동");
+           					$sector6.append($mstreetbtn);
+							$divPlus35.append($sector6);
+							
+							$divPlus3.append($divPlus35);
+			           					
+           					// 통합 구성
+           					if(document.getElementById("myStreetInfomation").childElementCount < (Object.keys(streetInfo.myStreet).length)*2) {
+           						var $divPlus10 = $("<div class='row'>");
+               					var $hrPlus = $("<hr>");
+               					$divPlus10.append($divPlus1).append($divPlus2).append($divPlus3);
+               					$("#myStreetInfomation").append($divPlus10).append($hrPlus);
+           					}
+           					
+           				}
+       				}
+       				
+       			},
+       			error : function(e){
+           			console.log("ajax 통신 실패");
+           			console.log(e);
+           		}
+       			
+       		});
+       		
+       	});
+		
     </script>
        
 	<script

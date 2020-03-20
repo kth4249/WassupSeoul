@@ -52,22 +52,30 @@
       
 
 </style>
-<body >
-	 <%--  <%@include file="../common/header.jsp"%>   --%>
-
+<body style="background-color : rgb(221, 233, 218);">
+	<!-- 골목 네비바 여백 -->
 	<div class="container-fluid" style="margin-top: 57px;">
-		<%@include file="../street/streetDetail/streetNav.jsp"%>
+		<div class="row"  style="padding: 0px; height:44px"></div>
 	</div>
+
+	<!-- 고정된 골목 네비바  -->
+	<%@ include file="../street/streetDetail/streetNav.jsp"%>
+	<%-- <jsp:include page="../street/streetDetail/streetNav.jsp"/> --%>
+
+	<!-- 고정된 헤더 -->
+	<%@include file="../common/header.jsp"%>
+	<%-- <jsp:include page="../common/header.jsp"/> --%>
 
 	<!-- 컨텐츠영역-->
 	<div class="container" style="margin-top: 10px;">
 		<div class="row">
-		
-			<!-- 사이드 영역 -->
-			<div class="col-md-3" id="devideArea">
-				<%@include file="../street/streetDetail/streetSide1.jsp"%>
-			</div>
-			<!-- 사이드 영역 -->
+			
+			<%@ include file="../street/streetDetail/streetSide.jsp"%>
+			<%-- <jsp:include page="../street/streetDetail/streetSide.jsp"/> --%>
+			
+			<!-- 사이드1 여백 -->
+			<div class="col-md-3" id="devideArea"></div>
+			<!-- 사이드1 여백 -->
 
 			<!-- 타임라인-->
 			<div class="col-md-6" id="devideArea" style="margin-top: 10px;">
@@ -620,11 +628,9 @@
 			</div>
 			<!-- 타임라인-->
 			
-			<!-- 사이드 영역 -->
-			<div class="col-md-3" id="devideArea">
-				<%@include file="../street/streetDetail/streetSide2.jsp"%>
-			</div>
-			<!-- 사이드 영역 -->
+			<!-- 사이드2 여백 -->
+			<div class="col-md-3" id="devideArea"></div>
+			<!-- 사이드2 여백 -->
 			
 			
 		</div>
