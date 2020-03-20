@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
@@ -122,8 +123,8 @@ public class StreetDAO {
 	 * @return mList
 	 * @throws Exception
 	 */
-	public List<Member> selectRecommendList(Map<String, Object> map) throws Exception{
-		return sqlSession.selectList("streetMapper.selectRecommendList", map);
+	public List<Member> selectJuminList(Map<String, Object> map) throws Exception{
+		return sqlSession.selectList("streetMapper.selectJuminList", map);
 	}
 
 	/** 가입한 골목 수 조회용 Service
@@ -238,6 +239,14 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.writeComment", reply);
 	}
 
+	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
+	 * @param addRelation
+	 * @return result
+	 */
+	public int addRelation(Relationship addRelation) {
+		return sqlSession.insert("friendsMapper.addRelation", addRelation);
+  }
+  
 	/** 좋아요 개수 조회용 
 	 * @param streetNo
 	 * @return result

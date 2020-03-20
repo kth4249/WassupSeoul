@@ -1,3 +1,4 @@
+
 package com.kh.wassupSeoul.street.model.service;
 
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
+import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
@@ -58,7 +60,7 @@ public interface StreetService {
 	 * @return board
 	 * @throws Exception
 	 */
-	public abstract int[] checkLikeReplyNum(int postNo) throws Exception;
+// 	public abstract int[] checkLikeReplyNum(int postNo) throws Exception;
 
 
 	/** 게시글 삭제용 Service
@@ -86,7 +88,7 @@ public interface StreetService {
 	public abstract int selectMyStreet(int memberNo) throws Exception;
 
 	
-	/** 골목 개설용 Service1
+	/** 골목 개설용 Service
 	 * @param changeCoverName
 	 * @param street
 	 * @param memberNo
@@ -94,7 +96,8 @@ public interface StreetService {
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int insertStreet1(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
+	public abstract int insertStreet(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
+
 
 
 
@@ -116,6 +119,13 @@ public interface StreetService {
 	public abstract int writeComment(Reply reply) throws Exception;
 
 
+	
+	/** 추천 친구 리스트 조회용 Service
+	 * @param map
+	 * @return mList
+	 * @throws Exception
+	 */
+	public abstract List<Member> selectJuminList(Map<String, Object> map) throws Exception;
 
 
 	/** 회원 가입한 골목 수 조회용 Service
@@ -133,6 +143,26 @@ public interface StreetService {
 	public abstract List<Hobby> selectHobbyList(List<Member> mList) throws Exception;
 
 
+	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
+	 * @param addRelation
+	 * @return result
+	 */
+	public abstract int addRelation(Relationship addRelation);
+
+  
+  /** 골목 개설용 Service1
+	 * @param changeCoverName
+	 * @param street
+	 * @param memberNo
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int insertStreet1(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
+
+
+
+
 	/** 골목 개설용 Service2
 	 * @param street
 	 * @param memberNo
@@ -142,23 +172,7 @@ public interface StreetService {
 	 */
 	public abstract int insertStreet2(Street street, int memberNo, String[] streetKeywords) throws Exception;
   
-  
-  /** 추천 친구 리스트 조회용 Service
-	 * @param map
-	 * @return mList
-	 * @throws Exception
-	 */
-	public abstract List<Member> selectRecommendList(Map<String, Object> map) throws Exception;
 
-
-
-
-	/** 추천 친구 주민별 관심사 조회용 Service
-	 * @param mList
-	 * @return hList
-	 * @throws Exception
-	 */
-	public abstract List<Hobby> selectHobbyList(List<Member> mList) throws Exception;
 
 
 	/** 좋아요 개수 조회용 
@@ -191,8 +205,5 @@ public interface StreetService {
 	 */
 	public abstract int fileUpload(Board board, MultipartFile file, HttpServletRequest request,
 			HttpServletResponse response);
-
-
-
 	 
 }

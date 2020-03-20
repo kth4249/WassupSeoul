@@ -24,13 +24,13 @@ public class FriendsServiceImpl implements FriendsService{
 	 */
 	@Override
 	public List<Member> friendRequest(int myNum) throws Exception {
-		List<Relation> fList = friendsDAO.friendRequest(myNum);
-		List<Member> ffList = null;
-		if(!fList.isEmpty()) {
-		ffList = friendsDAO.justFriendReq(fList);
-		}
-		return ffList;
-	}
+	      List<Relation> fList = friendsDAO.friendRequest(myNum);
+	      List<Member> ffList = null;
+	      if (!fList.isEmpty()) {
+	         ffList = friendsDAO.justFriendReq(fList);
+	      }
+	      return ffList;
+	   }
 
 
 	

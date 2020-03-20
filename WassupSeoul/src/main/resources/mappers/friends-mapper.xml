@@ -48,6 +48,9 @@
 	</where>
 </select>
 	
-
+ <insert id="addRelation" parameterType="Relationship">
+ 	INSERT INTO RELATIONSHIP
+ 	VALUES(#{myNum}, #{yourNum}, #{requestStatus})
+ </insert>
 
 </mapper>
