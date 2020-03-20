@@ -1,26 +1,35 @@
 package com.kh.wassupSeoul.street.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.JsonObject;
 import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
@@ -28,6 +37,7 @@ import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
@@ -48,6 +58,7 @@ public class StreetController {
 
 		System.out.println("골목번호 : " + streetNo);
 		System.out.println("로그인정보 : " + loginMember.getMemberNickname());
+		System.out.println("프로필사진정보 : " + loginMember.getMemberProfileUrl());
 
 		model.addAttribute("streetNo", streetNo);
 
@@ -58,11 +69,22 @@ public class StreetController {
 		try {
 			Street street = streetService.selectStreet(streetNo);
 
+			// 좋아요, 댓글 개수 조회용 
+//			List<Count> thumbCount  = streetService.thumbCount(streetNo);
+//			List<Count> replyCount  = streetService.replyCount(streetNo);
+//			
+//			thumbCount.addAll(replyCount);
+//		
+//			 for (int index = 0; index < thumbCount.size(); index++) {
+//			   System.out.println("좋아요, 댓글 개수 출력:" + thumbCount.get(index));
+//			 }
 //			String chkStreetMem = streetService.chkStreetMem();
 
 			List<Board> board = streetService.selectBoard(streetNo);
 			Collections.reverse(board);
 			
+			
+			// 댓글 불러오는 중
 //			List<Reply> reply = streetService.selectReply(streetNo);
 
 //			System.out.println("street : " + street);
@@ -259,15 +281,13 @@ public class StreetController {
 			result = streetService.selectMyStreet(memberNo);
 			
 			if (result > 0) {
-
-				msg = "골목 개설 가능";
-				model.addAttribute("msg", msg);
+				
 				return "street/streetInsert";
 			}
 
 			else {
-				msg = "골목 개설 불가";
-				model.addAttribute("msg", msg);
+				//msg = "골목 개설 불가";
+				//model.addAttribute("msg", msg);
 				return "redirect:/square";
 			}
 			
@@ -283,6 +303,7 @@ public class StreetController {
 	@RequestMapping("insertStreet")
 	public String insertStreet(Street street,
 			@RequestParam(value = "streetKeywords", required = false) String[] streetKeywords,
+			@RequestParam(value = "sampleImg", required = false) String sampleImg,
 			@RequestParam(value = "streetCoverUpload", required = false) MultipartFile streetCoverUpload,
 			HttpServletRequest request, RedirectAttributes rdAttr, Model model) {
 
@@ -296,35 +317,79 @@ public class StreetController {
 		File folder = new File(savePath);
 		if (!folder.exists())
 			folder.mkdir();
-				
+				 
 		String msg = null;
 		int result = 0;
 
 		try {
-
-			if (!streetCoverUpload.getOriginalFilename().equals("")) { // 골목커버 등록했을 떄
-
+						
+			if(sampleImg != null) {
+								
+				if(sampleImg.equals("골목.jpg")) {
+					
+					street.setImgNo(6);
+				} else if(sampleImg.equals("골목2.jpg")) {
+					street.setImgNo(7);
+				} else if(sampleImg.equals("골목3.jpg")) {
+					street.setImgNo(8);
+				} else if (sampleImg.equals("골목4.jpg")) { 
+					street.setImgNo(9);
+				}
+				System.out.println("기본이미지 street 확인 : " + street.getImgNo());
+				
+				result = streetService.insertStreet2(street, memberNo, streetKeywords);
+				
+			} else if(!streetCoverUpload.getOriginalFilename().equals("")) {
+				
+				System.out.println("새로 등록한 이미지 : " + streetCoverUpload.getOriginalFilename());
+				
 				// 골목 커버 이름 바꾸기
 				String changeCoverName = FileRename.rename(streetCoverUpload.getOriginalFilename());
 
-				result = streetService.insertStreet(changeCoverName, street, memberNo, streetKeywords);
+				result = streetService.insertStreet1(changeCoverName, street, memberNo, streetKeywords);
 				
 				if (result > 0) { // 정보 다 저장된 경우 골목 커버 서버에 저장
 
 					streetCoverUpload.transferTo(new File(savePath + "/" + changeCoverName));
 					
-					// 골목 개설 성공 시
-					msg = "골목 개설 성공!! 꺄아아";
-					model.addAttribute("msg", msg);
-					return "";
 				}
-
 			}
 
-			// 골목 개설 실패 시
-			msg = "골목 개설 실패했다ㅠㅠ 흐규흐규";
-			model.addAttribute("msg", msg);
-			return "";
+			if(result > 0) {
+				msg = "골목 개설 성공~!! 우르르ㄱ끼기ㅣ긱";
+				model.addAttribute("msg", msg);
+				return "";
+			} else {
+				
+				msg = "골목 개설 실패했다ㅠㅠ 흐규흐규";
+				model.addAttribute("msg", msg);
+				return "";
+			}
+		
+
+//			if (!streetCoverUpload.getOriginalFilename().equals("")) { // 골목커버 등록했을 떄
+//
+//				// 골목 커버 이름 바꾸기
+//				String changeCoverName = FileRename.rename(streetCoverUpload.getOriginalFilename());
+//
+//				result = streetService.insertStreet(changeCoverName, street, memberNo, streetKeywords);
+//				
+//				if (result > 0) { // 정보 다 저장된 경우 골목 커버 서버에 저장
+//
+//					streetCoverUpload.transferTo(new File(savePath + "/" + changeCoverName));
+//					
+//					// 골목 개설 성공 시
+//					msg = "골목 개설 성공!! 꺄아아";
+//					model.addAttribute("msg", msg);
+//					return "";
+//				}
+//
+//			}
+//
+//			// 골목 개설 실패 시
+//			msg = "골목 개설 실패했다ㅠㅠ 흐규흐규";
+//			model.addAttribute("msg", msg);
+//			return "";
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -438,6 +503,48 @@ public class StreetController {
 		Relationship addRelation = new Relationship(myNum, yourNum, '1');
 		
 		streetService.addRelation(addRelation);
+    
+  }
+		// 댓글 조회 
+		@ResponseBody
+		@RequestMapping("selectReply")
+		public List<Reply> selectReply(int postNo, Model model ) {
+				
+				List<Reply> reply = streetService.selectReply(postNo);
+			
+				System.out.println(reply);
+				
+				return  reply; 
+		}
+	
+	// 썸머노트 파일 DB삽입용
+	@ResponseBody
+	@RequestMapping("fileUpload")
+	public void fileUpload(Board board, 
+			Model model, 
+			MultipartFile file, 
+			HttpServletRequest request, 
+			HttpServletResponse response) {
+		
+		String root = request.getSession().getServletContext().getRealPath("/");
+		String savePath = root + "resources\\uploadImages\\";
+		int maxSize = 1024 * 1024 * 10;
+
+		
+		
+		Member loginMember = (Member) model.getAttribute("loginMember");
+		//System.out.println(loginMember);
+		try {
+			int result = streetService.fileUpload(board,file,request,response);
+			
+			if (result > 0)
+				System.out.println("썸머노트 등록 성공" + result);
+			else
+				System.out.println("썸머노트 등록 실패" + result);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

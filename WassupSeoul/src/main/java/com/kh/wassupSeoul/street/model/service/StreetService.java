@@ -1,14 +1,22 @@
+
 package com.kh.wassupSeoul.street.model.service;
+
 
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -52,7 +60,7 @@ public interface StreetService {
 	 * @return board
 	 * @throws Exception
 	 */
-	public abstract int[] checkLikeReplyNum(int postNo) throws Exception;
+// 	public abstract int[] checkLikeReplyNum(int postNo) throws Exception;
 
 
 	/** 게시글 삭제용 Service
@@ -141,6 +149,61 @@ public interface StreetService {
 	 */
 	public abstract int addRelation(Relationship addRelation);
 
+  
+  /** 골목 개설용 Service1
+	 * @param changeCoverName
+	 * @param street
+	 * @param memberNo
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int insertStreet1(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
 
+
+
+
+	/** 골목 개설용 Service2
+	 * @param street
+	 * @param memberNo
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int insertStreet2(Street street, int memberNo, String[] streetKeywords) throws Exception;
+  
+
+
+
+	/** 좋아요 개수 조회용 
+	 * @param streetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract List<Count> thumbCount(Integer streetNo) throws Exception ;
+
+
+	/** 댓글 개수 조회용 
+	 * @param streetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract List<Count> replyCount(Integer streetNo) throws Exception;
+
+
+	/** 댓글 조회용 
+	 * @param postNo
+	 * @return list
+	 */
+	public abstract List<Reply> selectReply(int postNo);
+	/**
+	 * @param board
+	 * @param file
+	 * @param request
+	 * @param response
+	 * @return 
+	 */
+	public abstract int fileUpload(Board board, MultipartFile file, HttpServletRequest request,
+			HttpServletResponse response);
 	 
 }

@@ -75,48 +75,63 @@
 
 	<script>
 	
-    $(document).ready(function () {
+	$(function(){
     	
-    //섬머노트 셋팅 뀨
-      $('#summernote').summernote({
-	        height: 300,                 // set editor height 에디터 높이
-	        minHeight: null,             // set minimum height of editor 최소 높이
-	        maxHeight: null,             // set maximum height of editor 최대 높이
-	        focus: true,				// 에디터 로딩후 포커스를 맞출지 여부
-	        lang: "ko-KR",				// 한글 설정
-	        fontNames : [ '맑은고딕', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
-	        fontNamesIgnoreCheck : [ '맑은고딕' ],
-			placeholder: '최대 2048자까지 쓸 수 있습니다'	,
-			callbacks: {				//여기 부분이 이미지를 첨부하는 부분
-				onImageUpload : function(files, editor, welEditable) {
-					 for (var i = files.length - 1; i >= 0; i--) {
-			            	sendFile(files[i], this);
-			          }
-				}
-			}
-	
-	      })
+	    //섬머노트 셋팅 뀨
+	      $('#summernote').summernote({
+		        height: 300,                 // set editor height 에디터 높이
+		        minHeight: null,             // set minimum height of editor 최소 높이
+		        maxHeight: null,             // set maximum height of editor 최대 높이
+		        focus: true,				// 에디터 로딩후 포커스를 맞출지 여부
+		        lang: "ko-KR",				// 한글 설정
+		        fontNames : [ '맑은고딕', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
+		        fontNamesIgnoreCheck : [ '맑은고딕' ],
+				//placeholder: '최대 2048자까지 쓸 수 있습니다'	,
+				callbacks: {
+					onImageUpload: function(files, editor ) {
+			            	sendFile(files[0], this);
+			            }
+		       	   }
+			})
+      });
 	      
-	     /**
-		* 이미지 파일 업로드
-		*/
-		function sendFile(file, el) {
-			var data = new FormData();
-			data.append("uploadFile", file);
-			$.ajax({
-				data : data,
-				type : "POST",
-				url : "fileUpload",
-				cache : false,
-				contentType : false,
-				enctype: 'multipart/form-data',
-				processData : false,
-				success: function(img_name) {
-	          		$(el).summernote('editor.insertImage', img_name);
-	        	}
-			});
-		}
-   	});
+      
+     /**
+	* 이미지 파일 업로드
+	*/
+	function sendFile(file, editor) {
+		data = new FormData();
+		data.append("file", file);
+		$.ajax({
+			data : data,
+			type : "POST",
+			url : "/street/fileUpload",
+			cache : false,
+			contentType : false,
+			processData : false,
+			enctype: 'multipart/form-data',
+			success: function(result) {
+				$(editor).summernote('editor.insertImage', result);
+				
+				var $imgList = $("input[name=imgList]");
+				
+				var cutPoint = result.lastIndexOf("/");
+				result = result.substring(cutPoint + 1);
+				
+				if($imgList.val() == ""){
+					$imgList.val(result);
+				}else{
+					var str = $imgList.val();
+					str = str + "," + result;
+					$imgList.val(str);
+				}
+				
+				console.log($imgList.val());
+				
+			  }
+		});
+	}
+   	
     
       
       
