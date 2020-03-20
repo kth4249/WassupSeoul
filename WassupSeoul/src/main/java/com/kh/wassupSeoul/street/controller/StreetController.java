@@ -27,6 +27,7 @@ import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
@@ -58,11 +59,22 @@ public class StreetController {
 		try {
 			Street street = streetService.selectStreet(streetNo);
 
+			// 좋아요, 댓글 개수 조회용 
+//			List<Count> thumbCount  = streetService.thumbCount(streetNo);
+//			List<Count> replyCount  = streetService.replyCount(streetNo);
+//			
+//			thumbCount.addAll(replyCount);
+//		
+//			 for (int index = 0; index < thumbCount.size(); index++) {
+//			   System.out.println("좋아요, 댓글 개수 출력:" + thumbCount.get(index));
+//			 }
 //			String chkStreetMem = streetService.chkStreetMem();
 
 			List<Board> board = streetService.selectBoard(streetNo);
 			Collections.reverse(board);
 			
+			
+			// 댓글 불러오는 중
 //			List<Reply> reply = streetService.selectReply(streetNo);
 
 //			System.out.println("street : " + street);
@@ -395,5 +407,16 @@ public class StreetController {
 		return result;
 
 	}
-
+	
+		// 댓글 조회 
+		@ResponseBody
+		@RequestMapping("selectReply")
+		public List<Reply> selectReply(int postNo, Model model ) {
+				
+				List<Reply> reply = streetService.selectReply(postNo);
+			
+				System.out.println(reply);
+				
+				return  reply; 
+		}
 }
