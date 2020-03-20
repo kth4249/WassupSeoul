@@ -252,8 +252,8 @@
   	<insert id="insertStreet" parameterType="street">
   		INSERT INTO STREET
   		VALUES(SEQ_STREET.NEXTVAL, #{streetNm}, #{streetIntro}, 
-  			   DEFAULT, #{streetMaxMember}, DEFAULT, 
-  			   #{imgNo}, #{districtNo})  	
+  			   'Y', #{streetMaxMember}, DEFAULT, 
+  			   #{imgNo}, #{districtNo}, #{streetPublic})    	
   	</insert>
   	 
   	 
@@ -266,7 +266,7 @@
   	<!-- 골목 키워드 삽입 -->
   	<insert id="insertStreetKeyword" parameterType="map">
   		INSERT INTO KEYWORD
-  		VALUES(SEQ_KEYWORD.NEXTVAL, #{keyword}, #{streetNo})
+  		VALUES(SEQ_KEYWORD.NEXTVAL, #{keyword}, #{streetNo}) 
   	</insert>
   	
   	

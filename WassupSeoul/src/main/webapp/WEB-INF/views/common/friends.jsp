@@ -507,14 +507,14 @@
 		});
 	};
 	
-	 $(function(){
+/* 	 $(function(){
 		friendRequest();
 		
 		setInterval(function(){
 			friendRequest();
 		}, 10000);
 	}); 
-	
+	 */
 	
 	
 	

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
@@ -201,7 +202,7 @@ public class StreetServiceImpl implements StreetService{
 		
 	}
 	
-	/** 골목 개설용 Service
+	/** 골목 개설용 Service1
 	 * @param changeCoverName
 	 * @param street
 	 * @param memberNo
@@ -210,7 +211,8 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public int insertStreet(String changeCoverName, Street street, int memberNo, String[] streetKeywords)
+	@Transactional(rollbackFor = Exception.class)
+	public int insertStreet1(String changeCoverName, Street street, int memberNo, String[] streetKeywords)
 			throws Exception {
 		
 		int result = 0;
@@ -219,75 +221,93 @@ public class StreetServiceImpl implements StreetService{
 		Map<String, Object> map = null;
 		Map<String, Object> map2 = null;
 		
+		imgNo = streetDAO.selectCoverNextNo();
 		
-		if(changeCoverName != null) { // 새로 등록한 커버일 경우
+		if(imgNo > 0) {
 			
-			imgNo = streetDAO.selectCoverNextNo(); // 성공
-						
-			if(imgNo > 0) {
-				// 골목 커버 정보 저장
-				//result = streetDAO.insertStreetCover(changeCoverName); // 성공
+			result = streetDAO.insertStreetCover(changeCoverName);
+			
+			if(result > 0) {
+				street.setImgNo(imgNo);				
+				streetNo = streetDAO.selectStreetNextNo();				
+				street.setStreetNo(streetNo);				
+				result = streetDAO.insertStreet(street);
+				
+				if(result > 0) {
+					
+					// 골목 대장 정보 저장
+					map = new HashMap<String, Object>();
+					map.put("memberNo", memberNo);
+					map.put("streetNo", street.getStreetNo());
+					
+					if(streetKeywords != null) {
+						for (int i = 0; i < streetKeywords.length; i++) {
+
+							map2 = new HashMap<String, Object>();
+							map2.put("streetNo", street.getStreetNo());
+							map2.put("keyword", streetKeywords[i]);
 							
-				if(result == 0) { // 잠깐 result > 0 && !street.isEmpty()
-					
-					// 골목 정보 저장
-					street.setImgNo(imgNo); // 성공
-					
-					streetNo = streetDAO.selectStreetNextNo(); // 성공	
-					
-					street.setStreetNo(streetNo); // 성공
-					
-					//result = streetDAO.insertStreet(street);
-					
-					if(streetNo > 0) { // (result > 0)
-						
-						// 골목 대장 정보 저장
-						map = new HashMap<String, Object>();
-						map.put("memberNo", memberNo);
-						map.put("streetNo", street.getStreetNo());
-						
-						System.out.println("map 확인 : " + map);
-						
-						// result = streetDAO.insertStreetMaster(map);
-						
-						if(streetKeywords != null) {
-							for (int i = 0; i < streetKeywords.length; i++) {
+							result = streetDAO.insertStreetKeyword(map);
 
-								map2 = new HashMap<String, Object>();
-								map2.put("streetNo", street.getStreetNo());
-								map2.put("keyword", streetKeywords[i]);
-								
-								System.out.println("map2 확인 : "+ map2);
-
-								//result = streetDAO.insertStreetKeyword(map);
-
-							}
 						}
 					}
 				}
-				
-			} else {
-				
-				return -1;
-				
 			}
+			return result;
 			
 		} else {
-			
-			// imgNo = streetDAO.selectSampleImgNo(imgName);
-			street.setImgNo(imgNo);
-			//streetNo = streetDAO.selectStreetNextNo()
-			street.setStreetNo(streetNo);
-			
-		}
+			return -1;
+		}		
 		
-		
-		
-		
-		return 0;
 	}
 	
 	
+	/** 골목 개설용 Service2
+	 * @param street
+	 * @param memberNo
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	@Transactional(isolation = Isolation.READ_UNCOMMITTED, rollbackFor = Exception.class)
+	public int insertStreet2(Street street, int memberNo, String[] streetKeywords) throws Exception {
+		int streetNo = 0;
+		int result = 0;
+		Map<String, Object> map = null;
+		Map<String, Object> map2 = null;
+		
+		streetNo = streetDAO.selectStreetNextNo();				
+		street.setStreetNo(streetNo);				
+		result = streetDAO.insertStreet(street);
+		
+		if(result > 0) {
+			
+			// 골목 대장 정보 저장
+			map = new HashMap<String, Object>();
+			map.put("memberNo", memberNo);
+			map.put("streetNo", street.getStreetNo());
+			
+			if(streetKeywords != null) {
+				map2 = new HashMap<String, Object>();
+				map2.put("streetNo", streetNo);
+				for (int i = 0; i < streetKeywords.length; i++) {
+
+					map2.put("keyword", streetKeywords[i]);
+					
+					result = streetDAO.insertStreetKeyword(map2); 
+
+				}
+			}
+			
+			return result;
+			
+		} else { 
+			
+			return -1;
+		}
+		
+	}
 	
 	
 	/**	댓글 입력용 Service

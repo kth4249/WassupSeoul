@@ -79,7 +79,7 @@ public interface StreetService {
 	public abstract int selectMyStreet(int memberNo) throws Exception;
 
 	
-	/** 골목 개설용 Service
+	/** 골목 개설용 Service1
 	 * @param changeCoverName
 	 * @param street
 	 * @param memberNo
@@ -87,7 +87,7 @@ public interface StreetService {
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int insertStreet(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
+	public abstract int insertStreet1(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
 
 
 
@@ -132,6 +132,16 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract List<Hobby> selectHobbyList(List<Member> mList) throws Exception;
+
+
+	/** 골목 개설용 Service2
+	 * @param street
+	 * @param memberNo
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int insertStreet2(Street street, int memberNo, String[] streetKeywords) throws Exception;
 
 
 
