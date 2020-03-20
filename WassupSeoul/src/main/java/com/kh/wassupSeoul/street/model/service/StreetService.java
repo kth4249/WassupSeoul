@@ -3,7 +3,12 @@ package com.kh.wassupSeoul.street.model.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
@@ -155,6 +160,17 @@ public interface StreetService {
 	 * @return list
 	 */
 	public abstract List<Reply> selectReply(int postNo);
+	/**
+	 * @param board
+	 * @param file
+	 * @param request
+	 * @param response
+	 * @return 
+	 */
+	public abstract int fileUpload(Board board, MultipartFile file, HttpServletRequest request,
+			HttpServletResponse response);
+
+
 
 	 
 }
