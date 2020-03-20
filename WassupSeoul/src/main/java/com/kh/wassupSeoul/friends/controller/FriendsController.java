@@ -1,9 +1,7 @@
 package com.kh.wassupSeoul.friends.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.management.relation.Relation;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kh.wassupSeoul.friends.model.service.FriendsService;
 import com.kh.wassupSeoul.member.model.vo.Member;
 
@@ -25,7 +22,9 @@ public class FriendsController {
 	@Autowired
 	private FriendsService friendsService;
 	
-	@RequestMapping("friendRequest")
+	
+	@RequestMapping(value = "friendRequest",
+			produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String friendRequest(Model model, HttpServletResponse response) {
 		

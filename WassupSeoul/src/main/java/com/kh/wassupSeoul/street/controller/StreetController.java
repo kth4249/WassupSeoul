@@ -1,32 +1,42 @@
 package com.kh.wassupSeoul.street.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.JsonObject;
 import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
@@ -47,6 +57,7 @@ public class StreetController {
 
 		System.out.println("골목번호 : " + streetNo);
 		System.out.println("로그인정보 : " + loginMember.getMemberNickname());
+		System.out.println("프로필사진정보 : " + loginMember.getMemberProfileUrl());
 
 		model.addAttribute("streetNo", streetNo);
 
@@ -57,11 +68,22 @@ public class StreetController {
 		try {
 			Street street = streetService.selectStreet(streetNo);
 
+			// 좋아요, 댓글 개수 조회용 
+//			List<Count> thumbCount  = streetService.thumbCount(streetNo);
+//			List<Count> replyCount  = streetService.replyCount(streetNo);
+//			
+//			thumbCount.addAll(replyCount);
+//		
+//			 for (int index = 0; index < thumbCount.size(); index++) {
+//			   System.out.println("좋아요, 댓글 개수 출력:" + thumbCount.get(index));
+//			 }
 //			String chkStreetMem = streetService.chkStreetMem();
 
 			List<Board> board = streetService.selectBoard(streetNo);
 			Collections.reverse(board);
 			
+			
+			// 댓글 불러오는 중
 //			List<Reply> reply = streetService.selectReply(streetNo);
 
 //			System.out.println("street : " + street);
@@ -437,5 +459,50 @@ public class StreetController {
 		return result;
 
 	}
+	
+		// 댓글 조회 
+		@ResponseBody
+		@RequestMapping("selectReply")
+		public List<Reply> selectReply(int postNo, Model model ) {
+				
+				List<Reply> reply = streetService.selectReply(postNo);
+			
+				System.out.println(reply);
+				
+				return  reply; 
+		}
+	
+	// 썸머노트 파일 DB삽입용
+	@ResponseBody
+	@RequestMapping("fileUpload")
+	public void fileUpload(Board board, 
+			Model model, 
+			MultipartFile file, 
+			HttpServletRequest request, 
+			HttpServletResponse response) {
+		
+		String root = request.getSession().getServletContext().getRealPath("/");
+		String savePath = root + "resources\\uploadImages\\";
+		int maxSize = 1024 * 1024 * 10;
+
+		
+		
+		Member loginMember = (Member) model.getAttribute("loginMember");
+		//System.out.println(loginMember);
+		try {
+			int result = streetService.fileUpload(board,file,request,response);
+			
+			if (result > 0)
+				System.out.println("썸머노트 등록 성공" + result);
+			else
+				System.out.println("썸머노트 등록 실패" + result);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 
 }

@@ -62,6 +62,32 @@
 		<result property="memberNo" column="MEMBER_NO"/>
 	</resultMap>
 	
+	<resultMap type="Count" id="replyCountResultSet">
+		<id property="streetNo" column="STREET_NO"/>
+		<result property="boardNo" column="BOARD_NO"/>
+		<result property="replyCount" column="REPLY_COUNT"/>
+	</resultMap>
+	
+	<resultMap type="Count" id="thumbCountResultSet">
+		<id property="streetNo" column="STREET_NO"/>
+		<result property="boardNo" column="BOARD_NO"/>
+		<result property="likeCount" column="THUMB_COUNT"/>
+	</resultMap>
+	
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="replyNo" column="REPLY_NO"/>
+   		<result property="replyContent" column="REPLY_CONTENT"/>
+  		<result property="replyWriter" column="MEMBER_NM"/>
+  		<result property="replyDt" column="REPLY_DT"/>
+  		<result property="replyStatus" column="REPLY_STATUS"/>
+  		<result property="replyLevel" column="REPLY_LEVEL"/>
+  		<result property="memberNo" column="MEMBER_NO"/>
+  		<result property="boardNo" column="BOARD_NO"/>
+  		<result property="reReplyNo" column="REREPLY_NO"/>
+  		<result property="memberProfile" column="MEMBER_PROFILE_URL"/>
+	</resultMap>
+	
+	
 	<!-- 전체 골목 수 조회 -->
 	<select id="getListCount" parameterType="map" resultType="_int">
 		SELECT COUNT(DISTINCT(STREET_NO))
@@ -133,89 +159,38 @@
   	 	 WHERE STREET_NO = #{streetNo} 
  		 AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'
  		 ORDER BY BOARD_NO
- 		 
- 		 <!-- 
- 		 	SELECT BOARD_CONTENT, TO_CHAR(BOARD_WRITE_DT, 'YYYY"년" MM"월" DAY AM HH:MM ')
-			FROM BOARD; -->
-  	 	 	
   	 </select>
   	
   	<!-- 게시글 등록용 -->
   	 <insert id="insertBoard" parameterType="Board">
-	
 		  INSERT INTO BOARD
-		  VALUES(SEQ_BOARD.NEXTVAL, 
-		  #{boardContent}, 
-		  SYSDATE, 
-		  'Y', 
-		  0 ,
-		  #{streetNo}, 
-		  #{memberNo}, 
-		  #{typeNo})
-		  
+		  VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo})
 	</insert>
 	
 	<!-- 좋아요조회  -->
 	<select id="likeCheck" parameterType="Member" resultType="string">
-	
-		SELECT THUMB_STATUS
-		FROM THUMB
-		WHERE 
-		MEMBER_NO = #{memberNo} AND
-		BOARD_NO = #{memberAge}
-		
+		SELECT THUMB_STATUS	FROM THUMB	WHERE MEMBER_NO = #{memberNo} AND BOARD_NO = #{memberAge}
 	</select>
 	
 	<!-- 좋아요 기록용  -->
 	 <insert id="recordLike" parameterType="Member">
-	
-		  INSERT INTO THUMB
-		  VALUES(SEQ_THUMB.NEXTVAL, 
-		  'Y', 
-		  #{memberNo}, 
-		  #{memberAge})
-		  
+		  INSERT INTO THUMB  VALUES(SEQ_THUMB.NEXTVAL, 'Y', #{memberNo}, #{memberAge}, null, null)	  
 	</insert>
 	
 	<!-- 좋아요 업데이트 -->
 	<update id="updateLike"  parameterType="Member" >
-	
-		UPDATE THUMB
-		
-		SET
-		
-		THUMB_STATUS = #{memberNm}
-
-		WHERE MEMBER_NO=#{memberNo}
-	
+		UPDATE THUMB SET THUMB_STATUS = #{memberNm}	WHERE MEMBER_NO=#{memberNo}
 	</update>
   	 
   	<!-- 좋아요, 댓글 카운트용  --> 
   	<select id="checkLikeReplyNum" parameterType="_int" resultType="list">
-	
-		SELECT THUMB_STATUS
-		FROM THUMB
-		WHERE 
-		MEMBER_NO = #{memberNo} AND
-		BOARD_NO = #{memberAge}
-		
+		SELECT THUMB_STATUS	FROM THUMB	WHERE MEMBER_NO = #{memberNo} AND BOARD_NO = #{memberAge}
 	</select>
 	
 	 <!-- 게시글 삭제용 -->
   	 <update id="deletePost"  parameterType="_int" >
-	
-		UPDATE BOARD
-		
-		SET
-		
-		BOARD_STATUS = 'N'
-
-		WHERE BOARD_NO=#{boardNo}
-	
+		UPDATE BOARD SET BOARD_STATUS = 'N'	WHERE BOARD_NO=#{boardNo}
 	</update>
-  	
-  	
-  	
   	
   	
   	<!-- 골목 개설 조건 조회 1 -->
@@ -234,7 +209,6 @@
   	<select id="selectCoverNextNo" resultType="_int">
   		SELECT SEQ_STREET_IMG.NEXTVAL FROM DUAL 
   	</select>
-  	  	
   	
   	<!-- 골목 커버 정보 삽입 -->
 	<insert id="insertStreetCover" parameterType="string">
@@ -246,7 +220,6 @@
   	<select id="selectStreetNextNo" resultType="_int">
   		SELECT SEQ_STREET.NEXTVAL FROM DUAL 
   	</select>  	
-  	
   	
   	<!-- 골목 정보 삽입 -->
   	<insert id="insertStreet" parameterType="street">
@@ -314,13 +287,29 @@
 		</if>
 	</select>
   
-  
   	<!-- 댓글 입력 -->
   	<insert id="writeComment" parameterType="reply">
-  		INSERT INTO REPLY
-  		VALUES(SEQ_REPLY.NEXTVAL, #{replyContent}, SYSDATE, 'Y', 1, #{memberNo}, #{boardNo}, null )
+  		INSERT INTO REPLY VALUES(SEQ_REPLY.NEXTVAL, #{replyContent}, SYSDATE, 'Y', 1, #{memberNo}, #{boardNo}, null )
   	</insert>
   	
+  	
+  	<!-- 게시글 좋아요 개수 조회용  -->
+  	<select id="thumbCount" parameterType="_int" resultMap="thumbCountResultSet">
+  		SELECT * FROM V_THUMB_COUNT WHERE STREET_NO = #{streetNo}
+  	</select>
+  	
+  	<!-- 게시글 댓글 개수 조회용  -->
+  	<select id="replyCount" parameterType="_int" resultMap="replyCountResultSet">
+  		SELECT * FROM V_REPLY_COUNT WHERE STREET_NO = #{streetNo}
+  	</select>
   	 
+	<!-- 댓글 조회용  -->
+	<select id="selectReply" parameterType="_int" resultMap="replyResultSet">
+  	 	 SELECT * FROM V_REPLY
+  	 	 WHERE BOARD_NO = #{postNo} 
+ 		 AND REPLY_LEVEL=1 AND REPLY_STATUS = 'Y'
+ 		 ORDER BY REPLY_NO
+  	</select>
+	
 	
 </mapper>

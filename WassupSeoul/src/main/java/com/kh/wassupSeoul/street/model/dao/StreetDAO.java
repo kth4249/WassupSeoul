@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -235,6 +236,32 @@ public class StreetDAO {
 	 */
 	public int writeComment(Reply reply) throws Exception{
 		return sqlSession.insert("streetMapper.writeComment", reply);
+	}
+
+	/** 좋아요 개수 조회용 
+	 * @param streetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public List<Count> thumbCount(Integer streetNo) throws Exception{
+		return sqlSession.selectOne("streetMapper.thumbCount", streetNo);
+	}
+
+	/** 댓글 개수 조회용 
+	 * @param streetNo
+	 * @return result 
+	 * @throws Exception
+	 */
+	public List<Count> replyCount(Integer streetNo) throws Exception{
+		return sqlSession.selectOne("streetMapper.replyCount", streetNo);
+	}
+
+	/** 댓글 조회용 
+	 * @param postNo
+	 * @return list 
+	 */
+	public List<Reply> selectReply(int postNo) {
+		return sqlSession.selectList("streetMapper.selectReply", postNo);
 	}
 
 

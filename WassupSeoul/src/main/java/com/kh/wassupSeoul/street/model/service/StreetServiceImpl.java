@@ -4,15 +4,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -127,7 +133,6 @@ public class StreetServiceImpl implements StreetService{
 	public int streetJoin(Map<String, Object> map) {
 		return streetDAO.streetJoin(map);
 	}
-	
 	
 	
 	/** 회원 관심사 조회용 Service (memberMapper에서)
@@ -306,7 +311,6 @@ public class StreetServiceImpl implements StreetService{
 			
 			return -1;
 		}
-		
 	}
 	
 	
@@ -320,7 +324,42 @@ public class StreetServiceImpl implements StreetService{
 	public int writeComment(Reply reply) throws Exception {
 		return streetDAO.writeComment(reply);
 	}
+
+	/** 좋아요 개수 조회용 
+	 * @param streetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public List<Count> thumbCount(Integer streetNo) throws Exception {
+		return streetDAO.thumbCount(streetNo);
+	}
+
+	/** 댓글 개수 조회용 
+	 * @param streetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public List<Count> replyCount(Integer streetNo) throws Exception {
+		return streetDAO.replyCount(streetNo);
+	}
+
+	/** 댓글 조회용 
+	 * @param postNo
+	 * @return list
+	 */
+	@Override
+	public List<Reply> selectReply(int postNo)  {
+		return streetDAO.selectReply(postNo);
+	}
 	
-	
+
+	@Override
+	public int fileUpload(Board board, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	
 }
