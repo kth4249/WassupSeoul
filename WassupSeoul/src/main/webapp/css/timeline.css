@@ -50,31 +50,85 @@
    width: 0;
 }
 
-a {
-   text-decoration: none;
-   color: white;
-}
+    p {
+	   margin-bottom: 0;
+		}
+		
+		a:hover {
+		   color: #0d0d0d;
+		   text-decoration: none;
+		}
+		
+		ul {
+		   list-style: none;
+		   padding-left: 20%;
+		}
+		
+		body {
+		  background-color: rgb(221, 233, 218);
+		}
+		textarea {
+		   border: none;
+		   overflow: auto;
+		   outline: none;
+		
+		   -webkit-box-shadow: none;
+		   -moz-box-shadow: none;
+		   box-shadow: none;
+		
+		   resize: none;
+		}
+		
+		textarea,
+		textarea.form-control,
+		button,
+		button.form-control{
+		   border-radius: 0px;
+		}
+		textarea,
+		textarea.form-control,
+		select,
+		select.form-control {
+		  border-radius: 0px !important;
+		}
+		
+		 .navbar {
+		   border-width: 2px;
+		   border-style: solid;
+		   border-radius: 0px;
+		 }
+		 
+		 #postLyMenu li>ul {
+		   /* navi 후손 중 li 태그의 자손(서브메뉴) 스타일 지정*/
+		
+		   /* 서브메뉴가 content위에 표시될 수 있도록 position 지정 */
+		   position: absolute;
+		
+		   /* 서브메뉴의 크기를 메인메뉴와 동일하게 지정 */
+		   width: 100%;
+		
+		   /* 서브메뉴 불렛 제거  */
+		   list-style-type: none;
+		
+		   /* 서브메뉴 여백제거 */
+		   margin: 0;
+		   padding: 0;
+		
+		   /* 서브메뉴 배경색 지정 */
+		   background-color: lightgreen;
+		
+		   /* 서브메뉴를 투명하게 설정 */
+		   opacity: 0;
+		}
+		
+		
+		pre {
+		   padding: 10px;
+		   overflow: auto;
+		   white-space: pre-wrap;
+		}
 
-p {
-   margin-bottom: 0;
-}
 
-
-a:hover {
-   
-   color: #0d0d0d;
-   
-   text-decoration: none;
-}
-
-ul {
-   list-style: none;
-   padding-left: 20%;
-}
-
-body {
-  background-color: rgb(221, 233, 218);
-}
 
 #searchArea {
    position: relative;
@@ -163,18 +217,7 @@ body {
    height:auto;
 } */
 
-textarea {
-   border: none;
-   overflow: auto;
-   outline: none;
 
-   -webkit-box-shadow: none;
-   -moz-box-shadow: none;
-   box-shadow: none;
-
-   resize: none;
-   /*remove the resize handle on the bottom right*/
-}
 
 .writeOption{
    width: 60%; 
@@ -252,34 +295,7 @@ textarea {
 /* 이미지 shaking */
 
 
-#postLyMenu li>ul {
-   /* navi 후손 중 li 태그의 자손(서브메뉴) 스타일 지정*/
 
-   /* 서브메뉴가 content위에 표시될 수 있도록 position 지정 */
-   position: absolute;
-
-   /* 서브메뉴의 크기를 메인메뉴와 동일하게 지정 */
-   width: 100%;
-
-   /* 서브메뉴 불렛 제거  */
-   list-style-type: none;
-
-   /* 서브메뉴 여백제거 */
-   margin: 0;
-   padding: 0;
-
-   /* 서브메뉴 배경색 지정 */
-   background-color: lightgreen;
-
-   /* 서브메뉴를 투명하게 설정 */
-   opacity: 0;
-}
-
-pre {
-   padding: 10px;
-   overflow: auto;
-   white-space: pre-wrap;
-}
 
 
 
@@ -332,25 +348,6 @@ img:hover+p.arrow_box {
   
 /* 말풍선 숨기고 보이기 */
 
-
-textarea,
-textarea.form-control,
-button,
-button.form-control{
-   border-radius: 0px;
-}
-textarea,
-textarea.form-control,
-select,
-select.form-control {
-  border-radius: 0px !important;
-}
-
- .navbar {
-   border-width: 2px;
-   border-style: solid;
-   border-radius: 0px;
- }
  
  .closeBtn {
  width : 5px;
@@ -426,6 +423,17 @@ select.form-control {
       #title{
       	width : 250px;
       }
-
       
       /* 스케치 */
+      
+       .voteModal {
+			display: none;
+			position: absolute;
+			top: 30px;
+			width: 200px;
+			height: 550px;
+			z-index: 1;
+		}
+      
+      
+      

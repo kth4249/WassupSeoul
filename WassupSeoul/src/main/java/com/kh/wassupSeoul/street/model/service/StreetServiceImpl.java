@@ -4,14 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
+import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -128,7 +136,6 @@ public class StreetServiceImpl implements StreetService{
 	}
 	
 	
-	
 	/** 회원 관심사 조회용 Service (memberMapper에서)
 	 * @param memberNo
 	 * @return myHobby
@@ -146,8 +153,8 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<Member> selectRecommendList(Map<String, Object> map) throws Exception {
-		return streetDAO.selectRecommendList(map);
+	public List<Member> selectJuminList(Map<String, Object> map) throws Exception {
+		return streetDAO.selectJuminList(map);
 	}
 	
 	
@@ -201,7 +208,7 @@ public class StreetServiceImpl implements StreetService{
 		
 	}
 	
-	/** 골목 개설용 Service
+	/** 골목 개설용 Service1
 	 * @param changeCoverName
 	 * @param street
 	 * @param memberNo
@@ -210,7 +217,8 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public int insertStreet(String changeCoverName, Street street, int memberNo, String[] streetKeywords)
+	@Transactional(rollbackFor = Exception.class)
+	public int insertStreet1(String changeCoverName, Street street, int memberNo, String[] streetKeywords)
 			throws Exception {
 		
 		int result = 0;
@@ -219,75 +227,92 @@ public class StreetServiceImpl implements StreetService{
 		Map<String, Object> map = null;
 		Map<String, Object> map2 = null;
 		
+		imgNo = streetDAO.selectCoverNextNo();
 		
-		if(changeCoverName != null) { // 새로 등록한 커버일 경우
+		if(imgNo > 0) {
 			
-			imgNo = streetDAO.selectCoverNextNo(); // 성공
-						
-			if(imgNo > 0) {
-				// 골목 커버 정보 저장
-				//result = streetDAO.insertStreetCover(changeCoverName); // 성공
+			result = streetDAO.insertStreetCover(changeCoverName);
+			
+			if(result > 0) {
+				street.setImgNo(imgNo);				
+				streetNo = streetDAO.selectStreetNextNo();				
+				street.setStreetNo(streetNo);				
+				result = streetDAO.insertStreet(street);
+				
+				if(result > 0) {
+					
+					// 골목 대장 정보 저장
+					map = new HashMap<String, Object>();
+					map.put("memberNo", memberNo);
+					map.put("streetNo", street.getStreetNo());
+					
+					if(streetKeywords != null) {
+						for (int i = 0; i < streetKeywords.length; i++) {
+
+							map2 = new HashMap<String, Object>();
+							map2.put("streetNo", street.getStreetNo());
+							map2.put("keyword", streetKeywords[i]);
 							
-				if(result == 0) { // 잠깐 result > 0 && !street.isEmpty()
-					
-					// 골목 정보 저장
-					street.setImgNo(imgNo); // 성공
-					
-					streetNo = streetDAO.selectStreetNextNo(); // 성공	
-					
-					street.setStreetNo(streetNo); // 성공
-					
-					//result = streetDAO.insertStreet(street);
-					
-					if(streetNo > 0) { // (result > 0)
-						
-						// 골목 대장 정보 저장
-						map = new HashMap<String, Object>();
-						map.put("memberNo", memberNo);
-						map.put("streetNo", street.getStreetNo());
-						
-						System.out.println("map 확인 : " + map);
-						
-						// result = streetDAO.insertStreetMaster(map);
-						
-						if(streetKeywords != null) {
-							for (int i = 0; i < streetKeywords.length; i++) {
+							result = streetDAO.insertStreetKeyword(map);
 
-								map2 = new HashMap<String, Object>();
-								map2.put("streetNo", street.getStreetNo());
-								map2.put("keyword", streetKeywords[i]);
-								
-								System.out.println("map2 확인 : "+ map2);
-
-								//result = streetDAO.insertStreetKeyword(map);
-
-							}
 						}
 					}
 				}
-				
-			} else {
-				
-				return -1;
-				
 			}
+			return result;
 			
 		} else {
-			
-			// imgNo = streetDAO.selectSampleImgNo(imgName);
-			street.setImgNo(imgNo);
-			//streetNo = streetDAO.selectStreetNextNo()
-			street.setStreetNo(streetNo);
-			
-		}
+			return -1;
+		}		
 		
-		
-		
-		
-		return 0;
 	}
 	
 	
+	/** 골목 개설용 Service2
+	 * @param street
+	 * @param memberNo
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	@Transactional(isolation = Isolation.READ_UNCOMMITTED, rollbackFor = Exception.class)
+	public int insertStreet2(Street street, int memberNo, String[] streetKeywords) throws Exception {
+		int streetNo = 0;
+		int result = 0;
+		Map<String, Object> map = null;
+		Map<String, Object> map2 = null;
+		
+		streetNo = streetDAO.selectStreetNextNo();				
+		street.setStreetNo(streetNo);				
+		result = streetDAO.insertStreet(street);
+		
+		if(result > 0) {
+			
+			// 골목 대장 정보 저장
+			map = new HashMap<String, Object>();
+			map.put("memberNo", memberNo);
+			map.put("streetNo", street.getStreetNo());
+			
+			if(streetKeywords != null) {
+				map2 = new HashMap<String, Object>();
+				map2.put("streetNo", streetNo);
+				for (int i = 0; i < streetKeywords.length; i++) {
+
+					map2.put("keyword", streetKeywords[i]);
+					
+					result = streetDAO.insertStreetKeyword(map2); 
+
+				}
+			}
+			
+			return result;
+			
+		} else { 
+			
+			return -1;
+		}
+	}
 	
 	
 	/**	댓글 입력용 Service
@@ -300,7 +325,53 @@ public class StreetServiceImpl implements StreetService{
 	public int writeComment(Reply reply) throws Exception {
 		return streetDAO.writeComment(reply);
 	}
+
+	/** 좋아요 개수 조회용 
+	 * @param streetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public List<Count> thumbCount(Integer streetNo) throws Exception {
+		return streetDAO.thumbCount(streetNo);
+	}
+
+	/** 댓글 개수 조회용 
+	 * @param streetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public List<Count> replyCount(Integer streetNo) throws Exception {
+		return streetDAO.replyCount(streetNo);
+	}
+
+	/** 댓글 조회용 
+	 * @param postNo
+	 * @return list
+	 */
+	@Override
+	public List<Reply> selectReply(int postNo)  {
+		return streetDAO.selectReply(postNo);
+	}
 	
+
+	@Override
+	public int fileUpload(Board board, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
+	 * @param addRelation
+	 * @return result
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int addRelation(Relationship addRelation){
+		return streetDAO.addRelation(addRelation);
+	}
 	
 	
 }
