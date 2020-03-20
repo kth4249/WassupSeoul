@@ -17,6 +17,7 @@ import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -131,7 +132,6 @@ public class StreetServiceImpl implements StreetService{
 	public int streetJoin(Map<String, Object> map) {
 		return streetDAO.streetJoin(map);
 	}
-	
 	
 	
 	/** 회원 관심사 조회용 Service (memberMapper에서)
@@ -286,13 +286,8 @@ public class StreetServiceImpl implements StreetService{
 			
 		}
 		
-		
-		
-		
 		return 0;
 	}
-	
-	
 	
 	
 	/**	댓글 입력용 Service
@@ -306,6 +301,35 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.writeComment(reply);
 	}
 
+	/** 좋아요 개수 조회용 
+	 * @param streetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public List<Count> thumbCount(Integer streetNo) throws Exception {
+		return streetDAO.thumbCount(streetNo);
+	}
+
+	/** 댓글 개수 조회용 
+	 * @param streetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public List<Count> replyCount(Integer streetNo) throws Exception {
+		return streetDAO.replyCount(streetNo);
+	}
+
+	/** 댓글 조회용 
+	 * @param postNo
+	 * @return list
+	 */
+	@Override
+	public List<Reply> selectReply(int postNo)  {
+		return streetDAO.selectReply(postNo);
+	}
+	
 
 	@Override
 	public int fileUpload(Board board, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
