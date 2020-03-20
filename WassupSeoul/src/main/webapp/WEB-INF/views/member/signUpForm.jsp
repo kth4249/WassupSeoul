@@ -301,7 +301,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<p class="nanum float-right" style="color: midnightblue;">(1개
 									이상의 선택을 꼭 권장합니다.)</p>
 							</div>
-							<div class="col-md-6" id="searchHobbyList" style="overflow: auto; height: 270px;">
+							<div class="col-md-6" id="searchHobbyList" style="overflow: auto; max-height: 60px;">
 								<li class="list-group-item">
 									<h5 class="nanum">관심사를 검색하세요</h5>
 								</li>
@@ -331,9 +331,9 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<p class="nanum float-right" style="color: midnightblue;">(선택사항)</p>
 							</div>
 							<div class="col-md-6">
-								<!-- <input type="image" src="../img/골목.jpg" class="profile rounded-circle"> -->
 								<div class="profileDiv">
 									<img id="img" class="profile" src="${pageContext.request.contextPath}/resources/img/wm1.png">
+									<input type="file" id="profile_img" name="originProfileUrl">
 								</div>
 							</div>
 						</div>
@@ -343,10 +343,30 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<label for=""></label>
 							</div>
 							<div class="col-md-6">
-								<input type="file" id="profile_img" name="originProfileUrl">
-								
+							    <div class="custom-control custom-checkbox">
+								      <input type="checkbox" class="custom-control-input" id="def_check" name="def_check">
+								      <label class="custom-control-label" for="def_check">기본 프로필 이미지 사용</label>
+								      <input type="hidden" id="defaultImg" name="defaultImg">
+								</div>
 							</div>
 						</div>
+						
+						<script>
+						
+						$("#def_check").change(
+								function(){
+									//체크박스 값에 따라 히든 값 변경
+									if($("#def_check").is(":checked")){
+										$("#defaultImg").val('Y');
+									}else {
+										$("#defaultImg").val('N');
+									}
+								}
+							);
+						
+						</script>
+						
+						
 
 						<br>
 						<div class="row form-group">
@@ -726,11 +746,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		
 	</script>
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> branch 'master' of https://github.com/kth4249/WassupSeoul.git
 	<script
 		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"

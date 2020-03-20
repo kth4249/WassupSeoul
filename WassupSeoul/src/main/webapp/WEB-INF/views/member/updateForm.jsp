@@ -66,7 +66,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*프로필 변경</label>
                         <div class="col-sm-3">
-                            <div id="profileBox"><img class="profileImage" src="${contextPath}/resources/profileImage/${loginMember.memberProfileUrl}" alt="이미지" id="updateProfile"></div>
+                            <div id="profileBox"><img class="profileImage" src="${contextPath}/resources/profileImage/${member.memberProfileUrl}" alt="이미지" id="updateProfile"></div>
                             <div class="uploadImage">
                                 <label for="imgInp" style="width: 100%; height: 100%;text-align: center;"><img src="${contextPath}/resources/img/iconmonstr-photo-camera-4-64.png" style="cursor: pointer;margin: 8px 0px;" width="40px" height="40px"></label>
                                 <input id="imgInp" type="file" name="memberProfileUrl" style="display : none">
@@ -82,7 +82,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*닉네임 변경</label>
                         <div class="col-sm-5">
-                          <input type="text" class="form-control nanum" id="nickName" name="memberNickname" value="${loginMember.memberNickname}" style="font-size: 20px;" placeholder="변경할 닉네임을 입력하세요">
+                          <input type="text" class="form-control nanum" id="nickName" name="memberNickname" value="${member.memberNickname}" style="font-size: 20px;" placeholder="변경할 닉네임을 입력하세요">
                         </div>
                         <div class="col-sm-3"></div>
                     </div>
@@ -95,7 +95,7 @@
 
                     <br>
 					
-					<c:set var="phone" value="${fn:split(loginMember.memberPhone, '-')}"/>
+					<c:set var="phone" value="${fn:split(member.memberPhone, '-')}"/>
 					
                     <!-- 전화번호 변경 시작 -->
                     <div class="form-group row">
@@ -383,7 +383,7 @@
         									 .addClass("form-control-plaintext nanum").val(list[i].hobbyCount + "명");
         						var buttonPlus = $("<button></button>").prop("type","button")
     										 .addClass("btn btn-primary nanum insertSearchHobby").html("선택")
-    							var hobbyNoPlus = $("<input>").prop("type","text").val(list[i].hobbyNo);
+    							var hobbyNoPlus = $("<input>").prop("type","hidden").val(list[i].hobbyNo);
         						
         						divPlus1 = divPlus1.append(inputPlus1);
         						divPlus2 = divPlus2.append(inputPlus2);
@@ -468,7 +468,7 @@
     		// 닉네임 유효성 검사
     		$nickName.on("input",function(){
     			// 총 1~14글자,모든 문자 가능
-    			var regExp = /^[a-zA-z\d가-힣]{1,14}$/;
+    			var regExp = /^[a-zA-z0-9가-힣]{1,14}$/;
     			if(!regExp.test($nickName.val())) {
     				$nickName.addClass("is-invalid");
     				$("#nickNameCheck").text("닉네임 형식이 유효하지 않습니다.").css({"color":"red","font-weight":"bold"});

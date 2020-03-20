@@ -94,7 +94,7 @@
 						<div class="col-xs-4">
 							<select class="form-control nanum" name="districtNo"
 								id="districtNo" required>
-								<option value="10">강서구</option>
+								<option selected value="10">강서구</option>
 								<option value="8">양천구</option>
 								<option value="11">구로구</option>
 								<option value="9">영등포구</option>
@@ -303,7 +303,7 @@
 				</div>
 			</div>
 
-			
+
 			<div class="row">
 				<div class="col-md-6 offset-md-3">
 					<div class="col-md-12 nanum" style="margin: 3px auto;">
@@ -323,9 +323,7 @@
 							<!-- 내 커버 추가하기 -->
 							<div
 								style="margin-left: 1px; margin-right: 1px; box-sizing: border-box;">
-								<p
-									style="display: inline-block; margin-bottom: 1px;">내
-									커버</p>
+								<p style="display: inline-block; margin-bottom: 1px;">내 커버</p>
 								<div
 									style="border: 1px solid black; width: 300px; height: 80px; background-color: rgb(236, 233, 233); position: relative; cursor: pointer;"
 									id="myStreetCoverArea">
@@ -349,13 +347,13 @@
 									<div
 										style="border: 1px solid black; width: 156px; height: 90px; margin-bottom: 1px; cursor: pointer;">
 										<img class="streetCover" id="streetCover1"
-											src="${contextPath}/resources/img/골목.jpg"
+											src="${contextPath}/resources/streetCoverImage/골목.jpg"
 											style="width: 154px; height: 88px;">
 									</div>
 									<div
 										style="border: 1px solid black; width: 156px; height: 90px; margin-top: 1px; cursor: pointer;">
 										<img class="streetCover" id="streetCover2"
-											src="${contextPath}/resources/img/골목2.jpg"
+											src="${contextPath}/resources/streetCoverImage/골목2.jpg"
 											style="width: 154px; height: 88px;">
 									</div>
 								</div>
@@ -364,13 +362,13 @@
 									<div
 										style="border: 1px solid black; width: 156px; height: 90px; margin-bottom: 1px; cursor: pointer;">
 										<img class="streetCover" id="streetCover3"
-											src="${contextPath}/resources/img/골목3.jpg"
+											src="${contextPath}/resources/streetCoverImage/골목3.jpg"
 											style="width: 154px; height: 88px;">
 									</div>
 									<div
 										style="border: 1px solid black; width: 156px; height: 90px; margin-top: 1px; cursor: pointer;">
 										<img class="streetCover" id="streetCover4"
-											src="${contextPath}/resources/img/골목4.jpg"
+											src="${contextPath}/resources/streetCoverImage/골목4.jpg"
 											style="width: 154px; height: 88px;">
 									</div>
 								</div>
@@ -394,7 +392,9 @@
 			<!-- 파일업로드부분 -->
 			<div class="col-md-12" id="fileArea">
 				<input type="file" class="form-control nanum" id="streetCoverUpload"
-					name="streetCoverUpload" onchange="LoadImg(this,1)">
+					name="streetCoverUpload" onchange="LoadImg(this,1)"> 
+				<input type="hidden" class="form-contrle nanum" id="sampleImg"
+					name="sampleImg">
 			</div>
 
 
@@ -408,9 +408,8 @@
 					</div>
 					<div class="col-md-12 nanum form-group">
 						<div class="custom-control custom-radio">
-							<input type="radio" id="public" name="streetPublic"
-								value="Y"
-								class="custom-control-input" checked=""> <label
+							<input type="radio" id="public" name="streetPublic" value="Y"
+								class="custom-control-input"> <label
 								class="custom-control-label" for="public"
 								style="font-size: larger;">공개</label>
 							<p style="font-size: smaller;">
@@ -418,8 +417,7 @@
 								있습니다.</p>
 						</div>
 						<div class="custom-control custom-radio">
-							<input type="radio" id="private" name="streetPublic"
-								value="N"
+							<input type="radio" id="private" name="streetPublic" value="N"
 								class="custom-control-input"> <label
 								class="custom-control-label" for="private"
 								style="font-size: larger;">비공개</label>
@@ -439,7 +437,7 @@
 			<div class="row">
 				<div class="col-md-2 offset-md-4" style="text-align: center;">
 					<button type="submit"
-						class="btn btn-primary btn-lg btn-block nanum">수정하기</button>
+						class="btn btn-primary btn-lg btn-block nanum">개설하기</button>
 				</div>
 				<div class="col-md-2" style="text-align: center;">
 					<button type="button"
@@ -457,14 +455,67 @@
 
 			// 내 커버 추가 클릭 시 이벤트
 			$("#myStreetCoverArea").click(function() {
+
 				$("#streetCoverUpload").click();
 			});
 
 			// 기본 제공 이미지 클릭 시 이벤트
-			$(".streetCover").click(function() {
-				var a = $(this).attr("src");
-				$("#streetThumbnail").prop("src", a);
-			});
+			$(".streetCover").on(
+					"click",
+					function() {
+
+						// 기본 이미지 미리보기
+						var a = $(this).attr("src");
+						$("#streetThumbnail").prop("src", a);
+
+						// input file 초기화
+						$("#streetCoverUpload").val("");
+
+						/* console.log(b);
+						document.getElementById("streetCoverUpload").select();
+
+						document.selection.clear(); */
+
+						/* if ($.browser.msie) { // ie 일때 input[type=file] init. 
+							$("#streetCoverUpload").replaceWith(
+									$("#streetCoverUpload").clone(true));
+						} else { // other browser 일때 input[type=file] init. 
+							$("#streetCoverUpload").val("");
+						} */
+
+						// 기본이미지 값 등록
+
+						// 미리보기 이미지 src 갖고오기
+						var $streetThumbnail = $("#streetThumbnail")
+								.attr("src");
+
+						// src 중 서버에 저장된 이름만 잘라내기
+						var serverNm = $streetThumbnail.substring(40,
+								$streetThumbnail.length);
+
+						// string 값에 따라 #sampleImg value 변경
+						if (serverNm == "골목.jpg") {
+
+							$("#sampleImg").val("");
+							$("#sampleImg").val("골목.jpg");
+
+						} else if (serverNm == "골목2.jpg") {
+
+							$("#sampleImg").val("");
+							$("#sampleImg").val("골목2.jpg");
+
+						} else if (serverNm == "골목3.jpg") {
+
+							$("#sampleImg").val("");
+							$("#sampleImg").val("골목3.jpg");
+
+						} else if (serverNm == "골목4.jpg") {
+
+							$("#sampleImg").val("");
+							$("#sampleImg").val("골목4.jpg");
+						}
+
+					});
 		});
 
 		// 골목커버 미리보기
@@ -472,10 +523,9 @@
 			if (value.files && value.files[0]) {
 				var reader = new FileReader();
 				reader.onload = function(e) {
-					switch (num) {
-					case 1:
+					if (num == 1) {
 						$("#streetThumbnail").prop("src", e.target.result);
-						break;
+						$("#sampleImg").val("");
 					}
 				}
 				reader.readAsDataURL(value.files[0]);
@@ -504,8 +554,8 @@
 					var regExp = /^[A-Za-z가-힣0-9]{0,15}$/;
 
 					if (!regExp.test($(this).val())) {
-						$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.")
-								.css("color", "red");
+						$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.").css(
+								"color", "red");
 					} else {
 						$("#checkStreetIntro").text("유효한 골목소개 형식입니다.").css(
 								"color", "green");

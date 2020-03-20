@@ -35,7 +35,7 @@ import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 
-@SessionAttributes({ "loginMember", "msg", "myHobby", "myStreet","myStreetKeyword" })
+@SessionAttributes({ "loginMember", "msg"})
 @RequestMapping("/member/*")
 @Controller
 public class MemberController {
@@ -60,32 +60,42 @@ public class MemberController {
 		public String signUp(Member member, Model model, String phone1, String phone2, String phone3,
 				RedirectAttributes rdAttr, HttpServletRequest request, 
 				int[] hobbyNoArr, String[] hobbyNmArr,
-				@RequestParam(value="originProfileUrl" , required=false) MultipartFile originProfileUrl) 
+				@RequestParam(value="originProfileUrl" , required=false) MultipartFile originProfileUrl,
+				@RequestParam(value="defaultImg" , required=false) String defaultImg)
 		{
-			// 생성된 회원번호 가져오기
 			String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
 
 			String root = request.getSession().getServletContext().getRealPath("resources");
 			String savePath = root + "/" + "profileImage";
-			System.out.println("이미지 저장 경로 : " + savePath);
 			File folder = new File(savePath);
 			if(!folder.exists()) folder.mkdir();
 	 
 			try {
 				int memberNo = memberService.selectMemberNo();
-				String newProfileImg = FileRename.renameProfile(originProfileUrl.getOriginalFilename());
 				
-				Member signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
+				Member signUpMember = null;
+				
+				if(defaultImg.equals("Y")) {
+					
+					if (member.getMemberGender().equals("M")) {
+					
+						signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
+						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), "man.png");
+					} else {
+						signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
+						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), "woman.png");
+					}
+				
+				} else {
+					
+				String newProfileImg = FileRename.rename(originProfileUrl.getOriginalFilename());
+				signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
 						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), newProfileImg);
+				}
 				
 				int result = memberService.signUp(signUpMember);
 				
-				System.out.println("signUpMember :" + signUpMember);
-				
-				String msg = null;
-
 				if (result > 0) {
-					 
 					originProfileUrl.transferTo(new File(savePath+"/"+signUpMember.getMemberProfileUrl()));
 					
 					// 추가부분(관심사) 시작
@@ -101,7 +111,7 @@ public class MemberController {
 								// 해당하는 hobbyNo얻기 
 								int hobbyNo = memberService.getInsertHobbyNo(tempHobbyName);
 								hobbyNoArr[i] = hobbyNo;
-								System.out.println("추가한 관심사의 관심사번호 : " + hobbyNo);
+								//System.out.println("추가한 관심사의 관심사번호 : " + hobbyNo);
 							} else {
 								model.addAttribute("msg","관심사 추가 실패");
 								return "redirect:/square";
@@ -112,7 +122,7 @@ public class MemberController {
 					
 					for(int i=0;i<hobbyNoArr.length;i++) {
 						MemberHobby temp = new MemberHobby(memberNo, hobbyNoArr[i]);
-						System.out.println(temp);
+						//System.out.println(temp);
 						insertHobby.add(temp);
 					}
 					
@@ -124,12 +134,8 @@ public class MemberController {
 					} 
 					// 추가부분(관심사) 끝
 									
-					msg = "가입성공";
-					rdAttr.addFlashAttribute("msg", msg);
 					return "redirect:/";
 				} else {
-					msg = "가입실패";
-					rdAttr.addFlashAttribute("msg", msg);
 					return "redirect:/";
 				}
 
@@ -149,70 +155,9 @@ public class MemberController {
 			Member loginMember = memberService.loginMember(member);
 			String msg = null;
 			if (loginMember != null) {
-				
-				
-				// 골목번호 배열
-				int[] streetNoArr = new int[3];
-				
-				// 1) 해당 관심사 가져오기
-				List<Hobby> myHobby = memberService.selectHobby(loginMember.getMemberNo());
-				for(int k=0;k<myHobby.size();k++) {
-					System.out.println(myHobby.get(k));
-				}
-				model.addAttribute("myHobby",myHobby);
-				
-				// 2) 해당 골목 가져오기
-				List<ProfileStreet> myStreet = memberService.selectProfileStreet(loginMember.getMemberNo());
-				for(int k=0;k<myStreet.size();k++) {
-					System.out.println(myStreet.get(k));
-				}
-				
-				// 골목 keyword에 사용할 컬렉션 선언
-				List<Keyword> myStreetKeyword = new ArrayList<Keyword>(); 
-				
-				if(!myStreet.isEmpty()) {
-					
-					for(int i=0;i<myStreet.size();i++) {
-						
-						// 골목번호
-						int streetNo = myStreet.get(i).getStreetNo();
-						
-						// 2_1) 골목대장 가져오기
-						String StreetMaster = memberService.selectStreetMaster(streetNo);
-						myStreet.get(i).setMemberNm(StreetMaster);
-						streetNoArr[i] = streetNo; // 골목번호 구분용 배열
-					}	
-					
-					// 2_2) 키워드 가져오기
-					for(int i=0;i<streetNoArr.length;i++) {
-						switch(i) {
-						case 0: List<Keyword> myStreetKeyword1 = memberService.selectMyKeyword(streetNoArr[i]);
-								myStreetKeyword.addAll(myStreetKeyword1);break;
-						case 1: List<Keyword> myStreetKeyword2 = memberService.selectMyKeyword(streetNoArr[i]);
-								myStreetKeyword.addAll(myStreetKeyword2);break; 						
-						case 2: List<Keyword> myStreetKeyword3 = memberService.selectMyKeyword(streetNoArr[i]);
-								myStreetKeyword.addAll(myStreetKeyword3);break;
-						}
-					}
-					model.addAttribute("myStreetKeyword",myStreetKeyword);
-					for(int g=0;g<myStreetKeyword.size();g++) {
-						System.out.println("myStreetKeyword : " + myStreetKeyword.get(g));
-					}
-					for(int t=0;t<myStreet.size();t++) {
-						System.out.println("내골목 : " + myStreet.get(t));
-					}
-					model.addAttribute("myStreet", myStreet);
-					
-				}
-				//
-				
-				msg = "로그인 성공";
-				rdAttr.addFlashAttribute("msg", msg);
 				model.addAttribute("loginMember", loginMember);
 				return "redirect:/square";
 			} else {
-				msg = "로그인 실패";
-				rdAttr.addFlashAttribute("msg", msg);
 				return "redirect:/";
 			}
 
@@ -241,7 +186,7 @@ public class MemberController {
 		
 		try {
 			String memberEmail = memberService.findEmail(member);
-			System.out.println("이거: "+memberEmail);
+			//System.out.println("이거: "+memberEmail);
 			
 			PrintWriter out = response.getWriter();
 			out.print(memberEmail);
@@ -280,7 +225,7 @@ public class MemberController {
 	                    buf.append((rnd.nextInt(10)));
 	                }
 	            }
-	            System.out.println("난수 비밀번호 :" +  buf);
+	            //System.out.println("난수 비밀번호 :" +  buf);
 	            String randomPwd = buf.toString();
 	            
 	            Map<String, String> randomMap = new HashMap<String, String>();
@@ -289,7 +234,7 @@ public class MemberController {
 	            randomMap.put("email", email);
 	            
 	            int result = memberService.makeRandomPwd(randomMap);
-				System.out.println("리저트값이다!!!: "+result);
+				//System.out.println("리저트값이다!!!: "+result);
 				
 				/* return new EmailController().sendEmail(model,request,randomMap); */
 				App app = new App();
@@ -343,9 +288,21 @@ public class MemberController {
 	} 
 		
 	// 회원 수정 페이지 이동
-	@RequestMapping("updateForm")
-	public String updateForm(Model model) {
-		return "member/updateForm";
+	@RequestMapping("MoveupdateForm")
+	public String updateForm(Model model,int memberNo) {
+		try {
+			Member member = memberService.selectProfileMember(memberNo);
+			List<Hobby> myHobby = memberService.selectHobby(memberNo);
+			model.addAttribute("member", member);
+			model.addAttribute("myHobby", myHobby);
+			return "member/updateForm";
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "회원 정보 수정 화면 출력에서 오류발생");
+			return "/common/errorPage";
+		}
+
+		
 	} 
 	
 	// 현재비밀번호 일치 검사
@@ -396,138 +353,126 @@ public class MemberController {
 	}
 	
 	// 회원 정보 수정
-		@RequestMapping(value="update", method = RequestMethod.POST)
-		public String updateMember(String phone1,String phone2,String phone3,String memberNickname,
-								   @RequestParam(value="memberProfileUrl", required=false) MultipartFile memberProfileUrl,
-								   @RequestParam(value="newPwd", required=false) String newPwd,
-								   @RequestParam(value="maintainPwd", required=false) String maintainPwd,
-								   int[] hobbyNoArr, String[] hobbyNmArr,
-								   Model model, HttpServletRequest request) {
-			try {
-				Member member = (Member)model.getAttribute("loginMember");
+	@RequestMapping(value="update", method = RequestMethod.POST)
+	public String updateMember(String phone1,String phone2,String phone3,String memberNickname,
+							   @RequestParam(value="memberProfileUrl", required=false) MultipartFile memberProfileUrl,
+							   @RequestParam(value="newPwd", required=false) String newPwd,
+							   @RequestParam(value="maintainPwd", required=false) String maintainPwd,
+							   int[] hobbyNoArr, String[] hobbyNmArr,
+							   Model model, HttpServletRequest request) {
+		try {
+			int memberNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
+			// 기존 DB에 있는 회원 정보 불러옴
+			Member member = memberService.selectProfileMember(memberNo);
+			
+			// 닉네임 변경
+			member.setMemberNickname(memberNickname);
+			
+			
+			// 전화번호 변경
+			String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
+			member.setMemberPhone(memberPhone);
+			
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "/" + "profileImage";
+			File folder = new File(savePath);
+			if(!folder.exists()) folder.mkdir();
+			
+			// 프로필사진 변경
+			if(!memberProfileUrl.getOriginalFilename().equals("")) {
+				String updateProfileUrl = FileRename.rename(memberProfileUrl.getOriginalFilename());
+				member.setMemberProfileUrl(updateProfileUrl);
 				
-				// 닉네임 변경
-				member.setMemberNickname(memberNickname);
-				
-				
-				// 전화번호 변경
-				String memberPhone = phone1 + "-" + phone2 + "-" + phone3;
-				member.setMemberPhone(memberPhone);
-				
-				String root = request.getSession().getServletContext().getRealPath("resources");
-				String savePath = root + "/" + "profileImage";
-				File folder = new File(savePath);
-				if(!folder.exists()) folder.mkdir();
-				
-				// 프로필사진 변경
-				if(!memberProfileUrl.getOriginalFilename().equals("")) {
-					String updateProfileUrl = FileRename.rename(memberProfileUrl.getOriginalFilename());
-					member.setMemberProfileUrl(updateProfileUrl);
-					
-				} 
-				
-				// 비밀번호 변경
-				int flag = 0;
-				if(maintainPwd != null) {
-					String memberPwd = memberService.selectMemberPwd(member.getMemberNo());
-					member.setMemberPwd(memberPwd);
-					flag = 0;
-				} else {
-					member.setMemberPwd(newPwd);
-					flag = 1;
-				}
-				
-				// 1)Member 테이블 update
-				int result = memberService.updateMember(member,flag);
-				
-				if(result > 0)	{
-					//model.addAttribute("msg","회원정보 수정 성공");
-					String memberPwd = memberService.selectMemberPwd(member.getMemberNo());
-					member.setMemberPwd(memberPwd);
-					// 파일을 서버에 저장
-					if(!memberProfileUrl.getOriginalFilename().equals("")) {
-						memberProfileUrl.transferTo(new File(savePath+"/"+member.getMemberProfileUrl()));
-					}
-					// 수정된 회원정보 조회 후 session저장
-					model.addAttribute("loginMember",member);
-				
-				// 2)Member_Hobby , Hobby 테이블 update -> 중복된 값, 새로 추가된 값 구별하여 추가
-					List<Hobby> myHobby = new ArrayList<Hobby>(); // session에 저장할 값
-					List<MemberHobby> changeHobby = new ArrayList<MemberHobby>(); // MEMBER_HOBBY에 저장할때 사용하는 리스트
-					
-					// 새로 추가된 관심사가 있는 경우 관심사 추가 및 해당하는 hobbyNo얻기
-					for(int i=0;i<hobbyNoArr.length;i++) {
-						if(hobbyNoArr[i] == 0) {
-							// 새로 추가된 관심사를 hobby 테이블에 추가
-							String tempHobbyName = hobbyNmArr[i].substring(1);
-							int addResult = memberService.insertHobby(tempHobbyName);
-							if(addResult > 0) { // 추가 성공
-								// 해당하는 hobbyNo얻기 
-								int hobbyNo = memberService.getInsertHobbyNo(tempHobbyName);
-								hobbyNoArr[i] = hobbyNo;
-								System.out.println("추가한 관심사의 관심사번호 : " + hobbyNo);
-							} else {
-								model.addAttribute("msg","관심사 추가 실패");
-								return "redirect:/";
-							}
-							
-						}
-					}
-					
-					for(int i=0;i<hobbyNoArr.length;i++) {
-						MemberHobby temp = new MemberHobby(member.getMemberNo(), hobbyNoArr[i]);
-						changeHobby.add(temp);
-					}
-					
-					// 기존 관심사 모두 제거(MEMBER_HOBBY 테이블)
-					int result1 = memberService.deleteMemberHobby(member.getMemberNo());
-					// 변경된 관심사 모두 추가(MEMBER_HOBBY 테이블)
-					if(result1 > 0) {
-						result1 = memberService.updateMemberHobby(changeHobby);
-						if(result1 > 0) {
-							
-							for(int i=0;i<hobbyNmArr.length;i++) {
-								// 변경된 hobby들 저장
-								String tempHobbyName = hobbyNmArr[i].substring(1);
-								System.out.println("관심사 : " +tempHobbyName);
-								Hobby temp = new Hobby(hobbyNoArr[i],tempHobbyName);
-								myHobby.add(temp);
-							}
-							
-							model.addAttribute("myHobby",myHobby);
-							//model.addAttribute("msg","관심사 수정 성공");
-						} else {
-							model.addAttribute("msg","관심사 수정 실패");
-							return "redirect:/";
-						}
-					} else {
-						model.addAttribute("msg","관심사 삭제 과정 실패");
-						return "redirect:/";
-					}
-							
-				}
-				else {
-					model.addAttribute("msg","회원정보 수정 실패");
-					return "redirect:/";
-				}
-				
-				model.addAttribute("msg","회원정보 수정 성공");
-				return "redirect:updateForm";
-				
-			} catch(Exception e) {
-				e.printStackTrace();
-				model.addAttribute("errorMsg","회원 정보 수정과정 중 오류 발생");
-				return "common/errorPage";
+			} 
+			
+			// 비밀번호 변경
+			int flag = 0;
+			if(maintainPwd != null) {
+				String memberPwd = memberService.selectMemberPwd(member.getMemberNo());
+				member.setMemberPwd(memberPwd);
+				flag = 0;
+			} else {
+				member.setMemberPwd(newPwd);
+				flag = 1;
 			}
 			
+			// 1)Member 테이블 update
+			int result = memberService.updateMember(member,flag);
+			
+			if(result > 0)	{
+				String memberPwd = memberService.selectMemberPwd(member.getMemberNo());
+				member.setMemberPwd(memberPwd);
+				// 파일을 서버에 저장
+				if(!memberProfileUrl.getOriginalFilename().equals("")) {
+					memberProfileUrl.transferTo(new File(savePath+"/"+member.getMemberProfileUrl()));
+				}
+			
+			// 2)Member_Hobby , Hobby 테이블 update -> 중복된 값, 새로 추가된 값 구별하여 추가
+				List<MemberHobby> changeHobby = new ArrayList<MemberHobby>(); // MEMBER_HOBBY에 저장할때 사용하는 리스트
+				
+				// 새로 추가된 관심사가 있는 경우 관심사 추가 및 해당하는 hobbyNo얻기
+				for(int i=0;i<hobbyNoArr.length;i++) {
+					if(hobbyNoArr[i] == 0) {
+						// 새로 추가된 관심사를 hobby 테이블에 추가
+						String tempHobbyName = hobbyNmArr[i].substring(1);
+						int addResult = memberService.insertHobby(tempHobbyName);
+						if(addResult > 0) { // 추가 성공
+							// 해당하는 hobbyNo얻기 
+							int hobbyNo = memberService.getInsertHobbyNo(tempHobbyName);
+							hobbyNoArr[i] = hobbyNo;
+						} else {
+							model.addAttribute("msg","관심사 추가 실패");
+							return "redirect:/";
+						}
+						
+					}
+				}
+				
+				for(int i=0;i<hobbyNoArr.length;i++) {
+					MemberHobby temp = new MemberHobby(member.getMemberNo(), hobbyNoArr[i]);
+					changeHobby.add(temp);
+				}
+				
+				// 기존 관심사 모두 제거(MEMBER_HOBBY 테이블)
+				int result1 = memberService.deleteMemberHobby(member.getMemberNo());
+				// 변경된 관심사 모두 추가(MEMBER_HOBBY 테이블)
+				if(result1 > 0) {
+					result1 = memberService.updateMemberHobby(changeHobby);
+					if(result1 > 0) {
+						
+						model.addAttribute("msg","회원정보 수정 성공");
+						model.addAttribute("memberNo",memberNo);
+						return "redirect:MoveupdateForm";
+						
+					} else {
+						model.addAttribute("msg","관심사 수정 실패");
+						return "redirect:/";
+					}
+				} else {
+					model.addAttribute("msg","관심사 삭제 과정 실패");
+					return "redirect:/";
+				}
+						
+			}
+			else {
+				model.addAttribute("msg","회원정보 수정 실패");
+				return "redirect:/";
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg","회원 정보 수정과정 중 오류 발생");
+			return "common/errorPage";
 		}
+		
+	}
 	
 	// 직접 입력한 관심사 중복 조회
 	@ResponseBody
 	@RequestMapping("hobbyDupCheck")
 	public String hobbyDupCheck(String hobbyName) {
 		Hobby hobby = memberService.hobbyDupCheck(hobbyName);
-		System.out.println("직접입력 : " + hobby);
+		//System.out.println("직접입력 : " + hobby);
 		if(hobby != null)	{
 			return hobby.getHobbyNo()+"";
 		}
@@ -610,7 +555,106 @@ public class MemberController {
 			}
 		
 		}
-	
+
+		// 회원 정보 및 관심사 조회
+	    @ResponseBody
+		@RequestMapping("selectProfileMember")
+	    public ArrayList<Object>  selectProfileMember(HttpServletResponse response, Member tempMember) {
+	    	ArrayList<Object> mList = new ArrayList<Object>();
+	    	try {
+	    		
+	        	// 1) 회원 정보 가져오기
+	    		Member member = memberService.selectProfileMember(tempMember.getMemberNo());
+	    		System.out.println("모달창 회원 : " + member);
+	    		mList.add(member); // 0번 인덱스에 회원정보
+	    		
+	        	// 2) 회원 관심사 가져오기
+	    		List<Hobby> myHobby = memberService.selectHobby(tempMember.getMemberNo());
+				for(int k=0;k<myHobby.size();k++) {
+					System.out.println("모달창 관심사 : " + myHobby.get(k));
+					mList.add(myHobby.get(k)); // 1~3번 인덱스에 회원 관심사
+				}
+				
+				for(int i=0;i<mList.size();i++) {
+					System.out.println("모달창 회원 : " + mList.get(i));
+				}
+				
+				response.setCharacterEncoding("UTF-8");
+				new Gson().toJson(mList, response.getWriter());
+	    		
+	    	} catch(Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    	
+	    	return null;
+	    }
+	    
+	    // 내골목 및 골목 키워드 조회
+	    @ResponseBody
+		@RequestMapping("selectMyStreet")
+	    public void selectMyStreet(HttpServletResponse response, int memberNo) {
+	    	
+	    	
+	    	try {
+	    		// 값을 넘겨줄 Map 선언
+	    		HashMap<String, Object> myStreetInfo = new HashMap<String, Object>(); 
+	    		
+	    		// 골목번호 배열
+				int[] streetNoArr = new int[3];
+				
+				// 1) 해당 골목 가져오기
+				List<ProfileStreet> myStreet = memberService.selectProfileStreet(memberNo);
+				
+				// 골목 keyword에 사용할 컬렉션 선언
+				List<Keyword> myStreetKeyword = new ArrayList<Keyword>(); 
+				
+				if(!myStreet.isEmpty()) {
+					
+					for(int i=0;i<myStreet.size();i++) {
+						
+						// 골목번호
+						int streetNo = myStreet.get(i).getStreetNo();
+						
+						// 1_1) 골목대장 가져오기
+						String StreetMaster = memberService.selectStreetMaster(streetNo);
+						myStreet.get(i).setMemberNm(StreetMaster);
+						streetNoArr[i] = streetNo; // 골목번호 구분용 배열
+					}	
+					
+					// 1_2) 키워드 가져오기
+					for(int i=0;i<streetNoArr.length;i++) {
+						switch(i) {
+						case 0: List<Keyword> myStreetKeyword1 = memberService.selectMyKeyword(streetNoArr[i]);
+								myStreetKeyword.addAll(myStreetKeyword1);break;
+						case 1: List<Keyword> myStreetKeyword2 = memberService.selectMyKeyword(streetNoArr[i]);
+								myStreetKeyword.addAll(myStreetKeyword2);break; 						
+						case 2: List<Keyword> myStreetKeyword3 = memberService.selectMyKeyword(streetNoArr[i]);
+								myStreetKeyword.addAll(myStreetKeyword3);break;
+						}
+					}
+					
+					// myStreetKeyword : 해당 골목 키워드 저장 / streetNo로 어떤 골목것인지 구분
+					// myStreet : 내 골목 정보 저장
+					
+					// 2) Map에 저장하여 전달
+					// 2_1) 내 골목 정보 저장
+					myStreetInfo.put("myStreet", myStreet);
+					// 2_2) 골목 키워드 저장
+					myStreetInfo.put("myStreetKeyword", myStreetKeyword);
+					
+				}
+				
+				response.setCharacterEncoding("UTF-8");
+				new Gson().toJson(myStreetInfo, response.getWriter());
+				
+				
+	    	} catch(Exception e) {
+	    		e.printStackTrace();
+	    	}
+	    	
+	    
+	    	
+	    }
 	
 
 

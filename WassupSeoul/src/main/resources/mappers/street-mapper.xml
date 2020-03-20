@@ -39,6 +39,55 @@
 		<result property="streetNo" column="STREET_NO"/>
 	</resultMap>
 	
+	
+	<resultMap type="Member" id="memberResultSet">
+		<id property="memberNo" column="MEMBER_NO"/>
+   		<result property="memberEmail" column="MEMBER_EMAIL"/>
+  		<result property="memberPwd" column="MEMBER_PWD"/>
+  		<result property="memberNm" column="MEMBER_NM"/>
+  		<result property="memberNickname" column="MEMBER_NICKNAME"/>
+  		<result property="memberPhone" column="MEMBER_PHONE"/>
+  		<result property="memberGender" column="MEMBER_GENDER"/>
+  		<result property="memberAge" column="MEMBER_AGE"/>
+  		<result property="memberProfileUrl" column="MEMBER_PROFILE_URL"/>
+  		<result property="memberGrade" column="MEMBER_GRADE"/>
+  		<result property="memberEnrollDt" column="MEMBER_ENROLL_DT"/>
+  		<result property="memberStatus" column="MEMBER_STATUS"/>
+	</resultMap>
+	
+	
+	<resultMap type="Hobby" id="hobbyResultSet">
+		<id property="hobbyNo" column="HOBBY_NO"/>
+		<result property="hobbyName" column="HOBBY_NM"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+	</resultMap>
+	
+	<resultMap type="Count" id="replyCountResultSet">
+		<id property="streetNo" column="STREET_NO"/>
+		<result property="boardNo" column="BOARD_NO"/>
+		<result property="replyCount" column="REPLY_COUNT"/>
+	</resultMap>
+	
+	<resultMap type="Count" id="thumbCountResultSet">
+		<id property="streetNo" column="STREET_NO"/>
+		<result property="boardNo" column="BOARD_NO"/>
+		<result property="likeCount" column="THUMB_COUNT"/>
+	</resultMap>
+	
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="replyNo" column="REPLY_NO"/>
+   		<result property="replyContent" column="REPLY_CONTENT"/>
+  		<result property="replyWriter" column="MEMBER_NM"/>
+  		<result property="replyDt" column="REPLY_DT"/>
+  		<result property="replyStatus" column="REPLY_STATUS"/>
+  		<result property="replyLevel" column="REPLY_LEVEL"/>
+  		<result property="memberNo" column="MEMBER_NO"/>
+  		<result property="boardNo" column="BOARD_NO"/>
+  		<result property="reReplyNo" column="REREPLY_NO"/>
+  		<result property="memberProfile" column="MEMBER_PROFILE_URL"/>
+	</resultMap>
+	
+	
 	<!-- 전체 골목 수 조회 -->
 	<select id="getListCount" parameterType="map" resultType="_int">
 		SELECT COUNT(DISTINCT(STREET_NO))
@@ -110,107 +159,160 @@
   	 	 WHERE STREET_NO = #{streetNo} 
  		 AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'
  		 ORDER BY BOARD_NO
- 		 
- 		 <!-- 
- 		 	SELECT BOARD_CONTENT, TO_CHAR(BOARD_WRITE_DT, 'YYYY"년" MM"월" DAY AM HH:MM ')
-			FROM BOARD; -->
-  	 	 	
   	 </select>
   	
   	<!-- 게시글 등록용 -->
   	 <insert id="insertBoard" parameterType="Board">
-	
 		  INSERT INTO BOARD
-		  VALUES(SEQ_BOARD.NEXTVAL, 
-		  #{boardContent}, 
-		  SYSDATE, 
-		  'Y', 
-		  0 ,
-		  #{streetNo}, 
-		  #{memberNo}, 
-		  #{typeNo})
-		  
+		  VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo})
 	</insert>
 	
 	<!-- 좋아요조회  -->
 	<select id="likeCheck" parameterType="Member" resultType="string">
-	
-		SELECT THUMB_STATUS
-		FROM THUMB
-		WHERE 
-		MEMBER_NO = #{memberNo} AND
-		BOARD_NO = #{memberAge}
-		
+		SELECT THUMB_STATUS	FROM THUMB	WHERE MEMBER_NO = #{memberNo} AND BOARD_NO = #{memberAge}
 	</select>
 	
 	<!-- 좋아요 기록용  -->
 	 <insert id="recordLike" parameterType="Member">
-	
-		  INSERT INTO THUMB
-		  VALUES(SEQ_THUMB.NEXTVAL, 
-		  'Y', 
-		  #{memberNo}, 
-		  #{memberAge})
-		  
+		  INSERT INTO THUMB  VALUES(SEQ_THUMB.NEXTVAL, 'Y', #{memberNo}, #{memberAge}, null, null)	  
 	</insert>
 	
 	<!-- 좋아요 업데이트 -->
 	<update id="updateLike"  parameterType="Member" >
-	
-		UPDATE THUMB
-		
-		SET
-		
-		THUMB_STATUS = #{memberNm}
-
-		WHERE MEMBER_NO=#{memberNo}
-	
+		UPDATE THUMB SET THUMB_STATUS = #{memberNm}	WHERE MEMBER_NO=#{memberNo}
 	</update>
   	 
   	<!-- 좋아요, 댓글 카운트용  --> 
   	<select id="checkLikeReplyNum" parameterType="_int" resultType="list">
-	
-		SELECT THUMB_STATUS
-		FROM THUMB
-		WHERE 
-		MEMBER_NO = #{memberNo} AND
-		BOARD_NO = #{memberAge}
-		
+		SELECT THUMB_STATUS	FROM THUMB	WHERE MEMBER_NO = #{memberNo} AND BOARD_NO = #{memberAge}
 	</select>
 	
 	 <!-- 게시글 삭제용 -->
   	 <update id="deletePost"  parameterType="_int" >
-	
-		UPDATE BOARD
-		
-		SET
-		
-		BOARD_STATUS = 'N'
-
-		WHERE BOARD_NO=#{boardNo}
-	
+		UPDATE BOARD SET BOARD_STATUS = 'N'	WHERE BOARD_NO=#{boardNo}
 	</update>
   	
   	
-  	<!-- 골목 커버 정보 삽입 IMG_NO, IMG_URL, IMG_LEVEL -->
+  	<!-- 골목 개설 조건 조회 1 -->
+  	<select id="selectMyStreet" parameterType="_int" resultType="_int">
+  		SELECT COUNT(*) FROM STREET_JOIN 
+  		WHERE MEMBER_NO = #{memberNo}  		
+  	</select>
+  	
+  	<!-- 골목 개설 조건 조회 2 -->
+  	<select id="selectStreetMaster" parameterType="_int" resultType="_int">
+  		SELECT COUNT(*) FROM STREET_JOIN 
+  		WHERE MEMBER_NO = #{memberNo} AND CITIZEN_GRADE = 'M'  		
+  	</select>
+  	
+  	<!-- 골목 커버 다음 번호 조회 -->
+  	<select id="selectCoverNextNo" resultType="_int">
+  		SELECT SEQ_STREET_IMG.NEXTVAL FROM DUAL 
+  	</select>
+  	
+  	<!-- 골목 커버 정보 삽입 -->
 	<insert id="insertStreetCover" parameterType="string">
   		INSERT INTO STREET_IMG
-  		VALUES(SEQ_STREET_IMG.NEXTVAL, #{streetImgUrl}, 1) 
+  		VALUES(SEQ_STREET_IMG.NEXTVAL, #{changeCoverName}, 1)  
   	</insert> 
-  	   
   	
-  	<!-- 골목 개설 -->
+  	<!-- 골목 다음 번호 조회 -->
+  	<select id="selectStreetNextNo" resultType="_int">
+  		SELECT SEQ_STREET.NEXTVAL FROM DUAL 
+  	</select>  	
+  	
+  	<!-- 골목 정보 삽입 -->
   	<insert id="insertStreet" parameterType="street">
   		INSERT INTO STREET
-  		VALUES(SEQ_STREET.NEXTVAL, #{streetNm}, #{streetIntro}, DEFAULT, #{streetMaxMember}, DEFAULT, IMG_NO, #{districtNo})  	
+  		VALUES(SEQ_STREET.NEXTVAL, #{streetNm}, #{streetIntro}, 
+  			   'Y', #{streetMaxMember}, DEFAULT, 
+  			   #{imgNo}, #{districtNo}, #{streetPublic})    	
   	</insert>
   	 
   	 
-  	<!-- 골목 가입 -->
-  	<insert id="streetJoin" parameterType="map">
+  	<!-- 골목 대장 정보 삽입 -->
+  	<insert id="insertStreetMaster" parameterType="map">
   		INSERT INTO STREET_JOIN
-  		VALUES(#{memberNo}, #{streetNo}, DEFAULT, DEFAULT)
+  		VALUES(#{memberNo}, #{streetNo}, 'M', 'Y')
   	</insert>
+  	
+  	<!-- 골목 키워드 삽입 -->
+  	<insert id="insertStreetKeyword" parameterType="map">
+  		INSERT INTO KEYWORD
+  		VALUES(SEQ_KEYWORD.NEXTVAL, #{keyword}, #{streetNo}) 
+  	</insert>
+  	
+  	
+  	<!-- 주민 목록 조회 겸 추천 친구 목록 조회 -->
+  	<select id="selectJuminList" parameterType="map" resultMap="memberResultSet">
+		SELECT MEMBER_NO, MEMBER_NM, MEMBER_NICKNAME, MEMBER_GENDER, MEMBER_AGE, 
+		        STREET_NO, COUNT(HOBBY_NO) HOBBY_COUNT
+		FROM MEMBER
+		LEFT JOIN MEMBER_HOBBY USING(MEMBER_NO)
+		LEFT JOIN HOBBY USING(HOBBY_NO)
+		LEFT JOIN STREET_JOIN USING(MEMBER_NO)
+		<where>
+			<if test="myHobby != null">
+				AND HOBBY_NM IN
+				<foreach collection="myHobby" open="(" separator="," close=")" item="hobby">
+					#{hobby.hobbyName}
+				</foreach>
+			</if>
+			AND STREET_NO = #{streetNo}
+		</where>
+		GROUP BY MEMBER_NO, MEMBER_NM, MEMBER_NICKNAME, MEMBER_GENDER, MEMBER_AGE, STREET_NO
+		<if test="myHobby != null">
+			<!-- HAVING COUNT(HOBBY_NO) != 0 -->
+			ORDER BY HOBBY_COUNT DESC
+		</if>
+  	</select>
+  	
+  	<!-- 로그인된 회원이 가입한 골목의 수 조회 -->
+  	<select id="myStreetCount" parameterType="_int" resultType="_int">
+  		SELECT COUNT(*)
+  		FROM STREET_JOIN
+  		WHERE MEMBER_NO = #{memberNo}
+  		AND CITIZEN_STATUS = 'Y'
+  	</select>
+  	
+  	<!-- 추천친구에 조회된 회원들의 관심사 목록 조회 -->
+  	<select id="selectHobbyList" parameterType="list" resultMap="hobbyResultSet">
+  		SELECT *
+  		FROM HOBBY
+  		JOIN MEMBER_HOBBY USING (HOBBY_NO)
+		<if test="list != null">
+  			<where>
+  				AND MEMBER_NO IN
+  				<foreach collection="list" open="(" separator="," close=")" item="member">
+  					#{member.memberNo}
+  				</foreach>
+  			</where>
+		</if>
+	</select>
+  
+  	<!-- 댓글 입력 -->
+  	<insert id="writeComment" parameterType="reply">
+  		INSERT INTO REPLY VALUES(SEQ_REPLY.NEXTVAL, #{replyContent}, SYSDATE, 'Y', 1, #{memberNo}, #{boardNo}, null )
+  	</insert>
+  	
+  	
+  	<!-- 게시글 좋아요 개수 조회용  -->
+  	<select id="thumbCount" parameterType="_int" resultMap="thumbCountResultSet">
+  		SELECT * FROM V_THUMB_COUNT WHERE STREET_NO = #{streetNo}
+  	</select>
+  	
+  	<!-- 게시글 댓글 개수 조회용  -->
+  	<select id="replyCount" parameterType="_int" resultMap="replyCountResultSet">
+  		SELECT * FROM V_REPLY_COUNT WHERE STREET_NO = #{streetNo}
+  	</select>
   	 
+	<!-- 댓글 조회용  -->
+	<select id="selectReply" parameterType="_int" resultMap="replyResultSet">
+  	 	 SELECT * FROM V_REPLY
+  	 	 WHERE BOARD_NO = #{postNo} 
+ 		 AND REPLY_LEVEL=1 AND REPLY_STATUS = 'Y'
+ 		 ORDER BY REPLY_NO
+  	</select>
+	
 	
 </mapper>
