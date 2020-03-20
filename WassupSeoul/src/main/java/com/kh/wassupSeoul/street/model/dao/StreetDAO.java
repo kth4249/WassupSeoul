@@ -221,9 +221,9 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
-	public int insertStreetKeyword(Map<String, Object> map) throws Exception {
+	public int insertStreetKeyword(Map<String, Object> map2) throws Exception {
 		
-		return sqlSession.insert("streetMapper.insertStreetKeyword", map);
+		return sqlSession.insert("streetMapper.insertStreetKeyword", map2);
 	}
 
 

@@ -280,15 +280,13 @@ public class StreetController {
 			result = streetService.selectMyStreet(memberNo);
 			
 			if (result > 0) {
-
-				msg = "골목 개설 가능";
-				model.addAttribute("msg", msg);
+				
 				return "street/streetInsert";
 			}
 
 			else {
-				msg = "골목 개설 불가";
-				model.addAttribute("msg", msg);
+				//msg = "골목 개설 불가";
+				//model.addAttribute("msg", msg);
 				return "redirect:/square";
 			}
 			
@@ -304,6 +302,7 @@ public class StreetController {
 	@RequestMapping("insertStreet")
 	public String insertStreet(Street street,
 			@RequestParam(value = "streetKeywords", required = false) String[] streetKeywords,
+			@RequestParam(value = "sampleImg", required = false) String sampleImg,
 			@RequestParam(value = "streetCoverUpload", required = false) MultipartFile streetCoverUpload,
 			HttpServletRequest request, RedirectAttributes rdAttr, Model model) {
 
@@ -317,35 +316,79 @@ public class StreetController {
 		File folder = new File(savePath);
 		if (!folder.exists())
 			folder.mkdir();
-				
+				 
 		String msg = null;
 		int result = 0;
 
 		try {
-
-			if (!streetCoverUpload.getOriginalFilename().equals("")) { // 골목커버 등록했을 떄
-
+						
+			if(sampleImg != null) {
+								
+				if(sampleImg.equals("골목.jpg")) {
+					
+					street.setImgNo(6);
+				} else if(sampleImg.equals("골목2.jpg")) {
+					street.setImgNo(7);
+				} else if(sampleImg.equals("골목3.jpg")) {
+					street.setImgNo(8);
+				} else if (sampleImg.equals("골목4.jpg")) { 
+					street.setImgNo(9);
+				}
+				System.out.println("기본이미지 street 확인 : " + street.getImgNo());
+				
+				result = streetService.insertStreet2(street, memberNo, streetKeywords);
+				
+			} else if(!streetCoverUpload.getOriginalFilename().equals("")) {
+				
+				System.out.println("새로 등록한 이미지 : " + streetCoverUpload.getOriginalFilename());
+				
 				// 골목 커버 이름 바꾸기
 				String changeCoverName = FileRename.rename(streetCoverUpload.getOriginalFilename());
 
-				result = streetService.insertStreet(changeCoverName, street, memberNo, streetKeywords);
+				result = streetService.insertStreet1(changeCoverName, street, memberNo, streetKeywords);
 				
 				if (result > 0) { // 정보 다 저장된 경우 골목 커버 서버에 저장
 
 					streetCoverUpload.transferTo(new File(savePath + "/" + changeCoverName));
 					
-					// 골목 개설 성공 시
-					msg = "골목 개설 성공!! 꺄아아";
-					model.addAttribute("msg", msg);
-					return "";
 				}
-
 			}
 
-			// 골목 개설 실패 시
-			msg = "골목 개설 실패했다ㅠㅠ 흐규흐규";
-			model.addAttribute("msg", msg);
-			return "";
+			if(result > 0) {
+				msg = "골목 개설 성공~!! 우르르ㄱ끼기ㅣ긱";
+				model.addAttribute("msg", msg);
+				return "";
+			} else {
+				
+				msg = "골목 개설 실패했다ㅠㅠ 흐규흐규";
+				model.addAttribute("msg", msg);
+				return "";
+			}
+		
+
+//			if (!streetCoverUpload.getOriginalFilename().equals("")) { // 골목커버 등록했을 떄
+//
+//				// 골목 커버 이름 바꾸기
+//				String changeCoverName = FileRename.rename(streetCoverUpload.getOriginalFilename());
+//
+//				result = streetService.insertStreet(changeCoverName, street, memberNo, streetKeywords);
+//				
+//				if (result > 0) { // 정보 다 저장된 경우 골목 커버 서버에 저장
+//
+//					streetCoverUpload.transferTo(new File(savePath + "/" + changeCoverName));
+//					
+//					// 골목 개설 성공 시
+//					msg = "골목 개설 성공!! 꺄아아";
+//					model.addAttribute("msg", msg);
+//					return "";
+//				}
+//
+//			}
+//
+//			// 골목 개설 실패 시
+//			msg = "골목 개설 실패했다ㅠㅠ 흐규흐규";
+//			model.addAttribute("msg", msg);
+//			return "";
 
 		} catch (Exception e) {
 			e.printStackTrace();
