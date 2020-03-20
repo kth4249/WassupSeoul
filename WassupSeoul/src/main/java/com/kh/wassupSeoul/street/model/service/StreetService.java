@@ -96,7 +96,7 @@ public interface StreetService {
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int insertStreet(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
+	//public abstract int insertStreet(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
 
 
 
