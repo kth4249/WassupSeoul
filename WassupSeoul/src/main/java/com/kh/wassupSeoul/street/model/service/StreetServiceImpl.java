@@ -109,10 +109,10 @@ public class StreetServiceImpl implements StreetService{
 	 * @return board
 	 * @throws Exception
 	 */
-	@Override
-	public int[] checkLikeReplyNum(int postNo) throws Exception {
-		return streetDAO.checkLikeReplyNum(postNo);
-	}
+	/*
+	 * @Override public int[] checkLikeReplyNum(int postNo) throws Exception {
+	 * return streetDAO.checkLikeReplyNum(postNo); }
+	 */
 
 	/** 게시글 삭제용 Service
 	 * @param postNo
