@@ -357,9 +357,9 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								function(){
 									//체크박스 값에 따라 히든 값 변경
 									if($("#def_check").is(":checked")){
-										$("defaultImg").html('Y');
+										$("#defaultImg").val('Y');
 									}else {
-										$("defaultImg").html('N');
+										$("#defaultImg").val('N');
 									}
 								}
 							);

@@ -75,12 +75,17 @@ public class MemberController {
 				
 				Member signUpMember = null;
 				
-				System.out.println("def :" + defaultImg);
+				if(defaultImg.equals("Y")) {
+					
+					if (member.getMemberGender().equals("M")) {
+					
+						signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
+						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), "man.png");
+					} else {
+						signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
+						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), "woman.png");
+					}
 				
-				if(defaultImg != null) {
-				String newDefaultImg = FileRename.rename(originProfileUrl.getOriginalFilename());
-				signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
-						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), newDefaultImg);
 				} else {
 					
 				String newProfileImg = FileRename.rename(originProfileUrl.getOriginalFilename());
@@ -91,7 +96,6 @@ public class MemberController {
 				int result = memberService.signUp(signUpMember);
 				
 				if (result > 0) {
-					
 					originProfileUrl.transferTo(new File(savePath+"/"+signUpMember.getMemberProfileUrl()));
 					
 					// 추가부분(관심사) 시작
