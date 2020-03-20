@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
@@ -146,8 +147,8 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<Member> selectRecommendList(Map<String, Object> map) throws Exception {
-		return streetDAO.selectRecommendList(map);
+	public List<Member> selectJuminList(Map<String, Object> map) throws Exception {
+		return streetDAO.selectJuminList(map);
 	}
 	
 	
@@ -301,6 +302,17 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.writeComment(reply);
 	}
 	
+	
+	
+	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
+	 * @param addRelation
+	 * @return result
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int addRelation(Relationship addRelation){
+		return streetDAO.addRelation(addRelation);
+	}
 	
 	
 }

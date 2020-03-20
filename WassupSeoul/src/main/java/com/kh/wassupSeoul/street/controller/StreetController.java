@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.wassupSeoul.common.FileRename;
+import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
@@ -341,14 +342,15 @@ public class StreetController {
 			List<Hobby> myHobby = streetService.selectHobby(loginMember.getMemberNo());
 			
 			System.out.println(myHobby);
+			List<Member> mList = null;
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("streetNo", streetNo);
-			//if(!myHobby.isEmpty() && myHobby != null) {
+			if(!myHobby.isEmpty() && myHobby != null) {
 				map.put("myHobby", myHobby);
-			//}
+				mList = streetService.selectJuminList(map);
+			}
 			
-			List<Member> mList = streetService.selectRecommendList(map);
 			List<Hobby> hList = null;
 			
 			if(mList != null && !mList.isEmpty()) {
@@ -394,5 +396,50 @@ public class StreetController {
 		return result;
 
 	}
+	
+	// 주민목록 조회
+	@RequestMapping
+	public String juminList(Model model) {
+		int streetNo = (int) model.getAttribute("streetNo");
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		try {
+			
+			List<Member> mList = null;
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("streetNo", streetNo);
+			mList = streetService.selectJuminList(map);
+			
+			List<Hobby> hList = null;
+			
+			if(mList != null && !mList.isEmpty()) {
+				hList = streetService.selectHobbyList(mList);
+			}
+			
+			System.out.println(mList);
+			System.out.println(hList);
+			
+			model.addAttribute("mList", mList);
+			model.addAttribute("hList", hList);
+		}catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "주민 목록 조회 과정에서 오류 발생");
+			return "common/errorPage";
+		}
+		
+		return "street/juminList";
+	}
+	
+	@ResponseBody
+	@RequestMapping("addFriend")
+	public void addFriend(Model model, int yourNum) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		int myNum = loginMember.getMemberNo();
+		Relationship addRelation = new Relationship(myNum, yourNum, '1');
+		
+		streetService.addRelation(addRelation);
+		
+	}
+	
 
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
@@ -116,7 +117,7 @@ public interface StreetService {
 	 * @return mList
 	 * @throws Exception
 	 */
-	public abstract List<Member> selectRecommendList(Map<String, Object> map) throws Exception;
+	public abstract List<Member> selectJuminList(Map<String, Object> map) throws Exception;
 
 
 	/** 회원 가입한 골목 수 조회용 Service
@@ -133,6 +134,12 @@ public interface StreetService {
 	 */
 	public abstract List<Hobby> selectHobbyList(List<Member> mList) throws Exception;
 
+
+	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
+	 * @param addRelation
+	 * @return result
+	 */
+	public abstract int addRelation(Relationship addRelation);
 
 
 	 
