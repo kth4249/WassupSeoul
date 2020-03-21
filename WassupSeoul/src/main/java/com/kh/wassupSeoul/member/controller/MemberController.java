@@ -565,13 +565,13 @@ public class MemberController {
 	    		
 	        	// 1) 회원 정보 가져오기
 	    		Member member = memberService.selectProfileMember(tempMember.getMemberNo());
-	    		System.out.println("모달창 회원 : " + member);
+	    		//System.out.println("모달창 회원 : " + member);
 	    		mList.add(member); // 0번 인덱스에 회원정보
 	    		
 	        	// 2) 회원 관심사 가져오기
 	    		List<Hobby> myHobby = memberService.selectHobby(tempMember.getMemberNo());
 				for(int k=0;k<myHobby.size();k++) {
-					System.out.println("모달창 관심사 : " + myHobby.get(k));
+					//System.out.println("모달창 관심사 : " + myHobby.get(k));
 					mList.add(myHobby.get(k)); // 1~3번 인덱스에 회원 관심사
 				}
 				
