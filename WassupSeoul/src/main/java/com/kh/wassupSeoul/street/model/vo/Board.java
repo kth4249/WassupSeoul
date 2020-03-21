@@ -1,6 +1,5 @@
 package com.kh.wassupSeoul.street.model.vo;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Board {
@@ -17,13 +16,14 @@ public class Board {
 	private int thumbCount;
 	private int replyCount;
 	private String memberProfile;
+	private String thumbStatus;
 	
 	public Board() {
 	}
 
 	public Board(int boardNo, String boardWriter, String boardContent, Timestamp boardWriteDt, String boardStatus,
 			String boardLevel, int streetNo, int memberNo, int typeNo, int thumbCount, int replyCount,
-			String memberProfile) {
+			String memberProfile, String thumbStatus) {
 		super();
 		this.boardNo = boardNo;
 		this.boardWriter = boardWriter;
@@ -37,6 +37,7 @@ public class Board {
 		this.thumbCount = thumbCount;
 		this.replyCount = replyCount;
 		this.memberProfile = memberProfile;
+		this.thumbStatus = thumbStatus;
 	}
 
 	public int getBoardNo() {
@@ -135,13 +136,24 @@ public class Board {
 		this.memberProfile = memberProfile;
 	}
 
+	public String getThumbStatus() {
+		return thumbStatus;
+	}
+
+	public void setThumbStatus(String thumbStatus) {
+		this.thumbStatus = thumbStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardWriter=" + boardWriter + ", boardContent=" + boardContent
 				+ ", boardWriteDt=" + boardWriteDt + ", boardStatus=" + boardStatus + ", boardLevel=" + boardLevel
 				+ ", streetNo=" + streetNo + ", memberNo=" + memberNo + ", typeNo=" + typeNo + ", thumbCount="
-				+ thumbCount + ", replyCount=" + replyCount + ", memberProfile=" + memberProfile + "]";
+				+ thumbCount + ", replyCount=" + replyCount + ", memberProfile=" + memberProfile + ", thumbStatus="
+				+ thumbStatus + "]";
 	}
+
+	
 
 	
 }

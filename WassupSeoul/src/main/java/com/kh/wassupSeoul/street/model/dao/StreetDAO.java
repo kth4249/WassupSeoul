@@ -12,7 +12,6 @@ import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
-import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -22,6 +21,8 @@ public class StreetDAO {
 	@Autowired	
 	private SqlSessionTemplate sqlSession;
 
+	// -------------------------------------------- 중하   ---------------------------------------------
+	
 	/** 골목 조회용 DAO
 	 * @param streetNo
 	 * @return street
@@ -32,12 +33,12 @@ public class StreetDAO {
 	}
 
 	/** 게시글 조회용 DAO
-	 * @param streetNo
+	 * @param loginMember
 	 * @return list
 	 * @throws Exception
 	 */
-	public List<Board> selectBoard(Integer streetNo) throws Exception{
-		return sqlSession.selectList("streetMapper.selectBoardList", streetNo );
+	public List<Board> selectBoard(Member loginMember) throws Exception{
+		return sqlSession.selectList("streetMapper.selectBoardList", loginMember );
 	}
 
 	/** 게시글 등록용 DAO
@@ -77,15 +78,6 @@ public class StreetDAO {
 		return sqlSession.update("streetMapper.updateLike", loginMember );
 	}
 
-	/** 좋아요, 댓글수 조회용 DAO
-	 * @param postNo
-	 * @return 
-	 * @throws Exception
-	 */
-	public int[] checkLikeReplyNum(int postNo) throws Exception{
-		return sqlSession.selectOne("streetMapper.checkLikeReplyNum", postNo );
-	}
-
 	/** 게시글 삭제용 DAO
 	 * @param postNo
 	 * @return result
@@ -94,9 +86,36 @@ public class StreetDAO {
 	public int deletePost(int postNo) throws Exception{
 		return sqlSession.update("streetMapper.deletePost", postNo );
 	}
+	
+	/** 댓글 입력용 DAO
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public int writeComment(Reply reply) throws Exception{
+		return sqlSession.insert("streetMapper.writeComment", reply);
+	}
+	
+	
+	/** 댓글 조회용 
+	 * @param loginMember
+	 * @return list 
+	 */
+	public List<Reply> selectReply(Member loginMember) {
+		return sqlSession.selectList("streetMapper.selectReply", loginMember);
+	}
+
+	/** 작성자 프로필 조회용 DAO   (memberMapper 이용)
+	 * @param memberNo
+	 * @return
+	 * @throws Exception
+	 */
+	public Member checkProfile(int memberNo) throws Exception{
+		return sqlSession.selectOne("memberMapper.selectProfileMember", memberNo);
+	}
 
 
-
+	// -------------------------------------------- 중하 끝  ---------------------------------------------
 
 
 	/** 골목 가입용 DAO
@@ -143,7 +162,6 @@ public class StreetDAO {
 	public List<Hobby> selectHobbyList(List<Member> mList) throws Exception{
 		return sqlSession.selectList("streetMapper.selectHobbyList", mList);
 	}
-
 
 
 	/** 골목커버 다음 번호 조회용 DAO
@@ -228,17 +246,6 @@ public class StreetDAO {
 	}
 
 
-	
-	
-	/** 댓글 입력용 DAO
-	 * @param reply
-	 * @return result
-	 * @throws Exception
-	 */
-	public int writeComment(Reply reply) throws Exception{
-		return sqlSession.insert("streetMapper.writeComment", reply);
-	}
-
 	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
 	 * @param addRelation
 	 * @return result
@@ -247,31 +254,5 @@ public class StreetDAO {
 		return sqlSession.insert("friendsMapper.addRelation", addRelation);
   }
   
-	/** 좋아요 개수 조회용 
-	 * @param streetNo
-	 * @return result
-	 * @throws Exception
-	 */
-	public List<Count> thumbCount(Integer streetNo) throws Exception{
-		return sqlSession.selectOne("streetMapper.thumbCount", streetNo);
-	}
-
-	/** 댓글 개수 조회용 
-	 * @param streetNo
-	 * @return result 
-	 * @throws Exception
-	 */
-	public List<Count> replyCount(Integer streetNo) throws Exception{
-		return sqlSession.selectOne("streetMapper.replyCount", streetNo);
-	}
-
-	/** 댓글 조회용 
-	 * @param postNo
-	 * @return list 
-	 */
-	public List<Reply> selectReply(int postNo) {
-		return sqlSession.selectList("streetMapper.selectReply", postNo);
-	}
-
 
 }

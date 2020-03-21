@@ -19,7 +19,6 @@ import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
-import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -32,6 +31,8 @@ public class StreetServiceImpl implements StreetService{
 	private StreetDAO streetDAO;
 
 
+	// -------------------------------------------- 중하 ---------------------------------------------
+	
 	/** 골목 조회용 service
 	 * @return street
 	 * @throws Exception
@@ -48,8 +49,8 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<Board> selectBoard(Integer streetNo) throws Exception {
-		return streetDAO.selectBoard(streetNo);
+	public List<Board> selectBoard(Member loginMember) throws Exception {
+		return streetDAO.selectBoard(loginMember);
 	}
 
 	
@@ -104,16 +105,6 @@ public class StreetServiceImpl implements StreetService{
 		
 	}
 
-	/** 좋아요, 댓글수 조회용
-	 * @param postNo
-	 * @return board
-	 * @throws Exception
-	 */
-	/*
-	 * @Override public int[] checkLikeReplyNum(int postNo) throws Exception {
-	 * return streetDAO.checkLikeReplyNum(postNo); }
-	 */
-
 	/** 게시글 삭제용 Service
 	 * @param postNo
 	 * @return result
@@ -124,7 +115,44 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.deletePost(postNo);
 	}
 	
+	/**	댓글 입력용 Service
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int writeComment(Reply reply) throws Exception {
+		return streetDAO.writeComment(reply);
+	}
+
+
 	
+	/** 댓글 조회용 
+	 * @param postNo
+	 * @return list
+	 */
+	@Override
+	public List<Reply> selectReply(Member loginMember)  {
+		return streetDAO.selectReply(loginMember);
+	}
+	
+	
+	/** 작성자 회원 프로필 조회용
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	@Override
+	public Member checkProfile(int memberNo) throws Exception {
+		return streetDAO.checkProfile(memberNo);
+	}
+	
+		
+	// -------------------------------------------- 중하 끝  ---------------------------------------------
+	
+
+
 /** 골목 가입용 Service
 	 * @param map
 	 * @return result
@@ -312,47 +340,6 @@ public class StreetServiceImpl implements StreetService{
 			
 			return -1;
 		}
-	}
-	
-	
-	/**	댓글 입력용 Service
-	 * @param reply
-	 * @return result
-	 * @throws Exception
-	 */
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public int writeComment(Reply reply) throws Exception {
-		return streetDAO.writeComment(reply);
-	}
-
-	/** 좋아요 개수 조회용 
-	 * @param streetNo
-	 * @return result
-	 * @throws Exception
-	 */
-	@Override
-	public List<Count> thumbCount(Integer streetNo) throws Exception {
-		return streetDAO.thumbCount(streetNo);
-	}
-
-	/** 댓글 개수 조회용 
-	 * @param streetNo
-	 * @return result
-	 * @throws Exception
-	 */
-	@Override
-	public List<Count> replyCount(Integer streetNo) throws Exception {
-		return streetDAO.replyCount(streetNo);
-	}
-
-	/** 댓글 조회용 
-	 * @param postNo
-	 * @return list
-	 */
-	@Override
-	public List<Reply> selectReply(int postNo)  {
-		return streetDAO.selectReply(postNo);
 	}
 	
 
