@@ -508,18 +508,6 @@ public class StreetController {
 		streetService.addRelation(addRelation);
     
 	}
-  
-  // 댓글 조회 
-  @ResponseBody
-  @RequestMapping("selectReply")
-  public List<Reply> selectReply(int postNo, Model model ) {
-
-      List<Reply> reply = streetService.selectReply(postNo);
-
-      System.out.println(reply);
-
-      return  reply; 
-  }
 		
 	
 	// 썸머노트 파일 DB삽입용
