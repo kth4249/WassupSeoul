@@ -11,6 +11,11 @@
     font-family: 'Poor Story', cursive;
 }
 
+.noPostSign:hover{
+	color:gray;
+	cursor: pointer;
+}
+
 
 /* 말풍선 상자  */
 .triangle-isosceles {

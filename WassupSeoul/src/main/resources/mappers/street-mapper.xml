@@ -29,6 +29,9 @@
 		<result property="memberNo" column="MEMBER_NO"/>
 		<result property="typeNo" column="TYPE_NO"/>
 		<result property="memberProfile" column="MEMBER_PROFILE_URL"/>
+		<result property="thumbStatus" column="THUMB_STATUS"/>
+		<result property="thumbCount" column="THUMB_COUNT"/>
+		<result property="replyCount" column="REPLY_COUNT"/>
 	</resultMap>
 		
 	
@@ -62,18 +65,6 @@
 		<result property="memberNo" column="MEMBER_NO"/>
 	</resultMap>
 	
-	<resultMap type="Count" id="replyCountResultSet">
-		<id property="streetNo" column="STREET_NO"/>
-		<result property="boardNo" column="BOARD_NO"/>
-		<result property="replyCount" column="REPLY_COUNT"/>
-	</resultMap>
-	
-	<resultMap type="Count" id="thumbCountResultSet">
-		<id property="streetNo" column="STREET_NO"/>
-		<result property="boardNo" column="BOARD_NO"/>
-		<result property="likeCount" column="THUMB_COUNT"/>
-	</resultMap>
-	
 	<resultMap type="Reply" id="replyResultSet">
 		<id property="replyNo" column="REPLY_NO"/>
    		<result property="replyContent" column="REPLY_CONTENT"/>
@@ -85,6 +76,11 @@
   		<result property="boardNo" column="BOARD_NO"/>
   		<result property="reReplyNo" column="REREPLY_NO"/>
   		<result property="memberProfile" column="MEMBER_PROFILE_URL"/>
+  		<result property="streetNo" column="STREET_NO"/>
+  		<result property="replyThumbCount" column="REPLY_THUMB_COUNT"/>
+  		<result property="reReplyThumbCount" column="REREPLY_THUMB_COUNT"/>
+  		<result property="rereplyCount" column="REREPLY_COUNT"/>
+  		<result property="thumbStatus" column="THUMB_STATUS"/>
 	</resultMap>
 	
 	
@@ -146,6 +142,10 @@
 		</foreach>
 	</select>
 	
+	
+	
+	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ중하ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
+	
 	<!-- 골목조회  -->
 	<select id="selectStreet" parameterType="_int" resultMap="streetResultSet">
 		SELECT *
@@ -153,12 +153,22 @@
 		WHERE STREET_NO = #{streetNo}
 	</select>
 	
+	
 	<!-- 골목 게시글 조회 -->  	 
-  	 <select id="selectBoardList" parameterType="_int" resultMap="boardResultSet">
-  	 	 SELECT * FROM V_BOARD
-  	 	 WHERE STREET_NO = #{streetNo} 
- 		 AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'
- 		 ORDER BY BOARD_NO
+  	 <select id="selectBoardList" parameterType="Member" resultMap="boardResultSet">
+  	 	SELECT BOARD_CONTENT, BOARD_WRITE_DT, BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO, MEMBER_NO, TYPE_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL,
+		THUMB_STATUS, THUMB_COUNT, REPLY_COUNT
+		
+		FROM (SELECT BOARD_CONTENT,	BOARD_WRITE_DT,	BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO,	MEMBER_NO, TYPE_NO,	MEMBER_NICKNAME, MEMBER_PROFILE_URL
+			FROM V_BOARD WHERE STREET_NO = #{memberAge} AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y')
+			
+		<!-- 골목대장일때  게시글 상단고정 기능 추가할것 -->  
+		LEFT OUTER JOIN ( SELECT THUMB_STATUS, BOARD_NO FROM THUMB WHERE MEMBER_NO = #{memberNo}) USING (BOARD_NO)
+		LEFT OUTER JOIN ( SELECT COUNT(*) AS THUMB_COUNT, BOARD_NO FROM(SELECT * FROM V_BOARD LEFT OUTER JOIN THUMB USING (BOARD_NO)
+						 WHERE THUMB_STATUS='Y') GROUP BY BOARD_NO ) USING (BOARD_NO)
+		LEFT OUTER JOIN (SELECT COUNT(*) AS REPLY_COUNT, BOARD_NO FROM(SELECT * FROM V_BOARD LEFT OUTER JOIN REPLY USING (BOARD_NO)
+						 WHERE REPLY_STATUS='Y') GROUP BY BOARD_NO) USING (BOARD_NO)
+		ORDER BY BOARD_NO
   	 </select>
   	
   	<!-- 게시글 등록용 -->
@@ -179,18 +189,42 @@
 	
 	<!-- 좋아요 업데이트 -->
 	<update id="updateLike"  parameterType="Member" >
-		UPDATE THUMB SET THUMB_STATUS = #{memberNm}	WHERE MEMBER_NO=#{memberNo}
+		UPDATE THUMB SET THUMB_STATUS = #{memberNm}	WHERE MEMBER_NO=#{memberNo} AND BOARD_NO=#{memberAge}
 	</update>
   	 
-  	<!-- 좋아요, 댓글 카운트용  --> 
-  	<select id="checkLikeReplyNum" parameterType="_int" resultType="list">
-		SELECT THUMB_STATUS	FROM THUMB	WHERE MEMBER_NO = #{memberNo} AND BOARD_NO = #{memberAge}
-	</select>
-	
 	 <!-- 게시글 삭제용 -->
   	 <update id="deletePost"  parameterType="_int" >
 		UPDATE BOARD SET BOARD_STATUS = 'N'	WHERE BOARD_NO=#{boardNo}
 	</update>
+  	
+  	<!-- 댓글 입력 -->
+  	<insert id="writeComment" parameterType="reply">
+  		INSERT INTO REPLY VALUES(SEQ_REPLY.NEXTVAL, #{replyContent}, SYSDATE, 'Y', 1, #{memberNo}, #{boardNo}, null )
+  	</insert>
+  	
+	<!-- 댓글 조회용  -->
+	<select id="selectReply" parameterType="_int" resultMap="replyResultSet">
+  	 	SELECT REPLY_NO,REPLY_CONTENT,REPLY_DT,REPLY_STATUS,REPLY_LEVEL,BOARD_NO,REREPLY_NO,MEMBER_NO,MEMBER_NICKNAME,MEMBER_PROFILE_URL,STREET_NO,
+				REPLY_THUMB_COUNT,REREPLY_THUMB_COUNT,REREPLY_COUNT,THUMB_STATUS
+				
+		FROM ( SELECT REPLY_NO,	REPLY_CONTENT,REPLY_DT,	REPLY_STATUS,REPLY_LEVEL,BOARD_NO,REREPLY_NO,MEMBER_NO,MEMBER_NICKNAME,MEMBER_PROFILE_URL,STREET_NO
+				FROM V_REPLY WHERE REPLY_STATUS = 'Y' AND STREET_NO = #{memberAge})
+				
+		LEFT OUTER JOIN ( SELECT THUMB_STATUS,REREPLY_NO FROM THUMB WHERE MEMBER_NO = #{memberNo}) USING (REREPLY_NO)
+				
+		LEFT OUTER JOIN  ( SELECT COUNT(*) AS REPLY_THUMB_COUNT, REPLY_NO 
+							FROM( SELECT * FROM V_REPLY LEFT OUTER JOIN THUMB USING (REPLY_NO) WHERE THUMB_STATUS='Y') GROUP BY REPLY_NO ) USING (REPLY_NO) 
+				
+		LEFT OUTER JOIN (SELECT COUNT(*) AS REREPLY_THUMB_COUNT, REREPLY_NO 
+						FROM(SELECT * FROM V_REPLY LEFT OUTER JOIN THUMB USING (REREPLY_NO) WHERE THUMB_STATUS='Y') GROUP BY REREPLY_NO) USING (REREPLY_NO)
+		
+		LEFT OUTER JOIN (SELECT COUNT(*) AS REREPLY_COUNT, REPLY_NO 
+						FROM(SELECT * FROM V_REPLY WHERE REPLY_STATUS='Y' AND REPLY_LEVEL=2) GROUP BY REPLY_NO)  USING (REPLY_NO)
+		
+		ORDER BY REPLY_NO
+  	</select>
+  	
+  <!--  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중하   끝  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
   	
   	
   	<!-- 골목 개설 조건 조회 1 -->
@@ -290,29 +324,7 @@
 		</if>
 	</select>
   
-  	<!-- 댓글 입력 -->
-  	<insert id="writeComment" parameterType="reply">
-  		INSERT INTO REPLY VALUES(SEQ_REPLY.NEXTVAL, #{replyContent}, SYSDATE, 'Y', 1, #{memberNo}, #{boardNo}, null )
-  	</insert>
   	
-  	
-  	<!-- 게시글 좋아요 개수 조회용  -->
-  	<select id="thumbCount" parameterType="_int" resultMap="thumbCountResultSet">
-  		SELECT * FROM V_THUMB_COUNT WHERE STREET_NO = #{streetNo}
-  	</select>
-  	
-  	<!-- 게시글 댓글 개수 조회용  -->
-  	<select id="replyCount" parameterType="_int" resultMap="replyCountResultSet">
-  		SELECT * FROM V_REPLY_COUNT WHERE STREET_NO = #{streetNo}
-  	</select>
-  	 
-	<!-- 댓글 조회용  -->
-	<select id="selectReply" parameterType="_int" resultMap="replyResultSet">
-  	 	 SELECT * FROM V_REPLY
-  	 	 WHERE BOARD_NO = #{postNo} 
- 		 AND REPLY_LEVEL=1 AND REPLY_STATUS = 'Y'
- 		 ORDER BY REPLY_NO
-  	</select>
 	
 	
 </mapper>

@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
@@ -37,7 +38,6 @@ import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
-import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
@@ -50,58 +50,43 @@ public class StreetController {
 	@Autowired
 	private StreetService streetService;
 
+	// -------------------------------------------- 중하  ---------------------------------------------
+	
 	// 타임라인 이동
 	@RequestMapping(value = "streetMain", method = RequestMethod.GET)
 	public String timeLine(Integer streetNo, Model model, RedirectAttributes rdAttr, HttpServletRequest request) {
 
 		Member loginMember = (Member) model.getAttribute("loginMember");
 
+		int memberAge = loginMember.getMemberAge();
+		
+		// loginMember 활용해서    현재 로그인회원, 골목정보 넘기기
+		loginMember.setMemberAge(streetNo);
+		
 		System.out.println("골목번호 : " + streetNo);
-		System.out.println("로그인정보 : " + loginMember.getMemberNickname());
-		System.out.println("프로필사진정보 : " + loginMember.getMemberProfileUrl());
+		//System.out.println("로그인정보 : " + loginMember.getMemberNickname());
+		//System.out.println("프로필사진정보 : " + loginMember.getMemberProfileUrl());
 
 		model.addAttribute("streetNo", streetNo);
 
 		String beforeUrl = request.getHeader("referer");
 
-		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy년 MM월 dd일 E요일 a hh:mm");
-
 		try {
 			Street street = streetService.selectStreet(streetNo);
 
-			// 좋아요, 댓글 개수 조회용 
-//			List<Count> thumbCount  = streetService.thumbCount(streetNo);
-//			List<Count> replyCount  = streetService.replyCount(streetNo);
-//			
-//			thumbCount.addAll(replyCount);
-//		
-//			 for (int index = 0; index < thumbCount.size(); index++) {
-//			   System.out.println("좋아요, 댓글 개수 출력:" + thumbCount.get(index));
-//			 }
-//			String chkStreetMem = streetService.chkStreetMem();
-
-			List<Board> board = streetService.selectBoard(streetNo);
+			List<Board> board = streetService.selectBoard(loginMember);
 			Collections.reverse(board);
 			
-			
-			// 댓글 불러오는 중
-//			List<Reply> reply = streetService.selectReply(streetNo);
-
-//			System.out.println("street : " + street);
-
-//			for (int i = 0; i < board.size(); i++) {
-//
-//				System.out.println("날짜 출력 : " + board.get(i).getBoardWriteDt());
-//
-//				System.out.println("골목 게시글 조회 : " + board.get(i));
-//
-//			}
+			List<Reply> reply  = streetService.selectReply(loginMember);
 
 			if (street != null) {
 
 				model.addAttribute("street", street);
 				model.addAttribute("board", board);
+				model.addAttribute("reply", reply);
 
+				loginMember.setMemberAge(memberAge);
+				
 				model.addAttribute("loginMember", loginMember);
 
 				return "street/streetMain";
@@ -176,9 +161,9 @@ public class StreetController {
 			int test = streetService.likeCheck(loginMember);
 
 			System.out.println("좋아요 기록 조회:" + test);
-			System.out.println("변경된 loginMemer:" + loginMember);
+			System.out.println("변경된 좋아요 기록:" + loginMember.getMemberNm());
 
-			return streetService.likeCheck(loginMember) == 1 ? true + "" : false + "";
+			return test == 1 ? true + "" : false + "";
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -188,22 +173,6 @@ public class StreetController {
 
 	}
 
-	// 좋아요, 댓글수 조회
-	@ResponseBody
-	@RequestMapping("checkLikeReplyNum")
-	public String checkLikeReplyNum(int postNo, Model model) {
-
-		System.out.println("글번호 출력 : " + postNo);
-
-		try {
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errorMsg", "좋아요 기록 과정에서 오류발생");
-			return "/common/errorPage";
-		}
-		return "/common/errorPage";
-	}
 
 	// 게시글 삭제
 	@ResponseBody
@@ -263,7 +232,41 @@ public class StreetController {
 	}
 	
 	
+	// 작성자 프로필 클릭시 회원 정보 조회
+    @ResponseBody
+	@RequestMapping("checkProfile")
+    public ArrayList<Object>  checkProfile(HttpServletResponse response, int memberNo) {
+    	ArrayList<Object> mList = new ArrayList<Object>();
+    	
+    	System.out.println("작성자 얻어온 정보 : " + memberNo);
+    	try {
+    		
+        	// 1) 회원 정보 가져오기
+    		Member member = streetService.checkProfile(memberNo);
+    		System.out.println("작성자 조회한 정보 : " + member);
+    		mList.add(member); // 0번 인덱스에 회원정보
+    		
+        	// 2) 회원 관심사 가져오기
+    		List<Hobby> myHobby = streetService.selectHobby(memberNo);
+			for(int k=0;k<myHobby.size();k++) {
+				System.out.println("작성자 관심사 : " + myHobby.get(k));
+				mList.add(myHobby.get(k)); // 1~3번 인덱스에 회원 관심사
+			}
+			
+			for(int i=0;i<mList.size();i++) {
+				System.out.println("작성자 회원 : " + mList.get(i));
+			}
+			
+			response.setCharacterEncoding("UTF-8");
+			new Gson().toJson(mList, response.getWriter());
+    		
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	return null;
+    }
 	
+	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
 	// 골목 개설 화면 이동
 	@RequestMapping("streetInsert")
@@ -505,17 +508,7 @@ public class StreetController {
 		streetService.addRelation(addRelation);
     
   }
-		// 댓글 조회 
-		@ResponseBody
-		@RequestMapping("selectReply")
-		public List<Reply> selectReply(int postNo, Model model ) {
-				
-				List<Reply> reply = streetService.selectReply(postNo);
-			
-				System.out.println(reply);
-				
-				return  reply; 
-		}
+		
 	
 	// 썸머노트 파일 DB삽입용
 	@ResponseBody

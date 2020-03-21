@@ -16,13 +16,15 @@ import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
-import com.kh.wassupSeoul.street.model.vo.Count;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 @Service
 public interface StreetService {
 
+	
+	// -------------------------------------------- 중하  ---------------------------------------------
+	
 	/** 골목 조회용 service
 	 * @param streetNo 
 	 * @return street
@@ -32,11 +34,11 @@ public interface StreetService {
 
 	
 	/** 골목 게시글 조회용 service
-	 * @param streetNo
+	 * @param loginMember
 	 * @return list
 	 * @throws Exception
 	 */
-	public abstract List<Board> selectBoard(Integer streetNo) throws Exception;
+	public abstract List<Board> selectBoard(Member loginMember) throws Exception;
 
 
 	/** 게시글 등록용 Service
@@ -54,22 +56,36 @@ public interface StreetService {
 	 */
 	public abstract int likeCheck(Member loginMember) throws Exception;
 
-
-	/** 좋아요, 댓글수 조회용
-	 * @param postNo
-	 * @return board
-	 * @throws Exception
-	 */
-// 	public abstract int[] checkLikeReplyNum(int postNo) throws Exception;
-
-
 	/** 게시글 삭제용 Service
 	 * @param postNo
 	 * @return result
 	 * @throws Exception
 	 */
 	public abstract int deletePost(int postNo) throws Exception;
+	
+	/**	댓글 입력용 Service
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int writeComment(Reply reply) throws Exception;
+	
+	/** 댓글 조회용 
+	 * @param loginMember
+	 * @return list
+	 */
+	public abstract List<Reply> selectReply(Member loginMember);
+	
+	/** 회원 프로필 조회용
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	public abstract Member checkProfile(int memberNo) throws Exception;
 
+
+	// -------------------------------------------- 중하 끝  ---------------------------------------------
+	
 
 	/** 골목 가입용 Service
 	 * @param map
@@ -99,24 +115,12 @@ public interface StreetService {
 	//public abstract int insertStreet(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
 
 
-
-
-
-
 	/** 회원 관심사 조회용 Service (memberMapper에서)
 	 * @param memberNo
 	 * @return myHobby
 	 * @throws Exception
 	 */
 	public abstract List<Hobby> selectHobby(int memberNo) throws Exception;
-
-	
-	/**	댓글 입력용 Service
-	 * @param reply
-	 * @return result
-	 * @throws Exception
-	 */
-	public abstract int writeComment(Reply reply) throws Exception;
 
 
 	
@@ -173,29 +177,7 @@ public interface StreetService {
 	public abstract int insertStreet2(Street street, int memberNo, String[] streetKeywords) throws Exception;
   
 
-
-
-	/** 좋아요 개수 조회용 
-	 * @param streetNo
-	 * @return result
-	 * @throws Exception
-	 */
-	public abstract List<Count> thumbCount(Integer streetNo) throws Exception ;
-
-
-	/** 댓글 개수 조회용 
-	 * @param streetNo
-	 * @return result
-	 * @throws Exception
-	 */
-	public abstract List<Count> replyCount(Integer streetNo) throws Exception;
-
-
-	/** 댓글 조회용 
-	 * @param postNo
-	 * @return list
-	 */
-	public abstract List<Reply> selectReply(int postNo);
+	
 	/**
 	 * @param board
 	 * @param file
@@ -205,5 +187,8 @@ public interface StreetService {
 	 */
 	public abstract int fileUpload(Board board, MultipartFile file, HttpServletRequest request,
 			HttpServletResponse response);
+
+
+	
 	 
 }

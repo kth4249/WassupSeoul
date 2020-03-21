@@ -2,7 +2,8 @@
     pageEncoding="UTF-8"%>
 
 	<!-- 고정 사이드바 왼쪽 시작 -->
-    <div class="col-md-2 fixed-top" style="left: 366px; top: 110px;" style="background-color: rgb(221, 233, 218);">
+    <div class="col-md-2 fixed-top" style="left: 17%; top: 110px;" style="background-color: rgb(221, 233, 218);">
+    <!-- <div class="col-md-2 fixed-top" style="left: 366px; top: 110px;" style="background-color: rgb(221, 233, 218);"> -->
       <div class="card mb-3">
         <img style="height: 200px; width: 100%; display: block;" src="${contextPath}/resources/img/골목.jpg" alt="Card image">
         <div class="card-body">
@@ -103,7 +104,8 @@
     <!-- 고정사이드바 왼쪽 끝 -->
 
     <!-- 고정사이드바 오른쪽 시작 -->
-    <div class="col-md-2 fixed-top" style="left: 1223px; top: 110px;">
+    <div class="col-md-2 fixed-top" style="left: 66%; top: 110px;">
+    <!-- <div class="col-md-2 fixed-top" style="left: 1223px; top: 110px;"> -->
     	<div class="card border-primary mb-3" style="max-width: 20rem;">
 			<div class="card-header nanum" style="font-size: 25px;">다가오는 일정</div>
 			<div class="card-body" style="padding-bottom:10px;">
