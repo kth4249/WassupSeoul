@@ -225,7 +225,7 @@
 								data-target="#profilePicture" style="cursor: pointer">&nbsp;
 						</div>
 						<div class="chatCt" style="display: inline-block;">
-							<span>김지원</span> <span class="mr-0">: 마뭐하노 뭐하는데 연락이 안되는데...</span>
+							<span>김지원</span> <span class="mr-0">: 영준아 누나가 많이 아낀다</span>
 						</div>
 						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">5</span>
 					</div>
@@ -239,49 +239,84 @@
 								data-target="#profilePicture" style="cursor: pointer">&nbsp;
 						</div>
 						<div class="chatCt" style="display: inline-block;">
-							<span>김태훈</span> <span>: 병 형신이야?</span>
+							<span>강지예</span> <span>: 오빠 힘내</span>
 						</div>
 						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">3</span>
 					</div>
 					<hr>
-				</div> <!-- 대화방 목록 끝 -->
+					
+					<div class="nanum mt-3 ml-3">
+						<div class="chatPf" style="display: inline-block;">
+							<img src="${contextPath}/resources/img/usericon.png" width="40px"
+								height="40px" class="chatProfile" data-toggle="modal"
+								data-target="#profilePicture" style="cursor: pointer">&nbsp;
+						</div>
+						<div class="chatCt" style="display: inline-block;">
+							<span>조미현</span> <span class="mr-0">: ㅉㅉ</span>
+						</div>
+						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">5</span>
+					</div>
+					<hr>
+					<div class="nanum mt-3 ml-3">
+						<div class="chatPf" style="display: inline-block;">
+							<img src="${contextPath}/resources/img/usericon.png" width="40px"
+								height="40px" class="chatProfile" data-toggle="modal"
+								data-target="#profilePicture" style="cursor: pointer">&nbsp;
+						</div>
+						<div class="chatCt" style="display: inline-block;">
+							<span>김제연</span> <span class="mr-0">: 형아 힘내</span>
+						</div>
+						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">4</span>
+					</div>
+					<hr>
+					
+					<div class="nanum mt-3 ml-3">
+						<div class="chatPf" style="display: inline-block;">
+							<img src="${contextPath}/resources/img/usericon.png" width="40px"
+								height="40px" class="chatProfile" data-toggle="modal"
+								data-target="#profilePicture" style="cursor: pointer">&nbsp;
+						</div>
+						<div class="chatCt" style="display: inline-block;">
+							<span>김세진</span> <span class="mr-0">: 괜찮아 그럴 수도 있지. 힘내 칭구얌</span>
+						</div>
+						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">3</span>
+					</div>
+					<hr>
+					
+					<div class="nanum mt-3 ml-3">
+						<div class="chatPf" style="display: inline-block;">
+							<img src="${contextPath}/resources/img/usericon.png" width="40px"
+								height="40px" class="chatProfile" data-toggle="modal"
+								data-target="#profilePicture" style="cursor: pointer">&nbsp;
+						</div>
+						<div class="chatCt" style="display: inline-block;">
+							<span>김태훈</span> <span class="mr-0">: 형, 이정도는 혼자 하면 안돼?</span>
+						</div>
+						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">2</span>
+					</div>
+					
+					
+				</div> 
+				
+				
+				
+				<!-- 대화방 목록 끝 -->
 
 
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 				<!-- 친구요청 div -->
 				<div class="tab-pane fade tgl" id="friendReq">
 					<div class="nanum mt-3 ml-3" id="friendRequestArea">
+						<input type="hidden" id="profileRoot" val="">
 						<img class="rImg" src="${contextPath}/resources/img/usericon.png" width="40px"
 							height="40px" data-toggle="modal" data-target="#profilePicture"
-							style="cursor: pointer"> &nbsp; +
+							style="cursor: pointer"> &nbsp;
 							<span class="rUser">조미현님이 친구요청을 하셨습니다.</span>&nbsp;
 						<button class="btn btn-info btn-sm nanum">수락</button>
 						<button class="btn btn-danger btn-sm nanum" data-toggle="modal"
 							data-target="#nopeBtn">거절</button>
 					</div>
-					<hr>
 				</div>
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				
 				
 				
@@ -340,7 +375,29 @@
 				
 <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 													<!-- 모달 시작 -->					
-				
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->			
+				<!-- 친구요청 : 수락버튼 -->
+				<div class="modal fade" id="yesBtn">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title nanum" style="font-size: 30px;">알림메세지</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<form action="">
+									<span class="nanum">친구 요청 메세지를 수락하셨습니다.</span> 
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary nanum"	data-dismiss="modal">삭제하기</button>
+							</div>
+						</div>
+					</div>
+				</div>				
 				
 				
 				
@@ -354,7 +411,7 @@
 				
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->			
 				<!-- 친구요청 : 거절버튼 -->
-				<div class="modal fade" id="nopeBtn">
+				<div class="modal fade" id="noBtn">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -550,30 +607,49 @@
 	
 ////////////////////////////////////////문영준 메신저 기능 시작 지점 ////////////////////////////////////////	
 
+	// JS 최상위 주소 구하기
+	function getContextPath() {
+		var hostIndex = location.href.indexOf( location.host ) + location.host.length;
+		return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
+	};
+	
+	$(document).ready(function(){
+		$("#profileRoot").val( getContextPath() );
+	});
+	
+	
+
+
+
 	/* 친구 요청 목록 조회 함수 */
-	function friendRequest(){
+ 	function friendRequest(){
 		$.ajax({
 			url : "friendRequest",
 			type : "POST",
 			data : {},
 			datatype : "json",
 			success : function(result){
-				//console.log(result);
-				var $rArea = $("#friendRequestArea");
+				var $friendReq = $("#friendReq");
+				var $friendRequestArea = $("#friendRequestArea");
+				var root = $("#profileRoot").val();
+				var $savePath = root +"/resources/profileImage/";
 				if(result == ''){
-					$rArea.html("지금은 친구요청이 없네요.")
+					$friendRequestArea.html("지금은 친구요청이 없네요.")
 				}else {
-					$rArea.html("") // 기존 댓글 목록 삭제
+					$friendRequestArea.html("") // 기존 html 내용 삭제
 					
 					$.each(result, function(i){
-					
-						var $rImg = $("<img>").prop("class", "rImg").html(result[i].memberProfileUrl);
-						var $rUser = $("<span>").prop("class", "rUser").html(result[i].memberNickname);
-						var $rOk = $("<button>").prop("class", "btn btn-info btn-sm nanum");
-						var $rNo = $("<button>").prop("class", "btn btn-danger btn-sm nanum");
+													//memberProfileUrl
+						var $finalPath = $savePath + result[i].memberProfileUrl;
+						var $rImg = $("<img>").prop("class", "rImg").prop("src", $finalPath).css({"width":"40px","height":"40px"});
+						var $rUser = $("<span>").prop("class", "rUser").html(result[i].memberNickname + "님이 친구요청을 하셨습니다.");
+						var $rOk = $("<button>").prop("class", "btn btn-info btn-sm nanum").prop("data-toggle", "modal").prop("data-target", "yesBtn").html("수락");
+						var $rNo = $("<button>").prop("class", "btn btn-danger btn-sm nanum").html("거절");
 						var $hr = $("<hr>");
 						
-						$rArea.append($rImg).append($rUser).append($rOk).append($rNo).append($hr);
+						$friendRequestArea.append($rImg).append($rUser).append($rOk).append($rNo).append($hr);
+						
+						$friendReq.append($friendRequestArea)
 						
 					}); //$.each 끝
 					
@@ -582,10 +658,10 @@
 				
 			},
 			error : function(){
-				console.log("ajax 댓글 목록 조회 실패");
+				console.log("친구 목록을 불러오는 aJax 실패");
 			}
 		});
-	};
+	}; 
 	
 	
 	
@@ -593,9 +669,9 @@
 	 $(function(){
 		friendRequest(); // 친구 요청 목록
 		
-		setInterval(function(){
+		/* setInterval(function(){
 			friendRequest(); 
-		}, 10000);
+		}, 10000); */
 	}); 
 	 
 	
