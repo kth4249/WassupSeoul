@@ -19,7 +19,7 @@
 <body class="nanum">
 	<%@ include file="../common/header.jsp" %>
 	<%@ include file="streetDetail/streetNav.jsp" %>
-	<div class="container headerMargin">	
+	<div class="container" style="margin-top: 100px">	
 		<h1 class="nanum" style="display: inline;">추천 친구</h1>
 		&nbsp;&nbsp;&nbsp;
 		<h5 class="nanum" style="display: inline; color: tomato;">회원님의
@@ -68,6 +68,7 @@
 	</div>
 
 	<script>
+		/* 친구 추가용 Ajax  */
 		$(".addFriend").click(function(){
 			console.log($(this).val());
 			$.ajax({
@@ -86,7 +87,8 @@
 			})
 		})
 		
-	
+		
+		/* 추천 친구 숨김용 Ajax */
 		$(".friendRecommendRemove").click(function() {
 			$(this).parent().parent().css("display", "none");
 			$(this).parent().parent().next().css("display", "none");
