@@ -170,10 +170,10 @@
 							<div class="streetSize" onclick="location.href='street/streetMain?streetNo=${street.streetNo}'">
 								<div class="card h-100">
 									<a><img
-										class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+										class="card-img-top" src="${contextPath}/resources/streetCoverImage/${street.imgUrl}"></a>
 									<div class="card-body">
 										<h4 class="card-title nanum">
-											<a href="#">${street.streetNm }</a>
+											<a>${street.streetNm }</a>
 										</h4>
 										<c:if test="${!empty kList}">
 											<c:forEach var="keyword" items="${kList}">

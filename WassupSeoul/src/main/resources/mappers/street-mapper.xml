@@ -13,6 +13,7 @@
 		<result property="imgNo" column="IMG_NO"/>
 		<result property="districtNo" column="DISTRICT_NO"/>
 		<result property="streetPublic" column="STREET_PUBLIC"/>
+		<result property="imgUrl" column="IMG_URL"/>
 	</resultMap>
 	
 	

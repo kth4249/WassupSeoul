@@ -504,7 +504,7 @@ public class StreetController {
 		
 		streetService.addRelation(addRelation);
     
-  }
+	}
 		// 댓글 조회 
 		@ResponseBody
 		@RequestMapping("selectReply")

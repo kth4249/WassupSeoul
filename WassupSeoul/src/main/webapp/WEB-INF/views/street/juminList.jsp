@@ -11,10 +11,10 @@
 <body class="nanum">
 	<%@include file="../common/header.jsp"%>
 	<%@include file="streetDetail/streetNav.jsp"%>
-	<div class="container">
+	<%@include file="streetDetail/streetSide.jsp"%>
+	<div class="container" style="margin-top: 100px;">
 		<div class="row">
 			<div class="col-md-3">
-				<%@include file="streetDetail/streetSide1.jsp"%>
 			</div>
 			<div class="col-md-6">
 				<h1 class="nanum" style="display: inline;">주민(${mList.size()})</h1>
@@ -46,7 +46,7 @@
 											</c:forEach>
 										</c:if>
 									</td>
-									<td><button type="button" class="btn btn-sm btn-success">친구요청</button></td>
+									<td><button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button></td>
 								</tr>
 							</c:forEach>
 						</c:if>
@@ -58,6 +58,23 @@
 						
 					</tbody>
 				</table>
+				<script>
+					/* 친구 추가용 Ajax */
+					$(".addFriend").click(function(){
+						console.log($(this).val());
+						$.ajax({
+							url : "addFriend",
+							data : {"yourNum" : $(this).val()},
+							success : function() {
+								alert("친구 신청 완료");
+							},
+							error : function() {
+								console.log("친구 요청 ajax 통신 실패")
+							}
+						})
+					})
+				
+				</script>
 				<form>
 					<div class="form-group">
 						<div class="row">
@@ -76,11 +93,9 @@
 				</form>
 			</div>
 			<div class="col-md-3">
-				<%@include file="streetDetail/streetSide2.jsp"%>
 			</div>
 		</div>
 	</div>
-	<%@ include file="../common/footer.jsp"%>
 
 </body>
 </html>
