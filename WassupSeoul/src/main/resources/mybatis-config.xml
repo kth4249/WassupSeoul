@@ -14,7 +14,6 @@
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Street" alias="Street"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Keyword" alias="Keyword"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Reply" alias="Reply"/>
-		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Count" alias="Count"/>
 		<typeAlias type="com.kh.wassupSeoul.member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Board" alias="Board"/>
 		<typeAlias type="com.kh.wassupSeoul.hobby.model.vo.Hobby" alias="Hobby"/>
