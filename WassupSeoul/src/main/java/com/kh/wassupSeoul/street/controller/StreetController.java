@@ -58,13 +58,15 @@ public class StreetController {
 
 		Member loginMember = (Member) model.getAttribute("loginMember");
 
-		int memberAge = loginMember.getMemberAge();
 		
-		// loginMember 활용해서    현재 로그인회원, 골목정보 넘기기
-		loginMember.setMemberAge(streetNo);
+		Reply checkStreet = new Reply();
+		
+		checkStreet.setStreetNo(streetNo);
+		checkStreet.setMemberNo(loginMember.getMemberNo());
 		
 		System.out.println("골목번호 : " + streetNo);
-		//System.out.println("로그인정보 : " + loginMember.getMemberNickname());
+		System.out.println("로그인정보 : " + loginMember.getMemberNo());
+		
 		//System.out.println("프로필사진정보 : " + loginMember.getMemberProfileUrl());
 
 		model.addAttribute("streetNo", streetNo);
@@ -74,18 +76,28 @@ public class StreetController {
 		try {
 			Street street = streetService.selectStreet(streetNo);
 
-			List<Board> board = streetService.selectBoard(loginMember);
+			List<Board> board = streetService.selectBoard(checkStreet);
 			Collections.reverse(board);
 			
-			List<Reply> reply  = streetService.selectReply(loginMember);
+			List<Reply> reply  = streetService.selectReply(checkStreet);
 
+			for(int i = 0 ; i < board.size(); i++ ) {
+				System.out.println(board.get(i));
+			}
+			
+			for(int i = 0 ; i < reply.size(); i++ ) {
+				System.out.println(reply.get(i));
+			}
+			
+			//System.out.println(reply);
+			
 			if (street != null) {
 
-				model.addAttribute("street", street);
+				//model.addAttribute("street", street);  사용안함
 				model.addAttribute("board", board);
 				model.addAttribute("reply", reply);
+				model.addAttribute("reReply", reply);
 
-				loginMember.setMemberAge(memberAge);
 				
 				model.addAttribute("loginMember", loginMember);
 
@@ -105,10 +117,8 @@ public class StreetController {
 
 	// 게시글 작성
 	@RequestMapping("insert")
-	public String insertBoard(Board board, // 커맨드 객체 @ModelAttribute 생략되어 있는 상태
-			Model model, // session 접근용
-			HttpServletRequest request, // 파일 경로
-			RedirectAttributes rdAttr, // 리다이렉트 시 메세지 전달용
+	public String insertBoard(Board board, Model model, HttpServletRequest request, 
+			RedirectAttributes rdAttr,
 			@RequestParam(value = "images", required = false) List<MultipartFile> images) {
 
 		Member loginMember = (Member) model.getAttribute("loginMember");
@@ -145,7 +155,7 @@ public class StreetController {
 
 	}
 
-	// 좋아요 등록, 해제
+	// 게시글 좋아요 등록, 해제
 	@ResponseBody
 	@RequestMapping("likeFunction")
 	public String likeFunction(int postNo, Model model) {
@@ -153,25 +163,79 @@ public class StreetController {
 		Member loginMember = (Member) model.getAttribute("loginMember");
 
 		System.out.println("글번호 출력 : " + postNo);
-
-		// memberAge에 게시글 번호 담아서 재활용
-		loginMember.setMemberAge(postNo);
+				
+		Reply reply = new Reply();
+		reply.setMemberNo(loginMember.getMemberNo());
+		reply.setBoardNo(postNo);
 
 		try {
-			int test = streetService.likeCheck(loginMember);
 
-			System.out.println("좋아요 기록 조회:" + test);
-			System.out.println("변경된 좋아요 기록:" + loginMember.getMemberNm());
-
-			return test == 1 ? true + "" : false + "";
+			return streetService.likeCheck(reply) == 1 ? true + "" : false + "";
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errorMsg", "좋아요 기록 과정에서 오류발생");
 			return "/common/errorPage";
 		}
-
 	}
+	
+	// 댓글 좋아요 등록, 해제
+	@ResponseBody
+	@RequestMapping("replyLikeFunction")
+	public String replyLikeFunction(int replyNo, int boardNo, Model model) {
+
+		Member loginMember = (Member) model.getAttribute("loginMember");
+
+		System.out.println("댓글번호 출력 : " + replyNo);
+		
+		Reply reply = new Reply();
+
+		// 게시글 번호 
+		
+		// memberAge에 게시글 번호 담아서 재활용
+		reply.setReplyNo(replyNo);
+		reply.setMemberNo(loginMember.getMemberNo());
+		reply.setBoardNo(boardNo);
+
+		try {
+
+			return streetService.replyLikeFunction(reply) == 1 ? true + "" : false + "";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "좋아요 기록 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+	}
+	
+	// 대댓글 좋아요 등록, 해제
+		@ResponseBody
+		@RequestMapping("reReplyLikeFunction")
+		public String reReplyLikeFunction(int replyNo, int boardNo, Model model) {
+
+			Member loginMember = (Member) model.getAttribute("loginMember");
+
+			System.out.println("대댓글번호 출력 : " + replyNo);
+			
+			Reply reply = new Reply();
+
+			// 게시글 번호 
+			
+			// memberAge에 게시글 번호 담아서 재활용
+			reply.setReplyNo(replyNo);
+			reply.setMemberNo(loginMember.getMemberNo());
+			reply.setBoardNo(boardNo);
+
+			try {
+
+				return streetService.reReplyLikeFunction(reply) == 1 ? true + "" : false + "";
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMsg", "좋아요 기록 과정에서 오류발생");
+				return "/common/errorPage";
+			}
+		}
 
 
 	// 게시글 삭제
@@ -194,13 +258,12 @@ public class StreetController {
 		}
 	}
 	
-	
 	// 댓글 작성
 	@ResponseBody
 	@RequestMapping("writeComment")
 	public String writeComment(int postNo, Model model, String commentContent) {
 		
-		System.out.println("댓글 작성 번호 출력 : " + postNo);
+		System.out.println("댓글 달릴 게시글  번호 출력 : " + postNo);
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
@@ -230,6 +293,43 @@ public class StreetController {
 			return "/common/errorPage";
 		}
 	}
+	
+		// 대댓글 작성
+		@ResponseBody
+		@RequestMapping("writeReComment")
+		public String writeReComment(int replyNo, Model model, String commentContent, int boardNo) {
+			
+			System.out.println("대댓글 달릴 댓글 번호 출력 : " + replyNo);
+			
+			Member loginMember = (Member)model.getAttribute("loginMember");
+			
+			Reply reply = new Reply();
+			
+			System.out.println("댓글 입력 내용 : " + commentContent );
+			
+			reply.setReReplyNo(replyNo);
+			reply.setMemberNo(loginMember.getMemberNo());
+			reply.setReplyContent(commentContent);
+			reply.setBoardNo(boardNo);
+		
+			try {
+		
+				int test = streetService.writeReComment(reply);
+				
+				if ( test > 0) {
+					System.out.println("대댓글 입력 완료");
+				}else {
+					System.out.println("대댓글 입력 실패");
+				}
+				
+				return  test == 1 ? true + "" : false + "";
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMsg", "대댓글 입력 과정에서 오류발생");
+				return "/common/errorPage";
+			}
+		}
 	
 	
 	// 작성자 프로필 클릭시 회원 정보 조회

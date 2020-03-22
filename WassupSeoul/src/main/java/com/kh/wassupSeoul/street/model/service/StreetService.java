@@ -34,11 +34,11 @@ public interface StreetService {
 
 	
 	/** 골목 게시글 조회용 service
-	 * @param loginMember
+	 * @param checkStreet
 	 * @return list
 	 * @throws Exception
 	 */
-	public abstract List<Board> selectBoard(Member loginMember) throws Exception;
+	public abstract List<Board> selectBoard(Reply checkStreet) throws Exception;
 
 
 	/** 게시글 등록용 Service
@@ -50,11 +50,26 @@ public interface StreetService {
 
 
 	/** 좋아요 기록용 Service
-	 * @param loginMember
+	 * @param reply
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int likeCheck(Member loginMember) throws Exception;
+	public abstract int likeCheck(Reply reply) throws Exception;
+	
+	/** 댓글 좋아요 기록용 
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int replyLikeFunction(Reply reply) throws Exception;
+	
+	/** 대댓글 좋아요 등록용 Service
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int reReplyLikeFunction(Reply reply) throws Exception;
+
 
 	/** 게시글 삭제용 Service
 	 * @param postNo
@@ -70,11 +85,18 @@ public interface StreetService {
 	 */
 	public abstract int writeComment(Reply reply) throws Exception;
 	
+	/** 대댓글 입력용 Service
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int writeReComment(Reply reply) throws Exception;
+	
 	/** 댓글 조회용 
-	 * @param loginMember
+	 * @param checkStreet
 	 * @return list
 	 */
-	public abstract List<Reply> selectReply(Member loginMember);
+	public abstract List<Reply> selectReply(Reply checkStreet);
 	
 	/** 회원 프로필 조회용
 	 * @param memberNo
@@ -187,6 +209,14 @@ public interface StreetService {
 	 */
 	public abstract int fileUpload(Board board, MultipartFile file, HttpServletRequest request,
 			HttpServletResponse response);
+
+
+
+
+
+
+
+	
 
 
 	

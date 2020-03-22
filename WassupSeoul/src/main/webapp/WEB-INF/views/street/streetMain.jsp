@@ -162,7 +162,7 @@
 			
 			
 			// 댓글작성
-			$("#commentBtn").click(function() {
+			$(".commentBtn").click(function() {
 				var postNo = $(this).attr("name");
 				//var divBox = $(this).parent(".box111");
 				var commentContent = $(this).parent().prev().find("textarea").val();
@@ -187,6 +187,46 @@
 							console.log("댓글 작성 성공");
 							$(this).parent().prev("div" > ".writeCommentArea" ).text('');
 							
+						} else {
+							$(this).parent().prev("div" > ".writeCommentArea" ).text('');
+						}
+					},
+					error : function(e) {
+						console.log("ajax 통신 실패");
+						$(this).parent().prev().find("textarea").val= "";
+						console.log("댓글 입력 후 내용:"+commentContent);
+						console.log(e);
+					}
+				});
+				 refreshList()
+			});
+			
+			// 대댓글작성
+			$(".reCommentBtn").click(function() {
+				var replyNo = $(this).attr("name");
+				var boardNo = $(this).attr("id");
+				var commentContent = $(this).parent().prev().find("textarea").val();
+				var reReplyCount = $(this).parent().parent().parent().prev("div" > ".reCommentCount").text().substring( 2 );
+				
+				if(reReplyCount==""){
+					reReplyCount=0;
+				}
+				console.log("reReplyCount:"+reReplyCount);
+				console.log("댓글입력내용:"+commentContent);
+				console.log("대댓글 달린 댓글 번호 :"+replyNo);
+												
+				$.ajax({
+					url : "writeReComment",
+					data : {"replyNo" : replyNo, "commentContent" : commentContent, "boardNo" : boardNo },
+					type : "post",
+					success : function(result) {
+						
+						if (result == "true") {
+							reReplyCount++;
+							$(this).parent().parent().parent().prev("div" > ".commentCount").text("댓글"+replyCount);
+							console.log("대댓글 작성 성공");
+							$(this).parent().prev("div" > ".writeCommentArea" ).text('');
+							
 							
 						} else {
 							$(this).parent().prev("div" > ".writeCommentArea" ).text('');
@@ -200,7 +240,7 @@
 						
 					}
 				});
-				// refreshList()
+				 refreshList()
 			});
 			
 
@@ -231,7 +271,7 @@
 				refreshList()
 			}); */
 
-			// 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
+			// 게시글 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
 			$(".likeBtn").click(function() {
 				var postNo = $(this).attr("name");
 				var img = $(this).attr("src");
@@ -253,30 +293,107 @@
 				}
 
 				$.ajax({
-							url : "likeFunction",
-							data : {postNo : postNo},
-							type : "post",
-							success : function(result) {
-								if (result == "true") {
-									console.log("좋아요 등록 성공");
-								} else {
-									console.log("좋아요 해제 성공");
-								}
-							},
-							error : function(e) {
-								console.log("ajax 통신 실패");
-								console.log(e);
-							}
+					url : "likeFunction",
+					data : {"postNo" : postNo},
+					type : "post",
+					success : function(result) {
+						if (result == "true") {
+							console.log("좋아요 등록 성공");
+						} else {
+							console.log("좋아요 해제 성공");
+						}
+					},
+					error : function(e) {
+						console.log("ajax 통신 실패");
+						console.log(e);
+					}
+				});
+			}); 
+			
+			
+			// 댓글 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
+			$(".likeBtn2").click(function() {
+				var replyNo = $(this).attr("name");
+				var boardNo = $(this).attr("id");
+				var img = $(this).attr("src");
+				var likeCount = $(this).parent().next("p").text()
+
+				if (img == "${contextPath}/resources/img/like.png") {
+					likeCount++;
+					$(this).attr('src','${contextPath}/resources/img/like2.png');
+				} else {
+					likeCount--;
+					$(this).attr('src','${contextPath}/resources/img/like.png');
+				}
+				
+				if ( likeCount==0){
+					likeCount=""
+					$(this).parent().next("p").text(likeCount);
+				}else{
+					$(this).parent().next("p").text(likeCount);
+				}
+
+				$.ajax({
+					url : "replyLikeFunction",
+					data : {replyNo : replyNo, boardNo : boardNo},
+					type : "post",
+					success : function(result) {
+						if (result == "true") {
+							console.log("좋아요 등록 성공");
+						} else {
+							console.log("좋아요 해제 성공");
+						}
+					},
+					error : function(e) {
+						console.log("ajax 통신 실패");
+						console.log(e);
+					}
+				});
+			}); 
+			
+			// 대댓글 좋아요 클릭시 버튼 이미지 변경, 좋아요 기록
+			$(".likeBtn3").click(function() {
+				var replyNo = $(this).attr("name");
+				var boardNo = $(this).attr("id");
+				var img = $(this).attr("src");
+				var likeCount = $(this).parent().next("p").text()
+
+				if (img == "${contextPath}/resources/img/like.png") {
+					likeCount++;
+					$(this).attr('src','${contextPath}/resources/img/like2.png');
+				} else {
+					likeCount--;
+					$(this).attr('src','${contextPath}/resources/img/like.png');
+				}
+				
+				if ( likeCount==0){
+					likeCount=""
+					$(this).parent().next("p").text(likeCount);
+				}else{
+					$(this).parent().next("p").text(likeCount);
+				}
+
+				$.ajax({
+					url : "reReplyLikeFunction",
+					data : {replyNo : replyNo, boardNo : boardNo},
+					type : "post",
+					success : function(result) {
+						if (result == "true") {
+							console.log("좋아요 등록 성공");
+						} else {
+							console.log("좋아요 해제 성공");
+						}
+					},
+					error : function(e) {
+						console.log("ajax 통신 실패");
+						console.log(e);
+					}
 				});
 			}); 
 			
 			
 			// 작성자 프로필 조회
-			$("#writerNickName" ).on("click",function(){
-				$(this).parent().prev("div" > img).click();
-			});
-			
-			$("#writerImg" ).on("click",function(){
+			$(".writerImg, .writerNickName" ).on("click",function(){
 				var memberNo = $(this).attr("name");
 				
 				$.ajax({
@@ -300,7 +417,7 @@
 						}
 						// 회원정보 끝
 						
-		    		// 회원 관심사
+		    			// 회원 관심사
 						var $divPlus = $("#writerProfileHobby");
 		    		
 						for(var i=1;i<Object.keys(mList).length;i++){
@@ -343,8 +460,6 @@
 			});
 			/* 회원 프로필 정보 조회용  */
 		});
-		
-		
 		
 	  	// 댓글 영역 숨기기
   		$(".commentArea").click(function() {
@@ -402,13 +517,13 @@
    		});
    		
    		// 지도 모달 창 열기 
-		/* $(".mapOption").click(function(){
+		$(".mapOption").click(function(){
 			$(this).parent().next("div").attr("style", "display:block");
 	    });
 	   
 	    $("#modal_close_btn").click(function(){
 			$(this).parent().parent("div").attr("style", "display:none");
-	    }); */     
+	    });    
 	    
 	 	// 스케치 모달 창 열기 
 		$(".sketchOption").click(function(){
@@ -427,10 +542,8 @@
 	     $("#modal_close_btn3").click(function(){
 			$(this).parent().parent("div").attr("style", "display:none");
 	    }); 
-	     
     	     
 	</script>
-
 
 </body>
 </html>
