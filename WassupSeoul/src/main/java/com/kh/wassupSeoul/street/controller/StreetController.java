@@ -386,6 +386,10 @@ public class StreetController {
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("streetNo", streetNo);
+			/*---------태훈 수정---------*/
+			char[] status = {'Y'};
+			map.put("status", status);
+			/*---------태훈 수정 끝---------*/
 			if(!myHobby.isEmpty() && myHobby != null) {
 				map.put("myHobby", myHobby);
 				mList = streetService.selectJuminList(map);
@@ -448,6 +452,10 @@ public class StreetController {
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("streetNo", streetNo);
+			/*---------태훈 수정---------*/
+			char[] status = {'Y', 'W'};
+			map.put("status", status);
+			/*---------태훈 수정 끝---------*/
 			mList = streetService.selectJuminList(map);
 			
 			List<Hobby> hList = null;
@@ -455,6 +463,7 @@ public class StreetController {
 			if(mList != null && !mList.isEmpty()) {
 				hList = streetService.selectHobbyList(mList);
 			}
+			
 			
 			System.out.println(mList);
 			System.out.println(hList);
@@ -513,5 +522,28 @@ public class StreetController {
 		
 	}
 	
-
+	/*------------------------ 태훈 시작 (03/22) -----------------------------------*/
+	/** 골목 가입 허가/거절 용 Controller
+	 * @param model
+	 * @param applyCheck
+	 * @param memberNo
+	 * @return result
+	 */
+	@ResponseBody
+	@RequestMapping("joinCheck")
+	public int joinCheck(Model model, Boolean applyCheck, int memberNo) {
+		System.out.println(memberNo);
+		int streetNo = (int)model.getAttribute("streetNo");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("streetNo", streetNo);
+		map.put("memberNo", memberNo);
+		if(applyCheck == true) {
+			streetService.joinCheck(map);
+			return 1;
+		} else {
+			streetService.joinDelete(map);
+			return 0;
+		}
+	}
+	/*--------------------------------태훈 끝-------------------------------------*/
 }

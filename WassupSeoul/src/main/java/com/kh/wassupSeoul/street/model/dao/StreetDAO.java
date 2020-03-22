@@ -258,6 +258,20 @@ public class StreetDAO {
 	public int addRelation(Relationship addRelation) {
 		return sqlSession.insert("friendsMapper.addRelation", addRelation);
   }
-  
-
+	/*-------------------------------태훈 시작 (03/22) -----------------------------*/
+	/** 골목 가입신청 허가용 Service
+	 * @param map
+	 */
+	public void joinCheck(Map<String, Object> map) {
+		sqlSession.update("streetMapper.joinCheck", map);
+	}
+	
+	/** 골목 가입신청 거절용 Service
+	 * @param map
+	 */
+	public void joinDelete(Map<String, Object> map) {
+		sqlSession.delete("streetMapper.joinDelete", map);
+	}
+	
+	/*--------------------------------태훈 끝-------------------------------------*/
 }

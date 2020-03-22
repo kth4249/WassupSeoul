@@ -367,4 +367,23 @@ public class StreetServiceImpl implements StreetService{
 	}
 	
 	
+	/*------------------------------태훈 시작 (03/22) -------------------------------*/
+	/** 골목 가입신청 허가용 Service
+	 * @param map
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public void joinCheck(Map<String, Object> map) {
+		streetDAO.joinCheck(map);
+	}
+	
+	/** 골목 가입신청 거절용 Service
+	 * @param map
+	 */
+	@Override
+	public void joinDelete(Map<String, Object> map) {
+		streetDAO.joinDelete(map);
+	}
+	
+	/*--------------------------------태훈 끝-------------------------------------*/
 }
