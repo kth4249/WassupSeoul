@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <style>
 @import
@@ -307,14 +308,14 @@
 				<!-- 친구요청 div -->
 				<div class="tab-pane fade tgl" id="friendReq">
 					<div class="nanum mt-3 ml-3" id="friendRequestArea">
-						<input type="hidden" id="profileRoot" val="">
+						<input type="hidden" id="profileRoot">
 						<img class="rImg" src="${contextPath}/resources/img/usericon.png" width="40px"
 							height="40px" data-toggle="modal" data-target="#profilePicture"
 							style="cursor: pointer"> &nbsp;
 							<span class="rUser">조미현님이 친구요청을 하셨습니다.</span>&nbsp;
 						<button class="btn btn-info btn-sm nanum">수락</button>
 						<button class="btn btn-danger btn-sm nanum" data-toggle="modal"
-							data-target="#nopeBtn">거절</button>
+							data-target="#noBtn">거절</button>
 					</div>
 				</div>
 				
@@ -387,13 +388,14 @@
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
-							<div class="modal-body">
-								<form action="">
-									<span class="nanum">친구 요청 메세지를 수락하셨습니다.</span> 
+							<div class="modal-body" style="text-align:center">
+								<form method="POST" action="${pageContext.request.contextPath}/friends/friendGo">
+									<input type="hidden" id="friendGo" name="memberNo" value="memberNo">
+									<span class="nanum">친구가 됐어요!!!</span>
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-primary nanum"	data-dismiss="modal">삭제하기</button>
+								<button type="button" class="btn btn-primary nanum"	data-dismiss="modal">닫기</button>
 							</div>
 						</div>
 					</div>
@@ -423,14 +425,15 @@
 							</div>
 							<div class="modal-body">
 								<form action="">
-									<span class="nanum">친구 요청 메세지를 거절하셨습니다.</span> 
+									<span class="nanum">친구 요청을 거절하셨습니다.</span> 
 									<span class="nanum" style="color: red;">차단</span> 
 									<span class="nanum">목록에 추가하시겠습니까?</span>
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-danger nanum">차단하기</button>
-								<button type="button" class="btn btn-primary nanum"	data-dismiss="modal">삭제하기</button>
+								<button type="button" class="btn btn-danger nanum" 
+								data-toggle="modal" data-target="#blockBtn">차단하기</button>
+								<button type="button" class="btn btn-primary nanum"	data-dismiss="modal">닫기</button>
 							</div>
 						</div>
 					</div>
@@ -616,15 +619,13 @@
 	$(document).ready(function(){
 		$("#profileRoot").val( getContextPath() );
 	});
-	
-	
 
 
 
 	/* 친구 요청 목록 조회 함수 */
  	function friendRequest(){
 		$.ajax({
-			url : "friendRequest",
+			url : "friends/friendRequest",
 			type : "POST",
 			data : {},
 			datatype : "json",
@@ -633,35 +634,94 @@
 				var $friendRequestArea = $("#friendRequestArea");
 				var root = $("#profileRoot").val();
 				var $savePath = root +"/resources/profileImage/";
-				if(result == ''){
-					$friendRequestArea.html("지금은 친구요청이 없네요.")
+				//var $yesBtn = $("#yesBtn").val();
+				//console.log(result)
+				if(result == null){
+					$msg = $("<span>").html("지금은 친구요청이 없네요.");
+					$friendRequestArea.css("text-align","center")
+					$friendRequestArea.html($msg);
+					
 				}else {
 					$friendRequestArea.html("") // 기존 html 내용 삭제
 					
 					$.each(result, function(i){
-													//memberProfileUrl
+						
 						var $finalPath = $savePath + result[i].memberProfileUrl;
 						var $rImg = $("<img>").prop("class", "rImg").prop("src", $finalPath).css({"width":"40px","height":"40px"});
 						var $rUser = $("<span>").prop("class", "rUser").html(result[i].memberNickname + "님이 친구요청을 하셨습니다.");
-						var $rOk = $("<button>").prop("class", "btn btn-info btn-sm nanum").prop("data-toggle", "modal").prop("data-target", "yesBtn").html("수락");
-						var $rNo = $("<button>").prop("class", "btn btn-danger btn-sm nanum").html("거절");
+						var $rOk = $("<button>").prop("class", "btn btn-info btn-sm nanum addFriend").attr('data-toggle', "modal").attr('data-target', "#yesBtn").
+						html("수락").val(result[i].memberNo);
+						var $rNo = $("<button>").prop("class", "btn btn-danger btn-sm nanum rejectFriend").attr('data-toggle', "modal").attr('data-target', "#noBtn").
+						html("거절").val(result[i].memberNo);
+						var $block = $("<button>").prop("class", "btn btn-danger nanum"); // 차단을 위한 변수생성
 						var $hr = $("<hr>");
 						
 						$friendRequestArea.append($rImg).append($rUser).append($rOk).append($rNo).append($hr);
-						
 						$friendReq.append($friendRequestArea)
 						
 					}); //$.each 끝
 					
 				} //else 끝
 				
-				
 			},
 			error : function(){
-				console.log("친구 목록을 불러오는 aJax 실패");
+				console.log("친구 요청 목록을 불러오는 aJax 실패");
 			}
 		});
-	}; 
+	};  // 친구 요청 목록 Ajax 완료
+	
+	
+	// 수락 버튼을 누르면 Controller로 값 넘기기
+	$(document).on("click", ".addFriend", function(){
+		console.log(this.value);
+		var yourNo = this.value
+		
+		$.ajax({
+			url : "friends/addFriend",
+			type : "POST",
+			data : {"yourNo" : yourNo },
+			success : function(){
+				console.log("친구 수락 성공")			
+			},
+			error : function(){
+				console.log("친구 수락하는 aJax 실패");
+			}
+		});
+		
+	}); // 친구 요청 수락 기능 완료
+	
+	// 거절 버튼을 누르면 Controller로 값 넘기기
+	$(document).on("click", ".rejectFriend", function(){
+		console.log(this.value);
+		var yourNo = this.value
+		
+		$.ajax({
+			url : "friends/rejectFriend",
+			type : "POST",
+			data : {"yourNo" : yourNo },
+			success : function(){
+				console.log("친구 거절 성공")			
+			},
+			error : function(){
+				console.log("친구 거절하는 aJax 실패");
+			}
+		});
+		
+	}); // 친구 요청 거절 기능 완료
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -673,14 +733,6 @@
 			friendRequest(); 
 		}, 10000); */
 	}); 
-	 
-	
-	
-	
-	
-	
-	
-	
 </script>
 
 

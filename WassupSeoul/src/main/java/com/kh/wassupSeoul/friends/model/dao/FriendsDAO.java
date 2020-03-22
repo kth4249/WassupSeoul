@@ -1,6 +1,7 @@
 package com.kh.wassupSeoul.friends.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.management.relation.Relation;
 
@@ -34,8 +35,41 @@ public class FriendsDAO {
 	 * @throws Exception
 	 */
 
-	public List<Member> justFriendReq(List<Relation> fList) throws Exception{
-		return sqlSession.selectList("friendsMapper.justFriendsReq", fList);
+	public List<Member> justFriendReq(Map<String, Object> fMap) {
+		return sqlSession.selectList("friendsMapper.justFriendsReq", fMap);
 	}
+
+
+	/** 친구 추가용 DAO
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int addFriend(Map<String, Object> nMap) throws Exception{
+		return sqlSession.update("friendsMapper.addFriend", nMap);
+	}
+
+
+	/** 친구 추가용 DAO2
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int addFriend2(Map<String, Object> nMap) throws Exception{
+		return sqlSession.insert("friendsMapper.addFriend2", nMap);
+	}
+
+
+	/** 친구 거절용 DAO
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int friendNo(Map<String, Object> nMap) throws Exception{
+		return sqlSession.delete("friendsMapper.friendNo", nMap);
+	}
+
+
+	
 
 }

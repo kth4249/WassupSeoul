@@ -30,27 +30,65 @@
 <select id="friendsRequest" parameterType='_int' resultMap="RelationshipResultSet">
 	SELECT * FROM RELATIONSHIP
 	JOIN MEMBER ON(MY_NO = MEMBER_NO)
-	WHERE MY_NO = #{myNum}
+	WHERE YOUR_NO = #{myNum} 
 	AND REQUEST_STATUS = 1
 	AND MEMBER_STATUS = 'Y'
 </select> 
 
-<select id="justFriendsReq" parameterType='list' resultMap="memberResultSet">
+<!-- 친구요청 조회용 -->
+<!-- <select id="justFriendsReq" parameterType='map' resultMap="memberResultSet">
 	SELECT * FROM MEMBER
+	JOIN RELATIONSHIP ON(MY_NO = MEMBER_NO)
 	<where>
 	<if test="list != null">
-		AND MEMBER_NO IN
+		AND YOUR_NO IN  
 		<foreach collection="list" open="(" separator="," close=")" item="member">
-			#{member.yourNum}
-		</foreach>
+			 #{myNum}
+		</foreach> 
 	</if>
 		AND MEMBER_STATUS = 'Y'
 	</where>
+</select> -->
+
+<!-- 친구요청 조회용 -->
+<select id="justFriendsReq" parameterType='map' resultMap="memberResultSet">
+	SELECT * FROM MEMBER
+	JOIN RELATIONSHIP ON(MY_NO = MEMBER_NO)
+	<where>
+		AND YOUR_NO = #{myNum} 
+		AND MEMBER_STATUS = 'Y'
+		AND REQUEST_STATUS = 1
+	</where>
 </select>
-	
+
+<!-- 친구요청 (태훈)-->
  <insert id="addRelation" parameterType="Relationship">
  	INSERT INTO RELATIONSHIP
  	VALUES(#{myNum}, #{yourNum}, #{requestStatus})
  </insert>
+ 	<!--차단 당한 경우를 제외하는 코드 작성할 것 -->
+
+
+<!-- 친구 추가 1--> 
+ <update id="addFriend" parameterType="map">
+ 	UPDATE RELATIONSHIP SET
+ 	REQUEST_STATUS = 2
+ 	WHERE MY_NO = #{yourNo}
+ 	AND YOUR_NO = #{myNo}
+ </update>
+ 
+ <!-- 친구 추가 2  -->
+ <insert id="addFriend2" parameterType="map">
+ 	INSERT INTO RELATIONSHIP
+ 	VALUES(#{myNo}, #{yourNo}, 2)
+ </insert>
+ 
+ <!-- 친구 요청 거절 -->
+ <delete id="friendNo" parameterType="map">
+ 	DELETE FROM RELATIONSHIP
+ 	WHERE MY_NO = #{yourNo} 
+ 	AND YOUR_NO = #{myNo}
+ 	AND REQUEST_STATUS = 1
+ </delete>
 
 </mapper>
