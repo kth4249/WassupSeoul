@@ -267,7 +267,7 @@ public class StreetController {
     }
 	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
-	
+	// -------------------------------------------- 지원 -----------------------------------------------
 	// 골목 개설 화면 이동
 	@RequestMapping("streetInsert")
 	public String insertStreetForm(Model model) {
@@ -289,8 +289,8 @@ public class StreetController {
 			}
 
 			else {
-				//msg = "골목 개설 불가";
-				//model.addAttribute("msg", msg);
+				msg = "골목 개설 불가";
+				model.addAttribute("msg", msg);
 				return "redirect:/square";
 			}
 			
@@ -326,10 +326,9 @@ public class StreetController {
 
 		try {
 						
-			if(sampleImg != null) {
+			if(!sampleImg.equals("")) {
 								
-				if(sampleImg.equals("골목.jpg")) {
-					
+				if(sampleImg.equals("골목.jpg")) {					
 					street.setImgNo(6);
 				} else if(sampleImg.equals("골목2.jpg")) {
 					street.setImgNo(7);
@@ -338,61 +337,33 @@ public class StreetController {
 				} else if (sampleImg.equals("골목4.jpg")) { 
 					street.setImgNo(9);
 				}
-				System.out.println("기본이미지 street 확인 : " + street.getImgNo());
+								
+				result = streetService.insertStreet1(street, memberNo, streetKeywords);
 				
-				result = streetService.insertStreet2(street, memberNo, streetKeywords);
-				
-			} else if(!streetCoverUpload.getOriginalFilename().equals("")) {
-				
-				System.out.println("새로 등록한 이미지 : " + streetCoverUpload.getOriginalFilename());
+			} else if(sampleImg.equals("") && !streetCoverUpload.getOriginalFilename().equals("")) {
 				
 				// 골목 커버 이름 바꾸기
 				String changeCoverName = FileRename.rename(streetCoverUpload.getOriginalFilename());
 
-				result = streetService.insertStreet1(changeCoverName, street, memberNo, streetKeywords);
+				result = streetService.insertStreet2(changeCoverName, street, memberNo, streetKeywords);
 				
 				if (result > 0) { // 정보 다 저장된 경우 골목 커버 서버에 저장
 
 					streetCoverUpload.transferTo(new File(savePath + "/" + changeCoverName));
-					
+					 
 				}
 			}
 
 			if(result > 0) {
 				msg = "골목 개설 성공~!! 우르르ㄱ끼기ㅣ긱";
 				model.addAttribute("msg", msg);
-				return "";
+				return "redirect:/square"; // 골목으로 이동하게 바꾸기
 			} else {
 				
 				msg = "골목 개설 실패했다ㅠㅠ 흐규흐규";
 				model.addAttribute("msg", msg);
-				return "";
+				return "redirect:/square";
 			}
-		
-
-//			if (!streetCoverUpload.getOriginalFilename().equals("")) { // 골목커버 등록했을 떄
-//
-//				// 골목 커버 이름 바꾸기
-//				String changeCoverName = FileRename.rename(streetCoverUpload.getOriginalFilename());
-//
-//				result = streetService.insertStreet(changeCoverName, street, memberNo, streetKeywords);
-//				
-//				if (result > 0) { // 정보 다 저장된 경우 골목 커버 서버에 저장
-//
-//					streetCoverUpload.transferTo(new File(savePath + "/" + changeCoverName));
-//					
-//					// 골목 개설 성공 시
-//					msg = "골목 개설 성공!! 꺄아아";
-//					model.addAttribute("msg", msg);
-//					return "";
-//				}
-//
-//			}
-//
-//			// 골목 개설 실패 시
-//			msg = "골목 개설 실패했다ㅠㅠ 흐규흐규";
-//			model.addAttribute("msg", msg);
-//			return "";
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -400,7 +371,8 @@ public class StreetController {
 			return "common/errorPage";
 		}
 	}
-
+	// -------------------------------------------- 지원 끝 -----------------------------------------------
+	
 	// 추천 친구 페이지 이동 ----> 기능 만들어야함
 	@RequestMapping("recommendFriend")
 	public String recommendFriend(Model model) {

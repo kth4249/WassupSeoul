@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
@@ -178,9 +179,10 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
-	public int insertStreetCover(String changeCoverName) throws Exception {
+	@Transactional(rollbackFor = Exception.class)
+	public int insertStreetCover(Map<String, Object> map) throws Exception {
 		
-		return sqlSession.insert("streetMapper.insertStreetCover", changeCoverName);
+		return sqlSession.insert("streetMapper.insertStreetCover", map);
 		
 	}
 
@@ -220,6 +222,7 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public int insertStreet(Street street) throws Exception {
 		
 		return sqlSession.insert("streetMapper.insertStreet", street);
@@ -230,6 +233,7 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public int insertStreetMaster(Map<String, Object> map) throws Exception {
 		
 		return sqlSession.insert("streetMapper.insertStreetMaster", map);
@@ -240,6 +244,7 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public int insertStreetKeyword(Map<String, Object> map2) throws Exception {
 		
 		return sqlSession.insert("streetMapper.insertStreetKeyword", map2);

@@ -154,7 +154,7 @@ public interface StreetService {
 	public abstract int addRelation(Relationship addRelation);
 
   
-  /** 골목 개설용 Service1
+  /** 골목 개설용 Service2
 	 * @param changeCoverName
 	 * @param street
 	 * @param memberNo
@@ -162,19 +162,19 @@ public interface StreetService {
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int insertStreet1(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
+	public abstract int insertStreet2(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
 
 
 
 
-	/** 골목 개설용 Service2
+	/** 골목 개설용 Service1
 	 * @param street
 	 * @param memberNo
 	 * @param streetKeywords
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int insertStreet2(Street street, int memberNo, String[] streetKeywords) throws Exception;
+	public abstract int insertStreet1(Street street, int memberNo, String[] streetKeywords) throws Exception;
   
 
 	

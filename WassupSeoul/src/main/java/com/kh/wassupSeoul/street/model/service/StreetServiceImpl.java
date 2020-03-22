@@ -236,7 +236,7 @@ public class StreetServiceImpl implements StreetService{
 		
 	}
 	
-	/** 골목 개설용 Service1
+	/** 골목 개설용 Service2
 	 * @param changeCoverName
 	 * @param street
 	 * @param memberNo
@@ -245,8 +245,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public int insertStreet1(String changeCoverName, Street street, int memberNo, String[] streetKeywords)
+	public int insertStreet2(String changeCoverName, Street street, int memberNo, String[] streetKeywords)
 			throws Exception {
 		
 		int result = 0;
@@ -259,7 +258,11 @@ public class StreetServiceImpl implements StreetService{
 		
 		if(imgNo > 0) {
 			
-			result = streetDAO.insertStreetCover(changeCoverName);
+			map = new HashMap<String, Object>();
+			map.put("imgNo", imgNo);
+			map.put("changeCoverName", changeCoverName);
+			
+			result = streetDAO.insertStreetCover(map);
 			
 			if(result > 0) {
 				street.setImgNo(imgNo);				
@@ -268,35 +271,36 @@ public class StreetServiceImpl implements StreetService{
 				result = streetDAO.insertStreet(street);
 				
 				if(result > 0) {
-					
 					// 골목 대장 정보 저장
 					map = new HashMap<String, Object>();
 					map.put("memberNo", memberNo);
 					map.put("streetNo", street.getStreetNo());
 					
-					if(streetKeywords != null) {
+					result = streetDAO.insertStreetMaster(map);
+					
+					if(result > 0 && streetKeywords != null) {
 						for (int i = 0; i < streetKeywords.length; i++) {
 
 							map2 = new HashMap<String, Object>();
 							map2.put("streetNo", street.getStreetNo());
 							map2.put("keyword", streetKeywords[i]);
 							
-							result = streetDAO.insertStreetKeyword(map);
+							result = streetDAO.insertStreetKeyword(map2); 
 
 						}
 					}
 				}
 			}
-			return result;
-			
-		} else {
-			return -1;
-		}		
+		} 	
 		
+		if(result > 0) {
+			result = streetNo;			
+		}
+		return result;		
 	}
 	
 	
-	/** 골목 개설용 Service2
+	/** 골목 개설용 Service1
 	 * @param street
 	 * @param memberNo
 	 * @param streetKeywords
@@ -304,42 +308,44 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	@Transactional(isolation = Isolation.READ_UNCOMMITTED, rollbackFor = Exception.class)
-	public int insertStreet2(Street street, int memberNo, String[] streetKeywords) throws Exception {
+	public int insertStreet1(Street street, int memberNo, String[] streetKeywords) throws Exception {
 		int streetNo = 0;
 		int result = 0;
 		Map<String, Object> map = null;
 		Map<String, Object> map2 = null;
 		
 		streetNo = streetDAO.selectStreetNextNo();				
-		street.setStreetNo(streetNo);				
-		result = streetDAO.insertStreet(street);
+		street.setStreetNo(streetNo);	
+		
+		if(streetNo > 0) {
+			
+			result = streetDAO.insertStreet(street);
+			
+			if(result > 0) {
+				// 골목 대장 정보 저장
+				map = new HashMap<String, Object>();
+				map.put("memberNo", memberNo);
+				map.put("streetNo", street.getStreetNo());
+				
+				result = streetDAO.insertStreetMaster(map);
+			}	
+		}
+		
+		if(result > 0 && streetKeywords != null) {
+			map2 = new HashMap<String, Object>();
+			map2.put("streetNo", street.getStreetNo());
+			for (int i = 0; i < streetKeywords.length; i++) {
+
+				map2.put("keyword", streetKeywords[i]);
+				
+				result = streetDAO.insertStreetKeyword(map2); 
+			}
+		}
 		
 		if(result > 0) {
-			
-			// 골목 대장 정보 저장
-			map = new HashMap<String, Object>();
-			map.put("memberNo", memberNo);
-			map.put("streetNo", street.getStreetNo());
-			
-			if(streetKeywords != null) {
-				map2 = new HashMap<String, Object>();
-				map2.put("streetNo", streetNo);
-				for (int i = 0; i < streetKeywords.length; i++) {
-
-					map2.put("keyword", streetKeywords[i]);
-					
-					result = streetDAO.insertStreetKeyword(map2); 
-
-				}
-			}
-			
-			return result;
-			
-		} else { 
-			
-			return -1;
-		}
+			result = streetNo;
+		}			
+			return result;			
 	}
 	
 
