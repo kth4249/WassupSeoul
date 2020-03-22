@@ -246,9 +246,9 @@
   	</select>
   	
   	<!-- 골목 커버 정보 삽입 -->
-	<insert id="insertStreetCover" parameterType="string">
+	<insert id="insertStreetCover" parameterType="map">
   		INSERT INTO STREET_IMG
-  		VALUES(SEQ_STREET_IMG.NEXTVAL, #{changeCoverName}, 1)  
+  		VALUES(#{imgNo}, #{changeCoverName}, 1)   
   	</insert> 
   	
   	<!-- 골목 다음 번호 조회 -->
@@ -259,7 +259,7 @@
   	<!-- 골목 정보 삽입 -->
   	<insert id="insertStreet" parameterType="street">
   		INSERT INTO STREET
-  		VALUES(SEQ_STREET.NEXTVAL, #{streetNm}, #{streetIntro}, 
+  		VALUES(#{streetNo}, #{streetNm}, #{streetIntro}, 
   			   'Y', #{streetMaxMember}, DEFAULT, 
   			   #{imgNo}, #{districtNo}, #{streetPublic})    	
   	</insert>
