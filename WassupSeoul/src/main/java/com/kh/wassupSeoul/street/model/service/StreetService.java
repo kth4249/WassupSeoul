@@ -188,7 +188,19 @@ public interface StreetService {
 	public abstract int fileUpload(Board board, MultipartFile file, HttpServletRequest request,
 			HttpServletResponse response);
 
+	/*-----------------------------태훈 시작 (03/22) -------------------------------*/
+	/** 골목 가입신청 허가용 Service
+	 * @param map
+	 */
+	public abstract void joinCheck(Map<String, Object> map);
 
-	
+
+	/** 골목 가입신청 거절용 Service
+	 * @param map
+	 */
+	public abstract void joinDelete(Map<String, Object> map);
+
+
+	/*--------------------------------태훈 끝-------------------------------------*/
 	 
 }

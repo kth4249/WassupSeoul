@@ -57,6 +57,7 @@
   		<result property="memberGrade" column="MEMBER_GRADE"/>
   		<result property="memberEnrollDt" column="MEMBER_ENROLL_DT"/>
   		<result property="memberStatus" column="MEMBER_STATUS"/>
+  		<result property="citizenStatus" column="CITIZEN_STATUS"/> <!-- 03/22 태훈 추가 -->
 	</resultMap>
 	
 	
@@ -278,10 +279,10 @@
   	</insert>
   	
   	
-  	<!-- 주민 목록 조회 겸 추천 친구 목록 조회 -->
+  	<!-- 주민 목록 조회 겸 추천 친구 목록 조회 (03/22 태훈 수정) -->
   	<select id="selectJuminList" parameterType="map" resultMap="memberResultSet">
 		SELECT MEMBER_NO, MEMBER_NM, MEMBER_NICKNAME, MEMBER_GENDER, MEMBER_AGE, 
-		        STREET_NO, COUNT(HOBBY_NO) HOBBY_COUNT
+		        STREET_NO, COUNT(HOBBY_NO) HOBBY_COUNT, CITIZEN_STATUS, MEMBER_PROFILE_URL
 		FROM MEMBER
 		LEFT JOIN MEMBER_HOBBY USING(MEMBER_NO)
 		LEFT JOIN HOBBY USING(HOBBY_NO)
@@ -293,9 +294,14 @@
 					#{hobby.hobbyName}
 				</foreach>
 			</if>
+			AND CITIZEN_STATUS IN
+			<foreach collection="status" open="(" separator="," close=")" item="state">
+				#{state}
+			</foreach>
 			AND STREET_NO = #{streetNo}
 		</where>
-		GROUP BY MEMBER_NO, MEMBER_NM, MEMBER_NICKNAME, MEMBER_GENDER, MEMBER_AGE, STREET_NO
+		GROUP BY MEMBER_NO, MEMBER_NM, MEMBER_NICKNAME, MEMBER_GENDER,
+				MEMBER_AGE, STREET_NO, CITIZEN_STATUS, MEMBER_PROFILE_URL
 		<if test="myHobby != null">
 			<!-- HAVING COUNT(HOBBY_NO) != 0 -->
 			ORDER BY HOBBY_COUNT DESC
@@ -325,7 +331,27 @@
 		</if>
 	</select>
   
+  	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 시작 (03/22)ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
+  	<!-- 골목 가입신청 허가용 -->
+  	<update id="joinCheck" parameterType="map">
+  		UPDATE STREET_JOIN SET
+  		CITIZEN_STATUS = 'Y'
+  		WHERE MEMBER_NO = #{memberNo} AND STREET_NO = #{streetNo}
+  	</update>
   	
+  	<!-- 골목 가입신청 거절용 -->
+  	<delete id="joinDelete" parameterType="map">
+  		DELETE FROM STREET_JOIN
+  		WHERE MEMBER_NO = #{memberNo} AND STREET_NO = #{streetNo}
+  	</delete>
+	
+	<!-- 골목 가입용 -->
+	<insert id="streetJoin" parameterType="map">
+		INSERT INTO STREET_JOIN
+		VALUES(#{memberNo}, #{streetNo}, 'G', 'W')
+	</insert>
+	
+	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 	
 	
 </mapper>
