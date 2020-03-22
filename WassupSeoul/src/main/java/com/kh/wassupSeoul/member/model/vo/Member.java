@@ -16,6 +16,7 @@ public class Member {
 	private String memberGrade;
 	private Date memberEnrollDt;
 	private String memberStatus;
+	private String citizenStatus; // 03/22 태훈 추가
 	
 	public Member() {
 		// TODO Auto-generated constructor stub
@@ -50,6 +51,27 @@ public class Member {
 		this.memberGrade = memberGrade;
 		this.memberEnrollDt = memberEnrollDt;
 		this.memberStatus = memberStatus;
+	}
+	
+	
+
+	public Member(int memberNo, String memberEmail, String memberPwd, String memberNm, String memberNickname,
+			String memberPhone, String memberGender, int memberAge, String memberProfileUrl, String memberGrade,
+			Date memberEnrollDt, String memberStatus, String citizenStatus) {
+		super();
+		this.memberNo = memberNo;
+		this.memberEmail = memberEmail;
+		this.memberPwd = memberPwd;
+		this.memberNm = memberNm;
+		this.memberNickname = memberNickname;
+		this.memberPhone = memberPhone;
+		this.memberGender = memberGender;
+		this.memberAge = memberAge;
+		this.memberProfileUrl = memberProfileUrl;
+		this.memberGrade = memberGrade;
+		this.memberEnrollDt = memberEnrollDt;
+		this.memberStatus = memberStatus;
+		this.citizenStatus = citizenStatus;
 	}
 
 	public int getMemberNo() {
@@ -147,6 +169,16 @@ public class Member {
 	public void setMemberStatus(String memberStatus) {
 		this.memberStatus = memberStatus;
 	}
+	
+	
+
+	public String getCitizenStatus() {
+		return citizenStatus;
+	}
+
+	public void setCitizenStatus(String citizenStatus) {
+		this.citizenStatus = citizenStatus;
+	}
 
 	@Override
 	public String toString() {
@@ -154,10 +186,9 @@ public class Member {
 				+ ", memberNm=" + memberNm + ", memberNickname=" + memberNickname + ", memberPhone=" + memberPhone
 				+ ", memberGender=" + memberGender + ", memberAge=" + memberAge + ", memberProfileUrl="
 				+ memberProfileUrl + ", memberGrade=" + memberGrade + ", memberEnrollDt=" + memberEnrollDt
-				+ ", memberStatus=" + memberStatus + "]";
+				+ ", memberStatus=" + memberStatus + ", citizenStatus=" + citizenStatus + "]";
 	}
-	
-	
+
 	
 
 }

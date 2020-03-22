@@ -17,7 +17,79 @@
 			<div class="col-md-3">
 			</div>
 			<div class="col-md-6">
-				<h1 class="nanum" style="display: inline;">주민(${mList.size()})</h1>
+			<c:set var="count" value="0"/>
+			<c:forEach items="${mList}" var="member">
+				<c:if test="${member.citizenStatus eq 'Y'}">
+					<c:set var="count" value="${count + 1}"/>
+				</c:if> 
+			</c:forEach>
+				<h1 class="nanum" style="display: inline;" id="juminCount">주민(${count})</h1>&nbsp;&nbsp;
+					<div style="display: inline; color: orange; cursor: pointer" id="applyBtn">
+						가입 신청 <span class="badge badge-pill badge-success" id="applyCount">${mList.size() - count}명</span>
+					</div>
+					<table class="table table-hover" id="applyMember" style="display:none">
+						<c:if test="${!empty mList}">
+							<c:forEach items="${mList}" var="member">
+								<c:if test="${member.citizenStatus eq 'W'}">
+									<tr class="table-success">
+										<input type="hidden" value="${member.memberNo}">
+										<td><img src="${contextPath}/resources/profileImage/${member.memberProfileUrl}" width="45px"
+											height="45px"></td>
+										<td>${member.memberNickname }</td>
+										<td>${member.memberAge}세, ${member.memberGender}</td>
+										<td>
+											<c:if test="${!empty hList}">
+												<c:forEach items="${hList}" var="hobby" >
+													<c:if test="${member.memberNo == hobby.memberNo }">
+														${hobby.hobbyName}
+													</c:if>
+												</c:forEach>
+											</c:if>
+										</td>
+									</tr>
+								</c:if>
+							</c:forEach>
+						</c:if>
+					</table>
+					<script>
+						$("#applyBtn").click(function(){
+							$("#applyMember").toggle(500);
+						})
+						
+						$("#applyMember td").click(function(e){
+							var memberNo = $(this).parent().children(0).val();
+							var applyCheck = confirm("골목 가입을 허가하시겠습니까?")
+							$.ajax({
+								url : "joinCheck",
+								data : {"applyCheck":applyCheck, "memberNo":memberNo},
+								success : function(result){
+									if(result == 1){
+										var $thisMem = $(e.target).parent().prop("class", "table-active");
+										var $btn = $("<button>").prop("class", "btn btn-sm btn-outline-success addFriend").val(memberNo).text("친구요청");
+										var $td = $("<td>").append($btn);
+										$thisMem.append($td);
+										$("#juminList").append($thisMem);
+										$thisMem.append($td);
+										$("#juminList").append($thisMem);
+										<c:set var="count" value="${count+1}"/>
+										$("#juminCount").html("주민(${count})")
+										$(this).parent().remove();
+										$(this).parent().next().remove();
+									} else {
+										$(e.target).parent().next().remove();
+										$(e.target).parent().remove();
+									}
+									$("#applyCount").html("${mList.size() - count}명")
+									
+									console.log("ajax 통신 성공")
+								},
+								error : function() {
+									console.log("ajax 통신 실패")
+								}
+							})
+						})
+					</script>
+				<hr>
 				<table class="table table-hover">
 					<thead>
 						<tr class="table-info">
@@ -28,26 +100,28 @@
 							<th>친구 요청</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="juminList">
 						
 						<c:if test="${!empty mList }">
 							<c:forEach items="${mList}" var="member">
-								<tr class="table-active">
-									<th scope="row"><img src="${contextPath}/resources/profileImage/${member.memberProfileUrl}" width="45px"
-										height="45px"></th>
-									<td>${member.memberNickname }</td>
-									<td>${member.memberAge}세, ${member.memberGender}</td>
-									<td>
-										<c:if test="${!empty hList}">
-											<c:forEach items="${hList}" var="hobby" >
-												<c:if test="${member.memberNo == hobby.memberNo }">
-													${hobby.hobbyName}
-												</c:if>
-											</c:forEach>
-										</c:if>
-									</td>
-									<td><button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button></td>
-								</tr>
+								<c:if test="${member.citizenStatus eq 'Y'}">
+									<tr class="table-active">
+										<td scope="row"><img src="${contextPath}/resources/profileImage/${member.memberProfileUrl}" width="45px"
+											height="45px"></td>
+										<td>${member.memberNickname }</td>
+										<td>${member.memberAge}세, ${member.memberGender}</td>
+										<td>
+											<c:if test="${!empty hList}">
+												<c:forEach items="${hList}" var="hobby" >
+													<c:if test="${member.memberNo == hobby.memberNo }">
+														#${hobby.hobbyName}
+													</c:if>
+												</c:forEach>
+											</c:if>
+										</td>
+										<td><button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button></td>
+									</tr>
+								</c:if>
 							</c:forEach>
 						</c:if>
 						<c:if test="${empty mList }">
@@ -58,9 +132,13 @@
 						
 					</tbody>
 				</table>
+				
+				<hr>
+				
 				<script>
 					/* 친구 추가용 Ajax */
-					$(".addFriend").click(function(){
+					$(document).on("click", ".addFriend", function(){
+					/* $(".addFriend").click(function(){ */
 						console.log($(this).val());
 						$.ajax({
 							url : "addFriend",

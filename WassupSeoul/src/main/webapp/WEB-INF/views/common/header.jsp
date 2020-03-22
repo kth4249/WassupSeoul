@@ -46,14 +46,12 @@ object-fit: cover;
 	</c:url>
 	<nav
 		class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top headerOpacity">
-		<%-- <form class="form-inline my-2 my-lg-0" action="${contextPath }/square"
-			onsubmit="return searchValidate();"> --%>
+			<a href="${contextPath}/square"><img src="${contextPath}/resources/img/emoji.png" style="width: 25px"/></a>
 			<input class="form-control mr-sm-2" type="text"
 				placeholder="검색할 골목 키워드" id="searchStreet" name="searchStreet"
 				style="width: 300px">
 			<button class="btn btn-secondary my-2 my-sm-0" type="button"
 			 		onclick="searchValidate()">Search</button>
-		<!-- </form> -->
 		<script>
 			function searchValidate() {
 				/* alert("${param.districtNo}")

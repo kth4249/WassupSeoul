@@ -469,7 +469,7 @@
 						$("#streetThumbnail").prop("src", a);
 
 						// input file 초기화
-						$("#streetCoverUpload").val("");
+						//$("#streetCoverUpload").val("");
 
 						/* console.log(b);
 						document.getElementById("streetCoverUpload").select();
@@ -526,6 +526,7 @@
 					if (num == 1) {
 						$("#streetThumbnail").prop("src", e.target.result);
 						$("#sampleImg").val("");
+						console.log("sampleImg 비어있는지 확인  : " + $("#sampleImg").val());
 					}
 				}
 				reader.readAsDataURL(value.files[0]);

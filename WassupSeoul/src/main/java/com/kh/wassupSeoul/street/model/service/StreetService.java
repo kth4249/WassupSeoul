@@ -176,7 +176,7 @@ public interface StreetService {
 	public abstract int addRelation(Relationship addRelation);
 
   
-  /** 골목 개설용 Service1
+  /** 골목 개설용 Service2
 	 * @param changeCoverName
 	 * @param street
 	 * @param memberNo
@@ -184,19 +184,19 @@ public interface StreetService {
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int insertStreet1(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
+	public abstract int insertStreet2(String changeCoverName, Street street, int memberNo, String[] streetKeywords) throws Exception;
 
 
 
 
-	/** 골목 개설용 Service2
+	/** 골목 개설용 Service1
 	 * @param street
 	 * @param memberNo
 	 * @param streetKeywords
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int insertStreet2(Street street, int memberNo, String[] streetKeywords) throws Exception;
+	public abstract int insertStreet1(Street street, int memberNo, String[] streetKeywords) throws Exception;
   
 
 	
@@ -210,15 +210,24 @@ public interface StreetService {
 	public abstract int fileUpload(Board board, MultipartFile file, HttpServletRequest request,
 			HttpServletResponse response);
 
-
-
+	/*-----------------------------태훈 시작 (03/22) -------------------------------*/
+	/** 골목 가입신청 허가용 Service
+	 * @param map
+	 */
+	public abstract void joinCheck(Map<String, Object> map);
 
 
 
 
 	
+	/** 골목 가입신청 거절용 Service
+	 * @param map
+	 */
+	public abstract void joinDelete(Map<String, Object> map);
 
+  
+  
 
-	
+	/*--------------------------------태훈 끝-------------------------------------*/
 	 
 }
