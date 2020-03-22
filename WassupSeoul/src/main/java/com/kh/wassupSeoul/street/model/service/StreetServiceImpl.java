@@ -49,8 +49,8 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<Board> selectBoard(Member loginMember) throws Exception {
-		return streetDAO.selectBoard(loginMember);
+	public List<Board> selectBoard(Reply checkStreet) throws Exception {
+		return streetDAO.selectBoard(checkStreet);
 	}
 
 	
@@ -72,15 +72,18 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public int likeCheck( Member loginMember) throws Exception {
-		String result = streetDAO.likeCheck(loginMember);
+	public int likeCheck( Reply reply) throws Exception {
+		System.out.println("serviceImple boardNo 확인 : " + reply.getBoardNo());
+		System.out.println("serviceImple boardNo 확인 : " + reply.getMemberNo());
+		
+		String result = streetDAO.likeCheck(reply);
 		int result2 = 0;
 		
 		System.out.println("serviceImple 체크결과 기존기록  : "+result);
 		// 좋아요 기록안되어 있을시 기록 
 		if( result == null) {
 			
-			result2 = streetDAO.recordLike(loginMember);
+			result2 = streetDAO.recordLike(reply);
 			
 			return result2 = 1;
 			
@@ -88,8 +91,8 @@ public class StreetServiceImpl implements StreetService{
 		} else if( result.equals("Y")) {
 			
 			// loginMember 활용
-			loginMember.setMemberNm("N");
-			result2 = streetDAO.updateLike(loginMember);
+			reply.setThumbStatus("N");
+			result2 = streetDAO.updateLike(reply);
 			
 			return result2 = 0;
 			
@@ -97,13 +100,94 @@ public class StreetServiceImpl implements StreetService{
 		} else {
 			
 			// loginMember 활용
-			loginMember.setMemberNm("Y");
-			result2 = streetDAO.updateLike(loginMember);
+			reply.setThumbStatus("Y");
+			result2 = streetDAO.updateLike(reply);
 			
 			return result2 = 1;
 		}
 		
 	}
+	
+	/** 댓글 좋아요 기록용 
+	 * @param loginMember
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int replyLikeFunction(Reply reply) throws Exception {
+		String result = streetDAO.replyLikeFunction(reply);
+		int result2 = 0;
+		
+		System.out.println("serviceImple 체크결과 기존기록  : "+result);
+		
+		// 좋아요 기록안되어 있을시 기록 
+		if( result == null) {
+			
+			result2 = streetDAO.recordReplyLike(reply);
+			
+			return result2 = 1;
+			
+		// 좋아요 Y로 기록시 N으로 업데이트 	
+		} else if( result.equals("Y")) {
+			
+			// loginMember 활용
+			reply.setThumbStatus("N");
+			result2 = streetDAO.updateReplyLike(reply);
+			
+			return result2 = 0;
+			
+		// 좋아요 N으로 기록시 Y로 업데이트 	
+		} else {
+			
+			// loginMember 활용
+			reply.setThumbStatus("Y");
+			result2 = streetDAO.updateReplyLike(reply);
+			
+			return result2 = 1;
+		}
+		
+	}
+
+	/** 대댓글 좋아요 등록용 Service
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int reReplyLikeFunction(Reply reply) throws Exception {
+		String result = streetDAO.reReplyLikeFunction(reply);
+		int result2 = 0;
+		
+		System.out.println("serviceImple 체크결과 기존기록  : "+result);
+		
+		// 좋아요 기록안되어 있을시 기록 
+		if( result == null) {
+			
+			result2 = streetDAO.recordReReplyLike(reply);
+			
+			return result2 = 1;
+			
+		// 좋아요 Y로 기록시 N으로 업데이트 	
+		} else if( result.equals("Y")) {
+			
+			// loginMember 활용
+			reply.setThumbStatus("N");
+			result2 = streetDAO.updateReReplyLike(reply);
+			
+			return result2 = 0;
+			
+		// 좋아요 N으로 기록시 Y로 업데이트 	
+		} else {
+			
+			// loginMember 활용
+			reply.setThumbStatus("Y");
+			result2 = streetDAO.updateReReplyLike(reply);
+			
+			return result2 = 1;
+		}
+		
+	}
+
 
 	/** 게시글 삭제용 Service
 	 * @param postNo
@@ -126,15 +210,25 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.writeComment(reply);
 	}
 
-
 	
+	/** 대댓글 입력용 Service
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int writeReComment(Reply reply) throws Exception {
+		return streetDAO.writeReComment(reply);
+	}
+
+
 	/** 댓글 조회용 
 	 * @param postNo
 	 * @return list
 	 */
 	@Override
-	public List<Reply> selectReply(Member loginMember)  {
-		return streetDAO.selectReply(loginMember);
+	public List<Reply> selectReply(Reply checkStreet)  {
+		return streetDAO.selectReply(checkStreet);
 	}
 	
 	

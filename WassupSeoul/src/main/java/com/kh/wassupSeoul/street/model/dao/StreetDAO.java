@@ -34,12 +34,12 @@ public class StreetDAO {
 	}
 
 	/** 게시글 조회용 DAO
-	 * @param loginMember
+	 * @param checkStreet
 	 * @return list
 	 * @throws Exception
 	 */
-	public List<Board> selectBoard(Member loginMember) throws Exception{
-		return sqlSession.selectList("streetMapper.selectBoardList", loginMember );
+	public List<Board> selectBoard(Reply checkStreet) throws Exception{
+		return sqlSession.selectList("streetMapper.selectBoardList", checkStreet );
 	}
 
 	/** 게시글 등록용 DAO
@@ -52,32 +52,87 @@ public class StreetDAO {
 	}
 
 	/** 좋아요 체크용 DAO
-	 * @param loginMember
+	 * @param reply
 	 * @return result
 	 * @throws Exception
 	 */
-	public String likeCheck(Member loginMember) throws Exception {
-		return sqlSession.selectOne("streetMapper.likeCheck", loginMember );
+	public String likeCheck(Reply reply) throws Exception {
+		return sqlSession.selectOne("streetMapper.likeCheck", reply );
 	}
 
 	/** 좋아요 기록용 DAO
-	 * @param loginMember
+	 * @param reply
 	 * @return result
 	 * @throws Exception
 	 */
-	public int recordLike(Member loginMember) throws Exception {
+	public int recordLike(Reply reply) throws Exception {
 		
-		return sqlSession.insert("streetMapper.recordLike", loginMember );
+		return sqlSession.insert("streetMapper.recordLike", reply );
 	}
 
 	/** 좋아요 업데이트용 DAO
-	 * @param loginMember
+	 * @param reply
 	 * @return result
 	 * @throws Exception
 	 */
-	public int updateLike(Member loginMember) throws Exception {
-		return sqlSession.update("streetMapper.updateLike", loginMember );
+	public int updateLike(Reply reply) throws Exception {
+		return sqlSession.update("streetMapper.updateLike", reply );
 	}
+	
+	/** 댓글 좋아요 체크용 DAO 
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public String replyLikeFunction(Reply reply) throws Exception {
+		return sqlSession.selectOne("streetMapper.replyLikeCheck", reply );
+	}
+	
+	/** 댓글 좋아요 기록용 DAO
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public int recordReplyLike(Reply reply) throws Exception{
+		return sqlSession.insert("streetMapper.recordReplyLike", reply );
+	}
+	
+	/** 댓글 좋아요 업데이트용  DAO
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateReplyLike(Reply reply) throws Exception{
+		return sqlSession.update("streetMapper.updateReplyLike", reply );
+	}
+	
+	/** 대댓글 좋아요 체크용 DAO
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public String reReplyLikeFunction(Reply reply) throws Exception{
+		return sqlSession.selectOne("streetMapper.reReplyLikeFunction", reply );
+	}
+	
+	/** 대댓글 좋아요 기록용 DAO
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public int recordReReplyLike(Reply reply) throws Exception{
+		return sqlSession.insert("streetMapper.recordReReplyLike", reply );
+	}
+	
+	/** 대댓글 좋아요 없데이트용 DAO
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateReReplyLike(Reply reply) throws Exception{
+		return  sqlSession.update("streetMapper.updateReReplyLike", reply );
+	}
+
 
 	/** 게시글 삭제용 DAO
 	 * @param postNo
@@ -97,13 +152,21 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.writeComment", reply);
 	}
 	
+	/** 대댓글 입력용   DAO
+	 * @param reply
+	 * @return result
+	 * @throws Exception
+	 */
+	public int writeReComment(Reply reply) throws Exception{
+		return sqlSession.insert("streetMapper.writeReComment", reply);
+	}
 	
 	/** 댓글 조회용 
-	 * @param loginMember
+	 * @param checkStreet
 	 * @return list 
 	 */
-	public List<Reply> selectReply(Member loginMember) {
-		return sqlSession.selectList("streetMapper.selectReply", loginMember);
+	public List<Reply> selectReply(Reply checkStreet) {
+		return sqlSession.selectList("streetMapper.selectReply", checkStreet);
 	}
 
 	/** 작성자 프로필 조회용 DAO   (memberMapper 이용)
@@ -258,6 +321,8 @@ public class StreetDAO {
 	public int addRelation(Relationship addRelation) {
 		return sqlSession.insert("friendsMapper.addRelation", addRelation);
   }
+
+
 	/*-------------------------------태훈 시작 (03/22) -----------------------------*/
 	/** 골목 가입신청 허가용 Service
 	 * @param map

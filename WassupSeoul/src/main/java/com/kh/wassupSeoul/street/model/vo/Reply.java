@@ -17,18 +17,19 @@ public class Reply {
 	private int streetNo;
 	private int replyThumbCount;
 	private int reReplyThumbCount;
-	private int rereplyCount;
+	private int reReplyCount;
 	private String thumbStatus;
 	
 	
+	
 	public Reply() {
-		// TODO Auto-generated constructor stub
 	}
+
 
 
 	public Reply(int replyNo, String replyContent, String replyWriter, Timestamp replyDt, String replyStatus,
 			String replyLevel, int memberNo, int boardNo, int reReplyNo, String memberProfile, int streetNo,
-			int replyThumbCount, int reReplyThumbCount, int rereplyCount, String thumbStatus) {
+			int replyThumbCount, int reReplyThumbCount, int reReplyCount, String thumbStatus) {
 		super();
 		this.replyNo = replyNo;
 		this.replyContent = replyContent;
@@ -43,9 +44,10 @@ public class Reply {
 		this.streetNo = streetNo;
 		this.replyThumbCount = replyThumbCount;
 		this.reReplyThumbCount = reReplyThumbCount;
-		this.rereplyCount = rereplyCount;
+		this.reReplyCount = reReplyCount;
 		this.thumbStatus = thumbStatus;
 	}
+
 
 
 	public int getReplyNo() {
@@ -53,9 +55,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyNo(int replyNo) {
 		this.replyNo = replyNo;
 	}
+
 
 
 	public String getReplyContent() {
@@ -63,9 +67,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyContent(String replyContent) {
 		this.replyContent = replyContent;
 	}
+
 
 
 	public String getReplyWriter() {
@@ -73,9 +79,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyWriter(String replyWriter) {
 		this.replyWriter = replyWriter;
 	}
+
 
 
 	public Timestamp getReplyDt() {
@@ -83,9 +91,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyDt(Timestamp replyDt) {
 		this.replyDt = replyDt;
 	}
+
 
 
 	public String getReplyStatus() {
@@ -93,9 +103,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyStatus(String replyStatus) {
 		this.replyStatus = replyStatus;
 	}
+
 
 
 	public String getReplyLevel() {
@@ -103,9 +115,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyLevel(String replyLevel) {
 		this.replyLevel = replyLevel;
 	}
+
 
 
 	public int getMemberNo() {
@@ -113,9 +127,11 @@ public class Reply {
 	}
 
 
+
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
 	}
+
 
 
 	public int getBoardNo() {
@@ -123,9 +139,11 @@ public class Reply {
 	}
 
 
+
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
+
 
 
 	public int getReReplyNo() {
@@ -133,9 +151,11 @@ public class Reply {
 	}
 
 
+
 	public void setReReplyNo(int reReplyNo) {
 		this.reReplyNo = reReplyNo;
 	}
+
 
 
 	public String getMemberProfile() {
@@ -143,9 +163,11 @@ public class Reply {
 	}
 
 
+
 	public void setMemberProfile(String memberProfile) {
 		this.memberProfile = memberProfile;
 	}
+
 
 
 	public int getStreetNo() {
@@ -153,9 +175,11 @@ public class Reply {
 	}
 
 
+
 	public void setStreetNo(int streetNo) {
 		this.streetNo = streetNo;
 	}
+
 
 
 	public int getReplyThumbCount() {
@@ -163,9 +187,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyThumbCount(int replyThumbCount) {
 		this.replyThumbCount = replyThumbCount;
 	}
+
 
 
 	public int getReReplyThumbCount() {
@@ -173,19 +199,23 @@ public class Reply {
 	}
 
 
+
 	public void setReReplyThumbCount(int reReplyThumbCount) {
 		this.reReplyThumbCount = reReplyThumbCount;
 	}
 
 
-	public int getRereplyCount() {
-		return rereplyCount;
+
+	public int getReReplyCount() {
+		return reReplyCount;
 	}
 
 
-	public void setRereplyCount(int rereplyCount) {
-		this.rereplyCount = rereplyCount;
+
+	public void setReReplyCount(int reReplyCount) {
+		this.reReplyCount = reReplyCount;
 	}
+
 
 
 	public String getThumbStatus() {
@@ -193,9 +223,11 @@ public class Reply {
 	}
 
 
+
 	public void setThumbStatus(String thumbStatus) {
 		this.thumbStatus = thumbStatus;
 	}
+
 
 
 	@Override
@@ -204,10 +236,10 @@ public class Reply {
 				+ ", replyDt=" + replyDt + ", replyStatus=" + replyStatus + ", replyLevel=" + replyLevel + ", memberNo="
 				+ memberNo + ", boardNo=" + boardNo + ", reReplyNo=" + reReplyNo + ", memberProfile=" + memberProfile
 				+ ", streetNo=" + streetNo + ", replyThumbCount=" + replyThumbCount + ", reReplyThumbCount="
-				+ reReplyThumbCount + ", rereplyCount=" + rereplyCount + ", thumbStatus=" + thumbStatus + "]";
+				+ reReplyThumbCount + ", reReplyCount=" + reReplyCount + ", thumbStatus=" + thumbStatus + "]";
 	}
 
-	
+
 	
 	
 }

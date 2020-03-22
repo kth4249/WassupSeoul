@@ -70,7 +70,7 @@
 	<resultMap type="Reply" id="replyResultSet">
 		<id property="replyNo" column="REPLY_NO"/>
    		<result property="replyContent" column="REPLY_CONTENT"/>
-  		<result property="replyWriter" column="MEMBER_NM"/>
+  		<result property="replyWriter" column="MEMBER_NICKNAME"/>
   		<result property="replyDt" column="REPLY_DT"/>
   		<result property="replyStatus" column="REPLY_STATUS"/>
   		<result property="replyLevel" column="REPLY_LEVEL"/>
@@ -81,8 +81,8 @@
   		<result property="streetNo" column="STREET_NO"/>
   		<result property="replyThumbCount" column="REPLY_THUMB_COUNT"/>
   		<result property="reReplyThumbCount" column="REREPLY_THUMB_COUNT"/>
-  		<result property="rereplyCount" column="REREPLY_COUNT"/>
-  		<result property="thumbStatus" column="THUMB_STATUS"/>
+  		<result property="reReplyCount" column="REREPLY_COUNT"/>
+  		<result property="thumbStatus" column="THUMB_STATUS"/>  		
 	</resultMap>
 	
 	
@@ -157,19 +157,24 @@
 	
 	
 	<!-- 골목 게시글 조회 -->  	 
-  	 <select id="selectBoardList" parameterType="Member" resultMap="boardResultSet">
+  	 <select id="selectBoardList" parameterType="reply" resultMap="boardResultSet">
   	 	SELECT BOARD_CONTENT, BOARD_WRITE_DT, BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO, MEMBER_NO, TYPE_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL,
 		THUMB_STATUS, THUMB_COUNT, REPLY_COUNT
 		
 		FROM (SELECT BOARD_CONTENT,	BOARD_WRITE_DT,	BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO,	MEMBER_NO, TYPE_NO,	MEMBER_NICKNAME, MEMBER_PROFILE_URL
-			FROM V_BOARD WHERE STREET_NO = #{memberAge} AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y')
+			FROM V_BOARD WHERE STREET_NO = #{streetNo} AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'  )
 			
-		<!-- 골목대장일때  게시글 상단고정 기능 추가할것 -->  
-		LEFT OUTER JOIN ( SELECT THUMB_STATUS, BOARD_NO FROM THUMB WHERE MEMBER_NO = #{memberNo}) USING (BOARD_NO)
+		<!-- 골목대장일때  게시글 상단고정 기능 추가할것 -->
+		
+		<!-- 로그인회원 해당 게시글 좋아요 여부 체크 -->  
+		LEFT OUTER JOIN ( SELECT THUMB_STATUS, BOARD_NO FROM THUMB WHERE MEMBER_NO = #{memberNo} AND REPLY_NO IS NULL  ) USING (BOARD_NO)
+		<!-- 게시글 좋아요 개수 체크 -->
 		LEFT OUTER JOIN ( SELECT COUNT(*) AS THUMB_COUNT, BOARD_NO FROM(SELECT * FROM V_BOARD LEFT OUTER JOIN THUMB USING (BOARD_NO)
-						 WHERE THUMB_STATUS='Y') GROUP BY BOARD_NO ) USING (BOARD_NO)
+						 WHERE THUMB_STATUS='Y'AND REPLY_NO IS NULL ) GROUP BY BOARD_NO ) USING (BOARD_NO)
+		<!-- 게시글 댓글 개수체크 -->				 
 		LEFT OUTER JOIN (SELECT COUNT(*) AS REPLY_COUNT, BOARD_NO FROM(SELECT * FROM V_BOARD LEFT OUTER JOIN REPLY USING (BOARD_NO)
-						 WHERE REPLY_STATUS='Y') GROUP BY BOARD_NO) USING (BOARD_NO)
+						 WHERE REPLY_STATUS='Y' AND REPLY_LEVEL = 1) GROUP BY BOARD_NO) USING (BOARD_NO)
+						 
 		ORDER BY BOARD_NO
   	 </select>
   	
@@ -180,19 +185,50 @@
 	</insert>
 	
 	<!-- 좋아요조회  -->
-	<select id="likeCheck" parameterType="Member" resultType="string">
-		SELECT THUMB_STATUS	FROM THUMB	WHERE MEMBER_NO = #{memberNo} AND BOARD_NO = #{memberAge}
+	<select id="likeCheck" parameterType="reply" resultType="string">
+		SELECT THUMB_STATUS	FROM THUMB	WHERE MEMBER_NO = #{memberNo} AND BOARD_NO = #{boardNo} AND REPLY_NO IS NULL 
 	</select>
 	
 	<!-- 좋아요 기록용  -->
-	 <insert id="recordLike" parameterType="Member">
-		  INSERT INTO THUMB  VALUES(SEQ_THUMB.NEXTVAL, 'Y', #{memberNo}, #{memberAge}, null, null)	  
+	 <insert id="recordLike" parameterType="reply">
+		  INSERT INTO THUMB  VALUES(SEQ_THUMB.NEXTVAL, 'Y', #{memberNo}, #{boardNo}, null)	  
 	</insert>
 	
 	<!-- 좋아요 업데이트 -->
-	<update id="updateLike"  parameterType="Member" >
-		UPDATE THUMB SET THUMB_STATUS = #{memberNm}	WHERE MEMBER_NO=#{memberNo} AND BOARD_NO=#{memberAge}
+	<update id="updateLike"  parameterType="reply" >
+		UPDATE THUMB SET THUMB_STATUS = #{thumbStatus}	WHERE MEMBER_NO=#{memberNo} AND BOARD_NO=#{boardNo}
 	</update>
+  	 
+  	 <!-- 댓글 좋아요조회  -->
+	<select id="replyLikeCheck" parameterType="reply" resultType="string">
+		SELECT THUMB_STATUS	FROM THUMB	WHERE MEMBER_NO = #{memberNo} AND REPLY_NO = #{replyNo}
+	</select>
+	
+  	 <!-- 댓글 좋아요 기록용  -->
+	 <insert id="recordReplyLike" parameterType="reply">
+		  INSERT INTO THUMB  VALUES(SEQ_THUMB.NEXTVAL, 'Y', #{memberNo}, #{boardNo}, #{replyNo})	  
+	</insert>
+	
+	<!-- 댓글 좋아요 업데이트 -->
+	<update id="updateReplyLike"  parameterType="reply" >
+		UPDATE THUMB SET THUMB_STATUS = #{thumbStatus}	WHERE MEMBER_NO=#{memberNo} AND REPLY_NO=#{replyNo}
+	</update>
+  	 
+  	  <!-- 대댓글 좋아요조회  -->
+	<select id="reReplyLikeFunction" parameterType="reply" resultType="string">
+		SELECT THUMB_STATUS	FROM THUMB	WHERE MEMBER_NO = #{memberNo} AND REPLY_NO = #{replyNo}
+	</select>
+	
+	<!-- 대댓글 좋아요 기록용  -->
+	 <insert id="recordReReplyLike" parameterType="reply">
+		  INSERT INTO THUMB  VALUES(SEQ_THUMB.NEXTVAL, 'Y', #{memberNo}, #{boardNo}, #{replyNo})	  
+	</insert>
+  	 
+  	 <!-- 댓글 좋아요 업데이트 -->
+	<update id="updateReReplyLike"  parameterType="reply" >
+		UPDATE THUMB SET THUMB_STATUS = #{thumbStatus}	WHERE MEMBER_NO=#{memberNo} AND REPLY_NO=#{replyNo}
+	</update>
+  	 
   	 
 	 <!-- 게시글 삭제용 -->
   	 <update id="deletePost"  parameterType="_int" >
@@ -204,24 +240,30 @@
   		INSERT INTO REPLY VALUES(SEQ_REPLY.NEXTVAL, #{replyContent}, SYSDATE, 'Y', 1, #{memberNo}, #{boardNo}, null )
   	</insert>
   	
+  	<!-- 대댓글 입력 -->
+  	<insert id="writeReComment" parameterType="reply">
+  		INSERT INTO REPLY VALUES(SEQ_REPLY.NEXTVAL, #{replyContent}, SYSDATE, 'Y', 2, #{memberNo}, #{boardNo} , #{reReplyNo} )
+  	</insert>
+  	
 	<!-- 댓글 조회용  -->
-	<select id="selectReply" parameterType="_int" resultMap="replyResultSet">
+	<select id="selectReply" parameterType="Member" resultMap="replyResultSet">
   	 	SELECT REPLY_NO,REPLY_CONTENT,REPLY_DT,REPLY_STATUS,REPLY_LEVEL,BOARD_NO,REREPLY_NO,MEMBER_NO,MEMBER_NICKNAME,MEMBER_PROFILE_URL,STREET_NO,
 				REPLY_THUMB_COUNT,REREPLY_THUMB_COUNT,REREPLY_COUNT,THUMB_STATUS
 				
 		FROM ( SELECT REPLY_NO,	REPLY_CONTENT,REPLY_DT,	REPLY_STATUS,REPLY_LEVEL,BOARD_NO,REREPLY_NO,MEMBER_NO,MEMBER_NICKNAME,MEMBER_PROFILE_URL,STREET_NO
-				FROM V_REPLY WHERE REPLY_STATUS = 'Y' AND STREET_NO = #{memberAge})
+				FROM V_REPLY WHERE REPLY_STATUS = 'Y' AND STREET_NO = #{streetNo})
 				
-		LEFT OUTER JOIN ( SELECT THUMB_STATUS,REREPLY_NO FROM THUMB WHERE MEMBER_NO = #{memberNo}) USING (REREPLY_NO)
-				
-		LEFT OUTER JOIN  ( SELECT COUNT(*) AS REPLY_THUMB_COUNT, REPLY_NO 
-							FROM( SELECT * FROM V_REPLY LEFT OUTER JOIN THUMB USING (REPLY_NO) WHERE THUMB_STATUS='Y') GROUP BY REPLY_NO ) USING (REPLY_NO) 
-				
+		<!-- 로그인회원 해당 댓글,대댓글 좋아요 여부 체크 -->		
+		LEFT OUTER JOIN ( SELECT THUMB_STATUS,REPLY_NO FROM THUMB WHERE MEMBER_NO = #{memberNo} AND REPLY_NO IS NOT NULL) USING (REPLY_NO)
+		<!--  댓글 좋아요 개수 -->			
+		LEFT OUTER JOIN ( SELECT COUNT(*) AS REPLY_THUMB_COUNT, REPLY_NO 
+						FROM( SELECT * FROM V_REPLY LEFT OUTER JOIN THUMB USING (REPLY_NO) WHERE THUMB_STATUS='Y' AND REPLY_LEVEL = 1 ) GROUP BY REPLY_NO ) USING (REPLY_NO) 
+		<!--  대댓글 개수 -->			
+		LEFT OUTER JOIN (SELECT COUNT(*) AS REREPLY_COUNT, REREPLY_NO AS REPLY_NO
+                    FROM(SELECT * FROM V_REPLY WHERE REPLY_STATUS='Y' AND REPLY_LEVEL=2) GROUP BY REREPLY_NO)  USING (REPLY_NO) 
+		<!--  대댓글 좋아요 개수 -->							
 		LEFT OUTER JOIN (SELECT COUNT(*) AS REREPLY_THUMB_COUNT, REREPLY_NO 
-						FROM(SELECT * FROM V_REPLY LEFT OUTER JOIN THUMB USING (REREPLY_NO) WHERE THUMB_STATUS='Y') GROUP BY REREPLY_NO) USING (REREPLY_NO)
-		
-		LEFT OUTER JOIN (SELECT COUNT(*) AS REREPLY_COUNT, REPLY_NO 
-						FROM(SELECT * FROM V_REPLY WHERE REPLY_STATUS='Y' AND REPLY_LEVEL=2) GROUP BY REPLY_NO)  USING (REPLY_NO)
+						FROM(SELECT * FROM V_REPLY LEFT OUTER JOIN THUMB USING (REPLY_NO) WHERE THUMB_STATUS='Y' AND REPLY_LEVEL = 2) GROUP BY REREPLY_NO) USING (REREPLY_NO)
 		
 		ORDER BY REPLY_NO
   	</select>
