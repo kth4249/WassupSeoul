@@ -673,7 +673,7 @@ public class StreetServiceImpl implements StreetService{
 		if(imgNo > 0) {
 			/************* 지원 추가사항 시작 *************/
 			// result = streetDAO.deleteStreetCover(origin);
-			// 할지말지 의논...
+			// 할지말지 의논... 
 			/************* 지원 추가사항 끝 *************/
 			
 			map = new HashMap<String, Object>();

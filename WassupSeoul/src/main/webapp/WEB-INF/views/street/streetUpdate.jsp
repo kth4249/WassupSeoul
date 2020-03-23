@@ -67,7 +67,7 @@ a:hover {
 		<div class="row">
 
 			<%-- <%@ include file="../street/streetDetail/streetSide.jsp"%> --%>
-			<jsp:include page="../street/streetDetail/streetSide.jsp" />
+			<jsp:include page="../street/streetDetail/streetSide.jsp" /> 
 
 
 			<!-- 사이드1 여백 -->
