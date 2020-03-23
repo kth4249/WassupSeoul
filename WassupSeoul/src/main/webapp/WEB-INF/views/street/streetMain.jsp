@@ -470,7 +470,7 @@
 			/* 회원 프로필 정보 조회용  */
 		
 		
-	  	/* // 댓글 영역 숨기기
+	  	 // 댓글 영역 숨기기
   		$(".commentArea").click(function() {
   			$(this).parent().next("div").toggle(100);
   			$('.writeCommentArea').focus();
@@ -533,7 +533,7 @@
 	    $("#modal_close_btn").click(function(){
 			$(this).parent().parent("div").attr("style", "display:none");
 	    });    
-	     */
+	    
 	    
 	    // 투표 모달 중복투표 허용 옵션 보이기 
 	    $("#check2").change(function(){

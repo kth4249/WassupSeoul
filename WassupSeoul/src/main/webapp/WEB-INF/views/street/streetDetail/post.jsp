@@ -81,7 +81,7 @@
 									<p class="arrow_box">파일첨부</p>
 								</div> --%>
 								<!-- 사진 첨부 -->
-								<div class="writeOptionArea shake">
+								<div class="writeOptionArea shake" style="width: 7%">
 									<form class="form-signin">
 										<a href="#" data-toggle="modal" data-target="#summerModal"> 
 											<img class="writeOption" src="${contextPath}/resources/img/imageIcon.png" alt="">
@@ -91,7 +91,7 @@
 								</div>
 
 								<!-- 동영상 첨부 -->
-								<div class="writeOptionArea shake">
+								<div class="writeOptionArea shake" style="width: 7%">
 									<form class="form-signin">
 										<a href="#" data-toggle="modal" data-target="#summerModal"> 
 											<img class="writeOption" src="${contextPath}/resources/img/film.png" alt="">
@@ -101,7 +101,7 @@
 								</div>
 
 								<!-- 파일첨부 -->
-								<div class="writeOptionArea shake">
+								<div class="writeOptionArea shake" style="width: 7%">
 									<form class="form-signin">
 										<a href="#" data-toggle="modal" data-target="#summerModal"> 
 											<img class="writeOption" src="${contextPath}/resources/img/paperclip.png" alt="">
@@ -110,33 +110,32 @@
 									</form>
 								</div>
 								
-								
 
-								<div class="writeOptionArea shake">
+								<div class="writeOptionArea shake" style="width: 7%">
 									<img class="writeOption voteOption" data-toggle="modal" data-target="#voteModal"
 										src="${contextPath}/resources/img/vote.png">
 									<p class="arrow_box">투표</p>
 								</div>
 						
-								<div class="writeOptionArea shake">
+								<div class="writeOptionArea shake" style="width: 7%">
 									<img class="writeOption" src="${contextPath}/resources/img/pie-chart.png">
 									<p class="arrow_box">N빵</p>
 								</div>
 
-								<div class="writeOptionArea shake">
+								<div class="writeOptionArea shake" style="width: 7%">
 									<img class="writeOption mapOption" src="${contextPath}/resources/img/map.png"
 												data-toggle="modal" data-target="#mapModal">
 									<p class="arrow_box">지도</p>
 								</div>
 								
-								<div class="writeOptionArea shake">
+								<div class="writeOptionArea shake" style="width: 7%">
 									<img class="writeOption sketchOption" data-toggle="modal" data-target="#sketchModal"
 										src="${contextPath}/resources/img/sketch.png">
 									<p class="arrow_box">스케치</p>
 								</div>
 								
-								<div id="writePostBtn" style="display: inline-block; width: 18%; margin-bottom: 0px; height: 100%; float: right;">
-									<button type="submit" class="btn nanum" style="height: 40px; font-size: 18px; font-weight: bolder; position: relative; bottom: 1px; right: 7px; float: right;">작성</button>
+								<div id="writePostBtn" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 100%; float: right;">
+									<button type="submit" class="btn nanum" style="height: 40px; width:100%; font-size: 18px; font-weight: bolder; position: relative; bottom: 1px; right: 7px; float: right;">작성</button>
 								</div>
 							</div>
 							
@@ -145,11 +144,14 @@
 
 
 					<!-- 지도 모달 -->
+					<!-- 스케치 모달 -->
 					<div class="modal fade" id="mapModal" data-backdrop="static"
 						tabindex="-1" role="dialog" aria-labelledby="writerModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document" style="width: 700px; height:1000px">
+						<div class="modal-dialog" role="document" style="width: 50%;">
 							<div class="modal-content">
 								<div class="modal-header">
+									<h2 class="modal-title nanum" id="checkMemModalLabel"
+										style="font-weight: bold;">지도 게시글 작성</h2>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -157,261 +159,20 @@
 								</div>
 								<div class="modal-body">
 									<!-- content start -->
-									
-									<div class="modal_content" style="padding: 3px;">
 
 									<textarea class=" nanum" id="writePostArea1" rows="6" placeholder="게시글내용을 입력하세요."
-											style="border: 1px solid black; color: black; font-size: 17px; height: 280px; width:100%"></textarea>
+											style="border: 1px solid black; color: black; font-size: 17px; height: 150px; width:100%"></textarea>
 										<!-- <input type="text" placeholder="주소검색 버튼 클릭" style="width:80%;" name="address1" id="address1" class="postcodify_address"> -->
 										<!-- <input type="button" value="주소 검색" id="postcodify_search_button"><br> -->
 										<!-- <div id="map"style="width: 100%; height: 300px; margin-top: 10px; border:2px black solid;"></div> -->
-										
 										<div class="map_wrap">
-											    <div id="map" style="width:100%;height:600px;position:relative;overflow:hidden;"></div>
-											
-											    <div id="menu_wrap" class="bg_white">
-											        <div class="option">
-											            <div>
-											                <form onsubmit="searchPlaces(); return false;">
-										                   			 키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
-											                    <button type="submit">검색하기</button> 
-											                </form>
-											            </div>
-											        </div>
-											        <hr>
-											        <ul id="placesList"></ul>
-											        <div id="pagination"></div>
-											    </div>
+									<div id="map" style="width:100%;height:400px;position:relative;overflow:hidden;"></div>
+										
 										</div>
-											
-										<button type="button" style="width: 14%; height: 25px; font-size: 17px; float: right; margin-top:10px">작성</button>
+										<button type="button" id="mapSubmitBtn"
+										style="width: 15%; height: 30px; font-size: 17px; float: right; margin: 0px">작성</button>
 
 									<div class="modal_layer"></div>
-									</div>
-									
-								 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
-								 	
-								 	<script>
-									// 마커를 담을 배열입니다
-									var markers = [];
-									
-									var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-									    mapOption = {
-									        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-									        level: 3 // 지도의 확대 레벨
-									    };  
-									
-									// 지도를 생성합니다    
-									var map = new kakao.maps.Map(mapContainer, mapOption); 
-									
-									// 장소 검색 객체를 생성합니다
-									var ps = new kakao.maps.services.Places();  
-									
-									// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-									var infowindow = new kakao.maps.InfoWindow({zIndex:1});
-									
-									// 키워드로 장소를 검색합니다
-									searchPlaces();
-									
-									// 키워드 검색을 요청하는 함수입니다
-									function searchPlaces() {
-									
-									    var keyword = document.getElementById('keyword').value;
-									
-									    if (!keyword.replace(/^\s+|\s+$/g, '')) {
-									        alert('키워드를 입력해주세요!');
-									        return false;
-									    }
-									
-									    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-									    ps.keywordSearch( keyword, placesSearchCB); 
-									}
-									
-									// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-									function placesSearchCB(data, status, pagination) {
-									    if (status === kakao.maps.services.Status.OK) {
-									
-									        // 정상적으로 검색이 완료됐으면
-									        // 검색 목록과 마커를 표출합니다
-									        displayPlaces(data);
-									
-									        // 페이지 번호를 표출합니다
-									        displayPagination(pagination);
-									
-									    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-									
-									        alert('검색 결과가 존재하지 않습니다.');
-									        return;
-									
-									    } else if (status === kakao.maps.services.Status.ERROR) {
-									
-									        alert('검색 결과 중 오류가 발생했습니다.');
-									        return;
-									
-									    }
-									}
-									
-									// 검색 결과 목록과 마커를 표출하는 함수입니다
-									function displayPlaces(places) {
-									
-									    var listEl = document.getElementById('placesList'), 
-									    menuEl = document.getElementById('menu_wrap'),
-									    fragment = document.createDocumentFragment(), 
-									    bounds = new kakao.maps.LatLngBounds(), 
-									    listStr = '';
-									    
-									    // 검색 결과 목록에 추가된 항목들을 제거합니다
-									    removeAllChildNods(listEl);
-									
-									    // 지도에 표시되고 있는 마커를 제거합니다
-									    removeMarker();
-									    
-									    for ( var i=0; i<places.length; i++ ) {
-									
-									        // 마커를 생성하고 지도에 표시합니다
-									        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-									            marker = addMarker(placePosition, i), 
-									            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-									
-									        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-									        // LatLngBounds 객체에 좌표를 추가합니다
-									        bounds.extend(placePosition);
-									
-									        // 마커와 검색결과 항목에 mouseover 했을때
-									        // 해당 장소에 인포윈도우에 장소명을 표시합니다
-									        // mouseout 했을 때는 인포윈도우를 닫습니다
-									        (function(marker, title) {
-									            kakao.maps.event.addListener(marker, 'mouseover', function() {
-									                displayInfowindow(marker, title);
-									            });
-									
-									            kakao.maps.event.addListener(marker, 'mouseout', function() {
-									                infowindow.close();
-									            });
-									
-									            itemEl.onmouseover =  function () {
-									                displayInfowindow(marker, title);
-									            };
-									
-									            itemEl.onmouseout =  function () {
-									                infowindow.close();
-									            };
-									        })(marker, places[i].place_name);
-									
-									        fragment.appendChild(itemEl);
-									    }
-									
-									    // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
-									    listEl.appendChild(fragment);
-									    menuEl.scrollTop = 0;
-									
-									    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-									    map.setBounds(bounds);
-									}
-									
-									// 검색결과 항목을 Element로 반환하는 함수입니다
-									function getListItem(index, places) {
-									
-									    var el = document.createElement('li'),
-									    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-									                '<div class="info">' +
-									                '   <h5>' + places.place_name + '</h5>';
-									
-									    if (places.road_address_name) {
-									        itemStr += '    <span>' + places.road_address_name + '</span>' +
-									                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
-									    } else {
-									        itemStr += '    <span>' +  places.address_name  + '</span>'; 
-									    }
-									                 
-									      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
-									                '</div>';           
-									
-									    el.innerHTML = itemStr;
-									    el.className = 'item';
-									
-									    return el;
-									}
-									
-									// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-									function addMarker(position, idx, title) {
-									    var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-									        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
-									        imgOptions =  {
-									            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-									            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-									            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-									        },
-									        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-									            marker = new kakao.maps.Marker({
-									            position: position, // 마커의 위치
-									            image: markerImage 
-									        });
-									
-									    marker.setMap(map); // 지도 위에 마커를 표출합니다
-									    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-									
-									    return marker;
-									}
-									
-									// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-									function removeMarker() {
-									    for ( var i = 0; i < markers.length; i++ ) {
-									        markers[i].setMap(null);
-									    }   
-									    markers = [];
-									}
-									
-									// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
-									function displayPagination(pagination) {
-									    var paginationEl = document.getElementById('pagination'),
-									        fragment = document.createDocumentFragment(),
-									        i; 
-									
-									    // 기존에 추가된 페이지번호를 삭제합니다
-									    while (paginationEl.hasChildNodes()) {
-									        paginationEl.removeChild (paginationEl.lastChild);
-									    }
-									
-									    for (i=1; i<=pagination.last; i++) {
-									        var el = document.createElement('a');
-									        el.href = "#";
-									        el.innerHTML = i;
-									
-									        if (i===pagination.current) {
-									            el.className = 'on';
-									        } else {
-									            el.onclick = (function(i) {
-									                return function() {
-									                    pagination.gotoPage(i);
-									                }
-									            })(i);
-									        }
-									
-									        fragment.appendChild(el);
-									    }
-									    paginationEl.appendChild(fragment);
-									}
-									
-									// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-									// 인포윈도우에 장소명을 표시합니다
-									function displayInfowindow(marker, title) {
-									    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
-									
-									    infowindow.setContent(content);
-									    infowindow.open(map, marker);
-									}
-									
-									 // 검색결과 목록의 자식 Element를 제거하는 함수입니다
-									function removeAllChildNods(el) {   
-									    while (el.hasChildNodes()) {
-									        el.removeChild (el.lastChild);
-									    }
-									}
-								 	
-								 	
-								 	
-								 	</script>
 								 	
 									<!-- content end -->
 								</div>
@@ -419,17 +180,35 @@
 						</div>
 					</div>
 					<!-- end -->
-					
+					<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
+					<script>
+				 	// 모달 열고나서 지도 넣기 . 안그러면 지도 잘려서 나옴 
+				 	$('#mapModal').on('shown.bs.modal', function (e) {
+				 		
+				 		var container = document.getElementById('map');
+						var options = {
+							center: new kakao.maps.LatLng(33.450701, 126.570667),
+							level: 3
+						};
+
+						var map = new kakao.maps.Map(container, options);
+				 	       
+				 	 });    
+				 	</script>
+				 	
+				 	
+				 	
 					<!-- jQuery와 postcodify 를 로딩한다. -->
                     <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
-                    
 					
 					<!-- 투표 모달 -->
 					<div class="modal fade" id="voteModal" data-backdrop="static"
 						tabindex="-1" role="dialog" aria-labelledby="writerModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document" style="width: 496px;">
+						<div class="modal-dialog" role="document" style="width: 30%;">
 							<div class="modal-content">
 								<div class="modal-header">
+									<h2 class="modal-title nanum" id="checkMemModalLabel"
+										style="font-weight: bold;">투표 게시글 작성</h2>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -480,7 +259,7 @@
 									<label style="width: 130px;" >종료일 선택<input type='date' /><input type='time' /></label> 
 									</div>
 									
-									<button type="button" it="voteSubmitBtn"
+									<button type="button" id="voteSubmitBtn"
 										style="width: 15%; height: 30px; font-size: 17px; float: right; margin: 0px">작성</button>
  
 									<!-- content end -->
@@ -493,9 +272,11 @@
 					<!-- 스케치 모달 -->
 					<div class="modal fade" id="sketchModal" data-backdrop="static"
 						tabindex="-1" role="dialog" aria-labelledby="writerModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document" style="width: 496px;">
+						<div class="modal-dialog" role="document" style="width: 50%;">
 							<div class="modal-content">
 								<div class="modal-header">
+									<h2 class="modal-title nanum" id="checkMemModalLabel"
+										style="font-weight: bold;">스케치 게시글 작성</h2>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -614,8 +395,6 @@
 					
 	<script>
 	
-	
-	
 	// 투표 게시글작성
 	$("#voteSubmitBtn").click(function() {
 		var postContent = $(this).parent().find("textarea").val();
@@ -651,11 +430,6 @@
 		});
 		 refreshList()
 	});
-	
-	
-	
-	
-	
 	
 	</script>				
 </body>

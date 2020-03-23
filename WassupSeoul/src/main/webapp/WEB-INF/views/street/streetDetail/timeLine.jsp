@@ -29,6 +29,18 @@
 	style="color: black; text-decoration: none;"
 	}
 	
+	.profileBox{
+	  width: 100%;
+	  height: 160px; 
+	  border-radius: 70%;
+	  overflow: hidden;
+	}
+	.profileImage{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	}
+	
 	
 
 </style>
