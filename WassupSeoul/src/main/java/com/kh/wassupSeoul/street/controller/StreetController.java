@@ -1,48 +1,38 @@
 package com.kh.wassupSeoul.street.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
-import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
-import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
+import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
-@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet" })
+@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt", "board", "reply", "reReply"  })
 @Controller
 @RequestMapping("/street/*")
 public class StreetController {
@@ -56,7 +46,7 @@ public class StreetController {
 	@RequestMapping(value = "streetMain", method = RequestMethod.GET)
 	public String timeLine(Integer streetNo, Model model, RedirectAttributes rdAttr, HttpServletRequest request) {
 
-		Member loginMember = (Member) model.getAttribute("loginMember");
+		Member loginMember = (Member)model.getAttribute("loginMember");
 
 		
 		Reply checkStreet = new Reply();
@@ -74,30 +64,38 @@ public class StreetController {
 		String beforeUrl = request.getHeader("referer");
 
 		try {
+			// 회원 해당 골목 등급, 가입여부 조회
+			StreetJoin memGradeInSt = streetService.memGradeInSt(checkStreet);
+			
+			// 해당 골목 정보 조회
 			Street street = streetService.selectStreet(streetNo);
 
+			// 해당 골목 게시물 조회
 			List<Board> board = streetService.selectBoard(checkStreet);
 			Collections.reverse(board);
 			
+			// 해당 골목 댓글, 대댓글 조회
 			List<Reply> reply  = streetService.selectReply(checkStreet);
 
-			for(int i = 0 ; i < board.size(); i++ ) {
-				System.out.println(board.get(i));
-			}
-			
-			for(int i = 0 ; i < reply.size(); i++ ) {
-				System.out.println(reply.get(i));
-			}
+//			for(int i = 0 ; i < board.size(); i++ ) {
+//				System.out.println(board.get(i));
+//			}
+//			
+//			for(int i = 0 ; i < reply.size(); i++ ) {
+//				System.out.println(reply.get(i));
+//			}
 			
 			//System.out.println(reply);
 			
 			if (street != null) {
 
-				//model.addAttribute("street", street);  사용안함
+				model.addAttribute("street", street); 
 				model.addAttribute("board", board);
 				model.addAttribute("reply", reply);
 				model.addAttribute("reReply", reply);
 
+				// 회원 해당 골목 등급, 가입여부 
+				model.addAttribute("memGradeInSt", memGradeInSt);
 				
 				model.addAttribute("loginMember", loginMember);
 

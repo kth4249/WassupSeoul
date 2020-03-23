@@ -16,6 +16,14 @@
 		<result property="imgUrl" column="IMG_URL"/>
 	</resultMap>
 	
+	<resultMap type="StreetJoin" id="streetJoinResultSet">
+		<id property="memberNo" column="MEMBER_NO"/>
+		
+		<result property="streetNo" column="STREET_NO"/>
+		<result property="citizenGrade" column="CITIZEN_GRADE"/>
+		<result property="citizenStatus" column="CITIZEN_STATUS"/>
+	</resultMap>
+	
 	
 	<!--  Board -->
 	<resultMap type="Board" id="boardResultSet">
@@ -155,6 +163,11 @@
 		WHERE STREET_NO = #{streetNo}
 	</select>
 	
+	<!-- 회원 골목 내 등급 조회  -->
+	<select id="memGradeInSt" parameterType="reply" resultMap="streetJoinResultSet">
+		SELECT MEMBER_NO,STREET_NO,CITIZEN_GRADE,CITIZEN_STATUS 
+		FROM STREET_JOIN WHERE STREET_NO = #{streetNo} AND MEMBER_NO = #{memberNo}
+	</select>
 	
 	<!-- 골목 게시글 조회 -->  	 
   	 <select id="selectBoardList" parameterType="reply" resultMap="boardResultSet">
@@ -262,8 +275,8 @@
 		LEFT OUTER JOIN (SELECT COUNT(*) AS REREPLY_COUNT, REREPLY_NO AS REPLY_NO
                     FROM(SELECT * FROM V_REPLY WHERE REPLY_STATUS='Y' AND REPLY_LEVEL=2) GROUP BY REREPLY_NO)  USING (REPLY_NO) 
 		<!--  대댓글 좋아요 개수 -->							
-		LEFT OUTER JOIN (SELECT COUNT(*) AS REREPLY_THUMB_COUNT, REREPLY_NO 
-						FROM(SELECT * FROM V_REPLY LEFT OUTER JOIN THUMB USING (REPLY_NO) WHERE THUMB_STATUS='Y' AND REPLY_LEVEL = 2) GROUP BY REREPLY_NO) USING (REREPLY_NO)
+		LEFT OUTER JOIN (SELECT COUNT(*) AS REREPLY_THUMB_COUNT, REPLY_NO 
+						FROM(SELECT * FROM V_REPLY LEFT OUTER JOIN THUMB USING (REPLY_NO) WHERE THUMB_STATUS='Y' AND REPLY_LEVEL = 2) GROUP BY REPLY_NO) USING (REPLY_NO)
 		
 		ORDER BY REPLY_NO
   	</select>

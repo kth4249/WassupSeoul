@@ -9,10 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
@@ -21,6 +19,7 @@ import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
+import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
 
 @Service
@@ -42,6 +41,16 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectStreet(streetNo);
 	}
 	
+	/** 회원 골목 등급 조회
+	 * @param checkStreet
+	 * @return memGradeInSt
+	 * @throws Exception
+	 */
+	@Override
+	public StreetJoin memGradeInSt(Reply checkStreet) throws Exception {
+		return streetDAO.memGradeInSt(checkStreet);
+	}
+
 
 	/** 골목 게시글 조회용 service
 	 * @param streetNo

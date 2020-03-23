@@ -15,6 +15,7 @@ import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
+import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
 @Repository
 public class StreetDAO {
@@ -33,6 +34,15 @@ public class StreetDAO {
 		return sqlSession.selectOne("streetMapper.selectStreet", streetNo );
 	}
 
+	/** 회원 골목 등급 조회
+	 * @param checkStreet
+	 * @return memGradeInSt
+	 * @throws Exception
+	 */
+	public StreetJoin memGradeInSt(Reply checkStreet) throws Exception {
+		return sqlSession.selectOne("streetMapper.memGradeInSt", checkStreet );
+	}
+	
 	/** 게시글 조회용 DAO
 	 * @param checkStreet
 	 * @return list
@@ -337,6 +347,8 @@ public class StreetDAO {
 	public void joinDelete(Map<String, Object> map) {
 		sqlSession.delete("streetMapper.joinDelete", map);
 	}
+
+	
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
 }

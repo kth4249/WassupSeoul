@@ -24,6 +24,12 @@
 	.writerNickName:hover{
 		cursor : pointer;
 	}
+	
+	a{
+	style="color: black; text-decoration: none;"
+	}
+	
+	
 
 </style>
 <body>
@@ -72,7 +78,7 @@
 						</div>
 						<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%; position: relative; top: 14px">
 							<div>
-								<p class="writerNickName" name="${board.memberNo}" id="writerNickName" style="margin-bottom: 0;"
+								<p class="writerNickName" name="${board.memberNo}"  style="margin-bottom: 0;"
 										data-toggle="modal" data-target="#writerModal" >${board.boardWriter}</p>
 							</div>
 							<div style="margin-bottom: 0;">
@@ -98,12 +104,8 @@
 										<div id="postMenu" class="hide nanum"
 											style="width: 100px; height: 60px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
 											<ul>
-												<li><a href="#" class="deletePost"
-													id="${board.boardNo}"
-													style="color: black; text-decoration: none;">글 삭제</a></li>
-												<li><a href="#" class="updatePost"
-													id="${board.boardNo}"
-													style="color: black; text-decoration: none;">글 수정</a></li>
+												<li><a href="#" class="deletePost" id="${board.boardNo}">글 삭제</a></li>
+												<li><a href="#" class="updatePost" id="${board.boardNo}">글 수정</a></li>
 											</ul>
 										</div>
 									</div>
@@ -116,12 +118,11 @@
 
 					<!-- 프로필모달 -->
 					<div class="modal fade" id="writerModal" data-backdrop="static"
-						tabindex="-1" role="dialog" aria-labelledby="writerModalLabel"
-						aria-hidden="true">
+						tabindex="-1" role="dialog" aria-labelledby="checkMemModalLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document" style="width: 496px;">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h2 class="modal-title nanum" id="writerModalLabel"
+									<h2 class="modal-title nanum" id="checkMemModalLabel"
 										style="font-weight: bold;">작성자 회원 정보</h2>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
@@ -136,7 +137,7 @@
 										<div class="col-md-4">
 											<div class="profileBox">
 												<img class="profileImage" src="" alt="이미지"
-													id="writerProfileUrl">
+													class="checkMemProfileUrl">
 											</div>
 										</div>
 										<div class="col-md-4"></div>
@@ -145,7 +146,7 @@
 									<div class="row">
 					                <div class="col-md-3"></div>
 					                <div class="col-md-6">
-					                    <input type="text" id="memberNickName" class="nanum form-control-plaintext text-center" 
+					                    <input type="text" class="checkMemNickName" class="nanum form-control-plaintext text-center" 
 					                    					style="font-size: 35px;font-weight: bold;" readonly>
 					                </div>
 										<div class="col-md-3"></div>
@@ -159,14 +160,14 @@
 										<label class="col-sm-2 col-form-label text-center nanum"
 											style="font-weight: bold; font-size: 16px;">이름</label>
 										<div class="col-sm-4">
-											<input type="text" readonly id="writerName"
+											<input type="text" readonly class="checkMemName"
 												class="nanum form-control-plaintext text-center"
 												style="font-size: 25px;">
 										</div>
 										<label class="col-sm-2 col-form-label text-center nanum"
 											style="font-weight: bold; font-size: 16px;">나이</label>
 										<div class="col-sm-4">
-											<input type="text" readonly id="writerAge"
+											<input type="text" readonly class="checkMemAge"
 												class="nanum form-control-plaintext text-center"
 												style="font-size: 25px;">
 										</div>
@@ -176,25 +177,24 @@
 										<label class="col-sm-2 col-form-label text-center nanum"
 											style="font-weight: bold; font-size: 16px;">성별</label>
 										<div class="col-sm-4">
-											<input type="text" readonly id="writerGender"
+											<input type="text" readonly class="checkMemGender"
 												class="nanum form-control-plaintext text-center"
 												style="font-size: 25px;">
 										</div>
 										<label class="col-sm-2 col-form-label text-center nanum"
 											style="font-weight: bold; font-size: 16px;">전화번호</label>
 										<div class="col-sm-4">
-											<input type="text" readonly id="writerPhone"
+											<input type="text" readonly class="checkMemPhone"
 												class="nanum form-control-plaintext text-center"
 												style="font-size: 22px;">
 										</div>
 									</div>
 
-									<div class="row" id="writerProfileHobby">
+									<div class="row" class="checkMemProfileHobby" name="checkMemProfileHobby">
 										<!-- 관심사 영역 -->
 									</div>
-
-
 									<!-- content end -->
+									
 								</div>
 							</div>
 						</div>
