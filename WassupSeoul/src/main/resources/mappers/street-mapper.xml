@@ -8,12 +8,20 @@
 		<result property="streetNm" column="STREET_NM"/>
 		<result property="streetIntro" column="STREET_INTRO"/>
 		<result property="streetStatus" column="STREET_STATUS"/>
-		<result property="streetMaxMember" column="STREET_MAX_MAMBER"/>
+		<result property="streetMaxMember" column="STREET_MAX_MEMBER"/> 
 		<result property="streetPoint" column="STREET_POINT"/>
 		<result property="imgNo" column="IMG_NO"/>
 		<result property="districtNo" column="DISTRICT_NO"/>
 		<result property="streetPublic" column="STREET_PUBLIC"/>
 		<result property="imgUrl" column="IMG_URL"/>
+	</resultMap>
+	
+	<resultMap type="StreetJoin" id="streetJoinResultSet">
+		<id property="memberNo" column="MEMBER_NO"/>
+		
+		<result property="streetNo" column="STREET_NO"/>
+		<result property="citizenGrade" column="CITIZEN_GRADE"/>
+		<result property="citizenStatus" column="CITIZEN_STATUS"/>
 	</resultMap>
 	
 	
@@ -85,6 +93,23 @@
   		<result property="thumbStatus" column="THUMB_STATUS"/>  		
 	</resultMap>
 	
+	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
+	
+	<resultMap type="Calendar" id="calendarResultSet">
+		<id property="boardNo" column="BOARD_NO"/>
+		<result property="calendarTitle" column="CALENDAR_TITLE"/>
+		<result property="calendarContent" column="CALENDAR_CONTENT"/>
+		<result property="calendarLocation" column="CALENDAR_LOCATION"/>
+		<result property="calendarStartDate" column="CALENDAR_START_DT"/>
+		<result property="calendarEndDate" column="CALENDAR_END_DT"/>
+		<result property="calendarJoin" column="CALENDAR_JOIN"/>
+		<result property="calendarJoinLimit" column="CALENDAR_JOIN_LIMIT"/>
+		<result property="calendarJoinEndDate" column="CALENDAR_JOIN_END_DT"/>
+		<result property="streetNo" column="STREET_NO"/>
+	</resultMap>
+	
+	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
+	
 	
 	<!-- 전체 골목 수 조회 -->
 	<select id="getListCount" parameterType="map" resultType="_int">
@@ -155,6 +180,11 @@
 		WHERE STREET_NO = #{streetNo}
 	</select>
 	
+	<!-- 회원 골목 내 등급 조회  -->
+	<select id="memGradeInSt" parameterType="reply" resultMap="streetJoinResultSet">
+		SELECT MEMBER_NO,STREET_NO,CITIZEN_GRADE,CITIZEN_STATUS 
+		FROM STREET_JOIN WHERE STREET_NO = #{streetNo} AND MEMBER_NO = #{memberNo}
+	</select>
 	
 	<!-- 골목 게시글 조회 -->  	 
   	 <select id="selectBoardList" parameterType="reply" resultMap="boardResultSet">
@@ -262,8 +292,8 @@
 		LEFT OUTER JOIN (SELECT COUNT(*) AS REREPLY_COUNT, REREPLY_NO AS REPLY_NO
                     FROM(SELECT * FROM V_REPLY WHERE REPLY_STATUS='Y' AND REPLY_LEVEL=2) GROUP BY REREPLY_NO)  USING (REPLY_NO) 
 		<!--  대댓글 좋아요 개수 -->							
-		LEFT OUTER JOIN (SELECT COUNT(*) AS REREPLY_THUMB_COUNT, REREPLY_NO 
-						FROM(SELECT * FROM V_REPLY LEFT OUTER JOIN THUMB USING (REPLY_NO) WHERE THUMB_STATUS='Y' AND REPLY_LEVEL = 2) GROUP BY REREPLY_NO) USING (REREPLY_NO)
+		LEFT OUTER JOIN (SELECT COUNT(*) AS REREPLY_THUMB_COUNT, REPLY_NO 
+						FROM(SELECT * FROM V_REPLY LEFT OUTER JOIN THUMB USING (REPLY_NO) WHERE THUMB_STATUS='Y' AND REPLY_LEVEL = 2) GROUP BY REPLY_NO) USING (REPLY_NO)
 		
 		ORDER BY REPLY_NO
   	</select>
@@ -402,6 +432,102 @@
 	</select>
 	
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
+	
+	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
+  	
+  	<!-- 현재 골목 주민수  -->
+  	<select id="selectCitizenCount" parameterType="_int" resultType="_int">
+  		SELECT COUNT(*) FROM STREET_JOIN
+  		WHERE STREET_NO = #{streetNo}
+  	</select>
+  	
+  	<!-- 현재 골목 골목대장 조회 -->
+  	<select id="selectStreetMasterNm" parameterType="_int" resultType="string">
+  		SELECT MEMBER_NICKNAME FROM STREET
+		JOIN STREET_JOIN USING(STREET_NO)
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE STREET_NO = #{streetNo} AND CITIZEN_GRADE='M' AND STREET_STATUS = 'Y'
+  	</select>
+  	
+  	<!-- 내골목 키워드 조회 -->
+	<select id="selectMyKeyword" parameterType="_int" resultMap="keywordResultSet">
+		SELECT * FROM STREET
+		JOIN KEYWORD USING(STREET_NO)
+		WHERE STREET_NO = #{streetNo} 
+	</select>
+	
+	<!-- 현재 골목 등급 조회 -->
+	<select id="selectBadgeUrl" parameterType="Street" resultType="string">
+		SELECT BADGE_URL FROM STREET_GRADE
+		JOIN STREET ON (#{streetPoint} BETWEEN LOWEST_SCORE AND HIGHEST_SCORE)
+		WHERE STREET_NO = #{streetNo}
+	</select>
+	
+	<!-- 로그인 회원 골목 등급 조회 -->
+	<select id="selectCitizenGrade" parameterType="hashmap" resultType="string">
+		SELECT CITIZEN_GRADE FROM STREET_JOIN
+		WHERE STREET_NO = #{streetNo} AND MEMBER_NO = #{memberNo} AND CITIZEN_STATUS = 'Y'
+	</select>
+	
+	<!-- 골목 썸네일 조회 -->
+	<select id="selectImgUrl" parameterType="_int" resultType="string">
+		SELECT IMG_URL FROM STREET_IMG 
+		WHERE IMG_NO = #{imgNo}
+	</select>
+	
+	<!-- 게시판 번호 조회 -->
+	<select id="selectBoardNo" resultType="_int">
+		SELECT SEQ_BOARD.NEXTVAL FROM DUAL
+	</select>
+	
+	<!-- 일정 등록 -->
+	<insert id="addSchedule" parameterType="Calendar">
+		
+	</insert>
+  	
+<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
+	
+	
+	<!-- =========================미현 시작 3/23===================================== -->
+	
+	<insert id="fileUpload" parameterType="string">
+		INSERT INTO BFILE VALUES(
+			SEQ_BOARD.NEXTVAL, #{filepath}
+		)
+	</insert>
+	
+	
+	<!-- 지원 골목 수정 시작 -->
+	<!-- 수정 이미지 조회 -->
+	<select id="selectImageUrl" parameterType="_int" resultType="string">
+		SELECT IMG_URL FROM STREET_IMG 
+		WHERE IMG_NO = #{imgNo}
+	</select>
+	
+	<!-- 수정 키워드 조회 -->
+	<select id="selectKeywords" parameterType="_int" resultMap="keywordResultSet">
+		SELECT * FROM KEYWORD 
+		WHERE STREET_NO = #{no}
+	</select>
+	
+	<!-- 골목 수정 -->
+	<update id="updateStreet" parameterType="Street">
+		UPDATE STREET SET
+		STREET_NM = #{streetNm},
+		STREET_INTRO = #{streetIntro}, 
+		STREET_MAX_MEMBER = #{streetMaxMember},
+		IMG_NO = #{imgNo},
+		DISTRICT_NO = #{districtNo},
+		STREET_PUBLIC = #{streetPublic}
+		WHERE STREET_NO = #{streetNo}
+	</update>
+	
+	<!-- 키워드 삭제 -->
+	<delete id="deleteStreetKeyword" parameterType="_int">
+		DELETE FROM KEYWORD
+		WHERE STREET_NO = #{streetNo}
+	</delete>
+	<!-- 지원 골목 수정 끝 -->
 	
 	
 </mapper>

@@ -1,11 +1,14 @@
 package com.kh.wassupSeoul.friends.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.management.relation.Relation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wassupSeoul.friends.model.dao.FriendsDAO;
 import com.kh.wassupSeoul.member.model.vo.Member;
@@ -25,12 +28,58 @@ public class FriendsServiceImpl implements FriendsService{
 	@Override
 	public List<Member> friendRequest(int myNum) throws Exception {
 	      List<Relation> fList = friendsDAO.friendRequest(myNum);
+	      //fList.get(0).get
 	      List<Member> ffList = null;
 	      if (!fList.isEmpty()) {
-	         ffList = friendsDAO.justFriendReq(fList);
+	    	 Map<String, Object> fMap = new HashMap<String, Object>();
+	    	 fMap.put("fList", fList);
+	    	 fMap.put("myNum", myNum); 
+	    	 //System.out.println(fList); 
+	         ffList = friendsDAO.justFriendReq(fMap);
+	         //System.out.println(ffList);
 	      }
 	      return ffList;
 	   }
+
+	/** 친구 요청 수락 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int addFriend(Map<String, Object> nMap) throws Exception {
+		int result = friendsDAO.addFriend(nMap);
+		//System.out.println("result1 :" + result);
+		if (result>0) {
+			result = friendsDAO.addFriend2(nMap);
+			//System.out.println("result2 :" + result);
+		} 
+		
+		return result;
+	}
+
+	/** 친구 요청 거절 Service
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int friendNo(Map<String, Object> nMap) throws Exception {
+		return friendsDAO.friendNo(nMap);
+	}
+
+	/** 친구 차단 Service
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int blockFriend(Map<String, Object> nMap) throws Exception {
+		return friendsDAO.blockFriend(nMap);
+	}
 
 
 	

@@ -172,6 +172,8 @@
     </div>
   </div>
   
+  <%@ include file="WEB-INF/views/street/streetDetail/fileUpload.jsp"%>
+  
   
  <script>
  

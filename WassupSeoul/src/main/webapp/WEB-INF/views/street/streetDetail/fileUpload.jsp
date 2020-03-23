@@ -9,10 +9,7 @@
 
 <!-- summerNote script -->
 
-<!-- include libraries(jQuery, bootstrap) -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
 <!-- include summernote css/js-->
-
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote-bs4.min.js"></script>
 
@@ -59,14 +56,14 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-body">
-					<form action="" method="post">
-						<div id="summernote"></div>
+					<form action="insert" method="post" id="summernoteForm">
+						<textarea id="summernote" name="boardContent"></textarea>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary nanum"
 						data-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-danger nanum">작성</button>
+					<button type="button" class="btn btn-danger nanum uploadBtn">작성</button>
 				</div>
 			</div>
 		</div>
@@ -76,7 +73,8 @@
 	<script>
 	
 	$(function(){
-    	
+		/* ===============3/23 미현 수정================ */
+		
 	    //섬머노트 셋팅 뀨
 	      $('#summernote').summernote({
 		        height: 300,                 // set editor height 에디터 높이
@@ -86,51 +84,53 @@
 		        lang: "ko-KR",				// 한글 설정
 		        fontNames : [ '맑은고딕', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
 		        fontNamesIgnoreCheck : [ '맑은고딕' ],
-				//placeholder: '최대 2048자까지 쓸 수 있습니다'	,
 				callbacks: {
-					onImageUpload: function(files, editor ) {
-			            	sendFile(files[0], this);
+					onImageUpload: function(files, editor, welEditable) {
+						for (var i = files.length - 1; i >= 0; i--) {
+							sendFile(files[i], this);
 			            }
 		       	   }
-			})
-      });
-	      
-      
+				}
+      		});
+		});
+   
      /**
 	* 이미지 파일 업로드
 	*/
-	function sendFile(file, editor) {
-		data = new FormData();
-		data.append("file", file);
-		$.ajax({
-			data : data,
-			type : "POST",
-			url : "/street/fileUpload",
-			cache : false,
-			contentType : false,
-			processData : false,
-			enctype: 'multipart/form-data',
-			success: function(result) {
-				$(editor).summernote('editor.insertImage', result);
-				
-				var $imgList = $("input[name=imgList]");
-				
-				var cutPoint = result.lastIndexOf("/");
-				result = result.substring(cutPoint + 1);
-				
-				if($imgList.val() == ""){
-					$imgList.val(result);
-				}else{
-					var str = $imgList.val();
-					str = str + "," + result;
-					$imgList.val(str);
-				}
-				
-				console.log($imgList.val());
-				
-			  }
-		});
-	}
+	
+	
+	$(document).on("click",".uploadBtn",function(){
+		console.log("summernoteForm");
+		$("#summernoteForm").submit();
+	});
+     
+		function sendFile(file, el) {
+			data = new FormData();
+			data.append("file", file);
+			data.append("boardWriter", "${loginMember.memberNo}")
+			$.ajax({
+				data : data,
+				type : "POST",
+				url : "fileUpload",
+				cache : false,
+				contentType : false,
+				processData : false,
+				enctype: 'multipart/form-data',
+				success: function(result) {
+					
+					$(el).summernote('editor.insertImage', result);
+					
+				  },
+				  error : function(e){
+					  console.log("ajax 실패");
+					  console.log(e);
+				  }
+			});
+		}
+	
+	
+	
+	/* =============== 미현 끝================ */
    	
     
       
