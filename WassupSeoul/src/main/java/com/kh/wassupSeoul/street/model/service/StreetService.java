@@ -16,6 +16,8 @@ import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -241,5 +243,72 @@ public interface StreetService {
   
 
 	/*--------------------------------태훈 끝-------------------------------------*/
+	
+/*------------------------ 정승환 추가코드 시작-----------------------------------*/
+	
+	/** 현재 골목 주민수 조회용 Service
+	 * @param streetNo
+	 * @return citizenCount
+	 * @throws Exception
+	 */
+	public abstract int selectCitizenCount(int streetNo) throws Exception;
+
+	
+	/** 현재 골목 골목대장 닉네임 조회용 Service
+	 * @param streetNo
+	 * @return streetMasterNm
+	 * @throws Exception
+	 */
+	public abstract String selectStreetMasterNm(int streetNo) throws Exception;
+	
+	/** 골목 키워드 조회용 Service
+	 * @param streetNo
+	 * @return keyword
+	 * @throws Exception
+	 */
+	public abstract List<Keyword> selectMyKeyword(int streetNo) throws Exception;
+
+
+	/** 현재 골목 등급 조회용 Service
+	 * @param streetPoint
+	 * @return badgeUrl
+	 * @throws Exception
+	 */
+	public abstract String selectBadgeUrl(int streetNo, int streetPoint) throws Exception;
+
+
+	/** 로그인 회원 골목 등급 조회용 Service
+	 * @param memberNo
+	 * @param streetNo
+	 * @return citizenGrade
+	 * @throws Exception
+	 */
+	public abstract String selectCitizenGrade(int memberNo, int streetNo) throws Exception;
+
+
+	/** 골목 썸네일 조회용 Service
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	public abstract String selectImgUrl(int imgNo) throws Exception;
+
+
+	/** 게시판 번호 조회용 Serivce
+	 * @return boardNo
+	 * @throws Exception
+	 */
+	public abstract int selectBoardNo() throws Exception;
+
+
+	/** 일정 등록용 Serivce
+	 * @param sendCalendar
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int addSchedule(Calendar sendCalendar) throws Exception;
+
+	
+/*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	 
 }

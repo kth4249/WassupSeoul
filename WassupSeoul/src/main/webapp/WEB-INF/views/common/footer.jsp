@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <div class="row">
   <div class="col-md-12">
     <div class="row">
@@ -13,8 +14,10 @@
             사업자등록번호 : 101-01-00000 | 통신판매업신고번호 : 제 2019-서울-00000호 | 대표이사 :
             NUGUNGA HAGETGE | 주소 : 서울 특별시 예쁘구 귀엽동 | 대표전화 : 02-1234-1234 | 팩스 :
             02-4321-4321</small> </span>
-            <%@ include file="friends.jsp"%>
+            <%-- <%@ include file="friends.jsp"%> --%>
+            <jsp:include page="friends.jsp"/>
       </div>
     </div>
+    
   </div>
 </div>
