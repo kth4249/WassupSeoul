@@ -86,6 +86,7 @@
 	</resultMap>
 	
 	
+	
 	<!-- 전체 골목 수 조회 -->
 	<select id="getListCount" parameterType="map" resultType="_int">
 		SELECT COUNT(DISTINCT(STREET_NO))
@@ -394,6 +395,15 @@
 	</insert>
 	
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
+	
+	
+	<!-- =========================미현 시작 3/23===================================== -->
+	
+	<insert id="fileUpload" parameterType="string">
+		INSERT INTO BFILE VALUES(
+			SEQ_BOARD.NEXTVAL, #{filepath}
+		)
+	</insert>
 	
 	
 </mapper>

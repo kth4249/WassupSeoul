@@ -99,6 +99,7 @@
 
 				<!-- 글작성 영역 -->
 				<div class="container box111" id="postArea">
+					<%@ include file="../street/streetDetail/fileUpload.jsp"%>
 					<%@ include file="../street/streetDetail/post.jsp"%>
 				</div>
 				<!-- 글작성 영역 -->
@@ -121,6 +122,11 @@
 			<!-- 사이드2 여백 -->
 			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드2 여백 -->
+			
+			
+			
+			
+			
 			
 			
 		</div>

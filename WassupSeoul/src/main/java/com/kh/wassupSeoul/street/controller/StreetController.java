@@ -1,44 +1,33 @@
 package com.kh.wassupSeoul.street.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
-import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
-import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -135,6 +124,7 @@ public class StreetController {
 		board.setTypeNo(0);
 
 		System.out.println("등록할 게시글 : " + board);
+		System.out.println("board.getBoardContent : " + board.getBoardContent());
 
 		try {
 
@@ -589,38 +579,76 @@ public class StreetController {
 		streetService.addRelation(addRelation);
     
 	}
-		
 	
+	/*----------------------- 미현 시작 (03/23) -----------------------------------*/
 	// 썸머노트 파일 DB삽입용
 	@ResponseBody
-	@RequestMapping("fileUpload")
-	public void fileUpload(Board board, 
-			Model model, 
-			MultipartFile file, 
-			HttpServletRequest request, 
-			HttpServletResponse response) {
-		
-		String root = request.getSession().getServletContext().getRealPath("/");
-		String savePath = root + "resources\\uploadImages\\";
-		int maxSize = 1024 * 1024 * 10;
+	@RequestMapping(value="fileUpload", produces = "application/text; charset=utf8")
+	public String fileUpload(Board board, Model model, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
 
-		
-		
 		Member loginMember = (Member) model.getAttribute("loginMember");
-		//System.out.println(loginMember);
+		//int summerUploder = loginMember.getMemberNo();
+		//int streetNo = (int) model.getAttribute("streetNo");
+		//System.out.println(streetNo);
+
+		//board.setMemberNo(summerUploder);
+		//board.setStreetNo(streetNo);
+		//board.setTypeNo(0);
+
+		System.out.println("파일명 : " + file.getOriginalFilename());
+		//System.out.println("등록할 게시글 : " + board);
+
 		try {
-			int result = streetService.fileUpload(board,file,request,response);
+			String filePath = streetService.fileUpload(board,file,request);
 			
-			if (result > 0)
-				System.out.println("썸머노트 등록 성공" + result);
-			else
-				System.out.println("썸머노트 등록 실패" + result);
-			
+			if (filePath.equals("")) {
+				return null;
+			}else{
+				return filePath;
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "피곤...";
 		}
+		//return 
 		
 	}
+	
+	
+	/*@RequestMapping("insertSummer")
+	public String insertSummer(String summernoteContent, Model model) {
+		System.out.println("summernoteContent : " + summernoteContent);
+		
+		Member loginMember = (Member) model.getAttribute("loginMember");
+		int memberNo = loginMember.getMemberNo();
+		int streetNo = (int) model.getAttribute("streetNo");
+		
+		System.out.println("memberNo : " + memberNo);
+		System.out.println("streetNo : " + streetNo);
+		
+		
+		Board board = new Board();
+		board.setMemberNo(memberNo);
+		board.setBoardContent(summernoteContent);
+		board.setStreetNo(streetNo);
+		
+		try {
+			int result = streetService.insertSummer(board);
+			
+			if(result > 0) {
+				return null;
+			}else {
+				return null;
+			}
+		}catch (Exception e) {
+			return null;
+		}
+		
+	}*/
+	
+	
+	
 	
 	/*------------------------ 태훈 시작 (03/22) -----------------------------------*/
 	/** 골목 가입 허가/거절 용 Controller
