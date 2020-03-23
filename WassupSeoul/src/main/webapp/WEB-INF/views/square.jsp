@@ -65,7 +65,7 @@
 </style>
 
 <body>
-	<%@include file="common/header.jsp"%>
+	<jsp:include page="common/header.jsp"/>
 	
 	
 	<div class="container-fluid loungeBack">
@@ -379,7 +379,7 @@
 		 
 		
 		
-		<%@ include file="common/footer.jsp"%>
+		<jsp:include page="common/footer.jsp"/>
 
 
 	</div>

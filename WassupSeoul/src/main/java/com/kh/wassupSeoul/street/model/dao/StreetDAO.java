@@ -1,22 +1,37 @@
 
 package com.kh.wassupSeoul.street.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
+/**
+ * @author user1
+ *
+ */
+/**
+ * @author user1
+ *
+ */
 @Repository
 public class StreetDAO {
 
@@ -295,7 +310,6 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
-	@Transactional(rollbackFor = Exception.class)
 	public int insertStreet(Street street) throws Exception {
 		
 		return sqlSession.insert("streetMapper.insertStreet", street);
@@ -306,7 +320,6 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
-	@Transactional(rollbackFor = Exception.class)
 	public int insertStreetMaster(Map<String, Object> map) throws Exception {
 		
 		return sqlSession.insert("streetMapper.insertStreetMaster", map);
@@ -317,7 +330,6 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
-	@Transactional(rollbackFor = Exception.class)
 	public int insertStreetKeyword(Map<String, Object> map2) throws Exception {
 		
 		return sqlSession.insert("streetMapper.insertStreetKeyword", map2);
@@ -349,6 +361,156 @@ public class StreetDAO {
 	}
 
 	
-	
 	/*--------------------------------태훈 끝-------------------------------------*/
+	
+	
+	
+	/* 지원 골목 수정 시작 */
+	/** 골목 수정 이미지 조회용 DAO
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	public String selectImageUrl(int imgNo) throws Exception {
+		
+		return sqlSession.selectOne("streetMapper.selectImageUrl", imgNo);
+	}
+
+	/** 골목 수정 키워드 조회용 DAO
+	 * @param no
+	 * @return kList
+	 * @throws Exception
+	 */
+	public List<Keyword> selectKeywords(Integer no) throws Exception {
+		
+		return sqlSession.selectList("streetMapper.selectKeywords", no);
+	}
+
+	
+	/** 골목 수정용 DAO
+	 * @param street
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateStreet(Street street) throws Exception {
+		
+		return sqlSession.update("streetMapper.updateStreet", street);
+	}
+
+	/** 기존 키워드 삭제용 DAO
+	 * @param streetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteStreetKeyword(int streetNo) throws Exception {
+		
+		return sqlSession.delete("streetMapper.deleteStreetKeyword", streetNo);
+	}
+	
+	
+	
+	
+	/* 지원 골목 수정 끝 */
+	/*----------------------미현 시작 (3/23)----------------------------------------*/
+	
+	/** 썸머노트 이미지도  DB삽입용 DAO
+	 * @param filepath
+	 * @return result
+	 */
+	public int fileUpload(String filepath) throws Exception{
+		return sqlSession.insert("streetMapper.fileUpload",filepath) ;
+	}
+
+
+	/*
+	 * public int fileUpload(Map<String, Object> uploadMap) { return
+	 * sqlSession.insert("streetMapper.insertFile",uploadMap); }
+	 */
+	/*public int insertSummer(Board board) throws Exception{
+		return sqlSession.insert("streetMapper.insertBoard",board);
+	}
+
+	
+	/*-----------------------미현 끝-------------------------------------------*/
+
+/*------------------------ 정승환 추가코드 시작-----------------------------------*/
+	
+	/** 현재 골목 주민 수  조회용 DAO
+	 * @param streetNo
+	 * @return citizenCount
+	 * @throws Exception
+	 */
+	public int selectCitizenCount(int streetNo) throws Exception{
+		return sqlSession.selectOne("streetMapper.selectCitizenCount", streetNo);
+	}
+
+	/** 현재 골목대장 닉네임 조회용 DAO
+	 * @param streetNo
+	 * @return
+	 * @throws Exception
+	 */
+	public String selectStreetMasterNm(int streetNo) throws Exception{
+		return sqlSession.selectOne("streetMapper.selectStreetMasterNm", streetNo);
+	}
+	
+	/** 골목 키워드 조회용 DAO
+	 * @param streetNo
+	 * @return keyword
+	 * @throws Exception
+	 */
+	public List<Keyword> selecyMyKeyword(int streetNo) throws Exception{
+		return sqlSession.selectList("streetMapper.selectMyKeyword", streetNo);
+	}
+
+	/** 현재 골목 등급 조회용 DAO
+	 * @param streetPoint
+	 * @return badgeUrl
+	 * @throws Exception
+	 */
+	public String selectBadgeUrl(int streetNo, int streetPoint) throws Exception{
+		Street temp = new Street();
+		temp.setStreetNo(streetNo);temp.setStreetPoint(streetPoint);
+		return sqlSession.selectOne("streetMapper.selectBadgeUrl", temp);
+	}
+
+	/** 로그인 회원 골목 등급 조회용 DAO
+	 * @param memberNo
+	 * @param streetNo
+	 * @return citizenGrade
+	 * @throws Exception
+	 */
+	public String selectCitizenGrade(int memberNo, int streetNo) throws Exception{
+		HashMap<String,Integer> temp = new HashMap<String,Integer>();
+		temp.put("memberNo", memberNo);
+		temp.put("streetNo", streetNo);
+		return sqlSession.selectOne("streetMapper.selectCitizenGrade", temp);
+	}
+
+	/** 골목 썸네일 조회용 DAO
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	public String selectImgUrl(int imgNo) throws Exception{
+		return sqlSession.selectOne("streetMapper.selectImgUrl", imgNo);
+	}
+
+	/** 게시판 번호 조회용 DAO
+	 * @return boardNo
+	 * @throws Exception
+	 */
+	public int selectBoardNo() throws Exception{
+		return sqlSession.selectOne("streetMapper.selectBoardNo");
+	}
+
+	/** 일정 등록용 DAO
+	 * @param sendCalendar
+	 * @return result
+	 * @throws Exception
+	 */
+	public int addSchedule(Calendar sendCalendar) throws Exception{
+		return sqlSession.insert("streetMapper.addSchedule", sendCalendar);
+	}
+	
+/*------------------------ 정승환 추가코드 -----------------------------------*/
 }

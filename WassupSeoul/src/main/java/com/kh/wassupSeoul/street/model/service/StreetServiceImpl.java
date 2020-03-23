@@ -1,8 +1,12 @@
 package com.kh.wassupSeoul.street.model.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +21,8 @@ import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
@@ -348,6 +354,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public int insertStreet2(String changeCoverName, Street street, int memberNo, String[] streetKeywords)
 			throws Exception {
 		
@@ -411,6 +418,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public int insertStreet1(Street street, int memberNo, String[] streetKeywords) throws Exception {
 		int streetNo = 0;
 		int result = 0;
@@ -451,14 +459,90 @@ public class StreetServiceImpl implements StreetService{
 			return result;			
 	}
 	
-
-	@Override
-	public int fileUpload(Board board, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	/*==========================================미현 시작 3/23 ============================*/
 	
+	/** 썸머노트 업로드,DB삽입용
+	 * @param board
+	 * @param file
+	 * @param request
+	 * @param response
+	 * @return result
+	 * @throws IOException 
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public String fileUpload(Board board, MultipartFile file, HttpServletRequest request) throws Exception{
+		
+		//response.setContentType("text/html;charset=utf-8");
+		//PrintWriter out = response.getWriter();
+		// 업로드할 폴더 경로
+		String realFolder = request.getSession().getServletContext().getRealPath("resources") + "/uploadImage";
+		String accessPath = request.getContextPath() + "/resources/uploadImage";
+		UUID uuid = UUID.randomUUID();
+
+		System.out.println("realFolder : " + realFolder);
+		System.out.println("accessPath : " + accessPath);
+		
+		// 업로드할 파일 이름
+		String org_filename = file.getOriginalFilename();
+		String str_filename = uuid.toString() + org_filename;
+		System.out.println("원본 파일명 : " + org_filename);
+		System.out.println("저장할 파일명 : " + str_filename);
+		
+		System.out.println("작성자명 : " + board.getMemberNo());
+		
+		String writer = board.getBoardWriter();	
+		
+		
+		String filepath1 = realFolder + "\\" + writer;
+		System.out.println("실제 파일 저장 경로 : " + filepath1);
+
+		File f = new File(filepath1);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		
+		String filepath2 = accessPath + "/"  + writer + "/" + str_filename;
+				
+		System.out.println("파일 url : " + filepath2);
+		
+		//out.println("filepath : " + filepath);
+		
+		//out.close();
+		
+		//filepath = request.getContextPath() + "/" + str_filename;
+		int result = streetDAO.fileUpload(filepath2);
+		
+		System.out.println("result : " +result);
+		if(result > 0) {
+			f = new File(filepath1 + "/" + str_filename);
+			file.transferTo(f);
+		}else{
+			filepath2 = "";
+		}
+		//return filepath;
+		
+		
+		return filepath2;
+		
+	}
+	
+	
+	
+	/*@Override
+	public int insertSummer(Board board) throws Exception {
+		return streetDAO.insertSummer(board);
+	}*/
+	
+	
+	
+	
+	
+	/*============================== 미현 끝 ============================*/
+
+
+
 	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
 	 * @param addRelation
 	 * @return result
@@ -487,6 +571,195 @@ public class StreetServiceImpl implements StreetService{
 	public void joinDelete(Map<String, Object> map) {
 		streetDAO.joinDelete(map);
 	}
+
+
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
+	
+	
+	
+	/* 지원 골목 수정 시작 */
+	/** 골목 수정 이미지 조회용 Service
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	@Override
+	public String selectImageUrl(int imgNo) throws Exception {
+		
+		return streetDAO.selectImageUrl(imgNo);
+	}
+	
+	/** 골목 수정 키워드 조회용 Service
+	 * @param no
+	 * @return kList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Keyword> selectKeywords(Integer no) throws Exception {
+		
+		return streetDAO.selectKeywords(no);
+	}
+	
+	/** 골목 수정용 Service1
+	 * @param street
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int updateStreet1(Street street, String[] streetKeywords) throws Exception {
+		
+		int result = 0;
+		Map<String, Object> map = null;
+		
+		result = streetDAO.updateStreet(street); 
+		
+		if(result > 0) {
+			
+			result = streetDAO.deleteStreetKeyword(street.getStreetNo());
+			
+			if(result > 0 && streetKeywords != null) {
+				
+				map = new HashMap<String, Object>();
+				map.put("streetNo", street.getStreetNo());
+				for(int i = 0; i < streetKeywords.length; i++) {
+					map.put("keyword", streetKeywords[i]);
+					result = streetDAO.insertStreetKeyword(map);
+				}
+			}
+		}
+				
+		return result;
+	}
+	
+	/** 골목 수정용 Service2
+	 * @param street
+	 * @param streetKeywords
+	 * @param changeCoverName
+   * @return result
+	 * @throws Exception
+	*/
+  @Transactional(rollbackFor = Exception.class)
+  @Override
+	public int updateStreet2(Street street, String[] streetKeywords, String changeCoverName) throws Exception {
+		int result = 0;
+		int imgNo = 0;
+		Map<String, Object> map = null;
+		
+		imgNo = streetDAO.selectCoverNextNo();
+		
+		if(imgNo > 0) {
+			map = new HashMap<String, Object>();
+			map.put("imgNo", imgNo);
+			map.put("changeCoverName", changeCoverName);
+			
+			result = streetDAO.insertStreetCover(map);
+			
+			if(result > 0) {
+				
+				street.setImgNo(imgNo);
+				result = streetDAO.updateStreet(street);
+				
+				if(result > 0) {
+					
+					result = streetDAO.deleteStreetKeyword(street.getStreetNo());
+					
+					if(result > 0 && streetKeywords != null) {
+						
+						map = new HashMap<String, Object>();
+						map.put("streetNo", street.getStreetNo());
+						for(int i = 0; i < streetKeywords.length; i++) {
+							map.put("keyword", streetKeywords[i]);
+							result = streetDAO.insertStreetKeyword(map);
+						}
+					}
+				}
+			}
+		}		
+		return result;
+	}
+	/* 지원 골목 수정 끝 */
+/*------------------------ 정승환 추가코드 시작-----------------------------------*/
+	
+	/** 현재 골목 주민 수  조회용 Service
+	 * @param streetNo
+	 * @return citizenCount
+	 * @throws Exception
+	 */
+	@Override
+	public int selectCitizenCount(int streetNo) throws Exception {
+		return streetDAO.selectCitizenCount(streetNo);
+	}
+
+	/** 현재 골목 골목대장 닉네임 조회용 Service
+	 * @param streetNo
+	 * @return streetMasterNm
+	 * @throws Exception
+	 */
+	@Override
+	public String selectStreetMasterNm(int streetNo) throws Exception {
+		return streetDAO.selectStreetMasterNm(streetNo);
+	}
+	
+	/** 골목 키워드 조회용 Service
+	 * @param streetNo
+	 * @return keyword
+	 * @throws Exception
+	 */
+	@Override
+	public List<Keyword> selectMyKeyword(int streetNo) throws Exception {
+		return streetDAO.selecyMyKeyword(streetNo);
+	}
+
+	/** 현재 골목 등급 조회용 Service
+	 * @param streetPoint
+	 * @return badgeUrl
+	 * @throws Exception
+	 */
+	@Override
+	public String selectBadgeUrl(int streetNo, int streetPoint) throws Exception {
+		return streetDAO.selectBadgeUrl(streetNo, streetPoint);
+	}
+
+	/** 로그인 회원 골목 등급 조회용 Service
+	 * @param memberNo
+	 * @param streetNo
+	 * @return citizenGrade
+	 * @throws Exception
+	 */
+	@Override
+	public String selectCitizenGrade(int memberNo, int streetNo) throws Exception {
+		return streetDAO.selectCitizenGrade(memberNo, streetNo);
+	}
+
+	/** 골목 썸네일 조회용 Service
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	@Override
+	public String selectImgUrl(int imgNo) throws Exception {
+		return streetDAO.selectImgUrl(imgNo);
+	}
+
+	/** 게시판 번호 조회용 Serivce
+	 * @return boardNo
+	 * @throws Exception
+	 */
+	@Override
+	public int selectBoardNo() throws Exception {
+		return streetDAO.selectBoardNo();
+	}
+	
+	/** 일정 등록용 Serivce
+	 * @param sendCalendar
+    */	
+  @Override
+	public int addSchedule(Calendar sendCalendar) throws Exception {
+		return streetDAO.addSchedule(sendCalendar);
+	}
+	
+/*------------------------ 정승환 추가코드 시작-----------------------------------*/
 }

@@ -1,8 +1,16 @@
 package com.kh.wassupSeoul.street.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +36,8 @@ import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
@@ -133,6 +143,7 @@ public class StreetController {
 		board.setTypeNo(0);
 
 		System.out.println("등록할 게시글 : " + board);
+		System.out.println("board.getBoardContent : " + board.getBoardContent());
 
 		try {
 
@@ -587,38 +598,76 @@ public class StreetController {
 		streetService.addRelation(addRelation);
     
 	}
-		
 	
+	/*----------------------- 미현 시작 (03/23) -----------------------------------*/
 	// 썸머노트 파일 DB삽입용
 	@ResponseBody
-	@RequestMapping("fileUpload")
-	public void fileUpload(Board board, 
-			Model model, 
-			MultipartFile file, 
-			HttpServletRequest request, 
-			HttpServletResponse response) {
-		
-		String root = request.getSession().getServletContext().getRealPath("/");
-		String savePath = root + "resources\\uploadImages\\";
-		int maxSize = 1024 * 1024 * 10;
+	@RequestMapping(value="fileUpload", produces = "application/text; charset=utf8")
+	public String fileUpload(Board board, Model model, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
 
-		
-		
 		Member loginMember = (Member) model.getAttribute("loginMember");
-		//System.out.println(loginMember);
+		//int summerUploder = loginMember.getMemberNo();
+		//int streetNo = (int) model.getAttribute("streetNo");
+		//System.out.println(streetNo);
+
+		//board.setMemberNo(summerUploder);
+		//board.setStreetNo(streetNo);
+		//board.setTypeNo(0);
+
+		System.out.println("파일명 : " + file.getOriginalFilename());
+		//System.out.println("등록할 게시글 : " + board);
+
 		try {
-			int result = streetService.fileUpload(board,file,request,response);
+			String filePath = streetService.fileUpload(board,file,request);
 			
-			if (result > 0)
-				System.out.println("썸머노트 등록 성공" + result);
-			else
-				System.out.println("썸머노트 등록 실패" + result);
-			
+			if (filePath.equals("")) {
+				return null;
+			}else{
+				return filePath;
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
+			return "피곤...";
 		}
+		//return 
 		
 	}
+	
+	
+	/*@RequestMapping("insertSummer")
+	public String insertSummer(String summernoteContent, Model model) {
+		System.out.println("summernoteContent : " + summernoteContent);
+		
+		Member loginMember = (Member) model.getAttribute("loginMember");
+		int memberNo = loginMember.getMemberNo();
+		int streetNo = (int) model.getAttribute("streetNo");
+		
+		System.out.println("memberNo : " + memberNo);
+		System.out.println("streetNo : " + streetNo);
+		
+		
+		Board board = new Board();
+		board.setMemberNo(memberNo);
+		board.setBoardContent(summernoteContent);
+		board.setStreetNo(streetNo);
+		
+		try {
+			int result = streetService.insertSummer(board);
+			
+			if(result > 0) {
+				return null;
+			}else {
+				return null;
+			}
+		}catch (Exception e) {
+			return null;
+		}
+		
+	}*/
+	
+	
+	
 	
 	/*------------------------ 태훈 시작 (03/22) -----------------------------------*/
 	/** 골목 가입 허가/거절 용 Controller
@@ -644,4 +693,216 @@ public class StreetController {
 		}
 	}
 	/*--------------------------------태훈 끝-------------------------------------*/
+	
+	
+	
+	
+	/* 지원 골목 수정 시작 */
+	// 골목 수정 페이지 이동
+	@RequestMapping("streetUpdate")
+	public String streetUpdateForm(Integer no, Model model, HttpServletRequest request) {
+		
+		String detailUrl = request.getHeader("referer");
+		
+		model.addAttribute("detailUrl", detailUrl);
+				
+		try {
+			
+			Street street = streetService.selectStreet(no);
+			
+			if(street != null) {
+				
+				String imgUrl = streetService.selectImageUrl(street.getImgNo());
+				model.addAttribute("imgNo", street.getImgNo());
+				model.addAttribute("imgUrl", imgUrl);
+				
+				List<Keyword> keywords = streetService.selectKeywords(no);
+				System.out.println("123");
+				System.out.println("keywords 확인 : "+ keywords);
+				
+				if(keywords != null) {
+					model.addAttribute("keywords", keywords);
+				}
+				
+			}
+			
+			model.addAttribute("street", street);
+			
+			return "street/streetUpdate"; 
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "골목 수정 화면 이동 과정에서 오류 발생");
+			return "common/errorPage";
+		}
+		
+	}
+	
+	
+	// 골목 수정
+	@RequestMapping("updateStreet")
+	public String updateStreet(Integer imgNo, Integer no, Street street,
+			@RequestParam(value = "streetKeywords", required = false) String[] streetKeywords,
+			@RequestParam(value = "sampleImg", required = false) String sampleImg,
+			@RequestParam(value = "streetCoverUpload", required = false) MultipartFile streetCoverUpload,
+			Model model, RedirectAttributes rdAttr, HttpServletRequest request) {
+		
+		String detailUrl = (String) model.getAttribute("detailUrl");
+		
+		street.setStreetNo(no);
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "/" + "streetCoverImage";
+		File folder = new File(savePath);
+		if (!folder.exists())
+			folder.mkdir();
+		
+		int result = 0;
+		
+		try {
+			
+			/*
+			  이미지 그대로일때 -> set 할 필요 없음			 			 
+			 */ 
+			System.out.println("imgNo : "+ imgNo);
+			System.out.println("no : "+ no);
+			System.out.println("street : "+ street);
+			for(int i=0; i<streetKeywords.length; i++) {
+				System.out.println("키워드 : " + streetKeywords[i]);
+			}
+			System.out.println("sampleImg : "+ sampleImg);
+			System.out.println("streetCoverUpload.getOriginalFilename() : "+ streetCoverUpload.getOriginalFilename());
+			 
+			
+			if(!sampleImg.equals("")) {
+				
+				if(sampleImg.equals("골목.jpg")) {					
+					street.setImgNo(6);
+				} else if(sampleImg.equals("골목2.jpg")) {
+					street.setImgNo(7);
+				} else if(sampleImg.equals("골목3.jpg")) {
+					street.setImgNo(8);
+				} else if (sampleImg.equals("골목4.jpg")) { 
+					street.setImgNo(9);
+				}
+				
+				result = streetService.updateStreet1(street, streetKeywords);
+				
+			} else if(sampleImg.equals("") && 
+					!streetCoverUpload.getOriginalFilename().equals("")) {
+				// 골목 커버 이름 바꾸기
+				String changeCoverName = FileRename.rename(streetCoverUpload.getOriginalFilename());
+				
+				result = streetService.updateStreet2(street, streetKeywords, changeCoverName);
+				
+				if (result > 0) { // 정보 다 저장된 경우 골목 커버 서버에 저장
+
+					streetCoverUpload.transferTo(new File(savePath + "/" + changeCoverName));
+					 
+				}
+				
+			} else if(sampleImg.equals("") && 
+					streetCoverUpload.getOriginalFilename().equals("")) {
+				
+				result = streetService.updateStreet1(street, streetKeywords);
+				
+			}
+			
+			return "redirect:" + detailUrl;
+		}catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "골목 수정 과정에서 오류 발생");
+			return "common/errorPage";
+		}
+		
+	}
+	
+	
+	/* 지원 골목 수정 끝 */
+/*------------------------ 정승환 추가코드 시작-----------------------------------*/
+	
+	// 일정 조회
+	@RequestMapping("calendar")
+	public String calendar(Model model, Integer streetNo) {
+		//int streetNo = (int) model.getAttribute("streetNo");
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		try {
+			/*
+			// 사이드바 정보 시작
+			// 1. 골목정보
+			Street street = streetService.selectStreet(streetNo);
+			// 1_1. 골목 썸네일 
+			String imgUrl = streetService.selectImgUrl(street.getImgNo());
+			street.setImgUrl(imgUrl);
+			// 2. 현재 골목 주민수 
+			int citizenCount = streetService.selectCitizenCount(streetNo);
+			model.addAttribute("citizenCount",citizenCount);
+			// 3. 현재 골목 골목대장 닉네임
+			String streetMasterNm = streetService.selectStreetMasterNm(streetNo);
+			model.addAttribute("streetMasterNm",streetMasterNm);
+			// 4. 현재 골목 키워드
+			List<Keyword> streetKeyword = streetService.selectMyKeyword(streetNo);
+			model.addAttribute("streetKeyword",streetKeyword);
+			// 5. 현재 골목 등급
+			String badgeUrl = streetService.selectBadgeUrl(streetNo, street.getStreetPoint());
+			model.addAttribute("badgeUrl",badgeUrl);
+			// 6. 로그인 회원 골목 등급 
+			String citizenGrade = streetService.selectCitizenGrade(loginMember.getMemberNo(),streetNo);
+			model.addAttribute("citizenGrade",citizenGrade);
+			// 사이드바 정보 끝
+		
+			model.addAttribute("street", street);
+			model.addAttribute("loginMember", loginMember);
+			*/
+			return "street/streetCalendar";
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "일정 조회 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+		
+		
+	}
+	
+	
+	// 일정 추가
+	@RequestMapping(value="addSCSC", method = RequestMethod.POST)
+	public String addSchedule(Model model,Calendar sendCalendar,String startDate,String startTime,String endDate,String endTime) {
+		try {
+			// 게시글 번호 조회
+			int boardNo = streetService.selectBoardNo();
+			sendCalendar.setBoardNo(boardNo);
+			// 골목 번호 
+			int streetNo = (int)model.getAttribute("streetNo");
+			sendCalendar.setStreetNo(streetNo);
+			
+			// 일정 시작 시간
+			startTime = startTime+ ":00.0";
+			String tempStart = startDate+ " " + startTime;
+			// 일정 종료 시간
+			endTime = endTime+ ":00.0";
+			String tempEnd = endDate + " " + endTime;
+			
+			// String을 Timestamp로 변환
+			Timestamp calendarStartDate = Timestamp.valueOf(tempStart);
+			Timestamp calendarEndDate = Timestamp.valueOf(tempEnd);
+			
+			sendCalendar.setCalendarStartDate(calendarStartDate);
+			sendCalendar.setCalendarEndDate(calendarEndDate);
+			
+			// 일정 등록
+			int result = streetService.addSchedule(sendCalendar);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "일정 추가 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+		
+		return "street/streetCalendar";
+	}
+		
+	
+/*------------------------ 정승환 추가코드 끝-----------------------------------*/
 }

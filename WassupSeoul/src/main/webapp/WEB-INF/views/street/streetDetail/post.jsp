@@ -65,7 +65,7 @@
 
 							<div class="postCountView" style="border: 1px solid black; height: 45px;">
 
-								<div class="writeOptionArea shake">
+								<%-- <div class="writeOptionArea shake">
 									<img class="writeOption img1" src="${contextPath}/resources/img/imageIcon.png">
 									<p class="arrow_box">사진</p>
 								</div>
@@ -79,7 +79,38 @@
 								<div class="writeOptionArea shake">
 									<img class="writeOption summerOption" src='${contextPath}/resources/img/paperclip.png'>
 									<p class="arrow_box">파일첨부</p>
+								</div> --%>
+								<!-- 사진 첨부 -->
+								<div class="writeOptionArea shake">
+									<form class="form-signin">
+										<a href="#" data-toggle="modal" data-target="#summerModal"> 
+											<img class="writeOption" src="${contextPath}/resources/img/imageIcon.png" alt="">
+											<p class="arrow_box">사진</p>
+										</a>
+									</form>
 								</div>
+
+								<!-- 동영상 첨부 -->
+								<div class="writeOptionArea shake">
+									<form class="form-signin">
+										<a href="#" data-toggle="modal" data-target="#summerModal"> 
+											<img class="writeOption" src="${contextPath}/resources/img/film.png" alt="">
+											<p class="arrow_box">동영상</p>
+										</a>
+									</form>
+								</div>
+
+								<!-- 파일첨부 -->
+								<div class="writeOptionArea shake">
+									<form class="form-signin">
+										<a href="#" data-toggle="modal" data-target="#summerModal"> 
+											<img class="writeOption" src="${contextPath}/resources/img/paperclip.png" alt="">
+											<p class="arrow_box">파일첨부</p>
+										</a>
+									</form>
+								</div>
+								
+								
 
 								<div class="writeOptionArea shake">
 									<img class="writeOption voteOption" data-toggle="modal" data-target="#voteModal"

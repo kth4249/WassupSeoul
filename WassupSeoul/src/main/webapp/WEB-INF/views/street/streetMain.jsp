@@ -66,8 +66,8 @@
 	<div class="container-fluid">
 		<div class="row">
 			
-		
-			 <jsp:include page="../street/streetDetail/streetSide.jsp"/> 
+			<jsp:include page="../street/streetDetail/streetSide.jsp"/>
+			
 			
 			<!-- 사이드1 여백 -->
 			<div class="col-md-4" id="devideArea"></div>
@@ -87,11 +87,12 @@
 						</div>
 						<!-- 검색Bar -->
 		
-						<!-- 글작성 영역 -->
-						<div class="container box111" id="postArea">
-							<jsp:include page="../street/streetDetail/post.jsp"/> 
-						</div>
-						<!-- 글작성 영역 -->
+					<!-- 글작성 영역 -->
+          <div class="container box111" id="postArea">
+            <jsp:include page="../street/streetDetail/fileUpload.jsp"/>
+            <jsp:include page="../street/streetDetail/post.jsp"/>
+          </div>
+          <!-- 글작성 영역 -->
 		
 						<!-- 중간여백 --><div class="row" style="height: 20px; background-color: rgb(221, 233, 218);"></div>
 		
@@ -129,6 +130,12 @@
 			<!-- 사이드2 여백 -->
 			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드2 여백 -->
+			
+			
+			
+			
+			
+			
 			
 		</div>
 	</div>

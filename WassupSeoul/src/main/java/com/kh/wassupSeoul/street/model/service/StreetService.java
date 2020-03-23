@@ -16,6 +16,8 @@ import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
@@ -207,15 +209,15 @@ public interface StreetService {
   
 
 	
-	/**
+	/** 썸머노트 업로드,DB삽입용
 	 * @param board
 	 * @param file
 	 * @param request
 	 * @param response
-	 * @return 
+	 * @return result
+	 * @throws Exception
 	 */
-	public abstract int fileUpload(Board board, MultipartFile file, HttpServletRequest request,
-			HttpServletResponse response);
+	public abstract String fileUpload(Board board, MultipartFile file, HttpServletRequest request) throws Exception;
 
 	/*-----------------------------태훈 시작 (03/22) -------------------------------*/
 	/** 골목 가입신청 허가용 Service
@@ -233,6 +235,123 @@ public interface StreetService {
 	public abstract void joinDelete(Map<String, Object> map);
 
 
+	
+
+  
+
 	/*--------------------------------태훈 끝-------------------------------------*/
+	
+	
+	
+	/* 지원 골목 수정 시작 */
+	
+	/** 골목 수정 이미지 조회용 Service
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	public abstract String selectImageUrl(int imgNo) throws Exception;
+
+
+	/** 골목 수정 키워드 조회용 Service
+	 * @param no
+	 * @return kList
+	 * @throws Exception
+	 */
+	public abstract List<Keyword> selectKeywords(Integer no) throws Exception;
+
+
+	/** 골목 수정용 Service1
+	 * @param street
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateStreet1(Street street, String[] streetKeywords) throws Exception;
+
+
+	/** 골목 수정용 Service2
+	 * @param street
+	 * @param streetKeywords
+	 * @param changeCoverName
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateStreet2(Street street, String[] streetKeywords, String changeCoverName) throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	/* 지원 골목 수정 끝 */
+/*------------------------ 정승환 추가코드 시작-----------------------------------*/
+	
+	/** 현재 골목 주민수 조회용 Service
+	 * @param streetNo
+	 * @return citizenCount
+	 * @throws Exception
+	 */
+	public abstract int selectCitizenCount(int streetNo) throws Exception;
+
+	
+	/** 현재 골목 골목대장 닉네임 조회용 Service
+	 * @param streetNo
+	 * @return streetMasterNm
+	 * @throws Exception
+	 */
+	public abstract String selectStreetMasterNm(int streetNo) throws Exception;
+	
+	/** 골목 키워드 조회용 Service
+	 * @param streetNo
+	 * @return keyword
+	 * @throws Exception
+	 */
+	public abstract List<Keyword> selectMyKeyword(int streetNo) throws Exception;
+
+
+	/** 현재 골목 등급 조회용 Service
+	 * @param streetPoint
+	 * @return badgeUrl
+	 * @throws Exception
+	 */
+	public abstract String selectBadgeUrl(int streetNo, int streetPoint) throws Exception;
+
+
+	/** 로그인 회원 골목 등급 조회용 Service
+	 * @param memberNo
+	 * @param streetNo
+	 * @return citizenGrade
+	 * @throws Exception
+	 */
+	public abstract String selectCitizenGrade(int memberNo, int streetNo) throws Exception;
+
+
+	/** 골목 썸네일 조회용 Service
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	public abstract String selectImgUrl(int imgNo) throws Exception;
+
+
+	/** 게시판 번호 조회용 Serivce
+	 * @return boardNo
+	 * @throws Exception
+	 */
+	public abstract int selectBoardNo() throws Exception;
+
+
+	/** 일정 등록용 Serivce
+	 * @param sendCalendar
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int addSchedule(Calendar sendCalendar) throws Exception;
+
+	
+/*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	 
 }

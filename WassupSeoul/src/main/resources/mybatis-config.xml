@@ -21,6 +21,7 @@
 		<typeAlias type="com.kh.wassupSeoul.hobby.model.vo.MemberHobby" alias="MemberHobby"/>
 		<typeAlias type="com.kh.wassupSeoul.member.model.vo.ProfileStreet" alias="ProfileStreet"/>
 		<typeAlias type="com.kh.wassupSeoul.friends.model.vo.Relationship" alias="Relationship"/>
+		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Calendar" alias="Calendar"/>
 	</typeAliases> 
 	
 	<!-- mapper 파일 등록 부분 -->
