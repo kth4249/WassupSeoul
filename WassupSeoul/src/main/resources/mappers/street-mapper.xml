@@ -85,6 +85,22 @@
   		<result property="thumbStatus" column="THUMB_STATUS"/>  		
 	</resultMap>
 	
+	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
+	
+	<resultMap type="Calendar" id="calendarResultSet">
+		<id property="boardNo" column="BOARD_NO"/>
+		<result property="calendarTitle" column="CALENDAR_TITLE"/>
+		<result property="calendarContent" column="CALENDAR_CONTENT"/>
+		<result property="calendarLocation" column="CALENDAR_LOCATION"/>
+		<result property="calendarStartDate" column="CALENDAR_START_DT"/>
+		<result property="calendarEndDate" column="CALENDAR_END_DT"/>
+		<result property="calendarJoin" column="CALENDAR_JOIN"/>
+		<result property="calendarJoinLimit" column="CALENDAR_JOIN_LIMIT"/>
+		<result property="calendarJoinEndDate" column="CALENDAR_JOIN_END_DT"/>
+		<result property="streetNo" column="STREET_NO"/>
+	</resultMap>
+	
+	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	
 	<!-- 전체 골목 수 조회 -->
 	<select id="getListCount" parameterType="map" resultType="_int">
@@ -394,6 +410,60 @@
 	</insert>
 	
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
+	
+	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
+  	
+  	<!-- 현재 골목 주민수  -->
+  	<select id="selectCitizenCount" parameterType="_int" resultType="_int">
+  		SELECT COUNT(*) FROM STREET_JOIN
+  		WHERE STREET_NO = #{streetNo}
+  	</select>
+  	
+  	<!-- 현재 골목 골목대장 조회 -->
+  	<select id="selectStreetMasterNm" parameterType="_int" resultType="string">
+  		SELECT MEMBER_NICKNAME FROM STREET
+		JOIN STREET_JOIN USING(STREET_NO)
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE STREET_NO = #{streetNo} AND CITIZEN_GRADE='M' AND STREET_STATUS = 'Y'
+  	</select>
+  	
+  	<!-- 내골목 키워드 조회 -->
+	<select id="selectMyKeyword" parameterType="_int" resultMap="keywordResultSet">
+		SELECT * FROM STREET
+		JOIN KEYWORD USING(STREET_NO)
+		WHERE STREET_NO = #{streetNo} 
+	</select>
+	
+	<!-- 현재 골목 등급 조회 -->
+	<select id="selectBadgeUrl" parameterType="Street" resultType="string">
+		SELECT BADGE_URL FROM STREET_GRADE
+		JOIN STREET ON (#{streetPoint} BETWEEN LOWEST_SCORE AND HIGHEST_SCORE)
+		WHERE STREET_NO = #{streetNo}
+	</select>
+	
+	<!-- 로그인 회원 골목 등급 조회 -->
+	<select id="selectCitizenGrade" parameterType="hashmap" resultType="string">
+		SELECT CITIZEN_GRADE FROM STREET_JOIN
+		WHERE STREET_NO = #{streetNo} AND MEMBER_NO = #{memberNo} AND CITIZEN_STATUS = 'Y'
+	</select>
+	
+	<!-- 골목 썸네일 조회 -->
+	<select id="selectImgUrl" parameterType="_int" resultType="string">
+		SELECT IMG_URL FROM STREET_IMG 
+		WHERE IMG_NO = #{imgNo}
+	</select>
+	
+	<!-- 게시판 번호 조회 -->
+	<select id="selectBoardNo" resultType="_int">
+		SELECT SEQ_BOARD.NEXTVAL FROM DUAL
+	</select>
+	
+	<!-- 일정 등록 -->
+	<insert id="addSchedule" parameterType="Calendar">
+		
+	</insert>
+  	
+<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	
 	
 </mapper>

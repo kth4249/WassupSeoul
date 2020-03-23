@@ -8,12 +8,12 @@
               <nav class="navbar py-1" style="border: 0px; width : 100%; opacity: 1.0; z-index: 8">
                 <div class="container d-flex flex-column flex-md-row justify-content-between">
                     <a class="py-1" href="#" aria-label="Product"></a>
-                    <a class="py-1 d-none d-md-inline-block nanum" href="#" style="text-decoration: none; color:#F5FFFA; ">게시판</a> 
+                    <a class="py-1 d-none d-md-inline-block nanum" href="${contextPath}/street/streetMain?streetNo=${streetNo}" style="text-decoration: none; color:#F5FFFA; ">게시판</a> 
                     <a class="py-1 d-none d-md-inline-block nanum" href="#" style="text-decoration: none; color:#F5FFFA; ">사진첩</a> 
-                    <a class="py-1 d-none d-md-inline-block nanum" href="#" style="text-decoration: none; color:#F5FFFA; ">일정</a>
+                    <a class="py-1 d-none d-md-inline-block nanum" href="${contextPath}/street/calendar?streetNo=${streetNo}" style="text-decoration: none; color:#F5FFFA; ">일정</a>
                     <%-- ${contextPath}/street/streetCalendar --%> 
-                    <a class="py-1 d-none d-md-inline-block nanum" href="${contextPath}/street/juminList" style="text-decoration: none; color:#F5FFFA;">주민목록</a>
-                    <a class="py-1 d-none d-md-inline-block nanum" href="${contextPath}/street/recommendFriend" style="text-decoration: none; color:#F5FFFA;">추천친구</a> 
+                    <a class="py-1 d-none d-md-inline-block nanum" href="${contextPath}/street/juminList?streetNo=${streetNo}" style="text-decoration: none; color:#F5FFFA;">주민목록</a>
+                    <a class="py-1 d-none d-md-inline-block nanum" href="${contextPath}/street/recommendFriend?streetNo=${streetNo}" style="text-decoration: none; color:#F5FFFA;">추천친구</a> 
                     <a class="py-1" href="#" aria-label="Product"></a>
                 </div>
               </nav>
