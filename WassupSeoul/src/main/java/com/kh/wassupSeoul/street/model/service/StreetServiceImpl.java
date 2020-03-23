@@ -19,6 +19,8 @@ import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -480,4 +482,88 @@ public class StreetServiceImpl implements StreetService{
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
+	
+/*------------------------ 정승환 추가코드 시작-----------------------------------*/
+	
+	/** 현재 골목 주민 수  조회용 Service
+	 * @param streetNo
+	 * @return citizenCount
+	 * @throws Exception
+	 */
+	@Override
+	public int selectCitizenCount(int streetNo) throws Exception {
+		return streetDAO.selectCitizenCount(streetNo);
+	}
+
+	/** 현재 골목 골목대장 닉네임 조회용 Service
+	 * @param streetNo
+	 * @return streetMasterNm
+	 * @throws Exception
+	 */
+	@Override
+	public String selectStreetMasterNm(int streetNo) throws Exception {
+		return streetDAO.selectStreetMasterNm(streetNo);
+	}
+	
+	/** 골목 키워드 조회용 Service
+	 * @param streetNo
+	 * @return keyword
+	 * @throws Exception
+	 */
+	@Override
+	public List<Keyword> selectMyKeyword(int streetNo) throws Exception {
+		return streetDAO.selecyMyKeyword(streetNo);
+	}
+
+	/** 현재 골목 등급 조회용 Service
+	 * @param streetPoint
+	 * @return badgeUrl
+	 * @throws Exception
+	 */
+	@Override
+	public String selectBadgeUrl(int streetNo, int streetPoint) throws Exception {
+		return streetDAO.selectBadgeUrl(streetNo, streetPoint);
+	}
+
+	/** 로그인 회원 골목 등급 조회용 Service
+	 * @param memberNo
+	 * @param streetNo
+	 * @return citizenGrade
+	 * @throws Exception
+	 */
+	@Override
+	public String selectCitizenGrade(int memberNo, int streetNo) throws Exception {
+		return streetDAO.selectCitizenGrade(memberNo, streetNo);
+	}
+
+	/** 골목 썸네일 조회용 Service
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	@Override
+	public String selectImgUrl(int imgNo) throws Exception {
+		return streetDAO.selectImgUrl(imgNo);
+	}
+
+	/** 게시판 번호 조회용 Serivce
+	 * @return boardNo
+	 * @throws Exception
+	 */
+	@Override
+	public int selectBoardNo() throws Exception {
+		return streetDAO.selectBoardNo();
+	}
+	
+	/** 일정 등록용 Serivce
+	 * @param sendCalendar
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int addSchedule(Calendar sendCalendar) throws Exception {
+		return streetDAO.addSchedule(sendCalendar);
+	}
+	
+/*------------------------ 정승환 추가코드 시작-----------------------------------*/
 }
