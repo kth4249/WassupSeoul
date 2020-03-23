@@ -105,7 +105,7 @@
 				$('.container2').hide(200);
 				iconStatus = true;
 			}
-			console.log(iconStatus)
+			//console.log(iconStatus)
 		});
 	}); 
 	
@@ -200,17 +200,17 @@
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 				<!-- 친구 목록 -->	
 				<div class="tab-pane fade active show tgl" id="friendsList">
-					<div class="nanum">
+					<div class="nanum" id="friendInfo">
 						<br> 
 						<img src="${contextPath}/resources/img/usericon.png"
-							width="40px" height="40px" class="ml-3" data-toggle="modal"
+							width="40px" height="40px" class="ml-3 fImg" data-toggle="modal"
 							data-target="#profilePicture" style="cursor: pointer"> &nbsp;
-						<span class="" style="font-size: 20px;">안중하</span> &nbsp;
+						<span class="fUser" style="font-size: 20px;">안중하</span> &nbsp;
 						<button type="button"
 							class="btn btn-outline-danger btn-sm nanum float-right mr-3"
 							data-toggle="modal" data-target="#blockBtn">차단</button>
 						<button type="button"
-							class="btn btn-outline-info btn-sm nanum float-right mr-3"
+							class="btn btn-outline-info btn-sm nanum float-right mr-3 talkFriend" 
 							id="chatBtn">대화</button>
 					</div>
 					<hr>
@@ -431,7 +431,7 @@
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-danger nanum" 
+								<button type="button" class="btn btn-danger nanum blockFriend" 
 								data-toggle="modal" data-target="#blockBtn">차단하기</button>
 								<button type="button" class="btn btn-primary nanum"	data-dismiss="modal">닫기</button>
 							</div>
@@ -457,13 +457,14 @@
 								</button>
 							</div>
 							<div class="modal-body" style="font-size: 20px;">
-								<form action="">
-									<span class="nanum" style="color: olivedrab;">안중하</span> <span
-										class="nanum">님을 차단하셨습니다.</span>
+								<form action="friends/friends">
+										<input type="hidden" name="">
+									<span class="nanum" style="color: olivedrab;"><!-- 안중하 --></span> 
+									<span class="nanum">성공적으로 차단하셨습니다.</span>
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-danger nanum">차단목록</button>
+								<!-- <button type="button" class="btn btn-danger nanum">차단목록</button> -->
 								<button type="button" class="btn btn-primary nanum"
 									data-dismiss="modal">확인</button>
 							</div>
@@ -608,7 +609,9 @@
 	
 	
 	
-////////////////////////////////////////문영준 메신저 기능 시작 지점 ////////////////////////////////////////	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////        		친구요청 기능 시작           ///////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 
 	// JS 최상위 주소 구하기
 	function getContextPath() {
@@ -623,7 +626,7 @@
 
 
 	/* 친구 요청 목록 조회 함수 */
- 	function friendRequest(){
+ 	 function friendRequest(){
 		$.ajax({
 			url : "friends/friendRequest",
 			type : "POST",
@@ -634,8 +637,6 @@
 				var $friendRequestArea = $("#friendRequestArea");
 				var root = $("#profileRoot").val();
 				var $savePath = root +"/resources/profileImage/";
-				//var $yesBtn = $("#yesBtn").val();
-				//console.log(result)
 				if(result == null){
 					$msg = $("<span>").html("지금은 친구요청이 없네요.");
 					$friendRequestArea.css("text-align","center")
@@ -653,12 +654,14 @@
 						html("수락").val(result[i].memberNo);
 						var $rNo = $("<button>").prop("class", "btn btn-danger btn-sm nanum rejectFriend").attr('data-toggle', "modal").attr('data-target', "#noBtn").
 						html("거절").val(result[i].memberNo);
-						var $block = $("<button>").prop("class", "btn btn-danger nanum"); // 차단을 위한 변수생성
+						var $block = $("<button>").prop("class", "btn btn-danger nanum blockFriend").attr('data-toggle', "modal").attr('data-target', "#blockBtn").
+						html("차단").val(result[i].memberNo);
 						var $hr = $("<hr>");
 						
 						$friendRequestArea.append($rImg).append($rUser).append($rOk).append($rNo).append($hr);
 						$friendReq.append($friendRequestArea)
 						
+										
 					}); //$.each 끝
 					
 				} //else 끝
@@ -668,12 +671,12 @@
 				console.log("친구 요청 목록을 불러오는 aJax 실패");
 			}
 		});
-	};  // 친구 요청 목록 Ajax 완료
+	};   // 친구 요청 목록 Ajax 완료
 	
 	
 	// 수락 버튼을 누르면 Controller로 값 넘기기
 	$(document).on("click", ".addFriend", function(){
-		console.log(this.value);
+		//console.log(this.value);
 		var yourNo = this.value
 		
 		$.ajax({
@@ -681,10 +684,10 @@
 			type : "POST",
 			data : {"yourNo" : yourNo },
 			success : function(){
-				console.log("친구 수락 성공")			
+				//console.log("친구 수락 성공")			
 			},
 			error : function(){
-				console.log("친구 수락하는 aJax 실패");
+				//console.log("친구 수락하는 aJax 실패");
 			}
 		});
 		
@@ -692,7 +695,7 @@
 	
 	// 거절 버튼을 누르면 Controller로 값 넘기기
 	$(document).on("click", ".rejectFriend", function(){
-		console.log(this.value);
+		//console.log(this.value);
 		var yourNo = this.value
 		
 		$.ajax({
@@ -700,7 +703,8 @@
 			type : "POST",
 			data : {"yourNo" : yourNo },
 			success : function(){
-				console.log("친구 거절 성공")			
+				console.log("친구 거절 성공")		
+				$(".blockFriend").val(yourNo)
 			},
 			error : function(){
 				console.log("친구 거절하는 aJax 실패");
@@ -710,6 +714,74 @@
 	}); // 친구 요청 거절 기능 완료
 	
 	
+	// 차단 버튼을 누르면 Controller로 값 넘기기
+	$(document).on("click", ".blockFriend", function(){
+		console.log(this.value);
+		var yourNo = this.value
+		
+		$.ajax({
+			url : "friends/blockFriend",
+			type : "POST",
+			data : {"yourNo" : yourNo },
+			success : function(){
+				console.log("친구 차단 성공")			
+			},
+			error : function(){
+				console.log("친구 차단하는 aJax 실패");
+			}
+		});
+		
+	}); // 친구 차단 기능 완료
+	
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////        		 여기까지가 친구 요청에 대한 스크립트           /////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	function friendsList(){
+		$.ajax({
+			url : "friends/friendsList",
+			type : "POST",
+			data : {},
+			datatype : "json",
+			success : function(result){
+				var $friendList = $("#friendList");
+				var $friendInfo = $("#friendInfo");
+				var root = $("#profileRoot").val();
+				var $savePath = root +"/resources/profileImage/";
+				if(result == null){
+					$msg = $("<span>").html("빨리 친구 만들러 가죠! 관심사와 맞는 골목부터 찾아볼까요?");
+					$friendInfo.css("text-align","center")
+					$friendInfo.html($msg);
+					
+				}else {
+					$friendRequestArea.html("") // 기존 html 내용 삭제
+					
+					$.each(result, function(i){
+						
+						var $finalPath = $savePath + result[i].memberProfileUrl;
+						var $fImg = $("<img>").prop("class", "fImg").prop("src", $finalPath).css({"width":"40px","height":"40px"});
+						var $fUser = $("<span>").prop("class", "fUser").html(result[i].memberNickname);
+						var $fTalk = $("<button>").prop("class", "btn btn-info btn-sm nanum talkFriend").attr('data-toggle', "modal").attr('data-target', "#yesBtn").
+						html("대화").val(result[i].memberNo);
+						var $block = $("<button>").prop("class", "btn btn-danger nanum blockFriend").attr('data-toggle', "modal").attr('data-target', "#blockBtn").
+						html("차단").val(result[i].memberNo);
+						var $hr = $("<hr>");
+						
+						$friendInfo.append($fImg).append($fUser).append($fTalk).append($block).append($hr);
+						$friendList.append($friendInfo)
+						
+										
+					}); //$.each 끝
+					
+				} //else 끝
+				
+			},
+			error : function(){
+				console.log("친구 목록을 불러오는 aJax 실패");
+			}
+		});
+	};  // 친구 목록 Ajax 완료
 	
 	
 	
@@ -728,7 +800,7 @@
 	/* 에이잭스 실행 함수 */
 	 $(function(){
 		friendRequest(); // 친구 요청 목록
-		
+		//friendsList();
 		/* setInterval(function(){
 			friendRequest(); 
 		}, 10000); */

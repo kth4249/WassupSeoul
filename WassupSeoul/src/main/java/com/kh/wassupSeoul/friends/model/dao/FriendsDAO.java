@@ -70,6 +70,16 @@ public class FriendsDAO {
 	}
 
 
+	/** 친구 차단용 DAO
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int blockFriend(Map<String, Object> nMap) throws Exception{
+		return sqlSession.insert("friendsMapper.blockFriend", nMap); 
+	}
+
+
 	
 
 }

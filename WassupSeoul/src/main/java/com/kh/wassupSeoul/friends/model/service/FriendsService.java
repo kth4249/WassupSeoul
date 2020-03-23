@@ -28,5 +28,12 @@ public interface FriendsService {
 	 */
 	int friendNo(Map<String, Object> nMap)throws Exception;
 
+	/** 친구 차단 Service
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	int blockFriend(Map<String, Object> nMap)throws Exception;
+
 
 }

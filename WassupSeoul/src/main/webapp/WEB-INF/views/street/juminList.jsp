@@ -9,9 +9,9 @@
 <title>주민 목록</title>
 </head>
 <body class="nanum">
-	<%@include file="../common/header.jsp"%>
-	<%@include file="streetDetail/streetNav.jsp"%>
-	<%@include file="streetDetail/streetSide.jsp"%>
+	<jsp:include page="../common/header.jsp/">
+	<jsp:include page="streetDetail/streetNav.jsp/">
+	<jsp:include page="streetDetail/streetSide.jsp/">
 	<div class="container" style="margin-top: 100px;">
 		<div class="row">
 			<div class="col-md-3">

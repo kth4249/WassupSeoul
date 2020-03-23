@@ -60,14 +60,12 @@
 
 
 	<!-- 고정된 골목 네비바  -->
-	<%@ include file="../street/streetDetail/streetNav.jsp"%>
-	<%-- <jsp:include page="../street/streetDetail/streetNav.jsp"/> --%>
+	<jsp:include page="../street/streetDetail/streetNav.jsp"/>
 
 
 
 	<!-- 고정된 헤더 -->
-	<%@include file="../common/header.jsp"%>
-	<%-- <jsp:include page="../common/header.jsp"/> --%>
+	<jsp:include page="../common/header.jsp"/>
 
 
 
@@ -75,8 +73,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			
-			<%@ include file="../street/streetDetail/streetSide.jsp"%>
-			<%-- <jsp:include page="../street/streetDetail/streetSide.jsp"/> --%>
+			<jsp:include page="../street/streetDetail/streetSide.jsp"/>
 			
 			
 			<!-- 사이드1 여백 -->
@@ -91,7 +88,7 @@
 
 				<!-- 검색Bar-->
 				<div class="row" id="searchArea" style="width: 99%; margin-left: 1px;">
-					<%@ include file="../street/streetDetail/searchBar.jsp"%>
+					<jsp:include page="../street/streetDetail/searchBar.jsp"/>
 				</div>
 				<!-- 검색Bar -->
 
@@ -99,7 +96,7 @@
 
 				<!-- 글작성 영역 -->
 				<div class="container box111" id="postArea">
-					<%@ include file="../street/streetDetail/post.jsp"%>
+					<jsp:include page="../street/streetDetail/post.jsp"/>
 				</div>
 				<!-- 글작성 영역 -->
 
@@ -109,7 +106,7 @@
 
 				<!-- 게시글영역-->
 				<div class="postWrapView">
-					<%@ include file="../street/streetDetail/timeLine.jsp"%>
+					<jsp:include page="../street/streetDetail/timeLine.jsp"/>
 				</div>
 				<!-- 게시글영역 끝-->
 				

@@ -82,7 +82,7 @@
  	INSERT INTO RELATIONSHIP
  	VALUES(#{myNo}, #{yourNo}, 2)
  </insert>
- 
+  
  <!-- 친구 요청 거절 -->
  <delete id="friendNo" parameterType="map">
  	DELETE FROM RELATIONSHIP
@@ -90,5 +90,14 @@
  	AND YOUR_NO = #{myNo}
  	AND REQUEST_STATUS = 1
  </delete>
+ 
+ <!-- 친구 차단 -->
+ <insert id="blockFriend" parameterType="map">
+ 	INSERT INTO RELATIONSHIP
+ 	VALUES(#{yourNo}, #{myNo}, 3)
+ </insert>
+ 
+ 
+ 
 
 </mapper>

@@ -70,6 +70,17 @@ public class FriendsServiceImpl implements FriendsService{
 		return friendsDAO.friendNo(nMap);
 	}
 
+	/** 친구 차단 Service
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int blockFriend(Map<String, Object> nMap) throws Exception {
+		return friendsDAO.blockFriend(nMap);
+	}
+
 
 	
 	

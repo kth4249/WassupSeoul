@@ -27,7 +27,8 @@
 }
 </style>
 <body class="nanum">
-	<%@include file="../common/header.jsp"%>
+	<jsp:include page="../common/header.jsp"/>
+	
 
 
 	<form method="POST" action="insertStreet" enctype="multipart/form-data"
