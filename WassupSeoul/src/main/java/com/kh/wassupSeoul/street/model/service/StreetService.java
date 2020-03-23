@@ -202,15 +202,15 @@ public interface StreetService {
   
 
 	
-	/**
+	/** 썸머노트 업로드,DB삽입용
 	 * @param board
 	 * @param file
 	 * @param request
 	 * @param response
-	 * @return 
+	 * @return result
+	 * @throws Exception
 	 */
-	public abstract int fileUpload(Board board, MultipartFile file, HttpServletRequest request,
-			HttpServletResponse response);
+	public abstract String fileUpload(Board board, MultipartFile file, HttpServletRequest request) throws Exception;
 
 	/*-----------------------------태훈 시작 (03/22) -------------------------------*/
 	/** 골목 가입신청 허가용 Service
@@ -226,6 +226,18 @@ public interface StreetService {
 	 * @param map
 	 */
 	public abstract void joinDelete(Map<String, Object> map);
+
+
+	
+	/** 
+	 * @param board
+	 * @return
+	 * @throws Exception
+	 */
+	//public abstract int insertSummer(Board board) throws Exception;
+
+
+	
 
   
   

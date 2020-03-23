@@ -56,8 +56,7 @@
 		<c:forEach var="board" items="${board}" varStatus="vs">
 
 			<!-- 게시글1-->
-			<div class="container box111" id="postArea"
-				style="margin-bottom: 0px">
+			<div class="container box111" id="postArea" style="margin-bottom: 0px">
 				<div class="postLayoutView" style="padding: 0%;">
 
 					<!-- 프로필사진, 작성자명, 날짜 -->
@@ -88,8 +87,7 @@
 						</c:if>
 
 						<c:if test="${loginMember.memberNickname eq board.boardWriter}">
-							<div
-								style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
+							<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
 								<div>
 									<div class="optionChevron">
 										<img src="${contextPath}/resources/img/download.png"
@@ -556,13 +554,13 @@
 		</c:forEach>
 	</c:if>
 
-	<script>
+<!-- 	<script>
 $(document).ready(function() {
 	
 	
 	
 });
 
-</script>
+</script> -->
 </body>
 </html>

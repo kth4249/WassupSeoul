@@ -5,10 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
@@ -19,6 +23,14 @@ import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
+/**
+ * @author user1
+ *
+ */
+/**
+ * @author user1
+ *
+ */
 @Repository
 public class StreetDAO {
 
@@ -340,9 +352,32 @@ public class StreetDAO {
 	public void joinDelete(Map<String, Object> map) {
 		sqlSession.delete("streetMapper.joinDelete", map);
 	}
+
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
+	/*----------------------미현 시작 (3/23)----------------------------------------*/
+	
+	/** 썸머노트 이미지도  DB삽입용 DAO
+	 * @param filepath
+	 * @return result
+	 */
+	public int fileUpload(String filepath) throws Exception{
+		return sqlSession.insert("streetMapper.fileUpload",filepath) ;
+	}
+
+
+	/*
+	 * public int fileUpload(Map<String, Object> uploadMap) { return
+	 * sqlSession.insert("streetMapper.insertFile",uploadMap); }
+	 */
+	/*public int insertSummer(Board board) throws Exception{
+		return sqlSession.insert("streetMapper.insertBoard",board);
+	}
+
+	
+	/*-----------------------미현 끝-------------------------------------------*/
+
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 	
 	/** 현재 골목 주민 수  조회용 DAO
@@ -422,5 +457,5 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.addSchedule", sendCalendar);
 	}
 	
-/*------------------------ 정승환 추가코드 시작-----------------------------------*/
+/*------------------------ 정승환 추가코드 -----------------------------------*/
 }

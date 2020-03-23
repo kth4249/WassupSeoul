@@ -1,18 +1,20 @@
 package com.kh.wassupSeoul.street.model.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
@@ -444,14 +446,90 @@ public class StreetServiceImpl implements StreetService{
 			return result;			
 	}
 	
-
-	@Override
-	public int fileUpload(Board board, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	/*==========================================미현 시작 3/23 ============================*/
 	
+	/** 썸머노트 업로드,DB삽입용
+	 * @param board
+	 * @param file
+	 * @param request
+	 * @param response
+	 * @return result
+	 * @throws IOException 
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public String fileUpload(Board board, MultipartFile file, HttpServletRequest request) throws Exception{
+		
+		//response.setContentType("text/html;charset=utf-8");
+		//PrintWriter out = response.getWriter();
+		// 업로드할 폴더 경로
+		String realFolder = request.getSession().getServletContext().getRealPath("resources") + "/uploadImage";
+		String accessPath = request.getContextPath() + "/resources/uploadImage";
+		UUID uuid = UUID.randomUUID();
+
+		System.out.println("realFolder : " + realFolder);
+		System.out.println("accessPath : " + accessPath);
+		
+		// 업로드할 파일 이름
+		String org_filename = file.getOriginalFilename();
+		String str_filename = uuid.toString() + org_filename;
+		System.out.println("원본 파일명 : " + org_filename);
+		System.out.println("저장할 파일명 : " + str_filename);
+		
+		System.out.println("작성자명 : " + board.getMemberNo());
+		
+		String writer = board.getBoardWriter();	
+		
+		
+		String filepath1 = realFolder + "\\" + writer;
+		System.out.println("실제 파일 저장 경로 : " + filepath1);
+
+		File f = new File(filepath1);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		
+		String filepath2 = accessPath + "/"  + writer + "/" + str_filename;
+				
+		System.out.println("파일 url : " + filepath2);
+		
+		//out.println("filepath : " + filepath);
+		
+		//out.close();
+		
+		//filepath = request.getContextPath() + "/" + str_filename;
+		int result = streetDAO.fileUpload(filepath2);
+		
+		System.out.println("result : " +result);
+		if(result > 0) {
+			f = new File(filepath1 + "/" + str_filename);
+			file.transferTo(f);
+		}else{
+			filepath2 = "";
+		}
+		//return filepath;
+		
+		
+		return filepath2;
+		
+	}
+	
+	
+	
+	/*@Override
+	public int insertSummer(Board board) throws Exception {
+		return streetDAO.insertSummer(board);
+	}*/
+	
+	
+	
+	
+	
+	/*============================== 미현 끝 ============================*/
+
+
+
 	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
 	 * @param addRelation
 	 * @return result
@@ -480,6 +558,8 @@ public class StreetServiceImpl implements StreetService{
 	public void joinDelete(Map<String, Object> map) {
 		streetDAO.joinDelete(map);
 	}
+
+
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
