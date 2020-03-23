@@ -10,9 +10,9 @@
 <title>주민 목록</title>
 </head>
 <body class="nanum">
-	<jsp:include page="../common/header.jsp/">
-	<jsp:include page="streetDetail/streetNav.jsp/">
-	<jsp:include page="streetDetail/streetSide.jsp/">
+	<jsp:include page="../common/header.jsp"/>
+	<jsp:include page="streetDetail/streetNav.jsp"/>
+	<jsp:include page="streetDetail/streetSide.jsp"/>
 	<div class="container" style="margin-top: 100px;">
 		<div class="row">
 			<div class="col-md-3">
@@ -58,7 +58,7 @@
 						var ct = 0;
 						
 						$("#applyBtn").click(function(){
-							$("#applyMember").toggle(500);
+							$("#applyMember").toggle(0);
 						})
 						
 						$("#applyMember td").click(function(e){

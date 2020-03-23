@@ -81,7 +81,7 @@
 					<div id="createStreet">
 						<div class="form-group" style="display: inline-block;">
 							<select class="custom-select nanum" id="streetSort">
-								<option value="0">인기 골목 순</option>
+								<option value="0" >인기 골목 순</option>
 								<option value="1">주민 많은 순</option>
 								<option value="2">주민 적은 순</option>
 								<option value="3">최신 개설 순</option>

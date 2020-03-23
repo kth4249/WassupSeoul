@@ -79,8 +79,15 @@ object-fit: cover;
 				</div>
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="alarmButton" id="alarmDrop">
-					<a class="dropdown-item nanum" data-toggle="modal">'조미현'님이 친구요청을 수락하셨습니다.</a> 
-					<a class="dropdown-item nanum" data-toggle="modal">'20대 인싸들' 골목에서 추방당하셨습니다.</a>
+					<!-- <div class="dropdown-item nanum">
+						<div>'조미현'님이 친구요청을 수락하셨습니다.</div>
+						<div style="color:lightsalmon">테스트</div>
+						
+					</div>
+					<div class="dropdown-item nanum">
+						<div>'20대 인싸들' 골목에서 추방당하셨습니다.</div>
+						<div style="color:lightsalmon">테스트</div>
+					</div> -->
 				</div>
 			</div>
 			<!-- ------------------------------태훈 추가-------------------------------->
@@ -99,8 +106,11 @@ object-fit: cover;
 							} else {
 								$.each(alList, function(index, item){
 									//console.log(alList[index])
-									var $alarm = $("<a>").prop("class", "dropdown-item nanum").text(item.eventer + ", " + item.alarmContent);
-									$("#alarmDrop").append($alarm);
+									var $alDiv = $("<div>").prop("class", "dropdown-item nanum")
+									var $alContent = $("<div>").text(item.eventer + ", " + item.alarmContent);
+									var $alEventer = $("<div>").css("color", "lightsalmon").text("이벤터이름")
+									$alDiv.append($alContent).append($alEventer);
+									$("#alarmDrop").append($alDiv);
 								})
 							}
 						},

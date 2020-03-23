@@ -534,6 +534,8 @@ public class StreetController {
 	public int streetJoin(Model model) {
 		int streetNo = (int) model.getAttribute("streetNo");
 		Member member = (Member) model.getAttribute("loginMember");
+		Street street = (Street)model.getAttribute("street");
+		System.out.println(street);
 		int memberNo = member.getMemberNo();
 		
 		int myStreetCount = streetService.myStreetCount(memberNo);
@@ -552,7 +554,7 @@ public class StreetController {
 			// 알람 테이블에 데이터 삽입
 			// 가입 신청한 골목의 골목대장 번호 가져오기
 			int masterNo = streetService.selectMasterNo(streetNo);
-			Alarm alarm = new Alarm("골목 가입 요청", '1', "street/joinCheck?memberNo="+memberNo, memberNo+"", masterNo);
+			Alarm alarm = new Alarm("[] 골목 가입 요청", '1', "street/joinCheck?memberNo="+memberNo, memberNo+"", masterNo);
 			result = streetService.insertAlarm(alarm);
 		}
 

@@ -18,8 +18,8 @@
 </style>
 </head>
 <body class="nanum">
-	<%@ include file="../common/header.jsp" %>
-	<%@ include file="streetDetail/streetNav.jsp" %>
+	<jsp:include page="../common/header.jsp" />
+	<jsp:include page="streetDetail/streetNav.jsp" />
 	<div class="container" style="margin-top: 100px">	
 		<h1 class="nanum" style="display: inline;">추천 친구</h1>
 		&nbsp;&nbsp;&nbsp;
