@@ -80,6 +80,28 @@ public class FriendsDAO {
 	}
 
 
+	/** 친구 목록 조회용 DAO 1
+	 * @param myNum
+	 * @return fList
+	 * @throws Exception
+	 */
+	public List<Relation> friendsList(int myNum) throws Exception{
+		return sqlSession.selectList("friendsMapper.friendsList", myNum);
+	}
+
+
+	/** 친구 목록 조회용 DAO 2
+	 * @param fMap
+	 * @return ffList
+	 * @throws Exception
+	 */
+	public List<Member> justFriendsList(Map<String, Object> fMap) throws Exception {
+		return sqlSession.selectList("friendsMapper.justFriendsList", fMap);
+	}
+
+
+
+
 	
 
 }

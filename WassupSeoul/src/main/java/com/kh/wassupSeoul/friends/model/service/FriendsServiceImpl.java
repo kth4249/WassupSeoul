@@ -28,7 +28,6 @@ public class FriendsServiceImpl implements FriendsService{
 	@Override
 	public List<Member> friendRequest(int myNum) throws Exception {
 	      List<Relation> fList = friendsDAO.friendRequest(myNum);
-	      //fList.get(0).get
 	      List<Member> ffList = null;
 	      if (!fList.isEmpty()) {
 	    	 Map<String, Object> fMap = new HashMap<String, Object>();
@@ -79,6 +78,29 @@ public class FriendsServiceImpl implements FriendsService{
 	@Transactional(rollbackFor = Exception.class)
 	public int blockFriend(Map<String, Object> nMap) throws Exception {
 		return friendsDAO.blockFriend(nMap);
+	}
+
+	/** 친구 목록 조회용 Service
+	 * @param myNum
+	 * @return fList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Member> friendsList(int myNum) throws Exception {
+		List<Relation> fList = friendsDAO.friendsList(myNum);
+		System.out.println(fList); 
+		List<Member> ffList = null;
+		if (!fList.isEmpty()) {
+			
+			// fList에서 yourNum값만 뽑아서 보낼 생각해라
+			
+			Map<String, Object> fMap = new HashMap<String, Object>();
+			fMap.put("fList", fList);
+			fMap.put("myNum", myNum); 
+			ffList = friendsDAO.justFriendsList(fMap);
+			System.out.println(ffList);
+		}
+	      return ffList;
 	}
 
 

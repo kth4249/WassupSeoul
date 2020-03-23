@@ -755,10 +755,11 @@
 					$friendInfo.html($msg);
 					
 				}else {
-					$friendRequestArea.html("") // 기존 html 내용 삭제
+					
+					$friendInfo.html("") // 기존 html 내용 삭제
 					
 					$.each(result, function(i){
-						
+					
 						var $finalPath = $savePath + result[i].memberProfileUrl;
 						var $fImg = $("<img>").prop("class", "fImg").prop("src", $finalPath).css({"width":"40px","height":"40px"});
 						var $fUser = $("<span>").prop("class", "fUser").html(result[i].memberNickname);
@@ -771,7 +772,7 @@
 						$friendInfo.append($fImg).append($fUser).append($fTalk).append($block).append($hr);
 						$friendList.append($friendInfo)
 						
-										
+									
 					}); //$.each 끝
 					
 				} //else 끝
@@ -800,8 +801,9 @@
 	/* 에이잭스 실행 함수 */
 	 $(function(){
 		friendRequest(); // 친구 요청 목록
-		//friendsList();
-		/* setInterval(function(){
+		friendsList(); // 친구 목록 불러오기
+		
+		/* setInterval(function(){ // 갱신 주기
 			friendRequest(); 
 		}, 10000); */
 	}); 
