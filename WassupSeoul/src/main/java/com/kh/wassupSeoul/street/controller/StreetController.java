@@ -36,6 +36,7 @@ import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
+import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -536,6 +537,14 @@ public class StreetController {
 		map.put("memberNo", memberNo);
 
 		int result = streetService.streetJoin(map);
+		
+		if(result > 0) {
+			// 알람 테이블에 데이터 삽입
+			// 가입 신청한 골목의 골목대장 번호 가져오기
+			int masterNo = streetService.selectMasterNo(streetNo);
+			Alarm alarm = new Alarm("골목 가입 요청", '1', "street/joinCheck?memberNo="+memberNo, memberNo+"", masterNo);
+			result = streetService.insertAlarm(alarm);
+		}
 
 		return result;
 

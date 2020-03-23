@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.square.model.dao.SquareDAO;
+import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -45,6 +46,16 @@ public class SquareServiceImpl implements SquareService{
 	@Override
 	public List<Keyword> selectKeywordList(List<Street> sList) throws Exception {
 		return squareDAO.selectKeywordList(sList);
+	}
+	
+	
+	/** 알람 테이블 조회용 Service
+	 * @param memberNo
+	 * @return alList
+	 */
+	@Override
+	public List<Alarm> selectAlarm(int memberNo) {
+		return squareDAO.selectAlarm(memberNo);
 	}
 	
 	

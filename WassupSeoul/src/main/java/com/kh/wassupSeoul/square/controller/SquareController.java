@@ -12,16 +12,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.google.gson.Gson;
 import com.kh.wassupSeoul.common.Pagination;
 import com.kh.wassupSeoul.common.vo.PageInfo;
+import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.service.SquareService;
+import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
 /**
  * Handles requests for the application home page.
  */
+@SessionAttributes({"loginMember", "msg"})
 @Controller
 public class SquareController {
 	
@@ -86,7 +92,15 @@ public class SquareController {
 		return "square";
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("square/selectAlarm")
+	public String selectAlarm(Model model) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		List<Alarm> alList = squareService.selectAlarm(loginMember.getMemberNo());
+		
+		return new Gson().toJson(alList);
+	}
 	
 	
 	
