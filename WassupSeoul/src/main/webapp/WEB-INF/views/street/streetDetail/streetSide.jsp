@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 	<!-- 고정 사이드바 왼쪽 시작 -->
     <div class="col-md-2 fixed-top" style="left: 17%; top: 110px;" style="background-color: rgb(221, 233, 218);">
     <!-- <div class="col-md-2 fixed-top" style="left: 366px; top: 110px;" style="background-color: rgb(221, 233, 218);"> -->
       <div class="card mb-3">
-        <img style="height: 200px; width: 100%; display: block;" src="${contextPath}/resources/img/골목.jpg" alt="Card image">
+        <img style="height: 200px; width: 100%; display: block;" src="${contextPath}/resources/img/${street.imgUrl}" alt="Card image">
         <div class="card-body">
           <div class="row">
             <div class="col-sm-10">
@@ -13,18 +14,18 @@
 			</div>
 			<!-- 골목 등급을 나타내는 이미지 영역 시작 -->
             <div class="col-sm-2" style="padding: 0px;">
-            	<img src="${contextPath}/resources/img/grade1.svg" alt="badge" style="height: 40px; width: 30px;">
+            	<img src="${contextPath}/resources/img/${badgeUrl}" alt="badge" style="height: 40px; width: 30px;">
             </div>
             <!-- 골목 등급을 나타내는 이미지 영역 끝 -->
           </div>
           <div class="row">
             <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 15px;">멤버</label>
             <div class="col-sm-8">
-              <input type="text" readonly class="form-control-plaintext nanum" value="${street.streetMaxMember}" style="font-size: 15px;">
+              <input type="text" readonly class="form-control-plaintext nanum" value="${citizenCount}" style="font-size: 15px;">
             </div>
             <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 15px;">골목대장</label>
             <div class="col-sm-8">
-              <input type="text" readonly class="form-control-plaintext nanum" value="남궁민수" style="font-size: 15px;">
+              <input type="text" readonly class="form-control-plaintext nanum" value="${streetMasterNm}" style="font-size: 15px;">
             </div>
             <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 15px;">활동점수</label>
             <div class="col-sm-8">
@@ -34,15 +35,13 @@
           <div class="col-sm-12" style="margin:5px">
           	<textarea class="form-control nanum" rows="2" readonly >${street.streetIntro}</textarea>
           </div>
-          <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81; border-radius: 20px; margin-bottom: 5px;">
-          	<input type="text" readonly class="form-control-plaintext nanum" value="#우리골목의 키워드1입니다" style="color: white;">
-          </div>
-          <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81; border-radius: 20px; margin-bottom: 5px;">
-          	<input type="text" readonly class="form-control-plaintext nanum" value="#우리골목의 키워드2입니다" style="color: white;">
-          </div>
-          <div class="col-md-12 golmokKeywordBox" style="background-color: #36be81; border-radius: 20px; margin-bottom: 5px;">
-          	<input type="text" readonly class="form-control-plaintext nanum" value="#우리골목의 키워드3입니다" style="color: white;">
-          </div>
+          
+          <c:forEach var="keyword" items="${streetKeyword}" varStatus="vs">
+          	<div class="col-md-12 golmokKeywordBox" style="background-color: #36be81; border-radius: 20px; margin-bottom: 5px;">
+          		<input type="text" readonly class="form-control-plaintext nanum" value="#${keyword.keywordContent}" style="color: white;">
+          	</div>
+          </c:forEach>
+          
           <div class="row">
             <div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
             	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
@@ -68,37 +67,50 @@
 			}
 		  </script>
 		  <div class="row">
+		  
             <!-- 일반 주민 영역 -->
-            <div class="col-sm-6"></div>
-            <div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-              <button type="button" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
-                <img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">
-               	 골목 탈퇴하기
-              </button>
-            </div>
+		  	<c:if test="${citizenGrade eq 'G'}">
+		  		<div class="col-sm-6"></div>
+	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
+	             		<button type="button" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
+	               	<img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">
+	              	 	골목 탈퇴하기
+	             		</button>
+	           	</div>
+		  	</c:if>
             <!-- 일반 주민 영역 -->
+            
             <!-- 골목대장 영역 -->
-            <div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-              <a href="streetUpdate?no=${streetNo}" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px">
-                <img src="${contextPath}/resources/img/streetChange.svg" alt="이미지" style="width: 15px; height: 15px;">
-                                    골목 변경하기
-              </a>
-            </div>
-            <div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-              <button type="button" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px; padding-left: 6px; padding-right: 6px;">
-                <img src="${contextPath}/resources/img/actReport.svg" alt="이미지" style="width: 15px; height: 15px;">
-                                    활동보고서 작성
-              </button>
-            </div>
+            <c:if test="${citizenGrade eq 'M'}">
+		  	    	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
+	             		<a href="streetUpdate?no=${streetNo}" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px">
+	               	<img src="${contextPath}/resources/img/streetChange.svg" alt="이미지" style="width: 15px; height: 15px;">
+	                                   	골목 변경하기
+	             		</a>
+	           	</div>
+	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
+	             		<button type="button" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px; padding-left: 6px; padding-right: 6px;">
+	               	<img src="${contextPath}/resources/img/actReport.svg" alt="이미지" style="width: 15px; height: 15px;">
+	                                   	활동보고서 작성
+	             		</button>
+	           	</div>
+	  	    	</c:if>
             <!-- 골목대장 영역 -->
+            
           </div>
         </div>
-        <div class="card-footer text-muted nanum">
+        
+       <c:if test="${street.streetStatus eq 'Y'.charAt(0)}">
+        	<div class="card-footer text-muted nanum">
           	누구나 골목을 검색해 찾을 수 있고, <br>게시물을 볼 수 있습니다.
-        </div>
-        <div class="card-footer text-muted nanum">
+        	</div>
+        </c:if>
+        <c:if test="${street.streetStatus eq 'N'.charAt(0)}">
+        	<div class="card-footer text-muted nanum">
          	 이 골목은 누구나 검색해 찾을 수 있지만, 게시물은 주민만 볼 수 있습니다.
-        </div>
+        	</div>
+        </c:if>
+        
       </div>
     </div>
     <!-- 고정사이드바 왼쪽 끝 -->
