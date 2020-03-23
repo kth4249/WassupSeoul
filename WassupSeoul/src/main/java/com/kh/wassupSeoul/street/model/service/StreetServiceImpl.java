@@ -25,6 +25,7 @@ import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
+import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
 
 @Service
@@ -46,6 +47,16 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectStreet(streetNo);
 	}
 	
+	/** 회원 골목 등급 조회
+	 * @param checkStreet
+	 * @return memGradeInSt
+	 * @throws Exception
+	 */
+	@Override
+	public StreetJoin memGradeInSt(Reply checkStreet) throws Exception {
+		return streetDAO.memGradeInSt(checkStreet);
+	}
+
 
 	/** 골목 게시글 조회용 service
 	 * @param streetNo

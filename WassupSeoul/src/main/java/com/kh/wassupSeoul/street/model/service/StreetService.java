@@ -20,6 +20,7 @@ import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
+import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
 @Service
 public interface StreetService {
@@ -34,6 +35,12 @@ public interface StreetService {
 	 */
 	public abstract Street selectStreet(Integer streetNo) throws Exception;
 
+	/** 회원 골목 등급 조회
+	 * @param checkStreet
+	 * @return memGradeInSt
+	 * @throws Exception
+	 */
+	public abstract StreetJoin memGradeInSt(Reply checkStreet) throws Exception;
 	
 	/** 골목 게시글 조회용 service
 	 * @param checkStreet
@@ -230,7 +237,6 @@ public interface StreetService {
 
 	
 
-  
   
 
 	/*--------------------------------태훈 끝-------------------------------------*/
