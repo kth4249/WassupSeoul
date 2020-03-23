@@ -19,6 +19,7 @@ import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -339,6 +340,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public int insertStreet2(String changeCoverName, Street street, int memberNo, String[] streetKeywords)
 			throws Exception {
 		
@@ -402,6 +404,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public int insertStreet1(Street street, int memberNo, String[] streetKeywords) throws Exception {
 		int streetNo = 0;
 		int result = 0;
@@ -480,4 +483,110 @@ public class StreetServiceImpl implements StreetService{
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
+	
+	
+	
+	/* 지원 골목 수정 시작 */
+	/** 골목 수정 이미지 조회용 Service
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	@Override
+	public String selectImageUrl(int imgNo) throws Exception {
+		
+		return streetDAO.selectImageUrl(imgNo);
+	}
+	
+	/** 골목 수정 키워드 조회용 Service
+	 * @param no
+	 * @return kList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Keyword> selectKeywords(Integer no) throws Exception {
+		
+		return streetDAO.selectKeywords(no);
+	}
+	
+	/** 골목 수정용 Service1
+	 * @param street
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int updateStreet1(Street street, String[] streetKeywords) throws Exception {
+		
+		int result = 0;
+		Map<String, Object> map = null;
+		
+		result = streetDAO.updateStreet(street); 
+		
+		if(result > 0) {
+			
+			result = streetDAO.deleteStreetKeyword(street.getStreetNo());
+			
+			if(result > 0 && streetKeywords != null) {
+				
+				map = new HashMap<String, Object>();
+				map.put("streetNo", street.getStreetNo());
+				for(int i = 0; i < streetKeywords.length; i++) {
+					map.put("keyword", streetKeywords[i]);
+					result = streetDAO.insertStreetKeyword(map);
+				}
+			}
+		}
+				
+		return result;
+	}
+	
+	/** 골목 수정용 Service2
+	 * @param street
+	 * @param streetKeywords
+	 * @param changeCoverName
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int updateStreet2(Street street, String[] streetKeywords, String changeCoverName) throws Exception {
+		int result = 0;
+		int imgNo = 0;
+		Map<String, Object> map = null;
+		
+		imgNo = streetDAO.selectCoverNextNo();
+		
+		if(imgNo > 0) {
+			map = new HashMap<String, Object>();
+			map.put("imgNo", imgNo);
+			map.put("changeCoverName", changeCoverName);
+			
+			result = streetDAO.insertStreetCover(map);
+			
+			if(result > 0) {
+				
+				street.setImgNo(imgNo);
+				result = streetDAO.updateStreet(street);
+				
+				if(result > 0) {
+					
+					result = streetDAO.deleteStreetKeyword(street.getStreetNo());
+					
+					if(result > 0 && streetKeywords != null) {
+						
+						map = new HashMap<String, Object>();
+						map.put("streetNo", street.getStreetNo());
+						for(int i = 0; i < streetKeywords.length; i++) {
+							map.put("keyword", streetKeywords[i]);
+							result = streetDAO.insertStreetKeyword(map);
+						}
+					}
+				}
+			}
+		}		
+		return result;
+	}
+	/* 지원 골목 수정 끝 */
 }

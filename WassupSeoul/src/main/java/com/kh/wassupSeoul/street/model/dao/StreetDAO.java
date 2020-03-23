@@ -13,6 +13,7 @@ import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -285,7 +286,6 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
-	@Transactional(rollbackFor = Exception.class)
 	public int insertStreet(Street street) throws Exception {
 		
 		return sqlSession.insert("streetMapper.insertStreet", street);
@@ -296,7 +296,6 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
-	@Transactional(rollbackFor = Exception.class)
 	public int insertStreetMaster(Map<String, Object> map) throws Exception {
 		
 		return sqlSession.insert("streetMapper.insertStreetMaster", map);
@@ -307,7 +306,6 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
-	@Transactional(rollbackFor = Exception.class)
 	public int insertStreetKeyword(Map<String, Object> map2) throws Exception {
 		
 		return sqlSession.insert("streetMapper.insertStreetKeyword", map2);
@@ -337,6 +335,56 @@ public class StreetDAO {
 	public void joinDelete(Map<String, Object> map) {
 		sqlSession.delete("streetMapper.joinDelete", map);
 	}
+
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
+	
+	
+	
+	/* 지원 골목 수정 시작 */
+	/** 골목 수정 이미지 조회용 DAO
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	public String selectImageUrl(int imgNo) throws Exception {
+		
+		return sqlSession.selectOne("streetMapper.selectImageUrl", imgNo);
+	}
+
+	/** 골목 수정 키워드 조회용 DAO
+	 * @param no
+	 * @return kList
+	 * @throws Exception
+	 */
+	public List<Keyword> selectKeywords(Integer no) throws Exception {
+		
+		return sqlSession.selectList("streetMapper.selectKeywords", no);
+	}
+
+	
+	/** 골목 수정용 DAO
+	 * @param street
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateStreet(Street street) throws Exception {
+		
+		return sqlSession.update("streetMapper.updateStreet", street);
+	}
+
+	/** 기존 키워드 삭제용 DAO
+	 * @param streetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteStreetKeyword(int streetNo) throws Exception {
+		
+		return sqlSession.delete("streetMapper.deleteStreetKeyword", streetNo);
+	}
+	
+	
+	
+	
+	/* 지원 골목 수정 끝 */
 }

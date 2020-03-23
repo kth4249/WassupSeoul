@@ -16,6 +16,7 @@ import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.street.model.vo.Board;
+import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -225,9 +226,57 @@ public interface StreetService {
 	 */
 	public abstract void joinDelete(Map<String, Object> map);
 
+
+
   
   
 
 	/*--------------------------------태훈 끝-------------------------------------*/
-	 
+	
+	
+	
+	/* 지원 골목 수정 시작 */
+	
+	/** 골목 수정 이미지 조회용 Service
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	public abstract String selectImageUrl(int imgNo) throws Exception;
+
+
+	/** 골목 수정 키워드 조회용 Service
+	 * @param no
+	 * @return kList
+	 * @throws Exception
+	 */
+	public abstract List<Keyword> selectKeywords(Integer no) throws Exception;
+
+
+	/** 골목 수정용 Service1
+	 * @param street
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateStreet1(Street street, String[] streetKeywords) throws Exception;
+
+
+	/** 골목 수정용 Service2
+	 * @param street
+	 * @param streetKeywords
+	 * @param changeCoverName
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateStreet2(Street street, String[] streetKeywords, String changeCoverName) throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	/* 지원 골목 수정 끝 */
 }
