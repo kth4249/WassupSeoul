@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,13 +52,13 @@ a:hover {
 
 	<!-- 고정된 골목 네비바  -->
 	<%-- <%@ include file="../street/streetDetail/streetNav.jsp"%> --%>
-	<jsp:include page="../street/streetDetail/streetNav.jsp"/>
+	<jsp:include page="../street/streetDetail/streetNav.jsp" />
 
 
 
 	<!-- 고정된 헤더 -->
 	<%-- <%@include file="../common/header.jsp"%> --%>
-	<jsp:include page="../common/header.jsp"/>
+	<jsp:include page="../common/header.jsp" />
 
 
 
@@ -67,7 +67,7 @@ a:hover {
 		<div class="row">
 
 			<%-- <%@ include file="../street/streetDetail/streetSide.jsp"%> --%>
-			<jsp:include page="../street/streetDetail/streetSide.jsp"/>
+			<jsp:include page="../street/streetDetail/streetSide.jsp" />
 
 
 			<!-- 사이드1 여백 -->
@@ -75,7 +75,8 @@ a:hover {
 			<!-- 사이드1 여백 -->
 
 
-			<form method="POST" action="updateStreet?no=${streetNo}&imgNo=${imgNo}"
+			<form method="POST"
+				action="updateStreet?no=${streetNo}&imgNo=${imgNo}"
 				enctype="multipart/form-data" role="form" onsubmit="">
 
 				<!-- input 태그 clear 버튼 -->
@@ -128,9 +129,8 @@ a:hover {
 								<div class="col-xs-4">
 									<input type="text" class="form-control nanum" name="streetNm"
 										id="streetNm" placeholder="2글자이상 15글자이하로 작성하기(특수문자제외)"
-										value="${street.streetNm}">
-									<span class="nanum" id="checkStreetNm"
-										style="font-size: smaller;">&nbsp;</span>
+										value="${street.streetNm}"> <span class="nanum"
+										id="checkStreetNm" style="font-size: smaller;">&nbsp;</span>
 								</div>
 							</div>
 
@@ -167,21 +167,25 @@ a:hover {
 										<option value="25">마포구</option>
 									</select>
 								</div>
-							</div> 
+							</div>
 							<script>
-								$.each($("#districtNo>option"), function(index,item){
-							
-									if($(item).attr("value") == "${street.districtNo}"){
-										$(item).prop("selected", "true");
-										// 킬킬킬킬킬킬킬킬킬 잘 안되죠? 
-												// 그래도 힘 내셔야죠?
+								$
+										.each(
+												$("#districtNo>option"),
+												function(index, item) {
+
+													if ($(item).attr("value") == "${street.districtNo}") {
+														$(item).prop(
+																"selected",
+																"true");
+														// 킬킬킬킬킬킬킬킬킬 잘 안되죠? 
+														// 그래도 힘 내셔야죠?
 														// 왜인줄앎?
-																// 넌 할 수 있거든
-																// 이건 되는데 밑에거는 안되는이유좀..
-																
-									}
-								});
-							
+														// 넌 할 수 있거든
+														// 이건 되는데 밑에거는 안되는이유좀..
+
+													}
+												});
 							</script>
 
 
@@ -227,9 +231,8 @@ a:hover {
 									<input type="text" class="form-control nanum"
 										name="streetIntro" id="streetIntro"
 										placeholder="15글자 이하로 작성하기(특수문자 제외)"
-										value="${street.streetIntro }"> <span
-										class="nanum" id="checkStreetIntro"
-										style="font-size: smaller;">&nbsp;</span>
+										value="${street.streetIntro }"> <span class="nanum"
+										id="checkStreetIntro" style="font-size: smaller;">&nbsp;</span>
 								</div>
 							</div>
 
@@ -250,22 +253,27 @@ a:hover {
 							</div>
 						</div>
 					</div>
-					<div class="row"> 
+					<div class="row">
 						<br>
 					</div>
 					<script>
-					$.each($("#streetMaxMember>option"), function(index,item){
-						
-						if($(item).attr("value") == "${street.streetMaxMember}"){
-							$(item).prop("selected", "true");
-							// 킬킬킬킬킬킬킬킬킬 잘 안되죠? 
-									// 그래도 힘 내셔야죠?
-											// 왜인줄앎?
-													// 넌 할 수 있거든
-													// 이건 되는데 밑에거는 안되는이유좀..
-													
-						} 
-					});
+						$
+								.each(
+										$("#streetMaxMember>option"),
+										function(index, item) {
+
+											if ($(item).attr("value") == "${street.streetMaxMember}") {
+												$(item)
+														.prop("selected",
+																"true");
+												// 킬킬킬킬킬킬킬킬킬 잘 안되죠? 
+												// 그래도 힘 내셔야죠?
+												// 왜인줄앎?
+												// 넌 할 수 있거든
+												// 이건 되는데 밑에거는 안되는이유좀..
+
+											}
+										});
 					</script>
 
 
@@ -374,17 +382,17 @@ a:hover {
 					<c:forEach var="key" items="${keywords}" varStatus="vs">
 						<script>
 							console.log("${key.keywordContent}");
-							var kIndex = 1;							
-							
-							$(function(){
+							var kIndex = 1;
+
+							$(function() {
 								var keywordTag;
 								var keyword = "${key.keywordContent}";
-									keywordTag = "#streetKeyword" + kIndex;
-									kIndex++;
-								
+								keywordTag = "#streetKeyword" + kIndex;
+								kIndex++;
+
 								$(keywordTag).val(keyword);
 							});
-						</script>						
+						</script>
 					</c:forEach>
 
 
@@ -410,7 +418,7 @@ a:hover {
 											style="border: 1px solid black; width: 506px; height: 290px;"
 											id="streetThumbnailArea">
 											<img id="streetThumbnail"
-												style="width: 504px; height: 288px;" 
+												style="width: 504px; height: 288px;"
 												src="${contextPath}/resources/streetCoverImage/${imgUrl}">
 										</div>
 									</div>
@@ -528,12 +536,14 @@ a:hover {
 						<br>
 					</div>
 					<script>
-						$.each($("input[name=streetPublic]"), function(index,item){
-							if($(item).attr("value") == "${street.streetPublic}"){
-								$(item).prop("checked","true");
-							}
-						});						
-					
+						$
+								.each(
+										$("input[name=streetPublic]"),
+										function(index, item) {
+											if ($(item).attr("value") == "${street.streetPublic}") {
+												$(item).prop("checked", "true");
+											}
+										});
 					</script>
 
 
@@ -717,6 +727,6 @@ a:hover {
 	</script>
 
 	<%-- <%@ include file="../common/footer.jsp"%> --%>
-	<jsp:include page="../common/footer.jsp"/>
+	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

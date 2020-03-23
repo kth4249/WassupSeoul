@@ -666,10 +666,16 @@ public class StreetServiceImpl implements StreetService{
 		int result = 0;
 		int imgNo = 0;
 		Map<String, Object> map = null;
+		int origin = street.getImgNo();
 		
 		imgNo = streetDAO.selectCoverNextNo();
 		
 		if(imgNo > 0) {
+			/************* 지원 추가사항 시작 *************/
+			// result = streetDAO.deleteStreetCover(origin);
+			// 할지말지 의논...
+			/************* 지원 추가사항 끝 *************/
+			
 			map = new HashMap<String, Object>();
 			map.put("imgNo", imgNo);
 			map.put("changeCoverName", changeCoverName);

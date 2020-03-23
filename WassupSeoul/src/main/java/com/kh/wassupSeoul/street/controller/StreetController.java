@@ -915,4 +915,21 @@ public class StreetController {
 		
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
+	
+	
+	
+	
+	/*------------------------ 지원 골목삭제 시작-----------------------------------*/
+	// 골목 삭제 화면 이동
+	@RequestMapping("streetDelete")
+	public String streetDeleteForm(Integer no, Model model, HttpServletRequest request) {
+
+		String detailUrl = request.getHeader("referer");
+
+		model.addAttribute("detailUrl", detailUrl);
+
+		return "";
+	}
+	
+	/*------------------------ 지원 골목삭제 끝-----------------------------------*/
 }
