@@ -8,7 +8,7 @@
 		<result property="streetNm" column="STREET_NM"/>
 		<result property="streetIntro" column="STREET_INTRO"/>
 		<result property="streetStatus" column="STREET_STATUS"/>
-		<result property="streetMaxMember" column="STREET_MAX_MAMBER"/>
+		<result property="streetMaxMember" column="STREET_MAX_MEMBER"/> 
 		<result property="streetPoint" column="STREET_POINT"/>
 		<result property="imgNo" column="IMG_NO"/>
 		<result property="districtNo" column="DISTRICT_NO"/>
@@ -474,6 +474,39 @@
 			SEQ_BOARD.NEXTVAL, #{filepath}
 		)
 	</insert>
+	
+	
+	<!-- 지원 골목 수정 시작 -->
+	<!-- 수정 이미지 조회 -->
+	<select id="selectImageUrl" parameterType="_int" resultType="string">
+		SELECT IMG_URL FROM STREET_IMG 
+		WHERE IMG_NO = #{imgNo}
+	</select>
+	
+	<!-- 수정 키워드 조회 -->
+	<select id="selectKeywords" parameterType="_int" resultMap="keywordResultSet">
+		SELECT * FROM KEYWORD 
+		WHERE STREET_NO = #{no}
+	</select>
+	
+	<!-- 골목 수정 -->
+	<update id="updateStreet" parameterType="Street">
+		UPDATE STREET SET
+		STREET_NM = #{streetNm},
+		STREET_INTRO = #{streetIntro}, 
+		STREET_MAX_MEMBER = #{streetMaxMember},
+		IMG_NO = #{imgNo},
+		DISTRICT_NO = #{districtNo},
+		STREET_PUBLIC = #{streetPublic}
+		WHERE STREET_NO = #{streetNo}
+	</update>
+	
+	<!-- 키워드 삭제 -->
+	<delete id="deleteStreetKeyword" parameterType="_int">
+		DELETE FROM KEYWORD
+		WHERE STREET_NO = #{streetNo}
+	</delete>
+	<!-- 지원 골목 수정 끝 -->
 	
 	
 </mapper>

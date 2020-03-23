@@ -28,7 +28,6 @@
 </style>
 <body class="nanum">
 	<jsp:include page="../common/header.jsp"/>
-	
 
 
 	<form method="POST" action="insertStreet" enctype="multipart/form-data"
@@ -606,7 +605,7 @@
 				});
 	</script>
 
-	<%@ include file="../common/footer.jsp"%>
-
+	<%-- <%@ include file="../common/footer.jsp"%> --%>
+	<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

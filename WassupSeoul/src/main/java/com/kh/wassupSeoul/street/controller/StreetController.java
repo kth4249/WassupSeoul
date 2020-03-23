@@ -685,6 +685,131 @@ public class StreetController {
 	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
+	
+	
+	
+	/* 지원 골목 수정 시작 */
+	// 골목 수정 페이지 이동
+	@RequestMapping("streetUpdate")
+	public String streetUpdateForm(Integer no, Model model, HttpServletRequest request) {
+		
+		String detailUrl = request.getHeader("referer");
+		
+		model.addAttribute("detailUrl", detailUrl);
+				
+		try {
+			
+			Street street = streetService.selectStreet(no);
+			
+			if(street != null) {
+				
+				String imgUrl = streetService.selectImageUrl(street.getImgNo());
+				model.addAttribute("imgNo", street.getImgNo());
+				model.addAttribute("imgUrl", imgUrl);
+				
+				List<Keyword> keywords = streetService.selectKeywords(no);
+				System.out.println("123");
+				System.out.println("keywords 확인 : "+ keywords);
+				
+				if(keywords != null) {
+					model.addAttribute("keywords", keywords);
+				}
+				
+			}
+			
+			model.addAttribute("street", street);
+			
+			return "street/streetUpdate"; 
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "골목 수정 화면 이동 과정에서 오류 발생");
+			return "common/errorPage";
+		}
+		
+	}
+	
+	
+	// 골목 수정
+	@RequestMapping("updateStreet")
+	public String updateStreet(Integer imgNo, Integer no, Street street,
+			@RequestParam(value = "streetKeywords", required = false) String[] streetKeywords,
+			@RequestParam(value = "sampleImg", required = false) String sampleImg,
+			@RequestParam(value = "streetCoverUpload", required = false) MultipartFile streetCoverUpload,
+			Model model, RedirectAttributes rdAttr, HttpServletRequest request) {
+		
+		String detailUrl = (String) model.getAttribute("detailUrl");
+		
+		street.setStreetNo(no);
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "/" + "streetCoverImage";
+		File folder = new File(savePath);
+		if (!folder.exists())
+			folder.mkdir();
+		
+		int result = 0;
+		
+		try {
+			
+			/*
+			  이미지 그대로일때 -> set 할 필요 없음			 			 
+			 */ 
+			System.out.println("imgNo : "+ imgNo);
+			System.out.println("no : "+ no);
+			System.out.println("street : "+ street);
+			for(int i=0; i<streetKeywords.length; i++) {
+				System.out.println("키워드 : " + streetKeywords[i]);
+			}
+			System.out.println("sampleImg : "+ sampleImg);
+			System.out.println("streetCoverUpload.getOriginalFilename() : "+ streetCoverUpload.getOriginalFilename());
+			 
+			
+			if(!sampleImg.equals("")) {
+				
+				if(sampleImg.equals("골목.jpg")) {					
+					street.setImgNo(6);
+				} else if(sampleImg.equals("골목2.jpg")) {
+					street.setImgNo(7);
+				} else if(sampleImg.equals("골목3.jpg")) {
+					street.setImgNo(8);
+				} else if (sampleImg.equals("골목4.jpg")) { 
+					street.setImgNo(9);
+				}
+				
+				result = streetService.updateStreet1(street, streetKeywords);
+				
+			} else if(sampleImg.equals("") && 
+					!streetCoverUpload.getOriginalFilename().equals("")) {
+				// 골목 커버 이름 바꾸기
+				String changeCoverName = FileRename.rename(streetCoverUpload.getOriginalFilename());
+				
+				result = streetService.updateStreet2(street, streetKeywords, changeCoverName);
+				
+				if (result > 0) { // 정보 다 저장된 경우 골목 커버 서버에 저장
+
+					streetCoverUpload.transferTo(new File(savePath + "/" + changeCoverName));
+					 
+				}
+				
+			} else if(sampleImg.equals("") && 
+					streetCoverUpload.getOriginalFilename().equals("")) {
+				
+				result = streetService.updateStreet1(street, streetKeywords);
+				
+			}
+			
+			return "redirect:" + detailUrl;
+		}catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "골목 수정 과정에서 오류 발생");
+			return "common/errorPage";
+		}
+		
+	}
+	
+	
+	/* 지원 골목 수정 끝 */
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 	
 	// 일정 조회

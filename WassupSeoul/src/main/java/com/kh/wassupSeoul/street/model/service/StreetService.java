@@ -229,21 +229,58 @@ public interface StreetService {
 
 
 	
-	/** 
-	 * @param board
-	 * @return
-	 * @throws Exception
-	 */
-	//public abstract int insertSummer(Board board) throws Exception;
-
-
-	
 
   
   
 
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
+	
+	
+	/* 지원 골목 수정 시작 */
+	
+	/** 골목 수정 이미지 조회용 Service
+	 * @param imgNo
+	 * @return imgUrl
+	 * @throws Exception
+	 */
+	public abstract String selectImageUrl(int imgNo) throws Exception;
+
+
+	/** 골목 수정 키워드 조회용 Service
+	 * @param no
+	 * @return kList
+	 * @throws Exception
+	 */
+	public abstract List<Keyword> selectKeywords(Integer no) throws Exception;
+
+
+	/** 골목 수정용 Service1
+	 * @param street
+	 * @param streetKeywords
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateStreet1(Street street, String[] streetKeywords) throws Exception;
+
+
+	/** 골목 수정용 Service2
+	 * @param street
+	 * @param streetKeywords
+	 * @param changeCoverName
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateStreet2(Street street, String[] streetKeywords, String changeCoverName) throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	/* 지원 골목 수정 끝 */
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 	
 	/** 현재 골목 주민수 조회용 Service
