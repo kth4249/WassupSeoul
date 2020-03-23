@@ -9,50 +9,39 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-<script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
+<%-- <script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>   --%>
+
 
 
 <title>타임라인 글작성 영역</title>
 </head>
 <style>
-.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;width:100%;height:500px;}
-#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
-.bg_white {background:#fff;}
-#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
-#menu_wrap .option{text-align: center;}
-#menu_wrap .option p {margin:10px 0;}  
-#menu_wrap .option button {margin-left:5px;}
-#placesList li {list-style: none;}
-#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
-#placesList .item span {display: block;margin-top:4px;}
-#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-#placesList .item .info{padding:10px 0 10px 55px;}
-#placesList .info .gray {color:#8a8a8a;}
-#placesList .info .jibun {padding-left:26px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
-#placesList .info .tel {color:#009900;}
-#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
-#placesList .item .marker_1 {background-position: 0 -10px;}
-#placesList .item .marker_2 {background-position: 0 -56px;}
-#placesList .item .marker_3 {background-position: 0 -102px}
-#placesList .item .marker_4 {background-position: 0 -148px;}
-#placesList .item .marker_5 {background-position: 0 -194px;}
-#placesList .item .marker_6 {background-position: 0 -240px;}
-#placesList .item .marker_7 {background-position: 0 -286px;}
-#placesList .item .marker_8 {background-position: 0 -332px;}
-#placesList .item .marker_9 {background-position: 0 -378px;}
-#placesList .item .marker_10 {background-position: 0 -423px;}
-#placesList .item .marker_11 {background-position: 0 -470px;}
-#placesList .item .marker_12 {background-position: 0 -516px;}
-#placesList .item .marker_13 {background-position: 0 -562px;}
-#placesList .item .marker_14 {background-position: 0 -608px;}
-#placesList .item .marker_15 {background-position: 0 -654px;}
-#pagination {margin:10px auto;text-align: center;}
-#pagination a {display:inline-block;margin-right:10px;}
-#pagination .on {font-weight: bold; cursor: default;color:#777;}
-</style>
 
+#map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 180px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+ </style>
 <body>
 
 				<div class="postLayoutView " style="padding: 0%;">
@@ -162,16 +151,27 @@
 
 									<textarea class=" nanum" id="writePostArea1" rows="6" placeholder="게시글내용을 입력하세요."
 											style="border: 1px solid black; color: black; font-size: 17px; height: 150px; width:100%"></textarea>
-										<!-- <input type="text" placeholder="주소검색 버튼 클릭" style="width:80%;" name="address1" id="address1" class="postcodify_address"> -->
-										<!-- <input type="button" value="주소 검색" id="postcodify_search_button"><br> -->
+											<!-- 
+										    <input type="text" placeholder="주소검색 버튼 클릭" style="width:80%;" name="address1" id="address1" class="postcodify_address">  
+										   
+										    <input type="text" placeholder="주소검색 버튼 클릭" style="width:80%;" name="address1" id="query" >
+											<input type="button" value="주소 검색" id="btnsearch"><br> -->
 										<!-- <div id="map"style="width: 100%; height: 300px; margin-top: 10px; border:2px black solid;"></div> -->
-										<div class="map_wrap">
-									<div id="map" style="width:100%;height:400px;position:relative;overflow:hidden;"></div>
-										
-										</div>
+								
+									 	
+										<!--
 										<button type="button" id="mapSubmitBtn"
 										style="width: 15%; height: 30px; font-size: 17px; float: right; margin: 0px">작성</button>
-
+ 									-->
+ 									
+ 										<div id="floating-panel" style="width:50%">
+									      <input id="address" type="textbox" value="광화문" style="width:80%">
+									      <input id="submit" type="button" value="검색">
+									    </div>
+									    <div class="map_wrap">
+											<div id="map" style="width:100%;height:400px;position:relative;overflow:hidden;"></div>
+										</div>
+									
 									<div class="modal_layer"></div>
 								 	
 									<!-- content end -->
@@ -179,28 +179,207 @@
 							</div>
 						</div>
 					</div>
-					<!-- end -->
-					<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
-					<script>
-				 	// 모달 열고나서 지도 넣기 . 안그러면 지도 잘려서 나옴 
-				 	$('#mapModal').on('shown.bs.modal', function (e) {
-				 		
-				 		var container = document.getElementById('map');
-						var options = {
-							center: new kakao.maps.LatLng(33.450701, 126.570667),
-							level: 3
-						};
-
-						var map = new kakao.maps.Map(container, options);
-				 	       
-				 	 });    
-				 	</script>
-				 	
-				 	
-				 	
-					<!-- jQuery와 postcodify 를 로딩한다. -->
-                    <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 					
+					 <script>
+					
+				      function initMap() {
+				        var map = new google.maps.Map(document.getElementById('map'), {
+				          zoom: 8,
+				          center: {lat: 37.5724723, lng: 126.9737442}
+				        });
+				        var geocoder = new google.maps.Geocoder();
+				
+				        document.getElementById('submit').addEventListener('click', function() {
+				          geocodeAddress(geocoder, map);
+				        });
+				      }
+				
+				      function geocodeAddress(geocoder, resultsMap) {
+				        var address = document.getElementById('address').value;
+				        geocoder.geocode({'address': address}, function(results, status) {
+				          if (status === 'OK') {
+				            resultsMap.setCenter(results[0].geometry.location);
+				            var marker = new google.maps.Marker({
+				              map: resultsMap,
+				              position: results[0].geometry.location
+				            });
+				          } else {
+				            alert('Geocode was not successful for the following reason: ' + status);
+				          }
+				        });
+				      }
+					 
+				    </script>
+				     <script async defer src="https://maps.googleapis.com/maps/api/js?key= AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap">
+    				</script>
+					<!-- end -->
+					
+						<!-- jQuery와 postcodify 를 로딩한다. -->
+                     <!-- <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script> -->
+                   <!--<script>
+                       // 검색 단추를 누르면 팝업 레이어가 열리도록 설정한다.
+                       $(function(){
+                           $("#postcodify_search_button").postcodifyPopUp();
+                       });
+						</script> -->
+						
+					
+				<!-- 	 <script>
+					 
+						function getlist(){
+							$.ajax({
+								type:"get",
+								url:"https://dapi.kakao.com/v2/local/search/keyword.json",
+								headers:{"Authorization" : "KakaoAK bbfb29eee434ba8b0233f8af2b3d8b65" },
+								dataType:"json",
+								data:{"query":query, "page":page, "size":"10" },
+								success:function(data){
+									var temp = Handlebars.compile($("#temp").html());
+									$("#tb1").append(temp(data));
+									$("#total").html(data.meta.total_count);
+									is_end = data.meta.is_end;
+								}
+							})
+						}
+					
+						
+						$("#tbl").on("click", "tr button", function(){
+							var lat=$(this).attr("y");
+							var lng=$(this).attr("x");
+							
+							var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+							
+							map.setCenter(coords);
+							
+							
+							 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+					         	mapOption = {
+					             center : new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
+					             level : 3
+					         // 지도의 확대 레벨
+					         };
+							 var map = new kakao.maps.Map(mapContainer, mapOption);
+							 
+							 $("#darkbox").show();
+						});
+						
+						
+					 	$('#mapModal').on('shown.bs.modal', function (e) {
+					 	   	
+					 		 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+					         mapOption = {
+					             center : new kakao.maps.LatLng(33.4686929, 126.5468875), // 지도의 중심좌표
+					             level : 3
+					         // 지도의 확대 레벨
+					         };
+					 		 
+					         // 지도를 생성합니다    
+					         var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+					         
+					     	 // 지도 타입 변경 컨트롤을 생성한다
+					 		var mapTypeControl = new kakao.maps.MapTypeControl();
+
+					 		// 지도의 상단 우측에 지도 타입 변경 컨트롤을 추가한다
+					 		map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);	
+
+					 		// 지도에 확대 축소 컨트롤을 생성한다
+					 		var zoomControl = new kakao.maps.ZoomControl();
+
+					 		 // 지도의 우측에 확대 축소 컨트롤을 추가한다
+					 		map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+					 		var places = new kakao.maps.services.Places();
+					 		
+					 		places.keywordSearch('판교 치킨', callback);
+					 		
+					 		var callback = function(result, status) {
+					 		    if (status === kakao.maps.services.Status.OK) {
+					 		    	places.setMap(map);
+					 		    }
+					 		}; 
+
+					</script>  -->
+					
+					<!-- <script>
+				 	 // 모달 열고나서 지도 넣기 . 안그러면 지도 잘려서 나옴 
+				 	$('#mapModal').on('shown.bs.modal', function (e) {
+				 	   	
+				 		 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				       		 mapOption = {
+				             center : new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+				             level : 3
+				         // 지도의 확대 레벨
+				         };
+				 		 
+				         // 지도를 생성합니다    
+				         var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+				         
+				     	 // 지도 타입 변경 컨트롤을 생성한다
+				 		var mapTypeControl = new kakao.maps.MapTypeControl();
+
+				 		// 지도의 상단 우측에 지도 타입 변경 컨트롤을 추가한다
+				 		map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);	
+
+				 		// 지도에 확대 축소 컨트롤을 생성한다
+				 		var zoomControl = new kakao.maps.ZoomControl();
+
+				 		 // 지도의 우측에 확대 축소 컨트롤을 추가한다
+				 		map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+				 	/* 	var places = new kakao.maps.services.Places();
+				 		
+				 		places.keywordSearch('판교 치킨', callback);
+				 		
+				 		var callback = function(result, status) {
+				 		    if (status === kakao.maps.services.Status.OK) {
+				 		    	places.setMap(map);
+				 		    }
+				 		};  */
+
+				 		var coords = new kakao.maps.LatLng(33.4686929, 126.5468875);
+						
+						/* map.setCenter(coords); */
+						    
+				         
+				         
+				      // 마커를 표시할 위치와 title 객체 배열입니다 
+				      var positions = [ //약국에 대하여 받은 결과를 표시하기
+				          {
+				              title: '건강일등약국', 
+				              latlng: new kakao.maps.LatLng(33.4686929, 126.5468875)
+				          },
+				          {
+				              title: '제주누리약국', 
+				              latlng: new kakao.maps.LatLng(33.46890356, 126.5471533)
+				          }
+				      ];
+
+				      // 마커 이미지의 이미지 주소입니다
+				      var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
+				          
+				      for (var i = 0; i < positions.length; i ++) {
+				          
+				          // 마커 이미지의 이미지 크기 입니다
+				          var imageSize = new kakao.maps.Size(24, 35); 
+				          
+				          // 마커 이미지를 생성합니다    
+				          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+				          
+				          // 마커를 생성합니다
+				          var marker = new kakao.maps.Marker({
+				              map: map, // 마커를 표시할 지도
+				              position: positions[i].latlng, // 마커를 표시할 위치
+				              title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+				              image : markerImage // 마커 이미지 
+				          });
+				      }
+
+				         
+				 	 });     
+				 	</script> -->
+				 	
+
+				 	
 					<!-- 투표 모달 -->
 					<div class="modal fade" id="voteModal" data-backdrop="static"
 						tabindex="-1" role="dialog" aria-labelledby="writerModalLabel" aria-hidden="true">

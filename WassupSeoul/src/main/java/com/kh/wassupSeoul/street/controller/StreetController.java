@@ -124,6 +124,7 @@ public class StreetController {
 		}
 
 	}
+	
 
 	// 게시글 작성
 	@RequestMapping("insert")
