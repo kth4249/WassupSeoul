@@ -15,6 +15,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
+import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -235,8 +236,20 @@ public interface StreetService {
 	public abstract void joinDelete(Map<String, Object> map);
 
 
-	
+	/** 골목 대장 번호 조회용 Service(알림용)
+	 * @param streetNo
+	 * @return masterNo
+	 */
+	public abstract int selectMasterNo(int streetNo);
 
+
+	/** 가입신청 알람 삽입용 Service
+	 * @param alarm
+	 * @return result
+	 */
+	public abstract int insertAlarm(Alarm alarm);
+
+  
   
 
 	/*--------------------------------태훈 끝-------------------------------------*/

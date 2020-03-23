@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.wassupSeoul.common.vo.PageInfo;
+import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -46,6 +47,11 @@ public class SquareDAO {
 	 */
 	public List<Keyword> selectKeywordList(List<Street> sList) throws Exception{
 		return sqlSession.selectList("streetMapper.selectKeywordList", sList);
+	}
+
+
+	public List<Alarm> selectAlarm(int memberNo) {
+		return sqlSession.selectList("memberMapper.selectAlarm", memberNo);
 	}
 
 }

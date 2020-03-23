@@ -423,6 +423,14 @@
 		VALUES(#{memberNo}, #{streetNo}, 'G', 'W')
 	</insert>
 	
+	<!-- 골목대장 번호 조회용 Service -->
+	<select id="selectMasterNo" parameterType="_int" resultType="_int">
+		SELECT MEMBER_NO FROM STREET_JOIN
+		WHERE STREET_NO = #{streetNo} 
+		AND CITIZEN_GRADE = 'M'
+		AND CITIZEN_STATUS = 'Y'
+	</select>
+	
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->

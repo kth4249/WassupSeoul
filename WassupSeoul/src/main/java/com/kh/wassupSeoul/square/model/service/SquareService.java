@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.kh.wassupSeoul.common.vo.PageInfo;
+import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Street;
 
@@ -32,6 +33,13 @@ public interface SquareService {
 	 * @throws Exception
 	 */
 	public abstract List<Keyword> selectKeywordList(List<Street> sList) throws Exception;
+
+
+	/** 알람 테이블 조회용 Service
+	 * @param memberNo
+	 * @return alList
+	 */
+	public abstract List<Alarm> selectAlarm(int memberNo);
 	
 
 

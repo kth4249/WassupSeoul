@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
+import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -346,20 +347,35 @@ public class StreetDAO {
 
 
 	/*-------------------------------태훈 시작 (03/22) -----------------------------*/
-	/** 골목 가입신청 허가용 Service
+	/** 골목 가입신청 허가용 DAO
 	 * @param map
 	 */
 	public void joinCheck(Map<String, Object> map) {
 		sqlSession.update("streetMapper.joinCheck", map);
 	}
 	
-	/** 골목 가입신청 거절용 Service
+	/** 골목 가입신청 거절용 DAO
 	 * @param map
 	 */
 	public void joinDelete(Map<String, Object> map) {
 		sqlSession.delete("streetMapper.joinDelete", map);
 	}
 
+	/** 골목대장 번호 조외용 DAO
+	 * @param streetNo
+	 * @return
+	 */
+	public int selectMasterNo(int streetNo) {
+		return sqlSession.selectOne("streetMapper.selectMasterNo", streetNo);
+	}
+
+	/** 가입신청 알람 삽입용 DAO
+	 * @param alarm
+	 * @return
+	 */
+	public int insertAlarm(Alarm alarm) {
+		return sqlSession.insert("memberMapper.insertAlarm", alarm);
+	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

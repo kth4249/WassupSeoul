@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
+import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
@@ -573,6 +574,24 @@ public class StreetServiceImpl implements StreetService{
 	}
 
 
+	
+	/** 골목 대장 번호 조회용 Service(알림용)
+	 * @param streetNo
+	 * @return masterNo
+	 */
+	@Override
+	public int selectMasterNo(int streetNo) {
+		return streetDAO.selectMasterNo(streetNo);
+	}
+	
+	/** 가입신청 알람 삽입용 Service
+	 * @param alarm
+	 * @return result
+	 */
+	@Override
+	public int insertAlarm(Alarm alarm) {
+		return streetDAO.insertAlarm(alarm);
+	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

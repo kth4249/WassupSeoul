@@ -78,13 +78,42 @@ object-fit: cover;
 					<img src="${contextPath}/resources/img/alarm2.png">
 				</div>
 				<div class="dropdown-menu dropdown-menu-right"
-					aria-labelledby="alarmButton">
+					aria-labelledby="alarmButton" id="alarmDrop">
 					<a class="dropdown-item nanum" data-toggle="modal">'조미현'님이 친구요청을 수락하셨습니다.</a> 
 					<a class="dropdown-item nanum" data-toggle="modal">'20대 인싸들' 골목에서 추방당하셨습니다.</a>
 				</div>
 			</div>
-
-
+			<!-- ------------------------------태훈 추가-------------------------------->
+			<script>
+				$("#alarmButton").on("click", function(){
+					$.ajax({
+						url : "${contextPath}/square/selectAlarm",
+						dataType : "json",
+						success : function(alList) {
+							console.log("ajax 통신 성공")
+							console.log(alList);
+							$("#alarmDrop").html("");
+							if(alList == ""){
+								var $alarm = $("<a>").prop("class", "dropdown-item nanum").text("조회된 알람이 없습니다.")
+								$("#alarmDrop").append($alarm);
+							} else {
+								$.each(alList, function(index, item){
+									//console.log(alList[index])
+									var $alarm = $("<a>").prop("class", "dropdown-item nanum").text(item.eventer + ", " + item.alarmContent);
+									$("#alarmDrop").append($alarm);
+								})
+							}
+						},
+						error : function() {
+							console.log("ajax 통신 실패")
+						}
+						
+					})
+				})
+			
+			
+				
+			</script>
 			<div class="dropdown">
 				<div class="dropdown-toggle headerImg" type="button"
 					id="mypageButton" data-toggle="dropdown" aria-haspopup="true"

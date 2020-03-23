@@ -47,6 +47,17 @@
 		<result property="hobbyNo" column="HOBBY_NO"/>
 	</resultMap>
 	
+	<resultMap type="Alarm" id="alarmResultSet">
+		<id property="alarmNo" column="ALARM_NO"/>
+		<result property="alarmContent" column="ALARM_CONTENT"/>
+		<result property="alarmType" column="ALARM_TYPE"/>
+		<result property="alarmAddr" column="ALARM_ADDR"/>
+		<result property="alarmDt" column="ALARM_DT"/>
+		<result property="alarmCheckDt" column="ALARM_CHECK_DT"/>
+		<result property="eventer" column="EVENTER"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+	</resultMap>
+	
 	<!-- 회원가입용 -->
 	<insert id="signUp" parameterType="Member">
   		INSERT INTO MEMBER
@@ -247,10 +258,19 @@
 		WHERE MEMBER_NO = #{memberNo}
 	</select>
 	
-
+	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 STARTㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ  -->
+	<!-- 알람 리스트 조회용 -->
+	<select id="selectAlarm" parameterType="_int" resultMap="alarmResultSet">
+		SELECT * FROM ALARM
+		WHERE MEMBER_NO = #{memberNo}
+	</select>
 	
-	
-	
+	<!-- 알람 삽입용 DAO -->
+	<insert id="insertAlarm" parameterType="Alarm">
+		INSERT INTO ALARM
+		VALUES(SEQ_ALARM.NEXTVAL, #{alarmContent}, #{alarmType},
+				#{alarmAddr}, DEFAULT, DEFAULT, #{eventer}, #{memberNo})
+	</insert>
 	
 	
 </mapper>

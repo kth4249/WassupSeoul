@@ -24,9 +24,11 @@
 				</c:if> 
 			</c:forEach>
 				<h1 class="nanum" style="display: inline;" id="juminCount">주민(${count})</h1>&nbsp;&nbsp;
-					<div style="display: inline; color: orange; cursor: pointer" id="applyBtn">
-						가입 신청 <span class="badge badge-pill badge-success" id="applyCount">${mList.size() - count}명</span>
-					</div>
+					<c:if test="${mList.size() != count}">
+						<div style="display: inline; color: orange; cursor: pointer" id="applyBtn">
+							가입 신청 <span class="badge badge-pill badge-success" id="applyCount">${mList.size() - count}</span>
+						</div>
+					</c:if>
 					<table class="table table-hover" id="applyMember" style="display:none">
 						<c:if test="${!empty mList}">
 							<c:forEach items="${mList}" var="member">
@@ -52,6 +54,8 @@
 						</c:if>
 					</table>
 					<script>
+						var ct = 0;
+						
 						$("#applyBtn").click(function(){
 							$("#applyMember").toggle(500);
 						})
@@ -59,6 +63,10 @@
 						$("#applyMember td").click(function(e){
 							var memberNo = $(this).parent().children(0).val();
 							var applyCheck = confirm("골목 가입을 허가하시겠습니까?")
+							var juminCount = ${count};
+							var applyCount = $("#applyCount").text();
+							ct++;
+							juminCount += ct;
 							$.ajax({
 								url : "joinCheck",
 								data : {"applyCheck":applyCheck, "memberNo":memberNo},
@@ -71,15 +79,17 @@
 										$("#juminList").append($thisMem);
 										$thisMem.append($td);
 										$("#juminList").append($thisMem);
-										<c:set var="count" value="${count+1}"/>
-										$("#juminCount").html("주민(${count})")
+										$("#juminCount").html("주민("+ juminCount + ")")
 										$(this).parent().remove();
 										$(this).parent().next().remove();
 									} else {
 										$(e.target).parent().next().remove();
 										$(e.target).parent().remove();
 									}
-									$("#applyCount").html("${mList.size() - count}명")
+									$("#applyCount").html(applyCount - 1)
+									if(applyCount == 1){
+										$("#applyBtn").remove();
+									}
 									
 									console.log("ajax 통신 성공")
 								},
