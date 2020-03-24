@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- Root Context: defines shared resources visible to all other web components --> 
 
 	<!-- root-context.xml 파일은 서버 구동 시 web.xml을 거쳐 바로 로딩 되는 즉, pre-loading 되는 
 		설정 파일이다. 따라서 서버 구동 시 바로 셋팅 해야 되는 내용들을 작성하는 설정 파일로 보통 DB연결 설정, 트랜잭션 처리, AOP 
@@ -68,6 +68,7 @@
 		뜻) maxInMemorySize : 디스크(하드) 저장하지 않고 메모리에 유지하도록 허용하는 바이트 단위 최대 용량 설정. 사이즈가 
 		지정된 크기보다 큰 경우 초과되는 데이터는 바로 파일로 저장됨. 기본값은 10240바이트(10KB) -->	
 
+	
 	
 
 </beans>
