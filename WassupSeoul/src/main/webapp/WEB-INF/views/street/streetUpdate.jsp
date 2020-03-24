@@ -67,20 +67,21 @@ a:hover {
 		<div class="row">
 
 			<%-- <%@ include file="../street/streetDetail/streetSide.jsp"%> --%>
-			<jsp:include page="../street/streetDetail/streetSide.jsp" /> 
+			<jsp:include page="../street/streetDetail/streetSide.jsp" />
 
 
 			<!-- 사이드1 여백 -->
 			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드1 여백 -->
+			
+			<div class="col-md-4" id="devideArea" style="margin-top: 10px;">
 
+				<form method="POST"
+					action="updateStreet?no=${streetNo}&imgNo=${imgNo}"
+					enctype="multipart/form-data" role="form" onsubmit="">
 
-			<form method="POST"
-				action="updateStreet?no=${streetNo}&imgNo=${imgNo}"
-				enctype="multipart/form-data" role="form" onsubmit="">
-
-				<!-- input 태그 clear 버튼 -->
-				<!-- <div class="input-group">
+					<!-- input 태그 clear 버튼 -->
+					<!-- <div class="input-group">
             <div class="form-group has-feedback has-clear">
                 <input type="text" class="form-control" placeholder="Enter">
                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
@@ -101,10 +102,9 @@ a:hover {
                 $(this).toggleClass('hidden', true);
             });
         </script> -->
-				<!-- ------------------------------------------------------------------------- -->
-				<div class="container-fluid headerMargin loungeBack">
-					<div class="row">
-						<div class="col-md-6 offset-md-3">
+					<!-- ------------------------------------------------------------------------- -->
+					<div class="container-fluid headerMargin loungeBack">
+						<div class="row">
 							<h1 class="nanum" style="font-weight: bold;">골목 수정하기</h1>
 
 							<!-- 예시 -->
@@ -115,15 +115,13 @@ a:hover {
                         </div>
                     </div> -->
 						</div>
-					</div>
-					<div class="row">
-						<br>
-					</div>
+						<div class="row">
+							<br>
+						</div>
 
 
-					<div class="row">
-						<div class="col-md-6 offset-md-3">
-							<!-- 골목이름 -->
+						<div class="row">
+							<!-- 골목이름 시작 -->
 							<div class="form-group col-md-6 nanum" style="float: left;">
 								<h3 class="nanum" style="font-weight: bold;">골목이름</h3>
 								<div class="col-xs-4">
@@ -133,8 +131,9 @@ a:hover {
 										id="checkStreetNm" style="font-size: smaller;">&nbsp;</span>
 								</div>
 							</div>
+							<!-- 골목이름 끝 -->
 
-							<!-- 지역구 -->
+							<!-- 지역구 시작 -->
 							<div class="form-group col-md-6 nanum" style="float: left;">
 								<h3 class="nanum" style="font-weight: bold;">지역구</h3>
 								<div class="col-xs-4">
@@ -168,6 +167,7 @@ a:hover {
 									</select>
 								</div>
 							</div>
+							<!-- 지역구 끝 -->
 							<script>
 								$
 										.each(
@@ -188,42 +188,34 @@ a:hover {
 												});
 							</script>
 
-
-
-
 							<!-- 내용 전체 지우기 -->
 							<div class="col-md-12">
 								<!-- <span id="streetTitleClear">X</span> -->
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<br>
-					</div>
-					<!-- 내용 전체 지우기 스크립트 -->
-					<script>
-						var $ipt = $('#streetTitle'), $clearIpt = $('#streetTitleClear');
 
-						$ipt.keyup(function() {
-							$("#streetTitleClear").toggle(
-									Boolean($(this).val()));
-						});
+						<div class="row">
+							<br>
+						</div>
+						<!-- 내용 전체 지우기 스크립트 -->
+						<script>
+							var $ipt = $('#streetTitle'), $clearIpt = $('#streetTitleClear');
 
-						$clearIpt.toggle(Boolean($ipt.val()));
-						$clearIpt.click(function() {
-							$("#streetTitle").val('').focus();
-							$(this).hide();
-						});
+							$ipt.keyup(function() {
+								$("#streetTitleClear").toggle(
+										Boolean($(this).val()));
+							});
 
-						// src가 존재할 때만 넘어가게 
-						// onsubmit 동작이 일어났을때 -> c:set 을 이용해서 thumbnailArea의 src 를 el 변수로 저장 
-						// -> form action에 넘기고 싶은 주소랑 함께 뒤에 쿼리스트링으로 src를 함께 넘긴다
-					</script>
+							$clearIpt.toggle(Boolean($ipt.val()));
+							$clearIpt.click(function() {
+								$("#streetTitle").val('').focus();
+								$(this).hide();
+							});
+						</script>
 
 
 
-					<div class="row">
-						<div class="col-md-6 offset-md-3">
+						<div class="row">
 							<!-- 골목소개 수정 -->
 							<div class="form-group col-md-6 nanum" style="float: left;">
 								<h3 class="nanum" style="font-weight: bold;">골목소개</h3>
@@ -251,43 +243,39 @@ a:hover {
 									</select>
 								</div>
 							</div>
+
 						</div>
-					</div>
-					<div class="row">
-						<br>
-					</div>
-					<script>
-						$
-								.each(
-										$("#streetMaxMember>option"),
-										function(index, item) {
+						<div class="row">
+							<br>
+						</div>
+						<script>
+							$
+									.each(
+											$("#streetMaxMember>option"),
+											function(index, item) {
 
-											if ($(item).attr("value") == "${street.streetMaxMember}") {
-												$(item)
-														.prop("selected",
-																"true");
-												// 킬킬킬킬킬킬킬킬킬 잘 안되죠? 
-												// 그래도 힘 내셔야죠?
-												// 왜인줄앎?
-												// 넌 할 수 있거든
-												// 이건 되는데 밑에거는 안되는이유좀..
+												if ($(item).attr("value") == "${street.streetMaxMember}") {
+													$(item).prop("selected",
+															"true");
+													// 킬킬킬킬킬킬킬킬킬 잘 안되죠? 
+													// 그래도 힘 내셔야죠?
+													// 왜인줄앎?
+													// 넌 할 수 있거든
+													// 이건 되는데 밑에거는 안되는이유좀..
 
-											}
-										});
-					</script>
+												}
+											});
+						</script>
 
 
-					<!-- 골목 키워드 -->
-					<div class="row">
-						<div class="col-md-6 offset-md-3">
+						<!-- 골목 키워드 -->
+						<div class="row">
 							<div class="form-group col-md-6 nanum" style="float: left;">
 								<h3 class="nanum" style="font-weight: bold;">골목 키워드</h3>
 							</div>
 						</div>
-					</div>
-					<!-- 골목 키워드 1 -->
-					<div class="row">
-						<div class="col-md-6 offset-md-3">
+						<!-- 골목 키워드 1 -->
+						<div class="row">
 							<div class="form-group col-md-2 nanum"
 								style="float: left; text-align: center;">
 								<label for="streetKeyword1" class="nanum"
@@ -313,10 +301,8 @@ a:hover {
 								</div>
 							</div>
 						</div>
-					</div>
-					<!-- 골목 키워드 2 -->
-					<div class="row">
-						<div class="col-md-6 offset-md-3">
+						<!-- 골목 키워드 2 -->
+						<div class="row">
 							<div class="form-group col-md-2 nanum"
 								style="float: left; text-align: center;">
 								<label for="streetKeyword2" class="nanum"
@@ -342,10 +328,8 @@ a:hover {
 								</div>
 							</div>
 						</div>
-					</div>
-					<!-- 골목 키워드 3 -->
-					<div class="row">
-						<div class="col-md-6 offset-md-3">
+						<!-- 골목 키워드 3 -->
+						<div class="row">
 							<div class="form-group col-md-2 nanum"
 								style="float: left; text-align: center;">
 								<label for="streetKeyword3" class="nanum"
@@ -371,43 +355,39 @@ a:hover {
 								</div>
 							</div>
 						</div>
-					</div>
 
-					<div class="row">
-						<div class="col-md-12">
-							<br>
+						<div class="row">
+							<div class="col-md-12">
+								<br>
+							</div>
 						</div>
-					</div>
 
-					<c:forEach var="key" items="${keywords}" varStatus="vs">
-						<script>
-							console.log("${key.keywordContent}");
-							var kIndex = 1;
+						<c:forEach var="key" items="${keywords}" varStatus="vs">
+							<script>
+								console.log("${key.keywordContent}");
+								var kIndex = 1;
 
-							$(function() {
-								var keywordTag;
-								var keyword = "${key.keywordContent}";
-								keywordTag = "#streetKeyword" + kIndex;
-								kIndex++;
+								$(function() {
+									var keywordTag;
+									var keyword = "${key.keywordContent}";
+									keywordTag = "#streetKeyword" + kIndex;
+									kIndex++;
 
-								$(keywordTag).val(keyword);
-							});
-						</script>
-					</c:forEach>
+									$(keywordTag).val(keyword);
+								});
+							</script>
+						</c:forEach>
 
 
-					<!-- 골목 커버-->
-					<div class="row">
-						<div class="col-md-6 offset-md-3">
+						<!-- 골목 커버-->
+						<div class="row">
 							<div class="form-group col-md-6 nanum" style="float: left;">
 								<h3 class="nanum" style="font-weight: bold;">골목 커버</h3>
 							</div>
 						</div>
-					</div>
 
 
-					<div class="row">
-						<div class="col-md-6 offset-md-3">
+						<div class="row">
 							<div class="col-md-12 nanum" style="margin: 3px auto;">
 								<div style="float: left">
 									<!-- 골목 커버 미리보기 -->
@@ -482,31 +462,29 @@ a:hover {
 
 							</div>
 						</div>
-					</div>
 
 
 
 
 
-					<div class="row">
-						<div class="col-md-12">
-							<br>
+						<div class="row">
+							<div class="col-md-12">
+								<br>
+							</div>
 						</div>
-					</div>
-					<!-- 파일업로드부분 -->
-					<div class="col-md-12" id="fileArea">
-						<input type="file" class="form-control nanum"
-							id="streetCoverUpload" name="streetCoverUpload"
-							onchange="LoadImg(this,1)"> <input type="hidden"
-							class="form-contrle nanum" id="sampleImg" name="sampleImg">
-					</div>
+						<!-- 파일업로드부분 -->
+						<div class="col-md-12" id="fileArea">
+							<input type="file" class="form-control nanum"
+								id="streetCoverUpload" name="streetCoverUpload"
+								onchange="LoadImg(this,1)"> <input type="hidden"
+								class="form-contrle nanum" id="sampleImg" name="sampleImg">
+						</div>
 
 
 
 
-					<!-- 골목 공개여부 -->
-					<div class="row">
-						<div class="col-md-6 offset-md-3">
+						<!-- 골목 공개여부 -->
+						<div class="row">
 							<div class="col-md-12 nanum">
 								<h3 class="nanum" style="font-weight: bold;">골목 공개여부</h3>
 							</div>
@@ -531,36 +509,36 @@ a:hover {
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<br>
-					</div>
-					<script>
-						$
-								.each(
-										$("input[name=streetPublic]"),
-										function(index, item) {
-											if ($(item).attr("value") == "${street.streetPublic}") {
-												$(item).prop("checked", "true");
-											}
-										});
-					</script>
-
-
-
-					<div class="row">
-						<div class="col-md-2 offset-md-4" style="text-align: center;">
-							<button type="submit"
-								class="btn btn-primary btn-lg btn-block nanum">수정하기</button>
+						<div class="row">
+							<br>
 						</div>
-						<div class="col-md-2" style="text-align: center;">
-							<button type="button"
-								class="btn btn-secondary btn-lg btn-block nanum">취소</button>
+						<script>
+							$
+									.each(
+											$("input[name=streetPublic]"),
+											function(index, item) {
+												if ($(item).attr("value") == "${street.streetPublic}") {
+													$(item).prop("checked",
+															"true");
+												}
+											});
+						</script>
+
+
+
+						<div class="row">
+							<div class="col-md-3" style="text-align: center;">
+								<button type="submit"
+									class="btn btn-primary btn-lg btn-block nanum">수정하기</button>
+							</div>
+							<div class="col-md-3" style="text-align: center;">
+								<button type="button"
+									class="btn btn-secondary btn-lg btn-block nanum">취소</button>
+							</div>
 						</div>
 					</div>
-				</div>
-			</form>
-
+				</form>
+			</div>
 
 			<!-- 사이드2 여백 -->
 			<div class="col-md-4" id="devideArea"></div>

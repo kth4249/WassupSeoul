@@ -70,19 +70,19 @@
 		  <div class="row">
 		  
             <!-- 일반 주민 영역 -->
-		  	<c:if test="${citizenGrade eq 'G'}">
+		  	<%-- <c:if test="${citizenGrade eq 'G'}"> --%>
 		  		<div class="col-sm-6"></div>
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-	             		<button type="button" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
+	             		<a href="streetDelete?no=${streetNo}" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">
 	              	 	골목 탈퇴하기
-	             		</button>
+	             		</a>
 	           	</div>
-		  	</c:if>
+		  <%-- 	</c:if> --%>
             <!-- 일반 주민 영역 -->
             
             <!-- 골목대장 영역 -->
-            <c:if test="${citizenGrade eq 'M'}">
+           <%--  <c:if test="${citizenGrade eq 'M'}"> --%>
 		  	    	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
 	             		<a href="streetUpdate?no=${streetNo}" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetChange.svg" alt="이미지" style="width: 15px; height: 15px;">
@@ -95,7 +95,7 @@
 	                                   	활동보고서 작성
 	             		</button>
 	           	</div>
-	  	    	</c:if>
+	  	    	<%-- </c:if> --%>
             <!-- 골목대장 영역 -->
             
           </div>

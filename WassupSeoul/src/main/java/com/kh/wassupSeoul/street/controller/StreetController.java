@@ -44,7 +44,7 @@ import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
-@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt", "board", "reply", "reReply"  })
+@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt"  })
 @Controller
 @RequestMapping("/street/*")
 public class StreetController {
@@ -927,8 +927,9 @@ public class StreetController {
 		String detailUrl = request.getHeader("referer");
 
 		model.addAttribute("detailUrl", detailUrl);
+		
 
-		return "";
+		return "street/streetDelete";
 	}
 	
 	/*------------------------ 지원 골목삭제 끝-----------------------------------*/ 

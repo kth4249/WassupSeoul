@@ -30,37 +30,37 @@
 		<div class="row">
 
 			<%-- <%@ include file="../street/streetDetail/streetSide.jsp"%> --%>
-			<jsp:include page="../street/streetDetail/streetSide.jsp" /> 
+			<jsp:include page="../street/streetDetail/streetSide.jsp" />
 
 
 			<!-- 사이드1 여백 -->
 			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드1 여백 -->
 
-
-			<form method="POST"
-				action="deleteStreet?no=${streetNo}&imgNo=${imgNo}"
-				enctype="multipart/form-data" role="form" onsubmit="">
-				<div class="container-fluid">
-					<!-- 골목 삭제 -->
-					<div class="row">
-						<div class="col-md-3"></div>
-						<div class="col-md-6">
+			<div class="col-md-4" id="devideArea" style="margin-top: 10px;">
+				<form method="POST"
+					action="deleteStreet?no=${streetNo}&imgNo=${imgNo}"
+					enctype="multipart/form-data" role="form" onsubmit="">
+					<div class="container-fluid">
+						<!-- 골목 삭제 -->
+						<div class="row">
 							<h1 class="nanum">골목 삭제하기</h1>
 						</div>
-						<div class="col-md-3"></div>
-					</div>
-					<div class="row">
-						<br>
-					</div>
+						<div class="row">
+							<br>
+						</div>
 
-					<div class="row">
-						<div class="col-md-3"></div>
-						<div class="col-md-6">
-							<div class="col-md-12 nanum form-group">
-								<h5 class="nanum">골목대장 위임하기</h5>
-								<input class="nanum" type="text" placeholder="주민 닉네임">
-								<button class="nanum" type="button">검색</button>
+						<div class="row">
+							<div class="col-md-12">
+								<h3 class="nanum">골목대장 위임하기</h3>
+							</div>
+							<div class="col-md-4 nanum form-group">
+								<input class="form-control nanum" type="text"
+									placeholder="주민 닉네임" id="juminNickName">
+							</div>
+							<div class="col-md-2 nanum form-group">
+								<button class="nanum btn btn-primary" type="button"
+									id="juminSearch">검색</button>
 							</div>
 							<div class="col-md-12 nanum">
 								<table class="table table-hover"
@@ -133,36 +133,28 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-3"></div>
-					</div>
 
-					<div class="row">
-						<br>
-					</div>
+						<div class="row">
+							<br>
+						</div>
 
 
-					<div class="row">
-						<div class="col-md-3"></div>
-						<div class="col-md-6">
+						<div class="row">
 							<div class="col-md-12 nanum">
 								<label class="col-form-label" for="newLeader">새로 지정된
 									골목대장</label> &nbsp;&nbsp; <input id="newLeader" name="newLeader"
 									class="form-control nanum" type="text" value="지정된 골목대장 이름">
 							</div>
 						</div>
-						<div class="col-md-3"></div>
-					</div>
 
-					<div class="row">
-						<br>
-					</div>
+						<div class="row">
+							<br>
+						</div>
 
 
-					<div class="row">
-						<div class="col-md-3"></div>
-						<div class="col-md-6">
+						<div class="row">
 							<div class="col-md-12 nanum">
-								<h5 class="nanum">골목 탈퇴 & 삭제하기</h5>
+								<h5 class="nanum">골목 탈퇴*삭제하기</h5>
 							</div>
 							<div class="col-md-12">
 								<table class="table table-hover nanum"
@@ -180,36 +172,60 @@
 								</table>
 							</div>
 						</div>
-						<div class="col-md-3"></div>
-					</div>
 
-					<div class="row">
-						<br>
-					</div>
+						<div class="row">
+							<br>
+						</div>
 
 
-					<div class="row">
-						<div class="col-md-3"></div>
-						<div class="col-md-6" style="text-align: center;">
-							<div style="display: inline-block;">
-								<button class="btn btn-primary nanum" type="button">나가기</button>
+						<div class="row">
+							<div class="col-md-6" style="text-align: center;">
+								<div style="display: inline-block;">
+									<button class="btn btn-primary nanum" type="button">나가기</button>
+								</div>
 							</div>
 						</div>
-						<div class="col-md-3"></div>
+
+
+
+
 					</div>
-
-
-
-
-				</div>
-			</form>
-
+				</form>
+			</div>
 
 			<!-- 사이드2 여백 -->
 			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드2 여백 -->
 		</div>
 	</div>
+
+	<script>
+		$("#juminSearch").on("click", function(){
+			var $juminNickName = $("#juminNickName");
+			
+			if($juminNickName.val() == ""){
+				alert("검색할 주민 닉네임을 입력하세요.");
+			}
+			else{
+				$.ajax{
+					url : "searchJumin",
+					data : {juminNickName : $juminNickName.val()},
+					type : "post",
+					dataType : "json",
+					success : function(list){
+						
+						var $juminNickNameList = $("#juminNickNameList")
+					}
+				}
+			}
+			
+			
+			
+			
+			
+		});	
+	
+	</script>
 
 </body>
 </html>
