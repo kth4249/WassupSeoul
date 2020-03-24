@@ -554,7 +554,12 @@ public class StreetController {
 			// 알람 테이블에 데이터 삽입
 			// 가입 신청한 골목의 골목대장 번호 가져오기
 			int masterNo = streetService.selectMasterNo(streetNo);
-			Alarm alarm = new Alarm("[] 골목 가입 요청", '1', "street/joinCheck?memberNo="+memberNo, memberNo+"", masterNo);
+			
+			// 가입 신청한 골목의 골목이름 가져오기
+			String streetNm = streetService.selectStreetNm(streetNo);
+			Alarm alarm = new Alarm("["+streetNm+"] 골목 가입 요청", '1', 
+						"street/joinCheck?memberNo="+memberNo+"&streetNo="+streetNo,
+						memberNo+"", masterNo);
 			result = streetService.insertAlarm(alarm);
 		}
 
@@ -690,9 +695,12 @@ public class StreetController {
 	 */
 	@ResponseBody
 	@RequestMapping("joinCheck")
-	public int joinCheck(Model model, Boolean applyCheck, int memberNo) {
+	public int joinCheck(Model model, Boolean applyCheck, int memberNo,
+						@RequestParam(required = false) Integer streetNo) {
 		System.out.println(memberNo);
-		int streetNo = (int)model.getAttribute("streetNo");
+		if(streetNo == null) {
+			streetNo = (Integer)model.getAttribute("streetNo");
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("streetNo", streetNo);
 		map.put("memberNo", memberNo);

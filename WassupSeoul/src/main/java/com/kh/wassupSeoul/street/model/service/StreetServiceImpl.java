@@ -593,6 +593,15 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.insertAlarm(alarm);
 	}
 	
+	/** 가입신청 골목 이름 조회용 Service(알림)
+	 * @param streetNo
+	 * @return streetNm
+	 */
+	@Override
+	public String selectStreetNm(int streetNo) {
+		return streetDAO.selectStreetNm(streetNo);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	

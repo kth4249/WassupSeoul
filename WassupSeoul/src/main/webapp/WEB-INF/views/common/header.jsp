@@ -45,7 +45,13 @@ object-fit: cover;
 		</c:if>
 	</c:url>
 	<nav
-		class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top headerOpacity">
+		class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top 
+		
+		<c:if test="${streetNo == -1}">
+		headerOpacity
+		</c:if>
+		
+		">
 			<a href="${contextPath}/square"><img src="${contextPath}/resources/img/emoji.png" style="width: 25px"/></a>
 			<input class="form-control mr-sm-2" type="text"
 				placeholder="검색할 골목 키워드" id="searchStreet" name="searchStreet"
@@ -106,10 +112,14 @@ object-fit: cover;
 							} else {
 								$.each(alList, function(index, item){
 									//console.log(alList[index])
-									var $alDiv = $("<div>").prop("class", "dropdown-item nanum")
-									var $alContent = $("<div>").text(item.eventer + ", " + item.alarmContent);
-									var $alEventer = $("<div>").css("color", "lightsalmon").text("이벤터이름")
-									$alDiv.append($alContent).append($alEventer);
+									if(item.alarmType == 1){
+										var $alDiv = $("<div>").prop("class", "dropdown-item nanum joinCheck");
+									}
+									var $alUrl = $("<input>").prop("type", "hidden").val(item.alarmAddr);
+									var $alNo = $("<input>").prop("type", "hidden").val(item.alarmNo)
+									var $alContent = $("<div>").text(item.alarmContent);
+									var $alEventer = $("<div>").css("color", "lightsalmon").text(item.eventerNm)
+									$alDiv.append($alUrl).append($alNo).append($alContent).append($alEventer);
 									$("#alarmDrop").append($alDiv);
 								})
 							}
@@ -120,8 +130,36 @@ object-fit: cover;
 						
 					})
 				})
-			
-			
+				
+				$(document).on("click", ".joinCheck", function(){
+					console.log(this.firstChild.value)
+					var applyCheck = confirm("골목 가입 요청을 수락하시려면 확인, 거절하시려면 취소를 눌러주세요.")
+					$.ajax({
+						url : "${contextPath}/"+this.firstChild.value,
+						data : {"applyCheck": applyCheck},
+						success : function(){
+							alert("골목 가입 수락 완료");
+						}, 
+						error : function(){
+							console.log("ajax 통신 실패")
+						}
+					})
+					console.log(this);
+					this.remove();
+					console.log(this.childNodes[1].value);
+					checkAlarm(this.childNodes[1].value) // 알람 checkDt 수정하는 function 호출 및 매개변수로 alarmNo 전달
+				})
+				
+				function checkAlarm(alarmNo) { // 알람 확인 체크용 function
+					console.log(alarmNo);
+					$.ajax({
+						url : "${contextPath}/square/checkAlarm",
+						data : {"alarmNo":alarmNo},
+						success : function(){
+							alert("알람 확인상태로 변경")
+						}
+					})
+				}
 				
 			</script>
 			<div class="dropdown">

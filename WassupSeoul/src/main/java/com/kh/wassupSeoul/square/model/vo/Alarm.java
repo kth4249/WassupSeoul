@@ -11,6 +11,7 @@ public class Alarm {
 	private Timestamp alarmCheckDt;
 	private String eventer;
 	private int memberNo;
+	private String eventerNm;
 	
 	public Alarm() {
 		// TODO Auto-generated constructor stub
@@ -40,6 +41,22 @@ public class Alarm {
 		this.alarmCheckDt = alarmCheckDt;
 		this.eventer = eventer;
 		this.memberNo = memberNo;
+	}
+	
+
+
+	public Alarm(int alarmNo, String alarmContent, char alarmType, String alarmAddr, Timestamp alarmDt,
+			Timestamp alarmCheckDt, String eventer, int memberNo, String eventerNm) {
+		super();
+		this.alarmNo = alarmNo;
+		this.alarmContent = alarmContent;
+		this.alarmType = alarmType;
+		this.alarmAddr = alarmAddr;
+		this.alarmDt = alarmDt;
+		this.alarmCheckDt = alarmCheckDt;
+		this.eventer = eventer;
+		this.memberNo = memberNo;
+		this.eventerNm = eventerNm;
 	}
 
 
@@ -107,6 +124,18 @@ public class Alarm {
 	public void setMemberNo(int memberNo) {
 		this.memberNo = memberNo;
 	}
+	
+	
+
+	public String getEventerNm() {
+		return eventerNm;
+	}
+
+
+
+	public void setEventerNm(String eventerNm) {
+		this.eventerNm = eventerNm;
+	}
 
 
 
@@ -114,8 +143,9 @@ public class Alarm {
 	public String toString() {
 		return "Alarm [alarmNo=" + alarmNo + ", alarmContent=" + alarmContent + ", alarmType=" + alarmType
 				+ ", alarmAddr=" + alarmAddr + ", alarmDt=" + alarmDt + ", alarmCheckDt=" + alarmCheckDt + ", eventer="
-				+ eventer + ", memberNo=" + memberNo + "]";
+				+ eventer + ", memberNo=" + memberNo + ", eventerNm=" + eventerNm + "]";
 	}
+
 
 	
 	

@@ -236,21 +236,25 @@ public interface StreetService {
 	public abstract void joinDelete(Map<String, Object> map);
 
 
-	/** 골목 대장 번호 조회용 Service(알림용)
+	/** 골목 대장 번호 조회용 Service(알림)
 	 * @param streetNo
 	 * @return masterNo
 	 */
 	public abstract int selectMasterNo(int streetNo);
 
 
-	/** 가입신청 알람 삽입용 Service
+	/** 가입신청 알람 삽입용 Service(알림)
 	 * @param alarm
 	 * @return result
 	 */
 	public abstract int insertAlarm(Alarm alarm);
 
   
-  
+	/** 가입신청 골목 이름 조회용 Service(알림)
+	 * @param streetNo
+	 * @return streetNm
+	 */
+	public abstract String selectStreetNm(int streetNo);
 
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

@@ -27,7 +27,7 @@ import com.kh.wassupSeoul.street.model.vo.Street;
 /**
  * Handles requests for the application home page.
  */
-@SessionAttributes({"loginMember", "msg"})
+@SessionAttributes({"loginMember", "msg", "streetNo"})
 @Controller
 public class SquareController {
 	
@@ -51,6 +51,7 @@ public class SquareController {
 		 * System.out.println("currentPage : " + currentPage + ", districtNo : " +
 		 * districtNo + ", streetSort : " + streetSort);
 		 */
+		model.addAttribute("streetNo", -1);
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("districtNo", districtNo);
@@ -92,6 +93,7 @@ public class SquareController {
 		return "square";
 	}
 	
+	// 알람 조회용 Controller
 	@ResponseBody
 	@RequestMapping("square/selectAlarm")
 	public String selectAlarm(Model model) {
@@ -100,6 +102,13 @@ public class SquareController {
 		List<Alarm> alList = squareService.selectAlarm(loginMember.getMemberNo());
 		
 		return new Gson().toJson(alList);
+	}
+	
+	// 알람 확인 상태로 변경 Controller
+	@ResponseBody
+	@RequestMapping("square/checkAlarm")
+	public void checkAlarm(Model model, int alarmNo) {
+		squareService.checkAlarm(alarmNo);
 	}
 	
 	
