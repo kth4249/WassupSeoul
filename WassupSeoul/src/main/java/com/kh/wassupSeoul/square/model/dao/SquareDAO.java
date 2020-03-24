@@ -54,4 +54,12 @@ public class SquareDAO {
 		return sqlSession.selectList("memberMapper.selectAlarm", memberNo);
 	}
 
+
+	/**알람 확인상태로 변경 DAO
+	 * @param alarmNo
+	 */
+	public void checkAlarm(int alarmNo) {
+		sqlSession.update("memberMapper.checkAlarm", alarmNo);
+	}
+
 }

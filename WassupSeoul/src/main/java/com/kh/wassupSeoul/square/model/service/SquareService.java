@@ -40,6 +40,13 @@ public interface SquareService {
 	 * @return alList
 	 */
 	public abstract List<Alarm> selectAlarm(int memberNo);
+
+	
+	
+	/** 알람 확인상태로 변경 Service
+	 * @param alarmNo
+	 */
+	public abstract void checkAlarm(int alarmNo);
 	
 
 

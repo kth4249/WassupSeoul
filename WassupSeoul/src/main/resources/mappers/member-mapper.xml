@@ -56,6 +56,7 @@
 		<result property="alarmCheckDt" column="ALARM_CHECK_DT"/>
 		<result property="eventer" column="EVENTER"/>
 		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="eventerNm" column="EVENTER_NM"/>
 	</resultMap>
 	
 	<!-- 회원가입용 -->
@@ -261,8 +262,9 @@
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 STARTㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ  -->
 	<!-- 알람 리스트 조회용 -->
 	<select id="selectAlarm" parameterType="_int" resultMap="alarmResultSet">
-		SELECT * FROM ALARM
+		SELECT * FROM V_ALARM
 		WHERE MEMBER_NO = #{memberNo}
+		AND ALARM_CHECK_DT IS NULL
 	</select>
 	
 	<!-- 알람 삽입용 DAO -->
@@ -272,6 +274,11 @@
 				#{alarmAddr}, DEFAULT, DEFAULT, #{eventer}, #{memberNo})
 	</insert>
 	
+	<update id="checkAlarm" parameterType="_int">
+		UPDATE ALARM SET ALARM_CHECK_DT = SYSDATE
+		WHERE ALARM_NO = #{alarmNo}
+	</update>
+	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 ENDㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ  -->
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	<select id="selectCitizenCount" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM STREET_JOIN

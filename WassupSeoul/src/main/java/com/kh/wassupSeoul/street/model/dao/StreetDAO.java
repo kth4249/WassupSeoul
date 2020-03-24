@@ -381,6 +381,15 @@ public class StreetDAO {
 		return sqlSession.insert("memberMapper.insertAlarm", alarm);
 	}
 	
+	
+	/** 가입신청 골목 이름 조회용 DAO
+	 * @param streetNo
+	 * @return streetNo
+	 */
+	public String selectStreetNm(int streetNo) {
+		return sqlSession.selectOne("streetMapper.selectStreetNm", streetNo);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	

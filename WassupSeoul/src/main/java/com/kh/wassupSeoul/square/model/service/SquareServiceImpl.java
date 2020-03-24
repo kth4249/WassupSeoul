@@ -59,4 +59,12 @@ public class SquareServiceImpl implements SquareService{
 	}
 	
 	
+	/** 알람 확인상태로 변경 Service
+	 * @param alarmNo
+	 */
+	@Override
+	public void checkAlarm(int alarmNo) {
+		squareDAO.checkAlarm(alarmNo);
+	}
+	
 }
