@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js" 
 		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
 <title>타임라인 메인 화면</title>
@@ -40,6 +41,8 @@
 		   text-decoration: none;
 	 }
 </style>
+
+
 <body style="background-color : rgb(221, 233, 218);">
 
 	<!-- 골목 네비바 여백 -->
@@ -54,12 +57,10 @@
 	
 	<c:if test="${memGradeInSt.citizenStatus eq 'Y'}">
 		<!-- 고정된 골목 네비바  -->
-		
 		<jsp:include page="../street/streetDetail/streetNav.jsp"/> 
 	</c:if>
 	
 	<!-- 고정된 헤더 -->
-	
 	 <jsp:include page="../common/header.jsp"/> 
 
 	<!-- 컨텐츠영역-->
@@ -67,8 +68,6 @@
 		<div class="row">
 			
 			<jsp:include page="../street/streetDetail/streetSide.jsp"/>
-			
-			
 			<!-- 사이드1 여백 -->
 			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드1 여백 -->
@@ -89,7 +88,8 @@
 		
 					<!-- 글작성 영역 -->
           <div class="container box111" id="postArea">
-            <jsp:include page="../street/streetDetail/fileUpload.jsp"/>
+           <jsp:include page="../street/streetDetail/fileUpload.jsp"/> 
+           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
             <jsp:include page="../street/streetDetail/post.jsp"/>
           </div>
           <!-- 글작성 영역 -->
@@ -470,7 +470,7 @@
 			/* 회원 프로필 정보 조회용  */
 		
 		
-	  	/* // 댓글 영역 숨기기
+	  	 // 댓글 영역 숨기기
   		$(".commentArea").click(function() {
   			$(this).parent().next("div").toggle(100);
   			$('.writeCommentArea').focus();
@@ -533,7 +533,7 @@
 	    $("#modal_close_btn").click(function(){
 			$(this).parent().parent("div").attr("style", "display:none");
 	    });    
-	     */
+	    
 	    
 	    // 투표 모달 중복투표 허용 옵션 보이기 
 	    $("#check2").change(function(){
