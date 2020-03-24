@@ -41,7 +41,7 @@
           		<input type="text" readonly class="form-control-plaintext nanum" value="#${keyword.keywordContent}" style="color: white;">
           	</div>
           </c:forEach>
-          
+          <!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 수정 시작(03/24 pm 6:44 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
           <div class="row">
           	<c:if test="${empty citizenStatus}">
 	           <div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
@@ -65,7 +65,7 @@
           <script>
 			function streetJoin() {
 				if (confirm("가입을 신청하시겠습니까?")) {
-					$.ajax({
+					/* $.ajax({
 						url : "${contextPath}/street/streetJoin",
 						success : function(result) {
 							if (result == -1) {
@@ -77,9 +77,10 @@
 						error : function() {
 							alert("골목 가입 신청 과정 중 오류 발생");
 						}
-					})
+					}) */
 				}
 			}
+			<!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 수정 끝 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 		  </script>
 		  <div class="row">
 		  
