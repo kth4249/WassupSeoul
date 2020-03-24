@@ -325,7 +325,7 @@ object-fit: cover;
            					var $divPlus4 = $("<div class='col-md-9'>");
            					var $divPlus5 = $("<div class='col-md-3'>");
            					var $divPlus6 = $("<div class='col-md-12'>");
-           					var $imgPlus = $("<img>").prop({"src":"${contextPath}/resources/img/골목2.jpg", "alt":"이미지"})
+           					var $imgPlus = $("<img>").prop({"src":"${contextPath}/resources/streetCoverImage/"+((streetInfo.myStreet)[i]).imgUrl, "alt":"이미지"})
            									.css({"position":"absolute","z-index":"10","width":"100%","height":"100%"});
            					var $spanPlus = $("<span class='badge badge-pill badge-info'>").css({"position":"absolute", "z-index":"100", "font-size":"15px"})
            									.html("개설 골목");
@@ -381,7 +381,7 @@ object-fit: cover;
                						if( (streetInfo.myStreetKeyword)[g].streetNo == streetNo ) {
                							var $divPlus7 = $("<div class='col-md-12 golmokKeywordBox mt-1 mb-1'>").css("background-color","#36be81");
                							var $inputPlus2 = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
-       									.css("color","white").val((streetInfo.myStreetKeyword)[g].keywordContent);
+       									.css("color","white").val("#" + (streetInfo.myStreetKeyword)[g].keywordContent);
        									$divPlus7.append($inputPlus2);
        									$divPlus33.append($divPlus7);       									
                							$divPlus3.append($divPlus33);
@@ -395,7 +395,10 @@ object-fit: cover;
            					var $labelPlus = $("<label class='col-sm-3 col-form-label text-center nanum'>")
            									.css({"font-weight":"bold","font-size":"16px"}).html("골목 총 인원");
 							var $inputPlus3 = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
-											.css({"font-weight":"bold","font-size":"25px"}).val(((streetInfo.myStreet)[i]).streetMaxMember);
+											/* .css({"font-weight":"bold","font-size":"25px"}).val(((streetInfo.myStreet)[i]).streetMaxMember); */
+											/* 정승환 추가코드 시작 */
+											.css({"font-weight":"bold","font-size":"25px"}).val((streetInfo.citizenCounts)[i]);
+											/* 정승환 추가코드 끝 */
 							$sector4.append($inputPlus3);
 							$divPlus341.append($labelPlus).append($sector4);
 							
@@ -412,9 +415,10 @@ object-fit: cover;
            					// 3_5
            					var $divPlus35 = $("<div class='row'>");
            					var $sector6 = $("<div class='col-md-12'>");
-           					var $mstreetbtn = $("<button class='btn btn-primary btn-lg btn-block nanum'>").prop("type","button")
+           					var $mstreetbtn = $("<button class='btn btn-primary btn-lg btn-block nanum gogoStreet'>").prop("type","button")
            									.css("font-weight","bold").html("골목 이동");
-           					$sector6.append($mstreetbtn);
+           					var $goStreetNoInputPlus = $("<input>").prop("type","hidden").val(streetNo);
+           					$sector6.append($mstreetbtn).append($goStreetNoInputPlus);
 							$divPlus35.append($sector6);
 							
 							$divPlus3.append($divPlus35);
@@ -440,6 +444,12 @@ object-fit: cover;
        		
        	});
 		
+       	
+       	// 골목 이동 버튼 클릭시 해당 골목 이동
+       	$(document).on("click",".gogoStreet",function(){
+       		var tempStreetNo = $(this).next().val();
+       		location.href="${contextPath}/street/streetMain?streetNo="+tempStreetNo;
+       	});
     </script>
        
 	<script

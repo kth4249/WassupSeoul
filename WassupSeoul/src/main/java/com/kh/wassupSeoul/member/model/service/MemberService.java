@@ -221,6 +221,15 @@ public interface MemberService {
 	 * @throws Exception
 	 */
 	Member selectProfileMember(int memberNo) throws Exception;
+
+	/*------------------------ 정승환 추가 코드 20.03.23-----------------------------------*/
+	/** 현재 주민 수 조회용 Service
+	 * @param streetNo
+	 * @return citizenCount
+	 * @throws Exception
+	 */
+	int selectCitizenCount(int streetNo) throws Exception;
+	/*------------------------ 정승환 추가 코드 20.03.23-----------------------------------*/
 	
 
 	

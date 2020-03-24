@@ -605,6 +605,16 @@ public class MemberController {
 				// 1) 해당 골목 가져오기
 				List<ProfileStreet> myStreet = memberService.selectProfileStreet(memberNo);
 				
+				/*------------------------ 정승환 추가 코드 20.03.23-----------------------------------*/
+				// 현재 골목 인원수 
+				int[] citizenCounts = new int[3];
+				int citizenCount = 0;
+				for(int w=0;w<myStreet.size();w++) {
+					citizenCount = memberService.selectCitizenCount(myStreet.get(w).getStreetNo());
+					citizenCounts[w] = citizenCount;
+				} 
+				/*------------------------ 정승환 추가 코드 20.03.23-----------------------------------*/
+				
 				// 골목 keyword에 사용할 컬렉션 선언
 				List<Keyword> myStreetKeyword = new ArrayList<Keyword>(); 
 				
@@ -641,7 +651,8 @@ public class MemberController {
 					myStreetInfo.put("myStreet", myStreet);
 					// 2_2) 골목 키워드 저장
 					myStreetInfo.put("myStreetKeyword", myStreetKeyword);
-					
+					// 2_3) 현재 골목 인원수 저장
+					myStreetInfo.put("citizenCounts", citizenCounts);
 				}
 				
 				response.setCharacterEncoding("UTF-8");

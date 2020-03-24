@@ -771,14 +771,26 @@ public class StreetServiceImpl implements StreetService{
 	public int selectBoardNo() throws Exception {
 		return streetDAO.selectBoardNo();
 	}
-	
+	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
 	/** 일정 등록용 Serivce
 	 * @param sendCalendar
-    */	
-  @Override
+    */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
 	public int addSchedule(Calendar sendCalendar) throws Exception {
 		return streetDAO.addSchedule(sendCalendar);
 	}
 	
+	/** 일정 관련 게시글 등록용 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int insertCalendarBoard(Board board) throws Exception {
+		return streetDAO.insertCalendarBoard(board);
+	}
+	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 }

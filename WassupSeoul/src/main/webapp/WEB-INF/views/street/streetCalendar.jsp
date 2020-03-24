@@ -50,7 +50,7 @@
           ]
                       
         });
-
+		
         calendar.render();
 
       });
@@ -62,7 +62,7 @@
 	<div class="container-fluid" style="margin-top: 57px;">
 		<div class="row"  style="padding: 0px; height:44px"></div>
 	</div>
-
+	
 	<!-- 고정된 골목 네비바  -->
 	<%-- <%@ include file="../street/streetDetail/streetNav.jsp"%> --%>
 	<jsp:include page="../street/streetDetail/streetNav.jsp"/>
@@ -72,18 +72,18 @@
 	<jsp:include page="../common/header.jsp"/>
 
 	<!-- 컨텐츠영역-->
-	<div class="container" style="margin-top: 10px;">
+	<div class="container-fluid" style="margin-top: 10px;">
 		<div class="row">
 			
 			<%-- <%@ include file="../street/streetDetail/streetSide.jsp"%> --%>
 			<jsp:include page="../street/streetDetail/streetSide.jsp"/>
 			
 			<!-- 사이드1 여백 -->
-			<div class="col-md-3" id="devideArea"></div>
+			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드1 여백 -->
 
 			<!-- 본문내용-->
-			<div class="col-md-6" id="devideArea" style="margin-top: 10px;">
+			<div class="col-md-4" id="devideArea" style="margin-top: 10px;">
 			
 				<div class="row">
                     <div class="col-md-12">
@@ -113,17 +113,8 @@
                                 <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">위치</label>
                                 <div class="col-sm-10" style="border: 1px solid black;">
                                   <!-- 지도 추가 -->
-                                  <div id="map" style="width:300px;height:200px;"></div>
+                                  <div id="map" style="width:350px;height:200px;"></div>
                                   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
-                                  <script>
-                                    var container = document.getElementById('map');
-                                    var options = {
-                                      center: new kakao.maps.LatLng(33.450701, 126.570667),
-                                      level: 3
-                                    };
-            
-                                    var map = new kakao.maps.Map(container, options);
-                                  </script>
                                   <!-- 지도 추가 -->
                                 </div>
                               </div>
@@ -173,7 +164,7 @@
                                 <div class="col-md-4">
                                   <div class="form-check">
                                     <label class="form-check-label nanum">
-                                      <input type="radio" class="form-check-input" name="joinCalendar" id="notJoin">
+                                      <input type="radio" class="form-check-input" name="joinCalendar" id="notJoin" value="N">
                                       	미참석 일정
                                     </label>
                                   </div>
@@ -181,7 +172,7 @@
                                 <div class="col-md-4">
                                   <div class="form-check">
                                     <label class="form-check-label nanum">
-                                      <input type="radio" class="form-check-input" name="joinCalendar" id="join">
+                                      <input type="radio" class="form-check-input" name="joinCalendar" id="join" value="Y">
                                      	 참석 일정
                                     </label>
                                   </div>
@@ -189,16 +180,16 @@
                               </div>
                               <div class="form-group row">
                                 <label class="col-sm-3 col-form-label nanum" style="font-weight: bold;">참석제한인원</label>
-                                <div class="col-sm-5"><input type="number" class="form-control" name="calendarJoinLimit" id="joinNumber" placeholder="참석인원 입력"></div>
+                                <div class="col-sm-5"><input type="number" class="form-control" name="cJoinLimit" id="joinNumber" placeholder="참석인원 입력"></div>
                               </div>
                               <div class="form-group row">
                                 <label class="col-sm-3 col-form-label nanum" style="font-weight: bold;">참가종료일</label>
-                                <div class="col-sm-5"><input type="date" class="form-control" name="calendarJoinEndDate" id="joinDate"></div>
+                                <div class="col-sm-5"><input type="date" class="form-control" name="cJoinEndDate" id="joinDate"></div>
                                 <div class="col-sm-4"></div>
                               </div>
                               <div class="form-group row">
                                 <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" class="custom-control-input" id="customCheck123" checked="">
+                                  <input type="checkbox" class="custom-control-input" id="customCheck123" checked="" value="Y" name="openBoard">
                                   <label class="custom-control-label nanum" for="customCheck123">게시글 공유</label>
                                 </div>
                               </div>
@@ -281,7 +272,7 @@
 			<!-- 본문내용-->
 			
 			<!-- 사이드2 여백 -->
-			<div class="col-md-3" id="devideArea"></div>
+			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드2 여백 -->
 			
 			
@@ -291,6 +282,12 @@
 
 
 	<script>
+	// 추가코드(20.03.24)
+	function convertDate(date) {
+        var date = new Date(date);
+        alert(date.yyyymmdd());
+    }
+	
 	$(function(){
         $("input[name=joinCalendar]").on("click",function(){
           if($("#notJoin").prop("checked")){
@@ -303,7 +300,34 @@
             $("#joinDate").prop("readonly",false);
           }
         });
+        
+        
+     	// 추가코드(20.03.24)
+     	// 왼쪽 버튼을 클릭하였을 경우
+        $("button.fc-prev-button").click(function() {
+            var date = $("#calendar").fullCalendar("getDate");
+            convertDate(date);
+        });
+
+        // 오른쪽 버튼을 클릭하였을 경우
+        $("button.fc-next-button").click(function() {
+            var date = $("#calendar").fullCalendar("getDate");
+            convertDate(date);
+        });
+        
       });
+	
+	// 추가코드(20.03.23)
+	$("#calendarModal").on('shown.bs.modal', function (e) { 
+		var container = document.getElementById('map');
+        var options = {
+          center: new kakao.maps.LatLng(33.450701, 126.570667),
+          level: 3
+        };
+
+        var map = new kakao.maps.Map(container, options);
+	});
+	
 	</script>
 
 
