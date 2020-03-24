@@ -42,5 +42,19 @@ public interface FriendsService {
 	 */
 	List<Member> friendsList(int myNum) throws Exception;
 
+	/** 친구목록에서의 친구 차단 Service
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	int blockFriendsInList(Map<String, Object> nMap) throws Exception;
+
+	/** 친구 목록에서 대화방 진입하는 Service
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	int friendTalk(Map<String, Object> nMap) throws Exception;
+
 
 }

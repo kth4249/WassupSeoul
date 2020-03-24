@@ -102,7 +102,7 @@ public class FriendsController {
 	@RequestMapping(value="blockFriend", method = RequestMethod.POST)
 	public String blockFriends(Model model, int yourNo) {
 		int myNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
-		 System.out.println("컨트롤러 오는건가?");
+		 System.out.println("yourNo : " + yourNo);
 		try {
 			Map<String, Object> nMap = new HashMap<String, Object>();
 			nMap.put("myNo", myNo);
@@ -111,9 +111,9 @@ public class FriendsController {
 			int result = friendsService.blockFriend(nMap);
 			
 			if (result>0) {
-				System.out.println("친구 차단 성공");
+				//System.out.println("친구 차단 성공");
 			} else {
-				System.out.println("친구 차단 실패");
+				//System.out.println("친구 차단 실패");
 			}
 			return null;
 		} catch (Exception e) {
@@ -139,6 +139,76 @@ public class FriendsController {
 		}
 		return null;
 	} // 친구목록 조회 끝
+	
+	
+	
+	
+	// 친구목록에서 대화방 개설하는 Controller
+	@ResponseBody
+	@RequestMapping(value="friendTalk", method = RequestMethod.POST)
+	public String friendTalk(Model model, int yourNo) {
+		int myNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
+		 System.out.println("myNo : "+ myNo + " yourNo : " + yourNo);
+		try {
+			Map<String, Object> nMap = new HashMap<String, Object>();
+			nMap.put("myNo", myNo);
+			nMap.put("yourNo", yourNo);
+			
+			int result = friendsService.friendTalk(nMap);
+			
+			if (result>0) {
+				//System.out.println("대화방 진입 성공");
+			} else {
+				//System.out.println("대화방 진입 실패");
+			}
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 친구 목록에서의 친구 차단 Controller
+		@ResponseBody
+		@RequestMapping(value="blockFriendInList", method = RequestMethod.POST)
+		public String blockFriendsInList(Model model, int yourNo) {
+			int myNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
+			try {
+				Map<String, Object> nMap = new HashMap<String, Object>();
+				nMap.put("myNo", myNo);
+				nMap.put("yourNo", yourNo);
+				
+				int result = friendsService.blockFriendsInList(nMap);
+				
+				if (result>0) {
+					//System.out.println("친구목록에서 차단 성공");
+				} else {
+					//System.out.println("친구목록에서 차단 실패");
+				}
+				return null;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+			}
+		
+		
+		
+		
+	
+	
+	
+	
+	
 	
 	
 	
