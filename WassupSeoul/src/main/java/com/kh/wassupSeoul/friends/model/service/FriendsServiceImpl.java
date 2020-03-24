@@ -169,8 +169,6 @@ public class FriendsServiceImpl implements FriendsService{
 				return result;
 			}
 			
-			
-			
 		// 3) 있다면 status (update)
 		} else {
 			//System.out.println("방 있음");
