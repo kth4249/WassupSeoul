@@ -136,9 +136,9 @@
 		</div>
 
       <!-- 탑버튼 -->
-      <a style="display: scroll; position: fixed; bottom: 10px; right: 10px;" href="#" title="맨 위로">
+      <%-- <a style="display: scroll; position: fixed; bottom: 10px; right: 10px;" href="#" title="맨 위로">
       	<img src="${contextPath}/resources/img/img_top.png" alt="탑버튼" style="width: 70px; height: 100px;">
-	  </a>
+	  </a> --%>
 
     </div>
     <%-- 아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/phatplus" title="phatplus">phatplus</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon"> www.flaticon.com</a> --%>

@@ -55,19 +55,6 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
-	<!-- 사이드 Filter 추가 --> 
-	<filter>
-		<filter-name>streetFilter</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
-		</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>streetFilter</filter-name>
-		<url-pattern>/street/streetMain</url-pattern>
-		<url-pattern>/street/streetInsert</url-pattern>
-		<url-pattern>/street/recommendFriend</url-pattern>
-		<url-pattern>/street/calendar</url-pattern>
-	</filter-mapping>
 	
 
 </web-app>

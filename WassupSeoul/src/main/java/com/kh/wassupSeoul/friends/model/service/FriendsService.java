@@ -35,5 +35,12 @@ public interface FriendsService {
 	 */
 	int blockFriend(Map<String, Object> nMap)throws Exception;
 
+	/** 친구 목록 조회용 Service
+	 * @param myNum
+	 * @return fList
+	 * @throws Exception
+	 */
+	List<Member> friendsList(int myNum) throws Exception;
+
 
 }
