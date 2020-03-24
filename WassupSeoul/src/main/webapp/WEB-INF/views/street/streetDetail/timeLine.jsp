@@ -41,8 +41,28 @@
 	object-fit: cover;
 	}
 	
-	
-
+	 #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 180px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
 </style>
 <body>
 
@@ -217,11 +237,76 @@
 						style="border: 1px solid black; border-top: 0; border-bottom: 0; width: 100%">
 						<div style="padding-left: 10px; padding-right: 10px; width: 100%">
 
-							<p>${board.boardContent}</p>
+
+							<c:choose>
+								<c:when test="${board.typeNo eq '6'}">
+									<div class="map_wrap">
+										<div id="map" style="width:100%;height:200px;position:relative;overflow:hidden;"></div>
+									</div>
+									
+									<script>
+								      function initMap() {
+								        var map = new google.maps.Map(document.getElementById('map'), {
+								          zoom: 15,
+								          center: {lat: 37.5724723, lng: 126.9737442}
+								        });
+								        var geocoder = new google.maps.Geocoder();
+								
+								        document.getElementById('mapSubmit').addEventListener('click', function() {
+								          geocodeAddress(geocoder, map);
+								        });
+								      }
+								
+								      function geocodeAddress(geocoder, resultsMap) {
+								        var address = ${board.boardContent};
+								        geocoder.geocode({'address': address}, function(results, status) {
+								          if (status === 'OK') {
+								        	  var coords = results[0].geometry.location;
+								            	resultsMap.setCenter(coords);
+								           	 var marker = new google.maps.Marker({
+								           		   map: resultsMap,
+								             	   position: coords
+								            });
+								          } else {
+								            alert('Geocode was not successful for the following reason: ' + status);
+								          }
+								        });
+								      }
+								    </script>
+								</c:when>
+								<c:otherwise>
+									<p>${board.boardContent}</p>
+								</c:otherwise>
+							</c:choose>
+							
 
 						</div>
 					</div>
 					<!-- 게시글내용 -->
+					
+					<!-- 댓글 출력  코드 순서  -->
+						<%-- <c:if test="${!empty reply}">
+									<c:forEach var="reply" items="${reply}" varStatus="vs">
+										<c:if test="${reply.boardNo eq board.boardNo}">
+											<c:if test="${reply.replyLevel eq '1'}">
+												<c:if test="${!empty reReply}">
+													<c:forEach var="reReply" items="${reReply}" varStatus="vs">
+													
+														<c:if test="${reReply.replyLevel eq '2'}">
+															<c:if test="${reply.boardNo eq reReply.reReplyNo}">
+															   
+															
+															</c:if>
+														</c:if>
+														
+													</c:forEach>
+												</c:if>
+												<c:if test="${empty reReply}">
+												</c:if>
+											</c:if>
+										</c:if>
+									</c:forEach>
+								</c:if> --%>
 
 					<!-- 댓글수, 좋아요버튼 -->
 					<div class="postCountView"
@@ -272,7 +357,6 @@
 					</div>
 					<!-- 댓글수, 좋아요버튼 -->
 
-
 					<!-- 댓글영역 -->
 					<div class="CommentWrap " style="display: none;">
 
@@ -295,29 +379,6 @@
 						<c:if test="${empty reply}">
 						</c:if>
 
-						<!-- 댓글 출력  코드 순서  -->
-						<%-- <c:if test="${!empty reply}">
-									<c:forEach var="reply" items="${reply}" varStatus="vs">
-										<c:if test="${reply.boardNo eq board.boardNo}">
-											<c:if test="${reply.replyLevel eq '1'}">
-												<c:if test="${!empty reReply}">
-													<c:forEach var="reReply" items="${reReply}" varStatus="vs">
-													
-														<c:if test="${reReply.replyLevel eq '2'}">
-															<c:if test="${reply.boardNo eq reReply.reReplyNo}">
-															   
-															
-															</c:if>
-														</c:if>
-														
-													</c:forEach>
-												</c:if>
-												<c:if test="${empty reReply}">
-												</c:if>
-											</c:if>
-										</c:if>
-									</c:forEach>
-								</c:if> --%>
 
 						<c:if test="${!empty reply}">
 							<c:forEach var="reply" items="${reply}" varStatus="vs">
@@ -566,13 +627,6 @@
 		</c:forEach>
 	</c:if>
 
-<!-- 	<script>
-$(document).ready(function() {
-	
-	
-	
-});
 
-</script> -->
 </body>
 </html>

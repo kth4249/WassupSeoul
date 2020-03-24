@@ -44,7 +44,7 @@ import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
-@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt", "board", "reply", "reReply"  })
+@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt"  })
 @Controller
 @RequestMapping("/street/*")
 public class StreetController {
@@ -377,6 +377,59 @@ public class StreetController {
     	}
     	return null;
     }
+    
+    
+    // 지도 게시글 입력
+    @ResponseBody
+	@RequestMapping("mapPost")
+	public String mapPost(String address, Model model, String mapPostContent ) {
+		
+		System.out.println("입력한 주소 : " + address);
+		System.out.println("입력한 게시글 내용 : " + mapPostContent);
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		int streetNo = (int) model.getAttribute("streetNo");
+		
+		Board board = new Board();
+		
+		board.setStreetNo(streetNo);
+		board.setMemberNo(loginMember.getMemberNo());
+		board.setBoardContent(address);
+		board.setTypeNo(6);
+		
+		
+//		board.setBoardUrl(address); 
+	
+		/* 게시글타입
+		0 : NONE
+		1 : 게시글파일
+		2 : 일정
+		3 : 투표
+		4 :  N빵
+		5 : 스케치
+		6 : 지도*/
+		
+		try {
+	
+			int test = streetService.mapPost(board);
+			
+			if ( test > 0) {
+				System.out.println("지도 게시글 입력 완료");
+			}else {
+				System.out.println("지도 게시글 입력 실패");
+			}
+			
+			return  test == 1 ? true + "" : false + "";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "대댓글 입력 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+	}
+    
+    
 	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	// -------------------------------------------- 지원 -----------------------------------------------

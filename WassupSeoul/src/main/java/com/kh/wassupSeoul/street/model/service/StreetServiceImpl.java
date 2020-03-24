@@ -258,10 +258,21 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.checkProfile(memberNo);
 	}
 	
+
+	/** 지도 게시글 업로드 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int mapPost(Board board) throws Exception {
+		return streetDAO.mapPost(board);
+	}
+
+	
 		
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
-
 
 /** 골목 가입용 Service
 	 * @param map

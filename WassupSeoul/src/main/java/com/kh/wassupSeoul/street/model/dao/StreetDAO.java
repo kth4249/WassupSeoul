@@ -204,6 +204,14 @@ public class StreetDAO {
 		return sqlSession.selectOne("memberMapper.selectProfileMember", memberNo);
 	}
 
+	/** 지도 게시글 등록용 DAO
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public int mapPost(Board board) throws Exception{
+		return sqlSession.insert("streetMapper.mapPost", board);
+	}
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 
@@ -527,6 +535,8 @@ public class StreetDAO {
 	public int addSchedule(Calendar sendCalendar) throws Exception{
 		return sqlSession.insert("streetMapper.addSchedule", sendCalendar);
 	}
+
+	
 	
 /*------------------------ 정승환 추가코드 -----------------------------------*/
 }
