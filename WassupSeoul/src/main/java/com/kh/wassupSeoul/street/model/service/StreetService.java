@@ -6,11 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
@@ -114,6 +112,13 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract Member checkProfile(int memberNo) throws Exception;
+	
+	/** 지도 게시글 업로드 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int mapPost(Board board)throws Exception;
 
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
@@ -363,6 +368,7 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int addSchedule(Calendar sendCalendar) throws Exception;
+
 
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/

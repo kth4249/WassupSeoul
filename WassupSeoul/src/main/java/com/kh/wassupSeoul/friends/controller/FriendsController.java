@@ -28,7 +28,7 @@ public class FriendsController {
 	
 	// 친구요청 목록 조회용 Controller
 	@ResponseBody
-	@RequestMapping(value = "friendRequest",
+	@RequestMapping(value = "friendRequest", method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
 	public String friendRequest(Model model, HttpServletResponse response) {
 		int myNum = ((Member)model.getAttribute("loginMember")).getMemberNo();
@@ -126,11 +126,22 @@ public class FriendsController {
 	
 	// 친구 목록 조회 Controller
 	@ResponseBody
-	@RequestMapping(value="friendsList", method = RequestMethod.POST)
-	public String friendList(Model model, int yourNo) {
-		System.out.println("컨트롤러 도달 확인" + yourNo);
+	@RequestMapping(value="friendsList", method = RequestMethod.POST,
+			produces = "application/json; charset=utf-8")
+		public String friendList(Model model) {
+		int myNum = ((Member)model.getAttribute("loginMember")).getMemberNo();
+		try {
+			List<Member> fList = friendsService.friendsList(myNum);
+			return new Gson().toJson(fList);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
-	}
+	} // 친구목록 조회 끝
+	
+	
+	
 	
 	
 	
