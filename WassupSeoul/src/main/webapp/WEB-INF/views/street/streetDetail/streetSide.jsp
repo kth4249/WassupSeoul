@@ -82,10 +82,18 @@
 			}
 		  </script>
 		  <div class="row">
-		  
-            <!-- 일반 주민 영역 -->
+				<c:if test="${citizenGrade eq 'M'}">
+					<div class="col-sm-6">
+						<a onclick="return confirm('정말로 이 골목을 삭제하시겠습니까?');"
+							href="streetDelete?no=${streetNo}" class="btn btn-link nanum"
+							style="color: red; font-weight: bold; font-size: 15px"> <img
+							src="${contextPath}/resources/img/streetOut.svg" alt="이미지"
+							style="width: 15px; height: 15px;"> 골목 삭제하기
+						</a>
+					</div>
+				</c:if>
+				<!-- 일반 주민 영역 -->
 		  	<c:if test="${citizenGrade eq 'G' || citizenGrade eq 'M'}">
-		  		<div class="col-sm-6"></div>
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
 	             		<a href="streetDelete?no=${streetNo}" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">

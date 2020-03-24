@@ -378,7 +378,16 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int insertCalendarBoard(Board board) throws Exception;
+
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
-	 
+	
+	/******************** 지원 골목 삭제 시작 ********************************/
+	/** 골목 삭제용 Service
+	 * @param no
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteStreet(Integer no) throws Exception;
+	/******************** 지원 골목 삭제 끝 ********************************/
 }

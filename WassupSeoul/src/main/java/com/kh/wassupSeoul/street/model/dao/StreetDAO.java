@@ -539,7 +539,34 @@ public class StreetDAO {
 	public int insertCalendarBoard(Board board) throws Exception{
 		return sqlSession.insert("streetMapper.insertCalendarBoard",board);
 	}
+
 	
 	
 /*------------------------ 정승환 추가코드 -----------------------------------*/
+	
+	/******************** 지원 골목 삭제 시작 ********************************/
+	
+	/** 골목 삭제용 DAO
+	 * @param no
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteStreet(Integer no) throws Exception {
+		
+		return sqlSession.delete("streetMapper.deleteStreet", no);
+	}
+
+	/** 골목 가입자 삭제용 DAO
+	 * @param no
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteJoin(Integer no) throws Exception {
+		
+		return sqlSession.delete("streetMapper.deleteJoin", no);
+	}
+	
+	
+	
+	/******************** 지원 골목 삭제 끝 ********************************/
 }

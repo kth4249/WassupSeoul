@@ -798,4 +798,31 @@ public class StreetServiceImpl implements StreetService{
 	}
 	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
+	
+	
+	/******************** 지원 골목 삭제 시작 ********************************/
+	/** 골목 삭제용 Service
+	 * @param no
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteStreet(Integer no) throws Exception {
+		int result = 0;
+		
+		result = streetDAO.deleteStreet(no);
+		
+		if(result > 0) {
+			
+			result = streetDAO.deleteJoin(no);
+			
+			if(result > 0) {
+				
+				result = streetDAO.deleteStreetKeyword(no);
+			}
+		}
+		return result;
+	}
+	/******************** 지원 골목 삭제 끝 ********************************/
 }

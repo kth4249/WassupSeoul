@@ -962,8 +962,27 @@ public class StreetController {
 
 		model.addAttribute("detailUrl", detailUrl);
 		
+		try {
+			
+			int result = streetService.deleteStreet(no);
+			
+			if(result > 0) {
+				
+				return "square";
+				
+			} else {
+				
+				model.addAttribute("msg", "골목 삭제 실패");
+				return "redirect:/";
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "골목 삭제 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+		
 
-		return "street/streetDelete";
 	}
 	
 	/*------------------------ 지원 골목삭제 끝-----------------------------------*/ 
