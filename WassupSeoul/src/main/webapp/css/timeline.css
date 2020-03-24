@@ -410,5 +410,27 @@ img:hover+p.arrow_box {
 			height: 600px;
 			z-index: 1;
 		}
-      
+		.drawColor:hover{
+         cursor: pointer;
+      }
+      #canvas {
+        border: 1px solid black;
+      }
+      .jb_table {
+        display: table;
+      }
+      .drawing {
+        border-radius: 10px;
+        display: table-row;
+      }
+      #draw {
+        display: table-cell;
+        vertical-align: top;
+      }
+      .drawColor{
+          width:32px;
+          height: 32px;
+          margin-left: 10px;
+      }
+        /* 스케치 */
       

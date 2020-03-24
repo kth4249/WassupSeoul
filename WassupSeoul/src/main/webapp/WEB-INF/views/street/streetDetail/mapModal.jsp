@@ -9,17 +9,14 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"></script>
-<%-- <script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>   --%>
-
-
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
 
 <title>타임라인 글작성 영역</title>
 </head>
 <style>
 	 #map {
         height: 100%;
-      }
+     }
       /* Optional: Makes the sample page fill the window. */
       html, body {
         height: 100%;
@@ -41,7 +38,6 @@
       }
  </style>
 <body>
-
 					<!-- 지도 모달 -->
 					<div class="modal fade" id="mapModal" data-backdrop="static"
 						tabindex="-1" role="dialog" aria-labelledby="writerModalLabel" aria-hidden="true">
@@ -82,11 +78,11 @@
 					
 					 <script>
 				      function initMap() {
+				    	var geocoder = new google.maps.Geocoder;
 				        var map = new google.maps.Map(document.getElementById('map'), {
 				          zoom: 15,
 				          center: {lat: 37.5724723, lng: 126.9737442}
 				        });
-				        var geocoder = new google.maps.Geocoder();
 				
 				        document.getElementById('mapSubmit').addEventListener('click', function() {
 				          geocodeAddress(geocoder, map);

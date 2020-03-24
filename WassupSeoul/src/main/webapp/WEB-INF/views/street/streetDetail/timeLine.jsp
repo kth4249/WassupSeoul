@@ -9,25 +9,21 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
 
 <title>타임라인 게시글 영역</title>
 </head>
 
 <style>
-
 	.writerImg:hover{
 		cursor : pointer;
 	}
-	
 	.writerNickName:hover{
 		cursor : pointer;
 	}
-	
 	a{
 	style="color: black; text-decoration: none;"
 	}
-	
 	.profileBox{
 	  width: 100%;
 	  height: 160px; 
@@ -62,30 +58,44 @@
 	}
 	/* (3/24)미현수정 끝  */
 	
-	 #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #floating-panel {
-        position: absolute;
-        top: 180px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
+	
 </style>
 <body>
+	 <!-- <script>
+      function initMap() {
+    	 var geocoder = new google.maps.Geocoder;  
+        var map2 = new google.maps.Map(document.getElementByClassName('map'), {
+          zoom: 15,
+          center: {lat: 37.5724723, lng: 126.9737442}
+        });
+          geocodeAddress(geocoder, map2);
+          
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: {lat: 37.5724723, lng: 126.9737442}
+         });
+
+          document.getElementById('mapSubmit').addEventListener('click', function() {
+            geocodeAddress(geocoder, map);
+          });  
+      }
+
+      function geocodeAddress(geocoder, resultsMap) {
+    	var address =  $(".map").attr("name");
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+        	  var coords = results[0].geometry.location;
+            	resultsMap.setCenter(coords);
+           	 var marker2 = new google.maps.Marker({
+           		   map: resultsMap,
+             	   position: coords
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+    </script>   -->
 
 	<c:if test="${empty board }">
 
@@ -135,8 +145,7 @@
 							</div>
 							<div style="margin-bottom: 0;">
 								<p style="margin-bottom: 0;">
-									<fmt:formatDate value="${board.boardWriteDt}"
-										pattern="yyyy년 MM월 dd일 aa hh:mm" />
+									<fmt:formatDate value="${board.boardWriteDt}" pattern="yyyy년 MM월 dd일 aa hh:mm" />
 								</p>
 							</div>
 						</div>
@@ -251,7 +260,8 @@
 						</div>
 					</div>
 					<!-- end -->
-
+					
+					<jsp:include page="../streetDetail/profileModal.jsp"/> 
 
 					<!-- 게시글내용 -->
 					<div class="postMainWrap  nanum"
@@ -261,47 +271,16 @@
 
 							<c:choose>
 								<c:when test="${board.typeNo eq '6'}">
+								
 									<div class="map_wrap">
-										<div id="map" style="width:100%;height:200px;position:relative;overflow:hidden;"></div>
+										<div class="map" name="${board.boardContent}" style="width:100%;height:200px;position:relative;overflow:hidden;"></div>
 									</div>
 									
-									<script>
-								      function initMap() {
-								        var map = new google.maps.Map(document.getElementById('map'), {
-								          zoom: 15,
-								          center: {lat: 37.5724723, lng: 126.9737442}
-								        });
-								        var geocoder = new google.maps.Geocoder();
-								
-								        document.getElementById('mapSubmit').addEventListener('click', function() {
-								          geocodeAddress(geocoder, map);
-								        });
-								      }
-								
-								      function geocodeAddress(geocoder, resultsMap) {
-								        var address = ${board.boardContent};
-								        geocoder.geocode({'address': address}, function(results, status) {
-								          if (status === 'OK') {
-								        	  var coords = results[0].geometry.location;
-								            	resultsMap.setCenter(coords);
-								           	 var marker = new google.maps.Marker({
-								           		   map: resultsMap,
-								             	   position: coords
-								            });
-								          } else {
-								            alert('Geocode was not successful for the following reason: ' + status);
-								          }
-								        });
-								      }
-								    </script>
 								</c:when>
 								<c:otherwise>
-									<p>${board.boardContent}</p>
+									${board.boardContent}    
 								</c:otherwise>
 							</c:choose>
-							
-						<!-- 3/24미현이가 p태그 쓸데없는거같아서 지움  -->
-							${board.boardContent}
 
 						</div>
 					</div>
@@ -643,7 +622,7 @@
 			<!-- 게시글1 끝-->
 
 			<div class="row"
-				style="height: 20px; background-color: rgb(221, 233, 218);"></div>
+				style="height: 20px; background-color: rgb(221, 233, 218); z-index: -5;"></div>
 			<!-- 게시글1 후 여백-->
 
 		</c:forEach>
