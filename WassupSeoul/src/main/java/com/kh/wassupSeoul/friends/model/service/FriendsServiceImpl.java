@@ -1,16 +1,18 @@
 package com.kh.wassupSeoul.friends.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.relation.Relation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wassupSeoul.friends.model.dao.FriendsDAO;
+import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.member.model.vo.Member;
 
 @Service
@@ -27,7 +29,7 @@ public class FriendsServiceImpl implements FriendsService{
 	 */
 	@Override
 	public List<Member> friendRequest(int myNum) throws Exception {
-	      List<Relation> fList = friendsDAO.friendRequest(myNum);
+	      List<Relationship> fList = friendsDAO.friendRequest(myNum);
 	      List<Member> ffList = null;
 	      if (!fList.isEmpty()) {
 	    	 Map<String, Object> fMap = new HashMap<String, Object>();
@@ -87,20 +89,26 @@ public class FriendsServiceImpl implements FriendsService{
 	 */
 	@Override
 	public List<Member> friendsList(int myNum) throws Exception {
-		List<Relation> fList = friendsDAO.friendsList(myNum);
-		System.out.println(fList); 
-		List<Member> ffList = null;
+		System.out.println("임플 상륙");
+		List<Relationship> fList = friendsDAO.friendsList(myNum);
+		List<Integer> ffList = new ArrayList<Integer>();
+		List<Member> fffList = new ArrayList<Member>();
+		
 		if (!fList.isEmpty()) {
-			
-			// fList에서 yourNum값만 뽑아서 보낼 생각해라
+
+			for (int i = 0 ; i<fList.size() ; i++) {
+				ffList.add(fList.get(i).getYourNum());
+			}
+			System.out.println("ffList 확인 : " + ffList); 
 			
 			Map<String, Object> fMap = new HashMap<String, Object>();
-			fMap.put("fList", fList);
+			fMap.put("ffList", ffList);
 			fMap.put("myNum", myNum); 
-			ffList = friendsDAO.justFriendsList(fMap);
-			System.out.println(ffList);
+			fffList = friendsDAO.justFriendsList(fMap);
+			System.out.println(fffList);
 		}
-	      return ffList;
+		
+	      return fffList;
 	}
 
 

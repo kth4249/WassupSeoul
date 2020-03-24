@@ -3,12 +3,11 @@ package com.kh.wassupSeoul.friends.model.dao;
 import java.util.List;
 import java.util.Map;
 
-import javax.management.relation.Relation;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.member.model.vo.Member;
 
 @Repository
@@ -24,7 +23,7 @@ public class FriendsDAO {
 	 * @return fList
 	 * @throws Exception
 	 */
-	public List<Relation> friendRequest(int myNum) throws Exception{
+	public List<Relationship> friendRequest(int myNum) throws Exception{
 		return sqlSession.selectList("friendsMapper.friendsRequest", myNum);
 	}
 
@@ -85,7 +84,7 @@ public class FriendsDAO {
 	 * @return fList
 	 * @throws Exception
 	 */
-	public List<Relation> friendsList(int myNum) throws Exception{
+	public List<Relationship> friendsList(int myNum) throws Exception{
 		return sqlSession.selectList("friendsMapper.friendsList", myNum);
 	}
 

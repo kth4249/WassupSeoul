@@ -5,7 +5,7 @@
 <style>
 @import
 	url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
-
+	
 .container2 {
 	/* margin-top: 300px;
       margin-right: 90px;
@@ -782,7 +782,7 @@
 				console.log("친구 목록을 불러오는 aJax 실패");
 			}
 		});
-	};  // 친구 목록 Ajax 완료
+	};   // 친구 목록 Ajax 완료
 	
 	
 	

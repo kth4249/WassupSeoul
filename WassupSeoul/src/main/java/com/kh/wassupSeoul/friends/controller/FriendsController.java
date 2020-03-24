@@ -128,8 +128,7 @@ public class FriendsController {
 	@ResponseBody
 	@RequestMapping(value="friendsList", method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	public String friendList(Model model) {
-		
+		public String friendList(Model model) {
 		int myNum = ((Member)model.getAttribute("loginMember")).getMemberNo();
 		try {
 			List<Member> fList = friendsService.friendsList(myNum);

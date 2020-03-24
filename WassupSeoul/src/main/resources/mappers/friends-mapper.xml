@@ -35,20 +35,6 @@
 	AND MEMBER_STATUS = 'Y'
 </select> 
 
-<!-- 친구요청 조회용 -->
-<!-- <select id="justFriendsReq" parameterType='map' resultMap="memberResultSet">
-	SELECT * FROM MEMBER
-	JOIN RELATIONSHIP ON(MY_NO = MEMBER_NO)
-	<where>
-	<if test="list != null">
-		AND YOUR_NO IN  
-		<foreach collection="list" open="(" separator="," close=")" item="member">
-			 #{myNum}
-		</foreach> 
-	</if>
-		AND MEMBER_STATUS = 'Y'
-	</where>
-</select> -->
 
 <!-- 친구요청 조회용 2-->
 <select id="justFriendsReq" parameterType='map' resultMap="memberResultSet">
@@ -97,6 +83,7 @@
  	VALUES(#{yourNo}, #{myNo}, 3)
  </insert>
  
+ 
  <!-- 친구 목록 조회용 1 -->
  <select id="friendsList" parameterType="_int" resultMap="RelationshipResultSet">
  	SELECT * FROM RELATIONSHIP
@@ -106,17 +93,25 @@
 	AND MEMBER_STATUS = 'Y'
  </select>
  
+
  <!-- 친구 목록 조회용 2 -->
  <select id="justFriendsList" parameterType='map' resultMap="memberResultSet">
 	SELECT * FROM MEMBER
 	JOIN RELATIONSHIP ON(MY_NO = MEMBER_NO)
-	<where>
-		AND MY_NO = #{myNum} 
+	<where> 
+		AND YOUR_NO = #{myNum}
+		AND MY_NO IN
+		<foreach item="yourNo" collection="ffList" open="(" separator="," close=")">
+			 #{yourNo}
+		</foreach>
 		AND MEMBER_STATUS = 'Y'
 		AND REQUEST_STATUS = 2
 	</where>
 </select>
- 
+
+
+
+
  
  
 
