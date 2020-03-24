@@ -1,16 +1,9 @@
 package com.kh.wassupSeoul.street.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +27,6 @@ import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
-import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
@@ -44,7 +36,7 @@ import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
-@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt"  })
+@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt"})
 @Controller
 @RequestMapping("/street/*")
 public class StreetController {
@@ -670,19 +662,14 @@ public class StreetController {
 	public String fileUpload(Board board, Model model, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
 
 		Member loginMember = (Member) model.getAttribute("loginMember");
-		//int summerUploder = loginMember.getMemberNo();
-		//int streetNo = (int) model.getAttribute("streetNo");
-		//System.out.println(streetNo);
-
-		//board.setMemberNo(summerUploder);
-		//board.setStreetNo(streetNo);
-		//board.setTypeNo(0);
 
 		System.out.println("파일명 : " + file.getOriginalFilename());
-		//System.out.println("등록할 게시글 : " + board);
 
 		try {
 			String filePath = streetService.fileUpload(board,file,request);
+			
+			System.out.println("오고있는거니filePath : " + filePath);
+			
 			
 			if (filePath.equals("")) {
 				return null;
@@ -694,43 +681,10 @@ public class StreetController {
 			e.printStackTrace();
 			return "피곤...";
 		}
-		//return 
 		
 	}
 	
-	
-	/*@RequestMapping("insertSummer")
-	public String insertSummer(String summernoteContent, Model model) {
-		System.out.println("summernoteContent : " + summernoteContent);
-		
-		Member loginMember = (Member) model.getAttribute("loginMember");
-		int memberNo = loginMember.getMemberNo();
-		int streetNo = (int) model.getAttribute("streetNo");
-		
-		System.out.println("memberNo : " + memberNo);
-		System.out.println("streetNo : " + streetNo);
-		
-		
-		Board board = new Board();
-		board.setMemberNo(memberNo);
-		board.setBoardContent(summernoteContent);
-		board.setStreetNo(streetNo);
-		
-		try {
-			int result = streetService.insertSummer(board);
-			
-			if(result > 0) {
-				return null;
-			}else {
-				return null;
-			}
-		}catch (Exception e) {
-			return null;
-		}
-		
-	}*/
-	
-	
+	/*----------------------- 미현 끝 -----------------------------------*/
 	
 	
 	/*------------------------ 태훈 시작 (03/22) -----------------------------------*/

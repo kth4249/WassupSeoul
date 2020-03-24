@@ -5,14 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
@@ -445,16 +441,6 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.fileUpload",filepath) ;
 	}
 
-
-	/*
-	 * public int fileUpload(Map<String, Object> uploadMap) { return
-	 * sqlSession.insert("streetMapper.insertFile",uploadMap); }
-	 */
-	/*public int insertSummer(Board board) throws Exception{
-		return sqlSession.insert("streetMapper.insertBoard",board);
-	}
-
-	
 	/*-----------------------미현 끝-------------------------------------------*/
 
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/

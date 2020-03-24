@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-<script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>  
 
 
 <title>타임라인 게시글 영역</title>
@@ -40,6 +39,28 @@
 	height: 100%;
 	object-fit: cover;
 	}
+	/* (3/24)미현수정  */
+	.postMainWrap{
+		position: relative; 
+		overflow: auto;
+	}
+	.postMainWrap iframe,
+	.postMainWrap object,
+	.postMainWrap embed {
+		position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	}
+	.postMainWrap img{
+		position: absolute; 
+		top:0; 
+		left: 0;
+		width: auto;
+		height: 100%;
+	}
+	/* (3/24)미현수정 끝  */
 	
 	 #map {
         height: 100%;
@@ -279,6 +300,8 @@
 								</c:otherwise>
 							</c:choose>
 							
+						<!-- 3/24미현이가 p태그 쓸데없는거같아서 지움  -->
+							${board.boardContent}
 
 						</div>
 					</div>
@@ -388,8 +411,7 @@
 										<div style="border: 1px solid black;">
 
 											<div style="position: relative; left: 14px; border: 0px white; width: 98%;">
-												<div class="postMainWrap"
-													style="border-bottom: 0px; height: 80%;">
+												<div class="postMainWrap" style="border-bottom: 0px; height: 80%;">
 													<div class="profile${contextPath}/resources/img/Area"
 														id="profileImgArea"
 														style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px; padding-left: 10px;">

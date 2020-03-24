@@ -9,9 +9,6 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"></script>
-<%-- <script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>   --%>
-
 
 
 <title>타임라인 글작성 영역</title>
@@ -43,32 +40,17 @@
  </style>
 <body>
 
-				<div class="postLayoutView " style="padding: 0%;">
-						<form action="insert" method="post" enctype="multipart/form-data"
-							role="form" onsubmit="return validate();">
+		<div class="postLayoutView " style="padding: 0%;">
+				<form action="insert" method="post" enctype="multipart/form-data"
+					role="form" onsubmit="return validate();">
 
-							<div class="writePost">
-								<textarea class="postArea nanum" id="writePostArea" name="boardContent" rows="3" placeholder="새로운 게시글을 작성해보세요"></textarea>
-							</div>
+					<div class="writePost">
+						<textarea class="postArea nanum" id="writePostArea" name="boardContent" rows="3" placeholder="새로운 게시글을 작성해보세요"></textarea>
+					</div>
 
-							<div class="postCountView" style="border: 1px solid black; height: 45px;">
+					<div class="postCountView" style="border: 1px solid black; height: 45px;">
 
-								<%-- <div class="writeOptionArea shake">
-									<img class="writeOption img1" src="${contextPath}/resources/img/imageIcon.png">
-									<p class="arrow_box">사진</p>
-								</div>
-
-								<div class="writeOptionArea shake">
-									<img class="writeOption" src="${contextPath}/resources/img/film.png">
-									<p class="arrow_box">동영상</p>
-								</div>
-
-								<!-- 파일첨부 -->
-								<div class="writeOptionArea shake">
-									<img class="writeOption summerOption" src='${contextPath}/resources/img/paperclip.png'>
-									<p class="arrow_box">파일첨부</p>
-								</div> --%>
-								<!-- 사진 첨부 -->
+                <!-- 사진 첨부 -->
 								<div class="writeOptionArea shake" style="width: 7%">
 									<form class="form-signin">
 										<a href="#" data-toggle="modal" data-target="#summerModal"> 
@@ -78,55 +60,108 @@
 									</form>
 								</div>
 
-								<!-- 동영상 첨부 -->
-								<div class="writeOptionArea shake" style="width: 7%">
-									<form class="form-signin">
-										<a href="#" data-toggle="modal" data-target="#summerModal"> 
-											<img class="writeOption" src="${contextPath}/resources/img/film.png" alt="">
-											<p class="arrow_box">동영상</p>
-										</a>
-									</form>
-								</div>
 
-								<!-- 파일첨부 -->
-								<div class="writeOptionArea shake" style="width: 7%">
-									<form class="form-signin">
-										<a href="#" data-toggle="modal" data-target="#summerModal"> 
-											<img class="writeOption" src="${contextPath}/resources/img/paperclip.png" alt="">
-											<p class="arrow_box">파일첨부</p>
-										</a>
-									</form>
-								</div>
 
-								<div class="writeOptionArea shake" style="width: 7%">
-									<img class="writeOption voteOption" data-toggle="modal" data-target="#voteModal"
-										src="${contextPath}/resources/img/vote.png">
-									<p class="arrow_box">투표</p>
-								</div>
+                <!-- 동영상 첨부 -->
+                <div class="writeOptionArea shake" style="width: 7%">
+                  <form class="form-signin">
+                    <a href="#" data-toggle="modal" data-target="#summerModal"> 
+                      <img class="writeOption" src="${contextPath}/resources/img/film.png" alt="">
+                      <p class="arrow_box">동영상</p>
+                    </a>
+                  </form>
+                </div>
+
+                <!-- 파일첨부 -->
+                <div class="writeOptionArea shake" style="width: 7%">
+                  <form class="form-signin">
+                    <a href="#" data-toggle="modal" data-target="#summerModal"> 
+                      <img class="writeOption" src="${contextPath}/resources/img/paperclip.png" alt="">
+                      <p class="arrow_box">파일첨부</p>
+                    </a>
+                  </form>
+                </div>
+
+                <div class="writeOptionArea shake" style="width: 7%">
+                  <img class="writeOption voteOption" data-toggle="modal" data-target="#voteModal"
+                    src="${contextPath}/resources/img/vote.png">
+                  <p class="arrow_box">투표</p>
+                </div>
+
+                <div class="writeOptionArea shake" style="width: 7%">
+                  <img class="writeOption" src="${contextPath}/resources/img/pie-chart.png">
+                  <p class="arrow_box">N빵</p>
+                </div>
+
+                <div class="writeOptionArea shake" style="width: 7%">
+                  <img class="writeOption mapOption" src="${contextPath}/resources/img/map.png"
+                        data-toggle="modal" data-target="#mapModal">
+                  <p class="arrow_box">지도</p>
+                </div>
+
+                <div class="writeOptionArea shake" style="width: 7%">
+                  <img class="writeOption sketchOption" data-toggle="modal" data-target="#sketchModal"
+                    src="${contextPath}/resources/img/sketch.png">
+                  <p class="arrow_box">스케치</p>
+                </div>
+
+
 						
-								<div class="writeOptionArea shake" style="width: 7%">
-									<img class="writeOption" src="${contextPath}/resources/img/pie-chart.png">
-									<p class="arrow_box">N빵</p>
-								</div>
+                <div id="writePostBtn" style="display: inline-block; width: 18%; margin-bottom: 0px; height: 100%; float: right;">
+                  <button type="submit" class="btn nanum" style="height: 40px; font-size: 18px; font-weight: bolder; position: relative; bottom: 1px; right: 7px; float: right;">작성</button>
+                </div>
+					</div>
+				</form>
+			</div>
 
-								<div class="writeOptionArea shake" style="width: 7%">
-									<img class="writeOption mapOption" src="${contextPath}/resources/img/map.png"
-												data-toggle="modal" data-target="#mapModal">
-									<p class="arrow_box">지도</p>
-								</div>
+
+			<!-- 지도 모달 -->
+			<div class="modal fade" id="mapModal" data-backdrop="static"
+				tabindex="-1" role="dialog" aria-labelledby="writerModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document" style="width: 700px; height:1000px">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<!-- content start -->
+							
+							<div class="modal_content" style="padding: 3px;">
+
+							<textarea class=" nanum" id="writePostArea1" rows="6" placeholder="게시글내용을 입력하세요."
+									style="border: 1px solid black; color: black; font-size: 17px; height: 280px; width:100%"></textarea>
+								<!-- <input type="text" placeholder="주소검색 버튼 클릭" style="width:80%;" name="address1" id="address1" class="postcodify_address"> -->
+								<!-- <input type="button" value="주소 검색" id="postcodify_search_button"><br> -->
+								<!-- <div id="map"style="width: 100%; height: 300px; margin-top: 10px; border:2px black solid;"></div> -->
 								
-								<div class="writeOptionArea shake" style="width: 7%">
-									<img class="writeOption sketchOption" data-toggle="modal" data-target="#sketchModal"
-										src="${contextPath}/resources/img/sketch.png">
-									<p class="arrow_box">스케치</p>
+								<div class="map_wrap">
+									    <div id="map" style="width:100%;height:600px;position:relative;overflow:hidden;"></div>
+									
+									    <div id="menu_wrap" class="bg_white">
+									        <div class="option">
+									            <div>
+									                <form onsubmit="searchPlaces(); return false;">
+								                   			 키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15"> 
+									                    <button type="submit">검색하기</button> 
+									                </form>
+									            </div>
+									        </div>
+									        <hr>
+									        <ul id="placesList"></ul>
+									        <div id="pagination"></div>
+									    </div>
 								</div>
-								
-								<div id="writePostBtn" style="display: inline-block; width: 10%; margin-bottom: 0px; height: 100%; float: right;">
-									<button type="submit" class="btn nanum" style="height: 40px; width:100%; font-size: 18px; font-weight: bolder; position: relative; bottom: 1px; right: 7px; float: right;">작성</button>
-								</div>
+									
+								<button type="button" style="width: 14%; height: 25px; font-size: 17px; float: right; margin-top:10px">작성</button>
+
+							<div class="modal_layer"></div>
 							</div>
 							
-						</form>
+							<!-- content end -->
+						</div>
 					</div>
 				 	
 					<!-- 투표 모달 -->
@@ -173,8 +208,12 @@
 									
 									<div  id="repeatVote" style="width: 30%; margin: 0; display: inline-block; float:right; visibility:hidden">
 									<label for="vote" style="width: 90px;">복수 선택 개수:</label>
+				</div>
+			</div>
+			<!-- end -->
+			
 	
-									<select id="vote" style="display: inline-block; " >
+								<select id="vote" style="display: inline-block; " >
 									<option value="unlimit">제한없음</option>
 									<option value="two">2개</option>
 									<option value="three">3개</option>
@@ -193,6 +232,11 @@
 									<!-- content end -->
 								</div>
 							</div>
+							
+							<button type="button" it="voteSubmitBtn"
+								style="width: 15%; height: 30px; font-size: 17px; float: right; margin: 0px">작성</button>
+
+							<!-- content end -->
 						</div>
 					</div>
 					<!-- end -->
@@ -219,108 +263,108 @@
 											<div class="row drawing">
 												<span class="cell">
 													<div>
-														<canvas id="canvas" width="420" height="485"></canvas>
+                              <canvas id="canvas" width="420" height="485"></canvas>
+                        </div>
+                      </span>
+										 <span class="cell" id="draw">
+											<div>
+												<div class="jb_table">
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/red.png"
+															class="drawColor" onclick="selectColor('red')" />
+														</span>
 													</div>
-												</span>
-												 <span class="cell" id="draw">
-													<div>
-														<div class="jb_table">
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/red.png"
-																	class="drawColor" onclick="selectColor('red')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/orange.png"
-																	class="drawColor" onclick="selectColor('orange')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/yellow.png"
-																	class="drawColor" onclick="selectColor('yellow')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/green.png"
-																	class="drawColor" onclick="selectColor('green')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/blue.png"
-																	class="drawColor" onclick="selectColor('blue')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightblue.png"
-																	class="drawColor" onclick="selectColor('lightblue')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/brown.png"
-																	class="drawColor" onclick="selectColor('brown')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightgreen.png"
-																	class="drawColor" onclick="selectColor('lightgreen')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/pink.png"
-																	class="drawColor" onclick="selectColor('pink')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/purple.png"
-																	class="drawColor" onclick="selectColor('purple')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/gray.png"
-																	class="drawColor" onclick="selectColor('gray')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightgray.png"
-																	class="drawColor" onclick="selectColor('lightgray')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/white.png"
-																	class="drawColor" onclick="selectColor('white')" />
-																</span>
-															</div>
-															<div class="row drawing">
-																<span class="cell" id="draw"> <img src="${contextPath}/resources/img/pencil.png"
-																	class="drawColor" onclick="selectTool('pencil')"
-																	style="margin-bottom: 5px;" />
-																</span>
-															</div>
-														</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/orange.png"
+															class="drawColor" onclick="selectColor('orange')" />
+														</span>
 													</div>
-													<div>
-														<div>
-															<textarea id="history" cols="40" rows="37"style="display: none;"></textarea>
-														</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/yellow.png"
+															class="drawColor" onclick="selectColor('yellow')" />
+														</span>
 													</div>
-												</span>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/green.png"
+															class="drawColor" onclick="selectColor('green')" />
+														</span>
+													</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/blue.png"
+															class="drawColor" onclick="selectColor('blue')" />
+														</span>
+													</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightblue.png"
+															class="drawColor" onclick="selectColor('lightblue')" />
+														</span>
+													</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/brown.png"
+															class="drawColor" onclick="selectColor('brown')" />
+														</span>
+													</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightgreen.png"
+															class="drawColor" onclick="selectColor('lightgreen')" />
+														</span>
+													</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/pink.png"
+															class="drawColor" onclick="selectColor('pink')" />
+														</span>
+													</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/purple.png"
+															class="drawColor" onclick="selectColor('purple')" />
+														</span>
+													</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/gray.png"
+															class="drawColor" onclick="selectColor('gray')" />
+														</span>
+													</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/lightgray.png"
+															class="drawColor" onclick="selectColor('lightgray')" />
+														</span>
+													</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/white.png"
+															class="drawColor" onclick="selectColor('white')" />
+														</span>
+													</div>
+													<div class="row drawing">
+														<span class="cell" id="draw"> <img src="${contextPath}/resources/img/pencil.png"
+															class="drawColor" onclick="selectTool('pencil')"
+															style="margin-bottom: 5px;" />
+														</span>
+													</div>
+												</div>
 											</div>
-										</div>
-									<div> Title<input id="title" size="15" style="display: inline-block;" /> 
-										<a id="saveImage" download="image.png" style="display: inline-block;">
-										<INPUT type="button" value="Save" onClick="saveImage()" />
-										</a> 
-										<INPUT type="button" value="Clear" onClick="initPage()" />
-										<button type="button" style="width: 10%; height: 25px; font-size: 17px; float: right; margin-top: 10px">작성</button>
-									</div>	 
-									<!-- content end -->
-									
+											<div>
+												<div>
+													<textarea id="history" cols="40" rows="37"style="display: none;"></textarea>
+												</div>
+											</div>
+										</span>
+									</div>
 								</div>
-							</div>
+							<div> Title<input id="title" size="15" style="display: inline-block;" /> 
+								<a id="saveImage" download="image.png" style="display: inline-block;">
+								<INPUT type="button" value="Save" onClick="saveImage()" />
+								</a> 
+								<INPUT type="button" value="Clear" onClick="initPage()" />
+								<button type="button" style="width: 10%; height: 25px; font-size: 17px; float: right; margin-top: 10px">작성</button>
+							</div>	 
+							<!-- content end -->
+							
 						</div>
 					</div>
-					<!-- end -->
-					
+				</div>
+			</div>
+			<!-- end -->
+			
 	<script>
 	
 	// 투표 게시글작성

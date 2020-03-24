@@ -554,6 +554,6 @@
 	    });
     	     
 	</script>
-
+<jsp:include page="../common/friends.jsp"/>
 </body>
 </html>
