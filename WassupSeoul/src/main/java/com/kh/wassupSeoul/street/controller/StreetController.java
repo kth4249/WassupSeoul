@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -842,55 +843,27 @@ public class StreetController {
 	// 일정 조회
 	@RequestMapping("calendar")
 	public String calendar(Model model, Integer streetNo) {
-		//int streetNo = (int) model.getAttribute("streetNo");
-		Member loginMember = (Member)model.getAttribute("loginMember");
-		try {
-			/*
-			// 사이드바 정보 시작
-			// 1. 골목정보
-			Street street = streetService.selectStreet(streetNo);
-			// 1_1. 골목 썸네일 
-			String imgUrl = streetService.selectImgUrl(street.getImgNo());
-			street.setImgUrl(imgUrl);
-			// 2. 현재 골목 주민수 
-			int citizenCount = streetService.selectCitizenCount(streetNo);
-			model.addAttribute("citizenCount",citizenCount);
-			// 3. 현재 골목 골목대장 닉네임
-			String streetMasterNm = streetService.selectStreetMasterNm(streetNo);
-			model.addAttribute("streetMasterNm",streetMasterNm);
-			// 4. 현재 골목 키워드
-			List<Keyword> streetKeyword = streetService.selectMyKeyword(streetNo);
-			model.addAttribute("streetKeyword",streetKeyword);
-			// 5. 현재 골목 등급
-			String badgeUrl = streetService.selectBadgeUrl(streetNo, street.getStreetPoint());
-			model.addAttribute("badgeUrl",badgeUrl);
-			// 6. 로그인 회원 골목 등급 
-			String citizenGrade = streetService.selectCitizenGrade(loginMember.getMemberNo(),streetNo);
-			model.addAttribute("citizenGrade",citizenGrade);
-			// 사이드바 정보 끝
 		
-			model.addAttribute("street", street);
-			model.addAttribute("loginMember", loginMember);
-			*/
-			return "street/streetCalendar";
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errorMsg", "일정 조회 과정에서 오류발생");
-			return "/common/errorPage";
-		}
-		
+		/*------------------------ 정승환 코드 제거 20.03.23-----------------------------------*/
+		/*------------------------ 정승환 코드 제거 20.03.23-----------------------------------*/
+		return "street/streetCalendar";
 		
 	}
 	
-	
+	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
 	// 일정 추가
 	@RequestMapping(value="addSCSC", method = RequestMethod.POST)
-	public String addSchedule(Model model,Calendar sendCalendar,String startDate,String startTime,String endDate,String endTime) {
+	public String addSchedule(Model model,Calendar sendCalendar,String startDate,String startTime,String endDate,String endTime,
+			String joinCalendar,@RequestParam(value="openBoard", required=false) String openBoard,
+			@RequestParam(value="cJoinEndDate", required=false) String cJoinEndDate,
+			@RequestParam(value="cJoinLimit", required=false) Integer cJoinLimit ) {
 		try {
+			Member loginMember = (Member)model.getAttribute("loginMember");
+			
 			// 게시글 번호 조회
 			int boardNo = streetService.selectBoardNo();
 			sendCalendar.setBoardNo(boardNo);
+			
 			// 골목 번호 
 			int streetNo = (int)model.getAttribute("streetNo");
 			sendCalendar.setStreetNo(streetNo);
@@ -909,8 +882,51 @@ public class StreetController {
 			sendCalendar.setCalendarStartDate(calendarStartDate);
 			sendCalendar.setCalendarEndDate(calendarEndDate);
 			
-			// 일정 등록
-			int result = streetService.addSchedule(sendCalendar);
+			// 일정 등록이 되기전 게시글 등록 -> 등록된 게시글 번호가 필요
+			
+			// 게시글 등록할 양식 지정
+			Board board = new Board();
+			board.setBoardNo(boardNo);
+			board.setBoardWriter(loginMember.getMemberNickname());
+			board.setMemberNo(loginMember.getMemberNo());board.setStreetNo(streetNo);
+			board.setTypeNo(0);
+			String content = "<h5 class='nanum'>새 일정 등록</h5>" + sendCalendar.getCalendarContent()
+			+"<br>장소 : "+ sendCalendar.getCalendarLocation()
+			+"<br>기간 : "+ tempStart.substring(0, tempStart.length()-5) +" ~ " 
+			+ tempEnd.substring(0, tempEnd.length()-5);
+			board.setBoardContent(content);
+			// boardNo, boardWriter, memberNo, typeNo, boardContent,streetNo
+			
+			if(openBoard != null) {
+				board.setBoardStatus("Y");
+			} else {
+				board.setBoardStatus("N");
+			}
+			
+			if(joinCalendar.equals("Y")) {
+				Date d = Date.valueOf(cJoinEndDate); // 날짜 변환
+				sendCalendar.setCalendarJoinEndDate(d);
+				sendCalendar.setCalendarJoinLimit(cJoinLimit);
+			}
+			
+			sendCalendar.setCalendarJoin(joinCalendar.charAt(0));
+			System.out.println("참가신청여부 : " + joinCalendar);
+			
+			int result = streetService.insertCalendarBoard(board);
+			if(result == 0) {
+				model.addAttribute("msg","게시글 등록 실패");
+				return "redirect:calendar";
+			}
+			
+			// 일정 등록 
+			result = streetService.addSchedule(sendCalendar);
+			
+			String msg;
+			if(result > 0)	msg = "일정 등록 성공";
+			else 			msg = "일정 등록 실패";
+			
+			model.addAttribute("msg",msg);
+			return "redirect:calendar";
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -918,9 +934,8 @@ public class StreetController {
 			return "/common/errorPage";
 		}
 		
-		return "street/streetCalendar";
 	}
-		
+	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/	
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	

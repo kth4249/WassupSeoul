@@ -22,6 +22,21 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- 인터셉터 객체 생성 -->
+    <beans:bean id="streetInterceptor" class="com.kh.wassupSeoul.interceptor.StreetInterceptor">
+    </beans:bean>
+    <!-- 인터셉터 설정 -->
+    <interceptors>
+        <interceptor>
+            <mapping path="/street/streetMain"/>
+            <mapping path="/street/streetInsert"/>
+            <mapping path="/street/recommendFriend"/>
+            <mapping path="/street/juminList"/>
+            <mapping path="/street/calendar"/>
+            <beans:ref bean="streetInterceptor"/>
+        </interceptor>
+    </interceptors>
+	
 	<context:component-scan base-package="com.kh.wassupSeoul" />
 	
 	

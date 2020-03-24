@@ -512,7 +512,7 @@ public class StreetDAO {
 	public int selectBoardNo() throws Exception{
 		return sqlSession.selectOne("streetMapper.selectBoardNo");
 	}
-
+  
 	/** 일정 등록용 DAO
 	 * @param sendCalendar
 	 * @return result
@@ -522,6 +522,14 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.addSchedule", sendCalendar);
 	}
 
+	/** 일정 관련 게시글 등록용 DAO
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public int insertCalendarBoard(Board board) throws Exception{
+		return sqlSession.insert("streetMapper.insertCalendarBoard",board);
+	}
 	
 	
 /*------------------------ 정승환 추가코드 -----------------------------------*/

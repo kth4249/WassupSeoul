@@ -354,14 +354,13 @@ public interface StreetService {
 	 */
 	public abstract String selectImgUrl(int imgNo) throws Exception;
 
-
+	
 	/** 게시판 번호 조회용 Serivce
 	 * @return boardNo
 	 * @throws Exception
 	 */
 	public abstract int selectBoardNo() throws Exception;
-
-
+		
 	/** 일정 등록용 Serivce
 	 * @param sendCalendar
 	 * @return result
@@ -369,7 +368,12 @@ public interface StreetService {
 	 */
 	public abstract int addSchedule(Calendar sendCalendar) throws Exception;
 
-
+	/** 일정 관련 게시글 등록용 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int insertCalendarBoard(Board board) throws Exception;
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	 

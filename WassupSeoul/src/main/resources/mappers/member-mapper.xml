@@ -272,5 +272,13 @@
 				#{alarmAddr}, DEFAULT, DEFAULT, #{eventer}, #{memberNo})
 	</insert>
 	
+	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
+	<select id="selectCitizenCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM STREET_JOIN
+  		WHERE STREET_NO = #{streetNo} AND CITIZEN_STATUS = 'Y'
+	</select>
+	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
+	
+	
 	
 </mapper>
