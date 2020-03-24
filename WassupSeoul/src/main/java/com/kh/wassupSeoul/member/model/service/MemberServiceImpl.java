@@ -377,6 +377,18 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.selectProfileMember(memberNo);
 	}
 
+	/*------------------------ 정승환 추가 코드 20.03.23-----------------------------------*/
+	/** 현재 주민 수 조회용 Service
+	 * @param streetNo
+	 * @return citizenCount
+	 * @throws Exception
+	 */
+	@Override
+	public int selectCitizenCount(int streetNo) throws Exception {
+		return memberDAO.selectCitizenCount(streetNo);
+	}
+	/*------------------------ 정승환 추가 코드 20.03.23-----------------------------------*/
+
 
 
 

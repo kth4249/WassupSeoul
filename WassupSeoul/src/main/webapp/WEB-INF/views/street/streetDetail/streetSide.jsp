@@ -6,7 +6,7 @@
     <div class="col-md-2 fixed-top" style="left: 17%; top: 110px;" style="background-color: rgb(221, 233, 218);">
     <!-- <div class="col-md-2 fixed-top" style="left: 366px; top: 110px;" style="background-color: rgb(221, 233, 218);"> -->
       <div class="card mb-3">
-        <img style="height: 200px; width: 100%; display: block;" src="${contextPath}/resources/img/${street.imgUrl}" alt="Card image">
+        <img style="height: 200px; width: 100%; display: block;" src="${contextPath}/resources/streetCoverImage/${imgUrl}" alt="Card image">
         <div class="card-body">
           <div class="row">
             <div class="col-sm-10">
@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="col-sm-12" style="margin:5px">
-          	<textarea class="form-control nanum" rows="2" readonly >${street.streetIntro}</textarea>
+          	<textarea class="form-control nanum" rows="2" readonly style="resize: none;">${street.streetIntro}</textarea>
           </div>
           
           <c:forEach var="keyword" items="${streetKeyword}" varStatus="vs">
@@ -43,10 +43,24 @@
           </c:forEach>
           
           <div class="row">
-            <div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
-            	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
+          	<c:if test="${empty citizenStatus}">
+	           <div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
+	           	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
 				onclick="streetJoin()">골목 가입하기</button>
-            </div>
+	           </div>
+            </c:if>
+            <c:if test="${citizenStatus eq 'W'}">
+	            <div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
+	            	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
+	            	disabled>골목 가입요청중</button>
+	            </div>
+            </c:if>
+            <c:if test="${not empty citizenStatus && citizenStatus ne 'W'}">
+            	<div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
+	            	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
+	            	disabled>골목 가입완료</button>
+	            </div>
+            </c:if>
           </div>
           <script>
 			function streetJoin() {
@@ -70,19 +84,19 @@
 		  <div class="row">
 		  
             <!-- 일반 주민 영역 -->
-		  	<c:if test="${citizenGrade eq 'G'}">
+		  	<c:if test="${citizenGrade eq 'G' || citizenGrade eq 'M'}">
 		  		<div class="col-sm-6"></div>
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-	             		<button type="button" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
+	             		<a href="streetDelete?no=${streetNo}" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">
 	              	 	골목 탈퇴하기
-	             		</button>
+	             		</a>
 	           	</div>
-		  	</c:if>
+		  <%-- 	</c:if> --%>
             <!-- 일반 주민 영역 -->
             
             <!-- 골목대장 영역 -->
-            <c:if test="${citizenGrade eq 'M'}">
+           <%--  <c:if test="${citizenGrade eq 'M'}"> --%>
 		  	    	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
 	             		<a href="streetUpdate?no=${streetNo}" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetChange.svg" alt="이미지" style="width: 15px; height: 15px;">
@@ -95,7 +109,7 @@
 	                                   	활동보고서 작성
 	             		</button>
 	           	</div>
-	  	    	</c:if>
+	  	    	<%-- </c:if> --%>
             <!-- 골목대장 영역 -->
             
           </div>
@@ -117,16 +131,21 @@
     <!-- 고정사이드바 왼쪽 끝 -->
 
     <!-- 고정사이드바 오른쪽 시작 -->
-    <div class="col-md-2 fixed-top" style="left: 66%; top: 110px;">
+    <div class="col-md-2 fixed-top" style="left: 66%; top: 110px; opacity: 1.0; z-index: 0">
     <!-- <div class="col-md-2 fixed-top" style="left: 1223px; top: 110px;"> -->
     	<div class="card border-primary mb-3" style="max-width: 20rem;">
 			<div class="card-header nanum" style="font-size: 25px;">다가오는 일정</div>
 			<div class="card-body" style="padding-bottom:10px;">
-				<h4 class="card-title nanum" style="font-weight: bolder;">3월</h4>
+				<h4 class="card-title nanum" style="font-weight: bolder;" id="sideMonth"></h4>
 				<p class="card-text nanum">13일 - DB설계 보고서 제출</p>
 				<p class="card-text nanum">31일 - 클래스 설계 보고서 제출</p>
 			</div>
 		</div>
+		<!-- 현재 월 입력 -->
+		<script>
+			var nowDate = new Date();
+			$("#sideMonth").text((nowDate.getMonth()+1) + "월");
+		</script>
 		
      	<!-- 친구목록 버튼 -->
      	<div style="border-radius: 70%; background-color: gray; width: 100px; height: 100px; position: relative;">
@@ -136,9 +155,9 @@
 		</div>
 
       <!-- 탑버튼 -->
-      <a style="display: scroll; position: fixed; bottom: 10px; right: 10px;" href="#" title="맨 위로">
+      <%-- <a style="display: scroll; position: fixed; bottom: 10px; right: 10px;" href="#" title="맨 위로">
       	<img src="${contextPath}/resources/img/img_top.png" alt="탑버튼" style="width: 70px; height: 100px;">
-	  </a>
+	  </a> --%>
 
     </div>
     <%-- 아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/phatplus" title="phatplus">phatplus</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon"> www.flaticon.com</a> --%>

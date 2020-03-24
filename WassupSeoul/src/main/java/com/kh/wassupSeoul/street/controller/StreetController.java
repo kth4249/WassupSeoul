@@ -1,16 +1,9 @@
 package com.kh.wassupSeoul.street.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +28,6 @@ import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
-import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
@@ -44,7 +37,7 @@ import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
-@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt", "board", "reply", "reReply"  })
+@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt"})
 @Controller
 @RequestMapping("/street/*")
 public class StreetController {
@@ -124,6 +117,7 @@ public class StreetController {
 		}
 
 	}
+	
 
 	// 게시글 작성
 	@RequestMapping("insert")
@@ -376,6 +370,59 @@ public class StreetController {
     	}
     	return null;
     }
+    
+    
+    // 지도 게시글 입력
+    @ResponseBody
+	@RequestMapping("mapPost")
+	public String mapPost(String address, Model model, String mapPostContent ) {
+		
+		System.out.println("입력한 주소 : " + address);
+		System.out.println("입력한 게시글 내용 : " + mapPostContent);
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		int streetNo = (int) model.getAttribute("streetNo");
+		
+		Board board = new Board();
+		
+		board.setStreetNo(streetNo);
+		board.setMemberNo(loginMember.getMemberNo());
+		board.setBoardContent(address);
+		board.setTypeNo(6);
+		
+		
+//		board.setBoardUrl(address); 
+	
+		/* 게시글타입
+		0 : NONE
+		1 : 게시글파일
+		2 : 일정
+		3 : 투표
+		4 :  N빵
+		5 : 스케치
+		6 : 지도*/
+		
+		try {
+	
+			int test = streetService.mapPost(board);
+			
+			if ( test > 0) {
+				System.out.println("지도 게시글 입력 완료");
+			}else {
+				System.out.println("지도 게시글 입력 실패");
+			}
+			
+			return  test == 1 ? true + "" : false + "";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "대댓글 입력 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+	}
+    
+    
 	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	// -------------------------------------------- 지원 -----------------------------------------------
@@ -623,19 +670,14 @@ public class StreetController {
 	public String fileUpload(Board board, Model model, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
 
 		Member loginMember = (Member) model.getAttribute("loginMember");
-		//int summerUploder = loginMember.getMemberNo();
-		//int streetNo = (int) model.getAttribute("streetNo");
-		//System.out.println(streetNo);
-
-		//board.setMemberNo(summerUploder);
-		//board.setStreetNo(streetNo);
-		//board.setTypeNo(0);
 
 		System.out.println("파일명 : " + file.getOriginalFilename());
-		//System.out.println("등록할 게시글 : " + board);
 
 		try {
 			String filePath = streetService.fileUpload(board,file,request);
+			
+			System.out.println("오고있는거니filePath : " + filePath);
+			
 			
 			if (filePath.equals("")) {
 				return null;
@@ -647,43 +689,10 @@ public class StreetController {
 			e.printStackTrace();
 			return "피곤...";
 		}
-		//return 
 		
 	}
 	
-	
-	/*@RequestMapping("insertSummer")
-	public String insertSummer(String summernoteContent, Model model) {
-		System.out.println("summernoteContent : " + summernoteContent);
-		
-		Member loginMember = (Member) model.getAttribute("loginMember");
-		int memberNo = loginMember.getMemberNo();
-		int streetNo = (int) model.getAttribute("streetNo");
-		
-		System.out.println("memberNo : " + memberNo);
-		System.out.println("streetNo : " + streetNo);
-		
-		
-		Board board = new Board();
-		board.setMemberNo(memberNo);
-		board.setBoardContent(summernoteContent);
-		board.setStreetNo(streetNo);
-		
-		try {
-			int result = streetService.insertSummer(board);
-			
-			if(result > 0) {
-				return null;
-			}else {
-				return null;
-			}
-		}catch (Exception e) {
-			return null;
-		}
-		
-	}*/
-	
-	
+	/*----------------------- 미현 끝 -----------------------------------*/
 	
 	
 	/*------------------------ 태훈 시작 (03/22) -----------------------------------*/
@@ -844,55 +853,27 @@ public class StreetController {
 	// 일정 조회
 	@RequestMapping("calendar")
 	public String calendar(Model model, Integer streetNo) {
-		//int streetNo = (int) model.getAttribute("streetNo");
-		Member loginMember = (Member)model.getAttribute("loginMember");
-		try {
-			/*
-			// 사이드바 정보 시작
-			// 1. 골목정보
-			Street street = streetService.selectStreet(streetNo);
-			// 1_1. 골목 썸네일 
-			String imgUrl = streetService.selectImgUrl(street.getImgNo());
-			street.setImgUrl(imgUrl);
-			// 2. 현재 골목 주민수 
-			int citizenCount = streetService.selectCitizenCount(streetNo);
-			model.addAttribute("citizenCount",citizenCount);
-			// 3. 현재 골목 골목대장 닉네임
-			String streetMasterNm = streetService.selectStreetMasterNm(streetNo);
-			model.addAttribute("streetMasterNm",streetMasterNm);
-			// 4. 현재 골목 키워드
-			List<Keyword> streetKeyword = streetService.selectMyKeyword(streetNo);
-			model.addAttribute("streetKeyword",streetKeyword);
-			// 5. 현재 골목 등급
-			String badgeUrl = streetService.selectBadgeUrl(streetNo, street.getStreetPoint());
-			model.addAttribute("badgeUrl",badgeUrl);
-			// 6. 로그인 회원 골목 등급 
-			String citizenGrade = streetService.selectCitizenGrade(loginMember.getMemberNo(),streetNo);
-			model.addAttribute("citizenGrade",citizenGrade);
-			// 사이드바 정보 끝
 		
-			model.addAttribute("street", street);
-			model.addAttribute("loginMember", loginMember);
-			*/
-			return "street/streetCalendar";
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-			model.addAttribute("errorMsg", "일정 조회 과정에서 오류발생");
-			return "/common/errorPage";
-		}
-		
+		/*------------------------ 정승환 코드 제거 20.03.23-----------------------------------*/
+		/*------------------------ 정승환 코드 제거 20.03.23-----------------------------------*/
+		return "street/streetCalendar";
 		
 	}
 	
-	
+	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
 	// 일정 추가
 	@RequestMapping(value="addSCSC", method = RequestMethod.POST)
-	public String addSchedule(Model model,Calendar sendCalendar,String startDate,String startTime,String endDate,String endTime) {
+	public String addSchedule(Model model,Calendar sendCalendar,String startDate,String startTime,String endDate,String endTime,
+			String joinCalendar,@RequestParam(value="openBoard", required=false) String openBoard,
+			@RequestParam(value="cJoinEndDate", required=false) String cJoinEndDate,
+			@RequestParam(value="cJoinLimit", required=false) Integer cJoinLimit ) {
 		try {
+			Member loginMember = (Member)model.getAttribute("loginMember");
+			
 			// 게시글 번호 조회
 			int boardNo = streetService.selectBoardNo();
 			sendCalendar.setBoardNo(boardNo);
+			
 			// 골목 번호 
 			int streetNo = (int)model.getAttribute("streetNo");
 			sendCalendar.setStreetNo(streetNo);
@@ -911,8 +892,51 @@ public class StreetController {
 			sendCalendar.setCalendarStartDate(calendarStartDate);
 			sendCalendar.setCalendarEndDate(calendarEndDate);
 			
-			// 일정 등록
-			int result = streetService.addSchedule(sendCalendar);
+			// 일정 등록이 되기전 게시글 등록 -> 등록된 게시글 번호가 필요
+			
+			// 게시글 등록할 양식 지정
+			Board board = new Board();
+			board.setBoardNo(boardNo);
+			board.setBoardWriter(loginMember.getMemberNickname());
+			board.setMemberNo(loginMember.getMemberNo());board.setStreetNo(streetNo);
+			board.setTypeNo(0);
+			String content = "<h5 class='nanum'>새 일정 등록</h5>" + sendCalendar.getCalendarContent()
+			+"<br>장소 : "+ sendCalendar.getCalendarLocation()
+			+"<br>기간 : "+ tempStart.substring(0, tempStart.length()-5) +" ~ " 
+			+ tempEnd.substring(0, tempEnd.length()-5);
+			board.setBoardContent(content);
+			// boardNo, boardWriter, memberNo, typeNo, boardContent,streetNo
+			
+			if(openBoard != null) {
+				board.setBoardStatus("Y");
+			} else {
+				board.setBoardStatus("N");
+			}
+			
+			if(joinCalendar.equals("Y")) {
+				Date d = Date.valueOf(cJoinEndDate); // 날짜 변환
+				sendCalendar.setCalendarJoinEndDate(d);
+				sendCalendar.setCalendarJoinLimit(cJoinLimit);
+			}
+			
+			sendCalendar.setCalendarJoin(joinCalendar.charAt(0));
+			System.out.println("참가신청여부 : " + joinCalendar);
+			
+			int result = streetService.insertCalendarBoard(board);
+			if(result == 0) {
+				model.addAttribute("msg","게시글 등록 실패");
+				return "redirect:calendar";
+			}
+			
+			// 일정 등록 
+			result = streetService.addSchedule(sendCalendar);
+			
+			String msg;
+			if(result > 0)	msg = "일정 등록 성공";
+			else 			msg = "일정 등록 실패";
+			
+			model.addAttribute("msg",msg);
+			return "redirect:calendar";
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -920,9 +944,26 @@ public class StreetController {
 			return "/common/errorPage";
 		}
 		
-		return "street/streetCalendar";
 	}
-		
+	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/	
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
+	
+	
+	
+	
+	/*------------------------ 지원 골목삭제 시작-----------------------------------*/
+	// 골목 삭제 화면 이동
+	@RequestMapping("streetDelete")
+	public String streetDeleteForm(Integer no, Model model, HttpServletRequest request) {
+
+		String detailUrl = request.getHeader("referer");
+
+		model.addAttribute("detailUrl", detailUrl);
+		
+
+		return "street/streetDelete";
+	}
+	
+	/*------------------------ 지원 골목삭제 끝-----------------------------------*/ 
 }

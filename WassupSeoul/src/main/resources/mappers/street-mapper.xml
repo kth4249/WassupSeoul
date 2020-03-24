@@ -188,10 +188,10 @@
 	
 	<!-- 골목 게시글 조회 -->  	 
   	 <select id="selectBoardList" parameterType="reply" resultMap="boardResultSet">
-  	 	SELECT BOARD_CONTENT, BOARD_WRITE_DT, BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO, MEMBER_NO, TYPE_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL,
+  	 	SELECT BOARD_CONTENT, BOARD_WRITE_DT, BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO, MEMBER_NO, TYPE_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL, 
 		THUMB_STATUS, THUMB_COUNT, REPLY_COUNT
 		
-		FROM (SELECT BOARD_CONTENT,	BOARD_WRITE_DT,	BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO,	MEMBER_NO, TYPE_NO,	MEMBER_NICKNAME, MEMBER_PROFILE_URL
+		FROM (SELECT BOARD_CONTENT,	BOARD_WRITE_DT,	BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO,	MEMBER_NO, TYPE_NO,	MEMBER_NICKNAME, MEMBER_PROFILE_URL 
 			FROM V_BOARD WHERE STREET_NO = #{streetNo} AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'  )
 			
 		<!-- 골목대장일때  게시글 상단고정 기능 추가할것 -->
@@ -211,7 +211,7 @@
   	<!-- 게시글 등록용 -->
   	 <insert id="insertBoard" parameterType="Board">
 		  INSERT INTO BOARD
-		  VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo})
+		  VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo} )
 	</insert>
 	
 	<!-- 좋아요조회  -->
@@ -297,6 +297,12 @@
 		
 		ORDER BY REPLY_NO
   	</select>
+  	
+  	<!-- 지도 게시글 등록용  -->
+  	<insert id="mapPost" parameterType="board">
+  		INSERT INTO BOARD
+		  VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo})
+  	</insert>
   	
   <!--  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중하   끝  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
   	
@@ -446,7 +452,7 @@
   	<!-- 현재 골목 주민수  -->
   	<select id="selectCitizenCount" parameterType="_int" resultType="_int">
   		SELECT COUNT(*) FROM STREET_JOIN
-  		WHERE STREET_NO = #{streetNo}
+  		WHERE STREET_NO = #{streetNo} AND CITIZEN_STATUS = 'Y'
   	</select>
   	
   	<!-- 현재 골목 골목대장 조회 -->
@@ -487,12 +493,26 @@
 	<select id="selectBoardNo" resultType="_int">
 		SELECT SEQ_BOARD.NEXTVAL FROM DUAL
 	</select>
-	
+	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 20.03.24ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
 	<!-- 일정 등록 -->
 	<insert id="addSchedule" parameterType="Calendar">
-		
+		INSERT INTO CALENDAR
+		<if test="calendarJoin == 'Y'">
+			VALUES (#{boardNo},#{calendarTitle},#{calendarContent},#{calendarLocation},#{calendarStartDate},#{calendarEndDate},
+			'Y',#{calendarJoinLimit},#{calendarJoinEndDate},#{streetNo})
+		</if>
+		<if test="calendarJoin == 'N'">
+			VALUES (#{boardNo},#{calendarTitle},#{calendarContent},#{calendarLocation},#{calendarStartDate},#{calendarEndDate},
+			'N',NULL,NULL,#{streetNo})
+		</if>
 	</insert>
-  	
+	
+	<!-- 일정 관련 게시글 등록 -->
+	<insert id="insertCalendarBoard" parameterType="Board">
+		INSERT INTO BOARD
+		VALUES(#{boardNo}, #{boardContent}, SYSDATE, #{boardStatus}, 0, #{streetNo}, #{memberNo}, #{typeNo})		  
+	</insert>
+  	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 20.03.24ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
 <!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	
 	
