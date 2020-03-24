@@ -137,8 +137,10 @@ object-fit: cover;
 					$.ajax({
 						url : "${contextPath}/"+this.firstChild.value,
 						data : {"applyCheck": applyCheck},
-						success : function(){
-							alert("골목 가입 수락 완료");
+						success : function(result){
+							if(result == 1){
+								alert("골목 가입 수락 완료");
+							}
 						}, 
 						error : function(){
 							console.log("ajax 통신 실패")
@@ -154,10 +156,7 @@ object-fit: cover;
 					console.log(alarmNo);
 					$.ajax({
 						url : "${contextPath}/square/checkAlarm",
-						data : {"alarmNo":alarmNo},
-						success : function(){
-							alert("알람 확인상태로 변경")
-						}
+						data : {"alarmNo":alarmNo}
 					})
 				}
 				

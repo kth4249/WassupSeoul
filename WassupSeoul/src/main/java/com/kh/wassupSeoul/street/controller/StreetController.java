@@ -545,6 +545,7 @@ public class StreetController {
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("streetNo", streetNo);
+			map.put("memberNo", loginMember.getMemberNo());
 			/*---------태훈 수정---------*/
 			char[] status = {'Y'};
 			map.put("status", status);
@@ -563,6 +564,7 @@ public class StreetController {
 			System.out.println(mList);
 			System.out.println(hList);
 			
+			model.addAttribute("myHobby", myHobby);
 			model.addAttribute("mList", mList);
 			model.addAttribute("hList", hList);
 			return "street/recommendFriend";
