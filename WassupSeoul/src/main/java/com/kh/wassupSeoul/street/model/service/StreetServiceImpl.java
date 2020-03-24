@@ -2,14 +2,12 @@ package com.kh.wassupSeoul.street.model.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -258,10 +256,21 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.checkProfile(memberNo);
 	}
 	
+
+	/** 지도 게시글 업로드 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int mapPost(Board board) throws Exception {
+		return streetDAO.mapPost(board);
+	}
+
+	
 		
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
-
 
 /** 골목 가입용 Service
 	 * @param map
@@ -475,8 +484,6 @@ public class StreetServiceImpl implements StreetService{
 	@Override
 	public String fileUpload(Board board, MultipartFile file, HttpServletRequest request) throws Exception{
 		
-		//response.setContentType("text/html;charset=utf-8");
-		//PrintWriter out = response.getWriter();
 		// 업로드할 폴더 경로
 		String realFolder = request.getSession().getServletContext().getRealPath("resources") + "/uploadImage";
 		String accessPath = request.getContextPath() + "/resources/uploadImage";
@@ -491,10 +498,9 @@ public class StreetServiceImpl implements StreetService{
 		System.out.println("원본 파일명 : " + org_filename);
 		System.out.println("저장할 파일명 : " + str_filename);
 		
-		System.out.println("작성자명 : " + board.getMemberNo());
-		
 		String writer = board.getBoardWriter();	
 		
+		System.out.println("야너뭐야:"+writer);
 		
 		String filepath1 = realFolder + "\\" + writer;
 		System.out.println("실제 파일 저장 경로 : " + filepath1);
@@ -508,36 +514,20 @@ public class StreetServiceImpl implements StreetService{
 				
 		System.out.println("파일 url : " + filepath2);
 		
-		//out.println("filepath : " + filepath);
-		
-		//out.close();
-		
-		//filepath = request.getContextPath() + "/" + str_filename;
 		int result = streetDAO.fileUpload(filepath2);
 		
 		System.out.println("result : " +result);
 		if(result > 0) {
 			f = new File(filepath1 + "/" + str_filename);
 			file.transferTo(f);
+			System.out.println("외않뒈? :" + result);
 		}else{
 			filepath2 = "";
 		}
-		//return filepath;
-		
 		
 		return filepath2;
 		
 	}
-	
-	
-	
-	/*@Override
-	public int insertSummer(Board board) throws Exception {
-		return streetDAO.insertSummer(board);
-	}*/
-	
-	
-	
 	
 	
 	/*============================== 미현 끝 ============================*/
@@ -666,10 +656,16 @@ public class StreetServiceImpl implements StreetService{
 		int result = 0;
 		int imgNo = 0;
 		Map<String, Object> map = null;
+		int origin = street.getImgNo();
 		
 		imgNo = streetDAO.selectCoverNextNo();
 		
 		if(imgNo > 0) {
+			/************* 지원 추가사항 시작 *************/
+			// result = streetDAO.deleteStreetCover(origin);
+			// 할지말지 의논... 
+			/************* 지원 추가사항 끝 *************/
+			
 			map = new HashMap<String, Object>();
 			map.put("imgNo", imgNo);
 			map.put("changeCoverName", changeCoverName);

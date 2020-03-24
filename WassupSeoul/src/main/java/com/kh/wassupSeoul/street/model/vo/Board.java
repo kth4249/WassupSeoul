@@ -12,7 +12,7 @@ public class Board {
 	private String boardLevel;
 	private int streetNo;
 	private int memberNo;
-	private int typeNo;
+	private int typeNo; // 게시글 타입
 	private int thumbCount;
 	private int replyCount;
 	private String memberProfile;
@@ -144,6 +144,7 @@ public class Board {
 		this.thumbStatus = thumbStatus;
 	}
 
+
 	@Override
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardWriter=" + boardWriter + ", boardContent=" + boardContent
@@ -152,8 +153,6 @@ public class Board {
 				+ thumbCount + ", replyCount=" + replyCount + ", memberProfile=" + memberProfile + ", thumbStatus="
 				+ thumbStatus + "]";
 	}
-
-	
 
 	
 }
