@@ -575,10 +575,7 @@ public class MemberController {
 					mList.add(myHobby.get(k)); // 1~3번 인덱스에 회원 관심사
 				}
 				
-				for(int i=0;i<mList.size();i++) {
-					//System.out.println("모달창 회원 : " + mList.get(i));
-				}
-				
+          
 				response.setCharacterEncoding("UTF-8");
 				new Gson().toJson(mList, response.getWriter());
 	    		

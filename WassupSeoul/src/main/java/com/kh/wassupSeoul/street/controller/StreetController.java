@@ -3,6 +3,9 @@ package com.kh.wassupSeoul.street.controller;
 import java.io.File;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,6 +38,7 @@ import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
+import com.kh.wassupSeoul.street.model.vo.SettingCalendar;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
@@ -851,17 +855,16 @@ public class StreetController {
 	/* 지원 골목 수정 끝 */
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 	
+	/*------------------------ 정승환 코드수정(20.03.25) 시작-----------------------------------*/
 	// 일정 조회
 	@RequestMapping("calendar")
-	public String calendar(Model model, Integer streetNo) {
+	public String calendar(Model model, Integer tempStreetNo) {
 		
-		/*------------------------ 정승환 코드 제거 20.03.23-----------------------------------*/
-		/*------------------------ 정승환 코드 제거 20.03.23-----------------------------------*/
 		return "street/streetCalendar";
 		
 	}
+	/*------------------------ 정승환 코드수정(20.03.25) 끝-----------------------------------*/
 	
-	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
 	// 일정 추가
 	@RequestMapping(value="addSCSC", method = RequestMethod.POST)
 	public String addSchedule(Model model,Calendar sendCalendar,String startDate,String startTime,String endDate,String endTime,
@@ -895,16 +898,22 @@ public class StreetController {
 			
 			// 일정 등록이 되기전 게시글 등록 -> 등록된 게시글 번호가 필요
 			
+			// 일정 참가가 있을 경우 추가할 버튼
+			String btnPlus = "<br><button class='nanum btn btn-primary joinBtn' data-toggle='modal' data-target='#calendarJoinModal\'>일정 참가하기</button>";
+			// 일정 참가시 해당 글번호
+			String boardNoPlus = "<input type='hidden' value='" + boardNo + "'>";
+			
 			// 게시글 등록할 양식 지정
 			Board board = new Board();
 			board.setBoardNo(boardNo);
 			board.setBoardWriter(loginMember.getMemberNickname());
 			board.setMemberNo(loginMember.getMemberNo());board.setStreetNo(streetNo);
-			board.setTypeNo(0);
+			board.setTypeNo(2);
 			String content = "<h5 class='nanum'>새 일정 등록</h5>" + sendCalendar.getCalendarContent()
 			+"<br>장소 : "+ sendCalendar.getCalendarLocation()
 			+"<br>기간 : "+ tempStart.substring(0, tempStart.length()-5) +" ~ " 
 			+ tempEnd.substring(0, tempEnd.length()-5);
+			
 			board.setBoardContent(content);
 			// boardNo, boardWriter, memberNo, typeNo, boardContent,streetNo
 			
@@ -918,10 +927,10 @@ public class StreetController {
 				Date d = Date.valueOf(cJoinEndDate); // 날짜 변환
 				sendCalendar.setCalendarJoinEndDate(d);
 				sendCalendar.setCalendarJoinLimit(cJoinLimit);
+				board.setBoardContent(board.getBoardContent() + btnPlus + boardNoPlus);
 			}
 			
 			sendCalendar.setCalendarJoin(joinCalendar.charAt(0));
-			System.out.println("참가신청여부 : " + joinCalendar);
 			
 			int result = streetService.insertCalendarBoard(board);
 			if(result == 0) {
@@ -946,7 +955,59 @@ public class StreetController {
 		}
 		
 	}
-	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/	
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	// 일정 삭제
+	@RequestMapping("deleteSchedule")
+	public String deleteSchedule(int boardNo, Model model) {
+		int streetNo = (int) model.getAttribute("streetNo");
+		Calendar temp = new Calendar();
+		temp.setBoardNo(boardNo); temp.setStreetNo(streetNo);
+		try {
+			// 해당하는 Calendar 행 삭제
+			int result = streetService.deleteSchedule(temp);
+			if(result == 0) {
+				model.addAttribute("msg","일정 삭제 실패");
+				return "redirect:calendar";
+			}
+			
+			// 해당하는 Board 행 삭제
+			result = streetService.deleteBoardCalendar(boardNo);
+			if(result == 0) {
+				model.addAttribute("msg","일정 게시글 삭제 실패");
+				return "redirect:calendar";
+			}
+			
+			/*
+			// 만약 참여인원 있으면 해당 테이블행도 삭제
+			result = streetService.selectJoinCalendar(boardNo);
+			if(result > 0) {
+				result = streetService.deleteJoinCalendar(boardNo);
+				if(result == 0) {
+					model.addAttribute("msg","제거된 일정 참여 인원 목록 삭제 실패");
+					return "redirect:calendar";
+				}
+			}
+			*/
+			
+			model.addAttribute("msg","일정 삭제 성공");
+			return "redirect:calendar";
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "일정 추가 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+	}
+	
+	// 일정 수정
+	@RequestMapping("updateSchedule")
+	public String updateSchedule(int boardNo, Model model) {
+		int streetNo = (int) model.getAttribute("streetNo");
+		System.out.println("일정 수정용 글번호 : " + boardNo);
+		return null;
+	}
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 끝-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	
