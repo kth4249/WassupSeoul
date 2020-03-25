@@ -596,4 +596,19 @@
 	<!-- 지원 골목 수정 끝 -->
 	
 	
+	
+	<!-- 3/25 미현 코드 추가시작   -->
+	<!-- <select id="selectSummer" parameterType="_int" resultMap="boardResultSet">
+		SELECT * FROM BOARD WHERE BOARD_NO = #{boardNo}
+		AND BOARD_STATUS = 'Y'
+	</select> -->
+	
+	<select id="updateSummmer" parameterType="board">
+		UPDATE BOARD SET
+		BOARD_CONTENT = ${boardContent},
+		BOARD_WRITE_DT = SYSDATE,
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<!-- 3/25 미현 코드 추가끝  -->
 </mapper>
