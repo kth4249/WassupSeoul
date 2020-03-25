@@ -10,19 +10,52 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
 
+
+
 <title>타임라인 글작성 영역</title>
+
 </head>
 <style>
+ 	  #canvas {
+        border: 1px solid black;
+      }
+
+      .jb_table {
+        display: table;
+      }
+
+      .drawing {
+        border-radius: 10px;
+        display: table-row;
+      }
+
+      #draw {
+        display: table-cell;
+        vertical-align: top;
+      }
+
+      .drawColor{
+          width:32px;
+          height: 32px;
+          margin-left: 10px;
+      }
+
+      .drawColor:hover{
+         cursor: pointer;
+      }
+      #title{
+        width: 200px;
+      } 
 
  </style>
 <body>
 					<!-- 스케치 모달 -->
 					<div class="modal fade" id="sketchModal" data-backdrop="static"
-						tabindex="-1" role="dialog" aria-labelledby="writerModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document" style="width: 50%;">
+						tabindex="-5" role="dialog" aria-labelledby="writerModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document" style="width: 30%;">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h2 class="modal-title nanum" id="checkMemModalLabel"
+									<h2 class="modal-title nanum" id="sketchModalLabel"
 										style="font-weight: bold;">스케치 게시글 작성</h2>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
@@ -38,9 +71,11 @@
 											<div class="row drawing">
 												<span class="cell">
 													<div>
-							                              <canvas id="canvas" width="420" height="485"></canvas>
+							                              <canvas id="canvas" width="420" height="485" 
+							                              	style="background-color:white; cursor:crosshair;"></canvas>
 							                        </div>
-							                      </span>
+							                     </span>
+							                     
 										 <span class="cell" id="draw">
 											<div>
 												<div class="jb_table">
@@ -139,6 +174,130 @@
 				</div>
 			</div>
 			<!-- end -->
+ <script language="JavaScript">
+      // Date: 2019.04.24
+
+      var textareaList = ["history"];
+
+      function clearText(idOfTextArea) {
+        document.getElementById(idOfTextArea).value = "";
+      }
+
+      function SaveAsTxt() {
+        var fileName = document.getElementById("title").value;
+        if (fileName.length == 0) {
+          fileName = "image";
+        }
+        fileName += ".txt";
+
+        var preData = 'version: V0.617a1\n';
+        var postData =  preData + document.getElementById("history").value;
+
+        var link = document.createElement("a");
+        link.setAttribute("download", fileName);
+        link.setAttribute(
+          "href",
+          "data:" +
+            "application/[txt]" +
+            ";charset=utf-8," +
+            encodeURIComponent(postData)
+        );
+        link.click();
+      }
+
+      function SaveAsJson() {
+        console.log("SaveAsJson");
+        var fileName = document.getElementById("title").value;
+        if (fileName.length == 0) {
+          fileName = "imsge";
+        }
+
+        fileName += ".json";
+
+        var preData = {'version':'V0.617a1'};
+        textareaList.forEach(function(e) {
+          preData[e] = document.getElementById(e).value;
+        });
+
+        var jsonData = JSON.stringify(preData);
+
+        var link = document.createElement("a");
+        var file = new Blob([jsonData], { type: "text/plain" });
+        link.href = URL.createObjectURL(file);
+        link.download = fileName;
+        link.click();
+      }
+
+      function isJsonFile(filename) {
+        var ridx = filename.lastIndexOf(".");
+        var extension = filename.substring(ridx + 1);
+
+        console.log(extension);
+
+        if (extension.length != 4 || extension.toLowerCase() != "json") {
+          return false;
+        }
+        return true;
+      }
+
+      function isTextFile(filename) {
+        var ridx = filename.lastIndexOf(".");
+        var extension = filename.substring(ridx + 1);
+
+        console.log(extension);
+
+        if (extension.length != 3 || extension.toLowerCase() != "txt") {
+          return false;
+        }
+        return true;
+      }
+     
+      function LoadJson(file, fileName) {
+        document.getElementById("title").value = fileName;
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var contents = e.target.result;
+          displayLoadJsonData(contents);
+        };
+        reader.readAsText(file);
+      }
+
+      function displayLoadJsonData(contents) {
+        var noteData = JSON.parse(contents);
+
+        var version = noteData['version'];
+        console.log(version);
+        document.getElementById('history').value = noteData['history'];
+        reDrawCanvas();
+      }
+
+      function LoadText(file, fileName) {
+        document.getElementById("title").value = fileName;
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var contents = e.target.result;
+          displayLoadTextData(contents);
+        };
+        reader.readAsText(file);
+      }
+
+      function displayLoadTextData(contents) {
+        var noteData = contents.split('\n');
+        var history = "";
+         
+        noteData.forEach(function (e){
+          if (e[0] != 'v') {
+            history += e + "\n";
+          }
+        }); 
+        document.getElementById('history').value = history;
+        reDrawCanvas();
+      }
+    </script> 
+			
+			
 			
 </body>
 </html>

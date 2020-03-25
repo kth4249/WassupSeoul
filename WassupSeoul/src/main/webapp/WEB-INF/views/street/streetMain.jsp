@@ -8,7 +8,6 @@
 <meta charset="UTF-8">
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js" 
 		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
 <title>타임라인 메인 화면</title>
@@ -59,7 +58,7 @@
 						</div>
 						<!-- 검색Bar -->
 		
-					<!-- 글작성 영역 -->
+					  <!-- 글작성 영역 -->
 			          <div class="container box111" id="postArea">
 			           <jsp:include page="../street/streetDetail/fileUpload.jsp"/> 
 			           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
@@ -451,6 +450,7 @@
    			$(this).next("div").toggleClass("hide");
    		});
 
+   		// 좋아요 숫자 눌렀을때 좋아요 누른사람 보이기   --작업중  
    		$(".likeNum").click(function() {
    			$(this).next("div").toggleClass("hide");
    		});

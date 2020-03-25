@@ -44,7 +44,7 @@
 						<div class="modal-dialog" role="document" style="width: 50%;">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h2 class="modal-title nanum" id="checkMemModalLabel"
+									<h2 class="modal-title nanum" id="mapModalLabel"
 										style="font-weight: bold;">지도 게시글 작성</h2>
 									<button type="button" class="close" data-dismiss="modal" id="mapCloseBtn"
 										aria-label="Close">

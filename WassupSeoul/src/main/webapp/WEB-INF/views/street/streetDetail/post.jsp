@@ -9,7 +9,10 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
+
+		 <script src="${pageContext.request.contextPath}/resources/js/drawengine.js"></script>
+		<script src="${pageContext.request.contextPath}/resources/js/painter.js"></script> 
+		<%-- <script src="${pageContext.request.contextPath}/resources/js/canvas.js"></script> --%>
 
 <title>타임라인 글작성 영역</title>
 </head>
@@ -58,23 +61,27 @@
 				                  </form>
 				                </div>
 				
+								<!-- 투표 -->
 				                <div class="writeOptionArea shake" style="width: 7%">
 				                  <img class="writeOption voteOption" data-toggle="modal" data-target="#voteModal"
 				                    src="${contextPath}/resources/img/vote.png">
 				                  <p class="arrow_box">투표</p>
 				                </div>
-				
+				                
+								<!-- N빵 -->
 				                <div class="writeOptionArea shake" style="width: 7%">
 				                  <img class="writeOption" src="${contextPath}/resources/img/pie-chart.png">
 				                  <p class="arrow_box">N빵</p>
 				                </div>
 				
+								<!-- 지도 -->
 				                <div class="writeOptionArea shake" style="width: 7%">
 				                  <img class="writeOption mapOption" src="${contextPath}/resources/img/map.png"
 				                        data-toggle="modal" data-target="#mapModal">
 				                  <p class="arrow_box">지도</p>
 				                </div>
 				
+								<!-- 스케치 -->	
 				                <div class="writeOptionArea shake" style="width: 7%">
 				                  <img class="writeOption sketchOption" data-toggle="modal" data-target="#sketchModal"
 				                    src="${contextPath}/resources/img/sketch.png">
