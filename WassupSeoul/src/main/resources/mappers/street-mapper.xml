@@ -560,16 +560,25 @@
 	
 	<!-- ************************** 지원 골목 삭제 시작 ************************** -->
 	<!-- 골목 삭제 -->
-	<delete id="deleteStreet" parameterType="_int">
-		DELETE FROM STREET
-		WHERE STREET_NO = #{no}
-	</delete>
+	<update id="deleteStreet" parameterType="_int">
+		UPDATE STREET
+		SET STREET_STATUS = 'N'
+		WHERE STREET_NO = #{no} 
+	</update>
 	
 	<!-- 골목 가입자 삭제 -->
 	<delete id="deleteJoin" parameterType="_int">
 		DELETE FROM STREET_JOIN
 		WHERE STREET_NO = #{no}
 	</delete>
+	
+	<!-- 주민 검색 -->
+	<select id="searchJumin" parameterType="map" resultMap="memberResultSet">
+		SELECT * FROM MEMBER
+		WHERE MEMBER_NO IN (SELECT MEMBER_NO FROM STREET_JOIN 
+		 					WHERE STREET_NO = #{no})
+		AND MEMBER_NICKNAME = #{juminNickName}  
+	</select>
 	<!-- ************************** 지원 골목 삭제 끝 ************************** -->
 	
 	

@@ -565,6 +565,20 @@ public class StreetDAO {
 		
 		return sqlSession.delete("streetMapper.deleteJoin", no);
 	}
+
+	/** 주민 검색용 DAO
+	 * @param juminNickName
+	 * @return jumin
+	 * @throws Exception
+	 */
+	public Member searchJumin(Map<String, Object> map) throws Exception {
+		
+		return sqlSession.selectOne("streetMapper.searchJumin", map);
+	}
+	
+	
+	
+	
 	
 	
 	

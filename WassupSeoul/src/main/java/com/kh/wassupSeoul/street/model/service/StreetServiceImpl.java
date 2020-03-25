@@ -824,5 +824,22 @@ public class StreetServiceImpl implements StreetService{
 		}
 		return result;
 	}
+	
+	/** 주민 검색용 Service
+	 * @param juminNickName
+	 * @return jumin
+	 * @throws Exception
+	 */
+	@Override
+	public Member searchJumin(String juminNickName, Integer no) throws Exception {
+		
+		Map<String, Object> map = null;
+		map = new HashMap<String, Object>();
+		
+		map.put("juminNickName", juminNickName);
+		map.put("no", no);
+		
+		return streetDAO.searchJumin(map);
+	}
 	/******************** 지원 골목 삭제 끝 ********************************/
 }

@@ -389,5 +389,14 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int deleteStreet(Integer no) throws Exception;
+
+	/** 주민 검색용 Service
+	 * @param juminNickName
+	 * @return jumin
+	 * @throws Exception
+	 */
+	public abstract Member searchJumin(String juminNickName, Integer no) throws Exception;
+	
+	
 	/******************** 지원 골목 삭제 끝 ********************************/
 }

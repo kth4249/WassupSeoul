@@ -48,6 +48,11 @@
 
 
 <body>
+
+	<c:if test="${!empty msg}">
+		<script>alert("${msg}")</script>
+		<c:remove var="msg"/>
+	</c:if>
   
   <div class="backgroundPicture">
     <img src="${pageContext.request.contextPath}/resources/img/서울4.jpg" class="mainPicture">
