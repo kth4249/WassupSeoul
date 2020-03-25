@@ -10,7 +10,7 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
 
-
+  
 <title>검색 Bar</title>
 </head>
 <body>

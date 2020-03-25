@@ -9,6 +9,7 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
 
 
 <title>타임라인 글작성 영역</title>
@@ -16,7 +17,7 @@
 <style>
 	 #map {
         height: 100%;
-      }
+     }
       /* Optional: Makes the sample page fill the window. */
       html, body {
         height: 100%;
@@ -38,14 +39,13 @@
       }
  </style>
 <body>
-
 					<!-- 지도 모달 -->
 					<div class="modal fade" id="mapModal" data-backdrop="static"
 						tabindex="-1" role="dialog" aria-labelledby="writerModalLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document" style="width: 50%;">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h2 class="modal-title nanum" id="checkMemModalLabel"
+									<h2 class="modal-title nanum" id="mapModalLabel"
 										style="font-weight: bold;">지도 게시글 작성</h2>
 									<button type="button" class="close" data-dismiss="modal" id="mapCloseBtn"
 										aria-label="Close">
@@ -79,11 +79,11 @@
 					
 					 <script>
 				      function initMap() {
+				    	var geocoder = new google.maps.Geocoder;
 				        var map = new google.maps.Map(document.getElementById('map'), {
 				          zoom: 15,
 				          center: {lat: 37.5724723, lng: 126.9737442}
 				        });
-				        var geocoder = new google.maps.Geocoder();
 				
 				        document.getElementById('mapSubmit').addEventListener('click', function() {
 				          geocodeAddress(geocoder, map);

@@ -10,16 +10,13 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
 
-
 <title>타임라인 게시글 영역</title>
 </head>
 
 <style>
-
 	.writerImg:hover{
 		cursor : pointer;
 	}
-	
 	.writerNickName:hover{
 		cursor : pointer;
 	}
@@ -31,7 +28,6 @@
 	a{
 	style="color: black; text-decoration: none;"
 	}
-	
 	.profileBox{
 	  width: 100%;
 	  height: 160px; 
@@ -64,30 +60,44 @@
 	}
 	/* (3/24)미현수정 끝  */
 	
-	 #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #floating-panel {
-        position: absolute;
-        top: 180px;
-        left: 25%;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-        text-align: center;
-        font-family: 'Roboto','sans-serif';
-        line-height: 30px;
-        padding-left: 10px;
-      }
+	
 </style>
 <body>
+	 <!-- <script>
+      function initMap() {
+    	 var geocoder = new google.maps.Geocoder;  
+        var map2 = new google.maps.Map(document.getElementByClassName('map'), {
+          zoom: 15,
+          center: {lat: 37.5724723, lng: 126.9737442}
+        });
+          geocodeAddress(geocoder, map2);
+          
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: {lat: 37.5724723, lng: 126.9737442}
+         });
+
+          document.getElementById('mapSubmit').addEventListener('click', function() {
+            geocodeAddress(geocoder, map);
+          });  
+      }
+
+      function geocodeAddress(geocoder, resultsMap) {
+    	var address =  $(".map").attr("name");
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+        	  var coords = results[0].geometry.location;
+            	resultsMap.setCenter(coords);
+           	 var marker2 = new google.maps.Marker({
+           		   map: resultsMap,
+             	   position: coords
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+    </script>   -->
 
 	<c:if test="${empty board }">
 
@@ -144,8 +154,7 @@
 							</div>
 							<div style="margin-bottom: 0;">
 								<p style="margin-bottom: 0;">
-									<fmt:formatDate value="${board.boardWriteDt}"
-										pattern="yyyy년 MM월 dd일 aa hh:mm" />
+									<fmt:formatDate value="${board.boardWriteDt}" pattern="yyyy년 MM월 dd일 aa hh:mm" />
 								</p>
 							</div>
 						</div>
@@ -181,92 +190,8 @@
 
 					</div>
 					<!-- 프로필사진, 작성자명, 날짜 -->
-
-					<!-- 프로필모달 -->
-					<div class="modal fade" id="writerModal" data-backdrop="static"
-						tabindex="-1" role="dialog" aria-labelledby="checkMemModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document" style="width: 496px;">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h2 class="modal-title nanum" id="checkMemModalLabel"
-										style="font-weight: bold;">작성자 회원 정보</h2>
-									<button type="button" class="close" data-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									<!-- content start -->
-									<!-- profile image start -->
-									<div class="row">
-										<div class="col-md-4"></div>
-										<div class="col-md-4">
-											<div class="profileBox">
-												<img class="profileImage" src="" alt="이미지"
-													class="checkMemProfileUrl">
-											</div>
-										</div>
-										<div class="col-md-4"></div>
-									</div>
-									<!-- profile image end-->
-									<div class="row">
-					                <div class="col-md-3"></div>
-					                <div class="col-md-6">
-					                    <input type="text" class="checkMemNickName" class="nanum form-control-plaintext text-center" 
-					                    					style="font-size: 35px;font-weight: bold;" readonly>
-					                </div>
-										<div class="col-md-3"></div>
-									</div>
-									<!-- <div class="row">   회원정보 이메일 
-							                <div class="col-md-2"></div>
-							                <div class="col-md-8"><input type="text" id="memberEmail" class="nanum form-control-plaintext text-center" style="font-size: 25px;font-weight: bold;" readonly></div>
-							                <div class="col-md-2"></div>
-							              </div> -->
-									<div class="row">
-										<label class="col-sm-2 col-form-label text-center nanum"
-											style="font-weight: bold; font-size: 16px;">이름</label>
-										<div class="col-sm-4">
-											<input type="text" readonly class="checkMemName"
-												class="nanum form-control-plaintext text-center"
-												style="font-size: 25px;">
-										</div>
-										<label class="col-sm-2 col-form-label text-center nanum"
-											style="font-weight: bold; font-size: 16px;">나이</label>
-										<div class="col-sm-4">
-											<input type="text" readonly class="checkMemAge"
-												class="nanum form-control-plaintext text-center"
-												style="font-size: 25px;">
-										</div>
-									</div>
-
-									<div class="row">
-										<label class="col-sm-2 col-form-label text-center nanum"
-											style="font-weight: bold; font-size: 16px;">성별</label>
-										<div class="col-sm-4">
-											<input type="text" readonly class="checkMemGender"
-												class="nanum form-control-plaintext text-center"
-												style="font-size: 25px;">
-										</div>
-										<label class="col-sm-2 col-form-label text-center nanum"
-											style="font-weight: bold; font-size: 16px;">전화번호</label>
-										<div class="col-sm-4">
-											<input type="text" readonly class="checkMemPhone"
-												class="nanum form-control-plaintext text-center"
-												style="font-size: 22px;">
-										</div>
-									</div>
-
-									<div class="row" class="checkMemProfileHobby" name="checkMemProfileHobby">
-										<!-- 관심사 영역 -->
-									</div>
-									<!-- content end -->
-									
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- end -->
-
+										
+					<jsp:include page="../streetDetail/profileModal.jsp"/> 
 
 					<!-- 게시글내용 -->
 					<div class="postMainWrap  nanum"
@@ -276,45 +201,15 @@
 
 							<c:choose>
 								<c:when test="${board.typeNo eq '6'}">
-									<div class="map_wrap">
-										<div id="map" style="width:100%;height:200px;position:relative;overflow:hidden;"></div>
-									</div>
+								
+									${board.boardContent}    
 									
-									<script>
-								      function initMap() {
-								        var map = new google.maps.Map(document.getElementById('map'), {
-								          zoom: 15,
-								          center: {lat: 37.5724723, lng: 126.9737442}
-								        });
-								        var geocoder = new google.maps.Geocoder();
-								
-								        document.getElementById('mapSubmit').addEventListener('click', function() {
-								          geocodeAddress(geocoder, map);
-								        });
-								      }
-								
-								      function geocodeAddress(geocoder, resultsMap) {
-								        var address = ${board.boardContent};
-								        geocoder.geocode({'address': address}, function(results, status) {
-								          if (status === 'OK') {
-								        	  var coords = results[0].geometry.location;
-								            	resultsMap.setCenter(coords);
-								           	 var marker = new google.maps.Marker({
-								           		   map: resultsMap,
-								             	   position: coords
-								            });
-								          } else {
-								            alert('Geocode was not successful for the following reason: ' + status);
-								          }
-								        });
-								      }
-								    </script>
 								</c:when>
 								<c:otherwise>
-									${board.boardContent}
+									${board.boardContent}    
 								</c:otherwise>
 							</c:choose>
-							
+
 						</div>
 					</div>
 					<!-- 게시글내용 -->
@@ -655,7 +550,7 @@
 			<!-- 게시글1 끝-->
 
 			<div class="row"
-				style="height: 20px; background-color: rgb(221, 233, 218);"></div>
+				style="height: 20px; background-color: rgb(221, 233, 218); z-index: -5;"></div>
 			<!-- 게시글1 후 여백-->
 
 		</c:forEach>

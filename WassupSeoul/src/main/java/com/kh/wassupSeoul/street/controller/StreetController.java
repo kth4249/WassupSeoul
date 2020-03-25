@@ -392,7 +392,7 @@ public class StreetController {
 		
 		board.setStreetNo(streetNo);
 		board.setMemberNo(loginMember.getMemberNo());
-		board.setBoardContent(address);
+		board.setBoardContent(mapPostContent +"<br>"+ address);
 		board.setTypeNo(6);
 		
 		

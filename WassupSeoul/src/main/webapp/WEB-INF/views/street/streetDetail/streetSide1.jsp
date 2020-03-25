@@ -14,8 +14,6 @@
 
 </style>
 <body>
-	
-	
 
 	<!-- 컨텐츠영역-->
 	<div class="container" style="margin-top: 10px;">

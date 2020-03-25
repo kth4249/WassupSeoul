@@ -8,40 +8,16 @@
 <meta charset="UTF-8">
 		<script src="https://code.jquery.com/jquery-3.4.1.min.js" 
 		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
 <title>타임라인 메인 화면</title>
 </head>
 <style>
-	  .drawColor:hover{
-         cursor: pointer;
-      }
-      #canvas {
-        border: 1px solid black;
-      }
-      .jb_table {
-        display: table;
-      }
-      .drawing {
-        border-radius: 10px;
-        display: table-row;
-      }
-      #draw {
-        display: table-cell;
-        vertical-align: top;
-      }
-      .drawColor{
-          width:32px;
-          height: 32px;
-          margin-left: 10px;
-      }
       a:hover {
 		   color: #0d0d0d;
 		   text-decoration: none;
 	 }
 </style>
-
 
 <body style="background-color : rgb(221, 233, 218);">
 
@@ -49,7 +25,6 @@
 	<div class="container-fluid" style="margin-top: 57px;">
 		<div class="row"  style="padding: 0px; height:44px"></div>
 	</div>
-
 
 	<c:if test="${memGradeInSt.citizenStatus eq 'N'}">
 	
@@ -66,7 +41,6 @@
 	<!-- 컨텐츠영역-->
 	<div class="container-fluid">
 		<div class="row">
-			
 			<jsp:include page="../street/streetDetail/streetSide.jsp"/>
 			<!-- 사이드1 여백 -->
 			<div class="col-md-4" id="devideArea"></div>
@@ -74,7 +48,6 @@
 
 			<!-- 타임라인-->
 			<div class="col-md-4" id="devideArea" style="margin-top: 10px;">
-
 				<c:choose>
 					<c:when test="${memGradeInSt.citizenStatus eq 'Y'}">
 					<!--회원 골목 가입 되어 있을때 -->
@@ -82,17 +55,19 @@
 						<!-- 검색Bar-->
 						<div class="row" id="searchArea" style="width: 99%; margin-left: 1px;">
 							<jsp:include page="../street/streetDetail/searchBar.jsp"/> 
-							
 						</div>
 						<!-- 검색Bar -->
 		
-						<!-- 글작성 영역 -->
-				          <div class="container box111" id="postArea">
-				           <jsp:include page="../street/streetDetail/summernote.jsp"/> 
-				           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
-				           <jsp:include page="../street/streetDetail/post.jsp"/>
-				          </div>
-				       <!-- 글작성 영역 -->
+					  <!-- 글작성 영역 -->
+			          <div class="container box111" id="postArea">
+                 <jsp:include page="../street/streetDetail/summernote.jsp"/>
+			           <jsp:include page="../street/streetDetail/fileUpload.jsp"/> 
+			           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
+			           <jsp:include page="../street/streetDetail/voteModal.jsp"/> 
+			           <jsp:include page="../street/streetDetail/sketchModal.jsp"/> 
+                 <jsp:include page="../street/streetDetail/post.jsp"/>
+			          </div>
+            <!-- 글작성 영역 -->
 		
 						<!-- 중간여백 --><div class="row" style="height: 20px; background-color: rgb(221, 233, 218);"></div>
 		
@@ -106,9 +81,7 @@
 					<c:otherwise>  
 					<!-- 회원 골목 가입 안되어 있을때-->
 							<div class="container box111" id="postArea">
-								<div class="postLayoutView"
-									style="padding: 0%; height: 500px; border: solid black 1px">
-					
+								<div class="postLayoutView" style="padding: 0%; height: 500px; border: solid black 1px">
 									<div class="nanum " style="font-size: 20px; text-align: center;">
 										<div style="height: 200px"></div>
 										<div class="noPostSignArea container" style="width: 50%;">
@@ -141,7 +114,6 @@
 	<!-- 컨텐츠영역 종료 -->
 
 	<script>
-		
 			// 새로고침
 			function refreshList() {
 				location.reload();
@@ -456,15 +428,12 @@
 							}
 						}
 						// 회원 관심사 끝
-						
 					},
 					error : function(e){
 		   			console.log("ajax 통신 실패");
 		   			console.log(e);
 		   		}
-					
 				});
-				
 			});
 			/* 회원 프로필 정보 조회용  */
 		
@@ -487,6 +456,7 @@
    			$(this).next("div").toggleClass("hide");
    		});
 
+   		// 좋아요 숫자 눌렀을때 좋아요 누른사람 보이기   --작업중  
    		$(".likeNum").click(function() {
    			$(this).next("div").toggleClass("hide");
    		});
@@ -532,7 +502,6 @@
 	    $("#modal_close_btn").click(function(){
 			$(this).parent().parent("div").attr("style", "display:none");
 	    });    
-	    
 	    
 	    // 투표 모달 중복투표 허용 옵션 보이기 
 	    $("#check2").change(function(){
