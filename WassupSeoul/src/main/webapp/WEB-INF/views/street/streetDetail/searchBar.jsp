@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-<script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>  
 
 
 <title>검색 Bar</title>

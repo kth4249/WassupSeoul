@@ -155,12 +155,12 @@
             <br><br>
             <div id="passwordResultArea">
          	 <div class="result-body">
-	            <span class="nanum" style="font-size: 25px; ">회원님의 Email로 임시 비밀번호를 발송하였습니다 !</span>
+	            <span class="nanum" style="font-size: 25px;">회원님의 Email로 임시 비밀번호를 발송하였습니다 !</span>
            	 </div>
           	</div>
           <div id="passwordResultFalseArea">
          	 <div class="result-body">
-	            <span class="nanum" style="font-size: 25px; ">가입된 계정이 없습니다 !</span>
+	            <span class="nanum" style="font-size: 25px;">가입된 계정이 없습니다 !</span>
            	 </div>
           </div>
         </div>
@@ -171,8 +171,6 @@
       </div>
     </div>
   </div>
-  
-  <%@ include file="WEB-INF/views/street/streetDetail/fileUpload.jsp"%>
   
   
  <script>

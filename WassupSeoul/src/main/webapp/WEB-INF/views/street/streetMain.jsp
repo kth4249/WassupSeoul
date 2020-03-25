@@ -86,13 +86,13 @@
 						</div>
 						<!-- 검색Bar -->
 		
-					<!-- 글작성 영역 -->
-          <div class="container box111" id="postArea">
-           <jsp:include page="../street/streetDetail/fileUpload.jsp"/> 
-           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
-            <jsp:include page="../street/streetDetail/post.jsp"/>
-          </div>
-          <!-- 글작성 영역 -->
+						<!-- 글작성 영역 -->
+				          <div class="container box111" id="postArea">
+				           <jsp:include page="../street/streetDetail/summernote.jsp"/> 
+				           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
+				           <jsp:include page="../street/streetDetail/post.jsp"/>
+				          </div>
+				       <!-- 글작성 영역 -->
 		
 						<!-- 중간여백 --><div class="row" style="height: 20px; background-color: rgb(221, 233, 218);"></div>
 		
@@ -112,30 +112,20 @@
 									<div class="nanum " style="font-size: 20px; text-align: center;">
 										<div style="height: 200px"></div>
 										<div class="noPostSignArea container" style="width: 50%;">
-											<p class="noPostSign">
-												멤버만 게시글을 볼 수 있습니다.  <br> 골목에 가입해 보세요!
-											</p>
+											<p class="noPostSign">멤버만 게시글을 볼 수 있습니다. <br> 골목에 가입해 보세요!</p>
 										</div>
-					
 									</div>
 								</div>
 							</div>
 					<!--회원 골목 가입 되어 있을때 -->		
 					</c:otherwise>
 				</c:choose>
-				
 			</div>
 			<!-- 타임라인-->
 			
 			<!-- 사이드2 여백 -->
 			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드2 여백 -->
-			
-			
-			
-			
-			
-			
 			
 		</div>
 	</div>

@@ -50,69 +50,67 @@
 
 					<div class="postCountView" style="border: 1px solid black; height: 45px;">
 
-                <!-- 사진 첨부 -->
-								<div class="writeOptionArea shake" style="width: 7%">
-									<form class="form-signin">
-										<a href="#" data-toggle="modal" data-target="#summerModal"> 
-											<img class="writeOption" src="${contextPath}/resources/img/imageIcon.png" alt="">
-											<p class="arrow_box">사진</p>
-										</a>
-									</form>
-								</div>
-
-
-
-                <!-- 동영상 첨부 -->
-                <div class="writeOptionArea shake" style="width: 7%">
-                  <form class="form-signin">
-                    <a href="#" data-toggle="modal" data-target="#summerModal"> 
-                      <img class="writeOption" src="${contextPath}/resources/img/film.png" alt="">
-                      <p class="arrow_box">동영상</p>
-                    </a>
-                  </form>
-                </div>
-
-                <!-- 파일첨부 -->
-                <div class="writeOptionArea shake" style="width: 7%">
-                  <form class="form-signin">
-                    <a href="#" data-toggle="modal" data-target="#summerModal"> 
-                      <img class="writeOption" src="${contextPath}/resources/img/paperclip.png" alt="">
-                      <p class="arrow_box">파일첨부</p>
-                    </a>
-                  </form>
-                </div>
-
-                <div class="writeOptionArea shake" style="width: 7%">
-                  <img class="writeOption voteOption" data-toggle="modal" data-target="#voteModal"
-                    src="${contextPath}/resources/img/vote.png">
-                  <p class="arrow_box">투표</p>
-                </div>
-
-                <div class="writeOptionArea shake" style="width: 7%">
-                  <img class="writeOption" src="${contextPath}/resources/img/pie-chart.png">
-                  <p class="arrow_box">N빵</p>
-                </div>
-
-                <div class="writeOptionArea shake" style="width: 7%">
-                  <img class="writeOption mapOption" src="${contextPath}/resources/img/map.png"
-                        data-toggle="modal" data-target="#mapModal">
-                  <p class="arrow_box">지도</p>
-                </div>
-
-                <div class="writeOptionArea shake" style="width: 7%">
-                  <img class="writeOption sketchOption" data-toggle="modal" data-target="#sketchModal"
-                    src="${contextPath}/resources/img/sketch.png">
-                  <p class="arrow_box">스케치</p>
-                </div>
-
-
-						
-                <div id="writePostBtn" style="display: inline-block; width: 18%; margin-bottom: 0px; height: 100%; float: right;">
-                  <button type="submit" class="btn nanum" style="height: 40px; font-size: 18px; font-weight: bolder; position: relative; bottom: 1px; right: 7px; float: right;">작성</button>
-                </div>
+	                <!-- 사진 첨부 -->
+					<div class="writeOptionArea shake" style="width: 7%">
+						<form class="form-signin">
+							<a href="#" data-toggle="modal" data-target="#insertSummer"> 
+								<img class="writeOption" src="${contextPath}/resources/img/imageIcon.png" alt="">
+								<p class="arrow_box">사진</p>
+							</a>
+						</form>
 					</div>
-				</form>
-			</div>
+	
+	                <!-- 동영상 첨부 -->
+	                <div class="writeOptionArea shake" style="width: 7%">
+	                  <form class="form-signin">
+	                    <a href="#" data-toggle="modal" data-target="#insertSummer"> 
+	                      <img class="writeOption" src="${contextPath}/resources/img/film.png" alt="">
+	                      <p class="arrow_box">동영상</p>
+	                    </a>
+	                  </form>
+	                </div>
+	
+	                <!-- 파일첨부 -->
+	                <div class="writeOptionArea shake" style="width: 7%">
+	                  <form class="form-signin">
+	                    <a href="#" data-toggle="modal" data-target="#insertSummer"> 
+	                      <img class="writeOption" src="${contextPath}/resources/img/paperclip.png" alt="">
+	                      <p class="arrow_box">링크연결</p>
+	                    </a>
+	                  </form>
+	                </div>
+
+	                <div class="writeOptionArea shake" style="width: 7%">
+	                  <img class="writeOption voteOption" data-toggle="modal" data-target="#voteModal"
+	                    src="${contextPath}/resources/img/vote.png">
+	                  <p class="arrow_box">투표</p>
+	                </div>
+	
+	                <div class="writeOptionArea shake" style="width: 7%">
+	                  <img class="writeOption" src="${contextPath}/resources/img/pie-chart.png">
+	                  <p class="arrow_box">N빵</p>
+	                </div>
+	
+	                <div class="writeOptionArea shake" style="width: 7%">
+	                  <img class="writeOption mapOption" src="${contextPath}/resources/img/map.png"
+	                        data-toggle="modal" data-target="#mapModal">
+	                  <p class="arrow_box">지도</p>
+	                </div>
+	
+	                <div class="writeOptionArea shake" style="width: 7%">
+	                  <img class="writeOption sketchOption" data-toggle="modal" data-target="#sketchModal"
+	                    src="${contextPath}/resources/img/sketch.png">
+	                  <p class="arrow_box">스케치</p>
+	                </div>
+	
+	
+							
+	                <div id="writePostBtn" style="display: inline-block; width: 18%; margin-bottom: 0px; height: 100%; float: right;">
+	                  <button type="submit" class="btn nanum" style="height: 40px; font-size: 18px; font-weight: bolder; position: relative; bottom: 1px; right: 7px; float: right;">작성</button>
+	                </div>
+						</div>
+					</form>
+				</div>
 
 
 			<!-- 지도 모달 -->
@@ -249,16 +247,15 @@
 								<div class="modal-header">
 									<h2 class="modal-title nanum" id="checkMemModalLabel"
 										style="font-weight: bold;">스케치 게시글 작성</h2>
-									<button type="button" class="close" data-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
+									<butt	n	type="button" class="close" data-dismiss="modal"
+												ia-label="Close">
+										<span aria-hidden		true">&times;</span>
+									</button>									</div>
+								<div class="modal-b		y">
 								
-									<!-- content start -->
-										<textarea class=" nanum" id="writePostArea2" rows="6" placeholder="게시글내용을 입력하세요." 
-													style="border: 1px solid black; color: black; font-size: 17px; height: 100px; width:100%;"></textarea>
+									<!-- content start		->
+										<textarea class=" nanum" id	"writePostArea2" rows="6" placeholder="게시글내용을 입력하세요." 
+													style="border: 1px solid black; color: black; font-size: 17px; height: 100px; width:10	%;"></textarea>
 										<div class="jb_table">
 											<div class="row drawing">
 												<span class="cell">

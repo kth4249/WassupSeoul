@@ -21,6 +21,10 @@ import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
+/**
+ * @author user1
+ *
+ */
 @Service
 public interface StreetService {
 
@@ -378,7 +382,20 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int insertCalendarBoard(Board board) throws Exception;
+
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
+	
+	
+	/*==========================3/25 미현 코드 추가 시작 =======================*/
+	/** 썸머노트 수정용 service
+	 * @param board
+	 * @param file
+	 * @param savePath
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateSummer(Board board, MultipartFile file, String savePath) throws Exception;
+	/*==========================3/25 미현 코드 추가 끝=======================*/
 	 
 }

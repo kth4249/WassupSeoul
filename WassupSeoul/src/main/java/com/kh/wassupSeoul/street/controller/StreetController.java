@@ -12,7 +12,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -695,6 +694,14 @@ public class StreetController {
 	
 	/*----------------------- 미현 끝 -----------------------------------*/
 	
+	/*============== 3/25 미현 수정 ==============================*/
+	// 썸머노트 Bfile 수정용
+	@ResponseBody
+	@RequestMapping(value="refileUpload", produces = "application/text; charset=utf8")
+	public String refileUpload(Board board, Model model, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+	
+	return null;
+	}
 	
 	/*------------------------ 태훈 시작 (03/22) -----------------------------------*/
 	/** 골목 가입 허가/거절 용 Controller
@@ -723,9 +730,6 @@ public class StreetController {
 		}
 	}
 	/*--------------------------------태훈 끝-------------------------------------*/
-	
-	
-	
 	
 	/* 지원 골목 수정 시작 */
 	// 골목 수정 페이지 이동
@@ -967,4 +971,93 @@ public class StreetController {
 	}
 	
 	/*------------------------ 지원 골목삭제 끝-----------------------------------*/ 
+	
+	/*------------------------ 3/24 미현 코드추가-----------------------------------*/ 
+	
+	// 썸머 게시글 작성
+	@RequestMapping("insertSummer")
+	public String insertSummer(Board board, Model model, HttpServletRequest request, RedirectAttributes rdAttr,
+			@RequestParam(value = "images", required = false) List<MultipartFile> images) {
+
+		Member loginMember = (Member) model.getAttribute("loginMember");
+		System.out.println(loginMember);
+		int boardWriter = loginMember.getMemberNo();
+		System.out.println(boardWriter);
+
+		int streetNo = (int) model.getAttribute("streetNo");
+		System.out.println(streetNo);
+
+		board.setBoardContent(board.getBoardContent().replace("\r\n", "<br>"));
+		board.setMemberNo(boardWriter);
+		board.setStreetNo(streetNo);
+		board.setTypeNo(1);
+
+		System.out.println("등록할 게시글 : " + board);
+		System.out.println("board.getBoardContent : " + board.getBoardContent());
+
+		try {
+
+			int result = streetService.insertBoard(board);
+
+			if (result > 0)
+				System.out.println("게시글 등록 성공" + result);
+			else
+				System.out.println("게시글 등록 실패" + result);
+
+			return "redirect:streetMain?streetNo=" + streetNo;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:streetMain?streetNo=" + streetNo;
+
+		}
+
+	}
+	
+	
+	// 썸머노트 게시글 수정
+	@ResponseBody
+	@RequestMapping(value="updateSummer", produces = "application/text; charset=utf8")
+	public String updateSummer(Board board, Model model, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+		
+		Member loginMember = (Member) model.getAttribute("loginMember");
+		int boardWriter = loginMember.getMemberNo();
+		// 수정 실패or성공할때 원래 street페이지로 돌아오기 위함
+		int streetNo = (int) model.getAttribute("streetNo");
+		
+		board.setMemberNo(boardWriter);
+		board.setStreetNo(streetNo);
+		
+		// 수정 또는 새롭게 추가된 파일이 저장될 경로 얻어오기
+		String writer = board.getBoardWriter();	
+		String root = request.getSession().getServletContext().getRealPath("resources") + "/uploadImage";
+		String savePath = root + "//" + writer;
+		
+		// 저장 폴더가 있는지 검사하고 없을 경우에 생성하는 구문
+		File folder = new File(savePath);
+		if(!folder.exists())
+			folder.mkdir();
+		
+		try {
+			int result =streetService.updateSummer(board,file,savePath);
+			
+			System.out.println("미현 result : "+result);
+			String msg;
+			if(result > 0)	msg = "썸머 게시글 수정 성공";
+			else 			msg = "썸머 게시글 수정 실패";
+			
+			model.addAttribute("msg",msg);
+			
+			return "redirect:streetMain?streetNo=" + streetNo;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "썸머노트 수정 과정에서 오류 발생");
+			return "redirect:streetMain?streetNo=" + streetNo;
+		}
+	}
+	
+	
+	
+	/*------------------------ 미현 코드추가 끝-----------------------------------*/ 
 }

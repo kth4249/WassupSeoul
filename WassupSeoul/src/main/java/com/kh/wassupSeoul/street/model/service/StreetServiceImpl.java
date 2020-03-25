@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
@@ -798,4 +799,51 @@ public class StreetServiceImpl implements StreetService{
 	}
 	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
+
+	
+	
+	
+	
+	
+	
+	/*==============================3/25 미현 코드추가 시작 ======================*/
+	
+	/** 썸머노트 수정용 service
+	 * @param board
+	 * @param file
+	 * @param savePath
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	@Override
+	public int updateSummer(Board board, MultipartFile file, String savePath) throws Exception {
+		/*
+		 * String files = streetDAO.selectFiles(board.getBoardNo());
+		 * System.out.println("기존 파일 데려오느냐:"+ files);
+		 */
+		
+		/*
+		 * // 새로 삽입할 파일,기존 행을 수정할 파일 (썸머노트는 여러가지 파일도 DB상에 한게시물로 올라감..) Board updateFile
+		 * = new Board();
+		 * 
+		 * Board fi = null;
+		 * 
+		 * // 새롭게 등록된 파일이 있는지 확인 if(!file.getOriginalFilename().equals("")) { String
+		 * changeFileName = FileRename.rename(file.getOriginalFilename()); } }
+		 */
+		
+		board.setBoardContent(board.getBoardContent().replace("\r\n", "<br>"));
+		System.out.println("여기까진 오시는지?");
+		int result = streetDAO.updateSummer(board);
+		System.out.println("여기까진..?:" + result);
+		
+		return result;
+		
+	}
+	
+	
+	/*==============================3/25 미현 코드추가 끝 ======================*/
+	
+	
 }
