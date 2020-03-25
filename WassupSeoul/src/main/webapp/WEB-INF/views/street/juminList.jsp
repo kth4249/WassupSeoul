@@ -140,7 +140,33 @@
 												</c:forEach>
 											</c:if>
 										</td>
-										<td><button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button></td>
+										<td class="text-center">
+											<c:if test="${!empty rList and loginMember.memberNo != member.memberNo}">
+												<c:forEach items="${rList}" var="relationShip" varStatus="vs">
+													<c:if test="${relationShip.yourNum == member.memberNo}">
+														<c:choose>
+															<c:when test="${relationShip.requestStatus eq '1'.charAt(0)}">
+																<button type="button" class="btn btn-sm btn-success disabled" value="${member.memberNo}">친구 요청중</button>
+															</c:when>
+															<c:when test="${relationShip.requestStatus eq '2'.charAt(0)}">
+																<button type="button" class="btn btn-sm btn-success" value="${member.memberNo}">친구</button>
+															</c:when>
+															<c:otherwise>
+																<button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button>
+															</c:otherwise>
+														</c:choose>
+													</c:if>
+													<c:if test="${relationShip.yourNum != member.memberNo}">
+														<c:if test="${vs.last}">
+															<button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button>
+														</c:if>
+													</c:if>
+												</c:forEach>
+											</c:if>
+											<c:if test="${empty rList and loginMember.memberNo != member.memberNo}">
+												<button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button>
+											</c:if>
+										</td>
 									</tr>
 								</c:if>
 							</c:forEach>

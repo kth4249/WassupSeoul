@@ -635,15 +635,20 @@ public class StreetController {
 			mList = streetService.selectJuminList(map);
 			
 			List<Hobby> hList = null;
+			List<Relationship> rList = null;
 			
 			if(mList != null && !mList.isEmpty()) {
 				hList = streetService.selectHobbyList(mList);
+				Map<String, Object> relationMap = new HashMap<String, Object>();
+				relationMap.put("myNo", loginMember.getMemberNo());
+				relationMap.put("mList", mList);
+				rList = streetService.selectRelationList(relationMap);
 			}
 			
 			
-			System.out.println(mList);
-			System.out.println(hList);
+			System.out.println(rList);
 			
+			model.addAttribute("rList", rList);
 			model.addAttribute("mList", mList);
 			model.addAttribute("hList", hList);
 		}catch (Exception e) {
