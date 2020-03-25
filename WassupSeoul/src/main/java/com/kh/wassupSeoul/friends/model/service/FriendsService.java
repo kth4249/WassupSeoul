@@ -56,5 +56,12 @@ public interface FriendsService {
 	 */
 	int friendTalk(Map<String, Object> nMap) throws Exception;
 
+	/** 친구목록에서 친구 삭제
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	int friendBye(Map<String, Object> nMap) throws Exception;
+
 
 }

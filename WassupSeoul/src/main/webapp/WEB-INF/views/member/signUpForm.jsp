@@ -328,7 +328,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<label for="" class="nanum float-right" style="font-size: 25px;">프로필
 									사진</label><br>
 								<br>
-								<p class="nanum float-right" style="color: midnightblue;">(선택사항)</p>
+								<div>
+									<span id="checkImg"></span>
+								</div>
+								<!-- <p class="nanum float-right" style="color: midnightblue;">(선택사항)</p> -->
 							</div>
 							<div class="col-md-6">
 								<div class="profileDiv">
@@ -344,15 +347,14 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							</div>
 							<div class="col-md-6">
 							    <div class="custom-control custom-checkbox">
-								      <input type="checkbox" class="custom-control-input" id="def_check" name="def_check">
+								      <input type="checkbox" class="custom-control-input" id="def_check" name="def_check" checked>
 								      <label class="custom-control-label" for="def_check">기본 프로필 이미지 사용</label>
 								      <input type="hidden" id="defaultImg" name="defaultImg">
 								</div>
 							</div>
 						</div>
-						
 						<script>
-						
+						<!-- 기본이미지 설정할 경우 그 값 넘기는 함수 -->
 						$("#def_check").change(
 								function(){
 									//체크박스 값에 따라 히든 값 변경
@@ -365,7 +367,6 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							);
 						
 						</script>
-						
 						
 
 						<br>
@@ -392,7 +393,9 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			"pwd2" : false,
 			"name" : false,
 			"nickName" : false,
-			"phone":false
+			"phone" : false,
+			"profile_img" : false,
+			"def_check" : false
 		};
 		
 		/* 관심사 제거 버튼 클릭시 관심사 제거 */
@@ -413,7 +416,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
     		// 지정관심사가 3개미만인 경우
     		else {
     			var inputs = $("#selectHobby").find("input");
-    			var insertVal = $("#writeHobbyNm").val();
+    			var insertVal = "#" + $("#writeHobbyNm").val();
     			var count = 0;
     			$.each(inputs,function(index,item){
                     if(insertVal == $(item).val()) {
@@ -589,6 +592,31 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					var $nickNameDup = $("#nickNameDup");
 					var $phone2 = $("#phone2");
 					var $phone3 = $("#phone3");
+					var $profile_img = $("#profile_img");
+					var $def_check = $("#def_check");
+					var $br = $("<br>");
+
+					//!$("#def_check").prop("checked")
+					//$profile_img.get(0).files.length === 0
+					// 프로필 사진 유효성 검사
+						
+				/* $def_check.on("input" , function() {		
+					if(	 ){
+						$("#checkImg").prop("class","nanum float-right").html("프로필 사진 또는").append($br).html("기본이미지를 체크해주세요.")
+						.css("color" , "midnightblue");
+						signUpCheck.profile_img = false;
+						signUpCheck.defaultImg = false;	
+					}else {
+						$("#checkImg").html("");
+						signUpCheck.profile_img = true;
+						signUpCheck.defaultImg = true;
+					}				
+				}); */
+					
+					
+					
+					
+					
 
 					// 이메일 유효성 검사
 					$email.on("input", function() {
@@ -702,6 +730,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					    		}
 					    	}); 
 					    }
+						
+						
 					});
 
 					// 전화번호 관련
@@ -725,6 +755,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						}
 					}); 
 				});
+		
+		
+		
+		
 		// submit 동작
 		function validate() {
 

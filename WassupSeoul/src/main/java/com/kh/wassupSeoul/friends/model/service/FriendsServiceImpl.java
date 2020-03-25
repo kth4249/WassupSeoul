@@ -185,6 +185,37 @@ public class FriendsServiceImpl implements FriendsService{
 		return result;
 	}
 
+	/** 친구목록에서 친구 삭제
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int friendBye(Map<String, Object> nMap) throws Exception {
+		
+		int result = friendsDAO.friendsBye1(nMap);
+		
+		if (result > 0) {
+			result = friendsDAO.friendsBye2(nMap);
+		}
+		
+		
+		return result;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 아마 대화방에서 닫으면 status N 으로 바꾸는 동작도 해야할듯
 	

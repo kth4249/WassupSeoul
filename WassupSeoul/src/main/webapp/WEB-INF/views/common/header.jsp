@@ -172,8 +172,9 @@ object-fit: cover;
 					aria-labelledby="mypageButton">
 					<a class="dropdown-item nanum" data-toggle="modal" data-target="#profileModal" id="abcde">내정보 조회</a> 
 					<a class="dropdown-item nanum" data-toggle="modal" data-target="#golmokModal" id="hoho">내골목 조회</a>
-					<a class="dropdown-item nanum" data-toggle="modal">1:1 문의</a> 
-					<a class="dropdown-item nanum" data-toggle="modal">공지사항</a>
+					<a class="dropdown-item nanum" data-toggle="modal" data-target="#blockFriends" id="blockFriends">차단친구 조회</a>
+					<!-- <a class="dropdown-item nanum" data-toggle="modal">1:1 문의</a> --> 
+					<!-- <a class="dropdown-item nanum" data-toggle="modal">공지사항</a> -->
 					<hr>
 					<a class="dropdown-item nanum" href="${contextPath}/member/logout">로그아웃</a>
 				</div>

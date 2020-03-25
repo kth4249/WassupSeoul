@@ -134,6 +134,30 @@
 </delete>
 
 
+<!-- 친구 목록에서 친구 삭제  1-->
+<delete id = "friendsBye1" parameterType='map'>
+	DELETE FROM RELATIONSHIP
+	WHERE MY_NO = #{yourNo}
+	AND YOUR_NO = #{myNo}
+</delete>
+
+<!-- 친구 목록에서 친구 삭제  1-->
+<delete id = "friendsBye2" parameterType='map'>
+	DELETE FROM RELATIONSHIP
+	WHERE MY_NO = #{myNo}
+	AND YOUR_NO = #{yourNo}
+</delete>
+
+
+
+
+
+
+
+
+
+
+
 <!--  <<<<<<<<<<<<<<<<<<<<대화방 진입 >>>>>>>>>>>>>>>>>    -->
 
 <!-- 1단계 대화방 검색 -->

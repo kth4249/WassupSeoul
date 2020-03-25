@@ -91,50 +91,7 @@
 } */
 </style>
 
-<script>
 
-	// 말풍선 눌러서 목록 뜨게 하는 함수
-	var iconStatus = true;
- 	$(function() {
-
-		$('button.iconImg').click(function() {
-			if (iconStatus == true) {
-				$('.container2').show(200);
-				iconStatus = false;
-			} else {
-				$('.container2').hide(200);
-				iconStatus = true;
-			}
-			//console.log(iconStatus)
-		});
-	}); 
-	
-
- 	// 대화목록에서 대화방으로 들어가는 함수
-	var chatclick = false;
-	$(function() {
-		$(".chatCt").dblclick(function() {
-			if (chatclick == false) {
-				$(".chat").show();
-				$("#chatList").hide();
-				chatclick = true;
-			}
-		});
-	});
-
-	
-	// 대화방에서 대화목록으로 나오는 함수
-	$(document).ready(function() {
-		$(".xBtn").click(function() {
-			$("#chatList").show();
-			$(".chat").hide();
-			chatclick = false;
-		});
-
-	}); 
-	
-	
-</script>
 
 
 
@@ -195,7 +152,7 @@
 			
 			
 			<div id="myTabContent" class="tab-content22"
-				style="overflow: auto; height: 500px;">
+				style="overflow: auto; height: 500px; background-color: #FFFFFF;">
 				
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 				<!-- 친구 목록 -->	
@@ -208,7 +165,7 @@
 						<span class="fUser" style="font-size: 20px;">안중하</span> &nbsp;
 						<button type="button"
 							class="btn btn-outline-danger btn-sm nanum float-right mr-3"
-							data-toggle="modal" data-target="#blockBtn">차단</button>
+							data-toggle="modal" data-target="#">차단</button>
 						<button type="button"
 							class="btn btn-outline-info btn-sm nanum float-right mr-3 talkFriend" 
 							id="chatBtn">대화</button>
@@ -472,6 +429,36 @@
 					</div>
 				</div>
 				
+\<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->			
+				
+				
+				<!-- 친구목록 : 제거버튼 -->
+				<div class="modal fade" id="byeBtn">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title nanum" style="font-size: 30px;">알림메세지</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body" style="font-size: 20px;">
+								<form action="friends/friends">
+										<input type="hidden" name="">
+									<span class="nanum" style="color: olivedrab;"><!-- 안중하 --></span> 
+									<span class="nanum">친구목록에서 제거되었습니다..</span>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<!-- <button type="button" class="btn btn-danger nanum">차단목록</button> -->
+								<button type="button" class="btn btn-primary nanum"
+									data-dismiss="modal">확인</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
 				
 				
 				
@@ -522,7 +509,69 @@
 
 <script>
 
+////////////////////////////////////////////////쓰지 않지만 혹시 모르는 코드들/////////////////////////////////////////////////////////////
 
+/* 	// JS 최상위 주소 구하기
+function getContextPath() {
+	var hostIndex = location.href.indexOf( location.host ) + location.host.length;
+	return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
+};
+
+// 프로필 이미지 따올 주소
+
+$(document).ready(function(){
+	$("#profileRoot").val( getContextPath() );
+}); */
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+	
+	// 말풍선 눌러서 목록 뜨게 하는 함수
+	var iconStatus = true;
+		$(function() {
+	
+		$('button.iconImg').click(function() {
+			if (iconStatus == true) {
+				$('.container2').show(200);
+				iconStatus = false;
+			} else {
+				$('.container2').hide(200);
+				iconStatus = true;
+			}
+			//console.log(iconStatus)
+		});
+	}); 
+	
+	
+		// 대화목록에서 대화방으로 들어가는 함수
+	var chatclick = false;
+	$(function() {
+		$(".chatCt").dblclick(function() {
+			if (chatclick == false) {
+				$(".chat").show();
+				$("#chatList").hide();
+				chatclick = true;
+			}
+		});
+	});
+	
+	
+	// 대화방에서 대화목록으로 나오는 함수
+	$(document).ready(function() {
+		$(".xBtn").click(function() {
+			$("#chatList").show();
+			$(".chat").hide();
+			chatclick = false;
+		});
+	
+	}); 
+
+
+	// 채팅방 내부 작동 레디함수
 	$(function() {
 		var isScrollUp = false;
 		var lastScrollTop;
@@ -535,9 +584,7 @@
 				"click",
 				function() {
 					// 라인 추가
-					$('#table_chat').append(
-							$('<tr>').append(
-									$('<td>').append($('#add_name').val()),
+					$('#table_chat').append($('<tr>').append($('<td>').append($('#add_name').val()),
 									$('<td>').append($('#add_msg').val())));
 
 					if (isScrollUp) {
@@ -556,6 +603,8 @@
 					}
 				});
 
+												
+												
 		/* 메뉴 스크롤 ↓ 버튼 클릭 시 */
 		$('#btn_scroll_down').on('click', function() {
 			// 마지막으로 보고 있었던 (스크롤을 올리기 시작했던) 위치로 이동
@@ -613,17 +662,8 @@
 	/////////////////////////////////////        		친구요청 기능 시작           ///////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 
-	// JS 최상위 주소 구하기
-	function getContextPath() {
-		var hostIndex = location.href.indexOf( location.host ) + location.host.length;
-		return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
-	};
-	
-	// 프로필 이미지 따올 주소
-	$(document).ready(function(){
-		$("#profileRoot").val( getContextPath() );
-	});
-	
+
+
 	
 
 
@@ -638,7 +678,8 @@
 			success : function(result){
 				var $friendReq = $("#friendReq");
 				var $friendRequestArea = $("#friendRequestArea");
-				var root = $("#profileRoot").val();
+				//var root = $("#profileRoot").val();
+				var root = "${contextPath}";
 				var $savePath = root +"/resources/profileImage/";
 				if(result == null){
 					$msg = $("<span>").html("지금은 친구요청이 없네요.");
@@ -651,9 +692,9 @@
 					$.each(result, function(i){
 						
 						var $finalPath = $savePath + result[i].memberProfileUrl;
-						console.log("root : " + root);
-						console.log("savePath : " + $savePath);
-						console.log("finalPath : " + $finalPath);
+						//console.log("요청root : " + root);
+						//console.log("요청savePath : " + $savePath);
+						//console.log("요청finalPath : " + $finalPath);
 						var $rImg = $("<img>").prop("class", "rImg").prop("src", $finalPath).css({"width":"40px","height":"40px"});
 						var $rUser = $("<span>").prop("class", "rUser").html(result[i].memberNickname + "님이 친구요청을 하셨습니다.");
 						var $rOk = $("<button>").prop("class", "btn btn-info btn-sm nanum addFriend").attr('data-toggle', "modal").attr('data-target', "#yesBtn").
@@ -699,6 +740,7 @@
 		
 	}); // 친구 요청 수락 기능 완료
 	
+	
 	// 거절 버튼을 누르면 Controller로 값 넘기기
 	$(document).on("click", ".rejectFriend", function(){
 		//console.log(this.value);
@@ -722,7 +764,7 @@
 	
 	// 차단 버튼을 누르면 Controller로 값 넘기기
 	$(document).on("click", ".blockFriend", function(){
-		console.log(this.value);
+		//console.log(this.value);
 		var yourNo = this.value
 		
 		$.ajax({
@@ -753,7 +795,8 @@
 			success : function(result){
 				var $friendList = $("#friendList");
 				var $friendInfo = $("#friendInfo");
-				var root = $("#profileRoot").val();
+				//var root = $("#profileRoot").val();
+				var root = "${contextPath}";
 				var $savePath = root + "/resources/profileImage/";
 				if(result == null){
 					$msg = $("<span>").html("빨리 친구 만들러 가죠! 관심사와 맞는 골목부터 찾아볼까요?");
@@ -767,17 +810,19 @@
 					$.each(result, function(i){
 					
 						var $finalPath = $savePath + result[i].memberProfileUrl;
-						console.log("root : " + root);
-						console.log("savePath : " + $savePath);
-						console.log("finalPath : " + $finalPath);
+						//console.log("목록root : " + root);
+						//console.log("목록savePath : " + $savePath);
+						//console.log("목록finalPath : " + $finalPath);
 						var $fImg = $("<img>").prop("class", "fImg").prop("src", $finalPath).css({"width":"40px","height":"40px"});
 						var $fUser = $("<span>").prop("class", "fUser").html(result[i].memberNickname);
 						var $fTalk = $("<button>").prop("class", "btn btn-info btn-sm nanum friendTalk").html("대화").val(result[i].memberNo);
-						var $block = $("<button>").prop("class", "btn btn-danger nanum blockFriendInList").attr('data-toggle', "modal").attr('data-target', "#blockBtn").
+						var $fbye = $("<button>").prop("class", "btn btn-warning btn-sm nanum friendBye").attr('data-toggle', "modal").attr('data-target', "#byeBtn").
+						html("삭제").val(result[i].memberNo);
+						var $block = $("<button>").prop("class", "btn btn-danger btn-sm nanum blockFriendInList").attr('data-toggle', "modal").attr('data-target', "#blockBtn").
 						html("차단").val(result[i].memberNo);
 						var $hr = $("<hr>");
 						
-						$friendInfo.append($fImg).append($fUser).append($fTalk).append($block).append($hr);
+						$friendInfo.append($fImg).append($fUser).append($fTalk).append($fbye).append($block).append($hr);
 						$friendList.append($friendInfo)
 						
 									
@@ -793,10 +838,9 @@
 	};   // 친구 목록 Ajax 완료
 	
 	
-	
 	// 친구 목록에서 대화방 개설
 	$(document).on("click", ".friendTalk", function(){
-		console.log(this.value);
+		//console.log(this.value);
 		var yourNo = this.value
 		
 		$.ajax({
@@ -814,19 +858,29 @@
 	}); // 친구 목록에서 대화방 개설
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	// 친구목록에서 친구삭제
+	$(document).on("click", ".friendBye", function(){
+		//console.log(this.value);
+		var yourNo = this.value
+		
+		$.ajax({
+			url : "friends/friendBye",
+			type : "POST",
+			data : {"yourNo" : yourNo },
+			success : function(){
+				console.log("친구 삭제 ajax 성공")			
+			},
+			error : function(){
+				console.log("친구 삭제 aJax 실패");
+			}
+		});
+		
+	}); // 친구 삭제 기능 완료
 	
 	
 	// 친구목록에서 차단하기
 	$(document).on("click", ".blockFriendInList", function(){
-		console.log(this.value);
+		//console.log(this.value);
 		var yourNo = this.value
 		
 		$.ajax({

@@ -179,6 +179,25 @@ public class FriendsDAO {
 	}
 
 
+	/** 친구 목록에서 친구 삭제 1
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int friendsBye1(Map<String, Object> nMap) throws Exception {
+		return sqlSession.delete("friendsMapper.friendsBye1", nMap);
+	}
+	
+	/** 친구 목록에서 친구 삭제 2
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int friendsBye2(Map<String, Object> nMap) throws Exception {
+		return sqlSession.delete("friendsMapper.friendsBye2", nMap);
+	}
+
+
 	
 
 

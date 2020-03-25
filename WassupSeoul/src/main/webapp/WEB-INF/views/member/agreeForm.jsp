@@ -321,12 +321,14 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			             if(this.checked) {
 			                this.parentNode.style.color = "#000"; 
 			             }
-			          }
+			        }
+			        
+			        
 					agree1.onclick = agree2.onclick = agree3.onclick = checkboxListener; 
 
-				      var all = doc.getElementById('total_agree'); 
+				    var all = doc.getElementById('total_agree'); 
 
-				      all.onclick = function() {
+				    all.onclick = function() {
 				         if (this.checked) {
 				            setCheckbox(checkCheck, true); 
 				         } else {
