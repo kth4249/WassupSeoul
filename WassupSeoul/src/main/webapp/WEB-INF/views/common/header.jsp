@@ -171,7 +171,7 @@ object-fit: cover;
 					aria-labelledby="mypageButton">
 					<a class="dropdown-item nanum" data-toggle="modal" data-target="#profileModal" id="abcde">내정보 조회</a> 
 					<a class="dropdown-item nanum" data-toggle="modal" data-target="#golmokModal" id="hoho">내골목 조회</a>
-					<a class="dropdown-item nanum" data-toggle="modal" data-target="#blockFriends" id="blockFriends">차단친구 조회</a>
+					<a class="dropdown-item nanum" data-toggle="modal" data-target="#blockFriends" id="blockFriendsList">차단친구 조회</a>
 					<!-- <a class="dropdown-item nanum" data-toggle="modal">1:1 문의</a> --> 
 					<!-- <a class="dropdown-item nanum" data-toggle="modal">공지사항</a> -->
 					<hr>
@@ -258,6 +258,61 @@ object-fit: cover;
             </div>
         </div>
         <!-- end -->
+        
+        <!--**************************** 영준이 건듦 (차단 친구 모달 틀)*********************************** -->
+        <!-- blockFriends Modal -->
+    <div class="modal fade" id="bblockFriends">
+        <div class="modal-dialog" role="document" style="width:496px;">
+        	<div class="modal-content">
+            	<div class="modal-header">
+          	  		<h2 class="modal-title nanum" style="font-weight: bold;">차단 친구 목록</h2>
+		           		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          		<span aria-hidden="true">&times;</span>
+		        		</button>
+            	</div>
+            	
+            	<div class="modal-body" style="text-align:center">
+	                <div class="row">
+		                <div class="col-md-2"><span class="nanum">번호</span></div>
+		                <div class="col-md-6"><span class="nanum">닉네임</span></div>
+		                <div class="col-md-4"><button type="button" class="btn btn-info btn-sm nanum">차단해제</button></div>
+	                </div> 
+            	</div>
+        	</div>
+      	</div>
+    </div>
+    
+    <script>
+		///////////////////////////////////////////영준 작업 공간(차단 친구 목록)///////////////////////////////////////////////////////////
+		//<a class="dropdown-item nanum" data-toggle="modal" data-target="#blockFriends" id="blockFriendsList">차단친구 조회</a>
+		/* 차단친구목록  */
+       	$("#blockFriendsList").on("click",function(){
+       		$.ajax({
+       			url : "friends/blockFriendsList",
+       			data : {},
+       			type : "post",
+       			dataType : "json",
+       			success : function(bList){
+       				
+       				
+       				
+       				
+       				
+       				
+       			},
+       			error : function(e){
+           			console.log("ajax 통신 실패");
+           			console.log(e);
+           		}
+       			
+       		});
+       		
+       	});
+	</script>
+        
+        
+        
+        
         
         <!-- golmok Modal -->
         <div class="modal fade" id="golmokModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="golmokModalLabel" aria-hidden="true">
@@ -600,6 +655,20 @@ object-fit: cover;
 		function onClose(evt){
 			location.href='${pageContext.request.contextPath};';
 		};
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
        	
     </script>
        

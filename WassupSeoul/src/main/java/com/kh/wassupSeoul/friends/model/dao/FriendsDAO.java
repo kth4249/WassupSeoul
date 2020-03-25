@@ -198,6 +198,28 @@ public class FriendsDAO {
 	}
 
 
+	/** 차단 친구 목록 조회용 1
+	 * @param myNo
+	 * @return bbList
+	 * @throws Exception
+	 */
+	public List<Relationship> blockFriendsList1(int myNo) throws Exception{
+		return sqlSession.selectList("friendsMapper.blockFriendsList1", myNo);
+	}
+
+
+	/** 차단 친구 목록 조회용 2
+	 * @param bList
+	 * @return bList
+	 * @throws Exception
+	 */
+	public List<Member> blockFriendsList2(List<Integer> bbList) throws Exception {
+		return sqlSession.selectList("friendsMapper.blockFriendsList2", bbList);
+	}
+
+
+
+
 	
 
 

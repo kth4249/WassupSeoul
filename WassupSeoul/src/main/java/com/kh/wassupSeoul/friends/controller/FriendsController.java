@@ -196,11 +196,6 @@ public class FriendsController {
 		}
 	
 	
-	
-	
-	
-	
-	
 	// 친구 목록에서의 친구 차단 Controller
 		@ResponseBody
 		@RequestMapping(value="blockFriendInList", method = RequestMethod.POST)
@@ -225,6 +220,24 @@ public class FriendsController {
 			return null;
 			}
 		
+		
+		
+		// 친구차단 목록 조회용 Controller
+		@ResponseBody
+		@RequestMapping(value="blockFriendsList", method = RequestMethod.POST,
+				produces = "application/json; charset=utf-8")
+			public String blockFriendsList(Model model) {
+			int myNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
+			//System.out.println("myNo" + myNo);
+			try {
+				List<Member> bList = friendsService.blockFriendsList(myNo);
+				return new Gson().toJson(bList);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}// 목록 조회 끝
 		
 		
 		
