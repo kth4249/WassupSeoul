@@ -41,12 +41,12 @@
           		<input type="text" readonly class="form-control-plaintext nanum" value="#${keyword.keywordContent}" style="color: white;">
           	</div>
           </c:forEach>
-          
+          <!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 수정 시작(03/24) pm 6:44 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
           <div class="row">
           	<c:if test="${empty citizenStatus}">
 	           <div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
 	           	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
-				onclick="streetJoin()">골목 가입하기</button>
+				id="streetJoin">골목 가입하기</button>
 	           </div>
             </c:if>
             <c:if test="${citizenStatus eq 'W'}">
@@ -63,7 +63,7 @@
             </c:if>
           </div>
           <script>
-			function streetJoin() {
+			$("#streetJoin").on("click", function(){
 				if (confirm("가입을 신청하시겠습니까?")) {
 					$.ajax({
 						url : "${contextPath}/street/streetJoin",
@@ -71,23 +71,35 @@
 							if (result == -1) {
 								alert("더 이상 골목에 가입할 수 없습니다");
 							} else {
-								alert("골목 가입 신청 완료");
+								alert("골목 가입 요청 완료");
+								$("#streetJoin").off("click");
+								$("#streetJoin").prop("disabled", true);
+								$("#streetJoin").text("골목 가입요청중");
 							}
 						},
 						error : function() {
 							alert("골목 가입 신청 과정 중 오류 발생");
 						}
-					})
+					});
 				}
-			}
+			})
+			<!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 수정 끝 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 		  </script>
 		  <div class="row">
-		  
-            <!-- 일반 주민 영역 -->
+				<c:if test="${citizenGrade eq 'M'}">
+					<div class="col-sm-6">
+						<a onclick="return confirm('정말로 이 골목을 삭제하시겠습니까?');"
+							href="streetDelete?no=${streetNo}" class="btn btn-link nanum"
+							style="color: red; font-weight: bold; font-size: 15px"> <img
+							src="${contextPath}/resources/img/streetOut.svg" alt="이미지"
+							style="width: 15px; height: 15px;"> 골목 삭제하기
+						</a>
+					</div>
+				</c:if>
+				<!-- 일반 주민 영역 -->
 		  	<c:if test="${citizenGrade eq 'G' || citizenGrade eq 'M'}">
-		  		<div class="col-sm-6"></div>
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-	             		<a href="streetDelete?no=${streetNo}" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
+	             		<a href="newMaster?no=${streetNo}" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">
 	              	 	골목 탈퇴하기
 	             		</a>
@@ -115,12 +127,12 @@
           </div>
         </div>
         
-       <c:if test="${street.streetStatus eq 'Y'.charAt(0)}">
+       <c:if test="${street.streetPublic eq 'Y'.charAt(0)}">
         	<div class="card-footer text-muted nanum">
           	누구나 골목을 검색해 찾을 수 있고, <br>게시물을 볼 수 있습니다.
         	</div>
         </c:if>
-        <c:if test="${street.streetStatus eq 'N'.charAt(0)}">
+        <c:if test="${street.streetPublic eq 'N'.charAt(0)}">
         	<div class="card-footer text-muted nanum">
          	 이 골목은 누구나 검색해 찾을 수 있지만, 게시물은 주민만 볼 수 있습니다.
         	</div>
@@ -137,8 +149,16 @@
 			<div class="card-header nanum" style="font-size: 25px;">다가오는 일정</div>
 			<div class="card-body" style="padding-bottom:10px;">
 				<h4 class="card-title nanum" style="font-weight: bolder;" id="sideMonth"></h4>
-				<p class="card-text nanum">13일 - DB설계 보고서 제출</p>
-				<p class="card-text nanum">31일 - 클래스 설계 보고서 제출</p>
+				<!-- 정승환 추가코드 시작(20.03.25) -->
+				<c:if test="${empty setCalList}">
+					<p class="card-text nanum">예정된 일정이 없습니다.</p>
+				</c:if>
+				<c:if test="${!empty setCalList}">
+					<c:forEach var="calendar" items="${setCalList}" varStatus="vs">
+						<p class="card-text nanum">${calendar.calStartDay} - ${calendar.calContent}</p>
+					</c:forEach>
+				</c:if>
+				<!-- 정승환 추가코드 끝(20.03.25) -->
 			</div>
 		</div>
 		<!-- 현재 월 입력 -->

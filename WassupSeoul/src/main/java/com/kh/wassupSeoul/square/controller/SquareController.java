@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 /*import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;*/
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,7 @@ import com.kh.wassupSeoul.street.model.vo.Street;
 /**
  * Handles requests for the application home page.
  */
-@SessionAttributes({"loginMember", "msg", "streetNo"})
+@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt"})
 @Controller
 public class SquareController {
 	
@@ -42,7 +44,7 @@ public class SquareController {
 	 * Simply selects the home view to render by returning its name.
 	 */ 
 	@RequestMapping(value = "square", method = RequestMethod.GET)
-	public String square(Model model,
+	public String square(Model model, HttpSession session,
 						@RequestParam(value="currentPage", required=false) Integer currentPage,
 						@RequestParam(value="districtNo", required=false) Integer districtNo,
 						@RequestParam(value="streetSort", required=false) Integer streetSort, 
@@ -51,6 +53,16 @@ public class SquareController {
 		 * System.out.println("currentPage : " + currentPage + ", districtNo : " +
 		 * districtNo + ", streetSort : " + streetSort);
 		 */
+		/*
+		session.removeAttribute("streetNo");
+		session.removeAttribute("myStreet");
+		session.removeAttribute("memGradeInSt");
+		
+		model.addAttribute("streetNo", null);
+		model.addAttribute("myStreet", null);
+		model.addAttribute("memGradeInSt", null);
+		*/
+		
 		model.addAttribute("streetNo", -1);
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();

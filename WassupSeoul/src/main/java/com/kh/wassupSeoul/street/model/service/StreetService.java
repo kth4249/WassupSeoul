@@ -21,6 +21,10 @@ import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
+/**
+ * @author user1
+ *
+ */
 @Service
 public interface StreetService {
 
@@ -260,6 +264,15 @@ public interface StreetService {
 	 * @return streetNm
 	 */
 	public abstract String selectStreetNm(int streetNo);
+	
+	
+
+	/** 조회된 주민들과 로그인된 멤버와의 관계 조회용 Service
+	 * @param rList
+	 * @return rList
+	 * @throws Exception
+	 */
+	public abstract List<Relationship> selectRelationList(Map<String, Object> relationMap) throws Exception;
 
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
@@ -378,7 +391,64 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int insertCalendarBoard(Board board) throws Exception;
+
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
+	
+	/******************** 지원 골목 삭제 시작 ********************************/
+	/** 골목 삭제용 Service
+	 * @param no
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteStreet(Integer no) throws Exception;
+
+	/** 주민 검색용 Service
+	 * @param juminNickName
+	 * @return jumin
+	 * @throws Exception
+	 */
+	public abstract Member searchJumin(String juminNickName, Integer no) throws Exception;
+	
+	
+	/******************** 지원 골목 삭제 끝 ********************************/
+	/** 일정 조회용 Service
+	 * @param streetNo
+	 * @return storeCalendar
+	 * @throws Exception
+	 */
+	public abstract List<Calendar> selectStoreCalendar(int streetNo) throws Exception;
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	/** 일정 삭제용 Service
+	 * @param temp 
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteSchedule(Calendar temp) throws Exception;
+	
+
+	/** 일정 게시글 삭제용 Service
+	 * @param boardNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteBoardCalendar(int boardNo) throws Exception;
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 끝-----------------------------------*/
+	
+/*------------------------ 정승환 추가코드 끝-----------------------------------*/
+	
+	
+	/*==========================3/25 미현 코드 추가 시작 =======================*/
+	/** 썸머노트 수정용 service
+	 * @param board
+	 * @param file
+	 * @param savePath
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateSummer(Board board, MultipartFile file, String savePath) throws Exception;
+	/*==========================3/25 미현 코드 추가 끝=======================*/
 	 
 }

@@ -48,6 +48,11 @@
 
 
 <body>
+
+	<c:if test="${!empty msg}">
+		<script>alert("${msg}")</script>
+		<c:remove var="msg"/>
+	</c:if>
   
   <div class="backgroundPicture">
     <img src="${pageContext.request.contextPath}/resources/img/서울4.jpg" class="mainPicture">
@@ -155,12 +160,12 @@
             <br><br>
             <div id="passwordResultArea">
          	 <div class="result-body">
-	            <span class="nanum" style="font-size: 25px; ">회원님의 Email로 임시 비밀번호를 발송하였습니다 !</span>
+	            <span class="nanum" style="font-size: 25px;">회원님의 Email로 임시 비밀번호를 발송하였습니다 !</span>
            	 </div>
           	</div>
           <div id="passwordResultFalseArea">
          	 <div class="result-body">
-	            <span class="nanum" style="font-size: 25px; ">가입된 계정이 없습니다 !</span>
+	            <span class="nanum" style="font-size: 25px;">가입된 계정이 없습니다 !</span>
            	 </div>
           </div>
         </div>
@@ -171,8 +176,6 @@
       </div>
     </div>
   </div>
-  
-  <%@ include file="WEB-INF/views/street/streetDetail/fileUpload.jsp"%>
   
   
  <script>

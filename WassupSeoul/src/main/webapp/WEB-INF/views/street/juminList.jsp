@@ -9,15 +9,25 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>주민 목록</title>
 </head>
-<body class="nanum">
+<body style="background-color : rgb(221, 233, 218);">
+	<!-- 골목 네비바 여백 -->
+	<div class="container-fluid" style="margin-top: 57px;">
+		<div class="row"  style="padding: 0px; height:44px"></div>
+	</div>
+	<!-- 고정된 골목 네비바  -->
+	<%-- <%@ include file="../street/streetDetail/streetNav.jsp"%> --%>
+	<jsp:include page="../street/streetDetail/streetNav.jsp"/>
+	
+	<!-- 고정된 헤더 -->
+	<%-- <%@include file="../common/header.jsp"%> --%>
 	<jsp:include page="../common/header.jsp"/>
-	<jsp:include page="streetDetail/streetNav.jsp"/>
-	<jsp:include page="streetDetail/streetSide.jsp"/>
-	<div class="container" style="margin-top: 100px;">
+	
+	
+	<div class="container-fluid" style="margin-top: 10px;">
 		<div class="row">
-			<div class="col-md-3">
-			</div>
-			<div class="col-md-6">
+			<jsp:include page="streetDetail/streetSide.jsp"/>
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
 			<c:set var="count" value="0"/>
 			<c:forEach items="${mList}" var="member">
 				<c:if test="${member.citizenStatus eq 'Y'}">
@@ -25,7 +35,7 @@
 				</c:if> 
 			</c:forEach>
 				<h1 class="nanum" style="display: inline;" id="juminCount">주민(${count})</h1>&nbsp;&nbsp;
-					<c:if test="${mList.size() != count}">
+					<c:if test="${mList.size() != count and citizenGrade eq 'M'}">
 						<div style="display: inline; color: orange; cursor: pointer" id="applyBtn">
 							가입 신청 <span class="badge badge-pill badge-success" id="applyCount">${mList.size() - count}</span>
 						</div>
@@ -130,14 +140,40 @@
 												</c:forEach>
 											</c:if>
 										</td>
-										<td><button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button></td>
+										<td class="text-center">
+											<c:if test="${!empty rList and loginMember.memberNo != member.memberNo}">
+												<c:forEach items="${rList}" var="relationShip" varStatus="vs">
+													<c:if test="${relationShip.yourNum == member.memberNo}">
+														<c:choose>
+															<c:when test="${relationShip.requestStatus eq '1'.charAt(0)}">
+																<button type="button" class="btn btn-sm btn-success disabled" value="${member.memberNo}">친구 요청중</button>
+															</c:when>
+															<c:when test="${relationShip.requestStatus eq '2'.charAt(0)}">
+																<button type="button" class="btn btn-sm btn-success" value="${member.memberNo}">친구</button>
+															</c:when>
+															<c:otherwise>
+																<button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button>
+															</c:otherwise>
+														</c:choose>
+													</c:if>
+													<c:if test="${relationShip.yourNum != member.memberNo}">
+														<c:if test="${vs.last}">
+															<button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button>
+														</c:if>
+													</c:if>
+												</c:forEach>
+											</c:if>
+											<c:if test="${empty rList and loginMember.memberNo != member.memberNo}">
+												<button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button>
+											</c:if>
+										</td>
 									</tr>
 								</c:if>
 							</c:forEach>
 						</c:if>
 						<c:if test="${empty mList }">
 							<tr class="table-active">
-								<th colspan="4">조회된 주민이 없습니다.</th>
+								<th colspan="5">조회된 주민이 없습니다.</th>
 							</tr>
 						</c:if>
 						
@@ -181,7 +217,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="col-md-3">
+			<div class="col-md-4">
 			</div>
 		</div>
 	</div>

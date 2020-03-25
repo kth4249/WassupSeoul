@@ -109,7 +109,11 @@
 	</resultMap>
 	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
-	
+	<resultMap type="Relationship" id="RelationshipResultSet">
+		<id property="myNum" column="MY_NO"/>
+		<id property="yourNum" column="YOUR_NO"/>
+		<result property="requestStatus" column="REQUEST_STATUS"/>
+	</resultMap>
 	
 	<!-- 전체 골목 수 조회 -->
 	<select id="getListCount" parameterType="map" resultType="_int">
@@ -357,7 +361,7 @@
   	</insert>
   	
   	
-  	<!-- 주민 목록 조회 겸 추천 친구 목록 조회 (03/22 태훈 수정) -->
+  	<!-- 주민 목록 조회 겸 추천 친구 목록 조회 (03/24 태훈 수정) -->
   	<select id="selectJuminList" parameterType="map" resultMap="memberResultSet">
 		SELECT MEMBER_NO, MEMBER_NM, MEMBER_NICKNAME, MEMBER_GENDER, MEMBER_AGE, 
 		        STREET_NO, COUNT(HOBBY_NO) HOBBY_COUNT, CITIZEN_STATUS, MEMBER_PROFILE_URL
@@ -377,6 +381,9 @@
 				#{state}
 			</foreach>
 			AND STREET_NO = #{streetNo}
+			<if test="memberNo != null">
+				AND MEMBER_NO != #{memberNo}
+			</if>
 		</where>
 		GROUP BY MEMBER_NO, MEMBER_NM, MEMBER_NICKNAME, MEMBER_GENDER,
 				MEMBER_AGE, STREET_NO, CITIZEN_STATUS, MEMBER_PROFILE_URL
@@ -429,7 +436,7 @@
 		VALUES(#{memberNo}, #{streetNo}, 'G', 'W')
 	</insert>
 	
-	<!-- 골목대장 번호 조회용 Service -->
+	<!-- 골목대장 번호 조회용 -->
 	<select id="selectMasterNo" parameterType="_int" resultType="_int">
 		SELECT MEMBER_NO FROM STREET_JOIN
 		WHERE STREET_NO = #{streetNo} 
@@ -438,11 +445,23 @@
 	</select>
 	
 	
-	<!-- 골목 이름 조회용 Service -->
+	<!-- 골목 이름 조회용 -->
 	<select id="selectStreetNm" parameterType="_int" resultType="string">
 		SELECT STREET_NM
 		FROM STREET
 		WHERE STREET_NO = #{streetNm}
+	</select>
+	
+	
+	<!-- 조회된 골목주민과의 관계 조회 -->
+	<select id="selectRelationList" parameterType="map" resultMap="RelationshipResultSet">
+		SELECT *
+		FROM RELATIONSHIP
+		WHERE MY_NO = #{myNo}
+		AND YOUR_NO IN
+		<foreach collection="mList" open="(" separator="," close=")" item="member">
+			#{member.memberNo}
+		</foreach>
 	</select>
 	
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
@@ -493,7 +512,7 @@
 	<select id="selectBoardNo" resultType="_int">
 		SELECT SEQ_BOARD.NEXTVAL FROM DUAL
 	</select>
-	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 20.03.24ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
+
 	<!-- 일정 등록 -->
 	<insert id="addSchedule" parameterType="Calendar">
 		INSERT INTO CALENDAR
@@ -512,7 +531,26 @@
 		INSERT INTO BOARD
 		VALUES(#{boardNo}, #{boardContent}, SYSDATE, #{boardStatus}, 0, #{streetNo}, #{memberNo}, #{typeNo})		  
 	</insert>
-  	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 20.03.24ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
+	
+	<!-- 일정 조회 -->
+	<select id="selectStoreCalendar" parameterType="_int" resultMap="calendarResultSet">
+		SELECT * FROM CALENDAR
+		WHERE STREET_NO = #{streetNo} 
+		ORDER BY CALENDAR_START_DT
+	</select>
+	
+	<!-- 일정 삭제 -->
+	<delete id="deleteSchedule" parameterType="Calendar">
+		DELETE FROM CALENDAR
+		WHERE STREET_NO = #{streetNo} AND BOARD_NO = #{boardNo}
+	</delete>
+	
+	<!-- 일정 게시글 삭제 -->
+	<delete id="deleteBoardCalendar" parameterType="_int">
+		DELETE FROM BOARD
+		WHERE BOARD_NO = #{boardNo}
+	</delete>
+	
 <!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	
 	
@@ -558,4 +596,43 @@
 	<!-- 지원 골목 수정 끝 -->
 	
 	
+	<!-- ************************** 지원 골목 삭제 시작 ************************** -->
+	<!-- 골목 삭제 -->
+	<update id="deleteStreet" parameterType="_int">
+		UPDATE STREET
+		SET STREET_STATUS = 'N'
+		WHERE STREET_NO = #{no} 
+	</update>
+	
+	<!-- 골목 가입자 삭제 -->
+	<delete id="deleteJoin" parameterType="_int">
+		DELETE FROM STREET_JOIN
+		WHERE STREET_NO = #{no}
+	</delete>
+	
+	<!-- 주민 검색 -->
+	<select id="searchJumin" parameterType="map" resultMap="memberResultSet">
+		SELECT * FROM MEMBER
+		WHERE MEMBER_NO IN (SELECT MEMBER_NO FROM STREET_JOIN 
+		 					WHERE STREET_NO = #{no})
+		AND MEMBER_NICKNAME = #{juminNickName}  
+	</select>
+	<!-- ************************** 지원 골목 삭제 끝 ************************** -->
+	
+	
+	
+	<!-- 3/25 미현 코드 추가시작   -->
+	<!-- <select id="selectSummer" parameterType="_int" resultMap="boardResultSet">
+		SELECT * FROM BOARD WHERE BOARD_NO = #{boardNo}
+		AND BOARD_STATUS = 'Y'
+	</select> -->
+	
+	<select id="updateSummmer" parameterType="board">
+		UPDATE BOARD SET
+		BOARD_CONTENT = ${boardContent},
+		BOARD_WRITE_DT = SYSDATE,
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<!-- 3/25 미현 코드 추가끝  -->
 </mapper>
