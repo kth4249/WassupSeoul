@@ -216,16 +216,6 @@
 								style="font-size: smaller;">&nbsp;</span> <br>
 						</div>
 					</div>
-					<div class="form-group col-md-5 nanum" style="float: left;">
-						<div class="col-xs-2" style="float: left;">
-							<button type="button" class="btn btn-info nanum">키워드추가</button>
-							&nbsp;&nbsp;&nbsp;
-						</div>
-
-						<div class="col-xs-2" style="float: left;">
-							<button type="button" class="btn btn-danger nanum">키워드삭제</button>
-						</div>
-					</div>
 				</div>
 			</div>
 			<!-- 골목 키워드 2 -->
@@ -245,16 +235,6 @@
 								style="font-size: smaller;">&nbsp;</span> <br>
 						</div>
 					</div>
-					<div class="form-group col-md-5 nanum" style="float: left;">
-						<div class="col-xs-2" style="float: left;">
-							<button type="button" class="btn btn-info nanum">키워드추가</button>
-							&nbsp;&nbsp;&nbsp;
-						</div>
-
-						<div class="col-xs-2" style="float: left;">
-							<button type="button" class="btn btn-danger nanum">키워드삭제</button>
-						</div>
-					</div>
 				</div>
 			</div>
 			<!-- 골목 키워드 3 -->
@@ -272,16 +252,6 @@
 								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
 								class="nanum" id="checkStreetKeyword3"
 								style="font-size: smaller;">&nbsp;</span> <br>
-						</div>
-					</div>
-					<div class="form-group col-md-5 nanum" style="float: left;">
-						<div class="col-xs-2" style="float: left;">
-							<button type="button" class="btn btn-info nanum">키워드추가</button>
-							&nbsp;&nbsp;&nbsp;
-						</div>
-
-						<div class="col-xs-2" style="float: left;">
-							<button type="button" class="btn btn-danger nanum">키워드삭제</button>
 						</div>
 					</div>
 				</div>
@@ -469,20 +439,6 @@
 						var a = $(this).attr("src");
 						$("#streetThumbnail").prop("src", a);
 
-						// input file 초기화
-						//$("#streetCoverUpload").val("");
-
-						/* console.log(b);
-						document.getElementById("streetCoverUpload").select();
-
-						document.selection.clear(); */
-
-						/* if ($.browser.msie) { // ie 일때 input[type=file] init. 
-							$("#streetCoverUpload").replaceWith(
-									$("#streetCoverUpload").clone(true));
-						} else { // other browser 일때 input[type=file] init. 
-							$("#streetCoverUpload").val("");
-						} */
 
 						// 기본이미지 값 등록
 
@@ -553,7 +509,7 @@
 		$("#streetIntro").on(
 				"input",
 				function() {
-					var regExp = /^[A-Za-z가-힣0-9]{0,15}$/;
+					var regExp = /^[A-Za-z가-힣0-9\s]{0,15}$/;
 
 					if (!regExp.test($(this).val())) {
 						$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.").css(
@@ -568,7 +524,7 @@
 		$("#streetKeyword1").on(
 				"input",
 				function() {
-					var regExp = /^[A-Za-z가-힣0-9]{0,15}$/;
+					var regExp = /^[A-Za-z가-힣0-9\s]{0,15}$/;
 
 					if (!regExp.test($(this).val())) {
 						$("#checkStreetKeyword1").text("키워드 형식이 유효하지 않습니다.")

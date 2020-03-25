@@ -451,7 +451,7 @@ public class StreetController {
 			}
 
 			else {
-				msg = "골목 개설 불가";
+				msg = "이미 개설한 골목이 있거나 가입한 골목이 3개 있어 골목 개설이 불가합니다.";
 				model.addAttribute("msg", msg);
 				return "redirect:/square";
 			}
@@ -762,8 +762,6 @@ public class StreetController {
 				model.addAttribute("imgUrl", imgUrl);
 				
 				List<Keyword> keywords = streetService.selectKeywords(no);
-				System.out.println("123");
-				System.out.println("keywords 확인 : "+ keywords);
 				
 				if(keywords != null) {
 					model.addAttribute("keywords", keywords);
@@ -806,19 +804,6 @@ public class StreetController {
 		
 		try {
 			
-			/*
-			  이미지 그대로일때 -> set 할 필요 없음			 			 
-			 */ 
-			System.out.println("imgNo : "+ imgNo);
-			System.out.println("no : "+ no);
-			System.out.println("street : "+ street);
-			for(int i=0; i<streetKeywords.length; i++) {
-				System.out.println("키워드 : " + streetKeywords[i]);
-			}
-			System.out.println("sampleImg : "+ sampleImg);
-			System.out.println("streetCoverUpload.getOriginalFilename() : "+ streetCoverUpload.getOriginalFilename());
-			 
-			
 			if(!sampleImg.equals("")) {
 				
 				if(sampleImg.equals("골목.jpg")) {					
@@ -854,6 +839,7 @@ public class StreetController {
 			}
 			
 			return "redirect:" + detailUrl;
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errorMsg", "골목 수정 과정에서 오류 발생");
@@ -1055,32 +1041,49 @@ public class StreetController {
 		}
 	}
 	
+	// 골목대장 위임 화면 이동
 	@RequestMapping("newMaster")
 	public String newMaster(Integer no, Model model) {
 		model.addAttribute("no", no);
 		return "street/streetNewMaster";
 	}
+	
 	// 주민 검색(골목대장 위임)
 	@ResponseBody
 	@RequestMapping(value = "searchJumin", method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
 	public String searchJumin(Integer no, String juminNickName, HttpServletResponse response) {
+		
 		try {
-			
-			System.out.println("주민 닉네임 : " + juminNickName);
-			System.out.println("골목 번호 : " + no);
-			
-			
+						
 			Member jumin = streetService.searchJumin(juminNickName, no);
-			System.out.println(jumin);
 			
 			return new Gson().toJson(jumin);
 			
 		}catch (Exception e) {
+			
 			e.printStackTrace();
 			
 		}
+		
 		return null;
+	}
+	
+	// 골목 대장 위임
+	@RequestMapping("yesMaster")
+	public String yesMaster(Model model) {
+		
+		try {
+			
+			
+			
+			return "";
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "골목대장 위임 과정에서 오류 발생");
+			return "/common/errorPage";
+		}
 	}
 	
 	

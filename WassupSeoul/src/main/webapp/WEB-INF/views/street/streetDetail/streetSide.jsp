@@ -95,11 +95,18 @@
 							style="width: 15px; height: 15px;"> 골목 삭제하기
 						</a>
 					</div>
+					<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
+						<a href="newMaster?no=${streetNo}" class="btn btn-link nanum"
+							style="color: red; font-weight: bold; font-size: 15px"> <img
+							src="${contextPath}/resources/img/streetOut.svg" alt="이미지"
+							style="width: 15px; height: 15px;"> 골목대장위임하기
+						</a>
+					</div>
 				</c:if>
 				<!-- 일반 주민 영역 -->
-		  	<c:if test="${citizenGrade eq 'G' || citizenGrade eq 'M'}">
+		  	<c:if test="${citizenGrade eq 'G'}">
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-	             		<a href="newMaster?no=${streetNo}" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
+	             		<a href="" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">
 	              	 	골목 탈퇴하기
 	             		</a>
