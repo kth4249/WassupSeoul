@@ -24,6 +24,10 @@
 		cursor : pointer;
 	}
 	
+	.optionChevron:hover{
+		cursor : pointer;
+	}
+	
 	a{
 	style="color: black; text-decoration: none;"
 	}
@@ -42,23 +46,21 @@
 	/* (3/24)미현수정  */
 	.postMainWrap{
 		position: relative; 
-		overflow: auto;
+		/* overflow: auto; */
 	}
 	.postMainWrap iframe,
 	.postMainWrap object,
 	.postMainWrap embed {
-		position: absolute;
+		/* position: absolute;
 	    top: 0;
-	    left: 0;
-	    width: 100%;
-	    height: 100%;
+	    left: 0; */
+	    width: 100% !important;
 	}
 	.postMainWrap img{
-		position: absolute; 
+		/* position: absolute; 
 		top:0; 
-		left: 0;
-		width: auto;
-		height: 100%;
+		left: 0; */
+		width: 100% !important;
 	}
 	/* (3/24)미현수정 끝  */
 	
@@ -110,6 +112,13 @@
 		
 	</c:if>
 
+
+	<script>
+		$(document).on("click",".updateSummer",function(){
+			$("#summernote2").summernote('code',  $(this).parents(".MainWrap").next().next().html());
+			$("#summernote2").siblings("input[type=hidden]") .val( $(this).next().val() );
+		});
+	</script>
 		<!-- 게시물 있을때 -->
 	<c:if test="${!empty board}">
 		<c:forEach var="board" items="${board}" varStatus="vs">
@@ -152,12 +161,18 @@
 										<img src="${contextPath}/resources/img/download.png"
 											style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 											id="chev">
-										<div id="postMenu" class="hide nanum"
-											style="width: 100px; height: 60px; border: black 2px solid; background-color: white; float: right; position: relative; right: 18px; bottom: 12px;">
+										<div id="postMenu" class="hide nanum" style="width: 100px; height: 60px; 
+												border: black 2px solid; background-color: white; float: right; 
+												position: relative; right: 18px; bottom: 12px;">
 											<ul>
-												<li><a href="#" class="deletePost" id="${board.boardNo}">글 삭제</a></li>
-												<li><a href="#" class="updatePost" id="${board.boardNo}">글 수정</a></li>
+												<li><a class="deletePost" id="${board.boardNo}">글 삭제</a></li>
+												<li><a data-toggle="modal" data-target="#updateSummerModal" class="updateSummer">글 수정</a>
+												<input type="hidden" value="${board.boardNo}">
+												</li>
+												 
 											</ul>
+											
+											
 										</div>
 									</div>
 								</div>
@@ -296,13 +311,10 @@
 								    </script>
 								</c:when>
 								<c:otherwise>
-									<p>${board.boardContent}</p>
+									${board.boardContent}
 								</c:otherwise>
 							</c:choose>
 							
-						<!-- 3/24미현이가 p태그 쓸데없는거같아서 지움  -->
-							${board.boardContent}
-
 						</div>
 					</div>
 					<!-- 게시글내용 -->
@@ -648,7 +660,6 @@
 
 		</c:forEach>
 	</c:if>
-
-
+	
 </body>
 </html>

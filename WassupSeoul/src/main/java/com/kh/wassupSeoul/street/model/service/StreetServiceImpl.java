@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
@@ -592,6 +593,17 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectStreetNm(streetNo);
 	}
 	
+	
+	/** 조회된 주민들과 로그인된 멤버와의 관계 조회용 Service
+	 * @param rList
+	 * @return rList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Relationship> selectRelationList(Map<String, Object> relationMap) throws Exception {
+		return streetDAO.selectRelationList(relationMap);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	
@@ -776,7 +788,7 @@ public class StreetServiceImpl implements StreetService{
 	public int selectBoardNo() throws Exception {
 		return streetDAO.selectBoardNo();
 	}
-	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
+
 	/** 일정 등록용 Serivce
 	 * @param sendCalendar
     */
@@ -796,7 +808,43 @@ public class StreetServiceImpl implements StreetService{
 	public int insertCalendarBoard(Board board) throws Exception {
 		return streetDAO.insertCalendarBoard(board);
 	}
-	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
+	
+	/** 일정 조회용 Service
+	 * @param streetNo
+	 * @return storeCalendar
+	 * @throws Exception
+	 */
+	@Override
+	public List<Calendar> selectStoreCalendar(int streetNo) throws Exception {
+		return streetDAO.selectStoreCalendar(streetNo);
+	}
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	/** 일정 삭제용 Service
+	 * @param temp 
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteSchedule(Calendar temp) throws Exception {
+		return streetDAO.deleteSchedule(temp);
+	}
+	
+	/** 일정 게시글 삭제용 Service
+	 * @param boardNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteBoardCalendar(int boardNo) throws Exception {
+		return streetDAO.deleteBoardCalendar(boardNo);
+	}
+	/*------------------------ 정승환 추가코드(20.03.25) 끝-----------------------------------*/
+
+	
+	
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 	
 	
@@ -842,4 +890,51 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.searchJumin(map);
 	}
 	/******************** 지원 골목 삭제 끝 ********************************/
+
+	
+	
+	
+	
+	
+	
+	/*==============================3/25 미현 코드추가 시작 ======================*/
+	
+	/** 썸머노트 수정용 service
+	 * @param board
+	 * @param file
+	 * @param savePath
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	@Override
+	public int updateSummer(Board board, MultipartFile file, String savePath) throws Exception {
+		/*
+		 * String files = streetDAO.selectFiles(board.getBoardNo());
+		 * System.out.println("기존 파일 데려오느냐:"+ files);
+		 */
+		
+		/*
+		 * // 새로 삽입할 파일,기존 행을 수정할 파일 (썸머노트는 여러가지 파일도 DB상에 한게시물로 올라감..) Board updateFile
+		 * = new Board();
+		 * 
+		 * Board fi = null;
+		 * 
+		 * // 새롭게 등록된 파일이 있는지 확인 if(!file.getOriginalFilename().equals("")) { String
+		 * changeFileName = FileRename.rename(file.getOriginalFilename()); } }
+		 */
+		
+		board.setBoardContent(board.getBoardContent().replace("\r\n", "<br>"));
+		System.out.println("여기까진 오시는지?");
+		int result = streetDAO.updateSummer(board);
+		System.out.println("여기까진..?:" + result);
+		
+		return result;
+		
+	}
+	
+	
+	/*==============================3/25 미현 코드추가 끝 ======================*/
+	
+	
 }

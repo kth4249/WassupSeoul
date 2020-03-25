@@ -3,6 +3,9 @@ package com.kh.wassupSeoul.street.controller;
 import java.io.File;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,6 +37,7 @@ import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
+import com.kh.wassupSeoul.street.model.vo.SettingCalendar;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
@@ -544,6 +548,7 @@ public class StreetController {
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("streetNo", streetNo);
+			map.put("memberNo", loginMember.getMemberNo());
 			/*---------태훈 수정---------*/
 			char[] status = {'Y'};
 			map.put("status", status);
@@ -562,6 +567,7 @@ public class StreetController {
 			System.out.println(mList);
 			System.out.println(hList);
 			
+			model.addAttribute("myHobby", myHobby);
 			model.addAttribute("mList", mList);
 			model.addAttribute("hList", hList);
 			return "street/recommendFriend";
@@ -632,15 +638,20 @@ public class StreetController {
 			mList = streetService.selectJuminList(map);
 			
 			List<Hobby> hList = null;
+			List<Relationship> rList = null;
 			
 			if(mList != null && !mList.isEmpty()) {
 				hList = streetService.selectHobbyList(mList);
+				Map<String, Object> relationMap = new HashMap<String, Object>();
+				relationMap.put("myNo", loginMember.getMemberNo());
+				relationMap.put("mList", mList);
+				rList = streetService.selectRelationList(relationMap);
 			}
 			
 			
-			System.out.println(mList);
-			System.out.println(hList);
+			System.out.println(rList);
 			
+			model.addAttribute("rList", rList);
 			model.addAttribute("mList", mList);
 			model.addAttribute("hList", hList);
 		}catch (Exception e) {
@@ -694,6 +705,14 @@ public class StreetController {
 	
 	/*----------------------- 미현 끝 -----------------------------------*/
 	
+	/*============== 3/25 미현 수정 ==============================*/
+	// 썸머노트 Bfile 수정용
+	@ResponseBody
+	@RequestMapping(value="refileUpload", produces = "application/text; charset=utf8")
+	public String refileUpload(Board board, Model model, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+	
+	return null;
+	}
 	
 	/*------------------------ 태훈 시작 (03/22) -----------------------------------*/
 	/** 골목 가입 허가/거절 용 Controller
@@ -722,9 +741,6 @@ public class StreetController {
 		}
 	}
 	/*--------------------------------태훈 끝-------------------------------------*/
-	
-	
-	
 	
 	/* 지원 골목 수정 시작 */
 	// 골목 수정 페이지 이동
@@ -850,17 +866,16 @@ public class StreetController {
 	/* 지원 골목 수정 끝 */
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 	
+	/*------------------------ 정승환 코드수정(20.03.25) 시작-----------------------------------*/
 	// 일정 조회
 	@RequestMapping("calendar")
-	public String calendar(Model model, Integer streetNo) {
+	public String calendar(Model model, Integer tempStreetNo) {
 		
-		/*------------------------ 정승환 코드 제거 20.03.23-----------------------------------*/
-		/*------------------------ 정승환 코드 제거 20.03.23-----------------------------------*/
 		return "street/streetCalendar";
 		
 	}
+	/*------------------------ 정승환 코드수정(20.03.25) 끝-----------------------------------*/
 	
-	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
 	// 일정 추가
 	@RequestMapping(value="addSCSC", method = RequestMethod.POST)
 	public String addSchedule(Model model,Calendar sendCalendar,String startDate,String startTime,String endDate,String endTime,
@@ -894,16 +909,22 @@ public class StreetController {
 			
 			// 일정 등록이 되기전 게시글 등록 -> 등록된 게시글 번호가 필요
 			
+			// 일정 참가가 있을 경우 추가할 버튼
+			String btnPlus = "<br><button class='nanum btn btn-primary joinBtn' data-toggle='modal' data-target='#calendarJoinModal\'>일정 참가하기</button>";
+			// 일정 참가시 해당 글번호
+			String boardNoPlus = "<input type='hidden' value='" + boardNo + "'>";
+			
 			// 게시글 등록할 양식 지정
 			Board board = new Board();
 			board.setBoardNo(boardNo);
 			board.setBoardWriter(loginMember.getMemberNickname());
 			board.setMemberNo(loginMember.getMemberNo());board.setStreetNo(streetNo);
-			board.setTypeNo(0);
+			board.setTypeNo(2);
 			String content = "<h5 class='nanum'>새 일정 등록</h5>" + sendCalendar.getCalendarContent()
 			+"<br>장소 : "+ sendCalendar.getCalendarLocation()
 			+"<br>기간 : "+ tempStart.substring(0, tempStart.length()-5) +" ~ " 
 			+ tempEnd.substring(0, tempEnd.length()-5);
+			
 			board.setBoardContent(content);
 			// boardNo, boardWriter, memberNo, typeNo, boardContent,streetNo
 			
@@ -917,10 +938,10 @@ public class StreetController {
 				Date d = Date.valueOf(cJoinEndDate); // 날짜 변환
 				sendCalendar.setCalendarJoinEndDate(d);
 				sendCalendar.setCalendarJoinLimit(cJoinLimit);
+				board.setBoardContent(board.getBoardContent() + btnPlus + boardNoPlus);
 			}
 			
 			sendCalendar.setCalendarJoin(joinCalendar.charAt(0));
-			System.out.println("참가신청여부 : " + joinCalendar);
 			
 			int result = streetService.insertCalendarBoard(board);
 			if(result == 0) {
@@ -945,7 +966,59 @@ public class StreetController {
 		}
 		
 	}
-	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/	
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	// 일정 삭제
+	@RequestMapping("deleteSchedule")
+	public String deleteSchedule(int boardNo, Model model) {
+		int streetNo = (int) model.getAttribute("streetNo");
+		Calendar temp = new Calendar();
+		temp.setBoardNo(boardNo); temp.setStreetNo(streetNo);
+		try {
+			// 해당하는 Calendar 행 삭제
+			int result = streetService.deleteSchedule(temp);
+			if(result == 0) {
+				model.addAttribute("msg","일정 삭제 실패");
+				return "redirect:calendar";
+			}
+			
+			// 해당하는 Board 행 삭제
+			result = streetService.deleteBoardCalendar(boardNo);
+			if(result == 0) {
+				model.addAttribute("msg","일정 게시글 삭제 실패");
+				return "redirect:calendar";
+			}
+			
+			/*
+			// 만약 참여인원 있으면 해당 테이블행도 삭제
+			result = streetService.selectJoinCalendar(boardNo);
+			if(result > 0) {
+				result = streetService.deleteJoinCalendar(boardNo);
+				if(result == 0) {
+					model.addAttribute("msg","제거된 일정 참여 인원 목록 삭제 실패");
+					return "redirect:calendar";
+				}
+			}
+			*/
+			
+			model.addAttribute("msg","일정 삭제 성공");
+			return "redirect:calendar";
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "일정 추가 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+	}
+	
+	// 일정 수정
+	@RequestMapping("updateSchedule")
+	public String updateSchedule(int boardNo, Model model) {
+		int streetNo = (int) model.getAttribute("streetNo");
+		System.out.println("일정 수정용 글번호 : " + boardNo);
+		return null;
+	}
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 끝-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	
@@ -1013,4 +1086,93 @@ public class StreetController {
 	
 	
 	/*------------------------ 지원 골목삭제 끝-----------------------------------*/ 
+	
+	/*------------------------ 3/24 미현 코드추가-----------------------------------*/ 
+	
+	// 썸머 게시글 작성
+	@RequestMapping("insertSummer")
+	public String insertSummer(Board board, Model model, HttpServletRequest request, RedirectAttributes rdAttr,
+			@RequestParam(value = "images", required = false) List<MultipartFile> images) {
+
+		Member loginMember = (Member) model.getAttribute("loginMember");
+		System.out.println(loginMember);
+		int boardWriter = loginMember.getMemberNo();
+		System.out.println(boardWriter);
+
+		int streetNo = (int) model.getAttribute("streetNo");
+		System.out.println(streetNo);
+
+		board.setBoardContent(board.getBoardContent().replace("\r\n", "<br>"));
+		board.setMemberNo(boardWriter);
+		board.setStreetNo(streetNo);
+		board.setTypeNo(1);
+
+		System.out.println("등록할 게시글 : " + board);
+		System.out.println("board.getBoardContent : " + board.getBoardContent());
+
+		try {
+
+			int result = streetService.insertBoard(board);
+
+			if (result > 0)
+				System.out.println("게시글 등록 성공" + result);
+			else
+				System.out.println("게시글 등록 실패" + result);
+
+			return "redirect:streetMain?streetNo=" + streetNo;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:streetMain?streetNo=" + streetNo;
+
+		}
+
+	}
+	
+	
+	// 썸머노트 게시글 수정
+	@ResponseBody
+	@RequestMapping(value="updateSummer", produces = "application/text; charset=utf8")
+	public String updateSummer(Board board, Model model, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+		
+		Member loginMember = (Member) model.getAttribute("loginMember");
+		int boardWriter = loginMember.getMemberNo();
+		// 수정 실패or성공할때 원래 street페이지로 돌아오기 위함
+		int streetNo = (int) model.getAttribute("streetNo");
+		
+		board.setMemberNo(boardWriter);
+		board.setStreetNo(streetNo);
+		
+		// 수정 또는 새롭게 추가된 파일이 저장될 경로 얻어오기
+		String writer = board.getBoardWriter();	
+		String root = request.getSession().getServletContext().getRealPath("resources") + "/uploadImage";
+		String savePath = root + "//" + writer;
+		
+		// 저장 폴더가 있는지 검사하고 없을 경우에 생성하는 구문
+		File folder = new File(savePath);
+		if(!folder.exists())
+			folder.mkdir();
+		
+		try {
+			int result =streetService.updateSummer(board,file,savePath);
+			
+			System.out.println("미현 result : "+result);
+			String msg;
+			if(result > 0)	msg = "썸머 게시글 수정 성공";
+			else 			msg = "썸머 게시글 수정 실패";
+			
+			model.addAttribute("msg",msg);
+			
+			return "redirect:streetMain?streetNo=" + streetNo;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "썸머노트 수정 과정에서 오류 발생");
+			return "redirect:streetMain?streetNo=" + streetNo;
+		}
+	}
+	
+	
+	
+	/*------------------------ 미현 코드추가 끝-----------------------------------*/ 
 }

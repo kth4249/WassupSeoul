@@ -9,9 +9,6 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"></script>
-<%-- <script type="text/javascript" src="${contextPath}/resources/js/timeLine.js"></script>   --%>
-
 
 
 <title>타임라인 글작성 영역</title>

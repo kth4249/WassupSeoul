@@ -22,7 +22,15 @@
   		<result property="memberEnrollDt" column="MEMBER_ENROLL_DT"/>
   		<result property="memberStatus" column="MEMBER_STATUS"/>
 	</resultMap>
+	
+	<resultMap type="ChatRoom" id="ChatRoomResultSet">
+		<id property="chatNo" column="CHAT_NO"/>
+   		<result property="chatStatus" column="CHAT_STATUS"/>
+		<result property="myNo" column="MY_NO"/>
+		<result property="yourNo" column="YOUR_NO"/>
+	</resultMap>
 
+	
 
 
 
@@ -110,9 +118,97 @@
 </select>
 
 
+<!-- 친구목록에서의  친구 차단 1-->
+<update id = "blockFriendInList" parameterType='map'>
+	UPDATE RELATIONSHIP SET
+ 	REQUEST_STATUS = 3
+ 	WHERE MY_NO = #{myNo}
+ 	AND YOUR_NO = #{yourNo}
+</update>
+
+<!-- 친구목록에서의  친구 차단 2-->
+<delete id = "blockFriendInList2" parameterType='map'>
+	DELETE FROM RELATIONSHIP
+	WHERE MY_NO = #{yourNo}
+	AND YOUR_NO = #{myNo}
+</delete>
+
+
+<!-- 친구 목록에서 친구 삭제  1-->
+<delete id = "friendsBye1" parameterType='map'>
+	DELETE FROM RELATIONSHIP
+	WHERE MY_NO = #{yourNo}
+	AND YOUR_NO = #{myNo}
+</delete>
+
+<!-- 친구 목록에서 친구 삭제  1-->
+<delete id = "friendsBye2" parameterType='map'>
+	DELETE FROM RELATIONSHIP
+	WHERE MY_NO = #{myNo}
+	AND YOUR_NO = #{yourNo}
+</delete>
+
+
+
+
+
+
+
+
+
+
+
+<!--  <<<<<<<<<<<<<<<<<<<<대화방 진입 >>>>>>>>>>>>>>>>>    -->
+
+<!-- 1단계 대화방 검색 -->
+<select id = "selectChatRoom" parameterType='map' resultMap="ChatRoomResultSet">
+	SELECT * FROM CHAT
+	WHERE MY_NO = #{myNo}
+	AND YOUR_NO = #{yourNo}
+</select>
+
+
+<!-- 2단계 대화방 개설 -->
+
+<!-- 2.1) 방 번호 받기 -->
+<select id = "getChatRoom" resultType="_int">
+	SELECT SEQ_CHAT.NEXTVAL FROM DUAL 
+</select> 
+
+<!-- 2.2) 방 신설 하기 -->
+<insert id = "insertChatRoom1" parameterType="map">
+	INSERT INTO CHAT VALUES
+	(#{chatNo}, DEFAULT, #{myNo}, #{yourNo})
+</insert>
+
+<insert id = "insertChatRoom2" parameterType="map">
+	INSERT INTO CHAT VALUES
+	(#{chatNo}, DEFAULT, #{yourNo}, #{myNo})
+</insert>
+
+
+
+
+
+<!-- 3단계 대화방 열기 -->
+<update id = "updateChatRoom1" parameterType="map">
+	UPDATE CHAT SET 
+	CHAT_STATUS = 'Y'
+	WHERE MY_NO = #{myNo}
+	AND YOUR_NO = #{yourNo}	
+</update>
+
+<update id = "updateChatRoom2" parameterType="map">
+	UPDATE CHAT SET 
+	CHAT_STATUS = 'Y'
+	WHERE MY_NO = #{yourNo}
+	AND YOUR_NO = #{myNo}	
+</update>
+
 
 
  
  
 
 </mapper>
+ 
