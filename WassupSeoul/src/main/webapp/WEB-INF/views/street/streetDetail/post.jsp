@@ -34,7 +34,7 @@
                 				<!-- 사진 첨부 -->
 								<div class="writeOptionArea shake" style="width: 7%">
 									<form class="form-signin">
-										<a href="#" data-toggle="modal" data-target="#summerModal"> 
+										<a href="#" data-toggle="modal" data-target="#insertSummer"> 
 											<img class="writeOption" src="${contextPath}/resources/img/imageIcon.png" alt="">
 											<p class="arrow_box">사진</p>
 										</a>
@@ -44,7 +44,7 @@
 				                <!-- 동영상 첨부 -->
 				                <div class="writeOptionArea shake" style="width: 7%">
 				                  <form class="form-signin">
-				                    <a href="#" data-toggle="modal" data-target="#summerModal"> 
+				                    <a href="#" data-toggle="modal" data-target="#insertSummer"> 
 				                      <img class="writeOption" src="${contextPath}/resources/img/film.png" alt="">
 				                      <p class="arrow_box">동영상</p>
 				                    </a>
@@ -54,7 +54,7 @@
 				                <!-- 파일첨부 -->
 				                <div class="writeOptionArea shake" style="width: 7%">
 				                  <form class="form-signin">
-				                    <a href="#" data-toggle="modal" data-target="#summerModal"> 
+				                    <a href="#" data-toggle="modal" data-target="#insertSummer"> 
 				                      <img class="writeOption" src="${contextPath}/resources/img/paperclip.png" alt="">
 				                      <p class="arrow_box">파일첨부</p>
 				                    </a>

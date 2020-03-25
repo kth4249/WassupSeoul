@@ -60,12 +60,11 @@
 		
 					  <!-- 글작성 영역 -->
 			          <div class="container box111" id="postArea">
-                 <jsp:include page="../street/streetDetail/summernote.jsp"/>
-			           <jsp:include page="../street/streetDetail/fileUpload.jsp"/> 
+                 		<jsp:include page="../street/streetDetail/summernote.jsp"/>
 			           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
 			           <jsp:include page="../street/streetDetail/voteModal.jsp"/> 
 			           <jsp:include page="../street/streetDetail/sketchModal.jsp"/> 
-                 <jsp:include page="../street/streetDetail/post.jsp"/>
+                		<jsp:include page="../street/streetDetail/post.jsp"/>
 			          </div>
             <!-- 글작성 영역 -->
 		
