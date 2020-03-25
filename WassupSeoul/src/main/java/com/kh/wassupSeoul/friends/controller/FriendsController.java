@@ -102,7 +102,7 @@ public class FriendsController {
 	@RequestMapping(value="blockFriend", method = RequestMethod.POST)
 	public String blockFriends(Model model, int yourNo) {
 		int myNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
-		 System.out.println("yourNo : " + yourNo);
+		 //System.out.println("yourNo : " + yourNo);
 		try {
 			Map<String, Object> nMap = new HashMap<String, Object>();
 			nMap.put("myNo", myNo);
@@ -174,7 +174,7 @@ public class FriendsController {
 	@RequestMapping(value="friendBye", method = RequestMethod.POST)
 	public String friendBye(Model model, int yourNo) {
 		int myNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
-		 System.out.println("myNo : "+ myNo + " yourNo : " + yourNo);
+		//System.out.println("myNo : "+ myNo + " yourNo : " + yourNo);
 
 		try {
 			Map<String, Object> nMap = new HashMap<String, Object>();
@@ -184,9 +184,9 @@ public class FriendsController {
 			int result = friendsService.friendBye(nMap);
 			
 			if (result>0) {
-				System.out.println("친구목록에서 제거 성공");
+				//System.out.println("친구목록에서 제거 성공");
 			} else {
-				System.out.println("친구목록에서 제거 실패");
+				//System.out.println("친구목록에서 제거 실패");
 			}
 			return null;
 		} catch (Exception e) {
