@@ -52,7 +52,7 @@
 					<!-- 스케치 모달 -->
 					<div class="modal fade" id="sketchModal" data-backdrop="static"
 						tabindex="-5" role="dialog" aria-labelledby="writerModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document" style="width: 30%;">
+						<div class="modal-dialog" role="document" style="width: 500px">
 							<div class="modal-content">
 								<div class="modal-header">
 									<h2 class="modal-title nanum" id="sketchModalLabel"
@@ -162,10 +162,10 @@
 								</div>
 							<div> Title<input id="title" size="15" style="display: inline-block;" /> 
 								<a id="saveImage" download="image.png" style="display: inline-block;">
-								<INPUT type="button" value="Save" onClick="saveImage()" />
+								<INPUT type="button" id="imgTitle" value="Save" onClick="saveImage()" />
 								</a> 
 								<INPUT type="button" value="Clear" onClick="initPage()" />
-								<button type="button" id="sketchSubmitBtn" style="width: 10%; height: 25px; font-size: 17px; float: right; margin-top: 10px">작성</button>
+								<button type="button" id="sketchSubmitBtn" style="width: 80px; height: 25px; font-size: 17px; float: right; margin-top: 10px">작성</button>
 							</div>	 
 							<!-- content end -->
 							
@@ -177,15 +177,48 @@
 			
 			
 			<script>
-		 	// 스케치 게시글 업로드
+		 		// 스케치 게시글 업로드
 		 	  document.getElementById('sketchSubmitBtn').addEventListener('click', function() {
-		 		  var canvas = document.getElementById('canvas')
+		 		 var canvas = document.getElementById('canvas'); 
 		 		  var canvasImgStr = canvas.toDataURL("image/png", 1.0);
 	    	 	  var sketchPostContent = $("#sketchPostArea").val();
 		 		 
 		 		 console.log("스케치 그린 그림  :" +canvasImgStr);
-		 		 console.log("사용자가 입력한 게시글  :" + sketchPostContent);
-		                      
+		 		 console.log("사용자가 입력한 게시글  :" + sketchPostContent); 
+		 		 
+		 	/* 	 
+		 		var imgDataUrl = document.getElementById('canvas').toDataURL("image/png");
+		 		var blobBin = atob(imgDataUrl.split(',')[1]);	// base64 데이터 디코딩
+		 	    var array = [];
+		 	    for (var i = 0; i < blobBin.length; i++) {
+		 	        array.push(blobBin.charCodeAt(i));
+		 	    }
+		 	    var file = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
+		 	    var formdata = new FormData();	// formData 생성
+		 	    formdata.append("file", file);	// file data 추가 */
+		 		 
+		 	    // Sending the image data to Server
+		 	  /*  $.ajax({
+				        type : 'post',
+				        url : 'sketchPost',
+				        data : formdata,
+				        processData : false,	// data 파라미터 강제 string 변환 방지!!
+				        contentType : false,	// application/x-www-form-urlencoded; 방지!!
+				        success : function (result) {
+				        	if (result == "true") {
+								alert("스케치 업로드 성공");
+								$("#sketchCloseBtn").trigger("click");
+							} else {
+								alert("스케치 업로드 실패");
+							},
+				        	error : function(e) {
+								console.log("ajax 통신 실패");
+								console.log(e);
+				        }
+				    })
+		 		  */
+		 		 
+		 		 /* 
                         $.ajax({
                             type: 'POST',
                             url: "sketchPost",
@@ -200,16 +233,16 @@
 									alert("스케치 업로드 성공");
 									$("#sketchCloseBtn").trigger("click");
 								} else {
-									alert("스케치 업로드 성공");
+									alert("스케치 업로드 실패");
 								}
 							},
 							error : function(e) {
 								console.log("ajax 통신 실패");
 								console.log(e);
 							}
-                        });
-                        refreshList()
-                   });
+                        }); */
+                      /*   refreshList()
+                   }); */
 		 	</script>
 			
 			

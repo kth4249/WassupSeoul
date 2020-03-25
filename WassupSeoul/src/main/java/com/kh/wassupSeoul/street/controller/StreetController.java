@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
@@ -376,19 +377,20 @@ public class StreetController {
     }
     
     @ResponseBody
-	@RequestMapping(value="sketchPost", produces = "application/text; charset=utf8")
-	public String fileUpload(String mapPostContent, Model model, MultipartFile image, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("sketchPost")
+	public String fileUpload(String mapPostContent, Model model,
+			@RequestParam(value = "file", required = true) MultipartFile [] file){
 
 		Member loginMember = (Member) model.getAttribute("loginMember");
 		
+		String originalFile = report.getOriginalFilename();
 		
-		if( image == null) {
-			
-			image.renameTo("image");
-		}
-		System.out.println("파일명 : " + image);
+		
+		
+		System.out.println("파일명 : " + file);
 		
 		int streetNo = (int) model.getAttribute("streetNo");
+
 
 		Board board = new Board();
    		
