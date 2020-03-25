@@ -323,7 +323,7 @@ public class MemberController {
 	@RequestMapping("searchHobby")
 	public void searchHobby(HttpServletResponse response,String searchHobbyContent) {
 		try {
-			System.out.println("검색관심사 : " + searchHobbyContent);
+			//System.out.println("검색관심사 : " + searchHobbyContent);
 			
 			// 검색 결과 전송용 리스트
 			ArrayList<SearchHobby> searchHobbyList = new ArrayList<SearchHobby>();
@@ -331,7 +331,7 @@ public class MemberController {
 			// DB조회용 리스트
 			List<Hobby> hobbyList = memberService.searchHobby(searchHobbyContent);
 			for(int b=0;b<hobbyList.size();b++) {
-				System.out.println(hobbyList.get(b));
+				//System.out.println(hobbyList.get(b));
 			}
 			
 			for(int i=0;i<hobbyList.size();i++) {
@@ -575,6 +575,7 @@ public class MemberController {
 					mList.add(myHobby.get(k)); // 1~3번 인덱스에 회원 관심사
 				}
 				
+          
 				response.setCharacterEncoding("UTF-8");
 				new Gson().toJson(mList, response.getWriter());
 	    		

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.member.model.vo.Member;
 
@@ -97,6 +98,107 @@ public class FriendsDAO {
 	public List<Member> justFriendsList(Map<String, Object> fMap) throws Exception {
 		return sqlSession.selectList("friendsMapper.justFriendsList", fMap);
 	}
+
+
+	/** 친구목록에서의 친구차단
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int blockFriendInList(Map<String, Object> nMap) throws Exception{
+		return sqlSession.update("friendsMapper.blockFriendInList", nMap);
+	}
+
+
+	/** 차단당해서 친구 목록 삭제
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int blockFriendInList2(Map<String, Object> nMap) throws Exception{
+		return sqlSession.delete("friendsMapper.blockFriendInList2", nMap);
+	}
+
+
+	/** 대화방 존재 확인 DAO
+	 * @param nMap
+	 * @return chatRoom
+	 * @throws Exception
+	 */
+	public ChatRoom selectChatRoom(Map<String, Object> nMap) throws Exception{
+		return sqlSession.selectOne("friendsMapper.selectChatRoom", nMap);
+	}
+
+
+	/** 대화방 번호 얻기
+	 * @return nextRoomNo
+	 * @throws Exception
+	 */
+	public int getChatRoom() throws Exception{
+		return sqlSession.selectOne("friendsMapper.getChatRoom");
+	}
+	
+	
+	
+	/** 대화방 신설 1
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int insertChatRoom1(Map<String, Object> nMap) throws Exception {
+		return sqlSession.insert("friendsMapper.insertChatRoom1", nMap);
+	}
+	
+	/** 대화방 신설2
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int insertChatRoom2(Map<String, Object> nMap) throws Exception {
+		return sqlSession.insert("friendsMapper.insertChatRoom2", nMap);
+	}
+
+
+	/** 대화방 열기 1
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateChatRoom1(Map<String, Object> nMap) throws Exception{
+		return sqlSession.update("friendsMapper.updateChatRoom1", nMap);
+	}
+
+
+	/** 대화방 열기 2
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateChatRoom2(Map<String, Object> nMap) throws Exception {
+		return sqlSession.update("friendsMapper.updateChatRoom2", nMap);
+	}
+
+
+	/** 친구 목록에서 친구 삭제 1
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int friendsBye1(Map<String, Object> nMap) throws Exception {
+		return sqlSession.delete("friendsMapper.friendsBye1", nMap);
+	}
+	
+	/** 친구 목록에서 친구 삭제 2
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int friendsBye2(Map<String, Object> nMap) throws Exception {
+		return sqlSession.delete("friendsMapper.friendsBye2", nMap);
+	}
+
+
+	
 
 
 
