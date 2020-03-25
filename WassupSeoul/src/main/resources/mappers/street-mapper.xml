@@ -308,6 +308,14 @@
 		  VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo})
   	</insert>
   	
+  	
+	<insert id="sketchUpload" parameterType="board">
+  		INSERT INTO SKETCH VALUES(
+			SEQ_BOARD.NEXTVAL, #{filepath2}
+		)
+  	</insert>
+  	
+  	
   <!--  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중하   끝  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
   	
   	

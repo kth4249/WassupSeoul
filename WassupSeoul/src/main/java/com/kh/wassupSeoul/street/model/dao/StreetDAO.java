@@ -246,6 +246,16 @@ public class StreetDAO {
 	public int mapPost(Board board) throws Exception {
 		return sqlSession.insert("streetMapper.mapPost", board);
 	}
+	
+	
+	/** 스케치 업로드용 DAO
+	 * @param filepath2
+	 * @return result
+	 * @throws Exception
+	 */
+	public int sketchUpload(String filepath2) throws Exception {
+		return sqlSession.insert("streetMapper.sketchUpload", filepath2);
+	}
 
 	// -------------------------------------------- 중하 끝
 	// ---------------------------------------------
@@ -727,6 +737,8 @@ public class StreetDAO {
 		
 		return sqlSession.selectOne("streetMapper.searchJumin", map);
 	}
+
+
 	
 	
 	

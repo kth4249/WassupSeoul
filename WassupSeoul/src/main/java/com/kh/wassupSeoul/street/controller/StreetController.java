@@ -380,8 +380,13 @@ public class StreetController {
 	public String fileUpload(String mapPostContent, Model model, MultipartFile image, HttpServletRequest request, HttpServletResponse response) {
 
 		Member loginMember = (Member) model.getAttribute("loginMember");
-
-		System.out.println("파일명 : " + image.getOriginalFilename());
+		
+		
+		if( image == null) {
+			
+			image.renameTo("image");
+		}
+		System.out.println("파일명 : " + image);
 		
 		int streetNo = (int) model.getAttribute("streetNo");
 
@@ -397,7 +402,6 @@ public class StreetController {
 			
 			System.out.println("스케치 파일 업로드 출력 : " + filePath);
 			
-			
 			if (filePath.equals("")) {
 				return null;
 			}else{
@@ -410,6 +414,7 @@ public class StreetController {
 	}
 	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
+    
 	// -------------------------------------------- 지원 -----------------------------------------------
 	// 골목 개설 화면 이동
 	@RequestMapping("streetInsert")
