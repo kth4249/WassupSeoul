@@ -375,58 +375,39 @@ public class StreetController {
     	return null;
     }
     
-    
-    // 지도 게시글 입력
     @ResponseBody
-	@RequestMapping("mapPost")
-	public String mapPost(String address, Model model, String mapPostContent ) {
-		
-		System.out.println("입력한 주소 : " + address);
-		System.out.println("입력한 게시글 내용 : " + mapPostContent);
-		
-		Member loginMember = (Member)model.getAttribute("loginMember");
+	@RequestMapping(value="sketchPost", produces = "application/text; charset=utf8")
+	public String fileUpload(String mapPostContent, Model model, MultipartFile image, HttpServletRequest request, HttpServletResponse response) {
+
+		Member loginMember = (Member) model.getAttribute("loginMember");
+
+		System.out.println("파일명 : " + image.getOriginalFilename());
 		
 		int streetNo = (int) model.getAttribute("streetNo");
-		
+
 		Board board = new Board();
-		
-		board.setStreetNo(streetNo);
-		board.setMemberNo(loginMember.getMemberNo());
-		board.setBoardContent(mapPostContent +"<br>"+ address);
-		board.setTypeNo(6);
-		
-		
-//		board.setBoardUrl(address); 
-	
-		/* 게시글타입
-		0 : NONE
-		1 : 게시글파일
-		2 : 일정
-		3 : 투표
-		4 :  N빵
-		5 : 스케치
-		6 : 지도*/
+   		
+   		board.setStreetNo(streetNo);
+   		board.setMemberNo(loginMember.getMemberNo());
+   		board.setBoardContent(mapPostContent);
+   		board.setTypeNo(5);
 		
 		try {
-	
-			int test = streetService.mapPost(board);
+			String filePath = streetService.sketchUpload(board,image,request);
 			
-			if ( test > 0) {
-				System.out.println("지도 게시글 입력 완료");
-			}else {
-				System.out.println("지도 게시글 입력 실패");
+			System.out.println("스케치 파일 업로드 출력 : " + filePath);
+			
+			
+			if (filePath.equals("")) {
+				return null;
+			}else{
+				return filePath;
 			}
-			
-			return  test == 1 ? true + "" : false + "";
-			
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("errorMsg", "대댓글 입력 과정에서 오류발생");
-			return "/common/errorPage";
+			return "피곤...";
 		}
 	}
-    
-    
 	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	// -------------------------------------------- 지원 -----------------------------------------------

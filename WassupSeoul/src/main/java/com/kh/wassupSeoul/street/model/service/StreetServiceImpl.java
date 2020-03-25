@@ -269,9 +269,59 @@ public class StreetServiceImpl implements StreetService{
 	}
 
 	
+	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public String sketchUpload(Board board, MultipartFile image, HttpServletRequest request) throws Exception {
+		// 업로드할 폴더 경로
+				String realFolder = request.getSession().getServletContext().getRealPath("resources") + "/uploadImage";
+				String accessPath = request.getContextPath() + "/resources/uploadImage";
+				UUID uuid = UUID.randomUUID();
+
+				System.out.println("realFolder : " + realFolder);
+				System.out.println("accessPath : " + accessPath);
+				
+				// 업로드할 파일 이름
+				String org_filename = file.getOriginalFilename();
+				String str_filename = uuid.toString() + org_filename;
+				System.out.println("원본 파일명 : " + org_filename);
+				System.out.println("저장할 파일명 : " + str_filename);
+				
+				String writer = board.getBoardWriter();	
+				
+				System.out.println("야너뭐야:"+writer);
+				
+				String filepath1 = realFolder + "\\" + writer;
+				System.out.println("실제 파일 저장 경로 : " + filepath1);
+
+				File f = new File(filepath1);
+				if (!f.exists()) {
+					f.mkdirs();
+				}
+				
+				String filepath2 = accessPath + "/"  + writer + "/" + str_filename;
+						
+				System.out.println("파일 url : " + filepath2);
+				
+				int result = streetDAO.fileUpload(filepath2);
+				
+				System.out.println("result : " +result);
+				if(result > 0) {
+					f = new File(filepath1 + "/" + str_filename);
+					file.transferTo(f);
+					System.out.println("외않뒈? :" + result);
+				}else{
+					filepath2 = "";
+				}
+				
+				return filepath2;
+				
+			}
+	
 		
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
+
 
 /** 골목 가입용 Service
 	 * @param map

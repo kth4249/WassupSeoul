@@ -57,7 +57,7 @@
 								<div class="modal-header">
 									<h2 class="modal-title nanum" id="sketchModalLabel"
 										style="font-weight: bold;">스케치 게시글 작성</h2>
-									<button type="button" class="close" data-dismiss="modal"
+									<button type="button" id="sketchCloseBtn" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
@@ -65,7 +65,7 @@
 								<div class="modal-body">
 								
 									<!-- content start -->
-										<textarea class=" nanum" id="writePostArea2" rows="6" placeholder="게시글내용을 입력하세요." 
+										<textarea class=" nanum" id="sketchPostArea" rows="6" placeholder="게시글내용을 입력하세요." 
 													style="border: 1px solid black; color: black; font-size: 17px; height: 100px; width:100%;"></textarea>
 										<div class="jb_table">
 											<div class="row drawing">
@@ -165,7 +165,7 @@
 								<INPUT type="button" value="Save" onClick="saveImage()" />
 								</a> 
 								<INPUT type="button" value="Clear" onClick="initPage()" />
-								<button type="button" style="width: 10%; height: 25px; font-size: 17px; float: right; margin-top: 10px">작성</button>
+								<button type="button" id="sketchSubmitBtn" style="width: 10%; height: 25px; font-size: 17px; float: right; margin-top: 10px">작성</button>
 							</div>	 
 							<!-- content end -->
 							
@@ -174,7 +174,46 @@
 				</div>
 			</div>
 			<!-- end -->
- <script language="JavaScript">
+			
+			
+			<script>
+		 	// 스케치 게시글 업로드
+		 	  document.getElementById('sketchSubmitBtn').addEventListener('click', function() {
+		 		  var canvas = document.getElementById('canvas')
+		 		  var canvasImgStr = canvas.toDataURL("image/png", 1.0);
+	    	 	  var sketchPostContent = $("#sketchPostArea").val();
+		 		 
+		 		 console.log("스케치 그린 그림  :" +canvasImgStr);
+		 		 console.log("사용자가 입력한 게시글  :" + sketchPostContent);
+		                      
+                        $.ajax({
+                            type: 'POST',
+                            url: "sketchPost",
+                        	cache : false,
+            				contentType : false,
+            				processData : false,
+            				enctype: 'multipart/form-data',
+                            data: { "canvasImgStr" : canvasImgStr, "sketchPostContent" : sketchPostContent },
+                            success : function(result) {
+								
+								if (result == "true") {
+									alert("스케치 업로드 성공");
+									$("#sketchCloseBtn").trigger("click");
+								} else {
+									alert("스케치 업로드 성공");
+								}
+							},
+							error : function(e) {
+								console.log("ajax 통신 실패");
+								console.log(e);
+							}
+                        });
+                        refreshList()
+                   });
+		 	</script>
+			
+			
+ 	<script language="JavaScript">
       // Date: 2019.04.24
 
       var textareaList = ["history"];
