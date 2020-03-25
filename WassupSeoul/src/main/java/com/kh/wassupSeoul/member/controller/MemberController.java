@@ -153,11 +153,12 @@ public class MemberController {
 
 		try {
 			Member loginMember = memberService.loginMember(member);
-			String msg = null;
 			if (loginMember != null) {
 				model.addAttribute("loginMember", loginMember);
 				return "redirect:/square";
 			} else {
+				String msg = "이메일 또는 비밀번호가 올바르게 입력되지 않았습니다.";
+				model.addAttribute("msg", msg);
 				return "redirect:/";
 			}
 

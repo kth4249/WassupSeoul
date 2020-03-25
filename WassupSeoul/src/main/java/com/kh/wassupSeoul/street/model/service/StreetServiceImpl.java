@@ -846,6 +846,50 @@ public class StreetServiceImpl implements StreetService{
 	
 	
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
+	
+	
+	/******************** 지원 골목 삭제 시작 ********************************/
+	/** 골목 삭제용 Service
+	 * @param no
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteStreet(Integer no) throws Exception {
+		int result = 0;
+		
+		result = streetDAO.deleteStreet(no);
+		
+		if(result > 0) {
+			
+			result = streetDAO.deleteJoin(no);
+			
+			if(result > 0) {
+				
+				result = streetDAO.deleteStreetKeyword(no);
+			}
+		}
+		return result;
+	}
+	
+	/** 주민 검색용 Service
+	 * @param juminNickName
+	 * @return jumin
+	 * @throws Exception
+	 */
+	@Override
+	public Member searchJumin(String juminNickName, Integer no) throws Exception {
+		
+		Map<String, Object> map = null;
+		map = new HashMap<String, Object>();
+		
+		map.put("juminNickName", juminNickName);
+		map.put("no", no);
+		
+		return streetDAO.searchJumin(map);
+	}
+	/******************** 지원 골목 삭제 끝 ********************************/
 
 	
 	

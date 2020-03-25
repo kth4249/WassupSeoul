@@ -679,6 +679,7 @@ public class StreetDAO {
 	public int deleteSchedule(Calendar temp) throws Exception{
 		return sqlSession.delete("streetMapper.deleteSchedule", temp);
 	}
+
 	
 
 	/** 일정 게시글 삭제용 DAO
@@ -694,4 +695,44 @@ public class StreetDAO {
 	
 	
 /*------------------------ 정승환 추가코드 -----------------------------------*/
+	
+	/******************** 지원 골목 삭제 시작 ********************************/
+	
+	/** 골목 삭제용 DAO
+	 * @param no
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteStreet(Integer no) throws Exception {
+		
+		return sqlSession.delete("streetMapper.deleteStreet", no);
+	}
+
+	/** 골목 가입자 삭제용 DAO
+	 * @param no
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteJoin(Integer no) throws Exception {
+		
+		return sqlSession.delete("streetMapper.deleteJoin", no);
+	}
+
+	/** 주민 검색용 DAO
+	 * @param juminNickName
+	 * @return jumin
+	 * @throws Exception
+	 */
+	public Member searchJumin(Map<String, Object> map) throws Exception {
+		
+		return sqlSession.selectOne("streetMapper.searchJumin", map);
+	}
+	
+	
+	
+	
+	
+	
+	
+	/******************** 지원 골목 삭제 끝 ********************************/
 }

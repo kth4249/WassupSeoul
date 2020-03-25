@@ -86,12 +86,20 @@
 			<!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 수정 끝 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 		  </script>
 		  <div class="row">
-		  
-            <!-- 일반 주민 영역 -->
+				<c:if test="${citizenGrade eq 'M'}">
+					<div class="col-sm-6">
+						<a onclick="return confirm('정말로 이 골목을 삭제하시겠습니까?');"
+							href="streetDelete?no=${streetNo}" class="btn btn-link nanum"
+							style="color: red; font-weight: bold; font-size: 15px"> <img
+							src="${contextPath}/resources/img/streetOut.svg" alt="이미지"
+							style="width: 15px; height: 15px;"> 골목 삭제하기
+						</a>
+					</div>
+				</c:if>
+				<!-- 일반 주민 영역 -->
 		  	<c:if test="${citizenGrade eq 'G' || citizenGrade eq 'M'}">
-		  		<div class="col-sm-6"></div>
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-	             		<a href="streetDelete?no=${streetNo}" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
+	             		<a href="newMaster?no=${streetNo}" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">
 	              	 	골목 탈퇴하기
 	             		</a>
@@ -119,12 +127,12 @@
           </div>
         </div>
         
-       <c:if test="${street.streetStatus eq 'Y'.charAt(0)}">
+       <c:if test="${street.streetPublic eq 'Y'.charAt(0)}">
         	<div class="card-footer text-muted nanum">
           	누구나 골목을 검색해 찾을 수 있고, <br>게시물을 볼 수 있습니다.
         	</div>
         </c:if>
-        <c:if test="${street.streetStatus eq 'N'.charAt(0)}">
+        <c:if test="${street.streetPublic eq 'N'.charAt(0)}">
         	<div class="card-footer text-muted nanum">
          	 이 골목은 누구나 검색해 찾을 수 있지만, 게시물은 주민만 볼 수 있습니다.
         	</div>

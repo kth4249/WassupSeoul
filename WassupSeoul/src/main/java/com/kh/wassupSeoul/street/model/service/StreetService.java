@@ -392,6 +392,26 @@ public interface StreetService {
 	 */
 	public abstract int insertCalendarBoard(Board board) throws Exception;
 
+	
+/*------------------------ 정승환 추가코드 끝-----------------------------------*/
+	
+	/******************** 지원 골목 삭제 시작 ********************************/
+	/** 골목 삭제용 Service
+	 * @param no
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteStreet(Integer no) throws Exception;
+
+	/** 주민 검색용 Service
+	 * @param juminNickName
+	 * @return jumin
+	 * @throws Exception
+	 */
+	public abstract Member searchJumin(String juminNickName, Integer no) throws Exception;
+	
+	
+	/******************** 지원 골목 삭제 끝 ********************************/
 	/** 일정 조회용 Service
 	 * @param streetNo
 	 * @return storeCalendar
