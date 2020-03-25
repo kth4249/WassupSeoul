@@ -10,6 +10,8 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.kh.wassupSeoul.member.model.vo.Member;
+
 public class EchoHandler extends TextWebSocketHandler {
 
 	private List<WebSocketSession> sessionList = new ArrayList();
@@ -21,7 +23,9 @@ public class EchoHandler extends TextWebSocketHandler {
 
 		logger.info("{}연결됨", session.getId());
 		
-		System.out.println("채팅방 입장자 :"+session.getId() );
+		System.out.println("wassupSeoul 접속 세션아이디 :"+session.getId() );
+		Member loginMember = (Member)session.getAttributes().get("loginMember");
+		System.out.println("wassupSeoul 접속자 멤버넘버 :"+ loginMember.getMemberNo());
 		// super.afterConnectionEstablished(session);
 	}
 
@@ -29,7 +33,7 @@ public class EchoHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		//session.sendMessage(new TextMessage(session.getId() + "|" + message.getPayload()));
 		System.out.println("session주소 : "+session.getRemoteAddress());
-		System.out.println(session.getAttributes().get("userName"));
+		System.out.println(session.getAttributes().get("loginMember"));
 		
 		for (WebSocketSession sss : sessionList) {
 			sss.sendMessage(new TextMessage(session.getId() + " | " + message.getPayload()+"|"+session.getRemoteAddress()+"|"+session.getAttributes().get("userName")));

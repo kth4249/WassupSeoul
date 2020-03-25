@@ -13,6 +13,8 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 		crossorigin="anonymous"></script>
+<!-- cdn방식으로 sockjs불러오기 -->
+<script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <title>header</title>
 <style>
 .profileBox{
