@@ -493,7 +493,7 @@
 	<select id="selectBoardNo" resultType="_int">
 		SELECT SEQ_BOARD.NEXTVAL FROM DUAL
 	</select>
-	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 20.03.24ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
+
 	<!-- 일정 등록 -->
 	<insert id="addSchedule" parameterType="Calendar">
 		INSERT INTO CALENDAR
@@ -512,7 +512,26 @@
 		INSERT INTO BOARD
 		VALUES(#{boardNo}, #{boardContent}, SYSDATE, #{boardStatus}, 0, #{streetNo}, #{memberNo}, #{typeNo})		  
 	</insert>
-  	<!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 20.03.24ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
+	
+	<!-- 일정 조회 -->
+	<select id="selectStoreCalendar" parameterType="_int" resultMap="calendarResultSet">
+		SELECT * FROM CALENDAR
+		WHERE STREET_NO = #{streetNo} 
+		ORDER BY CALENDAR_START_DT
+	</select>
+	
+	<!-- 일정 삭제 -->
+	<delete id="deleteSchedule" parameterType="Calendar">
+		DELETE FROM CALENDAR
+		WHERE STREET_NO = #{streetNo} AND BOARD_NO = #{boardNo}
+	</delete>
+	
+	<!-- 일정 게시글 삭제 -->
+	<delete id="deleteBoardCalendar" parameterType="_int">
+		DELETE FROM BOARD
+		WHERE BOARD_NO = #{boardNo}
+	</delete>
+	
 <!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	
 	

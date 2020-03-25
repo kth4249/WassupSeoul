@@ -131,7 +131,10 @@
 			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드2 여백 -->
 			
-			
+			<!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ정승환 코드 추가 시작(20.03.25) ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
+			<!-- 일정 참석 모달창 -->
+			<jsp:include page="../street/streetDetail/joinCalendarModal.jsp"/>
+			<!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ정승환 코드 추가 끝(20.03.25) ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 			
 			
 			
@@ -552,6 +555,12 @@
 	        	$("#setEndDate").attr("style", "visibility:hidden");
 	        }
 	    });
+ 		
+ 		// 정승환 추가 코드(20.03.25)
+ 		$(document).on("click",".joinBtn",function(){
+ 			var joinBoardNo = $(this).next().val();
+ 			$("#thisJoinBoardNo").val(joinBoardNo);
+ 		})
     	     
 	</script>
 <jsp:include page="../common/friends.jsp"/>

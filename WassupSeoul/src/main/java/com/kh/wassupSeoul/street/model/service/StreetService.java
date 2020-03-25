@@ -378,6 +378,31 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int insertCalendarBoard(Board board) throws Exception;
+
+	/** 일정 조회용 Service
+	 * @param streetNo
+	 * @return storeCalendar
+	 * @throws Exception
+	 */
+	public abstract List<Calendar> selectStoreCalendar(int streetNo) throws Exception;
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	/** 일정 삭제용 Service
+	 * @param temp 
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteSchedule(Calendar temp) throws Exception;
+	
+
+	/** 일정 게시글 삭제용 Service
+	 * @param boardNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteBoardCalendar(int boardNo) throws Exception;
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 끝-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	 

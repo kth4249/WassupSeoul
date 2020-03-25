@@ -539,6 +539,37 @@ public class StreetDAO {
 	public int insertCalendarBoard(Board board) throws Exception{
 		return sqlSession.insert("streetMapper.insertCalendarBoard",board);
 	}
+
+	/** 일정 조회용 DAO
+	 * @param streetNo
+	 * @return storeCalendar
+	 * @throws Exception
+	 */
+	public List<Calendar> selectStoreCalendar(int streetNo) throws Exception{
+		return sqlSession.selectList("streetMapper.selectStoreCalendar", streetNo);
+	}
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	/** 일정 삭제용 DAO
+	 * @param temp
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteSchedule(Calendar temp) throws Exception{
+		return sqlSession.delete("streetMapper.deleteSchedule", temp);
+	}
+	
+
+	/** 일정 게시글 삭제용 DAO
+	 * @param boardNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteBoardCalendar(int boardNo) throws Exception{
+		return sqlSession.delete("streetMapper.deleteBoardCalendar", boardNo);
+	}
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
 	
 	
 /*------------------------ 정승환 추가코드 -----------------------------------*/
