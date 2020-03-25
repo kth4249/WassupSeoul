@@ -593,6 +593,17 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectStreetNm(streetNo);
 	}
 	
+	
+	/** 조회된 주민들과 로그인된 멤버와의 관계 조회용 Service
+	 * @param rList
+	 * @return rList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Relationship> selectRelationList(Map<String, Object> relationMap) throws Exception {
+		return streetDAO.selectRelationList(relationMap);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	
@@ -777,7 +788,7 @@ public class StreetServiceImpl implements StreetService{
 	public int selectBoardNo() throws Exception {
 		return streetDAO.selectBoardNo();
 	}
-	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
+
 	/** 일정 등록용 Serivce
 	 * @param sendCalendar
     */
@@ -797,7 +808,43 @@ public class StreetServiceImpl implements StreetService{
 	public int insertCalendarBoard(Board board) throws Exception {
 		return streetDAO.insertCalendarBoard(board);
 	}
-	/*------------------------ 정승환 코드 추가 20.03.24-----------------------------------*/
+	
+	/** 일정 조회용 Service
+	 * @param streetNo
+	 * @return storeCalendar
+	 * @throws Exception
+	 */
+	@Override
+	public List<Calendar> selectStoreCalendar(int streetNo) throws Exception {
+		return streetDAO.selectStoreCalendar(streetNo);
+	}
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	/** 일정 삭제용 Service
+	 * @param temp 
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteSchedule(Calendar temp) throws Exception {
+		return streetDAO.deleteSchedule(temp);
+	}
+	
+	/** 일정 게시글 삭제용 Service
+	 * @param boardNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteBoardCalendar(int boardNo) throws Exception {
+		return streetDAO.deleteBoardCalendar(boardNo);
+	}
+	/*------------------------ 정승환 추가코드(20.03.25) 끝-----------------------------------*/
+
+	
+	
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 
 	

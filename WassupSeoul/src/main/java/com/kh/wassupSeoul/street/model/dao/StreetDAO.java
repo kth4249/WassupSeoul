@@ -455,7 +455,17 @@ public class StreetDAO {
 	public String selectStreetNm(int streetNo) {
 		return sqlSession.selectOne("streetMapper.selectStreetNm", streetNo);
 	}
-
+	
+	
+	/** 조회된 주민들과 로그인된 멤버와의 관계 조회용 DAO
+	 * @param rList
+	 * @return rList
+	 * @throws Exception
+	 */
+	public List<Relationship> selectRelationList(Map<String, Object> relationMap) {
+		return sqlSession.selectList("streetMapper.selectRelationList", relationMap);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 
 	/* 지원 골목 수정 시작 */
@@ -651,4 +661,37 @@ public class StreetDAO {
 	/* ==========================3/25 미현 끝 ========================== */
 
 	/*------------------------ 정승환 추가코드 -----------------------------------*/
+	/** 일정 조회용 DAO
+	 * @param streetNo
+	 * @return storeCalendar
+	 * @throws Exception
+	 */
+	public List<Calendar> selectStoreCalendar(int streetNo) throws Exception{
+		return sqlSession.selectList("streetMapper.selectStoreCalendar", streetNo);
+	}
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	/** 일정 삭제용 DAO
+	 * @param temp
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteSchedule(Calendar temp) throws Exception{
+		return sqlSession.delete("streetMapper.deleteSchedule", temp);
+	}
+	
+
+	/** 일정 게시글 삭제용 DAO
+	 * @param boardNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteBoardCalendar(int boardNo) throws Exception{
+		return sqlSession.delete("streetMapper.deleteBoardCalendar", boardNo);
+	}
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	
+	
+/*------------------------ 정승환 추가코드 -----------------------------------*/
 }

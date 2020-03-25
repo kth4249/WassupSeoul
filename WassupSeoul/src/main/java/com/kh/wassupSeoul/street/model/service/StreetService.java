@@ -264,6 +264,15 @@ public interface StreetService {
 	 * @return streetNm
 	 */
 	public abstract String selectStreetNm(int streetNo);
+	
+	
+
+	/** 조회된 주민들과 로그인된 멤버와의 관계 조회용 Service
+	 * @param rList
+	 * @return rList
+	 * @throws Exception
+	 */
+	public abstract List<Relationship> selectRelationList(Map<String, Object> relationMap) throws Exception;
 
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
@@ -383,6 +392,30 @@ public interface StreetService {
 	 */
 	public abstract int insertCalendarBoard(Board board) throws Exception;
 
+	/** 일정 조회용 Service
+	 * @param streetNo
+	 * @return storeCalendar
+	 * @throws Exception
+	 */
+	public abstract List<Calendar> selectStoreCalendar(int streetNo) throws Exception;
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	/** 일정 삭제용 Service
+	 * @param temp 
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteSchedule(Calendar temp) throws Exception;
+	
+
+	/** 일정 게시글 삭제용 Service
+	 * @param boardNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteBoardCalendar(int boardNo) throws Exception;
+	
+	/*------------------------ 정승환 추가코드(20.03.25) 끝-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	
