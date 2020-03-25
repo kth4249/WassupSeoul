@@ -260,6 +260,15 @@ public interface StreetService {
 	 * @return streetNm
 	 */
 	public abstract String selectStreetNm(int streetNo);
+	
+	
+
+	/** 조회된 주민들과 로그인된 멤버와의 관계 조회용 Service
+	 * @param rList
+	 * @return rList
+	 * @throws Exception
+	 */
+	public abstract List<Relationship> selectRelationList(Map<String, Object> relationMap) throws Exception;
 
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

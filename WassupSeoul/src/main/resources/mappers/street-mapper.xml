@@ -109,7 +109,11 @@
 	</resultMap>
 	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
-	
+	<resultMap type="Relationship" id="RelationshipResultSet">
+		<id property="myNum" column="MY_NO"/>
+		<id property="yourNum" column="YOUR_NO"/>
+		<result property="requestStatus" column="REQUEST_STATUS"/>
+	</resultMap>
 	
 	<!-- 전체 골목 수 조회 -->
 	<select id="getListCount" parameterType="map" resultType="_int">
@@ -357,7 +361,7 @@
   	</insert>
   	
   	
-  	<!-- 주민 목록 조회 겸 추천 친구 목록 조회 (03/22 태훈 수정) -->
+  	<!-- 주민 목록 조회 겸 추천 친구 목록 조회 (03/24 태훈 수정) -->
   	<select id="selectJuminList" parameterType="map" resultMap="memberResultSet">
 		SELECT MEMBER_NO, MEMBER_NM, MEMBER_NICKNAME, MEMBER_GENDER, MEMBER_AGE, 
 		        STREET_NO, COUNT(HOBBY_NO) HOBBY_COUNT, CITIZEN_STATUS, MEMBER_PROFILE_URL
@@ -377,6 +381,9 @@
 				#{state}
 			</foreach>
 			AND STREET_NO = #{streetNo}
+			<if test="memberNo != null">
+				AND MEMBER_NO != #{memberNo}
+			</if>
 		</where>
 		GROUP BY MEMBER_NO, MEMBER_NM, MEMBER_NICKNAME, MEMBER_GENDER,
 				MEMBER_AGE, STREET_NO, CITIZEN_STATUS, MEMBER_PROFILE_URL
@@ -429,7 +436,7 @@
 		VALUES(#{memberNo}, #{streetNo}, 'G', 'W')
 	</insert>
 	
-	<!-- 골목대장 번호 조회용 Service -->
+	<!-- 골목대장 번호 조회용 -->
 	<select id="selectMasterNo" parameterType="_int" resultType="_int">
 		SELECT MEMBER_NO FROM STREET_JOIN
 		WHERE STREET_NO = #{streetNo} 
@@ -438,11 +445,23 @@
 	</select>
 	
 	
-	<!-- 골목 이름 조회용 Service -->
+	<!-- 골목 이름 조회용 -->
 	<select id="selectStreetNm" parameterType="_int" resultType="string">
 		SELECT STREET_NM
 		FROM STREET
 		WHERE STREET_NO = #{streetNm}
+	</select>
+	
+	
+	<!-- 조회된 골목주민과의 관계 조회 -->
+	<select id="selectRelationList" parameterType="map" resultMap="RelationshipResultSet">
+		SELECT *
+		FROM RELATIONSHIP
+		WHERE MY_NO = #{myNo}
+		AND YOUR_NO IN
+		<foreach collection="mList" open="(" separator="," close=")" item="member">
+			#{member.memberNo}
+		</foreach>
 	</select>
 	
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->

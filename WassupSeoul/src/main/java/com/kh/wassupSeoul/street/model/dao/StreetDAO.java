@@ -390,6 +390,16 @@ public class StreetDAO {
 		return sqlSession.selectOne("streetMapper.selectStreetNm", streetNo);
 	}
 	
+	
+	/** 조회된 주민들과 로그인된 멤버와의 관계 조회용 DAO
+	 * @param rList
+	 * @return rList
+	 * @throws Exception
+	 */
+	public List<Relationship> selectRelationList(Map<String, Object> relationMap) {
+		return sqlSession.selectList("streetMapper.selectRelationList", relationMap);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	

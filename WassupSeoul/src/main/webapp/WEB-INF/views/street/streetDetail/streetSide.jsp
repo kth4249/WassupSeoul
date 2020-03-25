@@ -41,12 +41,12 @@
           		<input type="text" readonly class="form-control-plaintext nanum" value="#${keyword.keywordContent}" style="color: white;">
           	</div>
           </c:forEach>
-          
+          <!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 수정 시작(03/24) pm 6:44 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
           <div class="row">
           	<c:if test="${empty citizenStatus}">
 	           <div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
 	           	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
-				onclick="streetJoin()">골목 가입하기</button>
+				id="streetJoin">골목 가입하기</button>
 	           </div>
             </c:if>
             <c:if test="${citizenStatus eq 'W'}">
@@ -63,7 +63,7 @@
             </c:if>
           </div>
           <script>
-			function streetJoin() {
+			$("#streetJoin").on("click", function(){
 				if (confirm("가입을 신청하시겠습니까?")) {
 					$.ajax({
 						url : "${contextPath}/street/streetJoin",
@@ -71,15 +71,19 @@
 							if (result == -1) {
 								alert("더 이상 골목에 가입할 수 없습니다");
 							} else {
-								alert("골목 가입 신청 완료");
+								alert("골목 가입 요청 완료");
+								$("#streetJoin").off("click");
+								$("#streetJoin").prop("disabled", true);
+								$("#streetJoin").text("골목 가입요청중");
 							}
 						},
 						error : function() {
 							alert("골목 가입 신청 과정 중 오류 발생");
 						}
-					})
+					});
 				}
-			}
+			})
+			<!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 수정 끝 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 		  </script>
 		  <div class="row">
 		  

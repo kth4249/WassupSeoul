@@ -592,6 +592,17 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectStreetNm(streetNo);
 	}
 	
+	
+	/** 조회된 주민들과 로그인된 멤버와의 관계 조회용 Service
+	 * @param rList
+	 * @return rList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Relationship> selectRelationList(Map<String, Object> relationMap) throws Exception {
+		return streetDAO.selectRelationList(relationMap);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	
