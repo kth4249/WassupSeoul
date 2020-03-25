@@ -35,27 +35,33 @@
           $('#calendarModal').modal();
           },
           events: [
-            {
-            id: 1,
-            title: 'Test1',
-            start: '2020-03-20',
-            end: '2020-03-24'
-            },
-            {
-            id: 2,
-            title: 'Test2',
-            start: '2020-02-21',
-            end: '2020-02-23'
-            }
+        	  {id: 1,title: '새해',start: '2020-01-01',end: '2020-01-01'},
+              {id: 2,title: '설날',start: '2020-01-24',end: '2020-01-27'},
+              {id: 3,title: '삼일절',start: '2020-03-01',end: '2020-03-01'},
+              {id: 4,title: '부처님오신날',start: '2020-04-30',end: '2020-04-30'},
+              {id: 5,title: '어린이날',start: '2020-05-05',end: '2020-05-05'},
+              {id: 6,title: '현충일',start: '2020-06-06',end: '2020-06-06'},
+              {id: 7,title: '광복절',start: '2020-08-15',end: '2020-08-15'},
+              {id: 8,title: '추석',start: '2020-09-30',end: '2020-10-03'},
+              {id: 9,title: '개천절',start: '2020-10-03',end: '2020-10-03'},
+              {id: 10,title: '한글날',start: '2020-10-09',end: '2020-10-09'},
+              {id: 11,title: '성탄절',start: '2020-12-25',end: '2020-12-25'}
           ]
                       
         });
-		
+        
+        //for(var i=0;i<"${setCalList}")
+        calendar.addEvent({'title':'evt4', 'start':'2020-03-24', 'end':'2020-03-25'});
+        
+
         calendar.render();
 
       });
     </script>
     <!-- 캘린더 추가 끝 -->
+    <style>
+    	
+    </style>
 </head>
 <body style="background-color : rgb(221, 233, 218);">
 	<!-- 골목 네비바 여백 -->
@@ -134,31 +140,6 @@
                                 <div class="col-sm-5"><input type="date" class="form-control" name="endDate" id="endDate"></div>
                                 <div class="col-sm-5"><input type="time" class="form-control" name="endTime" id="endTime"></div>
                               </div>
-                              <!-- <div class="form-group row">
-                                <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">미리알림</label>
-                                <div class="col-sm-7">
-                                  <select class="form-control">
-                                    <option>알림 없음</option>
-                                    <option>10분 전</option>
-                                    <option>30분 전</option>
-                                    <option>1시간 전</option>
-                                    <option>1시간30분 전</option>
-                                    <option>2시간 전</option>
-                                  </select>
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">반복등록</label>
-                                <div class="col-sm-7">
-                                  <select class="form-control">
-                                    <option>반복 없음</option>
-                                    <option>매일</option>
-                                    <option>매주</option>
-                                    <option>2주 마다</option>
-                                    <option>매달 1일</option>
-                                  </select>
-                                </div>
-                              </div> -->
                               <div class="form-group row">
                                 <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">참석설정</label>
                                 <div class="col-md-4">
@@ -213,57 +194,50 @@
                   <div class="row">
                     <div class="col-md-12">
                       <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-md-2">
-                              <h4 class="nanum">3일</h4>
-                              <h6 class="nanum">월요일</h6>
-                            </div>
-                            <div class="col-md-10">
-                              <p class="nanum">오프라인 모임명</p>
-                              <p class="nanum">오후 1:00</p>
-                              <p class="nanum">오프라인 모임에서 지정된 모임장소</p>
-                              <div class="row">
-                                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold;">참여인원</label>
-                                <div class="col-sm-10"><input type="text" readonly class="form-control-plaintext" value="10" style="font-weight: bold;"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-md-2">
-                              <h4 class="nanum">6일</h4>
-                              <h6 class="nanum">목요일</h6>
-                            </div>
-                            <div class="col-md-10">
-                              <p class="nanum">오프라인 모임명</p>
-                              <p class="nanum">오전 9:00</p>
-                              <p class="nanum">오프라인 모임에서 지정된 모임장소</p>
-                              <div class="row">
-                                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold;">참여인원</label>
-                                <div class="col-sm-10"><input type="text" readonly class="form-control-plaintext" value="50" style="font-weight: bold;"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="list-group-item">
-                          <div class="row">
-                            <div class="col-md-2">
-                              <h4 class="nanum">13일</h4>
-                              <h6 class="nanum">목요일</h6>
-                            </div>
-                            <div class="col-md-10">
-                              <p class="nanum">오프라인 모임명</p>
-                              <p class="nanum">오전 11:00</p>
-                              <p class="nanum">오프라인 모임에서 지정된 모임장소</p>
-                              <div class="row">
-                                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold;">참여인원</label>
-                                <div class="col-sm-10"><input type="text" readonly class="form-control-plaintext" value="25" style="font-weight: bold;"></div>
-                              </div>
-                            </div>
-                          </div>           
-                        </li>
+                      
+                      	<c:if test="${empty setCalList}">
+                      		<li class="list-group-item">
+                      			<h4 class="nanum">예정된 일정이 없습니다.</h4>
+                      		</li>
+                      	</c:if>
+                      	
+                      	<c:if test="${!empty setCalList}">
+                      		<c:forEach var="calendar" items="${setCalList}" varStatus="vs">
+	                      		<li class="list-group-item">
+		                          <div class="row">
+		                            <div class="col-md-2">
+		                              <h4 class="nanum">${calendar.calStartDay}</h4>
+		                              <h6 class="nanum">${calendar.calStartDayOfWeek}</h6>
+		                            </div>
+		                            <div class="col-md-10">
+		                              <p class="nanum">${calendar.calTitle}</p>
+		                              <p class="nanum">${calendar.calStartHour}</p>
+		                              <p class="nanum">${calendar.calLocation}</p>
+		                              <div class="row">
+		                                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold;">참여인원</label>
+		                                <c:if test="${calendar.calendarJoin == 'N'.charAt(0)}">
+		                                	<div class="col-sm-8"><input type="text" readonly class="form-control-plaintext nanum" value="참여인원이 없는 일정입니다." style="font-weight: bold;"></div>
+		                                </c:if>
+		                                <c:if test="${calendar.calendarJoin == 'Y'.charAt(0)}">
+		                                	<div class="col-sm-8"><input type="text" readonly class="form-control-plaintext nanum" value="${calendar.calJoinLimit}" style="font-weight: bold;"></div>
+		                                </c:if>
+	                                	<div class="col-sm-1" style="padding-left:5px;padding-right:5px">
+	                                		<img alt="수정버튼" class="scheduleUpdate" src="${contextPath}/resources/img/streetChange.svg" style="cursor:pointer;width: 20px; height: 20px;">
+	                                		수정
+	                                		<input type="hidden" value="${calendar.boardNo}">
+	                                	</div>
+	                                	<div class="col-sm-1" style="padding-left:5px;padding-right:5px">
+	                                		<img alt="삭제버튼" class="scheduleDelete" src="${contextPath}/resources/img/iconmonstr-trash-can-1.svg" style="cursor:pointer;width: 20px; height: 20px;">
+	                                		삭제
+	                                		<input type="hidden" value="${calendar.boardNo}">
+	                                	</div>
+		                              </div>
+		                            </div>
+		                          </div>
+		                        </li>
+                      		</c:forEach>
+                      	</c:if>
+                      	
                       </ul>
                     </div>
                   </div>
@@ -280,14 +254,8 @@
 	</div>
 	<!-- 컨텐츠영역 종료 -->
 
-
 	<script>
-	// 추가코드(20.03.24)
-	function convertDate(date) {
-        var date = new Date(date);
-        alert(date.yyyymmdd());
-    }
-	
+
 	$(function(){
         $("input[name=joinCalendar]").on("click",function(){
           if($("#notJoin").prop("checked")){
@@ -301,23 +269,40 @@
           }
         });
         
+        // 주말에 색상적용
+        $(".fc-day-top.fc-sat").css("color","#0000FF"); // 토
+        $(".fc-day-top.fc-sun").css("color","#FF0000"); // 일
         
-     	// 추가코드(20.03.24)
-     	// 왼쪽 버튼을 클릭하였을 경우
-        $("button.fc-prev-button").click(function() {
-            var date = $("#calendar").fullCalendar("getDate");
-            convertDate(date);
+     	// 전월버튼 클릭시 주말에 색상적용
+    	$(".fc-prev-button").click(function() {
+    		$(".fc-day-top.fc-sat").css("color","#0000FF"); // 토
+            $(".fc-day-top.fc-sun").css("color","#FF0000"); // 일
         });
-
-        // 오른쪽 버튼을 클릭하였을 경우
-        $("button.fc-next-button").click(function() {
-            var date = $("#calendar").fullCalendar("getDate");
-            convertDate(date);
+        // 익월버튼 클릭시 주말에 색상적용
+    	$(".fc-next-button").click(function() {
+    		$(".fc-day-top.fc-sat").css("color","#0000FF"); // 토
+            $(".fc-day-top.fc-sun").css("color","#FF0000"); // 일
         });
-        
+		
+     	// 일정 수정 버튼 클릭시 일정 수정
+     	$(".scheduleUpdate").on("click",function(){
+     		var updateBoardNo = $(this).next().val();
+     		var result = confirm("정말로 일정을 수정하시겠습니까?");
+     		if(result) {
+     			location.href="${contextPath}/street/updateSchedule?boardNo=" + updateBoardNo;	
+     		}
+     	});
+     	
+     	// 일정 삭제 버튼 클릭시 일정 삭제
+     	$(".scheduleDelete").on("click",function(){
+     		var result = confirm("정말로 일정을 삭제하시겠습니까?");
+     		var deleteBoardNo = $(this).next().val();
+     		if(result) {
+     			location.href="${contextPath}/street/deleteSchedule?boardNo=" + deleteBoardNo;	
+     		}
+     	});
       });
 	
-	// 추가코드(20.03.23)
 	$("#calendarModal").on('shown.bs.modal', function (e) { 
 		var container = document.getElementById('map');
         var options = {
@@ -327,6 +312,7 @@
 
         var map = new kakao.maps.Map(container, options);
 	});
+	
 	
 	</script>
 

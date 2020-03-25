@@ -137,8 +137,16 @@
 			<div class="card-header nanum" style="font-size: 25px;">다가오는 일정</div>
 			<div class="card-body" style="padding-bottom:10px;">
 				<h4 class="card-title nanum" style="font-weight: bolder;" id="sideMonth"></h4>
-				<p class="card-text nanum">13일 - DB설계 보고서 제출</p>
-				<p class="card-text nanum">31일 - 클래스 설계 보고서 제출</p>
+				<!-- 정승환 추가코드 시작(20.03.25) -->
+				<c:if test="${empty setCalList}">
+					<p class="card-text nanum">예정된 일정이 없습니다.</p>
+				</c:if>
+				<c:if test="${!empty setCalList}">
+					<c:forEach var="calendar" items="${setCalList}" varStatus="vs">
+						<p class="card-text nanum">${calendar.calStartDay} - ${calendar.calContent}</p>
+					</c:forEach>
+				</c:if>
+				<!-- 정승환 추가코드 끝(20.03.25) -->
 			</div>
 		</div>
 		<!-- 현재 월 입력 -->
