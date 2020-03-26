@@ -75,12 +75,14 @@
 								$("#streetJoin").off("click");
 								$("#streetJoin").prop("disabled", true);
 								$("#streetJoin").text("골목 가입요청중");
+								sendAlarm(result);
 							}
 						},
 						error : function() {
 							alert("골목 가입 신청 과정 중 오류 발생");
 						}
 					});
+					//sendAlarm("74");
 				}
 			})
 			<!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 수정 끝 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->

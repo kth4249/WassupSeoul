@@ -13,6 +13,8 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 		crossorigin="anonymous"></script>
+<!-- cdn방식으로 sockjs불러오기 -->
+<script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <title>header</title>
 <style>
 .profileBox{
@@ -114,6 +116,8 @@ object-fit: cover;
 									//console.log(alList[index])
 									if(item.alarmType == 1){
 										var $alDiv = $("<div>").prop("class", "dropdown-item nanum joinCheck");
+									} else if(item.alarmType == 2){
+										var $alDiv = $("<div>").prop("class", "dropdown-item nanum goStreet");
 									}
 									var $alUrl = $("<input>").prop("type", "hidden").val(item.alarmAddr);
 									var $alNo = $("<input>").prop("type", "hidden").val(item.alarmNo)
@@ -123,6 +127,7 @@ object-fit: cover;
 									$("#alarmDrop").append($alDiv);
 								})
 							}
+							$("#alarmButton>img").prop("src", "${contextPath}/resources/img/alarm2.png")
 						},
 						error : function() {
 							console.log("ajax 통신 실패")
@@ -131,15 +136,16 @@ object-fit: cover;
 					})
 				})
 				
-				$(document).on("click", ".joinCheck", function(){
+				$(document).on("click", ".joinCheck", function(){ // 알람 클릭시 골목 가입 수락여부 선택할 수 있는 함수
 					console.log(this.firstChild.value)
 					var applyCheck = confirm("골목 가입 요청을 수락하시려면 확인, 거절하시려면 취소를 눌러주세요.")
 					$.ajax({
 						url : "${contextPath}/"+this.firstChild.value,
 						data : {"applyCheck": applyCheck},
 						success : function(result){
-							if(result == 1){
+							if(result > 0){
 								alert("골목 가입 수락 완료");
+								sendAlarm(result);
 							}
 						}, 
 						error : function(){
@@ -147,6 +153,16 @@ object-fit: cover;
 						}
 					})
 					console.log(this);
+					this.remove();
+					console.log(this.childNodes[1].value);
+					checkAlarm(this.childNodes[1].value) // 알람 checkDt 수정하는 function 호출 및 매개변수로 alarmNo 전달
+				})
+				
+				$(document).on("click", ".goStreet", function(){ // 알람 클릭시 골목 이동 여부 선택할 수 있는 함수
+					console.log(this.firstChild.value)
+					if(confirm("가입된 골목으로 이동하시겠습니까?")){
+						location.href="${contextPath}/"+this.firstChild.value;
+					}
 					this.remove();
 					console.log(this.childNodes[1].value);
 					checkAlarm(this.childNodes[1].value) // 알람 checkDt 수정하는 function 호출 및 매개변수로 alarmNo 전달
@@ -642,98 +658,32 @@ object-fit: cover;
        	
        	//////////////////////////////// 알람 시작해보는중.... ////////////////////////////////////
    		/* SockJS객체생성 보낼 url경로를 매개변수로 등록 */
-		var sock=new SockJS("<c:url value='/echo'/>");
-		sock.onmessage=onMessage;
+		var sock=new SockJS("<c:url value='/echo'/>"); // 영준아 알람과 메신저 변수 이름 다르게
+		sock.onmessage=onAlarm;
 		sock.onclose=onClose;
 		var today=null;
-		$(function(){
-			$("#sendBtn").click(function(){
-				console.log("send message.....");
-				/* 채팅창에 작성한 메세지 전송 */
-				sendMessage();
-				/* 전송 후 작성창 초기화 */
-				$("#message").val('');
-			});
-			$("#exitBtn").click(function(){
-				console.log("exit message.....");
-				/* 채팅창에 작성한 메세지 전송 */
-				sock.onclose();
-			});
-		});
-		function sendMessage(){
+
+		function sendAlarm(memberNo){
 			/* 맵핑된 핸들러 객채의 handleTextMessage매소드가 실행 */
-			sock.send($("#message").val());
+			//console.log(memberNo);
+			sock.send(memberNo);
 		
 		};
-		function onMessage(evt){
+		function onAlarm(evt){
 			var data=evt.data;//new text객체로 보내준 값을 받아옴.
 			var host=null;//메세지를 보낸 사용자 ip저장
-			var strArray=data.split("|");//데이터 파싱처리하기
+			//var strArray=data.split("|");//데이터 파싱처리하기
 			var userName=null;//대화명 저장
 			
 	
 			//전송된 데이터 출력해보기
-			for(var i=0;i<strArray.length;i++)
+			/* for(var i=0;i<strArray.length;i++)
 			{
 				console.log('str['+i+'] :' + strArray[i]);	 		
-			}
-			if(strArray.length>1)
-			{
-				sessionId=strArray[0];
-				message=strArray[1];
-				host=strArray[2].substr(1,strArray[2].indexOf(":")-1);
-				userName=strArray[3];
-				today=new Date();
-				printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
-				
-				console.log(today);
-				var ck_host='${host}';
-		
-				console.log(sessionId);
-				console.log(message);
-				console.log('host : '+host);
-				console.log('ck_host : '+ck_host);
-				/* 서버에서 데이터를 전송할경우 분기 처리 */
-				if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
-				{
-					var printHTML="<div class='well' style='margin-left: 30%;'>";
-					printHTML+="<div class='alert alert-info'>";
-					printHTML+="<sub>"+printDate+"</sub><br/>";
-					printHTML+="<strong>["+userName+"] : "+message+"</strong>";
-					printHTML+="</div>";
-					printHTML+="</div>";
-					$('#chatdata').append(printHTML);
-				}
-				else{
-					var printHTML="<div class='well'  style='margin-left: -5%;margin-right:30%;'>";
-					printHTML+="<div class='alert alert-warning'>";
-					printHTML+="<sub>"+printDate+"</sub><br/>";
-					printHTML+="<strong>["+userName+"] : "+message+"</strong>";
-					printHTML+="</div>";
-					printHTML+="</div>";
-					$('#chatdata').append(printHTML);
-					
-				}
-				//console.log('chatting data : '+data);
-				
-				
-			}
-			else
-			{
-				today=new Date();
-				printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
-				message=strArray[0];
-				var printHTML="<div class='well'  style='margin-left30%:'>";
-				printHTML+="<div class='alert alert-danger'>";
-				printHTML+="<sub>"+printDate+"</sub><br/>";
-				printHTML+="<strong>[서버관리자] : "+message+"</strong>";
-				printHTML+="</div>";
-				printHTML+="</div>";
-				$('#chatdata').append(printHTML);	
-				
-			}
+			} */
+			console.log('제대로 잘 전달받았는지 확인 : ' + data)
+			$("#alarmButton>img").prop("src", "${contextPath}/resources/img/alarmActive.png")
 			
-			$('.panel').scrollTop($('.panel')[0].scrollHeight);
 	
 		};
 	

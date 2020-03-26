@@ -730,7 +730,8 @@ public class StreetController {
 			Alarm alarm = new Alarm("["+streetNm+"] 골목 가입 요청", '1', 
 						"street/joinCheck?memberNo="+memberNo+"&streetNo="+streetNo,
 						memberNo+"", masterNo);
-			result = streetService.insertAlarm(alarm);
+			streetService.insertAlarm(alarm);
+			result = masterNo;
 		}
 
 		return result;
@@ -842,16 +843,21 @@ public class StreetController {
 	@RequestMapping("joinCheck")
 	public int joinCheck(Model model, Boolean applyCheck, int memberNo,
 						@RequestParam(required = false) Integer streetNo) {
-		System.out.println(memberNo);
 		if(streetNo == null) {
 			streetNo = (Integer)model.getAttribute("streetNo");
 		}
+		String streetNm = streetService.selectStreetNm(streetNo);
+		int masterNo = streetService.selectMasterNo(streetNo);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("streetNo", streetNo);
 		map.put("memberNo", memberNo);
 		if(applyCheck == true) {
 			streetService.joinCheck(map);
-			return 1;
+			Alarm alarm = new Alarm("["+streetNm+"] 골목에 가입이 완료되었습니다!", '2',
+					"street/streetMain?streetNo="+streetNo, masterNo+"", memberNo);
+			streetService.insertAlarm(alarm);
+			return memberNo;
 		} else {
 			streetService.joinDelete(map);
 			return 0;
