@@ -209,21 +209,39 @@ public class FriendsServiceImpl implements FriendsService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<Member> blockFriendsList(int myNum) throws Exception {
+	public List<Object> blockFriendsList(int myNum) throws Exception {
 		List<Relationship> bList = friendsDAO.blockFriendsList1(myNum);
 		List<Integer> bbList = new ArrayList<Integer>();
-		List<Member> bbbList = new ArrayList<Member>();
-		System.out.println("bList : " + bList );
+		List<Object> bbbList = new ArrayList<Object>();
+		//System.out.println("bList : " + bList );
 		if (!bList.isEmpty()) {
 			
 			for (int i = 0 ; i<bList.size() ; i++) {
 				bbList.add(bList.get(i).getYourNum());
 			}
-			System.out.println("bbList : " + bbList );
+			//System.out.println("bbList : " + bbList ); // 여기까지 성공
+			
 			bbbList = friendsDAO.blockFriendsList2(bbList);
-			System.out.println("bbbList : " + bbbList);
-		} 
+			//System.out.println("bbbList : " + bbbList);
+		}  
 		return bbbList;
+	}
+
+	/** 차단 해제용
+	 * @param yourNick
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int noBlock(Map<String,Object> bMap) throws Exception {
+		
+		Member freeMan = friendsDAO.noBlock1(bMap);
+		
+		int freeNo = freeMan.getMemberNo();
+		bMap.put("yourNo", freeNo);
+		int result = friendsDAO.noBlock2(bMap);
+		
+		return result;
 	}
 
 	

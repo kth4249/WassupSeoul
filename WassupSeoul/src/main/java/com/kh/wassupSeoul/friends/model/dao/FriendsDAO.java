@@ -213,8 +213,28 @@ public class FriendsDAO {
 	 * @return bList
 	 * @throws Exception
 	 */
-	public List<Member> blockFriendsList2(List<Integer> bbList) throws Exception {
+	public List<Object> blockFriendsList2(List<Integer> bbList) throws Exception {
 		return sqlSession.selectList("friendsMapper.blockFriendsList2", bbList);
+	}
+
+
+	/** 친구 차단 해제 1
+	 * @param yourNick
+	 * @return Member
+	 * @throws Exception
+	 */
+	public Member noBlock1(Map<String,Object> bMap) throws Exception{
+		return sqlSession.selectOne("friendsMapper.noBlock1", bMap);
+	}
+
+
+	/** 친구 차단 해제 2
+	 * @param freeNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int noBlock2(Map<String,Object> bMap) throws Exception {
+		return sqlSession.delete("friendsMapper.noBlock2", bMap);
 	}
 
 
