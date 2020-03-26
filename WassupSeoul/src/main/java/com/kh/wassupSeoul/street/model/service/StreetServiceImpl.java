@@ -15,11 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.wassupSeoul.common.FileRename;
+import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
+import com.kh.wassupSeoul.street.model.vo.Bfile;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -483,7 +485,7 @@ public class StreetServiceImpl implements StreetService{
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public String fileUpload(Board board, MultipartFile file, HttpServletRequest request) throws Exception{
+	public String fileUpload(Board board, MultipartFile file, HttpServletRequest request, int streetNo) throws Exception{
 		
 		// 업로드할 폴더 경로
 		String realFolder = request.getSession().getServletContext().getRealPath("resources") + "/uploadImage";
@@ -515,7 +517,14 @@ public class StreetServiceImpl implements StreetService{
 				
 		System.out.println("파일 url : " + filepath2);
 		
-		int result = streetDAO.fileUpload(filepath2);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("streetNo", streetNo);
+		map.put("filepath2", filepath2);
+		
+		System.out.println(map.get("filepath2"));
+		System.out.println(map.get("streetNo"));
+		
+		int result = streetDAO.fileUpload(map);
 		
 		System.out.println("result : " +result);
 		if(result > 0) {
@@ -890,13 +899,6 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.searchJumin(map);
 	}
 	/******************** 지원 골목 삭제 끝 ********************************/
-
-	
-	
-	
-	
-	
-	
 	/*==============================3/25 미현 코드추가 시작 ======================*/
 	
 	/** 썸머노트 수정용 service
@@ -925,13 +927,22 @@ public class StreetServiceImpl implements StreetService{
 		 */
 		
 		board.setBoardContent(board.getBoardContent().replace("\r\n", "<br>"));
-		System.out.println("여기까진 오시는지?");
 		int result = streetDAO.updateSummer(board);
-		System.out.println("여기까진..?:" + result);
 		
 		return result;
 		
 	}
+	
+	/*====================3/26 미현 시작==================*/
+	/** 사진첩 목록 조회용
+	 * @return list
+	 * @throws Exception
+	 */
+	@Override
+	public List<String> selectPtList(int streetNo) throws Exception {
+		return streetDAO.selectPtList(streetNo);
+	}
+
 	
 	
 	/*==============================3/25 미현 코드추가 끝 ======================*/
