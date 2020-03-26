@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
+import com.kh.wassupSeoul.street.model.vo.Bfile;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -241,7 +243,7 @@ public interface StreetService {
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract String fileUpload(Board board, MultipartFile file, HttpServletRequest request) throws Exception;
+	public abstract String fileUpload(Board board, MultipartFile file, HttpServletRequest request, int streetNo) throws Exception;
 
 	/*-----------------------------태훈 시작 (03/22) -------------------------------*/
 	/** 골목 가입신청 허가용 Service
@@ -526,6 +528,14 @@ public interface StreetService {
 	public abstract int updateSummer(Board board, MultipartFile file, String savePath) throws Exception;
 	/*==========================3/25 미현 코드 추가 끝=======================*/
 
+	/*==============================3/26 미현 코드 추가 시작=============================*/
 	
+	/** 사진첩 목록 조회용
+	 * @return list
+	 * @throws Exception
+	 */
+	public abstract List<String> selectPtList(int streetNo) throws Exception;
+
+	/*==============================3/26 미현 코드 추가 끝=============================*/
 	 
 }

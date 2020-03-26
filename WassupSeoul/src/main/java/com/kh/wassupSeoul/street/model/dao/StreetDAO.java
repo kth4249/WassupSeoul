@@ -5,15 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
+import com.kh.wassupSeoul.street.model.vo.Bfile;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -542,11 +545,12 @@ public class StreetDAO {
 	/**
 	 * 썸머노트 이미지도 DB삽입용 DAO
 	 * 
-	 * @param filepath
+	 * @param map
+	 * @param streetNo 
 	 * @return result
 	 */
-	public int fileUpload(String filepath) throws Exception {
-		return sqlSession.insert("streetMapper.fileUpload", filepath);
+	public int fileUpload(Map<String, Object> map) throws Exception {
+		return sqlSession.insert("streetMapper.fileUpload", map);
 	}
 
 	/*-----------------------미현 끝-------------------------------------------*/
@@ -659,15 +663,6 @@ public class StreetDAO {
 	}
 
 	/* ==========================3/25 미현 시작 ========================== */
-	/*	*//**
-			 * 기존 게시글 괜히한번 불러와보기 DAO
-			 * 
-			 * @param boardNo
-			 * @return
-			 *//*
-				 * public String selectFiles(int boardNo) throws Exception{ return
-				 * sqlSession.selectOne("streetMapper.selectSummer",boardNo); }
-				 */
 
 	/**
 	 * @param board
@@ -803,13 +798,13 @@ public class StreetDAO {
 		
 		return sqlSession.selectOne("streetMapper.searchJumin", map);
 	}
-
-	/** 새로운 골목대장 위임용 DAO
+  
+  /** 새로운 골목대장 위임용 DAO
 	 * @param map
 	 * @return result 
 	 * @throws Exception
 	 */
-	public int updateNewMaster(Map<String, Object> map) throws Exception {
+  public int updateNewMaster(Map<String, Object> map) throws Exception {
 		
 		return sqlSession.update("streetMapper.updateNewMaster", map);
 	}
@@ -823,12 +818,25 @@ public class StreetDAO {
 		
 		return sqlSession.update("streetMapper.updateOriginalMaster", map);
 	}
+  
+  /******************** 지원 골목 삭제 끝 ********************************/
+
+	/*=======================3/26 미현 시작==============================*/
+
+	/** 사진첩 게시글 조회용 DAO
+	 * @param pInf
+ 	 * @return list
+	 */
+	public List<String> selectPtList(int streetNo) {
+		return sqlSession.selectList("streetMapper.selectPtList",streetNo);
+  }
+
+	
+	/*=======================3/26 미현 끝==============================*/
 	
 	
 	
 	
 	
 	
-	
-	/******************** 지원 골목 삭제 끝 ********************************/
 }

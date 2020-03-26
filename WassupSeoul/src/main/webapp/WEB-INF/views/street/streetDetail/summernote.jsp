@@ -83,7 +83,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary nanum"
 						data-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-success nanum updateBtn">수정</button>
+					<button type="button" class="btn btn-success nanum updateBtn" id="updateBtn">수정</button>
 				</div>
 			</div>
 		</div>
@@ -125,7 +125,10 @@
 				callbacks: {
 					onImageUpload: function(files, editor, welEditable) {
 						for (var i = files.length - 1; i >= 0; i--) {
-							updateSendfile(files[i], this);
+							
+							console.log(files[i]);
+							console.log(this);
+							sendFile(files[i], this);
 			            }
 		       	   }
 				}
@@ -170,33 +173,23 @@
    
 		// 업데이트용 
 		$(document).on("click",".updateBtn",function(){
-			console.log("updateForm");
+			console.log($("#updateForm"));
+			//var content = $("#summernote2").val();
+			
+			//alert(content);
+			//alert(content.indexOf("<p>"));
+			/*var start = content.indexOf("<p>");
+			var end = content.indexOf("</p>");
+			
+			alert(start + " / " end);
+			 */
+			
+			
+			$("#summernote2").val($("#summernote2").val().trim());
 			$("#updateForm").submit();
 		});
      
-		function updateSendfile(file, el) {
-			data = new FormData();
-			data.append("file", file);
-			data.append("boardWriter", "${loginMember.memberNo}")
-			$.ajax({
-				data : data,
-				type : "POST",
-				url : "refileUpload",
-				cache : false,
-				contentType : false,
-				processData : false,
-				enctype: 'multipart/form-data',
-				success: function(result) {
-					
-					$(el).summernote('editor.insertImage', result);
-					
-				  },
-				  error : function(e){
-					  console.log("ajax 실패");
-					  console.log(e);
-				  }
-			});
-		}
+		
 		
 	
 	/* =============== 미현 끝================ */

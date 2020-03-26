@@ -124,10 +124,12 @@
 
 
 	<script>
+	/* 미현 고침!!  */
 		$(document).on("click",".updateSummer",function(){
-			$("#summernote2").summernote('code',  $(this).parents(".MainWrap").next().next().html());
+			$("#summernote2").summernote('code',  $(this).parents(".MainWrap").parents().children(".postMainWrap").children("div").html());
 			$("#summernote2").siblings("input[type=hidden]") .val( $(this).next().val() );
 		});
+		/* 미현 고침!!  */
 	</script>
 		<!-- 게시물 있을때 -->
 	<c:if test="${!empty board}">

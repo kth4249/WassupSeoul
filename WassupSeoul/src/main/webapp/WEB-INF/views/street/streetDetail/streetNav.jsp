@@ -9,7 +9,8 @@
                 <div class="container d-flex flex-column flex-md-row justify-content-between">
                     <a class="py-1" href="#" aria-label="Product"></a>
                     <a class="py-1 d-none d-md-inline-block nanum" href="${contextPath}/street/streetMain?streetNo=${streetNo}" style="text-decoration: none; color:#F5FFFA; ">게시판</a> 
-                    <a class="py-1 d-none d-md-inline-block nanum" href="#" style="text-decoration: none; color:#F5FFFA; ">사진첩</a> 
+                    <!-- 3/25 미현 사진첩 부분 수정  -->
+                    <a class="py-1 d-none d-md-inline-block nanum" href="${contextPath}/street/photoAlbum?streetNo=${streetNo}" style="text-decoration: none; color:#F5FFFA; ">사진첩</a> 
                     <a class="py-1 d-none d-md-inline-block nanum" href="${contextPath}/street/calendar?streetNo=${streetNo}" style="text-decoration: none; color:#F5FFFA; ">일정</a>
                     <%-- ${contextPath}/street/streetCalendar --%> 
                     <a class="py-1 d-none d-md-inline-block nanum" href="${contextPath}/street/juminList?streetNo=${streetNo}" style="text-decoration: none; color:#F5FFFA;">주민목록</a>

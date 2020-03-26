@@ -36,6 +36,7 @@ import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.service.StreetService;
+import com.kh.wassupSeoul.street.model.vo.Bfile;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -790,17 +791,18 @@ public class StreetController {
 	}
 	
 	/*----------------------- 미현 시작 (03/23) -----------------------------------*/
-	// 썸머노트 파일 DB삽입용
+	// 썸머노트 파일 Bfile DB삽입용
 	@ResponseBody
 	@RequestMapping(value="fileUpload", produces = "application/text; charset=utf8")
 	public String fileUpload(Board board, Model model, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
 
 		Member loginMember = (Member) model.getAttribute("loginMember");
-
+		int streetNo = (int) model.getAttribute("streetNo");
+		
 		System.out.println("파일명 : " + file.getOriginalFilename());
 
 		try {
-			String filePath = streetService.fileUpload(board,file,request);
+			String filePath = streetService.fileUpload(board,file,request,streetNo);
 			
 			System.out.println("오고있는거니filePath : " + filePath);
 			
@@ -1396,17 +1398,20 @@ public class StreetController {
 	
 	
 	// 썸머노트 게시글 수정
-	@ResponseBody
-	@RequestMapping(value="updateSummer", produces = "application/text; charset=utf8")
-	public String updateSummer(Board board, Model model, MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+	//@ResponseBody
+	//@RequestMapping(value="updateSummer", produces = "application/text; charset=utf8")
+	@RequestMapping("updateSummer")
+	public String updateSummer(Board board, Model model, MultipartFile file, HttpServletRequest request, HttpServletResponse response, int no) {
 		
 		Member loginMember = (Member) model.getAttribute("loginMember");
 		int boardWriter = loginMember.getMemberNo();
 		// 수정 실패or성공할때 원래 street페이지로 돌아오기 위함
 		int streetNo = (int) model.getAttribute("streetNo");
 		
-		board.setMemberNo(boardWriter);
+		board.setBoardNo(no);
+		/* board.setMemberNo(boardWriter); */
 		board.setStreetNo(streetNo);
+		System.out.println(board);
 		
 		// 수정 또는 새롭게 추가된 파일이 저장될 경로 얻어오기
 		String writer = board.getBoardWriter();	
@@ -1421,12 +1426,8 @@ public class StreetController {
 		try {
 			int result =streetService.updateSummer(board,file,savePath);
 			
-			System.out.println("미현 result : "+result);
-			String msg;
-			if(result > 0)	msg = "썸머 게시글 수정 성공";
-			else 			msg = "썸머 게시글 수정 실패";
-			
-			model.addAttribute("msg",msg);
+			if(result > 0)	System.out.println("썸머 게시글 등록 성공" + result);
+			else 			System.out.println("썸머 게시글 등록 실패" + result);
 			
 			return "redirect:streetMain?streetNo=" + streetNo;
 			
@@ -1437,7 +1438,38 @@ public class StreetController {
 		}
 	}
 	
-	
+	/** 사진첩 사진 조회용 
+	 * @param model
+	 * @param board
+	 * @param currentPage
+	 * @return list
+	 */
+	@RequestMapping("photoAlbum")
+	public String photoAlbum(Model model) {
+		
+		try {
+			/*
+			 * if (currentPage == null) currentPage = 1; PageInfo pInf =
+			 * Pagination.getPageInfo(5, 10, currentPage, listCount);
+			 */
+			int streetNo = (int) model.getAttribute("streetNo");
+			System.out.println(streetNo);
+			
+			List<String> list = streetService.selectPtList(streetNo);
+			
+			System.out.println("list입니당:"+list);
+			
+			model.addAttribute("list", list);
+			/* model.addAttribute("pInf", pInf); */
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "앨범 사진 조회 과정에서 오류 발생");
+			return "common/errorPage";
+		}
+
+		return "street/photoAlbum";
+	}
 	
 	/*------------------------ 미현 코드추가 끝-----------------------------------*/ 
 	

@@ -117,6 +117,17 @@
 		<result property="requestStatus" column="REQUEST_STATUS"/>
 	</resultMap>
 	
+	
+	<!-- 3/26 조미현 코드 추가 시작-->
+	<resultMap type="Bfile" id="BfileResultSet">
+		<id property="bFileNo" column="BFILE_NO"/>
+		<result property="bFileUrl" column="BFILE_URL"/>
+		<result property="streetBfile" column="STREET_BFILE"/>
+	</resultMap> 
+	<!-- 3/26 조미현 코드 끝-->
+	
+	
+	
 	<!-- 전체 골목 수 조회 -->
 	<select id="getListCount" parameterType="map" resultType="_int">
 		SELECT COUNT(DISTINCT(STREET_NO))
@@ -216,10 +227,10 @@
   	 </select>
   	
   	<!-- 게시글 등록용 -->
-  	 <insert id="insertBoard" parameterType="Board">
+   <insert id="insertBoard" parameterType="Board">
 		  INSERT INTO BOARD
-		  VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo}, NULL , NULL  )
-	</insert>
+		  VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo}, DEFAULT, DEFAULT )
+	</insert> 
 	
 	<!-- 좋아요조회  -->
 	<select id="likeCheck" parameterType="reply" resultType="string">
@@ -608,10 +619,8 @@
 	
 	<!-- =========================미현 시작 3/23===================================== -->
 	
-	<insert id="fileUpload" parameterType="string">
-		INSERT INTO BFILE VALUES(
-			SEQ_BOARD.NEXTVAL, #{filepath}
-		)
+	<insert id="fileUpload" parameterType="map">
+		INSERT INTO BFILE VALUES(SEQ_BOARD.NEXTVAL, #{filepath2}, #{streetNo})
 	</insert>
 	
 	
@@ -696,10 +705,15 @@
 	
 	<select id="updateSummmer" parameterType="board">
 		UPDATE BOARD SET
-		BOARD_CONTENT = ${boardContent},
-		BOARD_WRITE_DT = SYSDATE,
+		BOARD_CONTENT = #{boardContent}, 
+		BOARD_WRITE_DT = SYSDATE
 		WHERE BOARD_NO = #{boardNo}
 	</select>
 	
 	<!-- 3/25 미현 코드 추가끝  -->
+	
+	<select id="selectPtList" parameterType="_int" resultType="string"> 
+		SELECT BFILE_URL FROM BFILE 
+		WHERE STREET_BFILE = #{streetNo}
+	</select>
 </mapper>
