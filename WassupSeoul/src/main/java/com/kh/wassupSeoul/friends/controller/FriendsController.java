@@ -196,11 +196,6 @@ public class FriendsController {
 		}
 	
 	
-	
-	
-	
-	
-	
 	// 친구 목록에서의 친구 차단 Controller
 		@ResponseBody
 		@RequestMapping(value="blockFriendInList", method = RequestMethod.POST)
@@ -227,6 +222,48 @@ public class FriendsController {
 		
 		
 		
+		// 친구차단 목록 조회용 Controller
+		@ResponseBody
+		@RequestMapping(value="blockFriendsList", method = RequestMethod.POST,
+				produces = "application/json; charset=utf-8")
+			public String blockFriendsList(Model model) {
+			int myNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
+			//System.out.println("myNo" + myNo);
+			try {
+				List<Object> bList = friendsService.blockFriendsList(myNo);
+				//System.out.println("컨트롤러 bList : " + bList);
+				return new Gson().toJson(bList);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}// 목록 조회 끝
+		
+		
+		
+		// 친구 차단 해제 Controller
+		@ResponseBody
+		@RequestMapping(value="noBlock", method = RequestMethod.POST)
+		public String noBlock(Model model, String yourNick) {
+			int myNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
+			Map<String,Object> bMap = new HashMap<String, Object>();
+			bMap.put("myNo",myNo);
+			bMap.put("yourNick", yourNick);
+			try {
+				int result = friendsService.noBlock(bMap);
+				
+				if (result>0) {
+					//System.out.println("친구차단에서 제거 성공");
+				} else {
+					//System.out.println("친구차단에서 제거 실패");
+				}
+				return null;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+			}
 		
 	
 	

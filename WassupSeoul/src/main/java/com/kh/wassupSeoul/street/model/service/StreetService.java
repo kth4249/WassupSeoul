@@ -125,6 +125,20 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int mapPost(Board board)throws Exception;
+	
+	/** 스케치 업로드 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int sketchUpload(Board board) throws Exception;
+	
+	/** 투표 게시글 업로드용 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int votePost(Board board) throws Exception;
 
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
@@ -403,15 +417,31 @@ public interface StreetService {
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int deleteStreet(Integer no) throws Exception;
+	public abstract int deleteStreet(int streetNo) throws Exception;
 
 	/** 주민 검색용 Service
 	 * @param juminNickName
 	 * @return jumin
 	 * @throws Exception
 	 */
-	public abstract Member searchJumin(String juminNickName, Integer no) throws Exception;
+	public abstract Member searchJumin(String juminNickName, int streetNo) throws Exception;
 	
+	
+	/** 골목대장 존재 여부 확인용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int selectStreetMaster(int memberNo) throws Exception;
+	
+	/** 골목 대장 위임용 Service
+	 * @param newNo
+	 * @param no
+	 * @param original
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int yesMaster(Integer newNo, int streetNo, int original) throws Exception;
 	
 	/******************** 지원 골목 삭제 끝 ********************************/
 	/** 일정 조회용 Service
@@ -421,7 +451,7 @@ public interface StreetService {
 	 */
 	public abstract List<Calendar> selectStoreCalendar(int streetNo) throws Exception;
 	
-	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	
 	/** 일정 삭제용 Service
 	 * @param temp 
 	 * @return result
@@ -437,7 +467,52 @@ public interface StreetService {
 	 */
 	public abstract int deleteBoardCalendar(int boardNo) throws Exception;
 	
-	/*------------------------ 정승환 추가코드(20.03.25) 끝-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.25 ,26) 시작-----------------------------------*/
+	
+	/** 일정 게시글 참여인원수 조회용 Service
+	 * @param boardNo
+	 * @return count
+	 * @throws Exception
+	 */
+	public abstract int selectJoinCalendar(int boardNo) throws Exception;
+	
+	
+	/** 일정 게시글 참여인원 목록 삭제용 Service
+	 * @param boardNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteJoinCalendar(int boardNo) throws Exception;
+	
+	/** 해당 글번호에 해당하는 참여인원 회원번호 조회용 Service
+	 * @param boardNo
+	 * @return joinList
+	 * @throws Exception
+	 */
+	public abstract List<Board> selectCalMemNo(int boardNo) throws Exception;
+	
+	/** 참가일정 참여 인원 회원정보 조회용 Service
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	public abstract Member selectJoinMember(int memberNo) throws Exception;
+	
+	/** 일정 참여인원 삽입용 Service
+	 * @param temp
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int insertCalendarMember(Board temp) throws Exception;
+	
+	/** 일정 참여인원 삭제용 Service
+	 * @param temp
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteCalendarMember(Board temp) throws Exception;
+	
+	/*------------------------ 정승환 추가코드(20.03.25 ,26) 끝-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	

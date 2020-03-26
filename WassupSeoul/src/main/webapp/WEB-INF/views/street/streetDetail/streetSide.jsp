@@ -43,7 +43,7 @@
           </c:forEach>
           <!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 수정 시작(03/24) pm 6:44 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
           <div class="row">
-          	<c:if test="${empty citizenStatus}">
+          	<c:if test="${citizenStatus eq 'N'}"> <!-- 정승환 추가코드(20.03.26) -->
 	           <div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
 	           	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
 				id="streetJoin">골목 가입하기</button>
@@ -55,7 +55,7 @@
 	            	disabled>골목 가입요청중</button>
 	            </div>
             </c:if>
-            <c:if test="${not empty citizenStatus && citizenStatus ne 'W'}">
+            <c:if test="${citizenStatus ne 'N' && citizenStatus ne 'W'}"> <!-- 정승환 추가코드(20.03.26) -->
             	<div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
 	            	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
 	            	disabled>골목 가입완료</button>
@@ -75,12 +75,14 @@
 								$("#streetJoin").off("click");
 								$("#streetJoin").prop("disabled", true);
 								$("#streetJoin").text("골목 가입요청중");
+								sendAlarm(result);
 							}
 						},
 						error : function() {
 							alert("골목 가입 신청 과정 중 오류 발생");
 						}
 					});
+					//sendAlarm("74");
 				}
 			})
 			<!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 수정 끝 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
@@ -95,11 +97,18 @@
 							style="width: 15px; height: 15px;"> 골목 삭제하기
 						</a>
 					</div>
+					<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
+						<a href="newMaster?no=${streetNo}" class="btn btn-link nanum"
+							style="color: red; font-weight: bold; font-size: 15px"> <img
+							src="${contextPath}/resources/img/streetOut.svg" alt="이미지"
+							style="width: 15px; height: 15px;"> 골목대장위임하기
+						</a>
+					</div>
 				</c:if>
 				<!-- 일반 주민 영역 -->
-		  	<c:if test="${citizenGrade eq 'G' || citizenGrade eq 'M'}">
+		  	<c:if test="${citizenGrade eq 'G'}">
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-	             		<a href="newMaster?no=${streetNo}" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
+	             		<a href="" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">
 	              	 	골목 탈퇴하기
 	             		</a>
@@ -116,10 +125,10 @@
 	             		</a>
 	           	</div>
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-	             		<button type="button" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px; padding-left: 6px; padding-right: 6px;">
+	             		<a href="streetReport" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px; padding-left: 6px; padding-right: 6px;">
 	               	<img src="${contextPath}/resources/img/actReport.svg" alt="이미지" style="width: 15px; height: 15px;">
 	                                   	활동보고서 작성
-	             		</button>
+	             		</a>
 	           	</div>
 	  	    </c:if>
             <!-- 골목대장 영역 -->

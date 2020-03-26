@@ -249,6 +249,25 @@ public class StreetDAO {
 	public int mapPost(Board board) throws Exception {
 		return sqlSession.insert("streetMapper.mapPost", board);
 	}
+	
+	
+	/** 스케치 업로드용 DAO
+	 * @param filepath2
+	 * @return result
+	 * @throws Exception
+	 */
+	public int sketchUpload(Board board) throws Exception {
+		return sqlSession.insert("streetMapper.sketchUpload", board);
+	}
+	
+	/** 투표 업로드용 DAO
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public int votePost(Board board) throws Exception  {
+		return sqlSession.insert("streetMapper.votePost", board);
+	}
 
 	// -------------------------------------------- 중하 끝
 	// ---------------------------------------------
@@ -665,7 +684,7 @@ public class StreetDAO {
 		return sqlSession.selectList("streetMapper.selectStoreCalendar", streetNo);
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	
 	/** 일정 삭제용 DAO
 	 * @param temp
 	 * @return result
@@ -686,7 +705,64 @@ public class StreetDAO {
 		return sqlSession.delete("streetMapper.deleteBoardCalendar", boardNo);
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.25 ,26) 시작-----------------------------------*/
+	
+	/** 일정 게시글 참여인원수 조회용 DAO
+	 * @param boardNo
+	 * @return count
+	 * @throws Exception
+	 */
+	
+	public int selectJoinCalendar(int boardNo) throws Exception{
+		return sqlSession.selectOne("streetMapper.selectJoinCalendar", boardNo);
+	}
+	
+	/** 일정 게시글 참여인원 목록 삭제용 DAO
+	 * @param boardNo
+	 * @return result
+	 * @throws Exception
+	 */
+	
+	public int deleteJoinCalendar(int boardNo) throws Exception{
+		return sqlSession.delete("streetMapper.deleteJoinCalendar", boardNo);
+	}
+	
+	/** 해당 글번호에 해당하는 참여인원 회원번호 조회용 DAO
+	 * @param boardNo
+	 * @return joinList
+	 * @throws Exception
+	 */
+	public List<Board> selectCalMemNo(int boardNo) throws Exception{
+		return sqlSession.selectList("streetMapper.selectCalMemNo", boardNo);
+	}
+	
+	/** 참가일정 참여 인원 회원 정보 조회용 DAO
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	public Member selectJoinMember(int memberNo) throws Exception{
+		return sqlSession.selectOne("streetMapper.selectJoinMember", memberNo);
+	}
+	
+	/** 일정 참여인원 삽입용 DAO
+	 * @param temp
+	 * @return result
+	 * @throws Exception
+	 */
+	public int insertCalendarMember(Board temp) throws Exception{
+		return sqlSession.insert("streetMapper.insertCalendarMember", temp);
+	}
+	
+	/** 일정 참여인원 삭제용 DAO
+	 * @param temp
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteCalendarMember(Board temp) throws Exception{
+		return sqlSession.delete("streetMapper.deleteCalendarMember", temp);
+	}
+	/*------------------------ 정승환 추가코드(20.03.25 ,26) 시작-----------------------------------*/
 	
 	
 /*------------------------ 정승환 추가코드 -----------------------------------*/
@@ -708,9 +784,9 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
-	public int deleteJoin(Integer no) throws Exception {
+	public int deleteJoin(int streetNo) throws Exception {
 		
-		return sqlSession.delete("streetMapper.deleteJoin", no);
+		return sqlSession.delete("streetMapper.deleteJoin", streetNo);
 	}
 
 	/** 주민 검색용 DAO
@@ -722,6 +798,28 @@ public class StreetDAO {
 		
 		return sqlSession.selectOne("streetMapper.searchJumin", map);
 	}
+  
+  /** 새로운 골목대장 위임용 DAO
+	 * @param map
+	 * @return result 
+	 * @throws Exception
+	 */
+  public int updateNewMaster(Map<String, Object> map) throws Exception {
+		
+		return sqlSession.update("streetMapper.updateNewMaster", map);
+	}
+
+	/** 기존 골목대장 주민 강등용 DAO
+	 * @param map
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateOriginalMaster(Map<String, Object> map) throws Exception {
+		
+		return sqlSession.update("streetMapper.updateOriginalMaster", map);
+	}
+  
+  /******************** 지원 골목 삭제 끝 ********************************/
 
 	/*=======================3/26 미현 시작==============================*/
 
@@ -731,7 +829,8 @@ public class StreetDAO {
 	 */
 	public List<String> selectPtList(int streetNo) {
 		return sqlSession.selectList("streetMapper.selectPtList",streetNo);
-	}
+  }
+
 	
 	/*=======================3/26 미현 끝==============================*/
 	
@@ -739,5 +838,5 @@ public class StreetDAO {
 	
 	
 	
-	/******************** 지원 골목 삭제 끝 ********************************/
+	
 }

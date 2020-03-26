@@ -1,5 +1,7 @@
 package com.kh.wassupSeoul.street.model.vo;
 
+import java.sql.Date;
+
 public class SettingCalendar {
 	private int boardNo;
 	private String calTitle;
@@ -11,6 +13,7 @@ public class SettingCalendar {
 	private String calStartHour;
 	private String calEndDate;
 	private char calendarJoin;
+	private String calJoinEndDate;
 	private int calJoinLimit;
 	private int streetNo;
 	
@@ -20,7 +23,7 @@ public class SettingCalendar {
 
 	public SettingCalendar(int boardNo, String calTitle, String calContent, String calLocation, String calStartDate,
 			String calStartDay, String calStartDayOfWeek, String calStartHour, String calEndDate, char calendarJoin,
-			int calJoinLimit, int streetNo) {
+			String calendarJoinEndDate, int calJoinLimit, int streetNo) {
 		super();
 		this.boardNo = boardNo;
 		this.calTitle = calTitle;
@@ -32,9 +35,12 @@ public class SettingCalendar {
 		this.calStartHour = calStartHour;
 		this.calEndDate = calEndDate;
 		this.calendarJoin = calendarJoin;
+		this.calJoinEndDate = calendarJoinEndDate;
 		this.calJoinLimit = calJoinLimit;
 		this.streetNo = streetNo;
 	}
+
+	
 
 	public int getBoardNo() {
 		return boardNo;
@@ -116,6 +122,14 @@ public class SettingCalendar {
 		this.calendarJoin = calendarJoin;
 	}
 
+	public String getCalJoinEndDate() {
+		return calJoinEndDate;
+	}
+
+	public void setCalJoinEndDate(String calJoinEndDate) {
+		this.calJoinEndDate = calJoinEndDate;
+	}
+
 	public int getCalJoinLimit() {
 		return calJoinLimit;
 	}
@@ -137,14 +151,9 @@ public class SettingCalendar {
 		return "SettingCalendar [boardNo=" + boardNo + ", calTitle=" + calTitle + ", calContent=" + calContent
 				+ ", calLocation=" + calLocation + ", calStartDate=" + calStartDate + ", calStartDay=" + calStartDay
 				+ ", calStartDayOfWeek=" + calStartDayOfWeek + ", calStartHour=" + calStartHour + ", calEndDate="
-				+ calEndDate + ", calendarJoin=" + calendarJoin + ", calJoinLimit=" + calJoinLimit + ", streetNo="
-				+ streetNo + "]";
+				+ calEndDate + ", calendarJoin=" + calendarJoin + ", calJoinEndDate=" + calJoinEndDate
+				+ ", calJoinLimit=" + calJoinLimit + ", streetNo=" + streetNo + "]";
 	}
-	
-	
-	
-	
-	
 
 	
 	
