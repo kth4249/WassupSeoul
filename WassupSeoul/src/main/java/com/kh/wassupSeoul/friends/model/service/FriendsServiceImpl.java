@@ -239,6 +239,7 @@ public class FriendsServiceImpl implements FriendsService{
 		
 		int freeNo = freeMan.getMemberNo();
 		bMap.put("yourNo", freeNo);
+		System.out.println(bMap.get("filepath2"));;
 		int result = friendsDAO.noBlock2(bMap);
 		
 		return result;
