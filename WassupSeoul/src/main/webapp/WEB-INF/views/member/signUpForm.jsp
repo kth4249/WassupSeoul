@@ -600,18 +600,28 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					//$profile_img.get(0).files.length === 0
 					// 프로필 사진 유효성 검사
 						
-				/* $def_check.on("input" , function() {		
-					if(	 ){
-						$("#checkImg").prop("class","nanum float-right").html("프로필 사진 또는").append($br).html("기본이미지를 체크해주세요.")
-						.css("color" , "midnightblue");
-						signUpCheck.profile_img = false;
-						signUpCheck.defaultImg = false;	
+				 $def_check.on("input" , function() {		
+					if(	!$("#def_check").prop("checked") ){
+						$("#checkImg").prop("class","nanum float-right").html("프로필 사진 또는 기본이미지를 체크해주세요.")
+						.css("color" , "red");
+						signUpCheck.def_check = false;	
 					}else {
 						$("#checkImg").html("");
-						signUpCheck.profile_img = true;
-						signUpCheck.defaultImg = true;
+						signUpCheck.def_check = true;
 					}				
-				}); */
+				}); 
+					
+					
+				 $profile_img.on("input" , function() {		
+						if(	$profile_img.get(0).files.length === 0 ){
+							$("#checkImg").prop("class","nanum float-right").html("프로필 사진 또는 기본이미지를 체크해주세요.")
+							.css("color" , "red");
+							signUpCheck.profile_img = false;
+						}else {
+							$("#checkImg").html("");
+							signUpCheck.profile_img = true;
+						}				
+					}); 
 					
 					
 					
