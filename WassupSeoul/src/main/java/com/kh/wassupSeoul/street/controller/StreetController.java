@@ -41,7 +41,7 @@ import com.kh.wassupSeoul.street.model.vo.SettingCalendar;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
-@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt"})
+@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet"})
 @Controller
 @RequestMapping("/street/*")
 public class StreetController {
@@ -104,7 +104,8 @@ public class StreetController {
 				model.addAttribute("reReply", reply);
 
 				// 회원 해당 골목 등급, 가입여부 
-				model.addAttribute("memGradeInSt", memGradeInSt);
+				//model.addAttribute("memGradeInSt", memGradeInSt);
+				request.getSession().setAttribute("memGradeInSt", memGradeInSt);
 				
 				model.addAttribute("loginMember", loginMember);
 
@@ -613,7 +614,8 @@ public class StreetController {
 			Alarm alarm = new Alarm("["+streetNm+"] 골목 가입 요청", '1', 
 						"street/joinCheck?memberNo="+memberNo+"&streetNo="+streetNo,
 						memberNo+"", masterNo);
-			result = streetService.insertAlarm(alarm);
+			streetService.insertAlarm(alarm);
+			result = masterNo;
 		}
 
 		return result;
@@ -725,16 +727,21 @@ public class StreetController {
 	@RequestMapping("joinCheck")
 	public int joinCheck(Model model, Boolean applyCheck, int memberNo,
 						@RequestParam(required = false) Integer streetNo) {
-		System.out.println(memberNo);
 		if(streetNo == null) {
 			streetNo = (Integer)model.getAttribute("streetNo");
 		}
+		String streetNm = streetService.selectStreetNm(streetNo);
+		int masterNo = streetService.selectMasterNo(streetNo);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("streetNo", streetNo);
 		map.put("memberNo", memberNo);
 		if(applyCheck == true) {
 			streetService.joinCheck(map);
-			return 1;
+			Alarm alarm = new Alarm("["+streetNm+"] 골목에 가입이 완료되었습니다!", '2',
+					"street/streetMain?streetNo="+streetNo, masterNo+"", memberNo);
+			streetService.insertAlarm(alarm);
+			return memberNo;
 		} else {
 			streetService.joinDelete(map);
 			return 0;

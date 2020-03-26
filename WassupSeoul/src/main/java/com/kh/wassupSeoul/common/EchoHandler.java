@@ -34,23 +34,29 @@ public class EchoHandler extends TextWebSocketHandler {
 		//session.sendMessage(new TextMessage(session.getId() + "|" + message.getPayload()));
 		System.out.println("session주소 : "+session.getRemoteAddress());
 		System.out.println(session.getAttributes().get("loginMember"));
+		Member loginMember = null;
 		
 		for (WebSocketSession sss : sessionList) {
-			sss.sendMessage(new TextMessage(session.getId() + " | " + message.getPayload()+"|"+session.getRemoteAddress()+"|"+session.getAttributes().get("userName")));
+			//sss.sendMessage(new TextMessage(session.getId() + " | " + message.getPayload()+"|"+session.getRemoteAddress()+"|"+session.getAttributes().get("userName")));
+			loginMember = (Member)sss.getAttributes().get("loginMember");
+			if(loginMember.getMemberNo() == Integer.parseInt(message.getPayload())) {
+				sss.sendMessage(message);;
+			}
 		}
 		// super.handleTextMessage(session, message);
 	}
 
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-
+		
 		sessionList.remove(session);
 		logger.info("{}연결끊김",session.getId());
-		
+		/*
 		for (WebSocketSession sss : sessionList) {
 			if(sss==session) continue;
 			sss.sendMessage(new TextMessage(session.getAttributes().get("userName")+"님이 퇴장하셨습니다."));
 		}
+		*/
 		
 		
 		//super.afterConnectionClosed(session, status);
