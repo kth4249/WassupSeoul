@@ -93,6 +93,7 @@
 										$("#juminCount").html("주민("+ juminCount + ")")
 										$(this).parent().remove();
 										$(this).parent().next().remove();
+										sendAlarm(result);
 									} else {
 										$(e.target).parent().next().remove();
 										$(e.target).parent().remove();

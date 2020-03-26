@@ -181,7 +181,6 @@
 												 
 											</ul>
 											
-											
 										</div>
 									</div>
 								</div>
@@ -200,9 +199,16 @@
 
 
 							<c:choose>
-								<c:when test="${board.typeNo eq '6'}">
+								<c:when test="${board.typeNo eq '6'}">  
 								
 									${board.boardContent}    
+									${board.mapAddress} 
+									
+								</c:when>
+								<c:when test="${board.typeNo eq '5'}">
+								
+									${board.boardContent}  
+									<img src="${contextPath}/resources/sketchImage/${board.sketchUrl}">
 									
 								</c:when>
 								<c:otherwise>

@@ -29,7 +29,7 @@ import com.kh.wassupSeoul.street.model.vo.Street;
 /**
  * Handles requests for the application home page.
  */
-@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt"})
+@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet"})
 @Controller
 public class SquareController {
 	

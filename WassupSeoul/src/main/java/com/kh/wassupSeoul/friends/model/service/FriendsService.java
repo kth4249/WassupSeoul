@@ -63,5 +63,19 @@ public interface FriendsService {
 	 */
 	int friendBye(Map<String, Object> nMap) throws Exception;
 
+	/** 차단친구 목록 조회용
+	 * @param myNo
+	 * @return bList
+	 * @throws Exception
+	 */
+	List<Object> blockFriendsList(int myNo) throws Exception;
+
+	/** 차단 해제용
+	 * @param yourNick
+	 * @return result
+	 * @throws Exception
+	 */
+	int noBlock(Map<String,Object> bMap) throws Exception;
+
 
 }
