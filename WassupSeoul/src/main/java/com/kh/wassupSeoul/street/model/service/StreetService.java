@@ -124,16 +124,19 @@ public interface StreetService {
 	 */
 	public abstract int mapPost(Board board)throws Exception;
 	
-	
-	
 	/** 스케치 업로드 Service
 	 * @param board
-	 * @param image
-	 * @param request
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract String sketchUpload(Board board, MultipartFile image, HttpServletRequest request) throws Exception;
+	public abstract int sketchUpload(Board board) throws Exception;
+	
+	/** 투표 게시글 업로드용 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int votePost(Board board) throws Exception;
 
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------

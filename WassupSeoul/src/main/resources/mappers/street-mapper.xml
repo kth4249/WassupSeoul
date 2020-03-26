@@ -41,6 +41,8 @@
 		<result property="thumbStatus" column="THUMB_STATUS"/>
 		<result property="thumbCount" column="THUMB_COUNT"/>
 		<result property="replyCount" column="REPLY_COUNT"/>
+		<result property="mapAddress" column="MAP_ADDR"/>
+		<result property="sketchUrl" column="SKETCH_URL"/>
 	</resultMap>
 		
 	
@@ -193,9 +195,10 @@
 	<!-- 골목 게시글 조회 -->  	 
   	 <select id="selectBoardList" parameterType="reply" resultMap="boardResultSet">
   	 	SELECT BOARD_CONTENT, BOARD_WRITE_DT, BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO, MEMBER_NO, TYPE_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL, 
-		THUMB_STATUS, THUMB_COUNT, REPLY_COUNT
+		THUMB_STATUS, THUMB_COUNT, REPLY_COUNT, MAP_ADDR, SKETCH_URL 
 		
-		FROM (SELECT BOARD_CONTENT,	BOARD_WRITE_DT,	BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO,	MEMBER_NO, TYPE_NO,	MEMBER_NICKNAME, MEMBER_PROFILE_URL 
+		FROM (SELECT BOARD_CONTENT,	BOARD_WRITE_DT,	BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO,	MEMBER_NO, TYPE_NO,	MEMBER_NICKNAME, MEMBER_PROFILE_URL,
+			MAP_ADDR, SKETCH_URL 
 			FROM V_BOARD WHERE STREET_NO = #{streetNo} AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'  )
 			
 		<!-- 골목대장일때  게시글 상단고정 기능 추가할것 -->
@@ -215,7 +218,7 @@
   	<!-- 게시글 등록용 -->
   	 <insert id="insertBoard" parameterType="Board">
 		  INSERT INTO BOARD
-		  VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo} )
+		  VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo}, NULL , NULL  )
 	</insert>
 	
 	<!-- 좋아요조회  -->
@@ -263,7 +266,6 @@
 		UPDATE THUMB SET THUMB_STATUS = #{thumbStatus}	WHERE MEMBER_NO=#{memberNo} AND REPLY_NO=#{replyNo}
 	</update>
   	 
-  	 
 	 <!-- 게시글 삭제용 -->
   	 <update id="deletePost"  parameterType="_int" >
 		UPDATE BOARD SET BOARD_STATUS = 'N'	WHERE BOARD_NO=#{boardNo}
@@ -304,17 +306,18 @@
   	
   	<!-- 지도 게시글 등록용  -->
   	<insert id="mapPost" parameterType="board">
-  		INSERT INTO BOARD
-		  VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo})
+  		INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo}, NULL, #{mapAddress})
   	</insert>
   	
-  	
+  	<!-- 스케치 게시글 등록용  -->
 	<insert id="sketchUpload" parameterType="board">
-  		INSERT INTO SKETCH VALUES(
-			SEQ_BOARD.NEXTVAL, #{filepath2}
-		)
+  		INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo},  #{sketchUrl}, NULL )
   	</insert>
   	
+  	<!-- 투표 게시글 등록용  -->
+  	<insert id="votePost" parameterType="board">
+  		INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo}, NULL , NULL )
+  	</insert>
   	
   <!--  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중하   끝  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
   	

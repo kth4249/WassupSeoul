@@ -10,8 +10,6 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
 
-
-
 <title>타임라인 글작성 영역</title>
 
 </head>
@@ -175,74 +173,36 @@
 			</div>
 			<!-- end -->
 			
-			
 			<script>
-		 		// 스케치 게시글 업로드
+		 	  // 스케치 게시글 업로드
 		 	  document.getElementById('sketchSubmitBtn').addEventListener('click', function() {
-		 		 var canvas = document.getElementById('canvas'); 
+		 		  var canvas = document.getElementById('canvas'); 
 		 		  var canvasImgStr = canvas.toDataURL("image/png", 1.0);
 	    	 	  var sketchPostContent = $("#sketchPostArea").val();
 		 		 
-		 		 console.log("스케치 그린 그림  :" +canvasImgStr);
+		 		 console.log("스케치 그린 그림  :" + canvasImgStr);
 		 		 console.log("사용자가 입력한 게시글  :" + sketchPostContent); 
-		 		 
-		 	/* 	 
-		 		var imgDataUrl = document.getElementById('canvas').toDataURL("image/png");
-		 		var blobBin = atob(imgDataUrl.split(',')[1]);	// base64 데이터 디코딩
-		 	    var array = [];
-		 	    for (var i = 0; i < blobBin.length; i++) {
-		 	        array.push(blobBin.charCodeAt(i));
-		 	    }
-		 	    var file = new Blob([new Uint8Array(array)], {type: 'image/png'});	// Blob 생성
-		 	    var formdata = new FormData();	// formData 생성
-		 	    formdata.append("file", file);	// file data 추가 */
-		 		 
-		 	    // Sending the image data to Server
-		 	  /*  $.ajax({
-				        type : 'post',
-				        url : 'sketchPost',
-				        data : formdata,
-				        processData : false,	// data 파라미터 강제 string 변환 방지!!
-				        contentType : false,	// application/x-www-form-urlencoded; 방지!!
-				        success : function (result) {
-				        	if (result == "true") {
-								alert("스케치 업로드 성공");
-								$("#sketchCloseBtn").trigger("click");
-							} else {
-								alert("스케치 업로드 실패");
-							},
-				        	error : function(e) {
-								console.log("ajax 통신 실패");
-								console.log(e);
-				        }
-				    })
-		 		  */
-		 		 
-		 		 /* 
-                        $.ajax({
-                            type: 'POST',
-                            url: "sketchPost",
-                        	cache : false,
-            				contentType : false,
-            				processData : false,
-            				enctype: 'multipart/form-data',
-                            data: { "canvasImgStr" : canvasImgStr, "sketchPostContent" : sketchPostContent },
-                            success : function(result) {
-								
-								if (result == "true") {
+		 	 	 
+		 	  // Sending the image data to Server
+			 	  $.ajax({
+					        type : 'post',
+					        url : 'sketchPost',
+					        data : { "canvasImgStr" : canvasImgStr, "sketchPostContent" : sketchPostContent },
+					        success : function (result) {
+					        	if (result == "true") {
 									alert("스케치 업로드 성공");
 									$("#sketchCloseBtn").trigger("click");
 								} else {
 									alert("스케치 업로드 실패");
 								}
-							},
-							error : function(e) {
+					        },	
+					        	error : function(e) {
 								console.log("ajax 통신 실패");
 								console.log(e);
-							}
-                        }); */
-                      /*   refreshList()
-                   }); */
+					        }
+					    });
+					 refreshList()
+		 	 });
 		 	</script>
 			
 			

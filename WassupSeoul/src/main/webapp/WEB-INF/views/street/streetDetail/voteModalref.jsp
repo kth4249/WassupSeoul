@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.semi.member.model.vo.Member"%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -9,195 +8,14 @@
 <meta charset="UTF-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
-	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-	crossorigin="anonymous"></script>
-<link rel="shortcut icon" href="../images/favicon.png">
-<link rel="apple-touch-icon-precomposed" href="../images/icon57.png">
-<link rel="apple-touch-icon-precomposed" href="../images/icon114.png">
-<link rel="stylesheet" href="css/header.css">
-<link rel="stylesheet" href="css//common.css">
 <title>온스터디</title>
 <style>
-#container {
-	margin: 200px 0 100px 0;
-	text-align: center;
-}
 
-#profile-wrap .member-profile {
-	width: 25%;
-	min-width: 120px;
-	display: block;
-	margin: 0 auto;
-}
-
-#profile-wrap .profile-sub-list-wrap {
-	margin-left: 10%;
-}
-
-#profile-wrap .member-profile-info {
-	display: inline-block;
-	width: 20%;
-	margin-top: 2%;
-}
-
-#profile-wrap .member-profile-info dt {
-	font-size: 3em;
-}
-
-#profile-wrap .member-profile-info dd {
-	font-weight: bold;
-	font-size: 18px;
-}
-
-#profile-wrap .follow-btn {
-	background-color: #f15a25;
-	border: none;
-	width: 11%;
-	height: 40px;
-	min-width: 80px;
-	color: #ffffff;
-	border-radius: 30px;
-	font-size: 17px;
-	transform: translateY(-35px);
-}
-
-#study-note-list .study-note-list-title {
-	text-align: initial;
-	margin: 50px 0;
-	font-size: 35px;
-	border-bottom: 4px solid #212529;
-	padding-bottom: 10px;
-}
-
-#study-note-list ul li {
-	background-color: #9e9e9e;
-	overflow: hidden;
-	color: #333333;
-	margin-top: 20px;
-	font-weight: bold;
-	cursor: pointer;
-	transition: all 0.3s;
-}
-
-#study-note-list ul li:hover {
-	background-color: #f15a25;
-	color: #ffffff;
-}
-
-/* #study-note-list ul li:hover{
-  background-color: #f15a25;
-}
-#study-note-list ul li:hover{
-  background-color: #f15a25;
-} */
-#study-note-list ul li>p {
-	margin-bottom: 0;
-}
-
-#study-note-list .category-name, #study-note-list .study-note-name {
-	float: left;
-	font-size: 1.5em;
-	line-height: 150px;
-}
-
-#study-note-list .etc-info {
-	position: relative;
-	float: left;
-	font-size: 18px;
-}
-
-#study-note-list .etc-info .content-amount {
-	line-height: 150px;
-}
-
-#study-note-list .etc-info .like-btn {
-	position: absolute;
-	bottom: 10px;
-	right: 20px;
-}
-
-#study-note-list .etc-info .like-btn>.like-btn-img {
-	width: 25px;
-	height: 25px;
-	background-image: url(../images/like-btn-off2.png);
-	background-size: 25px 25px;
-	background-repeat: no-repeat;
-	background-position: 50% 0%;
-	display: inline-block;
-}
-
-#study-note-list .etc-info .like-btn>.like-btn-img.on {
-	background-image: url(../images/like-btn-on2.png);
-}
-
-#study-note-list .etc-info .like-btn>span.like-count {
-	transform: translateY(-4px);
-	display: inline-block;
-}
-
-@media ( max-width : 767px) {
-	/*767px : 구조가 바뀌는 기준*/
-	#study-note-list .category-name, #study-note-list .study-note-name,
-		#study-note-list .etc-info .content-amount {
-		line-height: 40px;
-	}
-}
-
-@media ( max-width : 991px) {
-	#profile-wrap .follow-btn {
-		font-size: 14px;
-	}
-}
-
-#add-category:hover {
-	cursor: pointer;
-}
-
-#add-category {
-	font-size: 15px;
-}
-
-.bt-category-list {
-	width: auto;
-	margin: auto;
-	background-color: #f15a25;
-	color: white;
-}
-
-.bt-category-list:hover {
-	background-color: white;
-	color: #f15a25;
-}
-
-#add-category>span :hover {
-	background-color: #f15a25;
-}
-
-.box-delete:hover {
-	background-color: white;
-	color: #f15a25;
-}
-
-.box-delete {
-	cursor: pointer;
-	background-color: #f15a25;
-	color: white;
-}
-
-.add-btn {
-	cursor: pointer;
-}
 </style>
 </head>
 
 <body>
 
-	<%@ include file="../common/loginedHeader.jsp"%>
 	<!-- content 시작 -->
 	<div id="container"
 		style="margin: 350px auto; text-align: center; font-size: 40px; color: #333333;">
@@ -435,7 +253,6 @@
 							placeholder="10" value="10" style="border: none; width: 30px;">
 					</div>
 				</div>
-
 			</div>
 
 
@@ -457,8 +274,27 @@
 		}); 
 	
 	
+    $(".add-btn").click(function() {
+		
+		 var optionCount = $(".voteOption").length  // 옵션창 개수 
+	        
+	        if ( optionCount < 11) {
+	        	var html = '<label>'+count+'</label><input type="text" id="voteOption'+count+'" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>'
+	                 
+	            $("#optionArea").append(html);
+	            
+	        }else {
+	        	
+	        	alert("투표 옵션은 10개까지만 추가 가능합니다.");
+	            
+	        }
+		
+		
+		
+	}	
+		
+		
         $(function () {
-
 
             $(document).on("click", ".add-btn", function () {
                 var many = $(".add-many").val();
@@ -482,18 +318,14 @@
 
                     + '</div>'
 
-
                     + '</div>'
                     + '</div>';
-
                 
                     if (many != null) {
                     for (var i = 0; i < many; i++) {
 
                         $("#word-collect").append(html)
                     }
-
-
 
                 } else {
 
@@ -539,8 +371,6 @@
 				// 클릭 안된 상태
 				            
 				// 클릭된 상태
-				                        
-				
 				
 				
 				    // 전부 이상한 색으로 바꾼다.
@@ -562,22 +392,7 @@
         
     </script>
 
-
-
-
-
 	<!-- footer 시작 -->
-	<%@ include file="../common/footer.jsp" %>
-
-
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-		crossorigin="anonymous"></script>
 </body>
 
 </html>

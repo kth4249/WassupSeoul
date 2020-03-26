@@ -86,6 +86,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int likeCheck( Reply reply) throws Exception {
 		System.out.println("serviceImple boardNo 확인 : " + reply.getBoardNo());
@@ -128,6 +129,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int replyLikeFunction(Reply reply) throws Exception {
 		String result = streetDAO.replyLikeFunction(reply);
@@ -168,6 +170,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int reReplyLikeFunction(Reply reply) throws Exception {
 		String result = streetDAO.reReplyLikeFunction(reply);
@@ -209,6 +212,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int deletePost(int postNo) throws Exception {
 		return streetDAO.deletePost(postNo);
@@ -231,6 +235,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int writeReComment(Reply reply) throws Exception {
 		return streetDAO.writeReComment(reply);
@@ -263,66 +268,39 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int mapPost(Board board) throws Exception {
 		return streetDAO.mapPost(board);
 	}
 
 	
-	
+	/** 스케치 업로드 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public String sketchUpload(Board board, MultipartFile image, HttpServletRequest request) throws Exception {
-		// 업로드할 폴더 경로
-				String realFolder = request.getSession().getServletContext().getRealPath("resources") + "/uploadImage";
-				String accessPath = request.getContextPath() + "/resources/uploadImage";
-				UUID uuid = UUID.randomUUID();
-
-				System.out.println("realFolder : " + realFolder);
-				System.out.println("accessPath : " + accessPath);
-				
-				// 업로드할 파일 이름
-				MultipartFile org_filename = image;
-				String str_filename = uuid.toString() + org_filename;
-				System.out.println("원본 파일명 : " + org_filename);
-				System.out.println("저장할 파일명 : " + str_filename);
-				
-				int memberNo = board.getMemberNo();	
-				
-				System.out.println("야너뭐야:"+memberNo);
-				
-				String filepath1 = realFolder + "\\" + memberNo;
-				System.out.println("실제 파일 저장 경로 : " + filepath1);
-
-				File f = new File(filepath1);
-				
-				System.out.println("f 출력  : " + f);
-				if (!f.exists()) {
-					f.mkdirs();
-				}
-				
-				String filepath2 = accessPath + "/"  + memberNo + "/" + str_filename;
-						
-				System.out.println("파일 url : " + filepath2);
-				
-				int result = streetDAO.sketchUpload(filepath2);
-				
-				System.out.println("result : " + result);
-				if(result > 0) {
-					f = new File(filepath1 + "/" + str_filename);
-					image.transferTo(f);
-					System.out.println("외않뒈? :" + result);
-				}else{
-					filepath2 = "";
-				}
-				
-				return filepath2;
-				
-			}
+	public int sketchUpload(Board board) throws Exception {
+		return streetDAO.sketchUpload(board);
+	}
+	
+	/** 투표 게시글 업로드용 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int votePost(Board board) throws Exception {
+		return streetDAO.votePost(board);
+	}
 	
 		
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
+
 
 
 /** 골목 가입용 Service
