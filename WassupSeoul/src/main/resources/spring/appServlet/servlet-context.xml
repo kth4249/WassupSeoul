@@ -36,6 +36,9 @@
             <mapping path="/street/recommendFriend"/>
             <mapping path="/street/juminList"/>
             <mapping path="/street/calendar"/>
+            <mapping path="/street/newMaster"/>
+            <mapping path="/street/streetUpdate"/>
+            <mapping path="/street/photoAlbum"/>
             <beans:ref bean="streetInterceptor"/>
         </interceptor>
     </interceptors>

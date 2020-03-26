@@ -74,11 +74,10 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 			StreetJoin tempStreetJoin = streetService.memGradeInSt(checkStreet);
 			String citizenStatus; // 로그인 회원의 골목 가입여부 파악
 			if(tempStreetJoin == null) { // 골목 미가입
-				citizenStatus = null;
+				citizenStatus = "N";
 			} else { // 골목 가입
 				citizenStatus = tempStreetJoin.getCitizenStatus();
 			}
-			/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
 			// 8. 해당 골목 일정 조회
 			List<Calendar> storeCalendar = streetService.selectStoreCalendar(streetNo); // DB저장된 일정
 			ArrayList<SettingCalendar> setCalList = new ArrayList<SettingCalendar>(); // 화면 세팅용 리스트
@@ -114,6 +113,17 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 				// 오전/오후 시:분 (시작일)
 				String calStartHour = new SimpleDateFormat("a hh:mm").format(storeCalendar.get(e).getCalendarStartDate());
 				
+				// 참가일정 마감일
+				String calendarJoinEndDate;
+				// 참가일정 마감일이 null인경우 판별 -> 빈문자열 변경
+				if(storeCalendar.get(e).getCalendarJoinEndDate() == null) {
+					calendarJoinEndDate = "noTime";
+				} else {
+					// sql.Date 객체를 문자열로 변환, 년-월-일
+					calendarJoinEndDate = new SimpleDateFormat("yyyy-MM-dd").format(storeCalendar.get(e).getCalendarJoinEndDate());
+				}
+
+				
 				// 현재 월에 해당하는 일정만 가져오기 위해 판별
 				LocalDateTime tempLDT = LocalDateTime.now(); // 현재 시간 가져오기, 변수 재활용
 				String nowMonth = tempLDT.format(DateTimeFormatter.ofPattern("MM")); // 현재 월(예-3월,4월..)
@@ -122,15 +132,12 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 					temp = new SettingCalendar(storeCalendar.get(e).getBoardNo(), 
 							storeCalendar.get(e).getCalendarTitle(), storeCalendar.get(e).getCalendarContent(), 
 							storeCalendar.get(e).getCalendarLocation(), calStartDate, calStartDay, calStartDayOfWeek, calStartHour, calEndDate, 
-							storeCalendar.get(e).getCalendarJoin(), storeCalendar.get(e).getCalendarJoinLimit(), streetNo);
+							storeCalendar.get(e).getCalendarJoin(), calendarJoinEndDate, storeCalendar.get(e).getCalendarJoinLimit(), streetNo);
 					setCalList.add(temp);
 				}
 				
 			}
 			request.setAttribute("setCalList",setCalList);
-			/*------------------------ 정승환 코드수정(20.03.25) 끝-----------------------------------*/
-			
-			
 			request.setAttribute("citizenStatus", citizenStatus);
 			request.setAttribute("street", street);
 			// 사이드바 정보 끝
