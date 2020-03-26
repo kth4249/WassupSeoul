@@ -551,15 +551,14 @@ public class StreetController {
 	@RequestMapping("streetInsert")
 	public String insertStreetForm(Model model) {
 		
+		int result = 0;
+		
 		// 회원 번호 얻어오기
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		int memberNo = loginMember.getMemberNo();
-				
-		String msg = null; 
-		int result = 0;
 		
 		try {
-						
+			
 			result = streetService.selectMyStreet(memberNo);
 			
 			if (result > 0) {
@@ -568,8 +567,7 @@ public class StreetController {
 			}
 
 			else {
-				msg = "골목 개설 불가";
-				model.addAttribute("msg", msg);
+				model.addAttribute("msg", "이미 개설한 골목이 있거나 가입한 골목이 3개 있어 골목 개설이 불가합니다.");
 				return "redirect:/square";
 			}
 			
@@ -588,6 +586,8 @@ public class StreetController {
 			@RequestParam(value = "sampleImg", required = false) String sampleImg,
 			@RequestParam(value = "streetCoverUpload", required = false) MultipartFile streetCoverUpload,
 			HttpServletRequest request, RedirectAttributes rdAttr, Model model) {
+		
+		int result = 0;
 
 		// 회원 번호 얻어오기
 		Member loginMember = (Member) model.getAttribute("loginMember");
@@ -598,10 +598,7 @@ public class StreetController {
 		String savePath = root + "/" + "streetCoverImage";
 		File folder = new File(savePath);
 		if (!folder.exists())
-			folder.mkdir();
-				 
-		String msg = null;
-		int result = 0;
+			folder.mkdir();				 
 
 		try {
 						
@@ -634,13 +631,13 @@ public class StreetController {
 			}
 
 			if(result > 0) {
-				msg = "골목 개설 성공~!! 우르르ㄱ끼기ㅣ긱";
-				model.addAttribute("msg", msg);
+				
+				model.addAttribute("msg", "골목 개설 성공~!! 우르르ㄱ끼기ㅣ긱");
 				return "redirect:/square"; // 골목으로 이동하게 바꾸기
+				
 			} else {
 				
-				msg = "골목 개설 실패했다ㅠㅠ 흐규흐규";
-				model.addAttribute("msg", msg);
+				model.addAttribute("msg", "골목 개설 실패했다ㅠㅠ 흐규흐규");
 				return "redirect:/square";
 			}
 
@@ -885,13 +882,10 @@ public class StreetController {
 				model.addAttribute("imgUrl", imgUrl);
 				
 				List<Keyword> keywords = streetService.selectKeywords(no);
-				System.out.println("123");
-				System.out.println("keywords 확인 : "+ keywords);
 				
 				if(keywords != null) {
 					model.addAttribute("keywords", keywords);
 				}
-				
 			}
 			
 			model.addAttribute("street", street);
@@ -929,19 +923,6 @@ public class StreetController {
 		
 		try {
 			
-			/*
-			  이미지 그대로일때 -> set 할 필요 없음			 			 
-			 */ 
-			System.out.println("imgNo : "+ imgNo);
-			System.out.println("no : "+ no);
-			System.out.println("street : "+ street);
-			for(int i=0; i<streetKeywords.length; i++) {
-				System.out.println("키워드 : " + streetKeywords[i]);
-			}
-			System.out.println("sampleImg : "+ sampleImg);
-			System.out.println("streetCoverUpload.getOriginalFilename() : "+ streetCoverUpload.getOriginalFilename());
-			 
-			
 			if(!sampleImg.equals("")) {
 				
 				if(sampleImg.equals("골목.jpg")) {					
@@ -977,6 +958,7 @@ public class StreetController {
 			}
 			
 			return "redirect:" + detailUrl;
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("errorMsg", "골목 수정 과정에서 오류 발생");
@@ -1260,9 +1242,13 @@ public class StreetController {
 
 		model.addAttribute("detailUrl", detailUrl);
 		
+		int result = 0;
+		
+		int streetNo = (int)model.getAttribute("streetNo");
+		
 		try {
 			
-			int result = streetService.deleteStreet(no);
+			result = streetService.deleteStreet(streetNo);
 			
 			if(result > 0) {
 				
@@ -1271,7 +1257,7 @@ public class StreetController {
 			} else {
 				
 				model.addAttribute("msg", "골목 삭제 실패");
-				return "redirect:/";
+				return "redirect:" + detailUrl;
 			}
 			
 		}catch (Exception e) {
@@ -1281,32 +1267,85 @@ public class StreetController {
 		}
 	}
 	
+	// 골목대장 위임 화면 이동
 	@RequestMapping("newMaster")
 	public String newMaster(Integer no, Model model) {
 		model.addAttribute("no", no);
 		return "street/streetNewMaster";
 	}
+	
 	// 주민 검색(골목대장 위임)
 	@ResponseBody
 	@RequestMapping(value = "searchJumin", method = RequestMethod.POST,
 			produces = "application/json; charset=utf-8")
-	public String searchJumin(Integer no, String juminNickName, HttpServletResponse response) {
+	public String searchJumin(String juminNickName, HttpServletResponse response, Model model) {
+		
+		int result = 0;
+		
 		try {
 			
-			System.out.println("주민 닉네임 : " + juminNickName);
-			System.out.println("골목 번호 : " + no);
+			int streetNo = (int) model.getAttribute("streetNo");
 			
+			Member jumin = streetService.searchJumin(juminNickName, streetNo);
 			
-			Member jumin = streetService.searchJumin(juminNickName, no);
-			System.out.println(jumin);
+			int memberNo = jumin.getMemberNo();
 			
-			return new Gson().toJson(jumin);
+			result = streetService.selectStreetMaster(memberNo);
+			
+			if(result == 0) {
+				
+				jumin.setMemberPwd(null);
+				return new Gson().toJson(jumin);
+				
+			} else {
+				
+				jumin = null;
+				
+				return new Gson().toJson(jumin);
+			}
 			
 		}catch (Exception e) {
+			
 			e.printStackTrace();
 			
 		}
+		
 		return null;
+	}
+	
+	// 골목 대장 위임
+	@RequestMapping("yesMaster")
+	public String yesMaster(Integer newNo, Model model) {
+		
+		try {
+						
+			int streetNo = (int)model.getAttribute("streetNo");
+			
+			Member master = (Member)model.getAttribute("loginMember");
+			
+			int original = master.getMemberNo();
+			
+			int result = streetService.yesMaster(newNo, streetNo, original);
+			
+			if(result > 0) {
+				
+				model.addAttribute("msg", "위임 성공");
+				return "redirect:streetMain?streetNo=" + streetNo;
+				
+			} else {
+				
+				model.addAttribute("msg", "위임 실패");
+				return "redirect:/";
+				
+			}
+			
+		}catch (Exception e) {
+			
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "골목대장 위임 과정에서 오류 발생");
+			return "/common/errorPage";
+			
+		}
 	}
 	
 	
@@ -1401,4 +1440,16 @@ public class StreetController {
 	
 	
 	/*------------------------ 미현 코드추가 끝-----------------------------------*/ 
+	
+	
+	
+	/*------------------------ 지원 활동보고서 시작 ---------------------------------*/
+	// 활동보고서 페이지 이동
+	@RequestMapping("streetReport")
+	public String streetReport() {
+		
+		return "street/streetReport";
+	}
+	
+	/*------------------------ 지원 활동보고서 끝 ---------------------------------*/
 }

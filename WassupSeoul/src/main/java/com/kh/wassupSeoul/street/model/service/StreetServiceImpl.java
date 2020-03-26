@@ -952,18 +952,19 @@ public class StreetServiceImpl implements StreetService{
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int deleteStreet(Integer no) throws Exception {
+	public int deleteStreet(int streetNo) throws Exception {
+		
 		int result = 0;
 		
-		result = streetDAO.deleteStreet(no);
+		result = streetDAO.deleteStreet(streetNo);
 		
 		if(result > 0) {
 			
-			result = streetDAO.deleteJoin(no);
+			result = streetDAO.deleteJoin(streetNo);
 			
 			if(result > 0) {
 				
-				result = streetDAO.deleteStreetKeyword(no);
+				result = streetDAO.deleteStreetKeyword(streetNo);
 			}
 		}
 		return result;
@@ -975,15 +976,66 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public Member searchJumin(String juminNickName, Integer no) throws Exception {
+	public Member searchJumin(String juminNickName, int streetNo) throws Exception {
 		
 		Map<String, Object> map = null;
 		map = new HashMap<String, Object>();
 		
 		map.put("juminNickName", juminNickName);
-		map.put("no", no);
+		map.put("streetNo", streetNo);
 		
 		return streetDAO.searchJumin(map);
+	}
+	
+	
+	/** 골목대장 존재 여부 확인용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int selectStreetMaster(int memberNo) throws Exception {
+		
+		return streetDAO.selectStreetMaster(memberNo);
+	}
+	
+	
+	/** 골목 대장 위임용 Service
+	 * @param newNo
+	 * @param no
+	 * @param original
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int yesMaster(Integer newNo, int streetNo, int original) throws Exception {
+		
+		int result = 0;
+		Map<String, Object> map = null;
+		map = new HashMap<String, Object>();
+		
+		map.put("newNo", newNo);
+		map.put("streetNo", streetNo);		
+		
+		result = streetDAO.updateNewMaster(map);
+		
+		if(result > 0) {
+			
+			map.put("original", original);
+			
+			result = 0;
+			
+			result = streetDAO.updateOriginalMaster(map);
+			
+			if(result > 0) {
+				
+				return result;
+				
+			} 
+		} 
+			
+		return result;
+		
 	}
 	/******************** 지원 골목 삭제 끝 ********************************/
 

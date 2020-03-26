@@ -103,17 +103,9 @@ a:hover {
             });
         </script> -->
 					<!-- ------------------------------------------------------------------------- -->
-					<div class="container-fluid headerMargin loungeBack">
+					<div class="container-fluid">
 						<div class="row">
 							<h1 class="nanum" style="font-weight: bold;">골목 수정하기</h1>
-
-							<!-- 예시 -->
-							<!-- <div class="form-group col-md-5">
-                        <div class="col-xs-3">
-                            <label for="ex2">col-xs-3</label>
-                            <input class="form-control nanum" id="ex2" type="text">
-                        </div>
-                    </div> -->
 						</div>
 						<div class="row">
 							<br>
@@ -290,16 +282,6 @@ a:hover {
 										style="font-size: smaller;">&nbsp;</span> <br>
 								</div>
 							</div>
-							<div class="form-group col-md-5 nanum" style="float: left;">
-								<div class="col-xs-2" style="float: left;">
-									<button type="button" class="btn btn-info nanum">키워드추가</button>
-									&nbsp;&nbsp;&nbsp;
-								</div>
-
-								<div class="col-xs-2" style="float: left;">
-									<button type="button" class="btn btn-danger nanum">키워드삭제</button>
-								</div>
-							</div>
 						</div>
 						<!-- 골목 키워드 2 -->
 						<div class="row">
@@ -317,16 +299,6 @@ a:hover {
 										style="font-size: smaller;">&nbsp;</span> <br>
 								</div>
 							</div>
-							<div class="form-group col-md-5 nanum" style="float: left;">
-								<div class="col-xs-2" style="float: left;">
-									<button type="button" class="btn btn-info nanum">키워드추가</button>
-									&nbsp;&nbsp;&nbsp;
-								</div>
-
-								<div class="col-xs-2" style="float: left;">
-									<button type="button" class="btn btn-danger nanum">키워드삭제</button>
-								</div>
-							</div>
 						</div>
 						<!-- 골목 키워드 3 -->
 						<div class="row">
@@ -342,16 +314,6 @@ a:hover {
 										placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
 										class="nanum" id="checkStreetKeyword3"
 										style="font-size: smaller;">&nbsp;</span> <br>
-								</div>
-							</div>
-							<div class="form-group col-md-5 nanum" style="float: left;">
-								<div class="col-xs-2" style="float: left;">
-									<button type="button" class="btn btn-info nanum">키워드추가</button>
-									&nbsp;&nbsp;&nbsp;
-								</div>
-
-								<div class="col-xs-2" style="float: left;">
-									<button type="button" class="btn btn-danger nanum">키워드삭제</button>
 								</div>
 							</div>
 						</div>
@@ -458,8 +420,6 @@ a:hover {
 										</div>
 									</div>
 								</div>
-
-
 							</div>
 						</div>
 
@@ -567,21 +527,7 @@ a:hover {
 						var a = $(this).attr("src");
 						$("#streetThumbnail").prop("src", a);
 
-						// input file 초기화
-						//$("#streetCoverUpload").val("");
-
-						/* console.log(b);
-						document.getElementById("streetCoverUpload").select();
-
-						document.selection.clear(); */
-
-						/* if ($.browser.msie) { // ie 일때 input[type=file] init. 
-							$("#streetCoverUpload").replaceWith(
-									$("#streetCoverUpload").clone(true));
-						} else { // other browser 일때 input[type=file] init. 
-							$("#streetCoverUpload").val("");
-						} */
-
+						
 						// 기본이미지 값 등록
 						// 미리보기 이미지 src 갖고오기
 						var $streetThumbnail = $("#streetThumbnail")
@@ -636,7 +582,7 @@ a:hover {
 		$("#streetNm").on(
 				"input",
 				function() {
-					var regExp = /^[A-Za-z가-힣0-9]{2,15}$/;
+					var regExp = /^[A-Za-z가-힣0-9\s]{2,15}$/;
 
 					if (!regExp.test($(this).val())) {
 						$("#checkStreetNm").text("골목이름 형식이 유효하지 않습니다.").css(
@@ -651,7 +597,7 @@ a:hover {
 		$("#streetIntro").on(
 				"input",
 				function() {
-					var regExp = /^[A-Za-z가-힣0-9]{0,15}$/;
+					var regExp = /^[A-Za-z가-힣0-9\s]{0,15}$/;
 
 					if (!regExp.test($(this).val())) {
 						$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.").css(

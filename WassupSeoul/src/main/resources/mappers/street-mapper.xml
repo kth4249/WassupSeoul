@@ -653,22 +653,37 @@
 	<update id="deleteStreet" parameterType="_int">
 		UPDATE STREET
 		SET STREET_STATUS = 'N'
-		WHERE STREET_NO = #{no} 
+		WHERE STREET_NO = #{streetNo} 
 	</update>
 	
 	<!-- 골목 가입자 삭제 -->
 	<delete id="deleteJoin" parameterType="_int">
 		DELETE FROM STREET_JOIN
-		WHERE STREET_NO = #{no}
+		WHERE STREET_NO = #{streetNo}
 	</delete>
 	
 	<!-- 주민 검색 -->
 	<select id="searchJumin" parameterType="map" resultMap="memberResultSet">
 		SELECT * FROM MEMBER
 		WHERE MEMBER_NO IN (SELECT MEMBER_NO FROM STREET_JOIN 
-		 					WHERE STREET_NO = #{no})
+		 					WHERE (NOT CITIZEN_GRADE = 'M') AND STREET_NO = #{streetNo})
 		AND MEMBER_NICKNAME = #{juminNickName}  
 	</select>
+	
+	
+	<!-- 새로운 골목대장 위임 -->
+	<update id="updateNewMaster" parameterType="map">
+		UPDATE STREET_JOIN SET 
+		CITIZEN_GRADE = 'M'
+		WHERE STREET_NO = #{streetNo} AND MEMBER_NO = #{newNo}
+	</update>
+	
+	<!-- 기존 골목대장 주민 강등 -->
+	<update id="updateOriginalMaster" parameterType="map">
+		UPDATE STREET_JOIN SET 
+		CITIZEN_GRADE = 'G'
+		WHERE STREET_NO = #{streetNo} AND MEMBER_NO = #{original} 
+	</update>
 	<!-- ************************** 지원 골목 삭제 끝 ************************** -->
 	
 	

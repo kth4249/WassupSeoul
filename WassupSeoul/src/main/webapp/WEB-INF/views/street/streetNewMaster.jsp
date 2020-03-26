@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>골목 삭제</title>
+<title>골목 대장 위임</title>
 </head>
 <body>
 	<!-- 골목 네비바 여백 -->
@@ -39,12 +39,12 @@
 
 			<div class="col-md-4" id="devideArea" style="margin-top: 10px;">
 				<form method="POST"
-					action="deleteStreet?no=${streetNo}&imgNo=${imgNo}"
+					action="yesMaster?no=${streetNo}"
 					enctype="multipart/form-data" role="form" onsubmit="">
 					<div class="container-fluid">
 						<!-- 골목 삭제 -->
 						<div class="row">
-							<h1 class="nanum">골목 삭제하기</h1>
+							<h1 class="nanum">골목 대장 위임하기</h1>
 						</div>
 						<div class="row">
 							<br>
@@ -52,7 +52,7 @@
 
 						<div class="row">
 							<div class="col-md-12">
-								<h3 class="nanum">골목대장 위임하기</h3>
+								<h3 class="nanum">주민 검색</h3>
 							</div>
 							<div class="col-md-6 nanum form-group">
 								<input class="form-control nanum" type="text"
@@ -71,17 +71,13 @@
 
 						<div class="row">
 							<div class="col-md-12 nanum form-group">
-								<label class="col-form-label" for="newLeader">새로운 골목대장</label>
-								&nbsp;&nbsp; 
+								<h3 class="nanum">새로운 골목대장</h3>
 							</div>
 							<div class="col-md-6 nanum form-group">
 								<input id="newLeader" name="newLeader"
 									class="form-control nanum" type="text" readonly
 									placeholder="지정된 골목대장 닉네임">
-							</div>
-							<div class="col-md-2 nanum form-group">
-								<button class="nanum btn btn-primary" type="button"
-									id="yesMaster">위임</button>
+								<input type="hidden" id="newNo" name="newNo">
 							</div>
 						</div>
 
@@ -91,32 +87,11 @@
 
 
 						<div class="row">
-							<div class="col-md-12 nanum">
-								<h5 class="nanum">골목 탈퇴*삭제하기</h5>
+							<div class="col-md-6" style="text-align: center;">
+								<div style="display: inline-block;">
+									<button type="submit" class="btn btn-warning nanum" id="yesMaster">위임하기</button>
+								</div>
 							</div>
-							<div class="col-md-12">
-								<table class="table table-hover nanum"
-									style="text-align: center; line-height: 50px;">
-									<tbody>
-										<tr>
-											<th>골목탈퇴</th>
-											<td><button type="button" class="btn btn-warning nanum">골목탈퇴</button></td>
-										</tr>
-										<tr>
-											<th>골목삭제</th>
-											<td><button type="button" class="btn btn-danger nanum">골목삭제</button></td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-
-						<div class="row">
-							<br>
-						</div>
-
-
-						<div class="row">
 							<div class="col-md-6" style="text-align: center;">
 								<div style="display: inline-block;">
 									<button class="btn btn-primary nanum" type="button">나가기</button>
@@ -137,13 +112,9 @@
 	<script>
 		$("#juminSearch").on("click", function() {
 			var $juminNickName = $("#juminNickName");
-			var $streetNo = $
-			{
-				streetNo
-			}
-			;
-			console.log("골목 번호 : ${streetNo}");
+			var $streetNo = ${streetNo};
 			var $newLeader = $("#newLeader");
+			var $newNo = $("#newNo");
 
 			if ($juminNickName.val() == "") {
 				alert("검색할 주민 닉네임을 입력하세요.");
@@ -159,7 +130,8 @@
 					success : function(jumin) {
 
 						if (jumin == null) {
-							alert("검색 결과가 없습니다. 닉네임을 다시 입력해주세요");
+							alert("주민이 이미 개설한 골목이 있거나 검색 결과가 없습니다.\n닉네임을 다시 입력해주세요");
+							$newLeader.val("");
 							$juminNickName.focus();
 						} else {
 							/* $jumin = jumin;
@@ -172,6 +144,8 @@
 							(참고로 이거 승환이가 개고수임)*/
 							$newLeader.val("");
 							$newLeader.val(jumin.memberNickname);
+							$newNo.val("");
+							$newNo.val(jumin.memberNo);
 						}
 					},
 
@@ -182,18 +156,16 @@
 				});
 			}
 		});
-		
-		$("#yesMaster").on("click", function(){
-			// 위임하기 위임 취소... 
-			if($("#newLeader").val()==""){
+
+		$("#yesMaster").on("click", function() {
+			if ($("#newLeader").val() == "") {
 				alert("위임할 주민을 검색해주세요.");
-			} else{
-				
+			} else {
+				alert("위임하시겠습니까?");
 			}
-			
+
 		});
-		
-		</script>
+	</script>
 
 </body>
 </html>

@@ -415,15 +415,31 @@ public interface StreetService {
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int deleteStreet(Integer no) throws Exception;
+	public abstract int deleteStreet(int streetNo) throws Exception;
 
 	/** 주민 검색용 Service
 	 * @param juminNickName
 	 * @return jumin
 	 * @throws Exception
 	 */
-	public abstract Member searchJumin(String juminNickName, Integer no) throws Exception;
+	public abstract Member searchJumin(String juminNickName, int streetNo) throws Exception;
 	
+	
+	/** 골목대장 존재 여부 확인용 Service
+	 * @param memberNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int selectStreetMaster(int memberNo) throws Exception;
+	
+	/** 골목 대장 위임용 Service
+	 * @param newNo
+	 * @param no
+	 * @param original
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int yesMaster(Integer newNo, int streetNo, int original) throws Exception;
 	
 	/******************** 지원 골목 삭제 끝 ********************************/
 	/** 일정 조회용 Service
