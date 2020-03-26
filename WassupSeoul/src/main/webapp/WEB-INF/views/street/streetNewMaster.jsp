@@ -39,7 +39,7 @@
 
 			<div class="col-md-4" id="devideArea" style="margin-top: 10px;">
 				<form method="POST"
-					action="deleteStreet?no=${streetNo}&imgNo=${imgNo}"
+					action="yesMaster?no=${streetNo}"
 					enctype="multipart/form-data" role="form" onsubmit="">
 					<div class="container-fluid">
 						<!-- 골목 삭제 -->
@@ -77,6 +77,7 @@
 								<input id="newLeader" name="newLeader"
 									class="form-control nanum" type="text" readonly
 									placeholder="지정된 골목대장 닉네임">
+								<input type="hidden" id="newNo" name="newNo">
 							</div>
 						</div>
 
@@ -88,7 +89,7 @@
 						<div class="row">
 							<div class="col-md-6" style="text-align: center;">
 								<div style="display: inline-block;">
-									<button type="button" class="btn btn-warning nanum" id="yesMaster">위임하기</button>
+									<button type="submit" class="btn btn-warning nanum" id="yesMaster">위임하기</button>
 								</div>
 							</div>
 							<div class="col-md-6" style="text-align: center;">
@@ -112,8 +113,8 @@
 		$("#juminSearch").on("click", function() {
 			var $juminNickName = $("#juminNickName");
 			var $streetNo = ${streetNo};
-			console.log("골목 번호 : ${streetNo}");
 			var $newLeader = $("#newLeader");
+			var $newNo = $("#newNo");
 
 			if ($juminNickName.val() == "") {
 				alert("검색할 주민 닉네임을 입력하세요.");
@@ -129,7 +130,8 @@
 					success : function(jumin) {
 
 						if (jumin == null) {
-							alert("검색 결과가 없습니다. 닉네임을 다시 입력해주세요");
+							alert("주민이 이미 개설한 골목이 있거나 검색 결과가 없습니다.\n닉네임을 다시 입력해주세요");
+							$newLeader.val("");
 							$juminNickName.focus();
 						} else {
 							/* $jumin = jumin;
@@ -142,6 +144,8 @@
 							(참고로 이거 승환이가 개고수임)*/
 							$newLeader.val("");
 							$newLeader.val(jumin.memberNickname);
+							$newNo.val("");
+							$newNo.val(jumin.memberNo);
 						}
 					},
 
@@ -154,7 +158,6 @@
 		});
 
 		$("#yesMaster").on("click", function() {
-			// 위임하기 위임 취소... 
 			if ($("#newLeader").val() == "") {
 				alert("위임할 주민을 검색해주세요.");
 			} else {

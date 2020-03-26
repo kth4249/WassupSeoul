@@ -713,9 +713,9 @@ public class StreetDAO {
 	 * @return result
 	 * @throws Exception
 	 */
-	public int deleteJoin(Integer no) throws Exception {
+	public int deleteJoin(int streetNo) throws Exception {
 		
-		return sqlSession.delete("streetMapper.deleteJoin", no);
+		return sqlSession.delete("streetMapper.deleteJoin", streetNo);
 	}
 
 	/** 주민 검색용 DAO
@@ -726,6 +726,26 @@ public class StreetDAO {
 	public Member searchJumin(Map<String, Object> map) throws Exception {
 		
 		return sqlSession.selectOne("streetMapper.searchJumin", map);
+	}
+
+	/** 새로운 골목대장 위임용 DAO
+	 * @param map
+	 * @return result 
+	 * @throws Exception
+	 */
+	public int updateNewMaster(Map<String, Object> map) throws Exception {
+		
+		return sqlSession.update("streetMapper.updateNewMaster", map);
+	}
+
+	/** 기존 골목대장 주민 강등용 DAO
+	 * @param map
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateOriginalMaster(Map<String, Object> map) throws Exception {
+		
+		return sqlSession.update("streetMapper.updateOriginalMaster", map);
 	}
 	
 	
