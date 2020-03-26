@@ -493,11 +493,7 @@
    			$('.postArea').focus();
    		});
  		
- 		// 정승환 추가 코드(20.03.25)
- 		$(document).on("click",".joinBtn",function(){
- 			var joinBoardNo = $(this).next().val();
- 			$("#thisJoinBoardNo").val(joinBoardNo);
- 		})
+ 		// 정승환 코드 삭제(20.03.25)
     	     
 	</script>
 <jsp:include page="../common/friends.jsp"/>

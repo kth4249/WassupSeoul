@@ -849,7 +849,7 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectStoreCalendar(streetNo);
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
+	
 	/** 일정 삭제용 Service
 	 * @param temp 
 	 * @return result
@@ -871,7 +871,73 @@ public class StreetServiceImpl implements StreetService{
 	public int deleteBoardCalendar(int boardNo) throws Exception {
 		return streetDAO.deleteBoardCalendar(boardNo);
 	}
-	/*------------------------ 정승환 추가코드(20.03.25) 끝-----------------------------------*/
+	
+	/*------------------------ 정승환 추가코드(20.03.25 ,26) 시작-----------------------------------*/
+	/** 일정 게시글 참여인원수 조회용 Service
+	 * @param boardNo
+	 * @return count
+	 * @throws Exception
+	 */
+	@Override
+	public int selectJoinCalendar(int boardNo) throws Exception {
+		return streetDAO.selectJoinCalendar(boardNo);
+	}
+	
+	/** 일정 게시글 참여인원 목록 삭제용 Service
+	 * @param boardNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteJoinCalendar(int boardNo) throws Exception {
+		return streetDAO.deleteJoinCalendar(boardNo);
+	}
+	
+	/** 해당 글번호에 해당하는 참여인원 회원번호 조회용 Service
+	 * @param boardNo
+	 * @return joinList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Board> selectCalMemNo(int boardNo) throws Exception {
+		return streetDAO.selectCalMemNo(boardNo);
+	}
+	
+	/** 참가일정 참여 인원 회원정보 조회용 Service
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	@Override
+	public Member selectJoinMember(int memberNo) throws Exception {
+		return streetDAO.selectJoinMember(memberNo);
+	}
+	
+	/** 일정 참여인원 삽입용 Service
+	 * @param temp
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int insertCalendarMember(Board temp) throws Exception {
+		return streetDAO.insertCalendarMember(temp);
+	}
+	
+	/** 일정 참여인원 삭제용 Service
+	 * @param temp
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteCalendarMember(Board temp) throws Exception {
+		return streetDAO.deleteCalendarMember(temp);
+	}
+
+	
+	/*------------------------ 정승환 추가코드(20.03.25 ,26) 끝-----------------------------------*/
 
 	
 	
@@ -962,6 +1028,17 @@ public class StreetServiceImpl implements StreetService{
 		return result;
 		
 	}
+
+	
+
+
+	
+
+
+
+	
+
+
 	
 	
 	/*==============================3/25 미현 코드추가 끝 ======================*/

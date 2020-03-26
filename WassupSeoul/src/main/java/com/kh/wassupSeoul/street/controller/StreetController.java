@@ -1001,7 +1001,7 @@ public class StreetController {
 	
 	// 일정 추가
 	@RequestMapping(value="addSCSC", method = RequestMethod.POST)
-	public String addSchedule(Model model,Calendar sendCalendar,String startDate,String startTime,String endDate,String endTime,
+	public String addSchedule(Model model,Calendar sendCalendar,String calStartDate,String calStartTime,String calEndDate,String calEndTime,
 			String joinCalendar,@RequestParam(value="openBoard", required=false) String openBoard,
 			@RequestParam(value="cJoinEndDate", required=false) String cJoinEndDate,
 			@RequestParam(value="cJoinLimit", required=false) Integer cJoinLimit ) {
@@ -1017,11 +1017,11 @@ public class StreetController {
 			sendCalendar.setStreetNo(streetNo);
 			
 			// 일정 시작 시간
-			startTime = startTime+ ":00.0";
-			String tempStart = startDate+ " " + startTime;
+			calStartTime = calStartTime+ ":00.0";
+			String tempStart = calStartDate + " " + calStartTime;
 			// 일정 종료 시간
-			endTime = endTime+ ":00.0";
-			String tempEnd = endDate + " " + endTime;
+			calEndTime = calEndTime+ ":00.0";
+			String tempEnd = calEndDate + " " + calEndTime;
 			
 			// String을 Timestamp로 변환
 			Timestamp calendarStartDate = Timestamp.valueOf(tempStart);
@@ -1090,7 +1090,6 @@ public class StreetController {
 		
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.25) 시작-----------------------------------*/
 	// 일정 삭제
 	@RequestMapping("deleteSchedule")
 	public String deleteSchedule(int boardNo, Model model) {
@@ -1098,8 +1097,25 @@ public class StreetController {
 		Calendar temp = new Calendar();
 		temp.setBoardNo(boardNo); temp.setStreetNo(streetNo);
 		try {
+			
+			/*------------------------ 정승환 추가코드(20.03.25 ,26)시작-----------------------------------*/
+			// 만약 참여인원 있으면 해당 테이블행도 삭제 -> Calendar_Member 행 삭제
+			
+			// 현재 일정 게시글에 참여인원이 존재하는지 조회
+			int result = streetService.selectJoinCalendar(boardNo);
+			if(result > 0) {
+				// 현재 일정 게시글에 참여한 주민목록 제거
+				result = streetService.deleteJoinCalendar(boardNo);
+				if(result == 0) {
+					model.addAttribute("msg","제거된 일정 참여 인원 목록 삭제 실패");
+					return "redirect:calendar";
+				}
+			}
+			
+			/*------------------------ 정승환 추가코드(20.03.25 ,26) 끝-----------------------------------*/
+			
 			// 해당하는 Calendar 행 삭제
-			int result = streetService.deleteSchedule(temp);
+			result = streetService.deleteSchedule(temp);
 			if(result == 0) {
 				model.addAttribute("msg","일정 삭제 실패");
 				return "redirect:calendar";
@@ -1111,18 +1127,6 @@ public class StreetController {
 				model.addAttribute("msg","일정 게시글 삭제 실패");
 				return "redirect:calendar";
 			}
-			
-			/*
-			// 만약 참여인원 있으면 해당 테이블행도 삭제
-			result = streetService.selectJoinCalendar(boardNo);
-			if(result > 0) {
-				result = streetService.deleteJoinCalendar(boardNo);
-				if(result == 0) {
-					model.addAttribute("msg","제거된 일정 참여 인원 목록 삭제 실패");
-					return "redirect:calendar";
-				}
-			}
-			*/
 			
 			model.addAttribute("msg","일정 삭제 성공");
 			return "redirect:calendar";
@@ -1141,7 +1145,106 @@ public class StreetController {
 		return null;
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.25) 끝-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.25 ,26)시작-----------------------------------*/
+	// 참가신청 모달 출력 버튼 클릭시 해당 DB데이터 조회
+	@ResponseBody
+	@RequestMapping("selectJoinModal")
+	public void selectJoinModal(HttpServletResponse response, int boardNo) {
+		
+		try {
+			// 1) 일정 참여 인원 목록
+			// 값 전달용 리스트(참여인원 정보 목록)
+			ArrayList<Member> sendJoinMemberList = new ArrayList<Member>();
+			
+			// 값 전달용 맵
+			HashMap<String,Object> sendJoinInfo = new HashMap<String, Object>();
+			
+			// 글번호,회원번호만 저장하기 위해 Board객체사용 , CALENDAR_MEMBER에서 해당하는 글번호에 참여한 회원번호 조회(0~n개) -> 글번호,회원번호 조회
+			List<Board> tempCalMemNo = streetService.selectCalMemNo(boardNo);
+			if(!tempCalMemNo.isEmpty()) {
+				for(int k =0;k<tempCalMemNo.size();k++) {
+					Member temp = streetService.selectJoinMember(tempCalMemNo.get(k).getMemberNo());
+					sendJoinMemberList.add(temp);
+				}
+			}
+			
+			// 2) 현재 일정게시판 참여인원 수 저장 목록
+			Integer nowJoinMemberCount = streetService.selectJoinCalendar(boardNo);
+			
+			sendJoinInfo.put("nowJoinMemberCount", nowJoinMemberCount);
+			sendJoinInfo.put("sendJoinMemberList", sendJoinMemberList);
+			
+			response.setCharacterEncoding("UTF-8");
+			new Gson().toJson(sendJoinInfo, response.getWriter());
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	// 참가신청 버튼 클릭시 해당 회원 참여
+	@RequestMapping("insertCalendarMember")
+	public String insertCalendarMember(Model model,int boardNo,int inCalJoinLimit) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		int memberNo = loginMember.getMemberNo();
+		int streetNo = (int)model.getAttribute("streetNo");
+		try {
+			// 현재 참가인원이 제한인원보다 적은지 판별
+			int nowJoinCount = streetService.selectJoinCalendar(boardNo);
+			
+			// 현재 참가인원이 제한 인원보다 적은 경우 참가
+			if(nowJoinCount < inCalJoinLimit) {
+				String msg = "";
+				Board temp = new Board(); // 값전달용 객체
+				temp.setBoardNo(boardNo);temp.setMemberNo(memberNo);
+				int result = streetService.insertCalendarMember(temp);
+				if(result > 0)	msg = "참가 신청 완료";
+				else 			msg = "참가 신청 실패";
+				
+				model.addAttribute("msg",msg);
+				return "redirect:streetMain?streetNo=" + streetNo;
+				
+			}
+			// 많은 경우 참가 불가
+			else {
+				model.addAttribute("msg","현재 일정 참가 인원이 초과되어 참가불가");
+				return "redirect:streetMain?streetNo=" + streetNo;
+			}
+
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "일정 참가 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+
+	}
+	
+	// 참가탈퇴 버튼 클릭시 해당 회원 탈퇴
+	@RequestMapping("deleteCalendarMember")
+	public String deleteCalendarMember(Model model,int boardNo) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		int memberNo = loginMember.getMemberNo();
+		int streetNo = (int)model.getAttribute("streetNo");
+		try {
+			Board temp = new Board(); // 값전달용 객체
+			temp.setBoardNo(boardNo);temp.setMemberNo(memberNo);
+			int result = streetService.deleteCalendarMember(temp);
+			String msg = "";
+			if(result > 0)	msg = "일정 탈퇴 완료";
+			else			msg = "일정 탈퇴 실패";
+			
+			model.addAttribute("msg",msg);
+			return "redirect:streetMain?streetNo=" + streetNo;
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "일정 탈퇴 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+		
+	}
+	/*------------------------ 정승환 추가코드(20.03.25 ,26)끝-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	
