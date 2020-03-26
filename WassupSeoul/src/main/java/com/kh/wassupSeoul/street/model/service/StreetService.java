@@ -22,6 +22,7 @@ import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
+import com.kh.wassupSeoul.street.model.vo.Vote;
 
 /**
  * @author user1
@@ -135,10 +136,11 @@ public interface StreetService {
 	
 	/** 투표 게시글 업로드용 Service
 	 * @param board
+	 * @param vote 
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int votePost(Board board) throws Exception;
+	public abstract int votePost(Board board, Vote vote) throws Exception;
 
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------

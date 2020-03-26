@@ -14,20 +14,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.wassupSeoul.common.FileRename;
-import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
-import com.kh.wassupSeoul.street.model.vo.Bfile;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
+import com.kh.wassupSeoul.street.model.vo.Vote;
 
 
 @Service
@@ -295,17 +293,40 @@ public class StreetServiceImpl implements StreetService{
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int votePost(Board board) throws Exception {
-		return streetDAO.votePost(board);
+	public int votePost(Board board, Vote vote) throws Exception {
+		
+		Integer boardNo = streetDAO.checkVoteBoardNo();
+		
+		board.setBoardNo(boardNo);
+		
+		int result = streetDAO.votePost(board);  // Board 테이블에 게시글 추가 
+		
+		int result2 = 0;
+		
+		if( result > 0) {
+			
+			System.out.println("투표 게시글 BOARD 테이블 업로드 성공");
+				
+			vote.setBoardNo(boardNo);
+			
+			result2 = streetDAO.uploadVote(vote); // Vote 테이블에 게시글 추가
+			
+			if( result2 > 0 ) {
+				System.out.println("투표 테이블 업로드 성공");
+			}else {
+				System.out.println("투표 게시글 BOARD 테이블 업로드 실패");
+			}
+		}else {
+			System.out.println("투표 게시글 BOARD 테이블 업로드 실패");
+		}
+		
+		return result2;
+		
 	}
-	
 		
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
-	
 
-
-
-/** 골목 가입용 Service
+	/** 골목 가입용 Service
 	 * @param map
 	 * @return result
 	 */
@@ -602,8 +623,6 @@ public class StreetServiceImpl implements StreetService{
 	public void joinDelete(Map<String, Object> map) {
 		streetDAO.joinDelete(map);
 	}
-
-
 	
 	/** 골목 대장 번호 조회용 Service(알림용)
 	 * @param streetNo

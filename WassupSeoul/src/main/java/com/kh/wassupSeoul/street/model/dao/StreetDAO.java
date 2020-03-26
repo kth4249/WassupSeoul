@@ -23,6 +23,7 @@ import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
+import com.kh.wassupSeoul.street.model.vo.Vote;
 
 /**
  * @author user1
@@ -260,13 +261,31 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.sketchUpload", board);
 	}
 	
-	/** 투표 업로드용 DAO
+	/** 투표 업로드용 DAO     to BOARD 테이블 
 	 * @param board
 	 * @return result
 	 * @throws Exception
 	 */
 	public int votePost(Board board) throws Exception  {
 		return sqlSession.insert("streetMapper.votePost", board);
+	}
+	
+	/** 투표 게시글 번호 조회용 DAO
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public int checkVoteBoardNo() throws Exception {
+		return sqlSession.selectOne("streetMapper.checkVoteBoardNo");
+	}
+	
+	/** 투표 업로드용 DAO to Vote 테이블 
+	 * @param vote
+	 * @return result
+	 * @throws Exception
+	 */
+	public int uploadVote(Vote vote) throws Exception {
+		return sqlSession.selectOne("streetMapper.uploadVote", vote);
 	}
 
 	// -------------------------------------------- 중하 끝
@@ -830,6 +849,8 @@ public class StreetDAO {
 	public List<String> selectPtList(int streetNo) {
 		return sqlSession.selectList("streetMapper.selectPtList",streetNo);
   }
+
+	
 
 	
 	/*=======================3/26 미현 끝==============================*/

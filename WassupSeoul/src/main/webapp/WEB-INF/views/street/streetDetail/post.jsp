@@ -63,7 +63,7 @@
 				
 								<!-- 투표 -->
 				                <div class="writeOptionArea shake" style="width: 7%">
-				                  <img class="writeOption voteOption" data-toggle="modal" data-target="#voteModal"
+				                  <img class="writeOption " data-toggle="modal" data-target="#voteModal"
 				                    src="${contextPath}/resources/img/vote.png">
 				                  <p class="arrow_box">투표</p>
 				                </div>

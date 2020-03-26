@@ -1,6 +1,7 @@
 package com.kh.wassupSeoul.street.model.vo;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class Vote {
 	
@@ -8,15 +9,15 @@ public class Vote {
 	private String voteTitle;
 	private String voteResult;
 	private Timestamp voteEnrollDt;
-	private Timestamp voteEndDt;
+	private Date voteEndDt;
 	private String voteDup;
+	private String voteOtion;
 	
 	public Vote() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public Vote(int boardNo, String voteTitle, String voteResult, Timestamp voteEnrollDt, Timestamp voteEndDt,
-			String voteDup) {
+	public Vote(int boardNo, String voteTitle, String voteResult, Timestamp voteEnrollDt, Date voteEndDt,
+			String voteDup, String voteOtion) {
 		super();
 		this.boardNo = boardNo;
 		this.voteTitle = voteTitle;
@@ -24,6 +25,7 @@ public class Vote {
 		this.voteEnrollDt = voteEnrollDt;
 		this.voteEndDt = voteEndDt;
 		this.voteDup = voteDup;
+		this.voteOtion = voteOtion;
 	}
 
 	public int getBoardNo() {
@@ -58,11 +60,11 @@ public class Vote {
 		this.voteEnrollDt = voteEnrollDt;
 	}
 
-	public Timestamp getVoteEndDt() {
+	public Date getVoteEndDt() {
 		return voteEndDt;
 	}
 
-	public void setVoteEndDt(Timestamp voteEndDt) {
+	public void setVoteEndDt(Date voteEndDt) {
 		this.voteEndDt = voteEndDt;
 	}
 
@@ -74,11 +76,19 @@ public class Vote {
 		this.voteDup = voteDup;
 	}
 
+	public String getVoteOtion() {
+		return voteOtion;
+	}
+
+	public void setVoteOtion(String voteOtion) {
+		this.voteOtion = voteOtion;
+	}
+
 	@Override
 	public String toString() {
 		return "Vote [boardNo=" + boardNo + ", voteTitle=" + voteTitle + ", voteResult=" + voteResult
-				+ ", voteEnrollDt=" + voteEnrollDt + ", voteEndDt=" + voteEndDt + ", voteDup=" + voteDup + "]";
+				+ ", voteEnrollDt=" + voteEnrollDt + ", voteEndDt=" + voteEndDt + ", voteDup=" + voteDup
+				+ ", voteOtion=" + voteOtion + "]";
 	}
-	
-	
+
 }
