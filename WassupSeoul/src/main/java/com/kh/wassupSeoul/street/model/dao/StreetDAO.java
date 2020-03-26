@@ -488,6 +488,12 @@ public class StreetDAO {
 		return sqlSession.selectList("streetMapper.selectRelationList", relationMap);
 	}
 	
+	
+	public void removeAlarm(Map<String, Object> map) {
+		sqlSession.update("streetMapper.removeAlarm", map);
+	}
+
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 
 	/* 지원 골목 수정 시작 */

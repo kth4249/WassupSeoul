@@ -289,6 +289,9 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract List<Relationship> selectRelationList(Map<String, Object> relationMap) throws Exception;
+	
+	
+	public abstract void removeAlarm(Map<String, Object> map);
 
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

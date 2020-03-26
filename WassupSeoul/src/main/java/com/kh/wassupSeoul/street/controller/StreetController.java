@@ -787,7 +787,16 @@ public class StreetController {
 		Relationship addRelation = new Relationship(myNum, yourNum, '1');
 		
 		streetService.addRelation(addRelation);
-    
+	}
+	
+	@ResponseBody
+	@RequestMapping("hideFriend")
+	public void hideFriend(Model model, int yourNum) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		int myNum = loginMember.getMemberNo();
+		Relationship addRelation = new Relationship(myNum, yourNum, '4');
+		
+		streetService.addRelation(addRelation);
 	}
 	
 	/*----------------------- 미현 시작 (03/23) -----------------------------------*/
@@ -861,6 +870,19 @@ public class StreetController {
 			streetService.joinDelete(map);
 			return 0;
 		}
+	}
+	
+	// 알람을 확인하지 않고 골목 가입신청을 하였을 때 알람 확인상태로 변경
+	@ResponseBody
+	@RequestMapping("removeAlarm")
+	public void removeAlarm(Model model, int eventer, String alarmType) {
+		int memberNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", memberNo);
+		map.put("eventer", eventer);
+		map.put("alarmType", alarmType);
+		
+		streetService.removeAlarm(map);
 	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

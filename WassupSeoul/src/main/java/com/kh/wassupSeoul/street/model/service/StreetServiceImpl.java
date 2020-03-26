@@ -643,6 +643,12 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectRelationList(relationMap);
 	}
 	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public void removeAlarm(Map<String, Object> map) {
+		streetDAO.removeAlarm(map);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	
