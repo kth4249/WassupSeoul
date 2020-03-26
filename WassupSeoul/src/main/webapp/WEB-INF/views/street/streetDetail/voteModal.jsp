@@ -14,18 +14,21 @@
 </head>
 <style>
 
+	#addBtn, #addBtn2:hover{
+		cursor:pointer;
+	}
  </style>
 <body>
 
 				<!-- 투표 모달 -->
 					<div class="modal fade" id="voteModal" data-backdrop="static"
 						tabindex="-1" role="dialog" aria-labelledby="voteModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document" style="width: 30%;">
+						<div class="modal-dialog" role="document" style="width: 600px;">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h2 class="modal-title nanum" id="checkMemModalLabel"
+									<h2 class="modal-title nanum" id="voteModalLabel"
 										style="font-weight: bold;">투표 게시글 작성</h2>
-									<button type="button" class="close" data-dismiss="modal"
+									<button type="button" id="voteCloseBtn" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
@@ -35,88 +38,151 @@
 									<textarea class=" nanum" id="writePostArea" rows="6" placeholder="게시글내용을 입력하세요."	
 									  style="border: 1px solid black; color: black; font-size: 17px; height: 100px; padding-bottom: 20px; width:100%"></textarea>	
 									<input type="text" id="voteTitle" placeholder="투표 제목" style="width:80%; margin-left: 10px; margin-bottom:10px;"><br>	
-	
-									<label>1</label><input type="text" id="voteOption1" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>	
-									<label>2</label><input type="text" id="voteOption2" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>
-									<label>3</label><input type="text" id="voteOption3" placeholder="항목 입력" style="width:80%; margin-left: 5px">	
-	
-									<button type="button" style="width: 110px; height: 30px; font-size: 16px; margin-left: 37%;">+항목추가</button><br>
-	
-	    							<label style="width: 130px;" ><input type='checkbox' class='check1' style="margin-left: 20%;" />무기명 투표</label><br>
-									<label style="width: 130px;" ><input type='checkbox' id="check2" class='check2' style="margin-left: 20%; display: inline-block;" />복수 선택 허용</label>
+								
+									<div style="width:100%" id="optionArea">
+									<label>1</label><input type="text" id="voteOption1" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>	
+									<label>2</label><input type="text" id="voteOption2" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>
 									
-									<div  id="repeatVote" style="width: 10%; margin: 0; display: inline-block; float:right; ">
+									</div>	
+	
+									<div class="container">
+										<div class="row">
+											<div style="text-align: center; margin: auto; font-size: 20px;">
+												<img src="${contextPath}/resources/img/plus.png" alt="학습노트 추가 버튼" class="addBtn"
+													style="width: 10px; height: 10px;">
+												<span class="addBtn2" >추가하기</span> <span style="size:7px; color:gray;">(최대 10개까지 가능)</span>
+											</div>
+										</div>
+									</div>	
+		
+	
+	    							<label style="width: 130px;" ><input type='checkbox' id="anonymity " style="margin-left: 10px;" />무기명 투표</label><br>
+									<label style="width: 370px;" ><input type='checkbox' id="plurality" class='check2' style="margin-left: 10px; display: inline-block;" />복수 선택 허용</label>
+									
+									<span  id="repeatVote" style="width: 10%; margin-left: 400px; display: none; float:right; ">
 									<label for="vote" style="width: 90px;">복수 선택 개수:</label>
 	
-									<select id="vote" style="display: inline-block; " >
+									<select id="voteLimit" style="display: inline-block; " >
 									<option value="unlimit">제한없음</option>
 									<option value="two">2개</option>
 									<option value="three">3개</option>
 									<option value="four">4개</option>
 									<option value="five">5개</option>
 									</select>
-									</div><br>
+									</span><br>
 	
-									<label style="width: 25%;" ><input type='checkbox' id='check3' style="margin-left: 20%;" />종료일 설정</label><br>
+									<label style="width: 300px;" ><input type='checkbox' id='endDate' style="margin-left: 10px; display: inline-block;" />종료일 설정</label>
 									
-									<div  id="setEndDate" style="width: 30%; display: inline-block; float:right; visibility:hidden">
-									<label style="width: 130px;" >종료일 선택<input type='date' /><input type='time' /></label> 
-									</div>
+									<span  id="setDate" style="width: 300px; display: inline-block; float:right; visibility:hidden">
+									<input id="date" type='date' style="width: 140px;"/><input type='time' id="time" style="width: 110px;" />
+									</span>
 										
-									<button type="button" id="voteSubmitBtn"
-										style="width: 15%; height: 30px; font-size: 17px; float: right; margin: 0px">작성</button>
+									<button type="button" id="voteSubmitBtn" style="width: 15%; height: 30px; font-size: 17px; float: right; margin-left: 200px">작성</button>
  
 									<!-- content end -->
 								</div>
-								
-							</div>
-							
-							
+							 </div>
 
 							<!-- content end -->
 						</div>
 					</div>
 					<!-- end -->
 					
-				<script>
+<script>
 	
 	// 투표 게시글작성
-	$("#voteSubmitBtn").click(function() {
-		var postContent = $(this).parent().find("textarea").val();
-		//var divBox = $(this).parent(".box111");
-		var voteOption1 = $("#voteOption1").val();
-		var voteOption2 = $("#voteOption2").val();
-		var voteOption3 = $("#voteOption3").val();
-
+	document.getElementById('voteSubmitBtn').addEventListener('click', function(){
+		var votePostContent = $("#writePostArea").val();
+		var votePostTitle = $("#voteTitle").val();
+		var anonymity = "disAgree";
 		
-										
+		//무기명 투표 여부
+		if($('input:checkbox[id="anonymity"]').is(":checked") == true){
+			anonymity = "agree";
+		}
+		
+		// 복수 선태 개수 받기 
+		if( $('input:checkbox[id="anonymity"]').is(":checked") == true ){
+			var voteLimit = $('input:checkbox[id=="voteLimit"]').is(":checked").text();
+		}
+		
+		// 종료일 선택  
+		if( $('input:checkbox[id="endDate"]').is(":checked") == true ){
+			var date = $('#date').val();    // 종료일
+			var time = $('#time').val();    // 종료시간
+			var endDate = date + time;
+		}
+		
+		// 투표 옵션 
+		var optionCount = $(".voteOption").length
+		
+		var voteOptionList = new List();
+		
+		for (var i = 0; i < optionCount ; i++ ){
+			voteOptionList.push($("#voteOption(i)").val());
+		}
+		
+		
 		$.ajax({
-			url : "writeComment",
-			data : {"postNo" : postNo, "commentContent" : commentContent },
+			url : "votePost",
+			data : {"anonymity" : anonymity, 
+					"votePostContent" : votePostContent,
+					"endDate" : endDate,
+					"voteOptionList" : voteOptionList,
+					"votePostTitle" : votePostTitle
+					},
 			type : "post",
 			success : function(result) {
 				
 				if (result == "true") {
-					replyCount++;
-					$(this).parent().parent().parent().prev("div" > ".commentCount").text("댓글"+replyCount);
-					console.log("댓글 작성 성공");
-					$(this).parent().prev("div" > ".writeCommentArea" ).text('');
-					
+					alert("투표 업로드 성공");
+					$("#voteCloseBtn").trigger("click");
 				} else {
-					$(this).parent().prev("div" > ".writeCommentArea" ).text('');
+					alert("투표 업로드 실패");
 				}
 			},
 			error : function(e) {
-				console.log("ajax 통신 실패");
-				$(this).parent().prev().find("textarea").val= "";
-				console.log("댓글 입력 후 내용:"+commentContent);
-				console.log(e);
+			console.log("ajax 통신 실패");
+			console.log(e);
 			}
 		});
 		 refreshList()
 	});
 	
-	</script>		
+	$("#addbtn, #addBtn2" ).on("click",function(){
+		
+		 var optionCount = $(".voteOption").length  // 옵션창 개수 
+	     
+		 console.log("optionCount");
+		 
+	        if ( optionCount < 11) {
+	        	var html = '<label>'+optionCount+'</label><input type="text" id="voteOption'+optionCount+'" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>'
+	        	console.log("투표 모달 옵션창 추가");
+	        	$("#optionArea").append(html);
+	        }else {
+	        	alert("투표 옵션은 10개까지만 추가 가능합니다.");
+	        }
+	});
+	
+	// 투표 모달 중복투표 허용 옵션 보이기 
+    $("#plurality").change(function(){
+        if($("#plurality").is(":checked")){
+        	$("#repeatVote").attr("style", "visibility:visible");
+        }else{
+        	$("#repeatVote").attr("style", "visibility:hidden");
+        }
+    });
+     
+	// 투표 종료일 선택창  
+    $("#endDate").change(function(){
+        if($("#endDate").is(":checked")){
+        	$("#setDate").attr("style", "visibility:visible");
+        }else{
+        	$("#setDate").attr("style", "visibility:hidden");
+        }
+    });
+	
+</script>		
 			
 </body>
 </html>

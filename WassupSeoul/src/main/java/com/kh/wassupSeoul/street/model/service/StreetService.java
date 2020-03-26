@@ -123,6 +123,20 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int mapPost(Board board)throws Exception;
+	
+	/** 스케치 업로드 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int sketchUpload(Board board) throws Exception;
+	
+	/** 투표 게시글 업로드용 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int votePost(Board board) throws Exception;
 
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
@@ -450,5 +464,7 @@ public interface StreetService {
 	 */
 	public abstract int updateSummer(Board board, MultipartFile file, String savePath) throws Exception;
 	/*==========================3/25 미현 코드 추가 끝=======================*/
+
+	
 	 
 }

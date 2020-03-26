@@ -64,9 +64,10 @@
 			           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
 			           <jsp:include page="../street/streetDetail/voteModal.jsp"/> 
 			           <jsp:include page="../street/streetDetail/sketchModal.jsp"/> 
+			           <jsp:include page="../street/streetDetail/devideModal.jsp"/> 
                 		<jsp:include page="../street/streetDetail/post.jsp"/>
 			          </div>
-            <!-- 글작성 영역 -->
+            		  <!-- 글작성 영역 -->
 		
 						<!-- 중간여백 --><div class="row" style="height: 20px; background-color: rgb(221, 233, 218);"></div>
 		
@@ -436,7 +437,6 @@
 			});
 			/* 회원 프로필 정보 조회용  */
 		
-		
 	  	 // 댓글 영역 숨기기
   		$(".commentArea").click(function() {
   			$(this).parent().next("div").toggle(100);
@@ -492,33 +492,6 @@
    		$(".noPostSignArea").click(function() {
    			$('.postArea').focus();
    		});
-   		
-   		// 지도 모달 창 열기 
-		$(".mapOption").click(function(){
-			$(this).parent().next("div").attr("style", "display:block");
-	    });
-	   
-	    $("#modal_close_btn").click(function(){
-			$(this).parent().parent("div").attr("style", "display:none");
-	    });    
-	    
-	    // 투표 모달 중복투표 허용 옵션 보이기 
-	    $("#check2").change(function(){
-	        if($("#check2").is(":checked")){
-	        	$("#repeatVote").attr("style", "visibility:visible");
-	        }else{
-	        	$("#repeatVote").attr("style", "visibility:hidden");
-	        }
-	    });
-	     
- 		// 투표 종료일 선택창  
-	    $("#check3").change(function(){
-	        if($("#check3").is(":checked")){
-	        	$("#setEndDate").attr("style", "visibility:visible");
-	        }else{
-	        	$("#setEndDate").attr("style", "visibility:hidden");
-	        }
-	    });
  		
  		// 정승환 추가 코드(20.03.25)
  		$(document).on("click",".joinBtn",function(){

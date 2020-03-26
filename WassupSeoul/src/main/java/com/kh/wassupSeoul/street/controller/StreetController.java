@@ -1,17 +1,20 @@
 package com.kh.wassupSeoul.street.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,11 +40,10 @@ import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
-import com.kh.wassupSeoul.street.model.vo.SettingCalendar;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
-@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet", "memGradeInSt"})
+@SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet"})
 @Controller
 @RequestMapping("/street/*")
 public class StreetController {
@@ -104,7 +106,8 @@ public class StreetController {
 				model.addAttribute("reReply", reply);
 
 				// 회원 해당 골목 등급, 가입여부 
-				model.addAttribute("memGradeInSt", memGradeInSt);
+				//model.addAttribute("memGradeInSt", memGradeInSt);
+				request.getSession().setAttribute("memGradeInSt", memGradeInSt);
 				
 				model.addAttribute("loginMember", loginMember);
 
@@ -375,7 +378,6 @@ public class StreetController {
     	return null;
     }
     
-    
     // 지도 게시글 입력
     @ResponseBody
 	@RequestMapping("mapPost")
@@ -392,11 +394,9 @@ public class StreetController {
 		
 		board.setStreetNo(streetNo);
 		board.setMemberNo(loginMember.getMemberNo());
-		board.setBoardContent(mapPostContent +"<br>"+ address);
+		board.setBoardContent(mapPostContent );
+		board.setMapAddress(address);
 		board.setTypeNo(6);
-		
-		
-//		board.setBoardUrl(address); 
 	
 		/* 게시글타입
 		0 : NONE
@@ -426,9 +426,126 @@ public class StreetController {
 		}
 	}
     
+    // 스케치 업로드
+    @ResponseBody
+    @RequestMapping("sketchPost")
+	public String fileUpload(HttpServletRequest request, String canvasImgStr, String sketchPostContent,
+							Model model){
+
+		Member loginMember = (Member) model.getAttribute("loginMember");
+		
+		int streetNo = (int) model.getAttribute("streetNo");
+
+		Board board = new Board();
+   		
+   		board.setStreetNo(streetNo);
+   		board.setMemberNo(loginMember.getMemberNo());
+   		board.setBoardContent(sketchPostContent);
+   		
+   		board.setTypeNo(5);
+   		
+   		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "/" + "sketchImage";
+		File folder = new File(savePath);
+		if(!folder.exists()) folder.mkdir();
+		
+   		String fullPath = "";
+   		
+   		Date nowDate = new Date(System.currentTimeMillis());
+   		
+   		String [] strParts = canvasImgStr.split(",");
+   		
+   		String rstImgStr = strParts[1];  //,로 구분하여 뒷 부분 이미지 데이터를 임시저장
+   		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_hhmmss");
+   		String filenm = sdf.format(nowDate).toString()+"_sketchImg.png";
+   		
+   		BufferedImage image = null;
+   		byte[] byteImg;
+   		
+   		Decoder decoder = Base64.getDecoder();
+   		
+   		try {
+   			
+   		byteImg = decoder.decode(rstImgStr); // base64 디코더를 이용하여 byte 코드로 변환
+   		ByteArrayInputStream bis = new ByteArrayInputStream(byteImg);
+   		image = ImageIO.read(bis); // BufferedImage 형식으로 변환후 저장
+   		bis.close();
+   		File outputFile  = new File(folder+"/"+filenm);  // 파일 객체 생성
+   		if( outputFile.exists()) outputFile.delete();
+   		ImageIO.write(image, "png", outputFile); // 서버에 파일로 저장
+   		
+   		System.out.println("스케치 업로드 완료. 파일경로  : " + outputFile );
+   		System.out.println("파일이름  : " + filenm );
+   		
+   		board.setSketchUrl(filenm);   		   		
+		
+			int test = streetService.sketchUpload(board);
+			
+			if ( test > 0) {
+				System.out.println("스케치 게시글 입력 완료");
+			}else {
+				System.out.println("스케치 게시글 입력 실패");
+			}
+			
+			return  test == 1 ? true + "" : false + "";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "피곤...";
+		}
+	}
     
+    
+    
+ // 지도 게시글 입력
+    @ResponseBody
+	@RequestMapping("votePost")
+	public String votePost(String anonymity, Model model,
+							String votePostContent, List<String> voteOptionList, String votePostTitle,
+							String endDate) {
+		
+		System.out.println("입력한 게시글 내용 : " + votePostContent);
+		System.out.println("입력한 투표 제목 : " + votePostTitle);
+		System.out.println("입력한 투표 종료일: " + endDate);
+		System.out.println("입력한 투표 중복여부: " + anonymity);
+		
+		
+		for(int k=0;k<voteOptionList.size();k++) {
+			System.out.println("입력한 투표 옵션 리스트  : " + voteOptionList);
+		}
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		int streetNo = (int) model.getAttribute("streetNo");
+		
+		Board board = new Board();
+		
+		board.setStreetNo(streetNo);
+		board.setMemberNo(loginMember.getMemberNo());
+		board.setBoardContent(votePostContent);
+		board.setTypeNo(3);
+	
+		try {
+	
+			int test = streetService.votePost(board);
+			
+			if ( test > 0) {
+				System.out.println("투표 게시글 입력 완료");
+			}else {
+				System.out.println("투표 게시글 입력 실패");
+			}
+			
+			return  test == 1 ? true + "" : false + "";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "대댓글 입력 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+	}
 	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
+    
 	// -------------------------------------------- 지원 -----------------------------------------------
 	// 골목 개설 화면 이동
 	@RequestMapping("streetInsert")

@@ -86,6 +86,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int likeCheck( Reply reply) throws Exception {
 		System.out.println("serviceImple boardNo 확인 : " + reply.getBoardNo());
@@ -128,6 +129,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int replyLikeFunction(Reply reply) throws Exception {
 		String result = streetDAO.replyLikeFunction(reply);
@@ -168,6 +170,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int reReplyLikeFunction(Reply reply) throws Exception {
 		String result = streetDAO.reReplyLikeFunction(reply);
@@ -209,6 +212,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int deletePost(int postNo) throws Exception {
 		return streetDAO.deletePost(postNo);
@@ -231,6 +235,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int writeReComment(Reply reply) throws Exception {
 		return streetDAO.writeReComment(reply);
@@ -263,15 +268,40 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int mapPost(Board board) throws Exception {
 		return streetDAO.mapPost(board);
 	}
 
 	
+	/** 스케치 업로드 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int sketchUpload(Board board) throws Exception {
+		return streetDAO.sketchUpload(board);
+	}
+	
+	/** 투표 게시글 업로드용 Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int votePost(Board board) throws Exception {
+		return streetDAO.votePost(board);
+	}
+	
 		
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
+
+
 
 /** 골목 가입용 Service
 	 * @param map
