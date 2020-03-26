@@ -111,6 +111,28 @@ var pos = {
   }
 };
 
+// 마우스 위치잡기
+var offsetX,offsetY;
+
+function reOffset(){
+    var BB=canvas.getBoundingClientRect();
+    offsetX=BB.left;
+    offsetY=BB.top;        
+}
+
+
+window.onscroll=function(e){ reOffset(); }
+window.onresize=function(e){ reOffset(); }
+
+function handleMouseUp(e){
+    // use offsetX & offsetY to get the correct mouse position
+    mouseX=parseInt(e.clientX-offsetX);
+    mouseY=parseInt(e.clientY-offsetY);
+    // ...
+}
+
+//마우스 위치잡기
+
 function point() {
   return {
     X: 0,
@@ -118,13 +140,13 @@ function point() {
   };
 }
 
-function drwaCommand() {
+function drawCommand() {
   return {
     mode: paintMode[0],
     color: "white",
     filled: false,
-    X1: point(),
-    X2: point(),
+    X1: point() ,
+    X2: point() ,
     X3: point(),
     R: 0,
     A: 0,
@@ -213,11 +235,23 @@ function drwaCommand() {
   };
 }
 
-function getMousePosition(event) {
+/*function getMousePosition(event) {
   var x = event.pageX - canvas.offsetLeft;
   var y = event.pageY - canvas.offsetTop;
   return { X: x, Y: y };
-}
+}*/
+
+
+// 마우스 포인터 위치잡기 
+function getMousePosition(event) { 
+    var rect = canvas.getBoundingClientRect(); 
+    var x = event.pageX - rect.left; 
+    var y = event.pageY - rect.top; 
+    console.log("Coordinate x: " + x,  
+                "Coordinate y: " + y) 
+    return { X: x, Y: y };
+} 
+
 
 function mouseListener(event) {
   switch (event.type) {
@@ -261,7 +295,7 @@ function selectColor(choosedColor) {
   pos.color = choosedColor;
   pos.colorIdx = colorTableIdx[choosedColor];
 
-  var newColor = drwaCommand();
+  var newColor = drawCommand();
   newColor.mode = "color";
   newColor.color = choosedColor;
   commandHistory.push(newColor.toCommand());
@@ -291,7 +325,7 @@ function pointMouseDown(event) {
   pos.X = startPos.X;
   pos.Y = startPos.Y;
 
-  var newPoint = drwaCommand();
+  var newPoint = drawCommand();
   newPoint.mode = "pencil_begin";
   commandHistory.push(newPoint.toCommand());
   addHistory(newPoint.toCommand());
@@ -303,7 +337,7 @@ function pointMouseMove(event) {
   cvs.lineTo(currentPos.X, currentPos.Y);
   cvs.stroke();
 
-  var newPoint = drwaCommand();
+  var newPoint = drawCommand();
   newPoint.mode = "line";
   newPoint.X1 = { X: pos.X, Y: pos.Y };
   newPoint.X2 = { X: currentPos.X, Y: currentPos.Y };
@@ -322,7 +356,7 @@ function pointMouseUp(event) {
   pos.isDraw = false;
   cvs.closePath();
 
-  var newPoint = drwaCommand();
+  var newPoint = drawCommand();
   newPoint.mode = "pencil_end";
   commandHistory.push(newPoint.toCommand());
   addHistory(newPoint.toCommand());
@@ -344,6 +378,7 @@ function lineMouseMove(event) {
   console.log("lineMouseMove");
   var currentPos = getMousePosition(event);
   cvs.beginPath();
+  
   // Need a delay
   cvs.clearRect(0, 0, canvas.width, canvas.height);
   cvs.drawImage(bufCanvas, 0, 0);
@@ -369,7 +404,7 @@ function lineMouseUp(event) {
   bufCtx.stroke();
   cvs.drawImage(bufCanvas, 0, 0);
 
-  var newLine = drwaCommand();
+  var newLine = drawCommand();
   newLine.mode = "line";
   newLine.X1 = { X: pos.X, Y: pos.Y };
   newLine.X2 = { X: currentPos.X, Y: currentPos.Y };
@@ -443,7 +478,7 @@ function circleMouseUp(event) {
     cvs.clearRect(0, 0, canvas.width, canvas.height);
     cvs.drawImage(bufCanvas, 0, 0);
 
-    var newCircle = drwaCommand();
+    var newCircle = drawCommand();
     newCircle.mode = "circle";
     newCircle.filled = pos.filled;
     newCircle.X1 = { X: circle.X, Y: circle.Y };
@@ -514,7 +549,7 @@ function squareMouseUp(event) {
     cvs.clearRect(0, 0, canvas.width, canvas.height);
     cvs.drawImage(bufCanvas, 0, 0);
 
-    var newSqure = drwaCommand();
+    var newSqure = drawCommand();
     newSqure.mode = "square";
     newSqure.filled = pos.filled;
     newSqure.X1 = { X: pos.X, Y: pos.Y };
@@ -586,7 +621,7 @@ function rectMouseUp(event) {
     cvs.clearRect(0, 0, canvas.width, canvas.height);
     cvs.drawImage(bufCanvas, 0, 0);
 
-    var newRect = drwaCommand();
+    var newRect = drawCommand();
     newRect.mode = "rect";
     newRect.filled = pos.filled;
     newRect.X1 = { X: pos.X, Y: pos.Y };
@@ -677,7 +712,7 @@ function triMouseUp(event) {
     cvs.clearRect(0, 0, canvas.width, canvas.height);
     cvs.drawImage(bufCanvas, 0, 0);
 
-    var newTriangle = drwaCommand();
+    var newTriangle = drawCommand();
     newTriangle.mode = "tri";
     newTriangle.filled = pos.filled;
     newTriangle.X1 = { X: pos.X, Y: pos.Y };
@@ -755,7 +790,7 @@ function ellipseMouseUp(event) {
     cvs.clearRect(0, 0, canvas.width, canvas.height);
     cvs.drawImage(bufCanvas, 0, 0);
 
-    var newEllipse = drwaCommand();
+    var newEllipse = drawCommand();
     newEllipse.mode = "ellipse";
     newEllipse.filled = pos.filled;
     newEllipse.X1 = { X: ellipse.X, Y: ellipse.Y };
@@ -804,7 +839,7 @@ function initHistory() {
 
   document.getElementById("history").value = "";
 
-  var newColor = drwaCommand();
+  var newColor = drawCommand();
   newColor.mode = "color";
   newColor.color = "red";
   commandHistory.push(newColor.toCommand());

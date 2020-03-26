@@ -13,6 +13,8 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
 		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 		crossorigin="anonymous"></script>
+<!-- cdn방식으로 sockjs불러오기 -->
+<script src="http://cdn.jsdelivr.net/sockjs/1/sockjs.min.js"></script>
 <title>header</title>
 <style>
 .profileBox{
@@ -114,6 +116,8 @@ object-fit: cover;
 									//console.log(alList[index])
 									if(item.alarmType == 1){
 										var $alDiv = $("<div>").prop("class", "dropdown-item nanum joinCheck");
+									} else if(item.alarmType == 2){
+										var $alDiv = $("<div>").prop("class", "dropdown-item nanum goStreet");
 									}
 									var $alUrl = $("<input>").prop("type", "hidden").val(item.alarmAddr);
 									var $alNo = $("<input>").prop("type", "hidden").val(item.alarmNo)
@@ -123,6 +127,7 @@ object-fit: cover;
 									$("#alarmDrop").append($alDiv);
 								})
 							}
+							$("#alarmButton>img").prop("src", "${contextPath}/resources/img/alarm2.png")
 						},
 						error : function() {
 							console.log("ajax 통신 실패")
@@ -131,15 +136,16 @@ object-fit: cover;
 					})
 				})
 				
-				$(document).on("click", ".joinCheck", function(){
+				$(document).on("click", ".joinCheck", function(){ // 알람 클릭시 골목 가입 수락여부 선택할 수 있는 함수
 					console.log(this.firstChild.value)
 					var applyCheck = confirm("골목 가입 요청을 수락하시려면 확인, 거절하시려면 취소를 눌러주세요.")
 					$.ajax({
 						url : "${contextPath}/"+this.firstChild.value,
 						data : {"applyCheck": applyCheck},
 						success : function(result){
-							if(result == 1){
+							if(result > 0){
 								alert("골목 가입 수락 완료");
+								sendAlarm(result);
 							}
 						}, 
 						error : function(){
@@ -147,6 +153,16 @@ object-fit: cover;
 						}
 					})
 					console.log(this);
+					this.remove();
+					console.log(this.childNodes[1].value);
+					checkAlarm(this.childNodes[1].value) // 알람 checkDt 수정하는 function 호출 및 매개변수로 alarmNo 전달
+				})
+				
+				$(document).on("click", ".goStreet", function(){ // 알람 클릭시 골목 이동 여부 선택할 수 있는 함수
+					console.log(this.firstChild.value)
+					if(confirm("가입된 골목으로 이동하시겠습니까?")){
+						location.href="${contextPath}/"+this.firstChild.value;
+					}
 					this.remove();
 					console.log(this.childNodes[1].value);
 					checkAlarm(this.childNodes[1].value) // 알람 checkDt 수정하는 function 호출 및 매개변수로 alarmNo 전달
@@ -171,7 +187,7 @@ object-fit: cover;
 					aria-labelledby="mypageButton">
 					<a class="dropdown-item nanum" data-toggle="modal" data-target="#profileModal" id="abcde">내정보 조회</a> 
 					<a class="dropdown-item nanum" data-toggle="modal" data-target="#golmokModal" id="hoho">내골목 조회</a>
-					<a class="dropdown-item nanum" data-toggle="modal" data-target="#blockFriends" id="blockFriends">차단친구 조회</a>
+					<a class="dropdown-item nanum" data-toggle="modal" data-target="#blockModal" id="blockFriendsList">차단친구 조회</a>
 					<!-- <a class="dropdown-item nanum" data-toggle="modal">1:1 문의</a> --> 
 					<!-- <a class="dropdown-item nanum" data-toggle="modal">공지사항</a> -->
 					<hr>
@@ -258,6 +274,146 @@ object-fit: cover;
             </div>
         </div>
         <!-- end -->
+        
+        <!--**************************** 영준이 건듦 (차단 친구 모달 틀)*********************************** -->
+        <!-- blockFriends Modal -->
+    <div class="modal fade" id="blockModal">
+        <div class="modal-dialog" role="document" style="width:496px;">
+        	<div class="modal-content">
+            	<div class="modal-header">
+          	  		<h2 class="modal-title nanum" style="font-weight: bold;">차단 친구 목록</h2>
+		           		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          		<span aria-hidden="true">&times;</span>
+		        		</button>
+            	</div>
+            	
+            	<div id ="blockBody" class="modal-body" style="text-align:center">
+	                <div class="row">
+		                <div class="col-md-2"><span id=bNo class="nanum">번호</span></div>
+		                <div class="col-md-6"><span id=bNick class="nanum">닉네임</span></div>
+		                <div class="col-md-4"><span class="nanum">차단해제</span></div>
+	                </div>
+	                <hr>
+	                <div id = blockAdd class="row">
+		                <div class="col-md-2"><span class="nanum">번호</span></div>
+		                <div class="col-md-6"><span class="nanum">닉네임</span></div>
+		                <div class="col-md-4"><button type="button" class="btn btn-info btn-sm nanum">차단해제</button></div>
+	                </div>  
+            	</div>
+        	</div>
+      	</div>
+    </div>
+    
+    <!-- 차단해제 모달창 -->
+				<div class="modal fade" id="noBlockBtn">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title nanum" style="font-size: 30px;">알림메세지</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body" style="text-align:center">
+								<form method="POST" action="${pageContext.request.contextPath}/friends/friendGo">
+									<input type="hidden" id="friendGo" name="memberNo" value="memberNo">
+									<span class="nanum">차단을 풀었어요!</span>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary nanum"	data-dismiss="modal">닫기</button>
+							</div>
+						</div>
+					</div>
+				</div>	    
+    
+    <script>
+		///////////////////////////////////////////영준 작업 공간(차단 친구 목록)///////////////////////////////////////////////////////////
+		//<a class="dropdown-item nanum" data-toggle="modal" data-target="#blockFriends" id="blockFriendsList">차단친구 조회</a>
+		/* 차단친구목록  */
+       	$("#blockFriendsList").on("click",function(){
+       		$.ajax({
+       			url : "friends/blockFriendsList",
+       			data : {},
+       			type : "post",
+       			dataType : "json",
+       			success : function(bList){
+       			console.log(bList);
+       			var $blockBody = $("#blockBody");
+				var $blockAdd = $("#blockAdd");
+				if(bList == null){
+					$msg = $("<span>").html("지금은 차단하신 회원이 없네요.");
+					$blockAdd.css("text-align","center")
+					$blockAdd.html($msg);
+					var count = 1;
+				}else {
+					$blockAdd.html("") // 기존 html 내용 삭제
+					count = 1;
+					$.each(bList, function(i){
+						
+						
+		                var $divNo = $("<div>").prop("class","col-md-2");
+		                var $divNick = $("<div>").prop("class","col-md-6");
+		                var $divBtn = $("<div>").prop("class","col-md-4");
+		                var $span = $("<span>").prop("class", "nanum");
+		                
+		                var $count = count;
+						var $Nick = bList[i];
+						var $bBtn = $("<button>").prop("class","btn btn-info btn-sm nanum noBlock").attr('data-toggle', "modal").attr('data-target', "#noBlockBtn").
+						html("차단해제").val(bList[i]);
+						var $hr = $("<hr>");
+						
+						$divNo.append($span).append($count)
+						$divNick.append($span).append($Nick)
+						$divBtn.append($span).append($bBtn).append($hr);
+						
+						$blockAdd.append($divNo).append($divNick).append($divBtn);
+						count++;	
+										
+					}); //$.each 끝
+					
+				} //else 끝
+       				
+       			},
+       			error : function(e){
+           			console.log("ajax 통신 실패");
+           			console.log(e);
+           		}
+       			
+       		});
+       		
+       	});
+		
+     // 차단해제 버튼을 누르면 Controller로 값 넘기기
+    	$(document).on("click", ".noBlock", function(){
+    		console.log(this.value);
+    		var yourNick = this.value
+    		
+    		$.ajax({
+    			url : "friends/noBlock",
+    			type : "POST",
+    			data : {"yourNick" : yourNick },
+    			success : function(){
+    				console.log("차단 해제 aJax 성공")			
+    			},
+    			error : function(){
+    				console.log("차단 해제 aJax 실패");
+    			}
+    		});
+    		
+    	}); // 차단 해제 기능 완료
+		
+		
+		
+		
+		
+		
+	</script>
+        
+        
+        
+        
         
         <!-- golmok Modal -->
         <div class="modal fade" id="golmokModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="golmokModalLabel" aria-hidden="true">
@@ -502,104 +658,52 @@ object-fit: cover;
        	
        	//////////////////////////////// 알람 시작해보는중.... ////////////////////////////////////
    		/* SockJS객체생성 보낼 url경로를 매개변수로 등록 */
-		var sock=new SockJS("<c:url value='/echo'/>");
-		sock.onmessage=onMessage;
+		var sock=new SockJS("<c:url value='/echo'/>"); // 영준아 알람과 메신저 변수 이름 다르게
+		sock.onmessage=onAlarm;
 		sock.onclose=onClose;
 		var today=null;
-		$(function(){
-			$("#sendBtn").click(function(){
-				console.log("send message.....");
-				/* 채팅창에 작성한 메세지 전송 */
-				sendMessage();
-				/* 전송 후 작성창 초기화 */
-				$("#message").val('');
-			});
-			$("#exitBtn").click(function(){
-				console.log("exit message.....");
-				/* 채팅창에 작성한 메세지 전송 */
-				sock.onclose();
-			});
-		});
-		function sendMessage(){
+
+		function sendAlarm(memberNo){
 			/* 맵핑된 핸들러 객채의 handleTextMessage매소드가 실행 */
-			sock.send($("#message").val());
+			//console.log(memberNo);
+			sock.send(memberNo);
 		
 		};
-		function onMessage(evt){
+		function onAlarm(evt){
 			var data=evt.data;//new text객체로 보내준 값을 받아옴.
 			var host=null;//메세지를 보낸 사용자 ip저장
-			var strArray=data.split("|");//데이터 파싱처리하기
+			//var strArray=data.split("|");//데이터 파싱처리하기
 			var userName=null;//대화명 저장
 			
 	
 			//전송된 데이터 출력해보기
-			for(var i=0;i<strArray.length;i++)
+			/* for(var i=0;i<strArray.length;i++)
 			{
 				console.log('str['+i+'] :' + strArray[i]);	 		
-			}
-			if(strArray.length>1)
-			{
-				sessionId=strArray[0];
-				message=strArray[1];
-				host=strArray[2].substr(1,strArray[2].indexOf(":")-1);
-				userName=strArray[3];
-				today=new Date();
-				printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
-				
-				console.log(today);
-				var ck_host='${host}';
-		
-				console.log(sessionId);
-				console.log(message);
-				console.log('host : '+host);
-				console.log('ck_host : '+ck_host);
-				/* 서버에서 데이터를 전송할경우 분기 처리 */
-				if(host==ck_host||(host==0&&ck_host.includes('0:0:')))
-				{
-					var printHTML="<div class='well' style='margin-left: 30%;'>";
-					printHTML+="<div class='alert alert-info'>";
-					printHTML+="<sub>"+printDate+"</sub><br/>";
-					printHTML+="<strong>["+userName+"] : "+message+"</strong>";
-					printHTML+="</div>";
-					printHTML+="</div>";
-					$('#chatdata').append(printHTML);
-				}
-				else{
-					var printHTML="<div class='well'  style='margin-left: -5%;margin-right:30%;'>";
-					printHTML+="<div class='alert alert-warning'>";
-					printHTML+="<sub>"+printDate+"</sub><br/>";
-					printHTML+="<strong>["+userName+"] : "+message+"</strong>";
-					printHTML+="</div>";
-					printHTML+="</div>";
-					$('#chatdata').append(printHTML);
-					
-				}
-				//console.log('chatting data : '+data);
-				
-				
-			}
-			else
-			{
-				today=new Date();
-				printDate=today.getFullYear()+"/"+today.getMonth()+"/"+today.getDate()+" "+today.getHours()+":"+today.getMinutes()+":"+today.getSeconds();
-				message=strArray[0];
-				var printHTML="<div class='well'  style='margin-left30%:'>";
-				printHTML+="<div class='alert alert-danger'>";
-				printHTML+="<sub>"+printDate+"</sub><br/>";
-				printHTML+="<strong>[서버관리자] : "+message+"</strong>";
-				printHTML+="</div>";
-				printHTML+="</div>";
-				$('#chatdata').append(printHTML);	
-				
-			}
+			} */
+			console.log('제대로 잘 전달받았는지 확인 : ' + data)
+			$("#alarmButton>img").prop("src", "${contextPath}/resources/img/alarmActive.png")
 			
-			$('.panel').scrollTop($('.panel')[0].scrollHeight);
 	
 		};
 	
 		function onClose(evt){
 			location.href='${pageContext.request.contextPath};';
 		};
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
        	
     </script>
        

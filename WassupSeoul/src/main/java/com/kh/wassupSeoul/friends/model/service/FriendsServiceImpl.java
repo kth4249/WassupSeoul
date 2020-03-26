@@ -203,18 +203,48 @@ public class FriendsServiceImpl implements FriendsService{
 		return result;
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/** 차단친구 목록 조회용
+	 * @param myNo
+	 * @return bList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Object> blockFriendsList(int myNum) throws Exception {
+		List<Relationship> bList = friendsDAO.blockFriendsList1(myNum);
+		List<Integer> bbList = new ArrayList<Integer>();
+		List<Object> bbbList = new ArrayList<Object>();
+		//System.out.println("bList : " + bList );
+		if (!bList.isEmpty()) {
+			
+			for (int i = 0 ; i<bList.size() ; i++) {
+				bbList.add(bList.get(i).getYourNum());
+			}
+			//System.out.println("bbList : " + bbList ); // 여기까지 성공
+			
+			bbbList = friendsDAO.blockFriendsList2(bbList);
+			//System.out.println("bbbList : " + bbbList);
+		}  
+		return bbbList;
+	}
+
+	/** 차단 해제용
+	 * @param yourNick
+	 * @return result
+	 * @throws Exception
+	 */
+	@Override
+	public int noBlock(Map<String,Object> bMap) throws Exception {
+		
+		Member freeMan = friendsDAO.noBlock1(bMap);
+		
+		int freeNo = freeMan.getMemberNo();
+		bMap.put("yourNo", freeNo);
+		System.out.println(bMap.get("filepath2"));;
+		int result = friendsDAO.noBlock2(bMap);
+		
+		return result;
+	}
+
 	
 	
 	// 아마 대화방에서 닫으면 status N 으로 바꾸는 동작도 해야할듯
