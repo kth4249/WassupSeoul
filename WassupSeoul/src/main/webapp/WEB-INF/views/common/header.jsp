@@ -54,7 +54,8 @@ object-fit: cover;
 		</c:if>
 		
 		">
-			<a href="${contextPath}/square"><img src="${contextPath}/resources/img/emoji.png" style="width: 25px"/></a>
+		
+			<a href="${contextPath}/square"><img src="${contextPath}/resources/img/logo.png" style="width: 25px; margin-right:15px;"/></a>
 			<input class="form-control mr-sm-2" type="text"
 				placeholder="검색할 골목 키워드" id="searchStreet" name="searchStreet"
 				style="width: 300px">
@@ -436,6 +437,7 @@ object-fit: cover;
             </div>
         </div>
         <!-- end -->
+
         
         <script>
 		/* 내정보 조회용 회원정보,회원관심사 DB조회용 ajax */
@@ -690,23 +692,9 @@ object-fit: cover;
 		function onClose(evt){
 			location.href='${pageContext.request.contextPath};';
 		};
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
        	
     </script>
-       
+  
 	<script
 		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"

@@ -103,8 +103,7 @@
 
 		<!-- 게시글 없을때-->
 		<div class="container box111" id="postArea">
-			<div class="postLayoutView"
-				style="padding: 0%; height: 500px; border: solid black 1px">
+			<div class="postLayoutView" style="height: 500px; border: solid black 1px">
 
 				<div class="nanum " style="font-size: 20px; text-align: center;">
 					<div style="height: 200px"></div>
@@ -136,26 +135,26 @@
 		<c:forEach var="board" items="${board}" varStatus="vs">
 
 			<!-- 게시글1-->
-			<div class="container box111" id="postArea" style="margin-bottom: 0px">
-				<div class="postLayoutView" style="padding: 0%;">
+			<div class="container box111" id="postArea">
+				<div class="postLayoutView" style="padding: 0%; border: solid #ced4da 1px">
 
 					<!-- 프로필사진, 작성자명, 날짜 -->
-					<div class="post MainWrap" style="border: 1px solid black; border-bottom: 0px">
+					<div class="post MainWrap mb-3">
 						<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px; padding-left: 10px;">
 
 							 <img src="${contextPath}/resources/profileImage/${board.memberProfile}" 
 									data-toggle="modal" data-target="#writerModal" id="writerImg" class="writerImg"
-									style="width: 80%; height: 80%; position: relative; top: 3px; border-radius: 50%;" name="${board.memberNo}"> 
+									style="width: 80%; height: auto; position: relative; top: 3px; border-radius: 50%;" name="${board.memberNo}"> 
 							<%-- <img src="${contextPath}/resources/img/account.png" >  --%>
 
 						</div>
 						<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%; position: relative; top: 14px">
 							<div>
-								<p class="writerNickName" name="${board.memberNo}"  style="margin-bottom: 0;"
-										data-toggle="modal" data-target="#writerModal" >${board.boardWriter}</p>
+								<p class="writerNickName" name="${board.memberNo}"
+									data-toggle="modal" data-target="#writerModal" >${board.boardWriter}</p>
 							</div>
-							<div style="margin-bottom: 0;">
-								<p style="margin-bottom: 0;">
+							<div>
+								<p>
 									<fmt:formatDate value="${board.boardWriteDt}" pattern="yyyy년 MM월 dd일 aa hh:mm" />
 								</p>
 							</div>
@@ -195,8 +194,7 @@
 					<jsp:include page="../streetDetail/profileModal.jsp"/> 
 
 					<!-- 게시글내용 -->
-					<div class="postMainWrap  nanum"
-						style="border: 1px solid black; border-top: 0; border-bottom: 0; width: 100%">
+					<div class="postMainWrap nanum" style="width: 100%">
 						<div style="padding-left: 10px; padding-right: 10px; width: 100%">
 
 
@@ -247,22 +245,22 @@
 								</c:if> --%>
 
 					<!-- 댓글수, 좋아요버튼 -->
-					<div class="postCountView"
-						style="border: 1px solid black; border-top: 0; height: 30%; padding-top: 5px;">
+					<div class="postCountView mt-3"
+						style="height: 30%; padding-top: 5px;">
 						<div class="commentArea nanum"
 							style="display: inline-block; width: 82%; margin-bottom: 0px; padding-left: 10px;">
 							<c:choose>
 								<c:when test="${board.replyCount eq '0'}">
 									<!-- 댓글 개수 0 일때 공백처리 -->
-									<p class="commentCount" style="margin-bottom: 0;">댓글</p>
+									<p class="commentCount mb-3" style="margin-bottom: 20px;">댓글</p>
 								</c:when>
 								<c:otherwise>
-									<p class="commentCount" style="margin-bottom: 0;">댓글${board.replyCount}</p>
+									<p class="commentCount mb-3" style="margin-bottom: 0;">댓글${board.replyCount}</p>
 								</c:otherwise>
 							</c:choose>
 						</div>
 
-						<div style="width: 14%; margin-bottom: 0px; height: 100%; float: right;">
+						<div style="height: 100%; float: right;" class="mr-2">
 							<button type="submit" class="btn nanum"
 								style="padding: 0px; position: relative; bottom: 4px;">
 								<c:choose>
@@ -296,22 +294,24 @@
 					<!-- 댓글수, 좋아요버튼 -->
 
 					<!-- 댓글영역 -->
-					<div class="CommentWrap " style="display: none;">
+					<div class="CommentWrap" style="display: none;">
 
 						<!-- 댓글작성 -->
 						<div class="inputCommentWrap" style="border: 1px solid black;">
 
-							<div class="writePost"
-								style="width: 80%; display: inline-block; margin-left: 3px;">
-								<textarea class="writeCommentArea nanum autosize"
-									id="writeCommentAreaStyle" rows="1" style="font-size: 15px;"
+							<div class="writePost" style="width: 80%; display: inline-block; margin-left: 3px;  height: 60px;" >
+							
+								<textarea class="writeCommentArea nanum"
+									id="writeCommentAreaStyle" rows="3" style="font-size: 15px;"
 									placeholder="댓글을 작성해 보세요"></textarea>
-
 							</div>
+							
 							<div style="width: 20%; display: inline-block; position: absolute;">
-								<button type="submit" class="btn nanum commentBtn" id="commentBtn" name="${board.boardNo}"
-									style="width: 100%; font-size: 18px; font-weight: bolder; position: relative; left: 10px; bottom: 7px;">작성</button>
+								<button type="submit" class="btn btn-secondary nanum commentBtn" id="commentBtn" name="${board.boardNo}"
+									style="width: 50%; font-size: 15px; font-weight: bolder; 
+									left: 10px; margin-top: 14px; float:right; margin-right:20px">작성</button>
 							</div>
+							
 						</div>
 						<!-- 댓글작성 -->
 						<c:if test="${empty reply}">
