@@ -881,7 +881,7 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.deleteBoardCalendar(boardNo);
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.25 ,26) 시작-----------------------------------*/
+	
 	/** 일정 게시글 참여인원수 조회용 Service
 	 * @param boardNo
 	 * @return count
@@ -944,12 +944,54 @@ public class StreetServiceImpl implements StreetService{
 	public int deleteCalendarMember(Board temp) throws Exception {
 		return streetDAO.deleteCalendarMember(temp);
 	}
+	
+	/*------------------------ 정승환 추가코드(20.03.27) 시작-----------------------------------*/
+	
+	/** 골목대장 회원번호 조회용 Service
+	 * @param streetNo
+	 * @return memberNo
+	 * @throws Exception
+	 */
+	@Override
+	public int selectStreetMasterNo(int streetNo) throws Exception {
+		return streetDAO.selectStreetMasterNo(streetNo);
+	}
+	
+	/** 일정 수정 모달창 일정 정보 조회용 Service
+	 * @param boardNo
+	 * @return calendar
+	 * @throws Exception
+	 */
+	@Override
+	public Calendar selectCalendarInfo(int boardNo) throws Exception {
+		return streetDAO.selectCalendarInfo(boardNo);
+	}
+	
+	/** 일정 게시글 수정용 Service
+	 * @param updateCalendarBoard
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateCalendarBoard(Board updateCalendarBoard) throws Exception {
+		return streetDAO.updateCalendarBoard(updateCalendarBoard);
+	}
+	
+	/** 일정 수정용 Service
+	 * @param updateCal
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateSchedule(Calendar updateCal) throws Exception {
+		return streetDAO.updateSchedule(updateCal);
+	}
+
 
 	
-	/*------------------------ 정승환 추가코드(20.03.25 ,26) 끝-----------------------------------*/
-
-	
-	
+	/*------------------------ 정승환 추가코드(20.03.27) 끝-----------------------------------*/
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 	
 	
@@ -1101,6 +1143,14 @@ public class StreetServiceImpl implements StreetService{
 	public List<String> selectPtList(int streetNo) throws Exception {
 		return streetDAO.selectPtList(streetNo);
 	}
+
+	
+
+
+
+	
+
+	
 
 	
 	

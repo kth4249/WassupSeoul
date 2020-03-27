@@ -973,7 +973,6 @@ public class StreetController {
 	/* 지원 골목 수정 끝 */
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 	
-	/*------------------------ 정승환 코드수정(20.03.25) 시작-----------------------------------*/
 	// 일정 조회
 	@RequestMapping("calendar")
 	public String calendar(Model model, Integer tempStreetNo) {
@@ -981,7 +980,6 @@ public class StreetController {
 		return "street/streetCalendar";
 		
 	}
-	/*------------------------ 정승환 코드수정(20.03.25) 끝-----------------------------------*/
 	
 	// 일정 추가
 	@RequestMapping(value="addSCSC", method = RequestMethod.POST)
@@ -1081,8 +1079,6 @@ public class StreetController {
 		Calendar temp = new Calendar();
 		temp.setBoardNo(boardNo); temp.setStreetNo(streetNo);
 		try {
-			
-			/*------------------------ 정승환 추가코드(20.03.25 ,26)시작-----------------------------------*/
 			// 만약 참여인원 있으면 해당 테이블행도 삭제 -> Calendar_Member 행 삭제
 			
 			// 현재 일정 게시글에 참여인원이 존재하는지 조회
@@ -1095,8 +1091,6 @@ public class StreetController {
 					return "redirect:calendar";
 				}
 			}
-			
-			/*------------------------ 정승환 추가코드(20.03.25 ,26) 끝-----------------------------------*/
 			
 			// 해당하는 Calendar 행 삭제
 			result = streetService.deleteSchedule(temp);
@@ -1121,15 +1115,100 @@ public class StreetController {
 		}
 	}
 	
+	/*------------------------ 정승환 추가코드(20.03.27)시작-----------------------------------*/
+	
 	// 일정 수정
 	@RequestMapping("updateSchedule")
-	public String updateSchedule(int boardNo, Model model) {
-		int streetNo = (int) model.getAttribute("streetNo");
-		System.out.println("일정 수정용 글번호 : " + boardNo);
-		return null;
+	public String updateSchedule(String updateCalendarTitle, String updateCalendarContent,
+								 String updateCalendarLocation, String updateCalendarBoardNo, 
+								 Model model) {
+		System.out.println("일정 수정 제목 : " + updateCalendarTitle);
+		System.out.println("일정 수정 내용 : " + updateCalendarContent);
+		System.out.println("일정 수정 위치 : " + updateCalendarLocation);
+		System.out.println("일정 수정 글번호 : " + updateCalendarBoardNo);
+		
+		try {
+			// boardNo를 int형으로 변환
+			int boardNo = Integer.parseInt(updateCalendarBoardNo);
+			// DB에 저장된 일정 정보 조회
+			Calendar updateCalendar = streetService.selectCalendarInfo(boardNo);
+
+			// 일정 게시글 수정용 객체 
+			Board updateCalendarBoard = new Board();
+			// 일정 수정용 객체
+			Calendar updateCal = new Calendar();
+			
+			//////////////////////////////////////////////////////
+			// 글번호 지정
+			updateCal.setBoardNo(boardNo);
+			// 수정 제목 지정
+			updateCal.setCalendarTitle(updateCalendarTitle);
+			// 수정 위치 지정
+			updateCal.setCalendarLocation(updateCalendarLocation);
+			// 수정 내용 지정
+			updateCal.setCalendarContent(updateCalendarContent);
+			//////////////////////////////////////////////////////
+			
+			// yyyy-MM-dd 일정 시작일
+			String calStartDate = new SimpleDateFormat("yyyy-MM-dd").format(updateCalendar.getCalendarStartDate());
+			// yyyy-MM-dd 일정 종료일
+			String calEndDate = new SimpleDateFormat("yyyy-MM-dd").format(updateCalendar.getCalendarEndDate());
+			
+			// 오전,오후 HH:mm 일정 시작 시간
+			String calStartHour = new SimpleDateFormat("a hh:mm").format(updateCalendar.getCalendarStartDate());
+			// 오전,오후 HH:mm 일정 종료 시간
+			String calEndHour = new SimpleDateFormat("a hh:mm").format(updateCalendar.getCalendarEndDate());
+			
+			// yyyy-MM-dd a HH:mm 일정시작
+			String tempStart = calStartDate + " " + calStartHour;
+			// yyyy-MM-dd a HH:mm 일정종료
+			String tempEnd = calEndDate + " " + calEndHour;
+			
+			// 일정 참가가 있을 경우 추가할 버튼
+			String btnPlus = "<br><button class='nanum btn btn-primary joinBtn' data-toggle='modal' data-target='#calendarJoinModal\'>일정 참가하기</button>";
+			// 일정 참가시 해당 글번호
+			String boardNoPlus = "<input type='hidden' value='" + boardNo + "'>";
+			
+			String content = "<h5 class='nanum'>수정된 일정 등록</h5>" + updateCalendarContent
+			+"<br>장소 : "+ updateCalendarLocation +"<br>기간 : "+ tempStart +" ~ " + tempEnd;
+			
+			if(updateCalendar.getCalendarJoin() == 'Y') {
+				content = content + btnPlus + boardNoPlus;
+			}
+			
+			//////////////////////////////////////////////
+			// 글번호 지정
+			updateCalendarBoard.setBoardNo(boardNo);
+			// 수정 일정 게시글 내용 지정
+			updateCalendarBoard.setBoardContent(content);
+			//////////////////////////////////////////////
+			
+			// 일정 게시글 수정
+			int result = streetService.updateCalendarBoard(updateCalendarBoard);
+			if(result == 0) {
+				model.addAttribute("msg","일정 게시글 수정 실패");
+				return "redirect:calendar"; 
+			}
+			
+			// 캘린더 수정
+			result = streetService.updateSchedule(updateCal);
+			String msg = "";
+			if(result > 0)	msg = "일정 수정 성공";
+			else 			msg = "일정 수정 실패";
+			
+			model.addAttribute("msg",msg);
+			return "redirect:calendar"; 
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "일정 수정 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+		
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.25 ,26)시작-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.27)끝-----------------------------------*/
+	
 	// 참가신청 모달 출력 버튼 클릭시 해당 DB데이터 조회
 	@ResponseBody
 	@RequestMapping("selectJoinModal")
@@ -1228,7 +1307,27 @@ public class StreetController {
 		}
 		
 	}
-	/*------------------------ 정승환 추가코드(20.03.25 ,26)끝-----------------------------------*/
+	
+	/*------------------------ 정승환 추가코드(20.03.27)시작-----------------------------------*/
+	
+	// 일정 수정 모달창 일정 정보 조회
+	@ResponseBody
+	@RequestMapping("updateModalInfo")
+	public void updateModalInfo(HttpServletResponse response, int boardNo) {
+		
+		try {
+			// 수정하려는 일정이 DB에 저장된 값을 조회
+			Calendar sendModalInfo = streetService.selectCalendarInfo(boardNo);
+			
+			response.setCharacterEncoding("UTF-8");
+			new Gson().toJson(sendModalInfo, response.getWriter());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	/*------------------------ 정승환 추가코드(20.03.27)끝-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	
