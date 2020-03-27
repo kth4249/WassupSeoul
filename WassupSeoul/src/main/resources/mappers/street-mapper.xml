@@ -95,6 +95,7 @@
   		<result property="thumbStatus" column="THUMB_STATUS"/>  		
 	</resultMap>
 	
+	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	
 	<resultMap type="Calendar" id="calendarResultSet">
@@ -127,6 +128,18 @@
 	<!-- 3/26 조미현 코드 끝-->
 	
 	
+	<!-- 지원 활동보고서 시작 -->
+	<resultMap type="Report" id="reportResultSet">
+		<id property="reportNo" column="REPORT_NO"/>
+		<result property="meetingStartDate" column="MEETING_START_DT"/>
+		<result property="meetingEndDate" column="MEETING_END_DT"/>
+		<result property="meetingPlace" column="MEETING_MEMBER"/>
+		<result property="meetingMember" column="MEETING_PLACE"/>
+		<result property="reportContent" column="REPORT_CONTENT"/>
+		<result property="streetNo" column="STREET_NO"/>
+		<result property="meetingImgUrl" column="MEETING_IMG_URL"/>
+	</resultMap>
+	<!-- 지원 활동보고서 끝 -->
 	
 	<!-- 전체 골목 수 조회 -->
 	<select id="getListCount" parameterType="map" resultType="_int">
@@ -336,7 +349,7 @@
   	<!-- 골목 개설 조건 조회 1 -->
   	<select id="selectMyStreet" parameterType="_int" resultType="_int">
   		SELECT COUNT(*) FROM STREET_JOIN 
-  		WHERE MEMBER_NO = #{memberNo}  		
+  		WHERE MEMBER_NO = #{memberNo} AND CITIZEN_STATUS = 'Y' 	
   	</select>
   	
   	<!-- 골목 개설 조건 조회 2 -->
@@ -716,4 +729,19 @@
 		SELECT BFILE_URL FROM BFILE 
 		WHERE STREET_BFILE = #{streetNo}
 	</select>
+	
+	
+	
+	<!-- 지원 활동보고서 시작 -->
+	<select id="selectReportNextNo" resultType="_int">
+		SELECT SEQ_REPORT.NEXTVAL FROM DUAL
+	</select>
+	
+	<insert id="insertReport" parameterType="report">
+		INSERT INTO REPORT VALUES
+		(#{reportNo}, #{meetingStartDate}, #{meetingEndDate}, 
+		#{meetingPlace}, #{meetingMember}, #{reportContent},
+		#{streetNo}, #{meetingImgUrl})  
+	</insert>
+	<!-- 지원 활동보고서 끝 -->
 </mapper>

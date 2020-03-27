@@ -41,6 +41,7 @@ import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
+import com.kh.wassupSeoul.street.model.vo.Report;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
@@ -1481,6 +1482,64 @@ public class StreetController {
 	public String streetReport() {
 		
 		return "street/streetReport";
+	}
+	
+	// 활동보고서 제출
+	@RequestMapping("sendReport")
+	public String sendReport(Report report, 
+						     String post, String address1, String address2, 
+						     MultipartFile reportImgUpload,
+						     Model model, HttpServletRequest request) {
+		int result = 0;
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "/" + "reportImage";
+		File folder = new File(savePath);
+		if (!folder.exists())
+			folder.mkdir();
+		
+		int streetNo = (int) model.getAttribute("streetNo");
+		
+		String meetingPlace = post + "," + address1 + "," + address2;		
+		
+		try {
+			
+			report.setStreetNo(streetNo);
+			report.setMeetingPlace(meetingPlace);
+			
+			if (!reportImgUpload.getOriginalFilename().equals("")) {
+
+				// 골목 커버 이름 바꾸기
+				String changeImgName = FileRename.rename(reportImgUpload.getOriginalFilename());
+
+				report.setMeetingImgUrl(changeImgName);
+				
+				result = streetService.sendReport(report);
+				
+
+				if (result > 0) { // 정보 다 저장된 경우 골목 커버 서버에 저장
+
+					reportImgUpload.transferTo(new File(savePath + "/" + changeImgName));
+
+				}
+			}
+			
+			
+			
+			if(result > 0) {
+				model.addAttribute("msg", "활동보고서가 정상적으로 제출되었습니다.");
+				return "redirect:streetMain?streetNo=" + streetNo;
+			} else {
+				model.addAttribute("msg", "활동보고서 제출에 실패하였습니다.");
+				return "redirect:streetMain?streetNo=" + streetNo; 
+			}
+			
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "활동 보고서 제출 과정에서 오류 발생");
+			return "common/errorPage";
+		}
 	}
 	
 	/*------------------------ 지원 활동보고서 끝 ---------------------------------*/

@@ -26,6 +26,7 @@ import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
+import com.kh.wassupSeoul.street.model.vo.Report;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
@@ -1106,5 +1107,31 @@ public class StreetServiceImpl implements StreetService{
 	
 	/*==============================3/25 미현 코드추가 끝 ======================*/
 	
+	
+	
+	/*============================== 지원 활동보고서 시작 ======================*/
+	/** 활동보고서 제출용 Service
+	 * @param report
+	 * @return result
+	 * @throws Exception
+	*/
+	@Override
+	public int sendReport(Report report) throws Exception {
+		
+		int result = 0;
+		
+		int reportNo = streetDAO.selectReportNextNo();
+		
+		if(reportNo > 0) {
+			
+			report.setReportNo(reportNo);
+			
+			result = streetDAO.sendReport(report);
+			
+		}
+		
+		return result;
+	}
+	/*============================== 지원 활동보고서 끝 ======================*/
 	
 }

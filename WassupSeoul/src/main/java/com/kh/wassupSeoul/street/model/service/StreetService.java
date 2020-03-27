@@ -20,6 +20,7 @@ import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
+import com.kh.wassupSeoul.street.model.vo.Report;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 
@@ -536,6 +537,17 @@ public interface StreetService {
 	 */
 	public abstract List<String> selectPtList(int streetNo) throws Exception;
 
+
 	/*==============================3/26 미현 코드 추가 끝=============================*/
-	 
+	
+	/*============================== 지원 활동 보고서 시작=============================*/
+	
+	/** 활동보고서 제출용 Service
+	 * @param report
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int sendReport(Report report) throws Exception;
+	
+	/*============================== 지원 활동 보고서 시작=============================*/
 }
