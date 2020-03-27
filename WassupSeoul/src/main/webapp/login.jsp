@@ -11,7 +11,8 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mihyun_01.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+<%--   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css"> --%>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
 
   <title>Wassup, Seoul</title>
 
@@ -19,30 +20,40 @@
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <style>
-   @import url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+  @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap');
 
 .modal {
         text-align: center;
 }
  
 @media screen and (min-width: 768px) { 
-        .modal:before {
-                display: inline-block;
-                vertical-align: middle;
-                content: " ";
-                height: 100%;
-        }
+	 .modal:before {
+	         display: inline-block;
+	         vertical-align: middle;
+	         content: " ";
+	         height: 100%;
+	 }
 }
  
 .modal-dialog {
         display: inline-block;
         text-align: left;
         vertical-align: middle;
-
         max-width: 100%; 
         width: auto; 
 }
+.h1, h1 {
+	font-size: 3.5rem;
+}
 
+.checkbox{
+	color : black;
+}
+
+.mainText{
+	font-family: 'Nanum Pen Script', cursive;
+	font-size: 100px;
+}
 </style>
 </head>
 
@@ -58,12 +69,12 @@
     <img src="${pageContext.request.contextPath}/resources/img/서울4.jpg" class="mainPicture">
 
     <div class="container2">
-      <span class="titletext">Wassup, Seoul</span>
+      <span class="titletext mainText">Wassup, Seoul</span>
 
       <form class="form-signin" form method="POST" action="${pageContext.request.contextPath}/member/login" name="login">
         <img class="mb-4" src="{{ site.baseurl }}/docs/{{ site.docs_version }}/assets/brand/bootstrap-solid.svg" alt=""
           width="72" height="72">
-        <h1 class="h1 mb-3 font-weight-bold nanum">우리랑 같이 놀래?</h1>
+        <h1 class="h1 mb-3 font-weight-bold loginText">우리랑 같이 놀래?</h1>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="email" id="inputEmail" name="memberEmail" class="form-control nanum" placeholder="이메일을 입력하세요" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
@@ -74,13 +85,13 @@
             <input type="checkbox" value="remember-me"> Remember me
           </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block nanum" type="submit">드루와</button>
+        <button class="btn btn-secondary btn-block nanum" type="submit">어울리기</button>
         <br>
-        <a href="" style="font-size: 20px;" data-toggle="modal" data-target="#findEmailModal">Find Email</a>
+        <a href="" style="font-size: 20px; color: black;" data-toggle="modal" data-target="#findEmailModal">Find Email</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="#" style="font-size: 20px;" data-toggle="modal" data-target="#findPwdModal">Find Password</a>
+        <a href="" style="font-size: 20px; color: black;" data-toggle="modal" data-target="#findPwdModal">Find Password</a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="${pageContext.request.contextPath}/member/agreeForm" style="font-size: 20px;">Join us</a>
+        <a href="${pageContext.request.contextPath}/member/agreeForm" style="font-size: 20px; color: black;">Join us</a>
       </form>
 
     </div>

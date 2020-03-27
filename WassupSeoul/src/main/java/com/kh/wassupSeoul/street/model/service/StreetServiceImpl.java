@@ -1191,14 +1191,6 @@ public class StreetServiceImpl implements StreetService{
 		
 	}
 
-	
-
-
-	
-
-
-
-	
 
 
 	
@@ -1212,15 +1204,6 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectPtList(streetNo);
 	}
 
-	
-
-
-
-	
-
-	
-
-	
 	
 	/*==============================3/25 미현 코드추가 끝 ======================*/
 	

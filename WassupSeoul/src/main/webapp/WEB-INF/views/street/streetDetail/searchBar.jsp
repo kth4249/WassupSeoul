@@ -15,21 +15,22 @@
 </head>
 <body>
 
-					<div class="container" id="searchBox"
-						style="padding: 0; width: 100%; background-color: rgb(221, 233, 218)">
+<!-- 3/27 미현 css 대부분 건듦 -->
+					<div class="container" id="searchBox" style="padding: 0; width: 100%;">
+					
 						<div id="searchWrap">
 							<form method="GET" id="login-form-input">
-								<div style="margin: 0px; width: 100%; background-color: rgb(221, 233, 218);">
-									<input type="text" class="form-control nanum"
-										placeholder=" 내용, @작성자 검색" id="searchBox"
-										style="width: 91%; margin-right: 1%; border-right: black 2px solid;">
-									<button type="submit" class="btn " id="searchBtn">
-										<img src="${contextPath}/resources/img/searchButton.png"
-											style="width: 90%; height: 90%; border-left: black 2px solid;">
-									</button>
+							
+								<div style="width: 100%; background-color: rgb(221, 233, 218);">
+									<input type="text" class="form-control nanum" placeholder=" 내용, @작성자 검색" id="searchBox">
 								</div>
+								<button type="submit" class="btn" id="searchBtn">
+									<img src="${contextPath}/resources/img/search.png" style="width: 80%; height: 80%;">
+								</button>
+								
 							</form>
 						</div>
+						
 					</div>
 
 </body>

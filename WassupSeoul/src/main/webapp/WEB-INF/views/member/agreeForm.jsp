@@ -24,8 +24,7 @@
 </head>
 
 <style>
-@import
-	url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap');
 
 .container2 {
 	padding-right: 15px;

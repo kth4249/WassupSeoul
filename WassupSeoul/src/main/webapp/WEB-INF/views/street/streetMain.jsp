@@ -17,9 +17,15 @@
 		   color: #0d0d0d;
 		   text-decoration: none;
 	 }
+	 .navHover:hover{
+	 	color: rgb(214, 141, 150) !important;
+	 }
+	 
 </style>
 
-<body style="background-color : rgb(221, 233, 218);">
+<!-- 3/27 미현 css 대부분 건듦 -->
+
+<body style="background-color : rgb(255, 255, 255);">
 
 	<!-- 골목 네비바 여백 -->
 	<div class="container-fluid" style="margin-top: 57px;">
@@ -110,6 +116,24 @@
 			
 			
 		</div>
+		
+		<!-- 3/27 미현 뮤직플레이어  -->
+		<div id="cp_widget_d585b800-05f5-422f-8105-1123e2322535">...</div>
+		<script type="text/javascript">
+			var cpo = []; cpo["_object"] ="cp_widget_d585b800-05f5-422f-8105-1123e2322535"; 
+			cpo["_fid"] = "AQAAfqOAdxxo";
+			var _cpmp = _cpmp || []; 
+			_cpmp.push(cpo);
+				(function() { 
+					var cp = document.createElement("script"); 
+					cp.type = "text/javascript";
+					cp.async = true; 
+					cp.src = "//www.cincopa.com/media-platform/runtime/libasync.js";
+			var c = document.getElementsByTagName("script")[0];
+			c.parentNode.insertBefore(cp, c); })(); 
+			</script>
+			
+	
 	</div>
 	<!-- 컨텐츠영역 종료 -->
 

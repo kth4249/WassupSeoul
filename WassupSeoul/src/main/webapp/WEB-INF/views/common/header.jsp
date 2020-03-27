@@ -451,6 +451,7 @@ object-fit: cover;
             </div>
         </div>
         <!-- end -->
+
         
         <script>
 		/* 내정보 조회용 회원정보,회원관심사 DB조회용 ajax */
@@ -705,23 +706,9 @@ object-fit: cover;
 		function onClose(evt){
 			location.href='${pageContext.request.contextPath};';
 		};
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
        	
     </script>
-       
+  
 	<script
 		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"

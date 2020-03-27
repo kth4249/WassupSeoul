@@ -19,12 +19,11 @@
 <title>summerModal</title>
 
 <style>
-@import
-	url('https://fonts.googleapis.com/css?family=Poor+Story&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap');
 
-.nanum {
-	font-family: 'Poor Story', cursive;
-}
+.nanum{
+    font-family: 'Noto Sans KR', sans-serif;
+    }
 
 .modal {
 	text-align: center;
