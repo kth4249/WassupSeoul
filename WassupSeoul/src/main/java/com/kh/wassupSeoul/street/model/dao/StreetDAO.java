@@ -23,6 +23,7 @@ import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
+import com.kh.wassupSeoul.street.model.vo.Vote;
 
 /**
  * @author user1
@@ -260,7 +261,7 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.sketchUpload", board);
 	}
 	
-	/** 투표 업로드용 DAO
+	/** 투표 업로드용 DAO     to BOARD 테이블 
 	 * @param board
 	 * @return result
 	 * @throws Exception
@@ -268,6 +269,44 @@ public class StreetDAO {
 	public int votePost(Board board) throws Exception  {
 		return sqlSession.insert("streetMapper.votePost", board);
 	}
+	
+	/** 투표 게시글 번호 조회용 DAO
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public int checkVoteBoardNo() throws Exception {
+		return sqlSession.selectOne("streetMapper.checkVoteBoardNo");
+	}
+	
+	/** 투표 업로드용 DAO to Vote 테이블 
+	 * @param vote
+	 * @return result
+	 * @throws Exception
+	 */
+	public int uploadVote(Vote vote) throws Exception {
+		return sqlSession.insert("streetMapper.uploadVote", vote);
+	}
+	
+	
+	/** 투표 선택지 업로드용 DAO
+	 * @param voteSel
+	 * @return result
+	 * @throws Exception
+	 */
+	public int uploadVoteOption(List<Vote> voteSel) throws Exception {
+		return sqlSession.insert("streetMapper.uploadVoteOption", voteSel);
+	}
+	
+	/** 투표 선택지 조회용 DAO
+	 * @param streetNo
+	 * @return voteList
+	 * @throws Exception
+	 */
+	public List<Vote> selectVoteOption(Integer streetNo) throws Exception {
+		return sqlSession.selectList("streetMapper.selectVoteOption", streetNo);
+	}
+
 
 	// -------------------------------------------- 중하 끝
 	// ---------------------------------------------
@@ -867,13 +906,6 @@ public class StreetDAO {
 	public List<String> selectPtList(int streetNo) {
 		return sqlSession.selectList("streetMapper.selectPtList",streetNo);
   }
-
-
-
-
-
-
-
 
 
 	

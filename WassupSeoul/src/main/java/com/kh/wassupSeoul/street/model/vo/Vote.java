@@ -1,29 +1,51 @@
 package com.kh.wassupSeoul.street.model.vo;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 public class Vote {
 	
+	private int streetNo;
 	private int boardNo;
 	private String voteTitle;
 	private String voteResult;
 	private Timestamp voteEnrollDt;
-	private Timestamp voteEndDt;
+	private Date voteEndDt;
 	private String voteDup;
+	private String voteOtion;
+	private String anonymity;
+	private int voteNo;
 	
 	public Vote() {
-		// TODO Auto-generated constructor stub
+	}
+	
+	public Vote(int boardNo, String voteOtion) {
+		super();
+		this.boardNo = boardNo;
+		this.voteOtion = voteOtion;
 	}
 
-	public Vote(int boardNo, String voteTitle, String voteResult, Timestamp voteEnrollDt, Timestamp voteEndDt,
-			String voteDup) {
+	public Vote(int streetNo, int boardNo, String voteTitle, String voteResult, Timestamp voteEnrollDt, Date voteEndDt,
+			String voteDup, String voteOtion, String anonymity, int voteNo) {
 		super();
+		this.streetNo = streetNo;
 		this.boardNo = boardNo;
 		this.voteTitle = voteTitle;
 		this.voteResult = voteResult;
 		this.voteEnrollDt = voteEnrollDt;
 		this.voteEndDt = voteEndDt;
 		this.voteDup = voteDup;
+		this.voteOtion = voteOtion;
+		this.anonymity = anonymity;
+		this.voteNo = voteNo;
+	}
+
+	public int getStreetNo() {
+		return streetNo;
+	}
+
+	public void setStreetNo(int streetNo) {
+		this.streetNo = streetNo;
 	}
 
 	public int getBoardNo() {
@@ -58,11 +80,11 @@ public class Vote {
 		this.voteEnrollDt = voteEnrollDt;
 	}
 
-	public Timestamp getVoteEndDt() {
+	public Date getVoteEndDt() {
 		return voteEndDt;
 	}
 
-	public void setVoteEndDt(Timestamp voteEndDt) {
+	public void setVoteEndDt(Date voteEndDt) {
 		this.voteEndDt = voteEndDt;
 	}
 
@@ -74,11 +96,35 @@ public class Vote {
 		this.voteDup = voteDup;
 	}
 
+	public String getVoteOtion() {
+		return voteOtion;
+	}
+
+	public void setVoteOtion(String voteOtion) {
+		this.voteOtion = voteOtion;
+	}
+
+	public String getAnonymity() {
+		return anonymity;
+	}
+
+	public void setAnonymity(String anonymity) {
+		this.anonymity = anonymity;
+	}
+
+	public int getVoteNo() {
+		return voteNo;
+	}
+
+	public void setVoteNo(int voteNo) {
+		this.voteNo = voteNo;
+	}
+
 	@Override
 	public String toString() {
-		return "Vote [boardNo=" + boardNo + ", voteTitle=" + voteTitle + ", voteResult=" + voteResult
-				+ ", voteEnrollDt=" + voteEnrollDt + ", voteEndDt=" + voteEndDt + ", voteDup=" + voteDup + "]";
+		return "Vote [streetNo=" + streetNo + ", boardNo=" + boardNo + ", voteTitle=" + voteTitle + ", voteResult="
+				+ voteResult + ", voteEnrollDt=" + voteEnrollDt + ", voteEndDt=" + voteEndDt + ", voteDup=" + voteDup
+				+ ", voteOtion=" + voteOtion + ", anonymity=" + anonymity + ", voteNo=" + voteNo + "]";
 	}
-	
-	
+
 }

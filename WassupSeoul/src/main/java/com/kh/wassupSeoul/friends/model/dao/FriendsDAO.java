@@ -238,6 +238,16 @@ public class FriendsDAO {
 	}
 
 
+	/** 대화방 목록 확인용 1
+	 * @param myNo
+	 * @return cList
+	 * @throws Exception
+	 */
+	public List<Integer> selectChatNo(int myNo) throws Exception{
+		return sqlSession.selectList("friednsMapper.selectChatNo", myNo);
+	}
+
+
 
 
 	

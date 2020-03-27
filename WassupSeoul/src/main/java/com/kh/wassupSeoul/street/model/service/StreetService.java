@@ -22,6 +22,7 @@ import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
+import com.kh.wassupSeoul.street.model.vo.Vote;
 
 /**
  * @author user1
@@ -135,11 +136,19 @@ public interface StreetService {
 	
 	/** 투표 게시글 업로드용 Service
 	 * @param board
+	 * @param vote 
+	 * @param voteOption 
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int votePost(Board board) throws Exception;
-
+	public abstract int votePost(Board board, Vote vote, String[] voteOption) throws Exception;
+	
+	/** 투표 선택지 조회용 
+	 * @param streetNo
+	 * @return voteList
+	 * @throws Exception
+	 */
+	public abstract List<Vote> selectVoteOption(Integer streetNo) throws Exception;
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
@@ -566,13 +575,6 @@ public interface StreetService {
 	public abstract List<String> selectPtList(int streetNo) throws Exception;
 
 	
-
-	
-
-
-
-
-
 
 	/*==============================3/26 미현 코드 추가 끝=============================*/
 	 
