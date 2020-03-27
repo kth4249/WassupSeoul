@@ -54,8 +54,7 @@ object-fit: cover;
 		</c:if>
 		
 		">
-		
-			<a href="${contextPath}/square"><img src="${contextPath}/resources/img/logo.png" style="width: 25px; margin-right:15px;"/></a>
+			<a href="${contextPath}/square"><img src="${contextPath}/resources/img/seoul.png"/></a>&nbsp;&nbsp;
 			<input class="form-control mr-sm-2" type="text"
 				placeholder="검색할 골목 키워드" id="searchStreet" name="searchStreet"
 				style="width: 300px">
@@ -81,7 +80,7 @@ object-fit: cover;
 
 
 			<div class="dropdown">
-				<div class="dropdown-toggle headerImg" type="button"
+				<div class="dropdown-toggle headerImg" type="button" onclick="alarmView();"
 					id="alarmButton" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false">
 					<img src="${contextPath}/resources/img/alarm2.png">
@@ -101,7 +100,9 @@ object-fit: cover;
 			</div>
 			<!-- ------------------------------태훈 추가-------------------------------->
 			<script>
-				$("#alarmButton").on("click", function(){
+				$("#alarmButton").on("click", alarmView());
+				
+				function alarmView(){
 					$.ajax({
 						url : "${contextPath}/square/selectAlarm",
 						dataType : "json",
@@ -112,13 +113,17 @@ object-fit: cover;
 							if(alList == ""){
 								var $alarm = $("<a>").prop("class", "dropdown-item nanum").text("조회된 알람이 없습니다.")
 								$("#alarmDrop").append($alarm);
+								$("#alarmButton>img").prop("src", "${contextPath}/resources/img/alarm2.png")
 							} else {
+								$("#alarmButton>img").prop("src", "${contextPath}/resources/img/alarmActive.png")
 								$.each(alList, function(index, item){
 									//console.log(alList[index])
 									if(item.alarmType == 1){
 										var $alDiv = $("<div>").prop("class", "dropdown-item nanum joinCheck");
 									} else if(item.alarmType == 2){
 										var $alDiv = $("<div>").prop("class", "dropdown-item nanum goStreet");
+									} else if(item.alarmType == 3){
+										var $alDiv = $("<div>").prop("class", "dropdown-item nanum openMessenger");
 									}
 									var $alUrl = $("<input>").prop("type", "hidden").val(item.alarmAddr);
 									var $alNo = $("<input>").prop("type", "hidden").val(item.alarmNo)
@@ -128,14 +133,14 @@ object-fit: cover;
 									$("#alarmDrop").append($alDiv);
 								})
 							}
-							$("#alarmButton>img").prop("src", "${contextPath}/resources/img/alarm2.png")
+							
 						},
 						error : function() {
 							console.log("ajax 통신 실패")
 						}
 						
 					})
-				})
+				}
 				
 				$(document).on("click", ".joinCheck", function(){ // 알람 클릭시 골목 가입 수락여부 선택할 수 있는 함수
 					console.log(this.firstChild.value)
@@ -157,6 +162,7 @@ object-fit: cover;
 					this.remove();
 					console.log(this.childNodes[1].value);
 					checkAlarm(this.childNodes[1].value) // 알람 checkDt 수정하는 function 호출 및 매개변수로 alarmNo 전달
+					alarmView();
 				})
 				
 				$(document).on("click", ".goStreet", function(){ // 알람 클릭시 골목 이동 여부 선택할 수 있는 함수
@@ -167,6 +173,14 @@ object-fit: cover;
 					this.remove();
 					console.log(this.childNodes[1].value);
 					checkAlarm(this.childNodes[1].value) // 알람 checkDt 수정하는 function 호출 및 매개변수로 alarmNo 전달
+				})
+				
+				$(document).on("click", ".openMessenger", function(){
+					$('.container2').show(200);
+					iconStatus = false;
+					$(".tabBox ul").children().last().children("a").click();
+					checkAlarm(this.childNodes[1].value)
+					alarmView();
 				})
 				
 				function checkAlarm(alarmNo) { // 알람 확인 체크용 function
@@ -224,11 +238,11 @@ object-fit: cover;
                 </div>
                 <!-- profile image end-->
                 <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <input type="text" id="memberNickName" class="nanum form-control-plaintext text-center" style="font-size: 35px;font-weight: bold;" readonly>
+                <div class="col-md-2"></div> <!-- 정승환 코드수정(20.03.27) -->
+                <div class="col-md-8">		<!-- 정승환 코드수정(20.03.27) -->
+                    <input type="text" id="memberNickName" class="nanum form-control-plaintext text-center" style="font-size: 30px;font-weight: bold;" readonly>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div> <!-- 정승환 코드수정(20.03.27) -->
                 </div>
                 <div class="row">
                 <div class="col-md-2"></div>

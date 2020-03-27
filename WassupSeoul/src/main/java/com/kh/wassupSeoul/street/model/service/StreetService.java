@@ -20,8 +20,10 @@ import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
+import com.kh.wassupSeoul.street.model.vo.Report;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
+import com.kh.wassupSeoul.street.model.vo.Vote;
 
 /**
  * @author user1
@@ -135,11 +137,19 @@ public interface StreetService {
 	
 	/** 투표 게시글 업로드용 Service
 	 * @param board
+	 * @param vote 
+	 * @param voteOption 
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int votePost(Board board) throws Exception;
-
+	public abstract int votePost(Board board, Vote vote, String[] voteOption) throws Exception;
+	
+	/** 투표 선택지 조회용 
+	 * @param streetNo
+	 * @return voteList
+	 * @throws Exception
+	 */
+	public abstract List<Vote> selectVoteOption(Integer streetNo) throws Exception;
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
@@ -289,6 +299,9 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract List<Relationship> selectRelationList(Map<String, Object> relationMap) throws Exception;
+	
+	
+	public abstract void removeAlarm(Map<String, Object> map);
 
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
@@ -467,8 +480,6 @@ public interface StreetService {
 	 */
 	public abstract int deleteBoardCalendar(int boardNo) throws Exception;
 	
-	/*------------------------ 정승환 추가코드(20.03.25 ,26) 시작-----------------------------------*/
-	
 	/** 일정 게시글 참여인원수 조회용 Service
 	 * @param boardNo
 	 * @return count
@@ -512,7 +523,38 @@ public interface StreetService {
 	 */
 	public abstract int deleteCalendarMember(Board temp) throws Exception;
 	
-	/*------------------------ 정승환 추가코드(20.03.25 ,26) 끝-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.27) 시작-----------------------------------*/
+	
+	/** 골목대장 회원번호 조회용 Service
+	 * @param streetNo
+	 * @return memberNo
+	 * @throws Exception
+	 */
+	public abstract int selectStreetMasterNo(int streetNo) throws Exception;
+	
+	/** 일정 수정 모달창 일정 정보 조회용 Service
+	 * @param boardNo
+	 * @return calendar
+	 * @throws Exception
+	 */
+	public abstract Calendar selectCalendarInfo(int boardNo) throws Exception;
+	
+	/** 일정 게시글 수정용 Service
+	 * @param updateCalendarBoard
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateCalendarBoard(Board updateCalendarBoard) throws Exception;
+	
+	/** 일정 수정용 Service
+	 * @param updateCal
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateSchedule(Calendar updateCal) throws Exception;
+	
+
+	/*------------------------ 정승환 추가코드(20.03.27) 시작-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	
@@ -536,6 +578,17 @@ public interface StreetService {
 	 */
 	public abstract List<String> selectPtList(int streetNo) throws Exception;
 
+
 	/*==============================3/26 미현 코드 추가 끝=============================*/
-	 
+	
+	/*============================== 지원 활동 보고서 시작=============================*/
+	
+	/** 활동보고서 제출용 Service
+	 * @param report
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int sendReport(Report report) throws Exception;
+	
+	/*============================== 지원 활동 보고서 시작=============================*/
 }

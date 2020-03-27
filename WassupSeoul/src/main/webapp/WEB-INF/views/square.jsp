@@ -6,9 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Wassup, Seoul Lounge</title>
 
- <!--  체크하기 -->
+<title>Wassup, Seoul!</title>
 </head>
 <style>
 .loungeHeader {
@@ -201,8 +200,9 @@ strong {
 										</c:if>
 									</div>
 									<div class="card-footer">
-										<small class="text-muted">&#9733; &#9733; &#9733;
-											&#9733; &#9734;</small>
+										<small class="text-muted">
+											<img src="${contextPath}/resources/img/${street.badgeUrl}" style="width: 30px">
+										</small>
 									</div>
 								</div>
 							</div>

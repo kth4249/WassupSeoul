@@ -520,6 +520,5 @@
  		// 정승환 코드 삭제(20.03.25)
     	     
 	</script>
-<jsp:include page="../common/friends.jsp"/>
 </body>
 </html>

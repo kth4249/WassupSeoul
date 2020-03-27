@@ -2,6 +2,7 @@ package com.kh.wassupSeoul.street.model.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,20 +15,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.wassupSeoul.common.FileRename;
-import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
-import com.kh.wassupSeoul.street.model.vo.Bfile;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
+import com.kh.wassupSeoul.street.model.vo.Report;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
+import com.kh.wassupSeoul.street.model.vo.Vote;
 
 
 @Service
@@ -295,17 +295,71 @@ public class StreetServiceImpl implements StreetService{
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int votePost(Board board) throws Exception {
-		return streetDAO.votePost(board);
+	public int votePost(Board board, Vote vote, String[] voteOption) throws Exception {
+		
+		Integer boardNo = streetDAO.checkVoteBoardNo(); // NEXT.VAL 조회
+		
+		board.setBoardNo(boardNo);
+		
+		int result = streetDAO.votePost(board);  // Board 테이블에 게시글 추가 
+		
+		int result2 = 0;
+		
+		List<Vote> voteSel = new ArrayList();
+		
+		for(int i=0; i<voteOption.length; i++) {
+			voteSel.add(new Vote( boardNo, voteOption[i]));
+		}
+		
+//		for(int i=0; i<voteSel.size(); i++) {
+//			System.out.println("입력한 투표 선택지 : " + voteSel.get(i));
+//		}
+		
+		if( result > 0) {
+			
+			System.out.println("투표 게시글 BOARD 테이블 업로드 성공");
+				
+			vote.setBoardNo(boardNo);
+			
+			//System.out.println(vote);
+			
+			result2 = streetDAO.uploadVote(vote); // Vote 테이블에 게시글 추가
+			
+			if( result2 > 0 ) {
+				System.out.println("투표 게시글 Vote 테이블 업로드 성공");
+			}else {
+				System.out.println("투표 게시글 Vote 테이블 업로드 실패");
+			}
+			
+			int result3 = streetDAO.uploadVoteOption(voteSel); // Vote_pick 테이블에 투표 선택지 추가
+			
+			if(result3 > 0) {
+				System.out.println("투표 선택지 업로드 성공");
+			}else {
+				System.out.println("투표 선택지 업로드 실패");
+			}
+			
+		}else {
+			System.out.println("투표 게시글 BOARD 테이블 업로드 실패");
+		}
+		
+		return result2;
+	}
+		
+	/** 투표 선택지 조회용 
+	 * @param streetNo
+	 * @return voteList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Vote> selectVoteOption(Integer streetNo) throws Exception {
+		return streetDAO.selectVoteOption(streetNo);
 	}
 	
-		
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
-	
 
 
-
-/** 골목 가입용 Service
+	/** 골목 가입용 Service
 	 * @param map
 	 * @return result
 	 */
@@ -574,15 +628,7 @@ public class StreetServiceImpl implements StreetService{
 
 
 
-	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
-	 * @param addRelation
-	 * @return result
-	 */
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public int addRelation(Relationship addRelation){
-		return streetDAO.addRelation(addRelation);
-	}
+
 	
 	
 	/*------------------------------태훈 시작 (03/22) -------------------------------*/
@@ -602,8 +648,6 @@ public class StreetServiceImpl implements StreetService{
 	public void joinDelete(Map<String, Object> map) {
 		streetDAO.joinDelete(map);
 	}
-
-
 	
 	/** 골목 대장 번호 조회용 Service(알림용)
 	 * @param streetNo
@@ -641,6 +685,30 @@ public class StreetServiceImpl implements StreetService{
 	@Override
 	public List<Relationship> selectRelationList(Map<String, Object> relationMap) throws Exception {
 		return streetDAO.selectRelationList(relationMap);
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public void removeAlarm(Map<String, Object> map) {
+		streetDAO.removeAlarm(map);
+	}
+	
+	
+	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
+	 * @param addRelation
+	 * @return result
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int addRelation(Relationship addRelation){
+		// 이전에 관계가 있는지 조회
+		int result = streetDAO.selectRelation(addRelation);
+		if(result > 0) {
+			return streetDAO.modifyRelation(addRelation);
+		} else {
+			return streetDAO.addRelation(addRelation);
+		}
+		
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
@@ -881,7 +949,7 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.deleteBoardCalendar(boardNo);
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.25 ,26) 시작-----------------------------------*/
+	
 	/** 일정 게시글 참여인원수 조회용 Service
 	 * @param boardNo
 	 * @return count
@@ -944,12 +1012,54 @@ public class StreetServiceImpl implements StreetService{
 	public int deleteCalendarMember(Board temp) throws Exception {
 		return streetDAO.deleteCalendarMember(temp);
 	}
+	
+	/*------------------------ 정승환 추가코드(20.03.27) 시작-----------------------------------*/
+	
+	/** 골목대장 회원번호 조회용 Service
+	 * @param streetNo
+	 * @return memberNo
+	 * @throws Exception
+	 */
+	@Override
+	public int selectStreetMasterNo(int streetNo) throws Exception {
+		return streetDAO.selectStreetMasterNo(streetNo);
+	}
+	
+	/** 일정 수정 모달창 일정 정보 조회용 Service
+	 * @param boardNo
+	 * @return calendar
+	 * @throws Exception
+	 */
+	@Override
+	public Calendar selectCalendarInfo(int boardNo) throws Exception {
+		return streetDAO.selectCalendarInfo(boardNo);
+	}
+	
+	/** 일정 게시글 수정용 Service
+	 * @param updateCalendarBoard
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateCalendarBoard(Board updateCalendarBoard) throws Exception {
+		return streetDAO.updateCalendarBoard(updateCalendarBoard);
+	}
+	
+	/** 일정 수정용 Service
+	 * @param updateCal
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateSchedule(Calendar updateCal) throws Exception {
+		return streetDAO.updateSchedule(updateCal);
+	}
+
 
 	
-	/*------------------------ 정승환 추가코드(20.03.25 ,26) 끝-----------------------------------*/
-
-	
-	
+	/*------------------------ 정승환 추가코드(20.03.27) 끝-----------------------------------*/
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 	
 	
@@ -1097,5 +1207,31 @@ public class StreetServiceImpl implements StreetService{
 	
 	/*==============================3/25 미현 코드추가 끝 ======================*/
 	
+	
+	
+	/*============================== 지원 활동보고서 시작 ======================*/
+	/** 활동보고서 제출용 Service
+	 * @param report
+	 * @return result
+	 * @throws Exception
+	*/
+	@Override
+	public int sendReport(Report report) throws Exception {
+		
+		int result = 0;
+		
+		int reportNo = streetDAO.selectReportNextNo();
+		
+		if(reportNo > 0) {
+			
+			report.setReportNo(reportNo);
+			
+			result = streetDAO.sendReport(report);
+			
+		}
+		
+		return result;
+	}
+	/*============================== 지원 활동보고서 끝 ======================*/
 	
 }

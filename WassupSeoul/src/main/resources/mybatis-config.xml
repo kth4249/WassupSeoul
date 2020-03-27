@@ -13,6 +13,7 @@
 		-->
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Street" alias="Street"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.StreetJoin" alias="StreetJoin"/>
+		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Vote" alias="Vote"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Keyword" alias="Keyword"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Reply" alias="Reply"/>
 		<typeAlias type="com.kh.wassupSeoul.member.model.vo.Member" alias="Member"/>
@@ -25,6 +26,7 @@
 		<typeAlias type="com.kh.wassupSeoul.square.model.vo.Alarm" alias="Alarm"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Calendar" alias="Calendar"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Bfile" alias="Bfile"/>
+		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Report" alias="Report"/>
 		<!-- 미현 bfile 추가 -->
 	</typeAliases> 
 	
