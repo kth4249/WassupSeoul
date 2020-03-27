@@ -36,13 +36,13 @@ import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.service.StreetService;
-import com.kh.wassupSeoul.street.model.vo.Bfile;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
+import com.kh.wassupSeoul.street.model.vo.Vote;
 
 @SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet"})
 @Controller
@@ -88,9 +88,11 @@ public class StreetController {
 			
 			// 해당 골목 댓글, 대댓글 조회
 			List<Reply> reply  = streetService.selectReply(checkStreet);
+			
+			List<Vote> vote = streetService.selectVoteOption(streetNo);
 
-//			for(int i = 0 ; i < board.size(); i++ ) {
-//				System.out.println(board.get(i));
+//			for(int i = 0 ; i < vote.size(); i++ ) {
+//					System.out.println(vote.get(i));
 //			}
 //			
 //			for(int i = 0 ; i < reply.size(); i++ ) {
@@ -101,10 +103,11 @@ public class StreetController {
 			
 			if (street != null) {
 
-				model.addAttribute("street", street); 
-				model.addAttribute("board", board);
-				model.addAttribute("reply", reply);
-				model.addAttribute("reReply", reply);
+				model.addAttribute("street", street); // 해당골목 정보
+				model.addAttribute("board", board);  // 해당 골목 게시글 조회
+				model.addAttribute("reply", reply);  // 해당 골목 댓글 리스트 (댓글용)
+				model.addAttribute("reReply", reply);  // 해당골목 댓글 리스트 (대댓글용)
+				model.addAttribute("vote", vote);     // 해당 골목 투표 선택지 
 
 				// 회원 해당 골목 등급, 가입여부 
 				//model.addAttribute("memGradeInSt", memGradeInSt);
@@ -498,37 +501,49 @@ public class StreetController {
     
     
     
- // 지도 게시글 입력
+ // 투표 게시글 입력
     @ResponseBody
 	@RequestMapping("votePost")
-	public String votePost(String anonymity, Model model,
-							String votePostContent, List<String> voteOptionList, String votePostTitle,
-							String endDate) {
+	public String votePost(String anonymity, Model model, String voteLimit,
+							String votePostContent, String voteOptionList, String votePostTitle,
+							Date endDate) {
 		
 		System.out.println("입력한 게시글 내용 : " + votePostContent);
 		System.out.println("입력한 투표 제목 : " + votePostTitle);
 		System.out.println("입력한 투표 종료일: " + endDate);
-		System.out.println("입력한 투표 중복여부: " + anonymity);
+		System.out.println("무기명 투표 중복여부: " + anonymity);
+		System.out.println("중복 투표 중복여부: " + voteLimit);
+		System.out.println("입력한 투표 : " + voteOptionList);
+		 
+		String[] voteGet = voteOptionList.split(",");
 		
-		
-		for(int k=0;k<voteOptionList.size();k++) {
-			System.out.println("입력한 투표 옵션 리스트  : " + voteOptionList);
-		}
+		for(int k=0; k<voteGet.length;k++) {
+		System.out.println("입력한 투표 옵션 리스트  : " + voteGet[k]); }
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
-		int streetNo = (int) model.getAttribute("streetNo");
+		int streetNo = (int)model.getAttribute("streetNo");
 		
 		Board board = new Board();
+		
+		Vote vote = new Vote();
 		
 		board.setStreetNo(streetNo);
 		board.setMemberNo(loginMember.getMemberNo());
 		board.setBoardContent(votePostContent);
 		board.setTypeNo(3);
-	
+		
+		vote.setVoteTitle(votePostTitle);
+		vote.setVoteDup(voteLimit);
+		vote.setVoteEndDt(endDate);
+		vote.setVoteOtion(voteOptionList);
+		vote.setAnonymity(anonymity);
+		
+		String[] voteOption = voteOptionList.split(",");
+		
 		try {
 	
-			int test = streetService.votePost(board);
+			int test = streetService.votePost(board, vote, voteOption);
 			
 			if ( test > 0) {
 				System.out.println("투표 게시글 입력 완료");

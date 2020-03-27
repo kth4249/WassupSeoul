@@ -50,7 +50,7 @@
 											<div style="text-align: center; margin: auto; font-size: 20px;">
 												<img src="${contextPath}/resources/img/plus.png" alt="학습노트 추가 버튼" class="addBtn"
 													style="width: 10px; height: 10px;">
-												<span class="addBtn2" >추가하기</span> <span style="size:7px; color:gray;">(최대 10개까지 가능)</span>
+												<span class="addBtn" >추가하기</span> <span style="size:7px; color:gray;">(최대 10개까지 가능)</span>
 											</div>
 										</div>
 									</div>	
@@ -63,18 +63,18 @@
 									<label for="vote" style="width: 90px;">복수 선택 개수:</label>
 	
 									<select id="voteLimit" style="display: inline-block; " >
-									<option value="unlimit">제한없음</option>
-									<option value="two">2개</option>
-									<option value="three">3개</option>
-									<option value="four">4개</option>
-									<option value="five">5개</option>
+									<option value="Y">제한없음</option>
+									<option value="2">2개</option>
+									<option value="3">3개</option>
+									<option value="4">4개</option>
+									<option value="5">5개</option>
 									</select>
 									</span><br>
 	
-									<label style="width: 300px;" ><input type='checkbox' id='endDate' style="margin-left: 10px; display: inline-block;" />종료일 설정</label>
+									<label style="width: 370px;" ><input type='checkbox' id='endDate' style="margin-left: 10px; display: inline-block;" />종료일 설정</label>
 									
 									<span  id="setDate" style="width: 300px; display: inline-block; float:right; visibility:hidden">
-									<input id="date" type='date' style="width: 140px;"/><input type='time' id="time" style="width: 110px;" />
+									<input id="date" type='date' style="width: 140px;"/>
 									</span>
 										
 									<button type="button" id="voteSubmitBtn" style="width: 15%; height: 30px; font-size: 17px; float: right; margin-left: 200px">작성</button>
@@ -94,34 +94,48 @@
 	document.getElementById('voteSubmitBtn').addEventListener('click', function(){
 		var votePostContent = $("#writePostArea").val();
 		var votePostTitle = $("#voteTitle").val();
-		var anonymity = "disAgree";
+		var anonymity = "N";
 		
-		//무기명 투표 여부
-		if($('input:checkbox[id="anonymity"]').is(":checked") == true){
-			anonymity = "agree";
-		}
+		 //무기명 투표 여부
+		 var checked2 = $("#anonymity").prop('checked');
+		 if(checked2){
+			 var anonymity = "Y";
+		 }
 		
 		// 복수 선태 개수 받기 
-		if( $('input:checkbox[id="anonymity"]').is(":checked") == true ){
-			var voteLimit = $('input:checkbox[id=="voteLimit"]').is(":checked").text();
-		}
+		 var checked = $("#plurality").prop('checked');
+		 if(checked){
+			 var voteLimit = $("#voteLimit option:selected").attr('value');
+		 }
 		
 		// 종료일 선택  
 		if( $('input:checkbox[id="endDate"]').is(":checked") == true ){
-			var date = $('#date').val();    // 종료일
-			var time = $('#time').val();    // 종료시간
-			var endDate = date + time;
+			var endDate = $('#date').val();    // 종료일
 		}
 		
 		// 투표 옵션 
 		var optionCount = $(".voteOption").length
 		
-		var voteOptionList = new List();
+		console.log("선택지 개수 : " + optionCount);
+		
+		//var voteOptionList = new Array();
+		var voteOptionList = "";
+		
+		/*for (var i = 0; i < optionCount ; i++ ){
+			voteOptionList.push($(".voteOption").eq(i).val());
+			alert($(".voteOption").eq(i).val());
+		}*/
 		
 		for (var i = 0; i < optionCount ; i++ ){
-			voteOptionList.push($("#voteOption(i)").val());
+			voteOptionList += $(".voteOption").eq(i).val();
+			if(i < optionCount -1){
+				voteOptionList += ",";
+			}
+			//alert($(".voteOption").eq(i).val());
 		}
 		
+		
+		alert(voteOptionList);
 		
 		$.ajax({
 			url : "votePost",
@@ -129,7 +143,8 @@
 					"votePostContent" : votePostContent,
 					"endDate" : endDate,
 					"voteOptionList" : voteOptionList,
-					"votePostTitle" : votePostTitle
+					"votePostTitle" : votePostTitle,
+					"voteLimit" : voteLimit
 					},
 			type : "post",
 			success : function(result) {
@@ -149,20 +164,29 @@
 		 refreshList()
 	});
 	
-	$("#addbtn, #addBtn2" ).on("click",function(){
+	// 선택지창 추가 
+	$(function () {
 		
-		 var optionCount = $(".voteOption").length  // 옵션창 개수 
-	     
-		 console.log("optionCount");
-		 
-	        if ( optionCount < 11) {
-	        	var html = '<label>'+optionCount+'</label><input type="text" id="voteOption'+optionCount+'" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>'
-	        	console.log("투표 모달 옵션창 추가");
-	        	$("#optionArea").append(html);
-	        }else {
-	        	alert("투표 옵션은 10개까지만 추가 가능합니다.");
-	        }
-	});
+		$(".addbtn").click(function(){
+			
+			alert("투표 옵션은 10개까지만 추가 가능합니다.");
+			
+			var optionCount = $(".voteOption").length  // 옵션창 개수 
+			
+   		 	console.log(optionCount + 1);
+   		 
+   	        if ( optionCount < 11) {
+   	        	var html = '<label>'+optionCount+'</label><input type="text" id="voteOption'+optionCount+'" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>'
+   	        	console.log("투표 모달 옵션창 추가");
+   	        	$("#optionArea").append(html);
+   	        }else {
+   	        	alert("투표 옵션은 10개까지만 추가 가능합니다.");
+   	        }
+			
+	    });
+        
+	})
+	
 	
 	// 투표 모달 중복투표 허용 옵션 보이기 
     $("#plurality").change(function(){
