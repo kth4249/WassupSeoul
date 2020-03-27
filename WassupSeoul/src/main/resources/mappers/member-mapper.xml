@@ -127,9 +127,9 @@
 		WHERE MEMBER_NO = #{memberNo} AND STREET_STATUS = 'Y' AND CITIZEN_STATUS='Y'
 	</select>
 	
-	<!-- 내골목 골목대장 조회 -->
+	<!-- 내골목 골목대장 조회 -->	<!-- 정승환 코드변경(20.03.27) -->
 	<select id="selectStreetMaster" parameterType="_int" resultType="string">
-		SELECT MEMBER_NM FROM STREET
+		SELECT MEMBER_NICKNAME FROM STREET
 		JOIN STREET_JOIN USING(STREET_NO)
 		JOIN MEMBER USING(MEMBER_NO)
 		WHERE STREET_NO = #{streetNo} AND CITIZEN_GRADE='M' AND STREET_STATUS = 'Y'

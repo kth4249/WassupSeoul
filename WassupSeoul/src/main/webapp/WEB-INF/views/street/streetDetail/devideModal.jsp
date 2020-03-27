@@ -59,7 +59,7 @@
 				<script>
 	
 	// 투표 게시글작성
-	/* $("#v").click(function() {
+	 $("#v").click(function() {
 		var postContent = $(this).parent().find("textarea").val();
 		//var divBox = $(this).parent(".box111");
 		var voteOption1 = $("#voteOption1").val();
@@ -90,7 +90,7 @@
 			}
 		});
 		 refreshList()
-	}); */
+	}); 
 	
 	
 	</script>		

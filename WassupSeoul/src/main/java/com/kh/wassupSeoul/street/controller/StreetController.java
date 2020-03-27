@@ -36,7 +36,6 @@ import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.service.StreetService;
-import com.kh.wassupSeoul.street.model.vo.Bfile;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -44,6 +43,7 @@ import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Report;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
+import com.kh.wassupSeoul.street.model.vo.Vote;
 
 @SessionAttributes({ "loginMember", "msg", "streetNo", "myStreet"})
 @Controller
@@ -89,9 +89,11 @@ public class StreetController {
 			
 			// 해당 골목 댓글, 대댓글 조회
 			List<Reply> reply  = streetService.selectReply(checkStreet);
+			
+			List<Vote> vote = streetService.selectVoteOption(streetNo);
 
-//			for(int i = 0 ; i < board.size(); i++ ) {
-//				System.out.println(board.get(i));
+//			for(int i = 0 ; i < vote.size(); i++ ) {
+//					System.out.println(vote.get(i));
 //			}
 //			
 //			for(int i = 0 ; i < reply.size(); i++ ) {
@@ -102,10 +104,11 @@ public class StreetController {
 			
 			if (street != null) {
 
-				model.addAttribute("street", street); 
-				model.addAttribute("board", board);
-				model.addAttribute("reply", reply);
-				model.addAttribute("reReply", reply);
+				model.addAttribute("street", street); // 해당골목 정보
+				model.addAttribute("board", board);  // 해당 골목 게시글 조회
+				model.addAttribute("reply", reply);  // 해당 골목 댓글 리스트 (댓글용)
+				model.addAttribute("reReply", reply);  // 해당골목 댓글 리스트 (대댓글용)
+				model.addAttribute("vote", vote);     // 해당 골목 투표 선택지 
 
 				// 회원 해당 골목 등급, 가입여부 
 				//model.addAttribute("memGradeInSt", memGradeInSt);
@@ -499,37 +502,49 @@ public class StreetController {
     
     
     
- // 지도 게시글 입력
+ // 투표 게시글 입력
     @ResponseBody
 	@RequestMapping("votePost")
-	public String votePost(String anonymity, Model model,
-							String votePostContent, List<String> voteOptionList, String votePostTitle,
-							String endDate) {
+	public String votePost(String anonymity, Model model, String voteLimit,
+							String votePostContent, String voteOptionList, String votePostTitle,
+							Date endDate) {
 		
 		System.out.println("입력한 게시글 내용 : " + votePostContent);
 		System.out.println("입력한 투표 제목 : " + votePostTitle);
 		System.out.println("입력한 투표 종료일: " + endDate);
-		System.out.println("입력한 투표 중복여부: " + anonymity);
+		System.out.println("무기명 투표 중복여부: " + anonymity);
+		System.out.println("중복 투표 중복여부: " + voteLimit);
+		System.out.println("입력한 투표 : " + voteOptionList);
+		 
+		String[] voteGet = voteOptionList.split(",");
 		
-		
-		for(int k=0;k<voteOptionList.size();k++) {
-			System.out.println("입력한 투표 옵션 리스트  : " + voteOptionList);
-		}
+		for(int k=0; k<voteGet.length;k++) {
+		System.out.println("입력한 투표 옵션 리스트  : " + voteGet[k]); }
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
-		int streetNo = (int) model.getAttribute("streetNo");
+		int streetNo = (int)model.getAttribute("streetNo");
 		
 		Board board = new Board();
+		
+		Vote vote = new Vote();
 		
 		board.setStreetNo(streetNo);
 		board.setMemberNo(loginMember.getMemberNo());
 		board.setBoardContent(votePostContent);
 		board.setTypeNo(3);
-	
+		
+		vote.setVoteTitle(votePostTitle);
+		vote.setVoteDup(voteLimit);
+		vote.setVoteEndDt(endDate);
+		vote.setVoteOtion(voteOptionList);
+		vote.setAnonymity(anonymity);
+		
+		String[] voteOption = voteOptionList.split(",");
+		
 		try {
 	
-			int test = streetService.votePost(board);
+			int test = streetService.votePost(board, vote, voteOption);
 			
 			if ( test > 0) {
 				System.out.println("투표 게시글 입력 완료");
@@ -974,7 +989,6 @@ public class StreetController {
 	/* 지원 골목 수정 끝 */
 /*------------------------ 정승환 추가코드 시작-----------------------------------*/
 	
-	/*------------------------ 정승환 코드수정(20.03.25) 시작-----------------------------------*/
 	// 일정 조회
 	@RequestMapping("calendar")
 	public String calendar(Model model, Integer tempStreetNo) {
@@ -982,7 +996,6 @@ public class StreetController {
 		return "street/streetCalendar";
 		
 	}
-	/*------------------------ 정승환 코드수정(20.03.25) 끝-----------------------------------*/
 	
 	// 일정 추가
 	@RequestMapping(value="addSCSC", method = RequestMethod.POST)
@@ -1082,8 +1095,6 @@ public class StreetController {
 		Calendar temp = new Calendar();
 		temp.setBoardNo(boardNo); temp.setStreetNo(streetNo);
 		try {
-			
-			/*------------------------ 정승환 추가코드(20.03.25 ,26)시작-----------------------------------*/
 			// 만약 참여인원 있으면 해당 테이블행도 삭제 -> Calendar_Member 행 삭제
 			
 			// 현재 일정 게시글에 참여인원이 존재하는지 조회
@@ -1096,8 +1107,6 @@ public class StreetController {
 					return "redirect:calendar";
 				}
 			}
-			
-			/*------------------------ 정승환 추가코드(20.03.25 ,26) 끝-----------------------------------*/
 			
 			// 해당하는 Calendar 행 삭제
 			result = streetService.deleteSchedule(temp);
@@ -1122,15 +1131,100 @@ public class StreetController {
 		}
 	}
 	
+	/*------------------------ 정승환 추가코드(20.03.27)시작-----------------------------------*/
+	
 	// 일정 수정
 	@RequestMapping("updateSchedule")
-	public String updateSchedule(int boardNo, Model model) {
-		int streetNo = (int) model.getAttribute("streetNo");
-		System.out.println("일정 수정용 글번호 : " + boardNo);
-		return null;
+	public String updateSchedule(String updateCalendarTitle, String updateCalendarContent,
+								 String updateCalendarLocation, String updateCalendarBoardNo, 
+								 Model model) {
+		System.out.println("일정 수정 제목 : " + updateCalendarTitle);
+		System.out.println("일정 수정 내용 : " + updateCalendarContent);
+		System.out.println("일정 수정 위치 : " + updateCalendarLocation);
+		System.out.println("일정 수정 글번호 : " + updateCalendarBoardNo);
+		
+		try {
+			// boardNo를 int형으로 변환
+			int boardNo = Integer.parseInt(updateCalendarBoardNo);
+			// DB에 저장된 일정 정보 조회
+			Calendar updateCalendar = streetService.selectCalendarInfo(boardNo);
+
+			// 일정 게시글 수정용 객체 
+			Board updateCalendarBoard = new Board();
+			// 일정 수정용 객체
+			Calendar updateCal = new Calendar();
+			
+			//////////////////////////////////////////////////////
+			// 글번호 지정
+			updateCal.setBoardNo(boardNo);
+			// 수정 제목 지정
+			updateCal.setCalendarTitle(updateCalendarTitle);
+			// 수정 위치 지정
+			updateCal.setCalendarLocation(updateCalendarLocation);
+			// 수정 내용 지정
+			updateCal.setCalendarContent(updateCalendarContent);
+			//////////////////////////////////////////////////////
+			
+			// yyyy-MM-dd 일정 시작일
+			String calStartDate = new SimpleDateFormat("yyyy-MM-dd").format(updateCalendar.getCalendarStartDate());
+			// yyyy-MM-dd 일정 종료일
+			String calEndDate = new SimpleDateFormat("yyyy-MM-dd").format(updateCalendar.getCalendarEndDate());
+			
+			// 오전,오후 HH:mm 일정 시작 시간
+			String calStartHour = new SimpleDateFormat("a hh:mm").format(updateCalendar.getCalendarStartDate());
+			// 오전,오후 HH:mm 일정 종료 시간
+			String calEndHour = new SimpleDateFormat("a hh:mm").format(updateCalendar.getCalendarEndDate());
+			
+			// yyyy-MM-dd a HH:mm 일정시작
+			String tempStart = calStartDate + " " + calStartHour;
+			// yyyy-MM-dd a HH:mm 일정종료
+			String tempEnd = calEndDate + " " + calEndHour;
+			
+			// 일정 참가가 있을 경우 추가할 버튼
+			String btnPlus = "<br><button class='nanum btn btn-primary joinBtn' data-toggle='modal' data-target='#calendarJoinModal\'>일정 참가하기</button>";
+			// 일정 참가시 해당 글번호
+			String boardNoPlus = "<input type='hidden' value='" + boardNo + "'>";
+			
+			String content = "<h5 class='nanum'>수정된 일정 등록</h5>" + updateCalendarContent
+			+"<br>장소 : "+ updateCalendarLocation +"<br>기간 : "+ tempStart +" ~ " + tempEnd;
+			
+			if(updateCalendar.getCalendarJoin() == 'Y') {
+				content = content + btnPlus + boardNoPlus;
+			}
+			
+			//////////////////////////////////////////////
+			// 글번호 지정
+			updateCalendarBoard.setBoardNo(boardNo);
+			// 수정 일정 게시글 내용 지정
+			updateCalendarBoard.setBoardContent(content);
+			//////////////////////////////////////////////
+			
+			// 일정 게시글 수정
+			int result = streetService.updateCalendarBoard(updateCalendarBoard);
+			if(result == 0) {
+				model.addAttribute("msg","일정 게시글 수정 실패");
+				return "redirect:calendar"; 
+			}
+			
+			// 캘린더 수정
+			result = streetService.updateSchedule(updateCal);
+			String msg = "";
+			if(result > 0)	msg = "일정 수정 성공";
+			else 			msg = "일정 수정 실패";
+			
+			model.addAttribute("msg",msg);
+			return "redirect:calendar"; 
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "일정 수정 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+		
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.25 ,26)시작-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.27)끝-----------------------------------*/
+	
 	// 참가신청 모달 출력 버튼 클릭시 해당 DB데이터 조회
 	@ResponseBody
 	@RequestMapping("selectJoinModal")
@@ -1229,7 +1323,27 @@ public class StreetController {
 		}
 		
 	}
-	/*------------------------ 정승환 추가코드(20.03.25 ,26)끝-----------------------------------*/
+	
+	/*------------------------ 정승환 추가코드(20.03.27)시작-----------------------------------*/
+	
+	// 일정 수정 모달창 일정 정보 조회
+	@ResponseBody
+	@RequestMapping("updateModalInfo")
+	public void updateModalInfo(HttpServletResponse response, int boardNo) {
+		
+		try {
+			// 수정하려는 일정이 DB에 저장된 값을 조회
+			Calendar sendModalInfo = streetService.selectCalendarInfo(boardNo);
+			
+			response.setCharacterEncoding("UTF-8");
+			new Gson().toJson(sendModalInfo, response.getWriter());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	/*------------------------ 정승환 추가코드(20.03.27)끝-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	

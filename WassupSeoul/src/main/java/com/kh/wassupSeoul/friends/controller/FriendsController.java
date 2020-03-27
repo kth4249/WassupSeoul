@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.gson.Gson;
 import com.kh.wassupSeoul.friends.model.service.FriendsService;
+import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
 import com.kh.wassupSeoul.member.model.vo.Member;
 
 @SessionAttributes({"loginMember","msg"})
@@ -264,6 +265,25 @@ public class FriendsController {
 			}
 			return null;
 			}
+		
+		
+		
+		// 대화 목록 조회 Controller
+		@ResponseBody
+		@RequestMapping(value="friendtalk", method = RequestMethod.POST,
+				produces = "application/json; charset=utf-8")
+			public String friendtalk(Model model) {
+			int myNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
+			System.out.println("대화목록 컨트롤러 도달 확인 : " + myNo);
+			try {
+				List<ChatRoom> cList = friendsService.selectRoomList(myNo);
+				return new Gson().toJson(cList);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		} // 대화목록 조회 끝
 		
 	
 	

@@ -45,6 +45,9 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 		Member loginMember = (Member)session.getAttribute("loginMember");
 
 		try {
+			// 골목대장 회원번호
+			int streetMasterNo = streetService.selectStreetMasterNo(streetNo);
+			request.setAttribute("streetMasterNo", streetMasterNo);
 			// 사이드바 정보 시작
 			// 1. 골목정보
 			Street street = streetService.selectStreet(streetNo);
@@ -78,10 +81,14 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 			} else { // 골목 가입
 				citizenStatus = tempStreetJoin.getCitizenStatus();
 			}
+			System.out.println("인터셉터 로그인 회원 골목 가입여부 : " + citizenStatus);
 			// 8. 해당 골목 일정 조회
 			List<Calendar> storeCalendar = streetService.selectStoreCalendar(streetNo); // DB저장된 일정
 			ArrayList<SettingCalendar> setCalList = new ArrayList<SettingCalendar>(); // 화면 세팅용 리스트
-			SettingCalendar temp = null; // 값 전달용 객체
+			ArrayList<SettingCalendar> allCalList = new ArrayList<SettingCalendar>(); // fullCalendar 세팅용 리스트
+			SettingCalendar temp = null; // 값 전달용 객체 (해당월 전달)
+			SettingCalendar allSchedule = null; // 모든 일정 전달용 객체
+			String compareNowDate = ""; // 현재시간을 String으로 전달
 			for(int e=0;e<storeCalendar.size();e++) {
 				// timestamp를  원하는 형태로  변경해주는 메소드
 				// E->요일 a->오전,오후
@@ -96,6 +103,7 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 				// DB저장된 마감일 연도
 				String endYear = new SimpleDateFormat("yyyy").format(storeCalendar.get(e).getCalendarEndDate());
 				
+				/* 시간비교를 위해서 주석처리
 				if(!calStartDate.equals(calEndDate) && startYear.equals(endYear)) {
 					// 시작일과 마감일이 다를 경우 + 현재 년도가 같은경우 -> 마감일 1일 : fullCalendar에서 마감일 미만까지 일정을 추가하므로 마감일도 포함하기 위해 마감일에 +1을 해준다
 					// 1. timestamp -> LocalDateTime으로 변경
@@ -105,6 +113,7 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 					// 1일이 더해진 마감일을 문자열로 변형
 					calEndDate = calEndDatePlus.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 				}
+				*/
 				
 				// 요일(시작일)
 				String calStartDayOfWeek = new SimpleDateFormat("E요일").format(storeCalendar.get(e).getCalendarStartDate());
@@ -122,10 +131,17 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 					// sql.Date 객체를 문자열로 변환, 년-월-일
 					calendarJoinEndDate = new SimpleDateFormat("yyyy-MM-dd").format(storeCalendar.get(e).getCalendarJoinEndDate());
 				}
-
+				
+				// fullCalendar저장용 모든 일정 조회(해당 월 상관없이 조회)
+				allSchedule = new SettingCalendar(storeCalendar.get(e).getBoardNo(), 
+						storeCalendar.get(e).getCalendarTitle(), storeCalendar.get(e).getCalendarContent(), 
+						storeCalendar.get(e).getCalendarLocation(), calStartDate, calStartDay, calStartDayOfWeek, calStartHour, calEndDate, 
+						storeCalendar.get(e).getCalendarJoin(), calendarJoinEndDate, storeCalendar.get(e).getCalendarJoinLimit(), streetNo);
+				allCalList.add(allSchedule);
 				
 				// 현재 월에 해당하는 일정만 가져오기 위해 판별
 				LocalDateTime tempLDT = LocalDateTime.now(); // 현재 시간 가져오기, 변수 재활용
+				compareNowDate = tempLDT.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")); // 현재 시간에서 년-월-일 (일정 마감일과 비교하기 위한 현재 시간)
 				String nowMonth = tempLDT.format(DateTimeFormatter.ofPattern("MM")); // 현재 월(예-3월,4월..)
 				String tempMonth = new SimpleDateFormat("MM").format(storeCalendar.get(e).getCalendarStartDate()); // DB에 저장된 일정의 월
 				if(tempMonth.equals(nowMonth)) { // 현재 월에 해당하는 일정만 저장
@@ -136,8 +152,11 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 					setCalList.add(temp);
 				}
 				
+				
 			}
-			request.setAttribute("setCalList",setCalList);
+			request.setAttribute("allCalList", allCalList); // DB에 저장된 모든 일정 저장
+			request.setAttribute("compareNowDate", compareNowDate);
+			request.setAttribute("setCalList",setCalList); // 현재 월에만 해당하는 일정 저장
 			request.setAttribute("citizenStatus", citizenStatus);
 			request.setAttribute("street", street);
 			// 사이드바 정보 끝

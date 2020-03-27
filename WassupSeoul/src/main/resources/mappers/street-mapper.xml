@@ -95,6 +95,20 @@
   		<result property="thumbStatus" column="THUMB_STATUS"/>  		
 	</resultMap>
 	
+	<resultMap type="Vote" id="voteResultSet">
+		<id property="boardNo" column="BOARD_NO"/>
+		
+		<result property="voteTitle" column="VOTE_TITLE"/>
+		<result property="voteNo" column="VOTE_NO"/>
+		<result property="voteResult" column="VOTE_RESULT"/>
+		<result property="voteEnrollDt" column="VOTE_ENROLL_DT"/>
+		<result property="voteEndDt" column="VOTE_END_DT"/> 
+		<result property="voteDup" column="VOTE_DUP"/>
+		<result property="voteOtion" column="VOTE_CONTENT"/>
+		<result property="anonymity" column="VOTE_ANONYMITY"/>
+		<result property="streetNo" column="STREET_NO"/>
+		
+	</resultMap>
 	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	
@@ -338,10 +352,37 @@
   		INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo},  #{sketchUrl}, NULL )
   	</insert>
   	
-  	<!-- 투표 게시글 등록용  -->
+  	<!-- 투표 게시글 번호 조회  -->
+  	<select id="checkVoteBoardNo" resultType="_int">
+  		SELECT SEQ_BOARD.NEXTVAL FROM DUAL 
+  	</select>  	
+  	
+  	<!-- 투표 게시글 등록용 to Board 테이블  -->
   	<insert id="votePost" parameterType="board">
-  		INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo}, NULL , NULL )
+  		INSERT INTO BOARD VALUES(#{boardNo}, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo}, NULL , NULL )
   	</insert>
+	
+	<!-- 투표 게시글 등록용 to Vote 테이블  -->
+  	<insert id="uploadVote" parameterType="Vote">
+  		INSERT INTO VOTE VALUES(#{boardNo}, #{voteTitle}, NULL, SYSDATE, #{voteEndDt}, #{voteDup}, #{voteOtion}, #{anonymity} )
+  	</insert>
+  	
+  	<!-- 투표 게시글 선택지 등록용 to VOTE_PICK 테이블  -->
+  	<insert id="uploadVoteOption" parameterType="Vote">
+      	 INSERT ALL 
+     	<foreach collection="list" item="Vote" >
+      		 INTO VOTE_PICK (VOTE_NO, VOTE_CONTENT, BOARD_NO)
+      		  VALUES ( get_seq('service_code_seq'), #{Vote.voteOtion}, #{Vote.boardNo})
+    	</foreach>
+    	SELECT * FROM DUAL
+	</insert>
+	 
+	<!-- 투표 게시글 선택지 조회용  --> 
+	<select id="selectVoteOption" parameterType="_int" resultMap="voteResultSet">
+	
+		SELECT * FROM V_VOTE WHERE STREET_NO = #{streetNo}
+	
+  	</select> 
   	
   <!--  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중하   끝  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
   	
@@ -586,8 +627,6 @@
 		WHERE BOARD_NO = #{boardNo}
 	</delete>
 	
-	<!-- 정승환 코드 추가 시작(20.03.25 ,26) -->
-	
 	<!-- 일정 게시글 참여인원수 조회 -->
 	<select id="selectJoinCalendar" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM CALENDAR_MEMBER
@@ -624,7 +663,38 @@
 		WHERE BOARD_NO = #{boardNo} AND MEMBER_NO = #{memberNo} 
 	</delete>
 	
-	<!-- 정승환 코드 끝 (20.03.25 ,26) -->
+	<!-- 정승환 코드 추가 시작(20.03.27) -->
+	
+	<!-- 골목대장 회원번호 조회 -->
+	<select id="selectStreetMasterNo" parameterType="_int" resultType="_int">
+		SELECT MEMBER_NO FROM STREET
+		JOIN STREET_JOIN USING(STREET_NO)
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE STREET_NO = #{streetNo} AND CITIZEN_GRADE='M' AND STREET_STATUS = 'Y'
+	</select>
+	
+	<!-- 일정 수정 모달 일정 정보 조회 -->
+	<select id="selectCalendarInfo" parameterType="_int" resultMap="calendarResultSet">
+		SELECT * FROM CALENDAR
+		WHERE BOARD_NO = #{boardNo} 
+	</select>
+	
+	<!-- 일정 게시글 수정 -->
+	<update id="updateCalendarBoard" parameterType="Board">
+		UPDATE BOARD
+		SET BOARD_CONTENT = #{boardContent}
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 일정 수정 -->
+	<update id="updateSchedule" parameterType="Calendar">
+		UPDATE CALENDAR
+		SET CALENDAR_TITLE = #{calendarTitle}, 
+		CALENDAR_CONTENT = #{calendarContent},
+		CALENDAR_LOCATION = #{calendarLocation}
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	<!-- 정승환 코드 끝 (20.03.27) -->
 	
 	
 <!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->

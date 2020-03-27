@@ -164,7 +164,7 @@
 				</c:if>
 				<c:if test="${!empty setCalList}">
 					<c:forEach var="calendar" items="${setCalList}" varStatus="vs">
-						<p class="card-text nanum">${calendar.calStartDay} - ${calendar.calContent}</p>
+						<p class="card-text nanum" style="margin-bottom: 0px;">${calendar.calStartDay} - ${calendar.calContent}</p> <!-- 정승환 코드수정(03.27) -->
 					</c:forEach>
 				</c:if>
 				<!-- 정승환 추가코드 끝(20.03.25) -->
