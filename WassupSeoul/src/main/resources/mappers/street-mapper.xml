@@ -14,6 +14,7 @@
 		<result property="districtNo" column="DISTRICT_NO"/>
 		<result property="streetPublic" column="STREET_PUBLIC"/>
 		<result property="imgUrl" column="IMG_URL"/>
+		<result property="badgeUrl" column="BADGE_URL"/>
 	</resultMap>
 	
 	<resultMap type="StreetJoin" id="streetJoinResultSet">
@@ -173,7 +174,7 @@
 	<!-- 골목 리스트 조회 -->
 	<select id="selectList" parameterType="map" resultMap="streetResultSet">
 		SELECT STREET_NO, STREET_NM, STREET_MAX_MEMBER, STREET_POINT,
-        		IMG_URL, STREET_STATUS, MEMBER_COUNT
+        		IMG_URL, STREET_STATUS, MEMBER_COUNT, STREET_GRADE_NO, BADGE_URL
 		FROM V_STREET
 		<where>
 			<if test="districtNo != null">
@@ -185,7 +186,7 @@
 			</if>
 		</where>
 		GROUP BY STREET_NO, STREET_NM, STREET_MAX_MEMBER, STREET_POINT,
-				IMG_URL, STREET_STATUS, MEMBER_COUNT
+				IMG_URL, STREET_STATUS, MEMBER_COUNT, STREET_GRADE_NO, BADGE_URL
 		<choose>
 			<when test="streetSort == 0">
 				ORDER BY STREET_POINT DESC
@@ -459,6 +460,11 @@
 			AND STREET_NO = #{streetNo}
 			<if test="memberNo != null">
 				AND MEMBER_NO != #{memberNo}
+				AND MEMBER_NO NOT IN (
+				    SELECT YOUR_NO
+				    FROM RELATIONSHIP
+				    WHERE MY_NO = #{memberNo}
+				)
 			</if>
 		</where>
 		GROUP BY MEMBER_NO, MEMBER_NM, MEMBER_NICKNAME, MEMBER_GENDER,
@@ -539,6 +545,16 @@
 			#{member.memberNo}
 		</foreach>
 	</select>
+	
+	
+	<!--  -->
+	<update id="removeAlarm" parameterType="map">
+		UPDATE ALARM
+		SET ALARM_CHECK_DT = SYSDATE
+		WHERE MEMBER_NO = #{memberNo} 
+		AND EVENTER = #{eventer} 
+		AND ALARM_TYPE = #{alarmType}
+	</update>
 	
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 	

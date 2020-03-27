@@ -628,15 +628,7 @@ public class StreetServiceImpl implements StreetService{
 
 
 
-	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
-	 * @param addRelation
-	 * @return result
-	 */
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public int addRelation(Relationship addRelation){
-		return streetDAO.addRelation(addRelation);
-	}
+
 	
 	
 	/*------------------------------태훈 시작 (03/22) -------------------------------*/
@@ -693,6 +685,30 @@ public class StreetServiceImpl implements StreetService{
 	@Override
 	public List<Relationship> selectRelationList(Map<String, Object> relationMap) throws Exception {
 		return streetDAO.selectRelationList(relationMap);
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public void removeAlarm(Map<String, Object> map) {
+		streetDAO.removeAlarm(map);
+	}
+	
+	
+	/** 관계(친구신청, 친구, 숨김, 차단) 추가용 Service
+	 * @param addRelation
+	 * @return result
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int addRelation(Relationship addRelation){
+		// 이전에 관계가 있는지 조회
+		int result = streetDAO.selectRelation(addRelation);
+		if(result > 0) {
+			return streetDAO.modifyRelation(addRelation);
+		} else {
+			return streetDAO.addRelation(addRelation);
+		}
+		
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/

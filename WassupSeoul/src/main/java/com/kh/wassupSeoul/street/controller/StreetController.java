@@ -801,9 +801,21 @@ public class StreetController {
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		int myNum = loginMember.getMemberNo();
 		Relationship addRelation = new Relationship(myNum, yourNum, '1');
+		int result = streetService.addRelation(addRelation);
+		if(result > 0) {
+			Alarm alarm = new Alarm("친구를 신청합니다!", '3', "메신저창 오픈", myNum+"", yourNum);
+			streetService.insertAlarm(alarm);
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping("hideFriend")
+	public void hideFriend(Model model, int yourNum) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		int myNum = loginMember.getMemberNo();
+		Relationship addRelation = new Relationship(myNum, yourNum, '4');
 		
 		streetService.addRelation(addRelation);
-    
 	}
 	
 	/*----------------------- 미현 시작 (03/23) -----------------------------------*/
@@ -877,6 +889,19 @@ public class StreetController {
 			streetService.joinDelete(map);
 			return 0;
 		}
+	}
+	
+	// 알람을 확인하지 않고 골목 가입신청을 하였을 때 알람 확인상태로 변경
+	@ResponseBody
+	@RequestMapping("removeAlarm")
+	public void removeAlarm(Model model, int eventer, String alarmType) {
+		int memberNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberNo", memberNo);
+		map.put("eventer", eventer);
+		map.put("alarmType", alarmType);
+		
+		streetService.removeAlarm(map);
 	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
@@ -1445,7 +1470,15 @@ public class StreetController {
 			int result = streetService.yesMaster(newNo, streetNo, original);
 			
 			if(result > 0) {
+				/* ---------------태훈 알람 관련 추가---------------*/
 				
+				String streetNm = streetService.selectStreetNm(streetNo);
+				int masterNo = streetService.selectMasterNo(streetNo);
+				Alarm alarm = new Alarm("["+streetNm+"] 골목의 골목대장으로 임명되셨습니다.", '4',
+						"street/streetMain?streetNo="+streetNo, masterNo+"", newNo);
+				streetService.insertAlarm(alarm);
+				
+				/* ---------------태훈 알람 관련 추가 끝---------------*/
 				model.addAttribute("msg", "위임 성공");
 				return "redirect:streetMain?streetNo=" + streetNo;
 				

@@ -11,6 +11,7 @@ public class Street {
 	private int districtNo;
 	private char streetPublic;
 	private int imgNo;
+	private String badgeUrl;
 	
 	public Street() {
 		// TODO Auto-generated constructor stub
@@ -62,6 +63,24 @@ public class Street {
 		this.districtNo = districtNo;
 		this.streetPublic = streetPublic;
 		this.imgNo = imgNo;
+	}
+	
+	
+
+	public Street(int streetNo, String streetNm, String streetIntro, char streetStatus, int streetMaxMember,
+			int streetPoint, String imgUrl, int districtNo, char streetPublic, int imgNo, String badgeUrl) {
+		super();
+		this.streetNo = streetNo;
+		this.streetNm = streetNm;
+		this.streetIntro = streetIntro;
+		this.streetStatus = streetStatus;
+		this.streetMaxMember = streetMaxMember;
+		this.streetPoint = streetPoint;
+		this.imgUrl = imgUrl;
+		this.districtNo = districtNo;
+		this.streetPublic = streetPublic;
+		this.imgNo = imgNo;
+		this.badgeUrl = badgeUrl;
 	}
 
 
@@ -151,6 +170,17 @@ public class Street {
 	public void setImgNo(int imgNo) {
 		this.imgNo = imgNo;
 	}
+	
+
+
+	public String getBadgeUrl() {
+		return badgeUrl;
+	}
+
+
+	public void setBadgeUrl(String badgeUrl) {
+		this.badgeUrl = badgeUrl;
+	}
 
 
 	@Override
@@ -158,7 +188,8 @@ public class Street {
 		return "Street [streetNo=" + streetNo + ", streetNm=" + streetNm + ", streetIntro=" + streetIntro
 				+ ", streetStatus=" + streetStatus + ", streetMaxMember=" + streetMaxMember + ", streetPoint="
 				+ streetPoint + ", imgUrl=" + imgUrl + ", districtNo=" + districtNo + ", streetPublic=" + streetPublic
-				+ ", imgNo=" + imgNo + "]";
-	}	
+				+ ", imgNo=" + imgNo + ", badgeUrl=" + badgeUrl + "]";
+	}
+
 	
 }

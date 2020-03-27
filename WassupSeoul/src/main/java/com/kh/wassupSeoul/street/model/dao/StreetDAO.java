@@ -528,6 +528,20 @@ public class StreetDAO {
 		return sqlSession.selectList("streetMapper.selectRelationList", relationMap);
 	}
 	
+	
+	public void removeAlarm(Map<String, Object> map) {
+		sqlSession.update("streetMapper.removeAlarm", map);
+	}
+
+	
+	public int selectRelation(Relationship addRelation) {
+		return sqlSession.selectOne("friendsMapper.selectRelation", addRelation);
+	}
+	
+	public int modifyRelation(Relationship addRelation) {
+		return sqlSession.update("friendsMapper.modifyRelation", addRelation);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 
 	/* 지원 골목 수정 시작 */

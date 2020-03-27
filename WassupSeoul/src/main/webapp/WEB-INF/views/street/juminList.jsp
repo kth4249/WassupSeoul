@@ -82,10 +82,10 @@
 								url : "joinCheck",
 								data : {"applyCheck":applyCheck, "memberNo":memberNo},
 								success : function(result){
-									if(result == 1){
+									if(result > 0){
 										var $thisMem = $(e.target).parent().prop("class", "table-active");
 										var $btn = $("<button>").prop("class", "btn btn-sm btn-outline-success addFriend").val(memberNo).text("친구요청");
-										var $td = $("<td>").append($btn);
+										var $td = $("<td>").prop("class", "text-center").append($btn);
 										$thisMem.append($td);
 										$("#juminList").append($thisMem);
 										$thisMem.append($td);
@@ -94,6 +94,7 @@
 										$(this).parent().remove();
 										$(this).parent().next().remove();
 										sendAlarm(result);
+										eventer = result
 									} else {
 										$(e.target).parent().next().remove();
 										$(e.target).parent().remove();
@@ -104,12 +105,26 @@
 									}
 									
 									console.log("ajax 통신 성공")
+									removeAlarm("1", eventer);
 								},
 								error : function() {
 									console.log("ajax 통신 실패")
 								}
 							})
 						})
+						
+						function removeAlarm(alarmType, eventer) { // 알람을 확인하지 않고 골목 가입신청을 하였을 때 알람 확인상태로 변경
+							$.ajax({
+								url : "removeAlarm",
+								data : {"eventer":eventer, "alarmType":alarmType},
+								success : function() {
+									alarmView();
+								},
+								error : function() {
+									console.log("알람 삭제 ajax 실패")
+								}
+							})
+						}
 					</script>
 				<hr>
 				<table class="table table-hover">
@@ -141,24 +156,28 @@
 												</c:forEach>
 											</c:if>
 										</td>
+										<c:set var="count" value="0"/>
 										<td class="text-center">
 											<c:if test="${!empty rList and loginMember.memberNo != member.memberNo}">
 												<c:forEach items="${rList}" var="relationShip" varStatus="vs">
 													<c:if test="${relationShip.yourNum == member.memberNo}">
 														<c:choose>
 															<c:when test="${relationShip.requestStatus eq '1'.charAt(0)}">
+																<c:remove var="count"/>
 																<button type="button" class="btn btn-sm btn-success disabled" value="${member.memberNo}">친구 요청중</button>
 															</c:when>
 															<c:when test="${relationShip.requestStatus eq '2'.charAt(0)}">
+																<c:remove var="count"/>
 																<button type="button" class="btn btn-sm btn-success" value="${member.memberNo}">친구</button>
 															</c:when>
 															<c:otherwise>
+																<c:remove var="count"/>
 																<button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button>
 															</c:otherwise>
 														</c:choose>
 													</c:if>
 													<c:if test="${relationShip.yourNum != member.memberNo}">
-														<c:if test="${vs.last}">
+														<c:if test="${vs.last and !empty count}">
 															<button type="button" class="btn btn-sm btn-outline-success addFriend" value="${member.memberNo}">친구요청</button>
 														</c:if>
 													</c:if>
@@ -181,42 +200,30 @@
 					</tbody>
 				</table>
 				
-				<hr>
 				
 				<script>
 					/* 친구 추가용 Ajax */
-					$(document).on("click", ".addFriend", function(){
+					$(document).on("click", ".addFriend", function(event){
 					/* $(".addFriend").click(function(){ */
 						console.log($(this).val());
+						var yourNum = $(this).val()
 						$.ajax({
 							url : "addFriend",
-							data : {"yourNum" : $(this).val()},
+							data : {"yourNum" : yourNum},
 							success : function() {
 								alert("친구 신청 완료");
+								$(event.target).prop("class", "btn btn-sm btn-success disabled").text("친구 요청중");
 							},
 							error : function() {
 								console.log("친구 요청 ajax 통신 실패")
 							}
 						})
 					})
+					
+					// 주민목록에 조회된 멤버가 나에게 친구요청,
+					
 				
 				</script>
-				<form>
-					<div class="form-group">
-						<div class="row">
-							<div class="col-md-6">
-								<select class="form-control nanum" id="SearchKey">
-									<option>닉네임</option>
-									<option>관심사</option>
-								</select>
-							</div>
-							<div class="col-md-6">
-								<input type="text" class="form-control nanum"
-									placeholder="검색어를 써주세요" id="SearchValue">
-							</div>
-						</div>
-					</div>
-				</form>
 			</div>
 			<div class="col-md-4">
 			</div>
