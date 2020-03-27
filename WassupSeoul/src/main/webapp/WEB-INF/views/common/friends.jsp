@@ -92,14 +92,7 @@
 </style>
 
 
-
-
-
-
-
 <div class="back">
-
-
 	<button type="button" class="iconImg">
 		<img src="${contextPath}/resources/img/msgicon2.png" alt=""
 			width="50px">
@@ -131,6 +124,8 @@
 						}
 					}
 					
+					$("#chat").hide();
+					
 					/*if(index == 0){
 						$(".tgl:eq(0)").show();
 						$(".tgl:eq(1)").hide();
@@ -147,9 +142,6 @@
 				});
 			
 			</script>
-			
-			
-			
 			
 			<div id="myTabContent" class="tab-content22"
 				style="overflow: auto; height: 500px; background-color: #FFFFFF;">
@@ -176,88 +168,32 @@
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 				<!-- 대화방 목록 -->		
 				<div class="tab-pane fade tgl" id="chatList">
-					<div class="nanum mt-3 ml-3">
-						<div class="chatPf" style="display: inline-block;">
+					<div id="roomOne" class="nanum mt-3 ml-3 chatRoom">
+						<div class="roomImg" style="display: inline-block;">
 							<img src="${contextPath}/resources/img/usericon.png" width="40px"
 								height="40px" class="chatProfile" data-toggle="modal"
 								data-target="#profilePicture" style="cursor: pointer">&nbsp;
 						</div>
-						<div class="chatCt" style="display: inline-block;">
-							<span>김지원</span> <span class="mr-0">: 영준아 누나가 많이 아낀다</span>
+						<div class="roomTitle" style="display: inline-block;">
+							<span>천사</span> <span class="mr-0">: 밥먹어 </span>
 						</div>
 						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">5</span>
 					</div>
-					
 					<hr>
 
-					<div class="nanum ml-3">
+					<div class="nanum ml-3 chatRoom">
 						<div class="chatPf" style="display: inline-block;">
 							<img src="${contextPath}/resources/img/usericon.png" width="40px"
 								height="40px" class="chatProfile" data-toggle="modal"
 								data-target="#profilePicture" style="cursor: pointer">&nbsp;
 						</div>
-						<div class="chatCt" style="display: inline-block;">
-							<span>강지예</span> <span>: 오빠 힘내</span>
+						<div style="display: inline-block;">
+							<span>악마</span> <span>: 돼지새끼</span>
 						</div>
 						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">3</span>
 					</div>
 					<hr>
-					
-					<div class="nanum mt-3 ml-3">
-						<div class="chatPf" style="display: inline-block;">
-							<img src="${contextPath}/resources/img/usericon.png" width="40px"
-								height="40px" class="chatProfile" data-toggle="modal"
-								data-target="#profilePicture" style="cursor: pointer">&nbsp;
-						</div>
-						<div class="chatCt" style="display: inline-block;">
-							<span>조미현</span> <span class="mr-0">: ㅉㅉ</span>
-						</div>
-						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">5</span>
-					</div>
-					<hr>
-					<div class="nanum mt-3 ml-3">
-						<div class="chatPf" style="display: inline-block;">
-							<img src="${contextPath}/resources/img/usericon.png" width="40px"
-								height="40px" class="chatProfile" data-toggle="modal"
-								data-target="#profilePicture" style="cursor: pointer">&nbsp;
-						</div>
-						<div class="chatCt" style="display: inline-block;">
-							<span>김제연</span> <span class="mr-0">: 형아 힘내</span>
-						</div>
-						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">4</span>
-					</div>
-					<hr>
-					
-					<div class="nanum mt-3 ml-3">
-						<div class="chatPf" style="display: inline-block;">
-							<img src="${contextPath}/resources/img/usericon.png" width="40px"
-								height="40px" class="chatProfile" data-toggle="modal"
-								data-target="#profilePicture" style="cursor: pointer">&nbsp;
-						</div>
-						<div class="chatCt" style="display: inline-block;">
-							<span>김세진</span> <span class="mr-0">: 괜찮아 그럴 수도 있지. 힘내 칭구얌</span>
-						</div>
-						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">3</span>
-					</div>
-					<hr>
-					
-					<div class="nanum mt-3 ml-3">
-						<div class="chatPf" style="display: inline-block;">
-							<img src="${contextPath}/resources/img/usericon.png" width="40px"
-								height="40px" class="chatProfile" data-toggle="modal"
-								data-target="#profilePicture" style="cursor: pointer">&nbsp;
-						</div>
-						<div class="chatCt" style="display: inline-block;">
-							<span>김태훈</span> <span class="mr-0">: 형, 이정도는 혼자 하면 안돼?</span>
-						</div>
-						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">2</span>
-					</div>
-					
-					
 				</div> 
-				
-				
-				
 				<!-- 대화방 목록 끝 -->
 
 
@@ -279,42 +215,94 @@
 				
 				
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->			
-				<!-- 대화창 -->
-				<div class="tab-pane chat nanum" id="chat">
-					<div id="div_chat">
-						<button type="button" class="close xBtn">&times;</button>
-						<br>
-						<div class="nanum ml-3">
-							<img src="${contextPath}/resources/img/usericon.png" width="30px"
-								height="30px" data-toggle="modal" data-target="#profilePicture"
-								style="cursor: pointer"> &nbsp; <span>김태훈</span> <br>
-							<span style="margin-left: 50px;">테스트중입니다.</span>
-						</div>
+				                    <!-- 채티창 div 시작 -->
+                    <div class="tab-pane chat nanum" id="chat">
+                        <!-- 닫기 버튼 -->
+                        <div id="div_chat">
+                        	<button type="button" class="close xBtn">&times;</button>
+                        </div>
+                        <!-- 스크롤 다운 버튼 -->
+                        <div id="menu_scroll_down mr-5">
+                            <button id="btn_scroll_down" style="float: right;">↓</button>
+                        </div>
 
-						<table id="table_chat">
-							<colgroup>
-								<col style="width: 300px;">
-								<col style="width: 600px;">
-							</colgroup>
-							<thead></thead>
-							<tbody></tbody>
-						</table>
-						<div id="menu_scroll_down">
-							<button id="btn_scroll_down">↓</button>
-						</div>
-						<div id="menu_hide"></div>
-					</div>
+                        <br>
 
-					<table id="append_table">
-						<thead></thead>
-						<tbody>
-							<tr>
-								<td><input type="text" id="add_msg" class="nanum"></td>
-								<td><button type="button" class="btn btn-warning nanum"id="btn_append_row">전송</button></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
+                        <!-- 하나의 msg 객체 -->
+                        <div class="row">
+                            <div class="col-md-12 nanum">
+                                <div class="row">
+                                    <div class="col-md-2 nanum" style="padding-right: 0px;">
+                                        <img src="${contextPath}/resources/img/usericon.png" width="40px" height="40px" data-toggle="modal"
+                                            data-target="#profilePicture" style="cursor: pointer"> &nbsp;
+                                    </div>
+                                    <div class="col-md-10 nanum">
+                                        <span>아빠</span>
+                                        <br>
+                                        <span>아들, 뭐해. 공부해? 밥은 먹었니?</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <!-- 하나의 msg 객체 -->
+                        <div class="row">
+                            <div class="col-md-12 nanum">
+                                <div class="row">
+                                    <div class="col-md-2 nanum" style="padding-right: 0px;">
+                                        <img src="${contextPath}/resources/img/usericon.png" width="40px" height="40px" data-toggle="modal"
+                                            data-target="#profilePicture" style="cursor: pointer"> &nbsp;
+                                    </div>
+                                    <div class="col-md-10 nanum">
+                                        <span>아빠</span>
+                                        <br>
+                                        <span>아들, 뭐해. 공부해? 밥은 먹었니?</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <!-- 하나의 msg 객체 -->
+                        <div class="row">
+                            <div class="col-md-12 nanum">
+                                <div class="row">
+                                    <div class="col-md-2 nanum" style="padding-right: 0px;">
+                                        <img src="${contextPath}/resources/img/usericon.png" width="40px" height="40px" data-toggle="modal"
+                                            data-target="#profilePicture" style="cursor: pointer"> &nbsp;
+                                    </div>
+                                    <div class="col-md-10 nanum">
+                                        <span>아빠</span>
+                                        <br>
+                                        <span>아들, 뭐해. 공부해? 밥은 먹었니?</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 메시지 뜨는 공간 -->
+                        <table id="table_chat" style="margin-top: 340px;">
+                            <colgroup>
+                                <col style="width: 300px;">
+                                <col style="width: 600px;">
+                            </colgroup>
+                            <thead></thead>
+                            <tbody></tbody>
+                        </table>
+                        
+                        <!-- <div id="menu_hide"></div> -->
+	                    <!-- 메시지 입력하고 전송하는 버튼 -->
+	                    <table id="append_table">
+	                        <thead></thead>
+	                        <tbody>
+	                            <tr>
+	                                <td><input type="text" id="add_msg" class="nanum" style="width: 320px;"></td>
+	                                <td><button type="button" class="btn btn-warning nanum" id="btn_append_row">전송</button>
+	                                </td>
+	                            </tr>
+	                        </tbody>
+	                    </table>
+                    </div>
+
 				
 				
 				
@@ -325,11 +313,6 @@
 		</div> <!-- .messengerbox 종료 -->
 	</div> <!-- .container2 종료  -->
 </div> <!-- .back 종료 -->
-				
-
-
-				
-				
 				
 <!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 													<!-- 모달 시작 -->					
@@ -358,16 +341,6 @@
 					</div>
 				</div>				
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->			
 				<!-- 친구요청 : 거절버튼 -->
 				<div class="modal fade" id="noBtn">
@@ -395,11 +368,6 @@
 						</div>
 					</div>
 				</div>
-
-
-
-
-
 
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->			
 				<!-- 친구목록 : 차단버튼 -->
@@ -459,11 +427,6 @@
 					</div>
 				</div>
 				
-				
-				
-				
-				
-				
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->			
 				<!-- 친구목록 : 프로필사진 -->
 				<div class="modal fade" id="profilePicture">
@@ -505,8 +468,6 @@
 					</div>
 				</div>
 
-
-
 <script>
 
 ////////////////////////////////////////////////쓰지 않지만 혹시 모르는 코드들/////////////////////////////////////////////////////////////
@@ -525,12 +486,8 @@ $(document).ready(function(){
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
 	
-	// 말풍선 눌러서 목록 뜨게 하는 함수
+	// 말풍선 눌러서 목록 뜨게 하는 함수 (문제 없음)
 	var iconStatus = true;
 		$(function() {
 	
@@ -547,28 +504,27 @@ $(document).ready(function(){
 	}); 
 	
 	
-		// 대화목록에서 대화방으로 들어가는 함수
-	var chatclick = false;
-	$(function() {
-		$(".chatCt").dblclick(function() {
-			if (chatclick == false) {
-				$(".chat").show();
-				$("#chatList").hide();
-				chatclick = true;
-			}
+	
+	// 대화목록에서 대화방으로 들어가는 함수
+	//var chatclick = false;
+		$(function() {
+			$(".chatRoom").dblclick(function() {
+				//if (chatclick == false) {
+					$("#chat").show();
+					$("#chatList").hide();
+					//chatclick = true;
+				//}
+			});
 		});
-	});
-	
-	
-	// 대화방에서 대화목록으로 나오는 함수
-	$(document).ready(function() {
-		$(".xBtn").click(function() {
-			$("#chatList").show();
-			$(".chat").hide();
-			chatclick = false;
-		});
-	
-	}); 
+		
+		// 대화방에서 대화목록으로 나오는 함수
+		$(function() {
+			$(".xBtn").click(function() {
+				$("#chatList").show();
+				$("#chat").hide();
+				//chatclick = false;
+			});
+		}); 
 
 
 	// 채팅방 내부 작동 레디함수
@@ -577,12 +533,10 @@ $(document).ready(function(){
 		var lastScrollTop;
 		var unreadCnt = 0;
 		
-		var divChat = document.getElementById('div_chat');
-												//채팅방
+		var divChat = document.getElementById('chat');
+											//채팅방
 		/* 전송 버튼 클릭 시 */
-		$('#btn_append_row').on(
-				"click",
-				function() {
+		$('#btn_append_row').on("click",function() {
 					// 라인 추가
 					$('#table_chat').append($('<tr>').append($('<td>').append($('#add_name').val()),
 									$('<td>').append($('#add_msg').val())));
@@ -601,7 +555,7 @@ $(document).ready(function(){
 											- divChat.clientHeight
 								}, 100);
 					}
-				});
+		});
 
 												
 												
@@ -623,6 +577,10 @@ $(document).ready(function(){
 				lastScrollTop = divChat.scrollHeight - divChat.clientHeight;
 			}
 		})
+		
+		
+		
+		
 
 		/* 스크롤 이벤트 */
 		$("#div_chat").on(
@@ -659,14 +617,8 @@ $(document).ready(function(){
 	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////        		친구요청 기능 시작           ///////////////////////////////////////////////////////////////
+	/////////////////////////////////////        		여기부터 친구요청 기능           ///////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-
-
-
-	
-
-
 
 	/* 친구 요청 목록 조회 함수 */
  	 function friendRequest(){
@@ -783,7 +735,7 @@ $(document).ready(function(){
 	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////        		 여기까지가 친구 요청에 대한 스크립트           /////////////////////////////////////////////////
+	/////////////////////////////////////        		 여기부터 친구 목록 스크립트           /////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	function friendsList(){
@@ -897,8 +849,57 @@ $(document).ready(function(){
 		
 	}); // 친구 차단 기능 완료
 	
-	
-	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////        		여기부터 친구대화 기능           ///////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+
+	function friendtalk(){
+		$.ajax({
+			url : "friends/friendtalk",
+			type : "POST",
+			data : {},
+			datatype : "json",
+			success : function(result){
+				var $chatList = $("#chatList");
+				var $roomOne = $("#roomOne");
+				var root = "${contextPath}";
+				var $savePath = root + "/resources/profileImage/";
+				if(result == null){
+					$msg = $("<span>").html("아직 채팅이 개설된 방이 없어요!");
+					$friendInfo.css("text-align","center")
+					$friendInfo.html($msg);
+					
+				}else {
+					
+					$friendInfo.html("") // 기존 html 내용 삭제
+					
+					$.each(result, function(i){
+					
+						var $finalPath = $savePath + result[i].memberProfileUrl;
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						var $hr = $("<hr>");
+						
+						
+									
+					}); //$.each 끝
+					
+				} //else 끝
+				
+			},
+			error : function(){
+				console.log("친구 대화 목록을 불러오는 aJax 실패");
+			}
+		});
+	};   // 친구 대화 목록 Ajax 완료
 	
 	
 	
@@ -913,9 +914,9 @@ $(document).ready(function(){
 	
 	/* 에이잭스 실행 함수 */
 	 $(function(){
-		friendRequest(); // 친구 요청 목록
-		friendsList(); // 친구 목록 불러오기
-		
+		friendRequest(); 	// 친구 요청 목록
+		friendsList(); 		// 친구 목록 불러오기
+		friendtalk();		// 대화 목록 불러오기
 		/* setInterval(function(){ // 갱신 주기
 			friendRequest(); 
 		}, 10000); */

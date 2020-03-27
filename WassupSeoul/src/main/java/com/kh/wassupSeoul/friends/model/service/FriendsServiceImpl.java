@@ -190,6 +190,7 @@ public class FriendsServiceImpl implements FriendsService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int friendBye(Map<String, Object> nMap) throws Exception {
 		
@@ -232,6 +233,7 @@ public class FriendsServiceImpl implements FriendsService{
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int noBlock(Map<String,Object> bMap) throws Exception {
 		
@@ -245,6 +247,33 @@ public class FriendsServiceImpl implements FriendsService{
 		return result;
 	}
 
+	
+	
+	/** 대화방 목록 확인용
+	 * @param myNo
+	 * @return cList
+	 * @throws Exception
+	 */
+	@Override
+	public List<ChatRoom> selectRoomList(int myNo) throws Exception {
+		
+		List <Integer> chatNoList = friendsDAO.selectChatNo(myNo);
+		
+		System.out.println("chatNo : "+chatNoList);
+		
+		
+		
+		
+		
+		
+		
+		return null;
+	}
+
+
+	
+	
+	
 	
 	
 	// 아마 대화방에서 닫으면 status N 으로 바꾸는 동작도 해야할듯
