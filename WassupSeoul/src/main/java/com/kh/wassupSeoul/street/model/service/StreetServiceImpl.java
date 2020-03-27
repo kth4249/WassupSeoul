@@ -2,6 +2,7 @@ package com.kh.wassupSeoul.street.model.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -293,9 +294,9 @@ public class StreetServiceImpl implements StreetService{
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int votePost(Board board, Vote vote) throws Exception {
+	public int votePost(Board board, Vote vote, String[] voteOption) throws Exception {
 		
-		Integer boardNo = streetDAO.checkVoteBoardNo();
+		Integer boardNo = streetDAO.checkVoteBoardNo(); // NEXT.VAL 조회
 		
 		board.setBoardNo(boardNo);
 		
@@ -303,28 +304,59 @@ public class StreetServiceImpl implements StreetService{
 		
 		int result2 = 0;
 		
+		List<Vote> voteSel = new ArrayList();
+		
+		for(int i=0; i<voteOption.length; i++) {
+			voteSel.add(new Vote( boardNo, voteOption[i]));
+		}
+		
+//		for(int i=0; i<voteSel.size(); i++) {
+//			System.out.println("입력한 투표 선택지 : " + voteSel.get(i));
+//		}
+		
 		if( result > 0) {
 			
 			System.out.println("투표 게시글 BOARD 테이블 업로드 성공");
 				
 			vote.setBoardNo(boardNo);
 			
+			//System.out.println(vote);
+			
 			result2 = streetDAO.uploadVote(vote); // Vote 테이블에 게시글 추가
 			
 			if( result2 > 0 ) {
-				System.out.println("투표 테이블 업로드 성공");
+				System.out.println("투표 게시글 Vote 테이블 업로드 성공");
 			}else {
-				System.out.println("투표 게시글 BOARD 테이블 업로드 실패");
+				System.out.println("투표 게시글 Vote 테이블 업로드 실패");
 			}
+			
+			int result3 = streetDAO.uploadVoteOption(voteSel); // Vote_pick 테이블에 투표 선택지 추가
+			
+			if(result3 > 0) {
+				System.out.println("투표 선택지 업로드 성공");
+			}else {
+				System.out.println("투표 선택지 업로드 실패");
+			}
+			
 		}else {
 			System.out.println("투표 게시글 BOARD 테이블 업로드 실패");
 		}
 		
 		return result2;
-		
 	}
 		
+	/** 투표 선택지 조회용 
+	 * @param streetNo
+	 * @return voteList
+	 * @throws Exception
+	 */
+	@Override
+	public List<Vote> selectVoteOption(Integer streetNo) throws Exception {
+		return streetDAO.selectVoteOption(streetNo);
+	}
+	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
+
 
 	/** 골목 가입용 Service
 	 * @param map

@@ -50,7 +50,7 @@
 											<div style="text-align: center; margin: auto; font-size: 20px;">
 												<img src="${contextPath}/resources/img/plus.png" alt="학습노트 추가 버튼" class="addBtn"
 													style="width: 10px; height: 10px;">
-												<span class="addBtn2" >추가하기</span> <span style="size:7px; color:gray;">(최대 10개까지 가능)</span>
+												<span class="addBtn" >추가하기</span> <span style="size:7px; color:gray;">(최대 10개까지 가능)</span>
 											</div>
 										</div>
 									</div>	
@@ -71,7 +71,7 @@
 									</select>
 									</span><br>
 	
-									<label style="width: 300px;" ><input type='checkbox' id='endDate' style="margin-left: 10px; display: inline-block;" />종료일 설정</label>
+									<label style="width: 370px;" ><input type='checkbox' id='endDate' style="margin-left: 10px; display: inline-block;" />종료일 설정</label>
 									
 									<span  id="setDate" style="width: 300px; display: inline-block; float:right; visibility:hidden">
 									<input id="date" type='date' style="width: 140px;"/>
@@ -96,10 +96,11 @@
 		var votePostTitle = $("#voteTitle").val();
 		var anonymity = "N";
 		
-		//무기명 투표 여부
-		if($("#anonymity").prop('checked') == true){
-			anonymity = "Y";
-		}
+		 //무기명 투표 여부
+		 var checked2 = $("#anonymity").prop('checked');
+		 if(checked2){
+			 var anonymity = "Y";
+		 }
 		
 		// 복수 선태 개수 받기 
 		 var checked = $("#plurality").prop('checked');
@@ -163,22 +164,29 @@
 		 refreshList()
 	});
 	
-	
 	// 선택지창 추가 
-	$("#addbtn, #addBtn2" ).on("click",function(){
+	$(function () {
 		
-		 var optionCount = $(".voteOption").length  // 옵션창 개수 
-		 
-		 console.log(optionCount + 1);
-		 
-	        if ( optionCount < 11) {
-	        	var html = '<label>'+optionCount+'</label><input type="text" id="voteOption'+optionCount+'" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>'
-	        	console.log("투표 모달 옵션창 추가");
-	        	$("#optionArea").append(html);
-	        }else {
-	        	alert("투표 옵션은 10개까지만 추가 가능합니다.");
-	        }
-	});
+		$(".addbtn").click(function(){
+			
+			alert("투표 옵션은 10개까지만 추가 가능합니다.");
+			
+			var optionCount = $(".voteOption").length  // 옵션창 개수 
+			
+   		 	console.log(optionCount + 1);
+   		 
+   	        if ( optionCount < 11) {
+   	        	var html = '<label>'+optionCount+'</label><input type="text" id="voteOption'+optionCount+'" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>'
+   	        	console.log("투표 모달 옵션창 추가");
+   	        	$("#optionArea").append(html);
+   	        }else {
+   	        	alert("투표 옵션은 10개까지만 추가 가능합니다.");
+   	        }
+			
+	    });
+        
+	})
+	
 	
 	// 투표 모달 중복투표 허용 옵션 보이기 
     $("#plurality").change(function(){

@@ -72,7 +72,7 @@
 				                <div class="writeOptionArea shake" style="width: 7%">
 				                  <img class="writeOption" src="${contextPath}/resources/img/pie-chart.png"
 				                  		data-toggle="modal" data-target="#devideModal">
-				                  <p class="arrow_box">N빵</p>
+				                  <p class="arrow_box">1/N</p>
 				                </div>
 				
 								<!-- 지도 -->

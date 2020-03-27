@@ -201,16 +201,89 @@
 
 
 							<c:choose>
-								<c:when test="${board.typeNo eq '6'}">  
+								<c:when test="${board.typeNo eq '6'}">  <!-- 지도 출력 양식 -->	 
 								
 									${board.boardContent}    
 									${board.mapAddress} 
 									
 								</c:when>
-								<c:when test="${board.typeNo eq '5'}">
+								<c:when test="${board.typeNo eq '5'}">  <!-- 스케치 출력 양식 -->	
 								
 									${board.boardContent}  
 									<img src="${contextPath}/resources/sketchImage/${board.sketchUrl}">
+									
+								</c:when>
+								<c:when test="${board.typeNo eq '3'}">  <!-- 투표 출력 양식 -->	
+								
+								 	 ${board.boardContent}
+								 	 
+								 	 
+								
+								  
+									<!-- 투표 출력 양식 -->	
+										<div class="voteMainWrap nanum" style="border: 1px solid black;  height: 400px; width:100% ">
+											<!-- 투표 상단 제목 영역 -->	
+											<div style="height: 60px; width:100%; margin-bottom: 45px;  ">
+												
+												<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
+																									padding-left: 10px;">
+													<img src="${contextPath}/resources/img/politics.png" style="width: 50%; height: 60%; margin-bottom: 45px;">
+										
+												</div>
+												<!-- 투표 제목, 투표참여 인원 수  양식 -->	
+												<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
+																												position: relative; top: 14px">
+													<div>
+														<p style="margin-bottom: 0; display: inline-block;">투표중</p>
+														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px;">5명 참여</p>
+													</div>
+													<div style="margin-bottom: 0;">
+														<p style="margin-bottom: 0;">투표제목</p>
+													</div>
+													<div style="margin-bottom: 40px;">
+													
+													<%--  <c:if test="${vote.voteDup eq 'N' }">
+														<p >복수선택 불가 </p>
+													 </c:if>	
+													 <c:if test="${vote.voteDup eq 'Y' }">
+													    <p >복수선택 가능 </p>
+													 </c:if>		 --%>
+													   <p >복수선택 가능 </p>
+													</div>	
+												</div>	
+												<!-- 투표 제목, 투표참여 인원 수  양식 -->	
+											</div>
+										
+											<!-- 투표  컨텐츠 영역 영역 -->
+											<div style=" height: 300px; width:100%; border: 1px solid black; border-bottom: 0; border-left: 0; border-right: 0;">
+										
+												 <c:forEach var="vote" items="${vote}" varStatus="vs">
+								 				 <c:if test="${vote.boardNo eq board.boardNo}">
+												<!-- 선택지 1 -->
+												<div style="margin-top: 10px;  margin-bottom: 30px;">
+													<label style="width: 130px; margin-left: 50px;" ><input type='checkbox' style="margin-left: 10px;" />${vote.voteOtion}</label>
+													<!-- 득표수 -->
+													<div style="margin-right: 100px; font-size: 13px; display: inline-block; float: right;"><p>3</p></div> 
+													<div class="progress"  style="width:70%; margin-left: 60px;" >
+														<!-- 진행바 -->
+														<div class="progress-bar" style="width:70%; display: inline-block;"></div>
+													</div>
+													<div style="width:80%; margin-left: 60px;" >
+													<!-- 투표자 -->
+														<p >투표 참여자 : 남과여남1</p>
+													</div>
+												</div>
+												<!-- 선택지 1 -->
+											 	 </c:if>
+									 		     </c:forEach> 
+										
+											</div>
+											<!-- 투표  컨텐츠 영역 영역 -->	
+										
+										</div>
+										<!-- 투표 출력 양식 -->			
+										
+									
 									
 								</c:when>
 								<c:otherwise>

@@ -88,9 +88,11 @@ public class StreetController {
 			
 			// 해당 골목 댓글, 대댓글 조회
 			List<Reply> reply  = streetService.selectReply(checkStreet);
+			
+			List<Vote> vote = streetService.selectVoteOption(streetNo);
 
-//			for(int i = 0 ; i < board.size(); i++ ) {
-//				System.out.println(board.get(i));
+//			for(int i = 0 ; i < vote.size(); i++ ) {
+//					System.out.println(vote.get(i));
 //			}
 //			
 //			for(int i = 0 ; i < reply.size(); i++ ) {
@@ -101,10 +103,11 @@ public class StreetController {
 			
 			if (street != null) {
 
-				model.addAttribute("street", street); 
-				model.addAttribute("board", board);
-				model.addAttribute("reply", reply);
-				model.addAttribute("reReply", reply);
+				model.addAttribute("street", street); // 해당골목 정보
+				model.addAttribute("board", board);  // 해당 골목 게시글 조회
+				model.addAttribute("reply", reply);  // 해당 골목 댓글 리스트 (댓글용)
+				model.addAttribute("reReply", reply);  // 해당골목 댓글 리스트 (대댓글용)
+				model.addAttribute("vote", vote);     // 해당 골목 투표 선택지 
 
 				// 회원 해당 골목 등급, 가입여부 
 				//model.addAttribute("memGradeInSt", memGradeInSt);
@@ -498,7 +501,7 @@ public class StreetController {
     
     
     
- // 지도 게시글 입력
+ // 투표 게시글 입력
     @ResponseBody
 	@RequestMapping("votePost")
 	public String votePost(String anonymity, Model model, String voteLimit,
@@ -530,16 +533,17 @@ public class StreetController {
 		board.setBoardContent(votePostContent);
 		board.setTypeNo(3);
 		
-		
 		vote.setVoteTitle(votePostTitle);
 		vote.setVoteDup(voteLimit);
 		vote.setVoteEndDt(endDate);
 		vote.setVoteOtion(voteOptionList);
-		vote.setVoteOtion(anonymity);
+		vote.setAnonymity(anonymity);
+		
+		String[] voteOption = voteOptionList.split(",");
 		
 		try {
 	
-			int test = streetService.votePost(board, vote);
+			int test = streetService.votePost(board, vote, voteOption);
 			
 			if ( test > 0) {
 				System.out.println("투표 게시글 입력 완료");

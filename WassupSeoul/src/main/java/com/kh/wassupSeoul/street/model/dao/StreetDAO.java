@@ -285,8 +285,28 @@ public class StreetDAO {
 	 * @throws Exception
 	 */
 	public int uploadVote(Vote vote) throws Exception {
-		return sqlSession.selectOne("streetMapper.uploadVote", vote);
+		return sqlSession.insert("streetMapper.uploadVote", vote);
 	}
+	
+	
+	/** 투표 선택지 업로드용 DAO
+	 * @param voteSel
+	 * @return result
+	 * @throws Exception
+	 */
+	public int uploadVoteOption(List<Vote> voteSel) throws Exception {
+		return sqlSession.insert("streetMapper.uploadVoteOption", voteSel);
+	}
+	
+	/** 투표 선택지 조회용 DAO
+	 * @param streetNo
+	 * @return voteList
+	 * @throws Exception
+	 */
+	public List<Vote> selectVoteOption(Integer streetNo) throws Exception {
+		return sqlSession.selectList("streetMapper.selectVoteOption", streetNo);
+	}
+
 
 	// -------------------------------------------- 중하 끝
 	// ---------------------------------------------
@@ -850,7 +870,6 @@ public class StreetDAO {
 		return sqlSession.selectList("streetMapper.selectPtList",streetNo);
   }
 
-	
 
 	
 	/*=======================3/26 미현 끝==============================*/
