@@ -21,6 +21,7 @@ import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
+import com.kh.wassupSeoul.street.model.vo.Report;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 import com.kh.wassupSeoul.street.model.vo.Vote;
@@ -912,8 +913,30 @@ public class StreetDAO {
 	/*=======================3/26 미현 끝==============================*/
 	
 	
+	/*======================= 지원 활동보고서 시작==============================*/
+	
+	/** 활동보고서 다음 번호 조회용 DAO
+	 * @return reportNo
+	 * @throws Exception
+	 */
+	public int selectReportNextNo() throws Exception {
+		
+		return sqlSession.selectOne("streetMapper.selectReportNextNo");
+	}
+
+	/** 활동보고서 제출용 DAO
+	 * @param report
+	 * @return result
+	 * @throws Exception
+	 */
+	public int sendReport(Report report) throws Exception {
+		
+		return sqlSession.insert("streetMapper.insertReport", report);
+	}
 	
 	
+	
+	/*======================= 지원 활동보고서 끝==============================*/
 	
 	
 }

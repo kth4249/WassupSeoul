@@ -26,6 +26,7 @@
 		<typeAlias type="com.kh.wassupSeoul.square.model.vo.Alarm" alias="Alarm"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Calendar" alias="Calendar"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Bfile" alias="Bfile"/>
+		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Report" alias="Report"/>
 		<!-- 미현 bfile 추가 -->
 	</typeAliases> 
 	
