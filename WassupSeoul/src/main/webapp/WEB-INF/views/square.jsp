@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Wassup, Seoul Lounge</title>
+<title>Wassup, Seoul!</title>
 </head>
 <style>
 .loungeHeader {

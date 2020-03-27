@@ -156,15 +156,20 @@
 				});
 			}
 		});
-
+		/* 알람 관련 해서 조금 수정 -태훈*/
 		$("#yesMaster").on("click", function() {
 			if ($("#newLeader").val() == "") {
 				alert("위임할 주민을 검색해주세요.");
+				return false;
 			} else {
-				alert("위임하시겠습니까?");
+				if(!confirm("위임하시겠습니까?")){
+					return false;
+				}
+				sock.send($("#newNo").val());
 			}
 
 		});
+		/* 알람 관련 해서 조금 수정*/
 	</script>
 
 </body>

@@ -122,6 +122,8 @@ object-fit: cover;
 										var $alDiv = $("<div>").prop("class", "dropdown-item nanum joinCheck");
 									} else if(item.alarmType == 2){
 										var $alDiv = $("<div>").prop("class", "dropdown-item nanum goStreet");
+									} else if(item.alarmType == 3){
+										var $alDiv = $("<div>").prop("class", "dropdown-item nanum openMessenger");
 									}
 									var $alUrl = $("<input>").prop("type", "hidden").val(item.alarmAddr);
 									var $alNo = $("<input>").prop("type", "hidden").val(item.alarmNo)
@@ -171,6 +173,14 @@ object-fit: cover;
 					this.remove();
 					console.log(this.childNodes[1].value);
 					checkAlarm(this.childNodes[1].value) // 알람 checkDt 수정하는 function 호출 및 매개변수로 alarmNo 전달
+				})
+				
+				$(document).on("click", ".openMessenger", function(){
+					$('.container2').show(200);
+					iconStatus = false;
+					$(".tabBox ul").children().last().children("a").click();
+					checkAlarm(this.childNodes[1].value)
+					alarmView();
 				})
 				
 				function checkAlarm(alarmNo) { // 알람 확인 체크용 function

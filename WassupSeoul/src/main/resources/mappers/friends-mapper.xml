@@ -54,14 +54,29 @@
 		AND REQUEST_STATUS = 1
 	</where>
 </select>
-
+<!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 태훈 시작 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  -->
 <!-- 친구요청 (태훈)-->
  <insert id="addRelation" parameterType="Relationship">
  	INSERT INTO RELATIONSHIP
  	VALUES(#{myNum}, #{yourNum}, #{requestStatus})
  </insert>
  	<!--차단 당한 경우를 제외하는 코드 작성할 것 -->
+ 	
+ <!-- 맺어져있는 관계가 있는지 여부 조회 -->
+ <select id="selectRelation" parameterType="Relationship" resultType="_int">
+ 	SELECT COUNT(*)
+ 	FROM RELATIONSHIP
+ 	WHERE MY_NO = #{myNum} AND YOUR_NO = #{yourNum}
+ </select>
+ 
+ <!-- 맺은 관계가 있다면 그 관계 수정 -->
+ <update id="modifyRelation" parameterType="Relationship">
+ 	UPDATE RELATIONSHIP
+ 	SET REQUEST_STATUS = #{requestStatus}
+ 	WHERE MY_NO = #{myNum} AND YOUR_NO = #{yourNum}
+ </update>
 
+<!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 태훈 끝 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  -->
 
 <!-- 친구 추가 1--> 
  <update id="addFriend" parameterType="map">

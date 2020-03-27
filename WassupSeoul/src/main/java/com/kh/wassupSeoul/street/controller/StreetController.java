@@ -785,8 +785,11 @@ public class StreetController {
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		int myNum = loginMember.getMemberNo();
 		Relationship addRelation = new Relationship(myNum, yourNum, '1');
-		
-		streetService.addRelation(addRelation);
+		int result = streetService.addRelation(addRelation);
+		if(result > 0) {
+			Alarm alarm = new Alarm("친구를 신청합니다!", '3', "메신저창 오픈", myNum+"", yourNum);
+			streetService.insertAlarm(alarm);
+		}
 	}
 	
 	@ResponseBody
@@ -1352,7 +1355,15 @@ public class StreetController {
 			int result = streetService.yesMaster(newNo, streetNo, original);
 			
 			if(result > 0) {
+				/* ---------------태훈 알람 관련 추가---------------*/
 				
+				String streetNm = streetService.selectStreetNm(streetNo);
+				int masterNo = streetService.selectMasterNo(streetNo);
+				Alarm alarm = new Alarm("["+streetNm+"] 골목의 골목대장으로 임명되셨습니다.", '4',
+						"street/streetMain?streetNo="+streetNo, masterNo+"", newNo);
+				streetService.insertAlarm(alarm);
+				
+				/* ---------------태훈 알람 관련 추가 끝---------------*/
 				model.addAttribute("msg", "위임 성공");
 				return "redirect:streetMain?streetNo=" + streetNo;
 				

@@ -23,7 +23,6 @@ public class EchoHandler extends TextWebSocketHandler {
 
 		logger.info("{}연결됨", session.getId());
 		
-		System.out.println("wassupSeoul 접속 세션아이디 :"+session.getId() );
 		Member loginMember = (Member)session.getAttributes().get("loginMember");
 		System.out.println("wassupSeoul 접속자 멤버넘버 :"+ loginMember.getMemberNo());
 		// super.afterConnectionEstablished(session);

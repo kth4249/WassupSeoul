@@ -104,11 +104,11 @@
 	<script>
 		/* 친구 추가용 Ajax  */
 		$(".addFriend").click(function(event) {
-			console.log($(this).val());
+			var yourNum = $(this).val()
 			$.ajax({
 				url : "addFriend",
 				data : {
-					"yourNum" : $(this).val()
+					"yourNum" : yourNum
 				},
 				success : function() {
 					alert("친구 신청 완료");
