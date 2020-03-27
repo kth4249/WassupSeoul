@@ -744,8 +744,6 @@ public class StreetDAO {
 		return sqlSession.delete("streetMapper.deleteBoardCalendar", boardNo);
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.25 ,26) 시작-----------------------------------*/
-	
 	/** 일정 게시글 참여인원수 조회용 DAO
 	 * @param boardNo
 	 * @return count
@@ -801,7 +799,46 @@ public class StreetDAO {
 	public int deleteCalendarMember(Board temp) throws Exception{
 		return sqlSession.delete("streetMapper.deleteCalendarMember", temp);
 	}
-	/*------------------------ 정승환 추가코드(20.03.25 ,26) 시작-----------------------------------*/
+	
+	/*------------------------ 정승환 추가코드(20.03.27) 시작-----------------------------------*/
+	
+	/** 골목대장 회원번호 조회용 DAO
+	 * @param streetNo
+	 * @return memberNo
+	 * @throws Exception
+	 */
+	public int selectStreetMasterNo(int streetNo) throws Exception{
+		return sqlSession.selectOne("streetMapper.selectStreetMasterNo", streetNo);
+	}
+	
+	/** 일정 수정 모달 일정 정보 조회용 DAO
+	 * @param boardNo
+	 * @return calendar
+	 * @throws Exception
+	 */
+	public Calendar selectCalendarInfo(int boardNo) throws Exception{
+		return sqlSession.selectOne("streetMapper.selectCalendarInfo", boardNo);
+	}
+	
+	/** 일정 게시글 수정용 DAO
+	 * @param updateCalendarBoard
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateCalendarBoard(Board updateCalendarBoard) throws Exception{
+		return sqlSession.update("streetMapper.updateCalendarBoard", updateCalendarBoard);
+	}
+	
+	/** 일정 수정용 DAO
+	 * @param updateCal
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateSchedule(Calendar updateCal) throws Exception{
+		return sqlSession.update("streetMapper.updateSchedule", updateCal);
+	}
+	
+	/*------------------------ 정승환 추가코드(20.03.27) 끝-----------------------------------*/
 	
 	
 /*------------------------ 정승환 추가코드 -----------------------------------*/

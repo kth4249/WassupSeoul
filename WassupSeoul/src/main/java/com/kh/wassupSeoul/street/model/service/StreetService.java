@@ -476,8 +476,6 @@ public interface StreetService {
 	 */
 	public abstract int deleteBoardCalendar(int boardNo) throws Exception;
 	
-	/*------------------------ 정승환 추가코드(20.03.25 ,26) 시작-----------------------------------*/
-	
 	/** 일정 게시글 참여인원수 조회용 Service
 	 * @param boardNo
 	 * @return count
@@ -521,7 +519,38 @@ public interface StreetService {
 	 */
 	public abstract int deleteCalendarMember(Board temp) throws Exception;
 	
-	/*------------------------ 정승환 추가코드(20.03.25 ,26) 끝-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.27) 시작-----------------------------------*/
+	
+	/** 골목대장 회원번호 조회용 Service
+	 * @param streetNo
+	 * @return memberNo
+	 * @throws Exception
+	 */
+	public abstract int selectStreetMasterNo(int streetNo) throws Exception;
+	
+	/** 일정 수정 모달창 일정 정보 조회용 Service
+	 * @param boardNo
+	 * @return calendar
+	 * @throws Exception
+	 */
+	public abstract Calendar selectCalendarInfo(int boardNo) throws Exception;
+	
+	/** 일정 게시글 수정용 Service
+	 * @param updateCalendarBoard
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateCalendarBoard(Board updateCalendarBoard) throws Exception;
+	
+	/** 일정 수정용 Service
+	 * @param updateCal
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int updateSchedule(Calendar updateCal) throws Exception;
+	
+
+	/*------------------------ 정승환 추가코드(20.03.27) 시작-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	

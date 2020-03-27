@@ -20,7 +20,10 @@
 <title>일정</title>
 	<!-- 캘린더 추가 시작 -->
     <script>
-
+    // 현재 로그인 회원 회원번호
+    var memberNo = "<c:out value='${loginMember.memberNo}'/>";
+    var streetMasterNo = "<c:out value='${streetMasterNo}'/>";
+    
       document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
 
@@ -28,11 +31,17 @@
           plugins: [ 'dayGrid','interaction' ],
           //locale : "ko", //한글설정,단 nanum설정 안됨
           dateClick: function (info) {
-          //alert('Clicked on: ' + info.dateStr); // 날짜 관련 데이터,년-월-일
-          //$("#startDate").val(info.dateStr);
-          //$("#calEndDate").val(info.dateStr);
+	          //alert('Clicked on: ' + info.dateStr); // 날짜 관련 데이터,년-월-일
+	          //$("#startDate").val(info.dateStr);
+	          //$("#calEndDate").val(info.dateStr);
+	          
+	          // 현재 로그인 회원이 골목대장(골목 개설 인원)인지 판별
+	          if(memberNo == streetMasterNo) { // 골목대장일 경우 일정 추가 가능
+	        	  $('#calendarModal').modal();  
+	          } else { // 골목대장이 아닐경우 일정 추가 불가
+	        	  alert("골목대장만 일정을 추가할 수 있습니다.");
+	          }
           
-          $('#calendarModal').modal();
           },
           events: [
         	  {id: 1,title: '새해',start: '2020-01-01',end: '2020-01-01'},
@@ -50,9 +59,26 @@
                       
         });
         
-        //for(var i=0;i<"${setCalList}")
-        calendar.addEvent({'title':'evt4', 'start':'2020-03-24', 'end':'2020-03-25'});
+        // 일정 달력에 추가
+        var calStartDate = new Array();
+        var calEndDate = new Array();
+        var calTitle = new Array();
+        <c:forEach var="calendar" items="${allCalList}">
+        	calTitle.push("${calendar.calTitle}");
+        	calStartDate.push("${calendar.calStartDate}");
+        	calEndDate.push("${calendar.calEndDate}");
+        </c:forEach>
         
+        
+        $.each(calTitle,function(index,item){
+   			var tempTitle = calTitle[index];
+   			var tempStartDate = calStartDate[index];
+   			var tempEndDate = calEndDate[index];
+        	calendar.addEvent({'title': tempTitle, 'start':tempStartDate, 'end':tempEndDate});
+        });
+   		
+       	//var abc = calTitle[0];
+        //calendar.addEvent({'title':abc, 'start':'2020-03-24', 'end':'2020-03-25'});
 
         calendar.render();
 
@@ -134,6 +160,7 @@
                                 <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">시작</label>
                                 <div class="col-sm-5"><input type="date" class="form-control" name="calStartDate" id="calStartDate"></div>
                                 <div class="col-sm-5"><input type="time" class="form-control" name="calStartTime" id="calStartTime"></div>
+								<div class="col-sm-12 nanum" style="font-weight: bold;color: blue">*일정 시작일은 현재 시간보다 1일 후 날짜부터 지정할 수 있습니다.</div>
                               </div>
                               <div class="form-group row">
                                 <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">종료</label>
@@ -153,7 +180,7 @@
                                 <div class="col-md-4">
                                   <div class="form-check">
                                     <label class="form-check-label nanum">
-                                      <input type="radio" class="form-check-input" name="joinCalendar" id="join" value="Y">
+                                      <input type="radio" class="form-check-input" name="joinCalendar" id="join" value="Y" checked>
                                      	 참석 일정
                                     </label>
                                   </div>
@@ -165,7 +192,7 @@
                               </div>
                               <div class="form-group row">
                                 <label class="col-sm-3 col-form-label nanum" style="font-weight: bold;">참가종료일</label>
-                                <div class="col-sm-5"><input type="date" class="form-control" name="cJoinEndDate" id="joinDate" min="2020-03-26"></div>
+                                <div class="col-sm-5"><input type="date" class="form-control" name="cJoinEndDate" id="joinDate"></div>
                                 <div class="col-sm-4"></div>
                               </div>
                               <div class="form-group row">
@@ -221,16 +248,22 @@
 		                                <c:if test="${calendar.calendarJoin == 'Y'.charAt(0)}">
 		                                	<div class="col-sm-8"><input type="text" readonly class="form-control-plaintext nanum" value="${calendar.calJoinLimit}" style="font-weight: bold;"></div>
 		                                </c:if>
-	                                	<div class="col-sm-1" style="padding-left:5px;padding-right:5px">
-	                                		<img alt="수정버튼" class="scheduleUpdate" src="${contextPath}/resources/img/streetChange.svg" style="cursor:pointer;width: 20px; height: 20px;">
-	                                		수정
-	                                		<input type="hidden" value="${calendar.boardNo}">
-	                                	</div>
-	                                	<div class="col-sm-1" style="padding-left:5px;padding-right:5px">
-	                                		<img alt="삭제버튼" class="scheduleDelete" src="${contextPath}/resources/img/iconmonstr-trash-can-1.svg" style="cursor:pointer;width: 20px; height: 20px;">
-	                                		삭제
-	                                		<input type="hidden" value="${calendar.boardNo}">
-	                                	</div>
+		                                <!-- 골목 대장인 경우에만 수정,삭제 가능 -->
+		                                <c:if test="${loginMember.memberNo == streetMasterNo}">
+		                                	<div class="col-sm-1" style="padding-left:5px;padding-right:5px">
+		                                	<!-- 마감일이 현재시간을 보다 더 미래인 경우에만 수정버튼 출력 -->
+	                                		<c:if test="${calendar.calEndDate > compareNowDate }">
+	                                			<img alt="수정버튼" class="scheduleUpdate" src="${contextPath}/resources/img/streetChange.svg" style="cursor:pointer;width: 20px; height: 20px;">
+	                                			수정
+	                                			<input type="hidden" value="${calendar.boardNo}">
+	                                		</c:if>
+	                                		</div>
+		                                	<div class="col-sm-1" style="padding-left:5px;padding-right:5px">
+		                                		<img alt="삭제버튼" class="scheduleDelete" src="${contextPath}/resources/img/iconmonstr-trash-can-1.svg" style="cursor:pointer;width: 20px; height: 20px;">
+		                                		삭제
+		                                		<input type="hidden" value="${calendar.boardNo}">
+		                                	</div>
+		                                </c:if>
 		                              </div>
 		                            </div>
 		                          </div>
@@ -249,13 +282,79 @@
 			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드2 여백 -->
 			
+			<!-- 수정용 모달창 시작-->
+             <div class="modal fade" id="updateCalendarModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+               <div class="modal-dialog" role="document">
+                 <div class="modal-content">
+                   <div class="modal-header">
+                     <h2 class="modal-title nanum" id="updateCalendarModalLabel">일정 수정</h2>
+                   </div>
+                   <div class="modal-body">
+                     <!-- 내용 시작 -->
+                   <form action="${contextPath}/street/updateSchedule" method="post" onsubmit="return updateValidate();">
+                     <div class="form-group row">
+                       <div class="col-md-12">
+                         <input type="text" class="form-control nanum" id="updateCalendarTitle" name="updateCalendarTitle" placeholder="일정 제목 입력">
+                         <input type="hidden" id="updateCalendarBoardNo" name="updateCalendarBoardNo">
+                       </div>
+                     </div>
+                     <div class="form-group row">
+                       <div class="col-md-12">
+                         <textarea rows="2" cols="65" style="resize: none;" id="updateCalendarContent" name="updateCalendarContent" class="form-control nanum" placeholder="일정 설명 입력"></textarea>
+                       </div>
+                     </div>
+                     <div class="form-group row">
+                       <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">위치</label>
+                       <div class="col-sm-10" style="border: 1px solid black;">
+                         <!-- 지도 추가 -->
+                         <div id="updateMap" style="width:350px;height:200px;"></div>
+                         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
+                         <script>
+                           var container = document.getElementById('updateMap');
+                           var options = {
+                             center: new kakao.maps.LatLng(33.450701, 126.570667),
+                             level: 3
+                           };
+   
+                           var map = new kakao.maps.Map(container, options);
+                         </script>
+                         <!-- 지도 추가 -->
+                       </div>
+                     </div>
+                     <div class="form-group row">
+                       <div class="col-md-2"></div>
+                       <div class="col-md-10">
+                         <input type="text" class="form-control nanum" id="updateCalendarLocation" name="updateCalendarLocation" placeholder="지정된 모임 장소">
+                       </div>
+                     </div>
+                     <div class="form-group row">
+                       <div class="col-md-2"></div>
+                       <div class="col-md-4"><button type="submit" class="btn btn-secondary btn-block nanum" style="font-weight: bold;">완료</button></div>
+                       <div class="col-md-4"><button type="button" class="btn btn-secondary btn-block nanum" data-dismiss="modal" style="font-weight: bold;">나가기</button></div>
+                       <div class="col-md-2"></div>
+                     </div>
+                   </form>
+                     <!-- 내용  끝 -->
+                   </div>
+                 </div>
+               </div>
+             </div>
+			<!-- 수정용 모달창 끝 -->
+			
 			
 		</div>
 	</div>
 	<!-- 컨텐츠영역 종료 -->
 
 	<script>
-	// 유효성 검사를 위한 객체
+	// 일정 수정 유효성 검사를 위한 객체
+	var updateCheck = {
+		"upCalTitle":true,
+   		"upCalContent":true,
+		"upCalLocation":true
+	}
+	
+	// 일정 등록 유효성 검사를 위한 객체
 	var signUpCheck = { 
     		"calendarTitle":false,
     		"calendarContent":false,
@@ -265,12 +364,8 @@
 			"calendarEndDate":false,
 			"calendarEndTime":false,
 			"calendarJoin":false,
-			"calendarJoinLimit":false,
+			"calendarJoinDate":false
 	};
-	
-	
-
-  	
 	
 	$(function(){
 		
@@ -287,7 +382,48 @@
           }
         });
 		
-		/*
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		var $updateCalendarTitle = $("#updateCalendarTitle");
+		var $updateCalendarContent = $("#updateCalendarContent");
+		var $updateCalendarLocation = $("#updateCalendarLocation");
+		
+		// 수정 일정 제목 유효성 검사
+		$updateCalendarTitle.on("input",function(){
+			var regExp = /^.{1,14}$/;
+			if(!regExp.test($updateCalendarTitle.val())) {
+				updateCheck.upCalTitle = false;
+			} else {
+				updateCheck.upCalTitle = true;
+			}
+		});
+		
+		// 수정 일정 내용 유효성 검사
+		$updateCalendarContent.on("input",function(){
+			var regExp = /^.{1,}$/;
+			if(!regExp.test($updateCalendarContent.val())) {
+				updateCheck.upCalContent = false;
+      	  } else {
+      			updateCheck.upCalContent = true;
+      	  }
+		});
+		
+		// 수정 일정 위치 유효성 검사
+		$updateCalendarLocation.on("input",function(){
+			var regExp = /^.{1,90}$/;
+			if(!regExp.test($updateCalendarLocation.val())) {
+				updateCheck.upCalLocation = false;
+      	  } else {
+      			updateCheck.upCalLocation = true;
+      	  }
+		});
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+		
+		
+		  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
           // 일정 등록 유효성 검사
           var $calendarTitle = $("#calendarTitle");
           var $calendarContent = $("#calendarContent");
@@ -301,7 +437,7 @@
           
           // 일정제목 유효성검사
           $calendarTitle.on("input",function(){
-        	  var regExp = /^[a-zA-z0-9가-힣]{1,14}$/;
+        	  var regExp = /^.{1,14}$/;
         	  if(!regExp.test($calendarTitle.val())) {
         		  signUpCheck.calendarTitle = false;
         	  } else {
@@ -311,7 +447,7 @@
           
           // 일정내용 유효성검사
           $calendarContent.on("input",function(){
-        	  var regExp = /^[a-zA-z0-9가-힣]{1,}$/;
+        	  var regExp = /^.{1,}$/;
         	  if(!regExp.test($calendarContent.val())) {
         		  signUpCheck.calendarContent = false;
         	  } else {
@@ -321,7 +457,7 @@
           
           // 일정장소 유효성검사
           $calendarLocation.on("input",function(){
-        	  var regExp = /^[a-zA-z0-9가-힣]{1,90}$/;
+        	  var regExp = /^.{1,90}$/;
         	  if(!regExp.test($calendarLocation.val())) {
         		  signUpCheck.calendarLocation = false;
         	  } else {
@@ -349,6 +485,16 @@
         // 일정시작일 유효성검사
         $calStartDate.on("input",function(){
         	if($calStartDate.val() == "" || $calStartDate.val() == null) {
+        		// 일정 시작일이 제거된 경우 시작시간,종료일,종료시간,참가마감일 모두 제거, 유효성도 모두 false로 변환
+        		$calStartTime.val("");
+        		signUpCheck.calendarStartTime = false;
+        		$calEndDate.val("");
+        		signUpCheck.calendarEndDate = false;
+        		$calEndTime.val("");
+        		signUpCheck.calendarEndTime = false;
+        		$joinDate.val("");
+        		signUpCheck.calendarJoinDate = false;
+        		
         		signUpCheck.calendarStartDate = false;
         	} else {
         		signUpCheck.calendarStartDate = true;
@@ -368,68 +514,130 @@
      	// ---일정 종료일---  
      	// 일정종료일 최소값 지정
      	$calEndDate.on("focus",function(){
-     		// 만약 일정 시작일이 지정되지 않은 경우
+     		// 1)만약 일정 시작일이 지정되지 않은 경우
      		if($calStartDate.val() == "" || $calStartDate.val() == null) {
     			alert("일정 시작일을 우선 지정하세요.");
-    			$calEndDate.focusout();
+    			$calEndDate.val("");
+    			$calEndDate.blur(); // 일정종료일 지정해제함 , focusout()은 안먹힘
+    			signUpCheck.calendarEndDate = false;
      		}
-     		// 일정 시작일이 지정된 경우
+     		// 2) 일정 시작일이 지정된 경우 -> 일정 종료일 최소값 지정(일정 시작일+1,일정 시작일 내일)
      		else {
-     			var minDate = $calStartDate.val();
-         		$calEndDate.prop("min",minDate);	
+	     			var minDate = $calStartDate.val();
+	 				var parts = minDate.split('-');
+	 				var changeDate = new Date(parts[0],parts[1]-1,parts[2]); // 시작일을 Date형으로 변환
+	 				changeDate.setDate(changeDate.getDate()+1); // 시작일 보다 1일 더함
+	 				
+	 				// Date -> 문자열로 변환
+	 				var tempMonth = new String(changeDate.getMonth() + 1); // 월
+	 		      	var tempDay = new String(changeDate.getDate()); // 일
+	 		      	if(tempMonth.length == 1){  // 월이 1자리수 이면 0붙이기 -> 0M 형태
+	 		      	  tempMonth = "0" + tempMonth; 
+	 		      	}
+	 		      	if(calDay.length == 1){ // 일이 1자리수 이면 0붙이기 -> 0d 형태
+	 		      	  tempDay = "0" + tempDay; 
+	 		      	}
+	 		      	var minDate = changeDate.getFullYear()+"-"+tempMonth+"-"+tempDay; // 년-월-일 형태로 문자열 구성, yyyy-MM-dd 형태 
+	 				//
+	 				
+	     			$calEndDate.prop("min",minDate);
+
      		}
+     			
      	});
      	
-    	// 일정종료일 유효성검사
-        $calEndDate.on("input",function(){
-        	if($calEndDate.val() == "" || $calEndDate.val() == null) {
-        		signUpCheck.calendarEndDate = false;
+     	// 일정 종료일 유효성 검사
+     	$calEndDate.on("input",function(){
+     		// 2_1) 일정 종료일이 지정안된 경우	
+ 			if($calEndDate.val() == "" || $calEndDate.val() == null) { 
+     			// 종료시간, 일정마감일 제거
+     			$calEndTime.val("");
+    			$joinDate.val("");
+     			
+         		signUpCheck.calendarEndDate = false;
+ 			} else { // 2_2) 일정 종료일이 지정된 경우
+         		signUpCheck.calendarEndDate = true;
+ 			}
+     	});
+     	
+       	// 일정종료시간 유효성검사		
+        $calEndTime.on("input",function(){
+        	if($calEndTime.val() == "" || $calEndTime.val() == null) { 
+        		signUpCheck.calendarEndTime = false;
         	} else {
-        		signUpCheck.calendarEndDate = true;
+        		signUpCheck.calendarEndTime = true;
         	}
         });
-        // 일정 종료일 
-          
-       	// 일정종료시간 유효성검사		
-        // 1) 일정 시작일,일정종료일 우선 입력
-        // 2) 일정 시작일 == 일정종료일
-        // 2_1) 일정 시간 < 종료시간
-        
-        // -> onsubmit함수 내부에서 작성
-        // 일정참여여부 유효성검사
-        if( $("input[name=joinCalendar]").is(":checked") ){
-        	signUpCheck.calendarJoin = true;
-        } else {
-        	signUpCheck.calendarJoin = false;
-        }
-       
           
         // 일정참여제한인원 유효성검사
-        $joinNumber.on("input",function(){
-        	var tempCitizenCount = "<c:out value='${citizenCount}'/>";
-        	var citizenCount = parseInt(tempCitizenCount); // 현재 골목 주민수
-        	var joinVal = parseInt($joinNumber.val());
-        	if($joinNumber.val() == "" || $joinNumber.val() == null) {
-        		signUpCheck.calendarJoin = false;
-        	} else if(citizenCount < joinVal){
-        		alert("현재 골목 주민수 보다 많은 인원을 참여인원으로 지정할 수 없습니다.");      
-        		signUpCheck.calendarJoin = false;
-        	} else {
-        		signUpCheck.calendarJoin = true;
-        	}
-        		
+        $joinNumber.on("input",function(){ 
+       		var tempCitizenCount = "<c:out value='${citizenCount}'/>";
+           	var citizenCount = parseInt(tempCitizenCount); // 현재 골목 주민수
+           	var joinVal = parseInt($joinNumber.val());
+           	if($joinNumber.val() == "" || $joinNumber.val() == null) {
+           		signUpCheck.calendarJoin = false;
+           	} else if(citizenCount < joinVal){
+           		alert("현재 골목 주민수 보다 많은 인원을 참여인원으로 지정할 수 없습니다.");      
+           		$joinNumber.val("");
+           		signUpCheck.calendarJoin = false;
+           	} else {
+           		signUpCheck.calendarJoin = true;
+           	}
         });
         
-        
-        // 일정참여마감일 유효성검사
-        $joinDate.on("input",function(){
-        	// 일정 참여 마감일 최소일 지정 : 오늘
-        	nowDate = d.getFullYear()+"-"+(d.getMonth() + 1)+"-"+d.getDate();
-        	// 일정 참여 마감일 최대일 지정 : 일정 시작일
+        $("input[name=joinCalendar]").on("input",function(){
+        	var noneJoinCheck = $("#notJoin").prop("checked");
+        	if(noneJoinCheck) {
+        		signUpCheck.calendarJoin = true;
+        		signUpCheck.calendarJoinDate = true;
+        	} else {
+        		signUpCheck.calendarJoin = false;
+        		signUpCheck.calendarJoinDate = false;
+        	}
         	
         });
-          
-        */
+        
+        
+        // 일정 참여 마감일 최소일 지정 : 오늘
+        // 일정 참여 마감일 최대일 지정 : 일정 시작일
+        $joinDate.on("focus",function() {
+       		signUpCheck.calendarJoinDate = false;
+       		var tempDate = new Date();
+           	var minCalMonth = new String(tempDate.getMonth() + 1); // 월
+            var minCalDay = new String(tempDate.getDate()); // 일
+            if(minCalMonth.length == 1){  // 월이 1자리수 이면 0붙이기 -> 0M 형태
+            	minCalMonth = "0" + minCalMonth; 
+            }
+            if(minCalDay.length == 1){ // 일이 1자리수 이면 0붙이기 -> 0d 형태
+            	minCalDay = "0" + minCalDay; 
+            }
+            var minJoinDate = tempDate.getFullYear()+"-"+minCalMonth+"-"+minCalDay; // 년-월-일
+            $joinDate.prop("min",minJoinDate);
+            	
+            // 일정 시작일이 지정되지 않은 경우
+            if($calStartDate.val() == "" || $calStartDate.val() == null) {
+            	alert("일정 시작일을 우선 지정하세요.");
+            	$joinDate.blur();
+            	signUpCheck.calendarJoinDate = false;
+            }
+            // 1)일정 시작일이 지정된 경우 -> 일정 시작일을 최대값으로 지정 
+            else {
+            	var maxJoinDate = $calStartDate.val();
+        		$joinDate.prop("max",maxJoinDate);		
+            }
+        });
+        
+        // 참가 마감일 유효성 검사
+        $joinDate.on("input",function() {
+        	if($joinDate.val() == "" || $joinDate.val() == null) {
+        		signUpCheck.calendarJoinDate = false;
+    		} else { // 1_2) 일정 마감일이 지정된 경우
+        		signUpCheck.calendarJoinDate = true;
+    		}
+        });
+        
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         
         // 주말에 색상적용
         $(".fc-day-top.fc-sat").css("color","#0000FF"); // 토
@@ -449,10 +657,40 @@
      	// 일정 수정 버튼 클릭시 일정 수정
      	$(".scheduleUpdate").on("click",function(){
      		var updateBoardNo = $(this).next().val();
+     		$.ajax({
+     			url : "${contextPath}/street/updateModalInfo",
+     			data : {boardNo : updateBoardNo },
+     			type : "post",
+     			dataType : "json",
+     			success : function(mInfo) {
+     				var $updateCalendarTitle = $("#updateCalendarTitle");
+     				var $updateCalendarContent = $("#updateCalendarContent");
+     				var $updateCalendarLocation = $("#updateCalendarLocation");
+     				var $updateCalendarBoardNo = $("#updateCalendarBoardNo");
+     				
+     				// DB에 저장된 일정제목 지정
+     				$updateCalendarTitle.val(mInfo.calendarTitle);
+     				// DB에 저장된 일정내용 지정
+     				$updateCalendarContent.val(mInfo.calendarContent);
+     				// DB에 저장된 일정장소 지정
+     				$updateCalendarLocation.val(mInfo.calendarLocation);
+     				// 현재 게시글 번호 지정
+     				$updateCalendarBoardNo.val(mInfo.boardNo);
+     			},
+     			error : function(e) {
+     				console.log("ajax 통신 실패");
+           			console.log(e);
+     			}
+     		});
+     		
+     		$('#updateCalendarModal').modal(); // 값이 세팅되어 모달창 출력
+     		
+     		/*
      		var result = confirm("정말로 일정을 수정하시겠습니까?");
      		if(result) {
      			location.href="${contextPath}/street/updateSchedule?boardNo=" + updateBoardNo;	
      		}
+     		*/
      	});
      	
      	// 일정 삭제 버튼 클릭시 일정 삭제
@@ -477,6 +715,43 @@
         var map = new kakao.maps.Map(container, options);
 	});
 	
+	$("#updateCalendarModal").on('shown.bs.modal', function (e) { 
+		var container = document.getElementById('updateMap');
+        var options = {
+          center: new kakao.maps.LatLng(33.450701, 126.570667),
+          level: 3
+        };
+
+        var map = new kakao.maps.Map(container, options);
+	});
+	
+	// 일정 수정 submit 동작
+	function updateValidate(){
+		
+		for(var key in updateCheck){
+			if(!updateCheck[key]){
+				alert("일부 입력값이 잘못되었습니다.");
+				var id = "#"+key;
+				$(id).focus();
+				return false;
+			}
+		}
+
+	}
+	
+	// 일정 추가 submit 동작
+	function validate(){
+		
+		for(var key in signUpCheck){
+			if(!signUpCheck[key]){
+				alert("일부 입력값이 잘못되었습니다.");
+				var id = "#"+key;
+				$(id).focus();
+				return false;
+			}
+		}
+
+	}
 	
 	</script>
 

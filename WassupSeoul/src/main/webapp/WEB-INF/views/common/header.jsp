@@ -223,11 +223,11 @@ object-fit: cover;
                 </div>
                 <!-- profile image end-->
                 <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
-                    <input type="text" id="memberNickName" class="nanum form-control-plaintext text-center" style="font-size: 35px;font-weight: bold;" readonly>
+                <div class="col-md-2"></div> <!-- 정승환 코드수정(20.03.27) -->
+                <div class="col-md-8">		<!-- 정승환 코드수정(20.03.27) -->
+                    <input type="text" id="memberNickName" class="nanum form-control-plaintext text-center" style="font-size: 30px;font-weight: bold;" readonly>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div> <!-- 정승환 코드수정(20.03.27) -->
                 </div>
                 <div class="row">
                 <div class="col-md-2"></div>
