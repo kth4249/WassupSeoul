@@ -168,13 +168,13 @@
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 				<!-- 대화방 목록 -->		
 				<div class="tab-pane fade tgl" id="chatList">
-					<div class="nanum mt-3 ml-3 chatRoom">
-						<div class="chatPf" style="display: inline-block;">
+					<div id="roomOne" class="nanum mt-3 ml-3 chatRoom">
+						<div class="roomImg" style="display: inline-block;">
 							<img src="${contextPath}/resources/img/usericon.png" width="40px"
 								height="40px" class="chatProfile" data-toggle="modal"
 								data-target="#profilePicture" style="cursor: pointer">&nbsp;
 						</div>
-						<div style="display: inline-block;">
+						<div class="roomTitle" style="display: inline-block;">
 							<span>천사</span> <span class="mr-0">: 밥먹어 </span>
 						</div>
 						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">5</span>
@@ -860,8 +860,8 @@ $(document).ready(function(){
 			data : {},
 			datatype : "json",
 			success : function(result){
-				var $friendList = $("#friendList");
-				var $friendInfo = $("#friendInfo");
+				var $chatList = $("#chatList");
+				var $roomOne = $("#roomOne");
 				var root = "${contextPath}";
 				var $savePath = root + "/resources/profileImage/";
 				if(result == null){
@@ -876,20 +876,18 @@ $(document).ready(function(){
 					$.each(result, function(i){
 					
 						var $finalPath = $savePath + result[i].memberProfileUrl;
-						//console.log("목록root : " + root);
-						//console.log("목록savePath : " + $savePath);
-						//console.log("목록finalPath : " + $finalPath);
-						var $fImg = $("<img>").prop("class", "fImg").prop("src", $finalPath).css({"width":"40px","height":"40px"});
-						var $fUser = $("<span>").prop("class", "fUser").html(result[i].memberNickname);
-						var $fTalk = $("<button>").prop("class", "btn btn-info btn-sm nanum friendTalk").html("대화").val(result[i].memberNo);
-						var $fbye = $("<button>").prop("class", "btn btn-warning btn-sm nanum friendBye").attr('data-toggle', "modal").attr('data-target', "#byeBtn").
-						html("삭제").val(result[i].memberNo);
-						var $block = $("<button>").prop("class", "btn btn-danger btn-sm nanum blockFriendInList").attr('data-toggle', "modal").attr('data-target', "#blockBtn").
-						html("차단").val(result[i].memberNo);
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 						var $hr = $("<hr>");
 						
-						$friendInfo.append($fImg).append($fUser).append($fTalk).append($fbye).append($block).append($hr);
-						$friendList.append($friendInfo)
 						
 									
 					}); //$.each 끝
@@ -898,10 +896,10 @@ $(document).ready(function(){
 				
 			},
 			error : function(){
-				console.log("친구 목록을 불러오는 aJax 실패");
+				console.log("친구 대화 목록을 불러오는 aJax 실패");
 			}
 		});
-	};   // 친구 목록 Ajax 완료
+	};   // 친구 대화 목록 Ajax 완료
 	
 	
 	
@@ -916,9 +914,9 @@ $(document).ready(function(){
 	
 	/* 에이잭스 실행 함수 */
 	 $(function(){
-		friendRequest(); // 친구 요청 목록
-		friendsList(); // 친구 목록 불러오기
-		
+		friendRequest(); 	// 친구 요청 목록
+		friendsList(); 		// 친구 목록 불러오기
+		friendtalk();		// 대화 목록 불러오기
 		/* setInterval(function(){ // 갱신 주기
 			friendRequest(); 
 		}, 10000); */
