@@ -916,7 +916,7 @@ $(document).ready(function(){
 	 $(function(){
 		friendRequest(); 	// 친구 요청 목록
 		friendsList(); 		// 친구 목록 불러오기
-		friendtalk();		// 대화 목록 불러오기
+		//friendtalk();		// 대화 목록 불러오기
 		/* setInterval(function(){ // 갱신 주기
 			friendRequest(); 
 		}, 10000); */
