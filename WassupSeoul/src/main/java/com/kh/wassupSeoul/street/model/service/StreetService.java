@@ -150,6 +150,13 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract List<Vote> selectVoteOption(Integer streetNo) throws Exception;
+	
+	/** 투표 기록용 Service
+	 * @param vote
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int recordVote(Vote vote) throws Exception;
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
@@ -278,7 +285,7 @@ public interface StreetService {
 	public abstract int selectMasterNo(int streetNo);
 
 
-	/** 가입신청 알람 삽입용 Service(알림)
+	/** 알람 삽입용 Service(알림)
 	 * @param alarm
 	 * @return result
 	 */
@@ -302,6 +309,14 @@ public interface StreetService {
 	
 	
 	public abstract void removeAlarm(Map<String, Object> map);
+	
+	
+	/** 골목대장 변경 시 골목 가입 신청/수락에 대한 알람 변경
+	 * @param masterNo
+	 * @param newNo
+	 * @return result
+	 */
+	public abstract int updateAlarm(int masterNo, Integer newNo);
 
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
@@ -589,6 +604,8 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int sendReport(Report report) throws Exception;
+
+	
 	
 	/*============================== 지원 활동 보고서 시작=============================*/
 }

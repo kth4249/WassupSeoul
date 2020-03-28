@@ -54,7 +54,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h2 class="modal-title nanum" id="sketchModalLabel"
-										style="font-weight: bold;">스케치 게시글 작성</h2>
+										style="font-weight: bold; color:black;">스케치 게시글 작성</h2>
 									<button type="button" id="sketchCloseBtn" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>

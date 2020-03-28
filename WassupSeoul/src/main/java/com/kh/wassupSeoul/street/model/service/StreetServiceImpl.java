@@ -346,7 +346,7 @@ public class StreetServiceImpl implements StreetService{
 		return result2;
 	}
 		
-	/** 투표 선택지 조회용 
+	/** 투표 조회용 
 	 * @param streetNo
 	 * @return voteList
 	 * @throws Exception
@@ -356,8 +356,32 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectVoteOption(streetNo);
 	}
 	
+	/** 투표 기록용 Service
+	 * @param vote
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int recordVote(Vote vote) throws Exception {
+		
+		String checkResult = streetDAO.checkVoteRecord(vote);
+		
+		int result = 0;
+		
+		if(checkResult == null) { // 기록없을시 
+			result = streetDAO.recordVote(vote);
+		}else { // 투표 기록 있을떄 
+			result = streetDAO.updateVoteRecord(vote);
+		}
+		
+		return result;
+	}
+	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 
+
+	
 
 	/** 골목 가입용 Service
 	 * @param map
@@ -709,6 +733,25 @@ public class StreetServiceImpl implements StreetService{
 			return streetDAO.addRelation(addRelation);
 		}
 		
+	}
+	
+	/** 골목대장 변경 시 골목 가입 신청/수락에 대한 알람 변경
+	 * @param masterNo
+	 * @param newNo
+	 * @return result
+	 */
+	@Override
+	public int updateAlarm(int masterNo, Integer newNo) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 주민이 골목가입 신청한 알람 변경
+		map.put("alarmType", "1");
+		map.put("master", masterNo);
+		map.put("newMaster", newNo);
+		streetDAO.updateAlarm1(map);
+		// 골목가입 승낙 시 주민이 받는 알람 변경
+		map.put("alarmType", "2");
+		streetDAO.updateAlarm2(map);
+		return 0;
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/

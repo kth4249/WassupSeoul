@@ -113,6 +113,7 @@
 				success : function() {
 					alert("친구 신청 완료");
 					$(event.target).parent().parent().parent().parent().css("display", "none");
+					sendAlarm(yourNum);
 				},
 				error : function() {
 					console.log("친구 요청 ajax 통신 실패")

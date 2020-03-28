@@ -3,6 +3,8 @@
 	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -230,41 +232,59 @@
 								</c:when>
 								<c:when test="${board.typeNo eq '3'}">  <!-- 투표 출력 양식 -->	
 								
-								 	 ${board.boardContent}
+								 	 ${board.boardContent}  <!-- 투표 게시글 내용 -->	
 								 	 
-								 	 
-								
-								  
-									<!-- 투표 출력 양식 -->	
-										<div class="voteMainWrap nanum" style="border: 1px solid black;  height: 400px; width:100% ">
+								 <c:set var="doneLoop" value="false"/>	   <!-- 반복 제어를 위한 변수 선언 -->	
+							 	  <c:forEach var="vote" items="${vote}" varStatus="vs">
+							 	 	 <c:if test="${not doneLoop}">			  
+							 		  <c:if test="${vote.boardNo eq board.boardNo}">
+										<c:set var="doneLoop" value="true"/>  <!-- 반복 제어.  break와 같음 -->	
+									   <!-- 투표 출력 양식 -->	 
+										<div class="voteMainWrap nanum" style="border: 1px solid black;  height: 400px; width:100%; margin-top:20px;">
 											<!-- 투표 상단 제목 영역 -->	
-											<div style="height: 60px; width:100%; margin-bottom: 45px;  ">
+											<div style="height: 60px; width:100%; margin-bottom: 45px;">
 												
 												<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
 																									padding-left: 10px;">
-													<img src="${contextPath}/resources/img/politics.png" style="width: 50%; height: 60%; margin-bottom: 45px;">
+													<img src="${contextPath}/resources/img/politics.png" style="width: 30px; height: 30px; margin-bottom: 45px;">
 										
 												</div>
 												<!-- 투표 제목, 투표참여 인원 수  양식 -->	
 												<div class="profileNameArea nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
 																												position: relative; top: 14px">
+													
+													<!-- 날짜 비교를 위한 현재 날짜 출력 -->															
+													<c:set var="today" value="<%=new java.util.Date()%>"/>
+													<fmt:formatDate type="date" value="${today}" pattern="yyyy-MM-dd" var="today" />
+													<fmt:formatDate type="date" value="${vote.voteEndDt }" pattern="yyyy-MM-dd" var="voteEndDt"/>
+																												
 													<div>
-														<p style="margin-bottom: 0; display: inline-block;">투표중</p>
-														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px;">5명 참여</p>
+														<!-- 현재 날짜와 비교 후 투표 종료 여부 출력-->
+														<c:choose>
+															<c:when test="${today < voteEndDt }">  	 
+																<p style="margin-bottom: 0; display: inline-block; color:blue; font-size:14px;">투표중</p>
+															</c:when>
+															<c:otherwise>
+																<p style="margin-bottom: 0; display: inline-block; color:red; font-size:14px;">투표종료</p>
+															</c:otherwise>
+														</c:choose>
+														<!-- 현재 날짜와 비교 후 투표 종료 여부 출력-->
+														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px; font-size:14px;">5명 참여</p>
 													</div>
 													<div style="margin-bottom: 0;">
-														<p style="margin-bottom: 0;">투표제목</p>
+														<p style="margin-bottom: 0; font-size:20px; font-weigh: bold; color:black;">${vote.voteTitle}</p>
 													</div>
 													<div style="margin-bottom: 40px;">
 													
-													<%--  <c:if test="${vote.voteDup eq 'N' }">
-														<p >복수선택 불가 </p>
-													 </c:if>	
-													 <c:if test="${vote.voteDup eq 'Y' }">
-													    <p >복수선택 가능 </p>
-													 </c:if>		 --%>
-													   <p >복수선택 가능 </p>
-													</div>	
+													<c:choose>
+															<c:when test="${vote.voteDup eq 'N'}">  	 
+																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}">복수선택 불가  </p>
+															</c:when>
+															<c:otherwise>
+																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}">복수선택 가능 </p>
+															</c:otherwise>
+													</c:choose>
+												  </div>	
 												</div>	
 												<!-- 투표 제목, 투표참여 인원 수  양식 -->	
 											</div>
@@ -272,38 +292,52 @@
 											<!-- 투표  컨텐츠 영역 영역 -->
 											<div style=" height: 300px; width:100%; border: 1px solid black; border-bottom: 0; border-left: 0; border-right: 0;">
 										
-												 <c:forEach var="vote" items="${vote}" varStatus="vs">
-								 				 <c:if test="${vote.boardNo eq board.boardNo}">
+											 <c:forEach var="voteOption" items="${voteOption}" varStatus="vs">
+							 				 	<c:if test="${voteOption.boardNo eq board.boardNo}">
 												<!-- 선택지 1 -->
 												<div style="margin-top: 10px;  margin-bottom: 30px;">
-													<label style="width: 130px; margin-left: 50px;" ><input type='checkbox' style="margin-left: 10px;" />${vote.voteOtion}</label>
+													<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+													<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
+													       name="${voteOption.voteNo}" class="voteCheckBox" />${voteOption.voteOtion}</label>
+													       <!-- checked onclick="return false;" 투표 종료시 투표안되게 막음-->
 													<!-- 득표수 -->
-													<div style="margin-right: 100px; font-size: 13px; display: inline-block; float: right;"><p>3</p></div> 
+													<div style="margin-right: 100px; font-size: 13px; display: inline-block; 
+													            float: right; position: relative; top: 41px; left:10px; color:blue; font-weight:bold"><p>3</p></div> 
 													<div class="progress"  style="width:70%; margin-left: 60px;" >
 														<!-- 진행바 -->
 														<div class="progress-bar" style="width:70%; display: inline-block;"></div>
 													</div>
-													<div style="width:80%; margin-left: 60px;" >
 													<!-- 투표자 -->
-														<p >투표 참여자 : 남과여남1</p>
+													<div style="width:80%; margin-left: 60px;" >
+														<!-- 무기명 투표 체크 안했을 시 -->
+														<c:if test="${vote.anonymity eq 'N'}">
+														 	<p style="font-size:13px;" name="${vote.anonymity}">투표 참여자 : 남과여남1</p>
+														 </c:if>	
+														 <!-- 무기명 투표 체크  시 -->
+														 <c:if test="${vote.anonymity eq 'Y'}">
+														 	<p style="font-size:13px;" name="${vote.anonymity}"></p>
+														 </c:if>	
 													</div>
 												</div>
 												<!-- 선택지 1 -->
 											 	 </c:if>
-									 		     </c:forEach> 
+								 		     </c:forEach> 
 										
 											</div>
 											<!-- 투표  컨텐츠 영역 영역 -->	
 										
-										</div>
+										 </div>
 										<!-- 투표 출력 양식 -->			
-										
+										</c:if>
+									  </c:if>
+					 		        </c:forEach> 
 									
-									
-								</c:when>
-								<c:otherwise>
+								 </c:when>
+								 
+							 
+							 <c:otherwise>
 									${board.boardContent}    
-								</c:otherwise>
+							  </c:otherwise>
 							</c:choose>
 
 						</div>
@@ -652,5 +686,60 @@
 		</c:forEach>
 	</c:if>
 	
+	
+	
+	<script>
+	/* 투표 참여 반영용 Ajax */
+	$(document).ready(function(){
+	    $(".voteCheckBox").change(function(){
+	    	// 체크상태
+	    	var checkStatus = "N";
+	    	// 선택지 번호
+	    	var voteNo = $(this).attr("name");  
+	    	// 복수 선택 여부, 개수
+	    	var voteDup = $(this).parent().parent().prev("div").find(".voteDup").attr("name");
+	    	// 무기명 여부
+	    	var anonymity = $(this).next().next().next().find("p").attr("name");
+	    	// 무기명시 Y   무기명 아닐시 N
+	    	
+	    	// 진행막대
+	    	var progressBar = $(this).next().next().find("progress-bar");
+	    	//wholeP = (int)((double)pBar.getSolvedQuestion()/pBar.getWholeQuestion()*100);
+	    	
+	    	console.log("선택지 개수 : " + optionCount);
+	    	
+	        if($(".voteCheckBox").is(":checked")){   // 체크박스 체크시
+	        	checkStatus = "Y";
+	        	alert("체크박스 체크했음!");
+	        }else{ // 체크박스 체크해제시 
+	        	checkStatus = "N";
+	            alert("체크박스 체크 해제!");
+	        }
+	        
+	        // 투표 기록용 Ajax
+	        $.ajax({
+    			url : "recordVote",
+    			data : {"voteNo" : voteNo, "checkStatus" : checkStatus },
+    			type : "post",
+    			success : function(result) {
+    				
+    				if (result == "true") {
+    					alert("투표 기록 성공  투표 감사합니다");
+    				} else {
+    					alert("투표 기록 실패");
+    				}
+    			},
+    			error : function(e) {
+    			console.log("ajax 통신 실패");
+    			console.log(e);
+    			}
+    		});
+           
+	    });
+	});
+	/* 투표 참여 반영용 Ajax */
+	
+	
+	</script>
 </body>
 </html>
