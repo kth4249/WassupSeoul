@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="adminMapper">
+
+	<resultMap type="Relationship" id="RelationshipResultSet">
+		<id property="myNum" column="MY_NO"/>
+		<id property="yourNum" column="YOUR_NO"/>
+		<result property="requestStatus" column="REQUEST_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="Member" id="memberResultSet">
+		<id property="memberNo" column="MEMBER_NO"/>
+   		<result property="memberEmail" column="MEMBER_EMAIL"/>
+  		<result property="memberPwd" column="MEMBER_PWD"/>
+  		<result property="memberNm" column="MEMBER_NM"/>
+  		<result property="memberNickname" column="MEMBER_NICKNAME"/>
+  		<result property="memberPhone" column="MEMBER_PHONE"/>
+  		<result property="memberGender" column="MEMBER_GENDER"/>
+  		<result property="memberAge" column="MEMBER_AGE"/>
+  		<result property="memberProfileUrl" column="MEMBER_PROFILE_URL"/>
+  		<result property="memberGrade" column="MEMBER_GRADE"/>
+  		<result property="memberEnrollDt" column="MEMBER_ENROLL_DT"/>
+  		<result property="memberStatus" column="MEMBER_STATUS"/>
+	</resultMap>
+	
+	
+	<!-- 전체 회원 목록 조회 -->
+	<select id="selectMemberList" resultMap="memberResultSet">
+		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_NM, MEMBER_NICKNAME, 
+			MEMBER_PHONE, MEMBER_GENDER, MEMBER_AGE, MEMBER_PROFILE_URL,
+			MEMBER_GRADE, MEMBER_ENROLL_DT, MEMBER_STATUS
+		FROM MEMBER
+		WHERE MEMBER_GRADE = 'G' AND MEMBER_STATUS = 'Y'
+	</select>
+
+
+
+
+
+
+ 
+ 
+
+</mapper>
+ 

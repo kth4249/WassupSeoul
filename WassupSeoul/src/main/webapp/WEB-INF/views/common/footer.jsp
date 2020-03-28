@@ -18,6 +18,15 @@
             <jsp:include page="friends.jsp"/>
       </div>
     </div>
-    
-  </div>
+		<c:if test="${loginMember.memberGrade eq 'A'}">
+			<div class="row">
+
+				<div class="col-md-12">
+				<a href="admin/admin" class="nanum ml-5">관리자 페이지</a>
+				</div>
+				
+			</div>
+
+		</c:if>
+	</div>
 </div>

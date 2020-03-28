@@ -406,7 +406,7 @@ strong {
 					cp.src = "//www.cincopa.com/media-platform/runtime/libasync.js";
 			var c = document.getElementsByTagName("script")[0];
 			c.parentNode.insertBefore(cp, c); })(); 
-		</script> -->
+    </script> -->
 					
 		<jsp:include page="common/footer.jsp"/>
 		
