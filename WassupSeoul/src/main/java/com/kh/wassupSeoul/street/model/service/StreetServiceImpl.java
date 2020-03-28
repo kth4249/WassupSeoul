@@ -346,7 +346,7 @@ public class StreetServiceImpl implements StreetService{
 		return result2;
 	}
 		
-	/** 투표 선택지 조회용 
+	/** 투표 조회용 
 	 * @param streetNo
 	 * @return voteList
 	 * @throws Exception
@@ -356,8 +356,32 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectVoteOption(streetNo);
 	}
 	
+	/** 투표 기록용 Service
+	 * @param vote
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int recordVote(Vote vote) throws Exception {
+		
+		String checkResult = streetDAO.checkVoteRecord(vote);
+		
+		int result = 0;
+		
+		if(checkResult == null) { // 기록없을시 
+			result = streetDAO.recordVote(vote);
+		}else { // 투표 기록 있을떄 
+			result = streetDAO.updateVoteRecord(vote);
+		}
+		
+		return result;
+	}
+	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 
+
+	
 
 	/** 골목 가입용 Service
 	 * @param map

@@ -83,6 +83,8 @@ public class StreetController {
 			// 해당 골목 정보 조회
 			Street street = streetService.selectStreet(streetNo);
 
+			System.out.println(street);
+			
 			// 해당 골목 게시물 조회
 			List<Board> board = streetService.selectBoard(checkStreet);
 			Collections.reverse(board);
@@ -95,11 +97,6 @@ public class StreetController {
 //			for(int i = 0 ; i < vote.size(); i++ ) {
 //					System.out.println(vote.get(i));
 //			}
-//			
-//			for(int i = 0 ; i < reply.size(); i++ ) {
-//				System.out.println(reply.get(i));
-//			}
-			
 			//System.out.println(reply);
 			
 			if (street != null) {
@@ -108,7 +105,8 @@ public class StreetController {
 				model.addAttribute("board", board);  // 해당 골목 게시글 조회
 				model.addAttribute("reply", reply);  // 해당 골목 댓글 리스트 (댓글용)
 				model.addAttribute("reReply", reply);  // 해당골목 댓글 리스트 (대댓글용)
-				model.addAttribute("vote", vote);     // 해당 골목 투표 선택지 
+				model.addAttribute("vote", vote);     // 해당 골목 투표 게시글 정보
+				model.addAttribute("voteOption", vote);     // 해당 골목 투표 선택지 
 
 				// 회원 해당 골목 등급, 가입여부 
 				//model.addAttribute("memGradeInSt", memGradeInSt);
@@ -379,6 +377,7 @@ public class StreetController {
     		
     	} catch(Exception e) {
     		e.printStackTrace();
+    		
     	}
     	return null;
     }
@@ -496,7 +495,8 @@ public class StreetController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "피곤...";
+			model.addAttribute("errorMsg", "스케치 게시글 입력 과정에서 오류발생");
+			return "/common/errorPage";
 		}
 	}
     
@@ -509,12 +509,14 @@ public class StreetController {
 							String votePostContent, String voteOptionList, String votePostTitle,
 							Date endDate) {
 		
-		System.out.println("입력한 게시글 내용 : " + votePostContent);
-		System.out.println("입력한 투표 제목 : " + votePostTitle);
-		System.out.println("입력한 투표 종료일: " + endDate);
-		System.out.println("무기명 투표 중복여부: " + anonymity);
-		System.out.println("중복 투표 중복여부: " + voteLimit);
-		System.out.println("입력한 투표 : " + voteOptionList);
+		/*
+		 * System.out.println("입력한 게시글 내용 : " + votePostContent);
+		 * System.out.println("입력한 투표 제목 : " + votePostTitle);
+		 * System.out.println("입력한 투표 종료일: " + endDate);
+		 * System.out.println("무기명 투표 중복여부: " + anonymity);
+		 * System.out.println("중복 투표 중복여부: " + voteLimit);
+		 * System.out.println("입력한 투표 : " + voteOptionList);
+		 */
 		 
 		String[] voteGet = voteOptionList.split(",");
 		
@@ -550,6 +552,44 @@ public class StreetController {
 				System.out.println("투표 게시글 입력 완료");
 			}else {
 				System.out.println("투표 게시글 입력 실패");
+			}
+			
+			return  test == 1 ? true + "" : false + "";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "대댓글 입력 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+	}
+    
+ // 투표 기록용
+    @ResponseBody
+	@RequestMapping("recordVote")
+	public String recordVote(int voteNo, Model model, String checkStatus) {
+		
+		
+		  System.out.println("투표 선택지 번호: " + voteNo);
+		  System.out.println("투표 체크 상태 : " + checkStatus);
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		int streetNo = (int)model.getAttribute("streetNo");
+		
+		Vote vote = new Vote();
+		
+		vote.setMemberNo(loginMember.getMemberNo());
+		vote.setVoteNo(voteNo);
+		vote.setVoteStatus(checkStatus);
+		
+		try {
+	
+			int test = streetService.recordVote(vote);
+			
+			if ( test > 0) {
+				System.out.println("투표 기록 완료");
+			}else {
+				System.out.println("투표 기록 실패");
 			}
 			
 			return  test == 1 ? true + "" : false + "";

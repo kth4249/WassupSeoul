@@ -46,7 +46,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h2 class="modal-title nanum" id="mapModalLabel"
-										style="font-weight: bold;">지도 게시글 작성</h2>
+										style="font-weight: bold; color:black;">지도 게시글 작성</h2>
 									<button type="button" class="close" data-dismiss="modal" id="mapCloseBtn"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
