@@ -19,6 +19,7 @@ import com.kh.wassupSeoul.friends.model.service.FriendsService;
 import com.kh.wassupSeoul.friends.model.vo.ChatList;
 import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
 import com.kh.wassupSeoul.member.model.vo.Member;
+import com.kh.wassupSeoul.square.model.vo.Alarm;
 
 @SessionAttributes({"loginMember","msg"})
 @RequestMapping("/friends/*")
@@ -59,6 +60,10 @@ public class FriendsController {
 			
 			if (result>0) {
 				//System.out.println("친구추가 성공");
+				/*-----------------태훈 알람 관련 추가-------------------*/
+				Alarm alarm = new Alarm("친구 요청을 승낙하였습니다!", '4', "메신저창 오픈", myNo+"", yourNo);
+				friendsService.insertAlarm(alarm);
+				/*-----------------태훈 알람 관련 추가-------------------*/
 			} else {
 				//System.out.println("친구등록 실패");
 			}

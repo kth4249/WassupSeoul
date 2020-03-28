@@ -113,18 +113,7 @@
 							})
 						})
 						
-						function removeAlarm(alarmType, eventer) { // 알람을 확인하지 않고 골목 가입신청을 하였을 때 알람 확인상태로 변경
-							$.ajax({
-								url : "removeAlarm",
-								data : {"eventer":eventer, "alarmType":alarmType},
-								success : function() {
-									alarmView();
-								},
-								error : function() {
-									console.log("알람 삭제 ajax 실패")
-								}
-							})
-						}
+
 					</script>
 				<hr>
 				<table class="table table-hover">
@@ -213,6 +202,7 @@
 							success : function() {
 								alert("친구 신청 완료");
 								$(event.target).prop("class", "btn btn-sm btn-success disabled").text("친구 요청중");
+								sendAlarm(yourNum);
 							},
 							error : function() {
 								console.log("친구 요청 ajax 통신 실패")

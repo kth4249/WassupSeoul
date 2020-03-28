@@ -11,6 +11,7 @@ import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
 import com.kh.wassupSeoul.friends.model.vo.MSG;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.member.model.vo.Member;
+import com.kh.wassupSeoul.square.model.vo.Alarm;
 
 @Repository
 public class FriendsDAO {
@@ -276,10 +277,12 @@ public class FriendsDAO {
 
 
 
-	
+	/*-----------------태훈 알람 관련 추가-------------------*/
+	public int insertAlarm(Alarm alarm) {
+		return sqlSession.insert("memberMapper.insertAlarm", alarm);
+	}
 
-
-
+	/*-----------------태훈 알람 관련 추가-------------------*/
 
 	
 

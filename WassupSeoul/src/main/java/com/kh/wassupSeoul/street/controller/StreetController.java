@@ -1507,16 +1507,19 @@ public class StreetController {
 			
 			int original = master.getMemberNo();
 			
+			/* ---------------태훈 알람 관련 추가---------------*/
+			// 변경 전 골목대장 넘버를 가져옴.
+			int masterNo = streetService.selectMasterNo(streetNo);
 			int result = streetService.yesMaster(newNo, streetNo, original);
 			
 			if(result > 0) {
-				/* ---------------태훈 알람 관련 추가---------------*/
 				
 				String streetNm = streetService.selectStreetNm(streetNo);
-				int masterNo = streetService.selectMasterNo(streetNo);
-				Alarm alarm = new Alarm("["+streetNm+"] 골목의 골목대장으로 임명되셨습니다.", '4',
+				Alarm alarm = new Alarm("["+streetNm+"] 골목의 골목대장으로 임명되셨습니다.", '5',
 						"street/streetMain?streetNo="+streetNo, masterNo+"", newNo);
 				streetService.insertAlarm(alarm);
+				// 이전 골목 가입에 대한 알림을 새로운 골목대장이 조회할 수있도록 알람 테이블 수정
+				result = streetService.updateAlarm(masterNo, newNo);
 				
 				/* ---------------태훈 알람 관련 추가 끝---------------*/
 				model.addAttribute("msg", "위임 성공");

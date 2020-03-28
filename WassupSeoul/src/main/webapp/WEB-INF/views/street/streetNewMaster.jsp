@@ -163,8 +163,11 @@
 			} else {
 				if(!confirm("위임하시겠습니까?")){
 					return false;
+				} else {
+					console.log($("#newNo").val());
+					sendAlarm($("#newNo").val());
+					return true;
 				}
-				sock.send($("#newNo").val());
 			}
 
 		});
