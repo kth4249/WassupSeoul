@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
+import com.kh.wassupSeoul.friends.model.vo.MSG;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.member.model.vo.Member;
 
@@ -238,15 +239,40 @@ public class FriendsDAO {
 	}
 
 
+
 	/** 대화방 목록 확인용 1
 	 * @param myNo
-	 * @return cList
+	 * @return RoomNoList
 	 * @throws Exception
 	 */
-	public List<Integer> selectChatNo(int myNo) throws Exception{
-		return sqlSession.selectList("friednsMapper.selectChatNo", myNo);
+	public List<Integer> selectRoomNo(int myNo) throws Exception{
+		return sqlSession.selectList("friendsMapper.selectRoomNo", myNo);
 	}
 
+
+	/** 안읽은 메시지 카운트 확인
+	 * @param myNo
+	 * @return noReadCountList
+	 * @throws Exception
+	 */
+	public List<Integer> selectnoReadCount(List<Integer> roomNoList) throws Exception {
+		return sqlSession.selectList("friendsMapper.selectnoReadCount", roomNoList);
+	}
+
+
+	/** 방 별로 가장 마지막 메시지 확인
+	 * @param integer 
+	 * @param roomNoList
+	 * @return lastSentence (list)
+	 * @throws Exception
+	 */
+//	public List<String> lastMessage(List<Integer> roomNoList) throws Exception{
+//		return sqlSession.selectList("lastMessage", roomNoList);
+//	}
+
+	public String lastMessage (Integer integer )throws Exception{
+		return sqlSession.selectOne("lastMessage2", integer);
+	}
 
 
 

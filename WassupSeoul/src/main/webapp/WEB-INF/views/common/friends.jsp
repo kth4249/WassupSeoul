@@ -170,7 +170,7 @@
 				<div class="tab-pane fade tgl" id="chatList">
 					<div id="roomOne" class="nanum mt-3 ml-3 chatRoom">
 						<div class="roomImg" style="display: inline-block;">
-							<img src="${contextPath}/resources/img/usericon.png" width="40px"
+							<img class="cImg" src="${contextPath}/resources/img/usericon.png" width="40px"
 								height="40px" class="chatProfile" data-toggle="modal"
 								data-target="#profilePicture" style="cursor: pointer">&nbsp;
 						</div>
@@ -329,8 +329,7 @@
 								</button>
 							</div>
 							<div class="modal-body" style="text-align:center">
-								<form method="POST" action="${pageContext.request.contextPath}/friends/friendGo">
-									<input type="hidden" id="friendGo" name="memberNo" value="memberNo">
+								<form method="POST" action="">
 									<span class="nanum">친구가 됐어요!!!</span>
 								</form>
 							</div>
@@ -628,6 +627,7 @@ $(document).ready(function(){
 			data : {},
 			datatype : "json",
 			success : function(result){
+				console.log("친구요청 Ajax : " + result);
 				var $friendReq = $("#friendReq");
 				var $friendRequestArea = $("#friendRequestArea");
 				//var root = $("#profileRoot").val();
@@ -703,7 +703,6 @@ $(document).ready(function(){
 			type : "POST",
 			data : {"yourNo" : yourNo },
 			success : function(){
-				console.log("친구 거절 성공")		
 				$(".blockFriend").val(yourNo)
 			},
 			error : function(){
@@ -745,6 +744,7 @@ $(document).ready(function(){
 			data : {},
 			datatype : "json",
 			success : function(result){
+				console.log("친구목록 Ajax : " + result);
 				var $friendList = $("#friendList");
 				var $friendInfo = $("#friendInfo");
 				//var root = $("#profileRoot").val();
@@ -860,33 +860,39 @@ $(document).ready(function(){
 			data : {},
 			datatype : "json",
 			success : function(result){
+				console.log("친구대화 Ajax : " + result);
 				var $chatList = $("#chatList");
 				var $roomOne = $("#roomOne");
 				var root = "${contextPath}";
 				var $savePath = root + "/resources/profileImage/";
+				
 				if(result == null){
 					$msg = $("<span>").html("아직 채팅이 개설된 방이 없어요!");
-					$friendInfo.css("text-align","center")
-					$friendInfo.html($msg);
+					$roomOne.css("text-align","center")
+					$roomOne.html($msg);
 					
 				}else {
 					
-					$friendInfo.html("") // 기존 html 내용 삭제
+					$roomOne.html("") // 기존 html 내용 삭제
 					
 					$.each(result, function(i){
-					
-						var $finalPath = $savePath + result[i].memberProfileUrl;
+						//var $finalPath = $savePath + cList[i].memberProfileUrl;
 						
+						var $div1 = $("<div>").prop("class","roomImg").prop("style","display: inline-block");
+						//var $img = $("<img>").prop("class", "cImg").prop("src", $finalPath).css({"width":"40px","height":"40px"});
+						var $div2 = $("<div>").prop("class","roomTitle").prop("style","display: inline-block");
+						var $span1 = $("<span>");//말하는이 //스팬// 라스트메시지
+						var $span2 = $("<span>").prop("class", "badge badge-pill badge-danger float-right mr-3 mt-2");
+						var $noRead = result[i].noReadCount;
+						var $lastMessage = result[i].lastMessage;
+						var $hr = $("hr");
 						
-						
-						
-						
-						
-						
-						
-						
-						
-						var $hr = $("<hr>");
+						$span1.append($lastMessage);
+						$span2.append($noRead);
+						$div2.append($span1).append($span2)
+						$roomOne.append($div2)
+						//$roomOne.append($div1).append($div2).append($span1).append($lastMessage).append($span2).append($noRead).append($hr);
+						$chatList.append(roomOne);
 						
 						
 									
@@ -905,6 +911,42 @@ $(document).ready(function(){
 	
 	
 	
+	 ////////////////////////////////  메신저 소켓 시작해보는중.... ////////////////////////////////////
+		/* SockJS객체생성 보낼 url경로를 매개변수로 등록 */
+	 /* var sock=new SockJS("<c:url value='/echo'/>"); // 영준아 알람과 메신저 변수 이름 다르게
+	sock.onmessage=onAlarm;
+	sock.onclose=onClose;
+	var today=null; 
+
+	function sendAlarm(memberNo){
+		// 맵핑된 핸들러 객채의 handleTextMessage매소드가 실행 
+		//console.log(memberNo);
+		sock.send(memberNo);
+	
+	};
+	function onAlarm(evt){
+		var data=evt.data;//new text객체로 보내준 값을 받아옴.
+		var host=null;//메세지를 보낸 사용자 ip저장
+		//var strArray=data.split("|");//데이터 파싱처리하기
+		var userName=null;//대화명 저장
+		
+
+		//전송된 데이터 출력해보기
+		// for(var i=0;i<strArray.length;i++)
+		//{
+		//	console.log('str['+i+'] :' + strArray[i]);	 		
+		//} 
+		console.log('제대로 잘 전달받았는지 확인 : ' + data)
+		$("#alarmButton>img").prop("src", "${contextPath}/resources/img/alarmActive.png")
+		
+
+	};
+
+	function onClose(evt){
+		location.href='${pageContext.request.contextPath};';
+	};  */
+	
+	
 	
 	
 	
@@ -916,7 +958,7 @@ $(document).ready(function(){
 	 $(function(){
 		friendRequest(); 	// 친구 요청 목록
 		friendsList(); 		// 친구 목록 불러오기
-		//friendtalk();		// 대화 목록 불러오기
+		friendtalk();		// 대화 목록 불러오기
 		/* setInterval(function(){ // 갱신 주기
 			friendRequest(); 
 		}, 10000); */
