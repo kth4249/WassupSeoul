@@ -14,7 +14,7 @@
 </head>
 <style>
 
-	#addBtn, #addBtn2:hover{
+	.addBtn:hover{
 		cursor:pointer;
 	}
  </style>
@@ -27,7 +27,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h2 class="modal-title nanum" id="voteModalLabel"
-										style="font-weight: bold;">투표 게시글 작성</h2>
+										style="font-weight: bold; color:black;">투표 게시글 작성</h2>
 									<button type="button" id="voteCloseBtn" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -37,7 +37,7 @@
 									<!-- content start -->
 									<textarea class=" nanum" id="writePostArea" rows="6" placeholder="게시글내용을 입력하세요."	
 									  style="border: 1px solid black; color: black; font-size: 17px; height: 100px; padding-bottom: 20px; width:100%"></textarea>	
-									<input type="text" id="voteTitle" placeholder="투표 제목" style="width:80%; margin-left: 10px; margin-bottom:10px;"><br>	
+									<input type="text" id="voteTitle" placeholder="투표 제목" style="width:80%; margin-left: 14px; margin-bottom:10px;"><br>	
 								
 									<div style="width:100%" id="optionArea">
 									<label>1</label><input type="text" id="voteOption1" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>	
@@ -50,17 +50,17 @@
 											<div style="text-align: center; margin: auto; font-size: 20px;">
 												<img src="${contextPath}/resources/img/plus.png" alt="학습노트 추가 버튼" class="addBtn"
 													style="width: 10px; height: 10px;">
-												<span class="addBtn" >추가하기</span> <span style="size:7px; color:gray;">(최대 10개까지 가능)</span>
+												<span class="addBtn" style="color:black; font-weight:bold;" >추가하기</span> <span style="size:7px; color:gray;">(최대 10개까지 가능)</span>
 											</div>
 										</div>
 									</div>	
 		
 	
 	    							<label style="width: 130px;" ><input type='checkbox' id="anonymity " style="margin-left: 10px;" />무기명 투표</label><br>
-									<label style="width: 370px;" ><input type='checkbox' id="plurality" class='check2' style="margin-left: 10px; display: inline-block;" />복수 선택 허용</label>
+									<label style="width: 340px;" ><input type='checkbox' id="plurality" class='check2' style="margin-left: 10px; display: inline-block;" />복수 선택 허용</label>
 									
 									<span  id="repeatVote" style="width: 10%; margin-left: 400px; display: none; float:right; ">
-									<label for="vote" style="width: 90px;">복수 선택 개수:</label>
+									<label for="vote" style="width: 110px;">복수 선택 개수:</label>
 	
 									<select id="voteLimit" style="display: inline-block; " >
 									<option value="Y">제한없음</option>
@@ -71,7 +71,7 @@
 									</select>
 									</span><br>
 	
-									<label style="width: 370px;" ><input type='checkbox' id='endDate' style="margin-left: 10px; display: inline-block;" />종료일 설정</label>
+									<label style="width: 340px;" ><input type='checkbox' id='endDate' style="margin-left: 10px; display: inline-block;" />종료일 설정</label>
 									
 									<span  id="setDate" style="width: 300px; display: inline-block; float:right; visibility:hidden">
 									<input id="date" type='date' style="width: 140px;"/>
@@ -167,22 +167,21 @@
 	// 선택지창 추가 
 	$(function () {
 		
-		$(".addbtn").click(function(){
+		$(document).on("click", ".addbtn", function () {
 			
-			alert("투표 옵션은 10개까지만 추가 가능합니다.");
+			alert("투표 옵션 추가");
 			
 			var optionCount = $(".voteOption").length  // 옵션창 개수 
 			
-   		 	console.log(optionCount + 1);
+   		 		optionCount +1;
+			
+			var html = '<label>'+optionCount+'</label><input type="text" id="voteOption'+optionCount+'" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>'
    		 
-   	        if ( optionCount < 11) {
-   	        	var html = '<label>'+optionCount+'</label><input type="text" id="voteOption'+optionCount+'" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>'
-   	        	console.log("투표 모달 옵션창 추가");
-   	        	$("#optionArea").append(html);
+			$("#optionArea").append(html);
+   	       /*  if ( optionCount < 11) {
    	        }else {
    	        	alert("투표 옵션은 10개까지만 추가 가능합니다.");
-   	        }
-			
+   	        } */
 	    });
         
 	})
@@ -197,7 +196,7 @@
         }
     });
      
-	// 투표 종료일 선택창  
+	// 투표 종료일 선택창  보이기 
     $("#endDate").change(function(){
         if($("#endDate").is(":checked")){
         	$("#setDate").attr("style", "visibility:visible");

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.gson.Gson;
 import com.kh.wassupSeoul.friends.model.service.FriendsService;
+import com.kh.wassupSeoul.friends.model.vo.ChatList;
 import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
@@ -279,9 +280,8 @@ public class FriendsController {
 				produces = "application/json; charset=utf-8")
 			public String friendtalk(Model model) {
 			int myNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
-			System.out.println("대화목록 컨트롤러 도달 확인 : " + myNo);
 			try {
-				List<ChatRoom> cList = friendsService.selectRoomList(myNo);
+				List<ChatList> cList = friendsService.selectRoomList(myNo);
 				return new Gson().toJson(cList);
 				
 			} catch (Exception e) {

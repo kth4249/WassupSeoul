@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wassupSeoul.friends.model.dao.FriendsDAO;
+import com.kh.wassupSeoul.friends.model.vo.ChatList;
 import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
+import com.kh.wassupSeoul.friends.model.vo.MSG;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
@@ -156,14 +158,14 @@ public class FriendsServiceImpl implements FriendsService{
 			// 2.1) 방 번호 얻기
 			int nextRoomNo1 = friendsDAO.getChatRoom();
 			//System.out.println("nextRoomNo1 :" + nextRoomNo1);
-			nMap.put("chatNo", nextRoomNo1);
+			nMap.put("RoomNo", nextRoomNo1);
 			//System.out.println(nMap.get("chatNo"));
 			
 			// 2.2) 방 개설 하기  (2행 추가)
 			result = friendsDAO.insertChatRoom1(nMap);
 			if (result > 0) {
 				int nextRoomNo2 = friendsDAO.getChatRoom();
-				nMap.put("chatNo", nextRoomNo2);
+				nMap.put("RoomNo", nextRoomNo2);
 				result = friendsDAO.insertChatRoom2(nMap);
 				//System.out.println("2개의 방 생성 완료");
 			} else {
@@ -256,19 +258,50 @@ public class FriendsServiceImpl implements FriendsService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<ChatRoom> selectRoomList(int myNo) throws Exception {
+	public List<ChatList> selectRoomList(int myNo) throws Exception {
+
+		// 내꺼 방 번호 목록
+		List <Integer> RoomNoList = friendsDAO.selectRoomNo(myNo);  
+		//System.out.println("RoomNoList : "+ RoomNoList);
 		
-		List <Integer> chatNoList = friendsDAO.selectChatNo(myNo);
+		// 방 번호에 따른 안읽은 메시지 수
+		List <Integer> noReadMsgCount = friendsDAO.selectnoReadCount(RoomNoList);
+		//System.out.println("noReadMsgCount : " + noReadMsgCount);
 		
-		System.out.println("chatNo : "+chatNoList);
+		List <String> lastMessage = new ArrayList<String>();
+		
+		// 방 별로 마지막 메시지
+		
+		//List <String> lastMessage = friendsDAO.lastMessage(RoomNoList);
+		//System.out.println("lastSentence : " + lastMessage);
+		
+		for (int i = 0 ; i < RoomNoList.size() ; i++) {
+			String what = friendsDAO.lastMessage(RoomNoList.get(i));
+			lastMessage.add(what);
+		}
 		
 		
 		
+
+		// 얘네 담을 리스트 객체 선언
+		List <ChatList> cList = new ArrayList<ChatList>();
+		
+		for (int i = 0 ; i < RoomNoList.size() ; i++) {
+			 
+			
+			ChatList chatlist = new ChatList();
+			chatlist.setRoomNo(RoomNoList.get(i));
+			chatlist.setNoReadCount(noReadMsgCount.get(i));
+			chatlist.setLastMessage((lastMessage.get(i)));
+			
+			cList.add(chatlist);
+			
+		}
+		
+		//System.out.println("cList : " + cList);
 		
 		
-		
-		
-		return null;
+		return cList;
 	}
 
 

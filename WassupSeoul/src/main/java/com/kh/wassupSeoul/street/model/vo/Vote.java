@@ -15,6 +15,8 @@ public class Vote {
 	private String voteOtion;
 	private String anonymity;
 	private int voteNo;
+	private int memberNo;
+	private String voteStatus;
 	
 	public Vote() {
 	}
@@ -26,7 +28,7 @@ public class Vote {
 	}
 
 	public Vote(int streetNo, int boardNo, String voteTitle, String voteResult, Timestamp voteEnrollDt, Date voteEndDt,
-			String voteDup, String voteOtion, String anonymity, int voteNo) {
+			String voteDup, String voteOtion, String anonymity, int voteNo, int memberNo, String voteStatus) {
 		super();
 		this.streetNo = streetNo;
 		this.boardNo = boardNo;
@@ -38,6 +40,8 @@ public class Vote {
 		this.voteOtion = voteOtion;
 		this.anonymity = anonymity;
 		this.voteNo = voteNo;
+		this.memberNo = memberNo;
+		this.voteStatus = voteStatus;
 	}
 
 	public int getStreetNo() {
@@ -120,11 +124,28 @@ public class Vote {
 		this.voteNo = voteNo;
 	}
 
+	public int getMemberNo() {
+		return memberNo;
+	}
+
+	public void setMemberNo(int memberNo) {
+		this.memberNo = memberNo;
+	}
+
+	public String getVoteStatus() {
+		return voteStatus;
+	}
+
+	public void setVoteStatus(String voteStatus) {
+		this.voteStatus = voteStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "Vote [streetNo=" + streetNo + ", boardNo=" + boardNo + ", voteTitle=" + voteTitle + ", voteResult="
 				+ voteResult + ", voteEnrollDt=" + voteEnrollDt + ", voteEndDt=" + voteEndDt + ", voteDup=" + voteDup
-				+ ", voteOtion=" + voteOtion + ", anonymity=" + anonymity + ", voteNo=" + voteNo + "]";
+				+ ", voteOtion=" + voteOtion + ", anonymity=" + anonymity + ", voteNo=" + voteNo + ", memberNo="
+				+ memberNo + ", voteStatus=" + voteStatus + "]";
 	}
 
 }
