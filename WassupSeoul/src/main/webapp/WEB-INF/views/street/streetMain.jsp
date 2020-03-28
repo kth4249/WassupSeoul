@@ -118,7 +118,7 @@
 		</div>
 		
 		<!-- 3/27 미현 뮤직플레이어  -->
-		<div id="cp_widget_d585b800-05f5-422f-8105-1123e2322535">...</div>
+		<!-- <div id="cp_widget_d585b800-05f5-422f-8105-1123e2322535">...</div>
 		<script type="text/javascript">
 			var cpo = []; cpo["_object"] ="cp_widget_d585b800-05f5-422f-8105-1123e2322535"; 
 			cpo["_fid"] = "AQAAfqOAdxxo";
@@ -131,7 +131,7 @@
 					cp.src = "//www.cincopa.com/media-platform/runtime/libasync.js";
 			var c = document.getElementsByTagName("script")[0];
 			c.parentNode.insertBefore(cp, c); })(); 
-			</script>
+			</script> -->
 			
 	
 	</div>

@@ -1215,6 +1215,7 @@ public class StreetServiceImpl implements StreetService{
 	 * @return result
 	 * @throws Exception
 	*/
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int sendReport(Report report) throws Exception {
 		

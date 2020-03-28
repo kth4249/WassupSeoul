@@ -129,28 +129,7 @@
 
 
 			<div class="row">
-				<div class="col-md-6 offset-md-3">
-					<div class="col-md-12 nanum" style="margin: 3px auto;">
-						<div style="float: left; margin: 1px;">
-							<div
-								style="margin-left: 1px; margin-right: 1px; box-sizing: border-box;">
-								<p style="display: inline-block; margin-bottom: 1px;">활동 사진</p>
-								<div
-									style="border: 1px solid black; width: 702px; height: 402px; background-color: rgb(236, 233, 233); position: relative; cursor: pointer;"
-									id="reportImgArea">
-									<img style="width: 700px; height: 400px" id="reportImg">
-									<div
-										style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
-										id="addImgArea">
-										<img id="addImg"
-											src="${contextPath}/resources/img/camera3(64px).png"
-											style="width: 64px; height: 64px;">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 			</div>
 
 
@@ -216,6 +195,28 @@
 				<div class="col-md-6 offset-md-3">
 					<textarea class="form-control nanum" id="reportContent"
 						name="reportContent" rows="20" cols="20" style="resize: none;"></textarea>
+				</div>
+				<div class="col-md-6 offset-md-3">
+					<div class="col-md-12 nanum" style="margin: 3px auto;">
+						<div style="float: left; margin: 1px;">
+							<div
+								style="margin-left: 1px; margin-right: 1px; box-sizing: border-box;">
+								<p style="display: inline-block; margin-bottom: 1px;">활동 사진</p>
+								<div
+									style="border: 1px solid black; width: 702px; height: 402px; background-color: rgb(236, 233, 233); position: relative; cursor: pointer;"
+									id="reportImgArea">
+									<img style="width: 700px; height: 400px" id="reportImg">
+									<div
+										style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
+										id="addImgArea">
+										<img id="addImg"
+											src="${contextPath}/resources/img/camera3(64px).png"
+											style="width: 64px; height: 64px;">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="row">
