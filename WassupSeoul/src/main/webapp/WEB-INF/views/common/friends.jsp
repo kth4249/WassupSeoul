@@ -72,7 +72,7 @@
 	right: 10px;
 	z-index: 2;
 	box-sizing: border-box;
-	
+	background-color: transparent
 }
 
 #chat {

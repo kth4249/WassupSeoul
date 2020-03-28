@@ -75,7 +75,7 @@
 			          </div>
             		  <!-- 글작성 영역 -->
 		
-						<!-- 중간여백 --><div class="row" style="height: 20px; background-color: rgb(221, 233, 218);"></div>
+						<!-- 중간여백 --><div style="height: 20px;"></div>
 		
 						<!-- 게시글영역-->
 						<div class="postWrapView">
