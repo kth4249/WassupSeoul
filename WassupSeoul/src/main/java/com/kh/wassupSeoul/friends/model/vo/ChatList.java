@@ -5,16 +5,20 @@ public class ChatList {
 	int roomNo;
 	int noReadCount;
 	String lastMessage;
+	String memberNickname;
+	String memberProfileUrl;
 
 	public ChatList() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ChatList(int roomNo, int noReadCount, String lastMessage) {
+	public ChatList(int roomNo, int noReadCount, String lastMessage, String memberNickname, String memberProfileUrl) {
 		super();
 		this.roomNo = roomNo;
 		this.noReadCount = noReadCount;
 		this.lastMessage = lastMessage;
+		this.memberNickname = memberNickname;
+		this.memberProfileUrl = memberProfileUrl;
 	}
 
 	public int getRoomNo() {
@@ -41,10 +45,28 @@ public class ChatList {
 		this.lastMessage = lastMessage;
 	}
 
+	public String getMemberNickname() {
+		return memberNickname;
+	}
+
+	public void setMemberNickname(String memberNickname) {
+		this.memberNickname = memberNickname;
+	}
+
+	public String getMemberProfileUrl() {
+		return memberProfileUrl;
+	}
+
+	public void setMemberProfileUrl(String memberProfileUrl) {
+		this.memberProfileUrl = memberProfileUrl;
+	}
+
 	@Override
 	public String toString() {
-		return "ChatList [roomNo=" + roomNo + ", noReadCount=" + noReadCount + ", lastMessage=" + lastMessage + "]";
+		return "ChatList [roomNo=" + roomNo + ", noReadCount=" + noReadCount + ", lastMessage=" + lastMessage
+				+ ", memberNickname=" + memberNickname + ", memberProfileUrl=" + memberProfileUrl + "]";
 	}
+
 	
 	
 	

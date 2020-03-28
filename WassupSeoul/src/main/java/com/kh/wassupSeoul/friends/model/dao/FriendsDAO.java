@@ -267,12 +267,9 @@ public class FriendsDAO {
 	 * @return lastSentence (list)
 	 * @throws Exception
 	 */
-//	public List<String> lastMessage(List<Integer> roomNoList) throws Exception{
-//		return sqlSession.selectList("lastMessage", roomNoList);
-//	}
 
 	public String lastMessage (Integer integer )throws Exception{
-		return sqlSession.selectOne("lastMessage2", integer);
+		return sqlSession.selectOne("friendsMapper.lastMessage", integer);
 	}
 
 
@@ -280,6 +277,16 @@ public class FriendsDAO {
 	/*-----------------태훈 알람 관련 추가-------------------*/
 	public int insertAlarm(Alarm alarm) {
 		return sqlSession.insert("memberMapper.insertAlarm", alarm);
+	}
+
+
+	/**
+	 * @param mMap
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Member> selectChater(Map<String, Object> mMap) throws Exception {
+		return sqlSession.selectList("friendsMapper.selectChater", mMap);
 	}
 
 	/*-----------------태훈 알람 관련 추가-------------------*/

@@ -85,7 +85,7 @@ public interface FriendsService {
 	 * @return cList
 	 * @throws Exception
 	 */
-	List<ChatRoom> selectRoomList(int myNo) throws Exception;
+	List<ChatList> selectRoomList(int myNo) throws Exception;
 	
 	
 	/*-----------------태훈 알람 관련 추가-------------------*/

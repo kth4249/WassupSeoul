@@ -175,13 +175,14 @@
 								data-target="#profilePicture" style="cursor: pointer">&nbsp;
 						</div>
 						<div class="roomTitle" style="display: inline-block;">
-							<span>천사</span> <span class="mr-0">: 밥먹어 </span>
+							<span class="cUser1">천사</span> <span class="mr-0 cUser2">: 밥먹어 </span>
 						</div>
-						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">5</span>
+						<span class="badge badge-pill badge-danger float-right mr-3 mt-2 cUser3">5</span>
 					</div>
 					<hr>
+				</div> 
 
-					<div class="nanum ml-3 chatRoom">
+					<%-- <div class="nanum ml-3 chatRoom">
 						<div class="chatPf" style="display: inline-block;">
 							<img src="${contextPath}/resources/img/usericon.png" width="40px"
 								height="40px" class="chatProfile" data-toggle="modal"
@@ -192,8 +193,7 @@
 						</div>
 						<span class="badge badge-pill badge-danger float-right mr-3 mt-2">3</span>
 					</div>
-					<hr>
-				</div> 
+					<hr> --%>
 				<!-- 대화방 목록 끝 -->
 
 
@@ -622,7 +622,7 @@ $(document).ready(function(){
 	/* 친구 요청 목록 조회 함수 */
  	 function friendRequest(){
 		$.ajax({
-			url : "friends/friendRequest",
+			url : "${contextPath}/friends/friendRequest",
 			type : "POST",
 			data : {},
 			datatype : "json",
@@ -679,7 +679,7 @@ $(document).ready(function(){
 		var yourNo = this.value
 		
 		$.ajax({
-			url : "friends/addFriend",
+			url : "${contextPath}/friends/addFriend",
 			type : "POST",
 			data : {"yourNo" : yourNo },
 			success : function(){
@@ -703,7 +703,7 @@ $(document).ready(function(){
 		var yourNo = this.value
 		
 		$.ajax({
-			url : "friends/rejectFriend",
+			url : "${contextPath}/friends/rejectFriend",
 			type : "POST",
 			data : {"yourNo" : yourNo },
 			success : function(){
@@ -723,7 +723,7 @@ $(document).ready(function(){
 		var yourNo = this.value
 		
 		$.ajax({
-			url : "friends/blockFriend",
+			url : "${contextPath}/friends/blockFriend",
 			type : "POST",
 			data : {"yourNo" : yourNo },
 			success : function(){
@@ -743,7 +743,7 @@ $(document).ready(function(){
 
 	function friendsList(){
 		$.ajax({
-			url : "friends/friendsList",
+			url : "${contextPath}/friends/friendsList",
 			type : "POST",
 			data : {},
 			datatype : "json",
@@ -800,7 +800,7 @@ $(document).ready(function(){
 		var yourNo = this.value
 		
 		$.ajax({
-			url : "friends/friendTalk",
+			url : "${contextPath}/friends/friendTalk",
 			type : "POST",
 			data : {"yourNo" : yourNo },
 			success : function(){
@@ -820,7 +820,7 @@ $(document).ready(function(){
 		var yourNo = this.value
 		
 		$.ajax({
-			url : "friends/friendBye",
+			url : "${contextPath}/friends/friendBye",
 			type : "POST",
 			data : {"yourNo" : yourNo },
 			success : function(){
@@ -840,7 +840,7 @@ $(document).ready(function(){
 		var yourNo = this.value
 		
 		$.ajax({
-			url : "friends/blockFriendInList",
+			url : "${contextPath}/friends/blockFriendInList",
 			type : "POST",
 			data : {"yourNo" : yourNo },
 			success : function(){
@@ -859,44 +859,69 @@ $(document).ready(function(){
 
 	function friendtalk(){
 		$.ajax({
-			url : "friends/friendtalk",
+			url : "${contextPath}/friends/friendtalk",
 			type : "POST",
 			data : {},
 			datatype : "json",
 			success : function(result){
-				console.log("친구대화 Ajax : " + result);
+				console.log(result);
 				var $chatList = $("#chatList");
-				var $roomOne = $("#roomOne");
 				var root = "${contextPath}";
 				var $savePath = root + "/resources/profileImage/";
 				
 				if(result == null){
 					$msg = $("<span>").html("아직 채팅이 개설된 방이 없어요!");
-					$roomOne.css("text-align","center")
-					$roomOne.html($msg);
+					$chatList.css("text-align","center")
+					$chatList.html($msg);
 					
 				}else {
 					
-					$roomOne.html("") // 기존 html 내용 삭제
+					$chatList.html("") // 기존 html 내용 삭제
 					
 					$.each(result, function(i){
-						//var $finalPath = $savePath + cList[i].memberProfileUrl;
+						var $finalPath = $savePath + result[i].memberProfileUrl;
+						var $nickname = result[i].memberNickname;
+						var $noReadCount = result[i].noReadCount;
+						var $lastMSG = result[i].lastMessage;
+						var $div0 = $("<div>").prop("class","nanum mt-3 ml-3 chatRoom");
 						
-						var $div1 = $("<div>").prop("class","roomImg").prop("style","display: inline-block");
-						//var $img = $("<img>").prop("class", "cImg").prop("src", $finalPath).css({"width":"40px","height":"40px"});
-						var $div2 = $("<div>").prop("class","roomTitle").prop("style","display: inline-block");
-						var $span1 = $("<span>");//말하는이 //스팬// 라스트메시지
-						var $span2 = $("<span>").prop("class", "badge badge-pill badge-danger float-right mr-3 mt-2");
-						var $noRead = result[i].noReadCount;
-						var $lastMessage = result[i].lastMessage;
-						var $hr = $("hr");
+						var $divrow1 = $("<div>").prop("class", "row");
+						var $div1 = $("<div>").prop("class","roomImg col-md-2");
+						var $img = $("<img>").prop("class", "cImg").prop("src", $finalPath).css({"width":"40px","height":"40px"});
+						var $div2 = $("<div>").prop("class","roomTitle col-md-10");
+						var $span1 = $("<span>").prop("class", "cUser1");
+						var $nick = $nickname;
 						
-						$span1.append($lastMessage);
-						$span2.append($noRead);
-						$div2.append($span1).append($span2)
-						$roomOne.append($div2)
-						//$roomOne.append($div1).append($div2).append($span1).append($lastMessage).append($span2).append($noRead).append($hr);
-						$chatList.append(roomOne);
+						var $divrow2 = $("<div>").prop("class", "row");
+						var $div3 = $("<div>").prop("class","roomImg col-md-10");
+						var $span2 = $("<span>").prop("class", "cUser2");
+						var $lastMessage = $lastMSG;
+						var $div4 = $("<div>").prop("class","roomImg col-md-2");
+						var $span3 = $("<span>").prop("class", "badge badge-pill badge-danger float-right mr-3 mt-2 cUser3");
+						var $noRead = $noReadCount;
+						
+						var $hr = $("<hr>");
+						
+						$div1.append($img);
+						$span1.append($nick);
+						$div2.append($span1);
+						$divrow1.append($div1).append($div2);
+						
+						$span2.append($lastMessage);
+						$div3.append($span2);
+						$span3.append($noRead);
+						$div4.append($span3);
+						$divrow2.append($div3).append($div4);
+						
+						$div0.append($divrow1).append($divrow2);
+						
+						$chatList.append($div0).append($hr);
+						
+						
+						
+						
+						
+						
 						
 						
 									
@@ -916,8 +941,8 @@ $(document).ready(function(){
 	
 	
 	 ////////////////////////////////  메신저 소켓 시작해보는중.... ////////////////////////////////////
-		/* SockJS객체생성 보낼 url경로를 매개변수로 등록 */
-	 /* var sock=new SockJS("<c:url value='/echo'/>"); // 영준아 알람과 메신저 변수 이름 다르게
+	/* SockJS객체생성 보낼 url경로를 매개변수로 등록 */
+	/* var sock=new SockJS("<c:url value='/echo'/>"); // 영준아 알람과 메신저 변수 이름 다르게
 	sock.onmessage=onAlarm;
 	sock.onclose=onClose;
 	var today=null; 

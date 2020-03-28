@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.wassupSeoul.friends.model.dao.FriendsDAO;
 import com.kh.wassupSeoul.friends.model.vo.ChatList;
 import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
-import com.kh.wassupSeoul.friends.model.vo.MSG;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
@@ -110,7 +109,10 @@ public class FriendsServiceImpl implements FriendsService{
 			fMap.put("ffList", ffList);
 			fMap.put("myNum", myNum); 
 			fffList = friendsDAO.justFriendsList(fMap);
+		} else {
+			return null;
 		}
+		
 		
 	      return fffList;
 	}
@@ -261,7 +263,11 @@ public class FriendsServiceImpl implements FriendsService{
 	public List<ChatList> selectRoomList(int myNo) throws Exception {
 
 		// 내꺼 방 번호 목록
-		List <Integer> RoomNoList = friendsDAO.selectRoomNo(myNo);  
+		List <Integer> RoomNoList = friendsDAO.selectRoomNo(myNo);
+		
+		if (RoomNoList == null) {
+			return null;
+		}
 		//System.out.println("RoomNoList : "+ RoomNoList);
 		
 		// 방 번호에 따른 안읽은 메시지 수
@@ -271,16 +277,20 @@ public class FriendsServiceImpl implements FriendsService{
 		List <String> lastMessage = new ArrayList<String>();
 		
 		// 방 별로 마지막 메시지
-		
-		//List <String> lastMessage = friendsDAO.lastMessage(RoomNoList);
-		//System.out.println("lastSentence : " + lastMessage);
-		
 		for (int i = 0 ; i < RoomNoList.size() ; i++) {
 			String what = friendsDAO.lastMessage(RoomNoList.get(i));
 			lastMessage.add(what);
 		}
+		//System.out.println("lastSentence : " + lastMessage);
 		
+		// 상대방 정보 알아와라
+		List <Member> mList = new ArrayList<Member>();
+		Map <String, Object> mMap = new HashMap<String, Object>();
+		mMap.put("myNo", myNo);
+		mMap.put("RoomNoList", RoomNoList);
+		mList = friendsDAO.selectChater(mMap);
 		
+		//System.out.println("mList 정보 가져온나!!!!!!!!!!" + mList);
 		
 
 		// 얘네 담을 리스트 객체 선언
@@ -293,12 +303,16 @@ public class FriendsServiceImpl implements FriendsService{
 			chatlist.setRoomNo(RoomNoList.get(i));
 			chatlist.setNoReadCount(noReadMsgCount.get(i));
 			chatlist.setLastMessage((lastMessage.get(i)));
+			chatlist.setMemberNickname(mList.get(i).getMemberNickname());
+			chatlist.setMemberProfileUrl(mList.get(i).getMemberProfileUrl());
 			
 			cList.add(chatlist);
 			
 		}
 		
 		//System.out.println("cList : " + cList);
+		
+		
 		
 		
 		return cList;
