@@ -24,7 +24,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h2 class="modal-title nanum" id="devideModalLabel"
-										style="font-weight: bold;">1 / N 나누기 </h2>
+										style="font-weight: bold; color:black;">1 / N 나누기 </h2>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -42,7 +42,7 @@
 									</select>
 									<input type="text" id="originMoney" placeholder="총 금액을 입력해 주세요" style="width:80%; margin-left: 10px; margin-bottom:10px;"><br>	
 	
-									<label>1</label><input type="text" id="voteOption1" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>	
+									<label>1</label><input type="text" id="target1" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>	
 										
 									<button type="button" id="devideSubmitBtn"
 										style="width: 15%; height: 30px; font-size: 17px; float: right; margin: 0px">작성</button>
