@@ -3,6 +3,7 @@ package com.kh.wassupSeoul.friends.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.wassupSeoul.friends.model.vo.ChatList;
 import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
 import com.kh.wassupSeoul.member.model.vo.Member;
 
@@ -83,7 +84,7 @@ public interface FriendsService {
 	 * @return cList
 	 * @throws Exception
 	 */
-	List<ChatRoom> selectRoomList(int myNo) throws Exception;
+	List<ChatList> selectRoomList(int myNo) throws Exception;
 
 
 }
