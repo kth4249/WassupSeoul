@@ -23,6 +23,7 @@
 		<typeAlias type="com.kh.wassupSeoul.member.model.vo.ProfileStreet" alias="ProfileStreet"/>
 		<typeAlias type="com.kh.wassupSeoul.friends.model.vo.Relationship" alias="Relationship"/>
 		<typeAlias type="com.kh.wassupSeoul.friends.model.vo.ChatRoom" alias="ChatRoom"/>
+		<typeAlias type="com.kh.wassupSeoul.friends.model.vo.MSG" alias="MSG"/>
 		<typeAlias type="com.kh.wassupSeoul.square.model.vo.Alarm" alias="Alarm"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Calendar" alias="Calendar"/>
 		<typeAlias type="com.kh.wassupSeoul.street.model.vo.Bfile" alias="Bfile"/>

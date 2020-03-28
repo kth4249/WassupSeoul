@@ -75,7 +75,7 @@
 			          </div>
             		  <!-- 글작성 영역 -->
 		
-						<!-- 중간여백 --><div class="row" style="height: 20px; background-color: rgb(221, 233, 218);"></div>
+						<!-- 중간여백 --><div style="height: 20px;"></div>
 		
 						<!-- 게시글영역-->
 						<div class="postWrapView">
@@ -84,19 +84,49 @@
 						<!-- 게시글영역 끝-->
 					<!--회원 골목 가입 되어 있을때 -->		
 					</c:when>
+					<%-- <c:when test="${street.streetPublic eq 'Y'}">
+					<!--공개 골목 일떄 -->
+					
+						<!-- 검색Bar-->
+						<div class="row" id="searchArea" style="width: 99%; margin-left: 1px;">
+							<jsp:include page="../street/streetDetail/searchBar.jsp"/> 
+						</div>
+						<!-- 검색Bar -->
+		
+					  <!-- 글작성 영역 -->
+			          <div class="container box111" id="postArea">
+                 		<jsp:include page="../street/streetDetail/summernote.jsp"/>
+			           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
+			           <jsp:include page="../street/streetDetail/voteModal.jsp"/> 
+			           <jsp:include page="../street/streetDetail/sketchModal.jsp"/> 
+			           <jsp:include page="../street/streetDetail/devideModal.jsp"/> 
+                		<jsp:include page="../street/streetDetail/post.jsp"/>
+			          </div>
+            		  <!-- 글작성 영역 -->
+		
+						<!-- 중간여백 --><div class="row" style="height: 20px; background-color: rgb(221, 233, 218);"></div>
+		
+						<!-- 게시글영역-->
+						<div class="postWrapView">
+						<jsp:include page="../street/streetDetail/timeLine.jsp"/> 
+						</div>
+						<!-- 게시글영역 끝-->
+						
+					<!--공개 골목 일떄 -->
+					</c:when> --%>
 					<c:otherwise>  
-					<!-- 회원 골목 가입 안되어 있을때-->
+					<!-- 회원 골목 가입 안되어 있고, 비공개 골목 일떄-->
 							<div class="container box111" id="postArea">
 								<div class="postLayoutView" style="padding: 0%; height: 500px; border: solid black 1px">
 									<div class="nanum " style="font-size: 20px; text-align: center;">
 										<div style="height: 200px"></div>
-										<div class="noPostSignArea container" style="width: 50%;">
+										<div class="noPostSignArea container" style="width: 60%;">
 											<p class="noPostSign">멤버만 게시글을 볼 수 있습니다. <br> 골목에 가입해 보세요!</p>
 										</div>
 									</div>
 								</div>
 							</div>
-					<!--회원 골목 가입 되어 있을때 -->		
+					<!-- 회원 골목 가입 안되어 있고, 비공개 골목 일떄-->
 					</c:otherwise>
 				</c:choose>
 			</div>

@@ -3,6 +3,8 @@
 	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,6 +61,24 @@
 		width: 100% !important;
 	}
 	/* (3/24)미현수정 끝  */
+	
+	/* (3/28)미현수정 시작*/
+	.reCommentCount:hover{
+		cursor : pointer;
+		color : darkcyan;
+	}
+	
+	lihover:hover{
+		cursor : pointer;
+		color : white;
+		
+	}
+	
+	.commentCount:hover{
+		cursor : pointer;
+		color : darkcyan;
+	}
+	/*수정 끝*/
 	
 	
 </style>
@@ -139,22 +159,22 @@
 				<div class="postLayoutView" style="padding: 0%; border: solid #ced4da 1px">
 
 					<!-- 프로필사진, 작성자명, 날짜 -->
-					<div class="post MainWrap mb-3">
-						<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px; padding-left: 10px;">
+					<div class="post MainWrap mb-3" style="margin-top: 10px; margin-left: 10px; margin-bottom: 20px">
+						<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 40px; height: 40px; border-radius: 70%; overflow: hidden;">
 
 							 <img src="${contextPath}/resources/profileImage/${board.memberProfile}" 
 									data-toggle="modal" data-target="#writerModal" id="writerImg" class="writerImg"
-									style="width: 80%; height: auto; position: relative; top: 3px; border-radius: 50%;" name="${board.memberNo}"> 
+									style="width: 100%; height: 100%; object-fit: cover; position: relative; name="${board.memberNo}"> 
 							<%-- <img src="${contextPath}/resources/img/account.png" >  --%>
 
 						</div>
-						<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%; position: relative; top: 14px">
-							<div>
-								<p class="writerNickName" name="${board.memberNo}"
+						<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 70%; height: 100%; position: relative;">
+							<div style="width: 50% !important;">
+								<p class="writerNickName" name="${board.memberNo}" style="width: 50% !important;"
 									data-toggle="modal" data-target="#writerModal" >${board.boardWriter}</p>
 							</div>
-							<div>
-								<p>
+							<div style="width: 50% !important;">
+								<p style="width:100%">
 									<fmt:formatDate value="${board.boardWriteDt}" pattern="yyyy년 MM월 dd일 aa hh:mm" />
 								</p>
 							</div>
@@ -171,12 +191,11 @@
 										<img src="${contextPath}/resources/img/download.png"
 											style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 											id="chev">
-										<div id="postMenu" class="hide nanum" style="width: 100px; height: 60px; 
-												border: black 2px solid; background-color: white; float: right; 
-												position: relative; right: 18px; bottom: 12px;">
+										<div id="postMenu" class="hide nanum form-control" style="width: 100px; height: auto; 
+												 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
 											<ul>
-												<li><a class="deletePost" id="${board.boardNo}">글 삭제</a></li>
-												<li><a data-toggle="modal" data-target="#updateSummerModal" class="updateSummer">글 수정</a>
+												<li><a class="deletePost" id="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
+												<li><a data-toggle="modal" data-target="#updateSummerModal" class="updateSummer" style="color: #5a5a5a;" class="lihover">글 수정</a>
 												<input type="hidden" value="${board.boardNo}">
 												</li>
 												 
@@ -213,41 +232,59 @@
 								</c:when>
 								<c:when test="${board.typeNo eq '3'}">  <!-- 투표 출력 양식 -->	
 								
-								 	 ${board.boardContent}
+								 	 ${board.boardContent}  <!-- 투표 게시글 내용 -->	
 								 	 
-								 	 
-								
-								  
-									<!-- 투표 출력 양식 -->	
-										<div class="voteMainWrap nanum" style="border: 1px solid black;  height: 400px; width:100% ">
+								 <c:set var="doneLoop" value="false"/>	   <!-- 반복 제어를 위한 변수 선언 -->	
+							 	  <c:forEach var="vote" items="${vote}" varStatus="vs">
+							 	 	 <c:if test="${not doneLoop}">			  
+							 		  <c:if test="${vote.boardNo eq board.boardNo}">
+										<c:set var="doneLoop" value="true"/>  <!-- 반복 제어.  break와 같음 -->	
+									   <!-- 투표 출력 양식 -->	 
+										<div class="voteMainWrap nanum" style="border: 1px solid black;  height: 400px; width:100%; margin-top:20px;">
 											<!-- 투표 상단 제목 영역 -->	
-											<div style="height: 60px; width:100%; margin-bottom: 45px;  ">
+											<div style="height: 60px; width:100%; margin-bottom: 45px;">
 												
 												<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
 																									padding-left: 10px;">
-													<img src="${contextPath}/resources/img/politics.png" style="width: 50%; height: 60%; margin-bottom: 45px;">
+													<img src="${contextPath}/resources/img/politics.png" style="width: 30px; height: 30px; margin-bottom: 45px;">
 										
 												</div>
 												<!-- 투표 제목, 투표참여 인원 수  양식 -->	
-												<div class="profileNameArea  nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
+												<div class="profileNameArea nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
 																												position: relative; top: 14px">
+													
+													<!-- 날짜 비교를 위한 현재 날짜 출력 -->															
+													<c:set var="today" value="<%=new java.util.Date()%>"/>
+													<fmt:formatDate type="date" value="${today}" pattern="yyyy-MM-dd" var="today" />
+													<fmt:formatDate type="date" value="${vote.voteEndDt }" pattern="yyyy-MM-dd" var="voteEndDt"/>
+																												
 													<div>
-														<p style="margin-bottom: 0; display: inline-block;">투표중</p>
-														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px;">5명 참여</p>
+														<!-- 현재 날짜와 비교 후 투표 종료 여부 출력-->
+														<c:choose>
+															<c:when test="${today < voteEndDt }">  	 
+																<p style="margin-bottom: 0; display: inline-block; color:blue; font-size:14px;">투표중</p>
+															</c:when>
+															<c:otherwise>
+																<p style="margin-bottom: 0; display: inline-block; color:red; font-size:14px;">투표종료</p>
+															</c:otherwise>
+														</c:choose>
+														<!-- 현재 날짜와 비교 후 투표 종료 여부 출력-->
+														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px; font-size:14px;">5명 참여</p>
 													</div>
 													<div style="margin-bottom: 0;">
-														<p style="margin-bottom: 0;">투표제목</p>
+														<p style="margin-bottom: 0; font-size:20px; font-weigh: bold; color:black;">${vote.voteTitle}</p>
 													</div>
 													<div style="margin-bottom: 40px;">
 													
-													<%--  <c:if test="${vote.voteDup eq 'N' }">
-														<p >복수선택 불가 </p>
-													 </c:if>	
-													 <c:if test="${vote.voteDup eq 'Y' }">
-													    <p >복수선택 가능 </p>
-													 </c:if>		 --%>
-													   <p >복수선택 가능 </p>
-													</div>	
+													<c:choose>
+															<c:when test="${vote.voteDup eq 'N'}">  	 
+																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}">복수선택 불가  </p>
+															</c:when>
+															<c:otherwise>
+																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}">복수선택 가능 </p>
+															</c:otherwise>
+													</c:choose>
+												  </div>	
 												</div>	
 												<!-- 투표 제목, 투표참여 인원 수  양식 -->	
 											</div>
@@ -255,38 +292,52 @@
 											<!-- 투표  컨텐츠 영역 영역 -->
 											<div style=" height: 300px; width:100%; border: 1px solid black; border-bottom: 0; border-left: 0; border-right: 0;">
 										
-												 <c:forEach var="vote" items="${vote}" varStatus="vs">
-								 				 <c:if test="${vote.boardNo eq board.boardNo}">
+											 <c:forEach var="voteOption" items="${voteOption}" varStatus="vs">
+							 				 	<c:if test="${voteOption.boardNo eq board.boardNo}">
 												<!-- 선택지 1 -->
 												<div style="margin-top: 10px;  margin-bottom: 30px;">
-													<label style="width: 130px; margin-left: 50px;" ><input type='checkbox' style="margin-left: 10px;" />${vote.voteOtion}</label>
+													<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+													<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
+													       name="${voteOption.voteNo}" class="voteCheckBox" />${voteOption.voteOtion}</label>
+													       <!-- checked onclick="return false;" 투표 종료시 투표안되게 막음-->
 													<!-- 득표수 -->
-													<div style="margin-right: 100px; font-size: 13px; display: inline-block; float: right;"><p>3</p></div> 
+													<div style="margin-right: 100px; font-size: 13px; display: inline-block; 
+													            float: right; position: relative; top: 41px; left:10px; color:blue; font-weight:bold"><p>3</p></div> 
 													<div class="progress"  style="width:70%; margin-left: 60px;" >
 														<!-- 진행바 -->
 														<div class="progress-bar" style="width:70%; display: inline-block;"></div>
 													</div>
-													<div style="width:80%; margin-left: 60px;" >
 													<!-- 투표자 -->
-														<p >투표 참여자 : 남과여남1</p>
+													<div style="width:80%; margin-left: 60px;" >
+														<!-- 무기명 투표 체크 안했을 시 -->
+														<c:if test="${vote.anonymity eq 'N'}">
+														 	<p style="font-size:13px;" name="${vote.anonymity}">투표 참여자 : 남과여남1</p>
+														 </c:if>	
+														 <!-- 무기명 투표 체크  시 -->
+														 <c:if test="${vote.anonymity eq 'Y'}">
+														 	<p style="font-size:13px;" name="${vote.anonymity}"></p>
+														 </c:if>	
 													</div>
 												</div>
 												<!-- 선택지 1 -->
 											 	 </c:if>
-									 		     </c:forEach> 
+								 		     </c:forEach> 
 										
 											</div>
 											<!-- 투표  컨텐츠 영역 영역 -->	
 										
-										</div>
+										 </div>
 										<!-- 투표 출력 양식 -->			
-										
+										</c:if>
+									  </c:if>
+					 		        </c:forEach> 
 									
-									
-								</c:when>
-								<c:otherwise>
+								 </c:when>
+								 
+							 
+							 <c:otherwise>
 									${board.boardContent}    
-								</c:otherwise>
+							  </c:otherwise>
 							</c:choose>
 
 						</div>
@@ -370,7 +421,7 @@
 					<div class="CommentWrap" style="display: none;">
 
 						<!-- 댓글작성 -->
-						<div class="inputCommentWrap" style="border: 1px solid black;">
+						<div class="inputCommentWrap" style="border: 1px solid #ced4da;">
 
 							<div class="writePost" style="width: 80%; display: inline-block; margin-left: 3px;  height: 60px;" >
 							
@@ -396,20 +447,22 @@
 								<c:if test="${reply.boardNo eq board.boardNo}">
 									<c:if test="${reply.replyLevel eq '1'}">
 										<!-- 댓글보기 -->
-										<div style="border: 1px solid black;">
+										<div style="border: 1px solid #ced4da;">
 
-											<div style="position: relative; left: 14px; border: 0px white; width: 98%;">
-												<div class="postMainWrap" style="border-bottom: 0px; height: 80%;">
-													<div class="profile${contextPath}/resources/img/Area"
-														id="profileImgArea"
-														style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px; padding-left: 10px;">
+											<div style="left: 14px; width: 100%;">
+												<div class="postMainWrap" style="height: 80%; margin-top: 10px; margin-left: 10px; margin-bottom: 20px">
+												
+													<div class="profile${contextPath}/resources/img/Area" id="profileImgArea"
+														style="display: inline-block; width: 40px; height: 40px; border-radius: 70%; overflow: hidden;">
 														<img src="${contextPath}/resources/profileImage/${reply.memberProfile}" class="writerImg" name="${reply.memberNo}"
-															style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;" data-toggle="modal" data-target="#writerModal">
+															style="width: 100%; height: 100%; object-fit: cover; position: relative;" data-toggle="modal" data-target="#writerModal">
 													</div>
-													<div class="profileNameArea  nanum" id="profileNameArea"
-														style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%; position: relative; top: 14px; font-weight: bolder; font-size: 17px;">
-														<div>
-															<p style="margin-bottom: 0;" class="writerNickName" name="${reply.memberNo}" data-toggle="modal" data-target="#writerModal" >${reply.replyWriter}</p>
+													
+													<div class="profileNameArea nanum" id="profileNameArea"
+														style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%; font-weight: bolder; font-size: 17px;">
+														<div style="width: 50% !important;>
+															<p style="margin-bottom: 0;" class="writerNickName" style="width: 50% !important; 
+															name="${reply.memberNo}" data-toggle="modal" data-target="#writerModal" >${reply.replyWriter}</p>
 														</div>
 														<div style="margin-bottom: 0; display: inline-block;">
 															<p style="margin-bottom: 0;">
@@ -438,12 +491,12 @@
 																	<!-- 내가 좋아요 누른 게시글 활성화로 표시 -->
 																	<img class="likeBtn2 shake"
 																		src="${contextPath}/resources/img/like2.png" name="${reply.replyNo}" id="${board.boardNo}"
-																		style="width: 16px; height: 16px; position: relative; bottom: 3px; right:10px;">
+																		style="bottom: 3px; right:10px;">
 																</c:when>
 																<c:otherwise>
 																	<img class="likeBtn2 shake"
 																		src="${contextPath}/resources/img/like.png" name="${reply.replyNo}" id="${board.boardNo}"
-																		style="width: 16px; height: 16px; position: relative; bottom: 3px; right:10px;">
+																		style="bottom: 3px; right:10px;">
 																</c:otherwise>
 															</c:choose>
 															
@@ -466,20 +519,18 @@
 													</c:if>
 
 													<c:if test="${loginMember.memberNickname eq reply.replyWriter}">
-														<div
-															style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
+														<div style="display: inline-block; width: 4%; height: 50px; float: right; margin-right: 10px;">
 
 															<div>
 																<div class="optionChevron">
 																	<img src="${contextPath}/resources/img/download.png"
 																		style="width: 17px; height: 15px; position: relative; bottom: 2px; right: 7px;">
-																	<div class="hide nanum" id="postMenu2"
-																		style="width: 100px; height: 80px; border: black 2px solid; background-color: white; float: right; position: relative; right: 25px; bottom: 12px;">
+																	<div class="hide nanum form-control" id="postMenu2"
+																		style="width: 100px; height:auto;
+																		float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																		<ul>
-																			<li><a href="#" name="deletePost"
-																				style="color: black;">댓글 삭제</a></li>
-																			<li><a href="#" name="deletePost"
-																				style="color: black;">댓글 수정</a></li>
+																			<li><a href="#" name="deletePost" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
+																			<li><a href="#" name="deletePost" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																		</ul>
 																	</div>
 																</div>
@@ -491,8 +542,8 @@
 												</div>
 
 
-												<div class="commentContentWrap nanum">
-													<div style="padding-left: 10px; font-weight: bolder;">
+												<div class="commentContentWrap nanum mt-3">
+													<div style="padding-left: 47px; padding-right: 50px; font-weight: bolder; margin-bottom : 1rem;">
 														<p>${reply.replyContent}</p>
 													</div>
 												</div>
@@ -506,25 +557,30 @@
 														<c:if test="${reReply.replyLevel eq '2'}">
 															<c:if test="${reply.replyNo eq reReply.reReplyNo}">
 																<!-- 대댓글보기1 -->
-																<div style="border: px solid black; border-top: 2px solid black;">
-																	<div style="position: relative; left: 40px; border: 0px white; width: 92%;">
-																		<div class="postMainWrap" style="border-bottom: 0px">
+																<div style="border-top: 2px dashed #ced4da;">
+																	<img src="${contextPath}/resources/img/replyIcon.png" style="width:5%; float: left;
+																		margin-top: 1rem; margin-left: 5px;">
+																
+																	<div style="left: 40px; border: 0px white; width: 100%;">
+																		<div class="postMainWrap"  style="margin-top: 10px; margin-left: 10px;">
+																		
 																			<div class="profileImgArea" id="profileImgArea"
-																				style="display: inline-block; width: 10%; margin-bottom: 0px; height: 50px; padding-left: 10px;">
+																				style="display: inline-block; width: 40px; height: 40px; border-radius: 70%; overflow: hidden;">
 																				<img src="${contextPath}/resources/profileImage/${reReply.memberProfile}" class="writerImg" name="${reReply.memberNo}"
-																					style="width: 90%; height: 70%; position: relative; left: px; top: 3px; border-radius: 50%;" data-toggle="modal" data-target="#writerModal">
+																					style="width: 100%; height: 100%; object-fit: cover; position: relative; data-toggle="modal" data-target="#writerModal">
 																			</div>
-																			<div class="profileNameArea  nanum" id="profileNameArea"
-																				style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%; position: relative; top: 14px; font-weight: bolder; font-size: 17px;">
-																				<div>
-																					<p style="margin-bottom: 0;" class="writerNickName" name="${reReply.memberNo}" 
+																			<div class="profileNameArea nanum" id="profileNameArea"
+																				style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%; position: relative; font-weight: bolder; font-size: 17px;">
+																				<div style="width: 50% !important;">
+																					<p class="writerNickName" name="${reReply.memberNo}" style="width: 50% !important;"
 																						data-toggle="modal" data-target="#writerModal">${reReply.replyWriter}</p>
 																				</div>
-																				<div style="margin-bottom: 0; display: inline-block;">
+																				<div style="display: inline-block;">
 																					<p style="margin-bottom: 0;">
 																					<fmt:formatDate value="${reReply.replyDt}" pattern="yyyy년 MM월 dd일 aa hh:mm" /></p>
 																					<%-- <p style="margin-bottom: 0; font-size: 13px;">댓글${reReply.rereplyCount}</p> --%>
 																				</div>
+																				
 																				<div style="display: inline-block; width: 8%; margin-bottom: 0px; height: 100%;">
 																					
 																					<c:choose>
@@ -532,59 +588,54 @@
 																							<!-- 내가 좋아요 누른 게시글 활성화로 표시 -->
 																							<img class="likeBtn3 shake"
 																								src="${contextPath}/resources/img/like2.png" name="${reReply.replyNo}" id="${board.boardNo}"
-																								style="width: 16px; height: 16px; position: relative; bottom: 3px; left:10px;">
+																								style="width: 25px !important; height: auto; margin-left: 2rem; bottom: 3px; left:10px;">
 																						</c:when>
 																						<c:otherwise>
 																							<img class="likeBtn3 shake"
 																								src="${contextPath}/resources/img/like.png" name="${reReply.replyNo}" id="${board.boardNo}"
-																								style="width: 16px; height: 16px; position: relative; bottom: 3px; left:10px;">
+																								style="width: 25px !important; height: auto; margin-left: 2rem; bottom: 3px; left:10px;">
 																						</c:otherwise>
 																					</c:choose>
 																				</div>
 																				<c:choose>
 																					<c:when test="${reReply.reReplyThumbCount eq '0'}">
 																						<!-- 좋아요 개수 0 일때 공백처리 -->
-																						<p style="margin-bottom: 0; font-size: 13px; display: inline-block;"></p>
+																						<p style="margin-left: 1.5rem; margin-bottom: 0; font-size: 13px; display: inline-block;"></p>
 																					</c:when>
 																					<c:otherwise>
-																						<p style="margin-bottom: 0; font-size: 13px; display: inline-block;">${reReply.reReplyThumbCount}</p>
+																						<p style="margin-left: 1.5rem; margin-bottom: 0; font-size: 13px; display: inline-block;">${reReply.reReplyThumbCount}</p>
 																					</c:otherwise>
 																				</c:choose>
 
 																			</div>
+																				<!-- 3/28  미현 위치바꿈 -->
+																				<c:if test="${loginMember.memberNickname eq reReply.replyWriter}">
+																					<div style="display: inline-block; width: 4%; height: 50px; float: right; margin-right: 13px">
+																						<div class="optionChevron">
+																							<img src="${contextPath}/resources/img/download.png" style="width: 15px; height: 15px;">
+																							<div class="hide nanum form-control" id="postMenu2"
+																								style="width: 100px; height:auto; 
+																								float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
+																								<ul>
+																									<li><a href="#" name="deletePost" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
+																									<li><a href="#" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
+																								</ul>
+																							</div>
+																						</div>
+																					</div>
+																				</c:if>
+																					<!-- 끝 -->
 
 																			<c:if
 																				test="${loginMember.memberNickname ne reReply.replyWriter}">
 
 																			</c:if>
 
-																			<c:if
-																				test="${loginMember.memberNickname eq reReply.replyWriter}">
-																				<div
-																					style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
-
-																					<div>
-																						<div class="optionChevron">
-																							<img
-																								src="${contextPath}/resources/img/download.png"
-																								style="width: 17px; height: 15px; position: relative; bottom: 2px; right: 3px;">
-																							<div class="hide nanum" id="postMenu2"
-																								style="width: 100px; height: 80px; border: black 2px solid; background-color: white; float: right; position: relative; right: 21px; bottom: 12px;">
-																								<ul>
-																									<li><a href="#" name="deletePost"
-																										style="color: black;">댓글 삭제</a></li>
-																									<li><a href="#" 
-																										style="color: black;">댓글 수정</a></li>
-																								</ul>
-																							</div>
-																						</div>
-																					</div>
-
-																				</div>
-																			</c:if>
+																			
 																		</div>
 
-																		<div class="commentContentWrap nanum" style="font-weight: bolder;">
+																		<div class="commentContentWrap nanum" 
+																			style="font-weight: bolder; padding-left: 47px; padding-right: 50px; margin-bottom : 1rem; margin-top: 15px;">
 																			<p>${reReply.replyContent}</p>
 																		</div>
 																	</div>
@@ -598,17 +649,16 @@
 												<c:if test="${empty reReply}">
 												</c:if>
 												<!-- 대댓글작성 -->
-												<div class="inputCommentWrap"
-													style="border: 1px solid black;">
+												<div class="inputCommentWrap" style="border-top: 1px solid #ced4da;">
 
-													<div class="writePost"
-														style="width: 80%; display: inline-block; margin-left: 3px;">
-														<textarea class="writeCommentArea2 nanum" id="writeCommentAreaStyle" rows="1"
+													<div class="writePost" style="width: 80%; display: inline-block; margin-left: 3px;">
+														<textarea class="writeCommentArea2 nanum" id="writeCommentAreaStyle" rows="2"
 															style="border-left: none;" placeholder="댓글을 작성해 보세요"></textarea>
 													</div>
 													<div style="width: 20%; display: inline-block; position: absolute;">
-														<button type="submit" class="btn nanum reCommentBtn" id="${board.boardNo}" name="${reply.replyNo}" style="width: 100%; font-size: 18px; font-weight: 
-																bolder; position: relative; left: 10px; bottom: 7px"  >작성</button>
+														<button type="submit" class="btn btn-secondary nanum reCommentBtn" id="${board.boardNo}" name="${reply.replyNo}" 
+														style="width: 50%; font-size: 15px; font-weight: bolder; left: 10px;
+														margin-top: 11px; float:right; margin-right:20px">작성</button>
 													</div>
 												</div>
 												<!-- 대댓글작성 -->
@@ -630,12 +680,66 @@
 			</div>
 			<!-- 게시글1 끝-->
 
-			<div class="row"
-				style="height: 20px; background-color: rgb(221, 233, 218); z-index: -5;"></div>
+			<div style="height: 20px; z-index: -5;"></div>
 			<!-- 게시글1 후 여백-->
 
 		</c:forEach>
 	</c:if>
 	
+	
+	
+	<script>
+	/* 투표 참여 반영용 Ajax */
+	$(document).ready(function(){
+	    $(".voteCheckBox").change(function(){
+	    	// 체크상태
+	    	var checkStatus = "N";
+	    	// 선택지 번호
+	    	var voteNo = $(this).attr("name");  
+	    	// 복수 선택 여부, 개수
+	    	var voteDup = $(this).parent().parent().prev("div").find(".voteDup").attr("name");
+	    	// 무기명 여부
+	    	var anonymity = $(this).next().next().next().find("p").attr("name");
+	    	// 무기명시 Y   무기명 아닐시 N
+	    	
+	    	// 진행막대
+	    	var progressBar = $(this).next().next().find("progress-bar");
+	    	//wholeP = (int)((double)pBar.getSolvedQuestion()/pBar.getWholeQuestion()*100);
+	    	
+	    	console.log("선택지 개수 : " + optionCount);
+	    	
+	        if($(".voteCheckBox").is(":checked")){   // 체크박스 체크시
+	        	checkStatus = "Y";
+	        	alert("체크박스 체크했음!");
+	        }else{ // 체크박스 체크해제시 
+	        	checkStatus = "N";
+	            alert("체크박스 체크 해제!");
+	        }
+	        
+	        // 투표 기록용 Ajax
+	        $.ajax({
+    			url : "recordVote",
+    			data : {"voteNo" : voteNo, "checkStatus" : checkStatus },
+    			type : "post",
+    			success : function(result) {
+    				
+    				if (result == "true") {
+    					alert("투표 기록 성공  투표 감사합니다");
+    				} else {
+    					alert("투표 기록 실패");
+    				}
+    			},
+    			error : function(e) {
+    			console.log("ajax 통신 실패");
+    			console.log(e);
+    			}
+    		});
+           
+	    });
+	});
+	/* 투표 참여 반영용 Ajax */
+	
+	
+	</script>
 </body>
 </html>

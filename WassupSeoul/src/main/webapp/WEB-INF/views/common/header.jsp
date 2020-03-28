@@ -100,7 +100,10 @@ object-fit: cover;
 			</div>
 			<!-- ------------------------------태훈 추가-------------------------------->
 			<script>
-				$("#alarmButton").on("click", alarmView());
+				//$("#alarmButton").on("click", alarmView());
+				$(function(){
+					alarmView();
+				})
 				
 				function alarmView(){
 					$.ajax({
@@ -118,12 +121,22 @@ object-fit: cover;
 								$("#alarmButton>img").prop("src", "${contextPath}/resources/img/alarmActive.png")
 								$.each(alList, function(index, item){
 									//console.log(alList[index])
-									if(item.alarmType == 1){
+/* 									if(item.alarmType == 1){
 										var $alDiv = $("<div>").prop("class", "dropdown-item nanum joinCheck");
 									} else if(item.alarmType == 2){
 										var $alDiv = $("<div>").prop("class", "dropdown-item nanum goStreet");
 									} else if(item.alarmType == 3){
 										var $alDiv = $("<div>").prop("class", "dropdown-item nanum openMessenger");
+									} else if(item.alarmType == 5){
+										var $alDiv = $("<div>").prop("class", "dropdown-item nanum goStreet");
+									} */
+									switch(item.alarmType){
+									case '1' : var $alDiv = $("<div>").prop("class", "dropdown-item nanum joinCheck"); break;
+									case '2' : var $alDiv = $("<div>").prop("class", "dropdown-item nanum goStreet"); break;
+									case '3' : var $alDiv = $("<div>").prop("class", "dropdown-item nanum openMessenger"); break;
+									case '4' : var $alDiv = $("<div>").prop("class", "dropdown-item nanum openFriendList"); break;
+									case '5' : var $alDiv = $("<div>").prop("class", "dropdown-item nanum goStreet"); break;
+									default : 
 									}
 									var $alUrl = $("<input>").prop("type", "hidden").val(item.alarmAddr);
 									var $alNo = $("<input>").prop("type", "hidden").val(item.alarmNo)
@@ -181,6 +194,18 @@ object-fit: cover;
 					$(".tabBox ul").children().last().children("a").click();
 					checkAlarm(this.childNodes[1].value)
 					alarmView();
+					friendRequest();
+					friendsList();
+				})
+				
+				$(document).on("click", ".openFriendList", function(){
+					$('.container2').show(200);
+					iconStatus = false;
+					$(".tabBox ul").children().first().children("a").click();
+					checkAlarm(this.childNodes[1].value)
+					alarmView();
+					friendRequest();
+					friendsList();
 				})
 				
 				function checkAlarm(alarmNo) { // 알람 확인 체크용 function
@@ -189,8 +214,23 @@ object-fit: cover;
 						url : "${contextPath}/square/checkAlarm",
 						data : {"alarmNo":alarmNo}
 					})
+					alarmView();
 				}
 				
+				
+				function removeAlarm(alarmType, eventer) { // 알람을 확인하지 않고 골목 가입신청을 하였을 때 알람 확인상태로 변경
+					$.ajax({
+						url : "${contextPath}/street/removeAlarm",
+						data : {"eventer":eventer, "alarmType":alarmType},
+						success : function() {
+							console.log("알람 삭제 ajax");
+							alarmView();
+						},
+						error : function() {
+							console.log("알람 삭제 ajax 실패")
+						}
+					})
+				}
 			</script>
 			<div class="dropdown">
 				<div class="dropdown-toggle headerImg" type="button"
@@ -699,7 +739,7 @@ object-fit: cover;
 			} */
 			console.log('제대로 잘 전달받았는지 확인 : ' + data)
 			$("#alarmButton>img").prop("src", "${contextPath}/resources/img/alarmActive.png")
-			
+			alarmView();
 	
 		};
 	

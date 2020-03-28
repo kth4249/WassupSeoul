@@ -307,8 +307,35 @@ public class StreetDAO {
 	public List<Vote> selectVoteOption(Integer streetNo) throws Exception {
 		return sqlSession.selectList("streetMapper.selectVoteOption", streetNo);
 	}
+	
+	/** 투표 기록 조회용 DAO
+	 * @param vote
+	 * @return result
+	 * @throws Exception
+	 */
+	public String checkVoteRecord(Vote vote) throws Exception{
+		return sqlSession.selectOne("streetMapper.checkVoteRecord", vote);
+	}
+	
+	/** 투표 기록용 DAO
+	 * @param vote
+	 * @return result
+	 * @throws Exception
+	 */
+	public int recordVote(Vote vote) throws Exception {
+		return sqlSession.insert("streetMapper.recordVote", vote);
+	}
+	
+	/** 투표 기록 UPDATE 용 DAO
+	 * @param vote
+	 * @return result
+	 * @throws Exception
+	 */
+	public int updateVoteRecord(Vote vote) throws Exception {
+		return sqlSession.update("streetMapper.updateVoteRecord", vote);
+	}
 
-
+	
 	// -------------------------------------------- 중하 끝
 	// ---------------------------------------------
 
@@ -540,6 +567,15 @@ public class StreetDAO {
 	
 	public int modifyRelation(Relationship addRelation) {
 		return sqlSession.update("friendsMapper.modifyRelation", addRelation);
+	}
+	
+	public int updateAlarm1(Map<String, Object> map) {
+		return sqlSession.update("friendsMapper.updateAlarm1", map);
+	}
+	
+	
+	public void updateAlarm2(Map<String, Object> map) {
+		sqlSession.update("friendsMapper.updateAlarm2", map);
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
@@ -947,7 +983,7 @@ public class StreetDAO {
 		
 		return sqlSession.insert("streetMapper.insertReport", report);
 	}
-	
+
 	
 	
 	/*======================= 지원 활동보고서 끝==============================*/

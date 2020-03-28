@@ -108,6 +108,8 @@
 		<result property="voteOtion" column="VOTE_CONTENT"/>
 		<result property="anonymity" column="VOTE_ANONYMITY"/>
 		<result property="streetNo" column="STREET_NO"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="voteStatus" column="VOTE_STATUS"/>
 		
 	</resultMap>
 	
@@ -380,10 +382,28 @@
 	 
 	<!-- 투표 게시글 선택지 조회용  --> 
 	<select id="selectVoteOption" parameterType="_int" resultMap="voteResultSet">
-	
 		SELECT * FROM V_VOTE WHERE STREET_NO = #{streetNo}
-	
   	</select> 
+  	
+  	<!-- 투표 게시글 선택지 투표여부 조회용  --> 
+  	<select id="checkVoteRecord" parameterType="vote" resultType="string">
+		SELECT  VOTE_STATUS
+
+		FROM(SELECT BOARD_NO, VOTE_NO, VOTE_STATUS, MEMBER_NO  FROM VOTE_PICK
+		     LEFT OUTER JOIN (SELECT VOTE_NO, VOTE_STATUS, MEMBER_NO  FROM VOTER WHERE MEMBER_NO=#{memberNo} ) USING(VOTE_NO))
+
+		WHERE VOTE_NO=#{voteNo}
+  	</select> 
+  	
+  	<!-- 투표 게시글 선택지 투표여부  등록용   -->
+  	<insert id="recordVote" parameterType="vote">
+  		INSERT INTO VOTER VALUES(#{voteNo}, #{memberNo},'Y')
+  	</insert>
+  	
+  	 <!--투표 게시글 선택지 투표여부  수정용 -->
+  	 <update id="updateVoteRecord"  parameterType="vote" >
+		UPDATE VOTER SET VOTE_STATUS = #{voteStatus} WHERE VOTE_NO=#{voteNo} AND MEMBER_NO=#{memberNo}
+	</update>
   	
   <!--  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중하   끝  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
   	

@@ -32,7 +32,7 @@
     <interceptors>
         <interceptor>
             <mapping path="/street/streetMain"/>
-            <mapping path="/street/streetInsert"/>
+            <!-- <mapping path="/street/streetInsert"/> -->
             <mapping path="/street/recommendFriend"/>
             <mapping path="/street/juminList"/>
             <mapping path="/street/calendar"/>
