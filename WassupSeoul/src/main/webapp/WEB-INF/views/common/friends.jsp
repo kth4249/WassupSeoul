@@ -683,7 +683,11 @@ $(document).ready(function(){
 			type : "POST",
 			data : {"yourNo" : yourNo },
 			success : function(){
-				//console.log("친구 수락 성공")			
+				//console.log("친구 수락 성공")
+				/* aaaaaaaaaaaaaaaaa알람 관련 추가aaaaaaaaaaaaaaaaa */
+				sendAlarm(yourNo);
+				removeAlarm("3", yourNo);
+				/* aaaaaaaaaaaaaaaaa알람 관련 추가aaaaaaaaaaaaaaaaa */
 			},
 			error : function(){
 				//console.log("친구 수락하는 aJax 실패");

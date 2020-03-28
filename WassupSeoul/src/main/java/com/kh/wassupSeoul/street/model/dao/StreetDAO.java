@@ -542,6 +542,15 @@ public class StreetDAO {
 		return sqlSession.update("friendsMapper.modifyRelation", addRelation);
 	}
 	
+	public int updateAlarm1(Map<String, Object> map) {
+		return sqlSession.update("friendsMapper.updateAlarm1", map);
+	}
+	
+	
+	public void updateAlarm2(Map<String, Object> map) {
+		sqlSession.update("friendsMapper.updateAlarm2", map);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 
 	/* 지원 골목 수정 시작 */

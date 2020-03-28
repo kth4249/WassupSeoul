@@ -75,6 +75,24 @@
  	SET REQUEST_STATUS = #{requestStatus}
  	WHERE MY_NO = #{myNum} AND YOUR_NO = #{yourNum}
  </update>
+ 
+ 
+ <!-- 골목대장 변경 시 골목가입 요청 알림 변경 -->
+ <update id="updateAlarm1" parameterType="map">
+ 	UPDATE ALARM
+ 	SET MEMBER_NO = #{newMaster}
+ 	WHERE MEMBER_NO = #{master}
+ 	AND ALARM_TYPE = #{alarmType}
+ </update>
+ 
+ <!-- 골목대장 변경 시 골목가입 승인  알림 변경 -->
+  <update id="updateAlarm2" parameterType="map">
+ 	UPDATE ALARM
+ 	SET EVENTER = #{newMaster}
+ 	WHERE EVENTER = #{master}
+ 	AND ALARM_TYPE = #{alarmType}
+ </update>
+ 
 
 <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 태훈 끝 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  -->
 

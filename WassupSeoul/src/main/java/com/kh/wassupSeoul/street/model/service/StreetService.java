@@ -278,7 +278,7 @@ public interface StreetService {
 	public abstract int selectMasterNo(int streetNo);
 
 
-	/** 가입신청 알람 삽입용 Service(알림)
+	/** 알람 삽입용 Service(알림)
 	 * @param alarm
 	 * @return result
 	 */
@@ -302,6 +302,14 @@ public interface StreetService {
 	
 	
 	public abstract void removeAlarm(Map<String, Object> map);
+	
+	
+	/** 골목대장 변경 시 골목 가입 신청/수락에 대한 알람 변경
+	 * @param masterNo
+	 * @param newNo
+	 * @return result
+	 */
+	public abstract int updateAlarm(int masterNo, Integer newNo);
 
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

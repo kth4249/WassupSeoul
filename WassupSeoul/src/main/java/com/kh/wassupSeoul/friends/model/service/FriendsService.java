@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
 import com.kh.wassupSeoul.member.model.vo.Member;
+import com.kh.wassupSeoul.square.model.vo.Alarm;
 
 public interface FriendsService {
 
@@ -84,6 +85,10 @@ public interface FriendsService {
 	 * @throws Exception
 	 */
 	List<ChatRoom> selectRoomList(int myNo) throws Exception;
-
-
+	
+	
+	/*-----------------태훈 알람 관련 추가-------------------*/
+	int insertAlarm(Alarm alarm);
+	
+	
 }
