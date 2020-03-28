@@ -6,16 +6,22 @@ public class ChatRoom {
 	String chatStatus;
 	int myNo;
 	int yourNo;
+	int roomNo;
 	
 	public ChatRoom() {}
+	
+	
 
-	public ChatRoom(int chatNo, String chatStatus, int myNo, int yourNo) {
+	public ChatRoom(int chatNo, String chatStatus, int myNo, int yourNo, int roomNo) {
 		super();
 		this.chatNo = chatNo;
 		this.chatStatus = chatStatus;
 		this.myNo = myNo;
 		this.yourNo = yourNo;
+		this.roomNo = roomNo;
 	}
+
+
 
 	public int getChatNo() {
 		return chatNo;
@@ -49,11 +55,21 @@ public class ChatRoom {
 		this.yourNo = yourNo;
 	}
 
+	public int getRoomNo() {
+		return roomNo;
+	}
+
+	public void setRoomNo(int roomNo) {
+		this.roomNo = roomNo;
+	}
+
 	@Override
 	public String toString() {
 		return "ChatRoom [chatNo=" + chatNo + ", chatStatus=" + chatStatus + ", myNo=" + myNo + ", yourNo=" + yourNo
-				+ "]";
+				+ ", roomNo=" + roomNo + "]";
 	}
+
+	
 	
 	
 	

@@ -28,7 +28,18 @@
    		<result property="chatStatus" column="CHAT_STATUS"/>
 		<result property="myNo" column="MY_NO"/>
 		<result property="yourNo" column="YOUR_NO"/>
+		<result property="roomNo" column="ROOM_NO"/>
 	</resultMap>
+	
+	<resultMap type="MSG" id="MSGResultSet">
+		<id property="msgNo" column="MSG_NO"/>
+   		<result property="msgContent" column="MSG_STATUS"/>
+   		<result property="msgStatus" column="MSG_STATUS"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="roomNo" column="ROOM_NO"/>
+	</resultMap>
+	
+	
 
 	
 
@@ -54,7 +65,7 @@
 		AND REQUEST_STATUS = 1
 	</where>
 </select>
-<!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 태훈 시작 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  -->
+<!-- @@@@@@@@@@@@@@@ 태훈 시작 @@@@@@@@@@@@@@@  -->
 <!-- 친구요청 (태훈)-->
  <insert id="addRelation" parameterType="Relationship">
  	INSERT INTO RELATIONSHIP
@@ -76,7 +87,7 @@
  	WHERE MY_NO = #{myNum} AND YOUR_NO = #{yourNum}
  </update>
 
-<!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 태훈 끝 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  -->
+<!-- @@@@@@@@@@@@@@@  태훈 끝   @@@@@@@@@@@@@@@  -->
 
 <!-- 친구 추가 1--> 
  <update id="addFriend" parameterType="map">
@@ -211,18 +222,18 @@
 
 <!-- 2.1) 방 번호 받기 -->
 <select id = "getChatRoom" resultType="_int">
-	SELECT SEQ_CHAT.NEXTVAL FROM DUAL 
+	SELECT SEQ_ROOM.NEXTVAL FROM DUAL 
 </select> 
 
 <!-- 2.2) 방 신설 하기 -->
 <insert id = "insertChatRoom1" parameterType="map">
 	INSERT INTO CHAT VALUES
-	(#{chatNo}, DEFAULT, #{myNo}, #{yourNo})
+	(SEQ_CHAT.NEXTVAL,#{RoomNo}, DEFAULT, #{myNo}, #{yourNo})
 </insert>
 
 <insert id = "insertChatRoom2" parameterType="map">
 	INSERT INTO CHAT VALUES
-	(#{chatNo}, DEFAULT, #{yourNo}, #{myNo})
+	(SEQ_CHAT.NEXTVAL,#{RoomNo}, DEFAULT, #{yourNo}, #{myNo})
 </insert>
 
 
@@ -245,24 +256,45 @@
 <!--  <<<<<<<<<<<<<<<<<<<<대화방 진입 >>>>>>>>>>>>>>>>>    -->
 
 
+<!-- 내가 속한 방 번호 출력 -->
+<select id = "selectRoomNo" parameterType="_int" resultType="_int">
+	SELECT distinct ROOM_NO FROM CHAT
+	WHERE CHAT_STATUS = 'Y'
+	AND (MY_NO = #{myNo} or YOUR_NO = #{myNo})
+	ORDER BY ROOM_NO
+</select>
+
+<!-- 해당 방에서 안읽은 번호의 수 -->
+<select id = "selectnoReadCount" parameterType="list" resultType="_int">
+		SELECT COUNT(*) FROM MSG
+		WHERE ROOM_NO IN 
+		<foreach item="roomNo" collection="list" open="(" separator="," close=")">
+			 	#{roomNo}
+		</foreach>
+		AND MSG_STATUS = 'N'
+		GROUP BY ROOM_NO
+		ORDER BY ROOM_NO
+</select>
 
 
-
-<select id = "selectChatNo" parameterType="_int" resultType="_int">
-	SELECT CHAT_NO FROM CHAT
-	JOIN MSG USING (CHAT_NO)
-	<where>
-		<if test="CHAT_STATUS == Y">
-			<foreach collection="_int" open="(" separator="," close=")" item="street" >
-			AND (MY_NO = #{myNo} or YOUR_NO = #{myNo})
-			</foreach>
-		</if>
-	</where>
+<!-- 해당 방에서 가장 마지막 메시지 조회 -->
+<select id ="lastMessage" parameterType="list" resultType="string">
+	SELECT MSG_CONTENT FROM MSG
+	WHERE ROOM_NO IN
+ 	<foreach item="roomNo" collection="list" open="(" separator="," close=")">
+	 	#{roomNo}
+	</foreach>
+	ORDER BY ROOM_NO
 </select>
 
 
 
-
+<select id ="lastMessage2" parameterType="_int" resultType="string">
+	SELECT MSG_CONTENT FROM MSG
+	WHERE ROOM_NO = #{roomNo}
+	AND MSG_NO = (SELECT max(MSG_NO) FROM MSG
+                        WHERE ROOM_NO = #{roomNo})
+</select>
 
  
  
