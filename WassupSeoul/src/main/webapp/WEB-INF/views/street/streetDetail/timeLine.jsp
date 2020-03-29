@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
 
 <title>타임라인 게시글 영역</title>
 </head>
@@ -75,36 +76,27 @@
 	}
 	
 	.commentCount:hover{
-		cursor : pointer;
+		cursor : pointer;getElementsByClassName
 		color : darkcyan;
 	}
 	/*수정 끝*/
 	
-	
+     	
 </style>
 <body>
-	 <!-- <script>
-      function initMap() {
-    	 var geocoder = new google.maps.Geocoder;  
-        var map2 = new google.maps.Map(document.getElementByClassName('map'), {
+	  <!-- <script>
+      function initMap2() {
+    	var geocoder = new google.maps.Geocoder;  
+        var map2 = new google.maps.Map(document.getElementsByClassName('boardMap'), {
           zoom: 15,
           center: {lat: 37.5724723, lng: 126.9737442}
         });
-          geocodeAddress(geocoder, map2);
-          
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: {lat: 37.5724723, lng: 126.9737442}
-         });
-
-          document.getElementById('mapSubmit').addEventListener('click', function() {
-            geocodeAddress(geocoder, map);
-          });  
+       		 geocodeAddress(geocoder, map2);
       }
 
       function geocodeAddress(geocoder, resultsMap) {
-    	var address =  $(".map").attr("name");
-        geocoder.geocode({'address': address}, function(results, status) {
+    	var address2 =  $(".boardMap").attr("name");
+        geocoder.geocode({'address': address2}, function(results, status) {
           if (status === 'OK') {
         	  var coords = results[0].geometry.location;
             	resultsMap.setCenter(coords);
@@ -117,7 +109,7 @@
           }
         });
       }
-    </script>   -->
+    </script>     -->
 
 	<c:if test="${empty board }">
 
@@ -150,10 +142,29 @@
 		});
 		/* 미현 고침!!  */
 	</script>
-		<!-- 게시물 있을때 -->
+	<!-- 게시물 있을때 -->
 	<c:if test="${!empty board}">
 		<c:forEach var="board" items="${board}" varStatus="vs">
-
+		
+			<c:choose>
+				<c:when test="${board.boardNo eq '0'}">  
+					<!-- 게시물 검색결과 없을때  -->
+						<div class="container box111" id="postArea">
+						<div class="postLayoutView" style="height: 500px; border: solid black 1px">
+							<div class="nanum " style="font-size: 20px; text-align: center;">
+								<div style="height: 200px"></div>
+								<div class="noPostSignArea container" style="width: 50%;">
+									<p class="noPostSign">
+										게시물 검색결과가 없습니다. <br>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 게시물 검색결과 없을때  -->	
+				</c:when>
+				<c:otherwise>
+			
 			<!-- 게시글1-->
 			<div class="container box111" id="postArea">
 				<div class="postLayoutView" style="padding: 0%; border: solid #ced4da 1px">
@@ -173,7 +184,7 @@
 								<p class="writerNickName" name="${board.memberNo}" style="width: 50% !important;"
 									data-toggle="modal" data-target="#writerModal" >${board.boardWriter}</p>
 							</div>
-							<div style="width: 50% !important;">
+							<div style="width: 60% !important;">
 								<p style="width:100%">
 									<fmt:formatDate value="${board.boardWriteDt}" pattern="yyyy년 MM월 dd일 aa hh:mm" />
 								</p>
@@ -221,7 +232,7 @@
 								<c:when test="${board.typeNo eq '6'}">  <!-- 지도 출력 양식 -->	 
 								
 									${board.boardContent}    
-									${board.mapAddress} 
+									 <div class="map" style="width:350px;height:200px;" name="${board.mapAddress}"></div>
 									
 								</c:when>
 								<c:when test="${board.typeNo eq '5'}">  <!-- 스케치 출력 양식 -->	
@@ -240,7 +251,7 @@
 							 		  <c:if test="${vote.boardNo eq board.boardNo}">
 										<c:set var="doneLoop" value="true"/>  <!-- 반복 제어.  break와 같음 -->	
 									   <!-- 투표 출력 양식 -->	 
-										<div class="voteMainWrap nanum" style="border: 1px solid black;  height: 400px; width:100%; margin-top:20px;">
+										<div class="voteMainWrap nanum" style="border: 1px solid #ced4da;  height: 400px; width:100%; margin-top:20px;">
 											<!-- 투표 상단 제목 영역 -->	
 											<div style="height: 60px; width:100%; margin-bottom: 45px;">
 												
@@ -290,16 +301,29 @@
 											</div>
 										
 											<!-- 투표  컨텐츠 영역 영역 -->
-											<div style=" height: 300px; width:100%; border: 1px solid black; border-bottom: 0; border-left: 0; border-right: 0;">
+											<div style=" height: 300px; width:100%; border: 1px solid #ced4da; border-bottom: 0; border-left: 0; border-right: 0;">
 										
 											 <c:forEach var="voteOption" items="${voteOption}" varStatus="vs">
 							 				 	<c:if test="${voteOption.boardNo eq board.boardNo}">
 												<!-- 선택지 1 -->
 												<div style="margin-top: 10px;  margin-bottom: 30px;">
-													<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
-													<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
-													       name="${voteOption.voteNo}" class="voteCheckBox" />${voteOption.voteOtion}</label>
-													       <!-- checked onclick="return false;" 투표 종료시 투표안되게 막음-->
+												
+													<c:choose>
+															<c:when test="${vote.voteStatus eq 'Y'}">  	 
+																<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
+																       name="${voteOption.voteNo}" class="voteCheckBox" checked />${voteOption.voteOtion}</label>
+																       <!-- checked onclick="return false;" 투표 종료시 투표안되게 막음-->
+															</c:when>
+															<c:otherwise>
+																<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
+																       name="${voteOption.voteNo}" class="voteCheckBox" />${voteOption.voteOtion}</label>
+																       <!-- checked onclick="return false;" 투표 종료시 투표안되게 막음-->
+															</c:otherwise>
+													</c:choose>
+												
+													
 													<!-- 득표수 -->
 													<div style="margin-right: 100px; font-size: 13px; display: inline-block; 
 													            float: right; position: relative; top: 41px; left:10px; color:blue; font-weight:bold"><p>3</p></div> 
@@ -386,7 +410,7 @@
 
 						<div style="height: 100%; float: right;" class="mr-2">
 							<button type="submit" class="btn nanum"
-								style="padding: 0px; position: relative; bottom: 4px;">
+								style="padding: 0px; position: relative; bottom: 4px; right:5px;">
 								<c:choose>
 									<c:when test="${board.thumbStatus eq 'Y'}">
 										<!-- 내가 좋아요 누른 게시글 활성화로 표시 -->
@@ -460,8 +484,8 @@
 													
 													<div class="profileNameArea nanum" id="profileNameArea"
 														style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%; font-weight: bolder; font-size: 17px;">
-														<div style="width: 50% !important;>
-															<p style="margin-bottom: 0;" class="writerNickName" style="width: 50% !important; 
+														<div style="width: 50% !important;">
+															<p style="margin-bottom: 0;" class="writerNickName" style="width: 50% !important;" 
 															name="${reply.memberNo}" data-toggle="modal" data-target="#writerModal" >${reply.replyWriter}</p>
 														</div>
 														<div style="margin-bottom: 0; display: inline-block;">
@@ -682,7 +706,9 @@
 
 			<div style="height: 20px; z-index: -5;"></div>
 			<!-- 게시글1 후 여백-->
-
+				</c:otherwise>
+			</c:choose>
+		
 		</c:forEach>
 	</c:if>
 	
@@ -692,29 +718,37 @@
 	/* 투표 참여 반영용 Ajax */
 	$(document).ready(function(){
 	    $(".voteCheckBox").change(function(){
-	    	// 체크상태
-	    	var checkStatus = "N";
 	    	// 선택지 번호
 	    	var voteNo = $(this).attr("name");  
+	    	
+	    	alert(voteNo);
 	    	// 복수 선택 여부, 개수
-	    	var voteDup = $(this).parent().parent().prev("div").find(".voteDup").attr("name");
+	    	var voteDup = $(this).parent().parent().prev("div" > ".voteDup" ).attr("name");
+	    	
+	    	alert(voteDup);
 	    	// 무기명 여부
 	    	var anonymity = $(this).next().next().next().find("p").attr("name");
 	    	// 무기명시 Y   무기명 아닐시 N
 	    	
-	    	// 진행막대
-	    	var progressBar = $(this).next().next().find("progress-bar");
-	    	//wholeP = (int)((double)pBar.getSolvedQuestion()/pBar.getWholeQuestion()*100);
+	    	var checkStatus = "Y";
 	    	
-	    	console.log("선택지 개수 : " + optionCount);
+	    	alert(anonymity);
 	    	
 	        if($(".voteCheckBox").is(":checked")){   // 체크박스 체크시
-	        	checkStatus = "Y";
+	        	// 체크상태
+		    	
+		    	// 진행막대
+		    	//var progressBar = $(this).next().next().find("progress-bar");
+		    	//wholeP = (int)((double)pBar.getSolvedQuestion()/pBar.getWholeQuestion()*100);
+		    	
 	        	alert("체크박스 체크했음!");
+	        	 
 	        }else{ // 체크박스 체크해제시 
 	        	checkStatus = "N";
 	            alert("체크박스 체크 해제!");
 	        }
+	        
+	        alert(checkStatus);
 	        
 	        // 투표 기록용 Ajax
 	        $.ajax({
@@ -734,7 +768,6 @@
     			console.log(e);
     			}
     		});
-           
 	    });
 	});
 	/* 투표 참여 반영용 Ajax */

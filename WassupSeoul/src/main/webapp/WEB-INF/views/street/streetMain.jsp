@@ -10,6 +10,7 @@
 		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
+		
 <title>타임라인 메인 화면</title>
 </head>
 <style>
@@ -55,8 +56,8 @@
 			<!-- 타임라인-->
 			<div class="col-md-4" id="devideArea" style="margin-top: 10px;">
 				<c:choose>
-					<c:when test="${memGradeInSt.citizenStatus eq 'Y'}">
-					<!--회원 골목 가입 되어 있을때 -->
+					<c:when test="${street.streetPublic eq 'Y'.charAt(0)}"> 
+					<!--공개 골목 일떄 -->
 					
 						<!-- 검색Bar-->
 						<div class="row" id="searchArea" style="width: 99%; margin-left: 1px;">
@@ -74,7 +75,7 @@
                 		<jsp:include page="../street/streetDetail/post.jsp"/>
 			          </div>
             		  <!-- 글작성 영역 -->
-		
+																			
 						<!-- 중간여백 --><div style="height: 20px;"></div>
 		
 						<!-- 게시글영역-->
@@ -82,10 +83,11 @@
 						<jsp:include page="../street/streetDetail/timeLine.jsp"/> 
 						</div>
 						<!-- 게시글영역 끝-->
-					<!--회원 골목 가입 되어 있을때 -->		
-					</c:when>
-					<%-- <c:when test="${street.streetPublic eq 'Y'}">
+						
 					<!--공개 골목 일떄 -->
+					</c:when>
+					<c:when test="${memGradeInSt.citizenStatus eq 'Y'}">
+					<!--회원 골목 가입 되어 있을때 -->
 					
 						<!-- 검색Bar-->
 						<div class="row" id="searchArea" style="width: 99%; margin-left: 1px;">
@@ -112,8 +114,8 @@
 						</div>
 						<!-- 게시글영역 끝-->
 						
-					<!--공개 골목 일떄 -->
-					</c:when> --%>
+					<!--회원 골목 가입 되어 있을때 -->			
+					</c:when>
 					<c:otherwise>  
 					<!-- 회원 골목 가입 안되어 있고, 비공개 골목 일떄-->
 							<div class="container box111" id="postArea">

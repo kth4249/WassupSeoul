@@ -49,6 +49,27 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.selectStreet(streetNo);
 	}
 	
+	/** 작성자명으로 게시글 검색
+	 * @param checkStreet
+	 * @return List<Board>
+	 * @throws Exception
+	 */
+	@Override
+	public List<Board> searchBoardwithWriter(Reply checkStreet) throws Exception {
+		return streetDAO.searchBoardwithWriter(checkStreet);
+	}
+	
+	/** 키워드로 골목 게시글 검색
+	 * @param checkStreet
+	 * @return List<Board>
+	 * @throws Exception
+	 */
+	@Override
+	public List<Board> searchBoardwithKeyword(Reply checkStreet) throws Exception {
+		return streetDAO.searchBoardwithKeyword(checkStreet);
+	}
+	
+
 	/** 회원 골목 등급 조회
 	 * @param checkStreet
 	 * @return memGradeInSt
@@ -352,8 +373,8 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<Vote> selectVoteOption(Integer streetNo) throws Exception {
-		return streetDAO.selectVoteOption(streetNo);
+	public List<Vote> selectVoteOption(Reply checkStreet) throws Exception {
+		return streetDAO.selectVoteOption(checkStreet);
 	}
 	
 	/** 투표 기록용 Service
@@ -371,16 +392,28 @@ public class StreetServiceImpl implements StreetService{
 		
 		if(checkResult == null) { // 기록없을시 
 			result = streetDAO.recordVote(vote);
+			System.out.println("투표기록 완료 : " + vote.getVoteStatus());
 		}else { // 투표 기록 있을떄 
 			result = streetDAO.updateVoteRecord(vote);
+			System.out.println("투표기록 업데이트 완료 : " + vote.getVoteStatus());
 		}
 		
 		return result;
 	}
 	
+	/* 1/N 회원 선택 목록 가져오기 
+	 * @param streetNo
+	 * @return List<Member>
+	 * @throws Exception
+	 */
+	@Override
+	public List<Member> selectDevideMember(int streetNo) throws Exception {
+		return streetDAO.selectDevideMember(streetNo);
+	}
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 
 
+	
 	
 
 	/** 골목 가입용 Service
@@ -393,7 +426,7 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.streetJoin(map);
 	}
 	
-	
+
 	/** 회원 관심사 조회용 Service (memberMapper에서)
 	 * @param memberNo
 	 * @return myHobby

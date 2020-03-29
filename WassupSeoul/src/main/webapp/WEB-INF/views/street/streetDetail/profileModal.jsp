@@ -112,7 +112,7 @@
 										</div>
 									</div>
 
-									<div class="row" class="checkMemProfileHobby" name="checkMemProfileHobby">
+									<div class="row checkMemProfileHobby">
 										<!-- 관심사 영역 -->
 									</div>
 									<!-- content end -->
