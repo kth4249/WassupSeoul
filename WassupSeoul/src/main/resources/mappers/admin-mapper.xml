@@ -23,6 +23,39 @@
   		<result property="memberStatus" column="MEMBER_STATUS"/>
 	</resultMap>
 	
+	<resultMap type="Street" id="streetResultSet">
+		<id property="streetNo" column="STREET_NO"/>		
+		<result property="streetNm" column="STREET_NM"/>
+		<result property="streetIntro" column="STREET_INTRO"/>
+		<result property="streetStatus" column="STREET_STATUS"/>
+		<result property="streetMaxMember" column="STREET_MAX_MEMBER"/> 
+		<result property="streetPoint" column="STREET_POINT"/>
+		<result property="imgNo" column="IMG_NO"/>
+		<result property="districtNo" column="DISTRICT_NO"/>
+		<result property="streetPublic" column="STREET_PUBLIC"/>
+		<result property="imgUrl" column="IMG_URL"/>
+		<result property="badgeUrl" column="BADGE_URL"/>
+	</resultMap>
+	
+	<resultMap type="Hobby" id="hobbyResultSet">
+		<id property="hobbyNo" column="HOBBY_NO"/>
+		<result property="hobbyName" column="HOBBY_NM"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="hobbyCount" column="HOBBY_COUNT"/>
+	</resultMap>
+	
+	<resultMap type="Report" id="reportResultSet">
+		<id property="reportNo" column="REPORT_NO"/> 
+		<result property="meetingStartDate" column="MEETING_START_DT"/>
+		<result property="meetingEndDate" column="MEETING_END_DT"/>
+		<result property="meetingPlace" column="MEETING_PLACE"/>
+		<result property="meetingMember" column="MEETING_MEMBER"/>
+		<result property="reportContent" column="REPORT_CONTENT"/>
+		<result property="streetNo" column="STREET_NO"/>
+		<result property="meetingImgUrl" column="MEETING_IMG_URL"/>
+		<result property="streetNm" column="STREET_NM"/>
+	</resultMap>
+	
 	
 	<!-- 전체 회원 목록 조회 -->
 	<select id="selectMemberList" resultMap="memberResultSet">
@@ -34,10 +67,37 @@
 	</select>
 
 
+	<!-- 골목 목록 조회 -->
+	<select id="selectStreetList" resultMap="streetResultSet">
+		SELECT * FROM STREET
+		WHERE STREET_STATUS = 'Y'	
+	</select> 
+
+	<!-- 전체 관심사 목록 조회 -->
+	<select id="selectHobbyList" resultMap="hobbyResultSet">
+		SELECT H.HOBBY_NO, H.HOBBY_NM, COUNT(MH.HOBBY_NO) HOBBY_COUNT 
+		FROM HOBBY H, MEMBER_HOBBY MH
+		WHERE H.HOBBY_NO = MH.HOBBY_NO(+)
+		GROUP BY H.HOBBY_NO, H.HOBBY_NM
+		ORDER BY H.HOBBY_NO
+	</select>
+
+	<!-- 활동 보고서 목록 조회 -->
+	<select id="selectReportList" resultMap="reportResultSet">
+		SELECT STREET_NM, REPORT_NO, MEETING_START_DT, 
+			MEETING_END_DT, MEETING_PLACE, MEETING_MEMBER, 
+		REPORT_CONTENT, R.STREET_NO, MEETING_IMG_URL
+		FROM STREET S, REPORT R
+		WHERE S.STREET_NO = R.STREET_NO
+	</select>
 
 
-
-
+	<!-- 회원 강퇴 -->
+	<update id="deleteMember" parameterType="_int">
+		UPDATE MEMBER 
+		SET MEMBER_STATUS = 'N'
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
  
  
 
