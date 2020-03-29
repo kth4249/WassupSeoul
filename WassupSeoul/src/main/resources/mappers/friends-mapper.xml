@@ -33,12 +33,13 @@
 	
 	<resultMap type="MSG" id="MSGResultSet">
 		<id property="msgNo" column="MSG_NO"/>
-   		<result property="msgContent" column="MSG_STATUS"/>
+   		<result property="msgContent" column="MSG_CONTENT"/>
    		<result property="msgStatus" column="MSG_STATUS"/>
 		<result property="memberNo" column="MEMBER_NO"/>
 		<result property="roomNo" column="ROOM_NO"/>
+		<result property="memberNickname" column="MEMBER_NICKNAME"/>
+		<result property="memberProfileUrl" column="MEMBER_PROFILE_URL"/>
 	</resultMap>
-	
 	
 
 	
@@ -271,9 +272,12 @@
 	AND YOUR_NO = #{myNo}	
 </update>
 
-<!--  <<<<<<<<<<<<<<<<<<<<대화방 진입 >>>>>>>>>>>>>>>>>    -->
+<!--  <<<<<<<<<<<<<<<<<<<<대화방 진입  끝>>>>>>>>>>>>>>>>>    -->
 
 
+
+
+<!--  <<<<<<<<<<<<<<<<<<<<대화방 목록 출력 시작 >>>>>>>>>>>>>>>>>    -->
 <!-- 내가 속한 방 번호 출력 -->
 <select id = "selectRoomNo" parameterType="_int" resultType="_int">
 	SELECT distinct ROOM_NO FROM CHAT
@@ -296,26 +300,59 @@
 
 
 <!-- 해당 방에서 가장 마지막 메시지 조회 -->
-<select id ="lastMessage" parameterType="list" resultType="string">
-	SELECT MSG_CONTENT FROM MSG
-	WHERE ROOM_NO IN
- 	<foreach item="roomNo" collection="list" open="(" separator="," close=")">
-	 	#{roomNo}
-	</foreach>
-	ORDER BY ROOM_NO
-</select>
-
-
-
-<select id ="lastMessage2" parameterType="_int" resultType="string">
+<select id ="lastMessage" parameterType="_int" resultType="string">
 	SELECT MSG_CONTENT FROM MSG
 	WHERE ROOM_NO = #{roomNo}
 	AND MSG_NO = (SELECT max(MSG_NO) FROM MSG
                         WHERE ROOM_NO = #{roomNo})
+    ORDER BY ROOM_NO
 </select>
 
+<select id ="selectChater" parameterType="map" resultMap="memberResultSet">
+
+	SELECT * FROM MEMBER
+	JOIN CHAT ON(MEMBER_NO = MY_NO)
+	WHERE ROOM_NO IN
+	<foreach item="roomNo" collection="RoomNoList" open="(" separator="," close=")">
+	 	#{roomNo}
+	</foreach>
+	AND MEMBER_NO != #{myNo}
+	ORDER BY ROOM_NO
+
+</select>
+
+
+<select id="inToRoom" parameterType="_int" resultMap="MSGResultSet">
+
+	SELECT MSG_CONTENT, MEMBER_NICKNAME, MEMBER_PROFILE_URL 
+	FROM MSG JOIN MEMBER USING (MEMBER_NO)
+	WHERE ROOM_NO = #{roomNo}
+	ORDER BY MSG_NO
+
+
+</select>
+
+
+<!-- 프로필 불러오기 1  -->
+<select id="selectMember1" parameterType="_int" resultMap="memberResultSet">
+	SELECT * FROM MEMBER
+	WHERE MEMBER_NO = #{memberNo}
+</select>
+
+<!-- 프로필 불러오기 2  -->
+<select id="selectMember2" parameterType="string" resultMap="memberResultSet">
+	SELECT * FROM MEMBER
+	WHERE MEMBER_NICKNAME = #{memberNickname}
+</select>
+
+
+
+
+
+
+
  
- 
+ <!--  <<<<<<<<<<<<<<<<<<<<대화방 목록 출력 끝 >>>>>>>>>>>>>>>>>    -->
 
 </mapper>
  

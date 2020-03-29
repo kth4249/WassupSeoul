@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
+
 
 
 <title>타임라인 글작성 영역</title>
@@ -79,15 +79,43 @@
 					
 					 <script>
 				      function initMap() {
+				    	  
+				    	// 지도 게시글 업로드용 지도  
 				    	var geocoder = new google.maps.Geocoder;
 				        var map = new google.maps.Map(document.getElementById('map'), {
 				          zoom: 15,
 				          center: {lat: 37.5724723, lng: 126.9737442}
 				        });
-				
+					          
+				     	// 지도 게시글 업로드용 지도 생성       
 				        document.getElementById('mapSubmit').addEventListener('click', function() {
 				          geocodeAddress(geocoder, map);
 				        });
+				     	
+				    /* 	// 지도 게시글 출력용 지도 
+				    	var showMap = document.getElementsByClassName('boardMap');
+				        var geocoder2 = new google.maps.Geocoder;
+				        var map2 = new google.maps.Map(showMap, {
+				            zoom: 15,
+				            center: {lat: 37.5724723, lng: 126.9737442}
+				         });
+				        
+				        var address2 =  showMap.attr("name");
+				      	geocoder2.geocode({'address': address2}, function(results, status) {
+					          if (status === 'OK') {
+					        	 var coords2 = results[0].geometry.location;
+					            	resultsMap2.setCenter(coords2);
+					           	 var marker2 = new google.maps.Marker({
+					           		   map: resultsMap2,
+					             	   position: coords2
+				            });
+				          } else {
+				            alert('Geocode was not successful for the following reason: ' + status);
+				          }
+				        });  
+				      	
+				      	geocodeAddress(geocoder2, map2); */
+				     	
 				      }
 				
 				      function geocodeAddress(geocoder, resultsMap) {
@@ -100,6 +128,8 @@
 				           		   map: resultsMap,
 				             	   position: coords
 				            });
+				           	 
+				           	$("#mapSubmitBtn").attr("name", coords);	
 				          } else {
 				            alert('Geocode was not successful for the following reason: ' + status);
 				          }
@@ -110,7 +140,8 @@
 				 	<script>
 				 	// 지도 게시글 업로드
 				 	  document.getElementById('mapSubmitBtn').addEventListener('click', function() {
-				 		 var address = $("#address").val();
+				 		 /* var address = $("#address").val(); */
+				 		 var address = 	$("#mapSubmitBtn").attr("name");
 							var mapPostContent = $("#mapPostArea").val();
 													
 							console.log("사용자가 입력한 장소:"+address);
