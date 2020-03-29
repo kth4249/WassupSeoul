@@ -599,6 +599,10 @@ public class StreetDAO {
 	public void updateAlarm2(Map<String, Object> map) {
 		sqlSession.update("friendsMapper.updateAlarm2", map);
 	}
+  
+  public void exileJumin(Map<String, Integer> map) throws Exception{
+		sqlSession.update("streetMapper.exileJumin", map);
+	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
 
@@ -1007,6 +1011,9 @@ public class StreetDAO {
 	}
 
 
+
+	
+	
 	/*======================= 지원 활동보고서 끝==============================*/
 	
 	

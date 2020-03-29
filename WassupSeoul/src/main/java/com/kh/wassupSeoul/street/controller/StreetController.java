@@ -28,8 +28,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
 import com.google.gson.Gson;
+import com.kh.wassupSeoul.common.EchoHandler;
 import com.kh.wassupSeoul.common.FileRename;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
@@ -52,6 +55,9 @@ public class StreetController {
 
 	@Autowired
 	private StreetService streetService;
+	
+	@Autowired
+	private EchoHandler eco;
 
 	// -------------------------------------------- 중하  ---------------------------------------------
 	
@@ -844,7 +850,7 @@ public class StreetController {
 		int streetNo = (int) model.getAttribute("streetNo");
 		Member member = (Member) model.getAttribute("loginMember");
 		Street street = (Street)model.getAttribute("street");
-		System.out.println(street);
+		//System.out.println(street);
 		int memberNo = member.getMemberNo();
 		
 		int myStreetCount = streetService.myStreetCount(memberNo);
@@ -879,8 +885,8 @@ public class StreetController {
 	
 	// 주민목록 조회
 	@RequestMapping
-	public String juminList(Model model) {
-		int streetNo = (int) model.getAttribute("streetNo");
+	public String juminList(Integer streetNo, Model model) {
+		model.addAttribute("streetNo", streetNo);
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		try {
 			
@@ -906,7 +912,7 @@ public class StreetController {
 			}
 			
 			
-			System.out.println(rList);
+			//System.out.println(rList);
 			
 			model.addAttribute("rList", rList);
 			model.addAttribute("mList", mList);
@@ -1028,6 +1034,24 @@ public class StreetController {
 		
 		streetService.removeAlarm(map);
 	}
+	
+	// 주민 강퇴
+	@RequestMapping("exileJumin")
+	public String exileJumin(Model model, int memberNo) {
+		int streetNo = (int)model.getAttribute("streetNo");
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("streetNo", streetNo);
+		map.put("memberNo", memberNo);
+		try {
+			streetService.exileJumin(map);
+			return "redirect:juminList";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "주민 강퇴 과정 중 오류 발생");
+			return "common/errorPage";
+		}
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	/* 지원 골목 수정 시작 */
@@ -1605,6 +1629,14 @@ public class StreetController {
 				streetService.insertAlarm(alarm);
 				// 이전 골목 가입에 대한 알림을 새로운 골목대장이 조회할 수있도록 알람 테이블 수정
 				result = streetService.updateAlarm(masterNo, newNo);
+				
+				// 해당 유저의 웹소켓 세션에 알람메세지를 보냄
+				List<WebSocketSession> wsList = eco.getSessionList();
+				for(WebSocketSession ws : wsList) {
+					if(((Member)ws.getAttributes().get("loginMember")).getMemberNo() == newNo) {
+						ws.sendMessage(new TextMessage(ws.toString()));
+					};
+				}
 				
 				/* ---------------태훈 알람 관련 추가 끝---------------*/
 				model.addAttribute("msg", "위임 성공");

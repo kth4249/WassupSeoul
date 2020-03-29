@@ -340,6 +340,12 @@ public interface StreetService {
 	 * @return result
 	 */
 	public abstract int updateAlarm(int masterNo, Integer newNo);
+	
+	
+	/** 골목 주민 추방용
+	 * @param map
+	 */
+	public abstract void exileJumin(Map<String, Integer> map) throws Exception;
 
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

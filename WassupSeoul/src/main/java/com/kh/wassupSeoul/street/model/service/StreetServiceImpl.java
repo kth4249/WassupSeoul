@@ -787,6 +787,15 @@ public class StreetServiceImpl implements StreetService{
 		return 0;
 	}
 	
+	
+	/** 골목 주민 추방용
+	 * @param map
+	 */
+	@Override
+	public void exileJumin(Map<String, Integer> map) throws Exception{
+		streetDAO.exileJumin(map);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	
