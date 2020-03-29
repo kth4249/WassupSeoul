@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.google.gson.Gson;
 import com.kh.wassupSeoul.friends.model.service.FriendsService;
 import com.kh.wassupSeoul.friends.model.vo.ChatList;
-import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
+import com.kh.wassupSeoul.friends.model.vo.MSG;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 
@@ -290,8 +290,78 @@ public class FriendsController {
 			return null;
 		} // 대화목록 조회 끝
 		
+		
+		
+		// 대화방 들어가기 Controller
+		@ResponseBody
+		@RequestMapping(value="inToRoom", method = RequestMethod.POST,
+				produces = "application/json; charset=utf-8")
+		public String inToRoom(int roomNo) {
+			
+			try {
+				List<MSG> mList = friendsService.inToRoom(roomNo);
+				return new Gson().toJson(mList);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+			}
+		
+		
+		// 대화방 나가기 Controller
+		@ResponseBody
+		@RequestMapping(value="outRoom", method = RequestMethod.POST)
+		public String outRoom(Model model, String memberNickname) {
+			return null;
+			}
+		
 	
 	
+		// 프로필 가져오기 1
+		@ResponseBody
+		@RequestMapping(value="detect1", method = RequestMethod.POST,
+				produces = "application/json; charset=utf-8")
+			public String detect1(Model model, int yourNo) {
+			try {
+				Member member = friendsService.selectMember(yourNo);
+				System.out.println(member);
+				if (member.getMemberGender().equals("M")) {
+					member.setMemberGender("남성");
+				} else {
+					member.setMemberGender("여성");
+				}
+				return new Gson().toJson(member);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		} // 프로필 가져오기 1 끝	
+		
+		// 프로필 가져오기 2
+		@ResponseBody
+		@RequestMapping(value="detect2", method = RequestMethod.POST,
+				produces = "application/json; charset=utf-8")
+			public String detect2(Model model, String yourNick) {
+			try {
+				Member member = friendsService.selectMember(yourNick);
+				System.out.println(member);
+				
+				if (!member.getMemberGender().equals("M")) {
+					member.setMemberGender("여성");
+				} else {
+					member.setMemberGender("남성");
+				}
+				
+				
+				return new Gson().toJson(member);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		} // 프로필 가져오기 2 끝	
 	
 	
 	

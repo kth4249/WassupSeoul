@@ -1122,16 +1122,16 @@
 	
 	
 	 ////////////////////////////////  메신저 소켓 시작해보는중.... ////////////////////////////////////
-	// SockJS객체생성 보낼 url경로를 매개변수로 등록 
-	/*var chat = new SockJS("<c:url value='/echo'/>"); // 영준아 알람과 메신저 변수 이름 다르게
-	chat.onmessage = onAlarm;
-	chat.onclose = onClose;
-	var today = null; 
+	/* SockJS객체생성 보낼 url경로를 매개변수로 등록 */
+	/* var sock=new SockJS("<c:url value='/echo'/>"); // 영준아 알람과 메신저 변수 이름 다르게
+	sock.onmessage=onAlarm;
+	sock.onclose=onClose;
+	var today=null; 
 
 	function sendAlarm(memberNo){
 		// 맵핑된 핸들러 객채의 handleTextMessage매소드가 실행 
 		//console.log(memberNo);
-		chat.send(memberNo);
+		sock.send(memberNo);
 	
 	};
 	function onAlarm(evt){
