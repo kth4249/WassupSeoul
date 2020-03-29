@@ -281,7 +281,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					
 					// 체크 유효성 검사
 					$agree1.on("input", function(){
-						if(!$(agree1).prop("checked")){ 
+						if(!($agree1).prop("checked")){ 
 							checkCheck.agree1 = false;
 						}else{
 							checkCheck.agree1 = true;
@@ -289,7 +289,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					});
 					
 					$agree2.on("input", function(){
-						if(!$(agree2).prop("checked")){ 
+						if(!($agree2).prop("checked")){ 
 							checkCheck.agree2 = false;
 						}else{
 							checkCheck.agree2 = true;
@@ -297,7 +297,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					});
 					
 					$agree3.on("input", function(){
-						if(!$(agree3).prop("checked")){ 
+						if(!($agree3).prop("checked")){ 
 							checkCheck.agree3 = false;
 						}else{
 							checkCheck.agree3 = true;
@@ -305,7 +305,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					});
 					
 					$total_agree.on("input", function(){
-						if(!$(total_agree).prop("checked")){ 
+						if(!($total_agree).prop("checked")){ 
 							checkCheck.total_agree = false;
 						}else{
 							checkCheck.total_agree = true;
@@ -325,7 +325,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			        
 					agree1.onclick = agree2.onclick = agree3.onclick = checkboxListener; 
 
-				    var all = doc.getElementById('total_agree'); 
+				    var all = document.getElementById('total_agree'); 
 
 				    all.onclick = function() {
 				         if (this.checked) {
@@ -341,6 +341,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 		
 		// submit 동작 
 		 function validate() {
+					
 
 		      if (checkCheck['total_agree'] ) {
 		            return true; 

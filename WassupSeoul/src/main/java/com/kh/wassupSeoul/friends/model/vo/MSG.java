@@ -7,20 +7,27 @@ public class MSG {
 	int msgNo;
 	String msgContent;
 	String msgStatus;
+	Date msgTime;
 	int memberNo;
 	int roomNo;
+	String memberNickname;
+	String memberProfileUrl;
 	
 	public MSG() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MSG(int msgNo, String msgContent, String msgStatus, int memberNo, int roomNo) {
+	public MSG(int msgNo, String msgContent, String msgStatus, Date msgTime, int memberNo, int roomNo,
+			String memberNickname, String memberProfileUrl) {
 		super();
 		this.msgNo = msgNo;
 		this.msgContent = msgContent;
 		this.msgStatus = msgStatus;
+		this.msgTime = msgTime;
 		this.memberNo = memberNo;
 		this.roomNo = roomNo;
+		this.memberNickname = memberNickname;
+		this.memberProfileUrl = memberProfileUrl;
 	}
 
 	public int getMsgNo() {
@@ -47,6 +54,14 @@ public class MSG {
 		this.msgStatus = msgStatus;
 	}
 
+	public Date getMsgTime() {
+		return msgTime;
+	}
+
+	public void setMsgTime(Date msgTime) {
+		this.msgTime = msgTime;
+	}
+
 	public int getMemberNo() {
 		return memberNo;
 	}
@@ -63,11 +78,30 @@ public class MSG {
 		this.roomNo = roomNo;
 	}
 
+	public String getMemberNickname() {
+		return memberNickname;
+	}
+
+	public void setMemberNickname(String memberNickname) {
+		this.memberNickname = memberNickname;
+	}
+
+	public String getMemberProfileUrl() {
+		return memberProfileUrl;
+	}
+
+	public void setMemberProfileUrl(String memberProfileUrl) {
+		this.memberProfileUrl = memberProfileUrl;
+	}
+
 	@Override
 	public String toString() {
-		return "MSG [msgNo=" + msgNo + ", msgContent=" + msgContent + ", msgStatus=" + msgStatus 
-				+ ", memberNo=" + memberNo + ", roomNo=" + roomNo + "]";
+		return "MSG [msgNo=" + msgNo + ", msgContent=" + msgContent + ", msgStatus=" + msgStatus + ", msgTime="
+				+ msgTime + ", memberNo=" + memberNo + ", roomNo=" + roomNo + ", memberNickname=" + memberNickname
+				+ ", memberProfileUrl=" + memberProfileUrl + "]";
 	}
+
+	
 	
 	
 	

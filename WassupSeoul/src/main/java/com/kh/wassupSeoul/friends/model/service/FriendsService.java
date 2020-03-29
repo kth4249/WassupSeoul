@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kh.wassupSeoul.friends.model.vo.ChatList;
 import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
+import com.kh.wassupSeoul.friends.model.vo.MSG;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 
@@ -85,12 +86,36 @@ public interface FriendsService {
 	 * @return cList
 	 * @throws Exception
 	 */
-	List<ChatRoom> selectRoomList(int myNo) throws Exception;
+	List<ChatList> selectRoomList(int myNo) throws Exception;
+	
+	
+	/** 대화방 진입
+	 * @param roomNo
+	 * @return msg
+	 * @throws Exception
+	 */
+	List<MSG> inToRoom(int roomNo) throws Exception;
+	
 	
 	
 	/*-----------------태훈 알람 관련 추가-------------------*/
 	int insertAlarm(Alarm alarm);
   /*-----------------태훈 알람 관련 추가-------------------*/
+
+	/** 프로필 불러오기 1
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	Member selectMember(int memberNo) throws Exception;
+
+	/** 프로필 불러오기 2
+	 * @param memberNickname
+	 * @return member
+	 * @throws Exception
+	 */
+	Member selectMember(String memberNickname) throws Exception;
+
 	
 	
 }
