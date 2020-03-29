@@ -47,7 +47,7 @@
 									<tr class="table-success">
 										<input type="hidden" value="${member.memberNo}">
 										<td><img src="${contextPath}/resources/profileImage/${member.memberProfileUrl}" width="45px"
-											height="45px"></td>
+											height="45px" class="openProfile"></td>
 										<td>${member.memberNickname }</td>
 										<td>${member.memberAge}세, ${member.memberGender}</td>
 										<td>
@@ -71,8 +71,9 @@
 							$("#applyMember").toggle(0);
 						})
 						
-						$("#applyMember td").click(function(e){
-							var memberNo = $(this).parent().children(0).val();
+						$("#applyMember tr").on("click", function(e){
+							console.log($(this).children(0).val());
+							var memberNo = $(this).children(0).val();
 							var applyCheck = confirm("골목 가입을 허가하시겠습니까?")
 							var juminCount = ${count};
 							var applyCount = $("#applyCount").text();
@@ -83,11 +84,10 @@
 								data : {"applyCheck":applyCheck, "memberNo":memberNo},
 								success : function(result){
 									if(result > 0){
-										var $thisMem = $(e.target).parent().prop("class", "table-active");
+										$(e.target).parent().off("click");
+										var $thisMem = $(e.target).parent().prop("class", "table-light");
 										var $btn = $("<button>").prop("class", "btn btn-sm btn-outline-success addFriend").val(memberNo).text("친구요청");
 										var $td = $("<td>").prop("class", "text-center").append($btn);
-										$thisMem.append($td);
-										$("#juminList").append($thisMem);
 										$thisMem.append($td);
 										$("#juminList").append($thisMem);
 										$("#juminCount").html("주민("+ juminCount + ")")
@@ -131,11 +131,20 @@
 						<c:if test="${!empty mList }">
 							<c:forEach items="${mList}" var="member">
 								<c:if test="${member.citizenStatus eq 'Y'}">
-									<tr class="table-active">
+									<tr class="table-light">
+										<input type="hidden" value="${member.memberNo}">
 										<td scope="row"><img src="${contextPath}/resources/profileImage/${member.memberProfileUrl}" width="45px"
-											height="45px"></td>
+											height="45px" class="openProfile"></td>
 										<td>${member.memberNickname }</td>
-										<td>${member.memberAge}세, ${member.memberGender}</td>
+										<td>${member.memberAge}세,
+											<c:if test="${member.memberGender eq 'M' }">
+												남
+											</c:if>
+											<c:if test="${member.memberGender eq 'F' }">
+												여
+											</c:if>
+										
+										</td>
 										<td>
 											<c:if test="${!empty hList}">
 												<c:forEach items="${hList}" var="hobby" >
@@ -193,7 +202,6 @@
 				<script>
 					/* 친구 추가용 Ajax */
 					$(document).on("click", ".addFriend", function(event){
-					/* $(".addFriend").click(function(){ */
 						console.log($(this).val());
 						var yourNum = $(this).val()
 						$.ajax({
@@ -210,12 +218,88 @@
 						})
 					})
 					
+					$(document).on("click", ".openProfile", function(){
+						//console.log($(this).parent().parent().children().eq(2).text());
+						var memberNo = $(this).parent().parent().children().eq(0).val();
+						var memberNickName = $(this).parent().parent().children().eq(2).text();
+						var memberAgeGender = $(this).parent().parent().children().eq(3).text();
+						var memberHobby = $(this).parent().parent().children().eq(4).text();
+						$("#miniProfileImg").prop("src", $(this).prop("src"));
+						$("#miniProfileName").text(memberNickName);
+						$("#miniProfileGender").text(memberAgeGender);
+						$("#miniProfileHobby").text(memberHobby);
+						$("#exileBtn").val(memberNo);
+						$("#profileBtn").click();
+						/* $.ajax({
+							url : "memberProfile",
+							data : memberNo,
+							success : function() {
+								
+							},
+							error : function() {
+								console.log("ajax통신 실패")
+							}
+						}) */
+						
+					})
+					
 					// 주민목록에 조회된 멤버가 나에게 친구요청,
 					
 				
 				</script>
 			</div>
 			<div class="col-md-4">
+			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#profilePicture" id="profileBtn"
+					style="display:none">
+			</button>
+            <!-- 친구목록 : 프로필사진 -->
+	            <div class="modal fade" id="profilePicture">
+	               <div class="modal-dialog" role="document">
+	                  <div class="modal-content">
+	                     <div class="modal-header">
+	                        <h5 class="modal-title nanum" style="font-size: 30px;">프로필</h5>
+	                        <button type="button" class="close" data-dismiss="modal"
+	                           aria-label="Close">
+	                           <span aria-hidden="true">&times;</span>
+	                        </button>
+	                     </div>
+	                     <div class="modal-body" style="font-size: 20px;">
+	                        <form action="">
+	                           <div class="text-center">
+	                              <img src="${contextPath}/resources/img/usericon.png" width="200px"
+	                                 height="200px" class="ml-5 mr-5 mt-5 mb-3" id="miniProfileImg">
+	                           </div>
+	                           <div class="nanum text-center" style="font-size: 35px;">
+	                              <span id="miniProfileName"class="">프로필</span>
+	                           </div>
+	                           <div class="nanum text-center"
+	                              style="font-size: 20px; color: darkblue;">
+	                              <span id="miniProfileGender"class="">남성</span>
+	                           </div>
+	                           <br>
+	                           <div class="nanum text-center"
+	                              style="font-size: 20px; color: brown;">
+	                              <span id="miniProfileHobby">#축구#영화#자전거</span>
+	                           </div>
+	                           <br>
+	                        </form>
+	                     </div>
+	                     <div class="modal-footer">
+		                     <c:if test="${memGradeInSt.citizenGrade eq 'M'}">
+		                        <button type="button" class="btn btn-danger nanum"
+		                        id="exileBtn" data-dismiss="modal">골목 강퇴</button>
+	                         </c:if>
+	                         <script>
+	                         	$("#exileBtn").on("click", function() {
+	                         		location.href = "exileJumin?memberNo="+ $(this).val();
+	                         	})
+	                         </script>
+	                        <button type="button" class="btn btn-primary nanum"
+	                           data-dismiss="modal">닫기</button>
+	                     </div>
+	                  </div>
+	               </div>
+	            </div>
 			</div>
 		</div>
 	</div>

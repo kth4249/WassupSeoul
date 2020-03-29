@@ -165,7 +165,7 @@
 					return false;
 				} else {
 					console.log($("#newNo").val());
-					sendAlarm($("#newNo").val());
+					//sendAlarm($("#newNo").val());
 					return true;
 				}
 			}

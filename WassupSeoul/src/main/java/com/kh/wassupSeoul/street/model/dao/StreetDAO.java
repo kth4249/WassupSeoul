@@ -984,6 +984,10 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.insertReport", report);
 	}
 
+	public void exileJumin(Map<String, Integer> map) throws Exception{
+		sqlSession.update("streetMapper.exileJumin", map);
+	}
+
 	
 	
 	/*======================= 지원 활동보고서 끝==============================*/
