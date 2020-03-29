@@ -113,6 +113,16 @@
 		
 	</resultMap>
 	
+	<resultMap type="Divide" id="devideResultSet">
+		<id property="memberNo" column="MEMBER_NO"/>
+		
+		<result property="memberNickName" column="MEMBER_NICKNAME"/>
+		<result property="memberProfileUrl" column="MEMBER_PROFILE_URL"/>
+		<result property="memberStatus" column="MEMBER_STATUS"/>
+		<result property="divideDt" column="DIVIDE_DT"/>
+		
+	</resultMap>
+	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	
 	<resultMap type="Calendar" id="calendarResultSet">
@@ -255,6 +265,48 @@
 						 
 		ORDER BY BOARD_NO
   	 </select>
+  	 
+  	 <!-- 작성자명으로 골목 게시글 검색 -->  	 
+  	 <select id="searchBoardwithWriter" parameterType="reply" resultMap="boardResultSet">
+  	 	SELECT BOARD_CONTENT, BOARD_WRITE_DT, BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO, MEMBER_NO, TYPE_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL, 
+		THUMB_STATUS, THUMB_COUNT, REPLY_COUNT, MAP_ADDR, SKETCH_URL 
+		
+		FROM (SELECT BOARD_CONTENT,	BOARD_WRITE_DT,	BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO,	MEMBER_NO, TYPE_NO,	MEMBER_NICKNAME, MEMBER_PROFILE_URL,
+			MAP_ADDR, SKETCH_URL 
+			FROM V_BOARD WHERE STREET_NO = #{streetNo} AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y' AND  MEMBER_NICKNAME LIKE '%'||#{replyWriter}||'%' )
+		
+		<!-- 로그인회원 해당 게시글 좋아요 여부 체크 -->  
+		LEFT OUTER JOIN ( SELECT THUMB_STATUS, BOARD_NO FROM THUMB WHERE MEMBER_NO = #{memberNo} AND REPLY_NO IS NULL  ) USING (BOARD_NO)
+		<!-- 게시글 좋아요 개수 체크 -->
+		LEFT OUTER JOIN ( SELECT COUNT(*) AS THUMB_COUNT, BOARD_NO FROM(SELECT * FROM V_BOARD LEFT OUTER JOIN THUMB USING (BOARD_NO)
+						 WHERE THUMB_STATUS='Y'AND REPLY_NO IS NULL ) GROUP BY BOARD_NO ) USING (BOARD_NO)
+		<!-- 게시글 댓글 개수체크 -->				 
+		LEFT OUTER JOIN (SELECT COUNT(*) AS REPLY_COUNT, BOARD_NO FROM(SELECT * FROM V_BOARD LEFT OUTER JOIN REPLY USING (BOARD_NO)
+						 WHERE REPLY_STATUS='Y' AND REPLY_LEVEL = 1) GROUP BY BOARD_NO) USING (BOARD_NO)
+						 
+		ORDER BY BOARD_NO
+  	 </select>
+  	 
+  	 <!-- 키워드로 골목 게시글 검색 -->  	 
+  	 <select id="searchBoardwithKeyword" parameterType="reply" resultMap="boardResultSet">
+  	 	SELECT BOARD_CONTENT, BOARD_WRITE_DT, BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO, MEMBER_NO, TYPE_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL, 
+		THUMB_STATUS, THUMB_COUNT, REPLY_COUNT, MAP_ADDR, SKETCH_URL 
+		
+		FROM (SELECT BOARD_CONTENT,	BOARD_WRITE_DT,	BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO,	MEMBER_NO, TYPE_NO,	MEMBER_NICKNAME, MEMBER_PROFILE_URL,
+			MAP_ADDR, SKETCH_URL 
+			FROM V_BOARD WHERE STREET_NO = #{streetNo} AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y' AND BOARD_CONTENT LIKE '%'||#{replyContent}||'%'  )
+		
+		<!-- 로그인회원 해당 게시글 좋아요 여부 체크 -->  
+		LEFT OUTER JOIN ( SELECT THUMB_STATUS, BOARD_NO FROM THUMB WHERE MEMBER_NO = #{memberNo} AND REPLY_NO IS NULL  ) USING (BOARD_NO)
+		<!-- 게시글 좋아요 개수 체크 -->
+		LEFT OUTER JOIN ( SELECT COUNT(*) AS THUMB_COUNT, BOARD_NO FROM(SELECT * FROM V_BOARD LEFT OUTER JOIN THUMB USING (BOARD_NO)
+						 WHERE THUMB_STATUS='Y'AND REPLY_NO IS NULL ) GROUP BY BOARD_NO ) USING (BOARD_NO)
+		<!-- 게시글 댓글 개수체크 -->				 
+		LEFT OUTER JOIN (SELECT COUNT(*) AS REPLY_COUNT, BOARD_NO FROM(SELECT * FROM V_BOARD LEFT OUTER JOIN REPLY USING (BOARD_NO)
+						 WHERE REPLY_STATUS='Y' AND REPLY_LEVEL = 1) GROUP BY BOARD_NO) USING (BOARD_NO)
+						 
+		ORDER BY BOARD_NO
+  	 </select>
   	
   	<!-- 게시글 등록용 -->
    <insert id="insertBoard" parameterType="Board">
@@ -382,7 +434,14 @@
 	 
 	<!-- 투표 게시글 선택지 조회용  --> 
 	<select id="selectVoteOption" parameterType="_int" resultMap="voteResultSet">
-		SELECT * FROM V_VOTE WHERE STREET_NO = #{streetNo}
+	    SELECT      VOTE_NO, VOTE_CONTENT, BOARD_NO, VOTE_TITLE, VOTE_RESULT, VOTE_ENROLL_DT, VOTE_END_DT, VOTE_DUP, VOTE_ANONYMITY, STREET_NO,
+					MEMBER_NO, VOTE_STATUS
+		FROM V_VOTE
+		LEFT OUTER JOIN (SELECT  VOTE_STATUS, MEMBER_NO, VOTE_NO
+						FROM(SELECT BOARD_NO, VOTE_NO, VOTE_STATUS, MEMBER_NO  FROM VOTE_PICK
+		     			LEFT OUTER JOIN (SELECT VOTE_NO, VOTE_STATUS, MEMBER_NO  FROM VOTER WHERE MEMBER_NO=#{memberNo}) USING(VOTE_NO))) USING(VOTE_NO)
+		WHERE STREET_NO = #{streetNo}
+		ORDER BY VOTE_NO
   	</select> 
   	
   	<!-- 투표 게시글 선택지 투표여부 조회용  --> 
@@ -404,6 +463,18 @@
   	 <update id="updateVoteRecord"  parameterType="vote" >
 		UPDATE VOTER SET VOTE_STATUS = #{voteStatus} WHERE VOTE_NO=#{voteNo} AND MEMBER_NO=#{memberNo}
 	</update>
+	
+	
+	<!-- 1/N 회원 선택 목록 가져오기  -->
+  	<select id="selectDevideMember" parameterType="_int" resultMap="devideResultSet">
+  		SELECT MEMBER_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL, MEMBER_STATUS, DIVIDE_DT 
+  		FROM MEMBER
+		LEFT INNER JOIN ( SELECT MEMBER_NO, STREET_NO FROM STREET_JOIN WHERE STREET_NO = #{streetNo}) USING(MEMBER_NO)
+		LEFT OUTER JOIN ( SELECT MEMBER_NO, DIVIDE_DT FROM DIVIDE ) USING(MEMBER_NO)
+		WHERE MEMBER_STATUS = 'Y'
+		ORDER BY MEMBER_NO
+	</select>
+	
   	
   <!--  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 중하   끝  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ  -->
   	

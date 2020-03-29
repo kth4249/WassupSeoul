@@ -53,6 +53,21 @@ public class StreetDAO {
 	public Street selectStreet(Integer streetNo) throws Exception {
 		return sqlSession.selectOne("streetMapper.selectStreet", streetNo);
 	}
+	
+	/** 작성자명으로 게시글 검색
+	 * @param checkStreet
+	 * @return List<Board>
+	 * @throws Exception
+	 */
+	public List<Board> searchBoardwithWriter(Reply checkStreet) throws Exception {
+		return sqlSession.selectList("streetMapper.searchBoardwithWriter", checkStreet);
+	}
+	
+
+	public List<Board> searchBoardwithKeyword(Reply checkStreet) {
+		return sqlSession.selectList("streetMapper.searchBoardwithKeyword", checkStreet);
+	}
+
 
 	/**
 	 * 회원 골목 등급 조회
@@ -300,12 +315,12 @@ public class StreetDAO {
 	}
 	
 	/** 투표 선택지 조회용 DAO
-	 * @param streetNo
+	 * @param checkStreet
 	 * @return voteList
 	 * @throws Exception
 	 */
-	public List<Vote> selectVoteOption(Integer streetNo) throws Exception {
-		return sqlSession.selectList("streetMapper.selectVoteOption", streetNo);
+	public List<Vote> selectVoteOption(Reply checkStreet) throws Exception {
+		return sqlSession.selectList("streetMapper.selectVoteOption", checkStreet);
 	}
 	
 	/** 투표 기록 조회용 DAO
@@ -335,7 +350,14 @@ public class StreetDAO {
 		return sqlSession.update("streetMapper.updateVoteRecord", vote);
 	}
 
-	
+	/** 1/N 회원 선택 목록 가져오기 
+	 * @param streetNo
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Member> selectDevideMember(int streetNo) throws Exception {
+		return sqlSession.selectList("streetMapper.selectDevideMember", streetNo);
+	}
 	// -------------------------------------------- 중하 끝
 	// ---------------------------------------------
 
@@ -984,8 +1006,7 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.insertReport", report);
 	}
 
-	
-	
+
 	/*======================= 지원 활동보고서 끝==============================*/
 	
 	

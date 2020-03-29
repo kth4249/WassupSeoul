@@ -97,7 +97,6 @@ public interface FriendsService {
 	List<MSG> inToRoom(int roomNo) throws Exception;
 	
 	
-	
 	/*-----------------태훈 알람 관련 추가-------------------*/
 	int insertAlarm(Alarm alarm);
   /*-----------------태훈 알람 관련 추가-------------------*/

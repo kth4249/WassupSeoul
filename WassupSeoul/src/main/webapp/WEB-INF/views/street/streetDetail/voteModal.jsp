@@ -20,7 +20,7 @@
  </style>
 <body>
 
-				<!-- 투표 모달 -->
+					<!-- 투표 모달 -->
 					<div class="modal fade" id="voteModal" data-backdrop="static"
 						tabindex="-1" role="dialog" aria-labelledby="voteModalLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document" style="width: 600px;">
@@ -99,7 +99,7 @@
 		 //무기명 투표 여부
 		 var checked2 = $("#anonymity").prop('checked');
 		 if(checked2){
-			 var anonymity = "Y";
+			anonymity = "Y";
 		 }
 		
 		// 복수 선태 개수 받기 
