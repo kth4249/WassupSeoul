@@ -160,8 +160,8 @@
 		<id property="reportNo" column="REPORT_NO"/>
 		<result property="meetingStartDate" column="MEETING_START_DT"/>
 		<result property="meetingEndDate" column="MEETING_END_DT"/>
-		<result property="meetingPlace" column="MEETING_MEMBER"/>
-		<result property="meetingMember" column="MEETING_PLACE"/>
+		<result property="meetingPlace" column="MEETING_PLACE"/>
+		<result property="meetingMember" column="MEETING_MEMBER"/>
 		<result property="reportContent" column="REPORT_CONTENT"/>
 		<result property="streetNo" column="STREET_NO"/>
 		<result property="meetingImgUrl" column="MEETING_IMG_URL"/>

@@ -2,13 +2,16 @@ package com.kh.wassupSeoul.hobby.model.vo;
 
 public class Hobby {
 	
-	int hobbyNo;
-	String hobbyName;
-	int memberNo;
+	private int hobbyNo;
+	private String hobbyName;
+	private int memberNo;
+	private int hobbyCount;
 
 	public Hobby() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 
 	public Hobby(int hobbyNo, String hobbyName) {
 		super();
@@ -23,6 +26,18 @@ public class Hobby {
 		this.hobbyName = hobbyName;
 		this.memberNo = memberNo;
 	}
+	
+	
+
+	public Hobby(int hobbyNo, String hobbyName, int memberNo, int hobbyCount) {
+		super();
+		this.hobbyNo = hobbyNo;
+		this.hobbyName = hobbyName;
+		this.memberNo = memberNo;
+		this.hobbyCount = hobbyCount;
+	}
+
+
 
 	public int getHobbyNo() {
 		return hobbyNo;
@@ -48,11 +63,27 @@ public class Hobby {
 		this.memberNo = memberNo;
 	}
 
-	@Override
-	public String toString() {
-		return "Hobby [hobbyNo=" + hobbyNo + ", hobbyName=" + hobbyName + ", memberNo=" + memberNo + "]";
+
+
+	public int getHobbyCount() {
+		return hobbyCount;
 	}
 
+
+
+	public void setHobbyCount(int hobbyCount) {
+		this.hobbyCount = hobbyCount;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Hobby [hobbyNo=" + hobbyNo + ", hobbyName=" + hobbyName + ", memberNo=" + memberNo + ", hobbyCount="
+				+ hobbyCount + "]";
+	}
+
+	
 	
 	
 }
