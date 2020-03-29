@@ -61,16 +61,27 @@ public class StreetController {
 
 	// -------------------------------------------- 중하  ---------------------------------------------
 	
-	// 타임라인 이동
+	// 타임라인 이동  ,  게시물 검색
 	@RequestMapping(value = "streetMain", method = RequestMethod.GET)
-	public String timeLine(Integer streetNo, Model model, RedirectAttributes rdAttr, HttpServletRequest request) {
-
+	public String timeLine( Model model, RedirectAttributes rdAttr, HttpServletRequest request,
+			@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+			@RequestParam(value = "streetNo", required = false) Integer streetNo
+			) {
+		
+//		System.out.println("searchKeyword :" +searchKeyword);
+//		System.out.println("streetNo : " + streetNo);
+		
+		
 		Member loginMember = (Member)model.getAttribute("loginMember");
-
 		
 		Reply checkStreet = new Reply();
 		
-		checkStreet.setStreetNo(streetNo);
+		Street street = new Street();
+		
+		StreetJoin memGradeInSt = new StreetJoin();
+		
+		List<Board> board = new ArrayList<Board>();
+		
 		checkStreet.setMemberNo(loginMember.getMemberNo());
 		
 		System.out.println("골목번호 : " + streetNo);
@@ -78,37 +89,84 @@ public class StreetController {
 		
 		//System.out.println("프로필사진정보 : " + loginMember.getMemberProfileUrl());
 
-		model.addAttribute("streetNo", streetNo);
-
 		String beforeUrl = request.getHeader("referer");
 
 		try {
-			// 회원 해당 골목 등급, 가입여부 조회
-			StreetJoin memGradeInSt = streetService.memGradeInSt(checkStreet);
-			
-			// 해당 골목 정보 조회
-			Street street = streetService.selectStreet(streetNo);
-
-			System.out.println(street);
 			
 			// 해당 골목 게시물 조회
-			List<Board> board = streetService.selectBoard(checkStreet);
-			Collections.reverse(board);
+			if (searchKeyword == null) {
+				
+//				System.out.println("일반 조회 :");
+				checkStreet.setStreetNo(streetNo);
+				
+				// 회원 해당 골목 등급, 가입여부 조회
+				memGradeInSt = streetService.memGradeInSt(checkStreet);
+				
+				// 해당 골목 정보 조회
+				street = streetService.selectStreet(streetNo);
+				System.out.println(street);
+				
+				board = streetService.selectBoard(checkStreet);
+				Collections.reverse(board);
+				model.addAttribute("streetNo", streetNo);
+				
+			}else {
+				
+				if( searchKeyword.startsWith("@") ) { // 아이디검색
+					
+//					System.out.println("작성자로 검색 :" +searchKeyword);
+					streetNo = (int) model.getAttribute("streetNo");
+					
+					checkStreet.setStreetNo(streetNo);
+					memGradeInSt = streetService.memGradeInSt(checkStreet);
+					
+					// 해당 골목 정보 조회
+					street = streetService.selectStreet(streetNo);
+					System.out.println(street);
+					
+					// @제거후 회원닉네임만 검색
+					int idx = searchKeyword.indexOf("@");
+					checkStreet.setReplyWriter(searchKeyword.substring(idx+1)); 
+					//System.out.println("idx : "+idx);
+					//System.out.println("@제거후 회원닉네임만 검색 : "+searchKeyword.substring(idx+1));
+					
+					board = streetService.searchBoardwithWriter(checkStreet);
+					Collections.reverse(board);
+					
+				}else { // 게시글 내용 검색
+//					System.out.println("키워드로 검색 :" +searchKeyword);
+					streetNo = (int) model.getAttribute("streetNo");
+					checkStreet.setStreetNo(streetNo);
+					memGradeInSt = streetService.memGradeInSt(checkStreet);
+					
+					// 해당 골목 정보 조회
+					street = streetService.selectStreet(streetNo);
+//					System.out.println(street);
+					
+					checkStreet.setReplyContent(searchKeyword);
+					
+					board = streetService.searchBoardwithKeyword(checkStreet);
+					Collections.reverse(board);
+				}
+			}
 			
 			// 해당 골목 댓글, 대댓글 조회
 			List<Reply> reply  = streetService.selectReply(checkStreet);
 			
-			List<Vote> vote = streetService.selectVoteOption(streetNo);
-
-//			for(int i = 0 ; i < vote.size(); i++ ) {
-//					System.out.println(vote.get(i));
-//			}
-			//System.out.println(reply);
+			List<Vote> vote = streetService.selectVoteOption(checkStreet);
 			
 			if (street != null) {
-
+//				for(int k=0;k<board.size();k++) {
+//					System.out.println("게시글 목록 : " + board.get(k));
+//				}
+				
 				model.addAttribute("street", street); // 해당골목 정보
+				if(board.isEmpty()) { // 게시물 검색결과 없음 표시하기 위해
+					board.add(0, new Board(0));
+				}
+				
 				model.addAttribute("board", board);  // 해당 골목 게시글 조회
+				//request.getSession().setAttribute("board", board);
 				model.addAttribute("reply", reply);  // 해당 골목 댓글 리스트 (댓글용)
 				model.addAttribute("reReply", reply);  // 해당골목 댓글 리스트 (대댓글용)
 				model.addAttribute("vote", vote);     // 해당 골목 투표 게시글 정보
@@ -134,7 +192,6 @@ public class StreetController {
 
 	}
 	
-
 	// 게시글 작성
 	@RequestMapping("insert")
 	public String insertBoard(Board board, Model model, HttpServletRequest request, 
@@ -142,9 +199,9 @@ public class StreetController {
 			@RequestParam(value = "images", required = false) List<MultipartFile> images) {
 
 		Member loginMember = (Member) model.getAttribute("loginMember");
-		System.out.println(loginMember);
+//		System.out.println(loginMember);
 		int boardWriter = loginMember.getMemberNo();
-		System.out.println(boardWriter);
+//		System.out.println(boardWriter);
 
 		int streetNo = (int) model.getAttribute("streetNo");
 		System.out.println(streetNo);
@@ -154,8 +211,8 @@ public class StreetController {
 		board.setStreetNo(streetNo);
 		board.setTypeNo(0);
 
-		System.out.println("등록할 게시글 : " + board);
-		System.out.println("board.getBoardContent : " + board.getBoardContent());
+//		System.out.println("등록할 게시글 : " + board);
+//		System.out.println("board.getBoardContent : " + board.getBoardContent());
 
 		try {
 
@@ -183,7 +240,7 @@ public class StreetController {
 
 		Member loginMember = (Member) model.getAttribute("loginMember");
 
-		System.out.println("글번호 출력 : " + postNo);
+//		System.out.println("글번호 출력 : " + postNo);
 				
 		Reply reply = new Reply();
 		reply.setMemberNo(loginMember.getMemberNo());
@@ -207,7 +264,7 @@ public class StreetController {
 
 		Member loginMember = (Member) model.getAttribute("loginMember");
 
-		System.out.println("댓글번호 출력 : " + replyNo);
+//		System.out.println("댓글번호 출력 : " + replyNo);
 		
 		Reply reply = new Reply();
 
@@ -236,7 +293,7 @@ public class StreetController {
 
 			Member loginMember = (Member) model.getAttribute("loginMember");
 
-			System.out.println("대댓글번호 출력 : " + replyNo);
+//			System.out.println("대댓글번호 출력 : " + replyNo);
 			
 			Reply reply = new Reply();
 
@@ -264,7 +321,7 @@ public class StreetController {
 	@RequestMapping("deletePost")
 	public String deletePost(int postNo, Model model) {
 
-		System.out.println("글삭제 번호 출력 : " + postNo);
+//		System.out.println("글삭제 번호 출력 : " + postNo);
 
 		try {
 
@@ -290,7 +347,7 @@ public class StreetController {
 		
 		Reply reply = new Reply();
 		
-		System.out.println("댓글 입력 내용 : " + commentContent );
+//		System.out.println("댓글 입력 내용 : " + commentContent );
 		
 		reply.setBoardNo(postNo);
 		reply.setMemberNo(loginMember.getMemberNo());
@@ -320,13 +377,13 @@ public class StreetController {
 		@RequestMapping("writeReComment")
 		public String writeReComment(int replyNo, Model model, String commentContent, int boardNo) {
 			
-			System.out.println("대댓글 달릴 댓글 번호 출력 : " + replyNo);
+//			System.out.println("대댓글 달릴 댓글 번호 출력 : " + replyNo);
 			
 			Member loginMember = (Member)model.getAttribute("loginMember");
 			
 			Reply reply = new Reply();
 			
-			System.out.println("댓글 입력 내용 : " + commentContent );
+//			System.out.println("댓글 입력 내용 : " + commentContent );
 			
 			reply.setReReplyNo(replyNo);
 			reply.setMemberNo(loginMember.getMemberNo());
@@ -359,12 +416,12 @@ public class StreetController {
     public ArrayList<Object>  checkProfile(HttpServletResponse response, int memberNo) {
     	ArrayList<Object> mList = new ArrayList<Object>();
     	
-    	System.out.println("작성자 얻어온 정보 : " + memberNo);
+//    	System.out.println("작성자 얻어온 정보 : " + memberNo);
     	try {
     		
         	// 1) 회원 정보 가져오기
     		Member member = streetService.checkProfile(memberNo);
-    		System.out.println("작성자 조회한 정보 : " + member);
+//    		System.out.println("작성자 조회한 정보 : " + member);
     		mList.add(member); // 0번 인덱스에 회원정보
     		
         	// 2) 회원 관심사 가져오기
@@ -393,8 +450,8 @@ public class StreetController {
 	@RequestMapping("mapPost")
 	public String mapPost(String address, Model model, String mapPostContent ) {
 		
-		System.out.println("입력한 주소 : " + address);
-		System.out.println("입력한 게시글 내용 : " + mapPostContent);
+//		System.out.println("입력한 주소 : " + address);
+//		System.out.println("입력한 게시글 내용 : " + mapPostContent);
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
@@ -606,6 +663,34 @@ public class StreetController {
 			return "/common/errorPage";
 		}
 	}
+    
+
+	// 1/N용 회원 목록 조회
+    @ResponseBody
+	@RequestMapping("selectDevideMember")
+    public ArrayList<Object>  selectDevideMember(HttpServletResponse response, Model model) {
+    	
+    	int streetNo = (int)model.getAttribute("streetNo");
+    	
+    	// 1) 회원 정보 가져오기
+    	
+    	try {
+    		List<Member> selectDevideMember = streetService.selectDevideMember(streetNo);
+    		
+			
+			for(int i=0;i<selectDevideMember.size();i++) {
+				System.out.println("선택할 수 있는 회원 : " + selectDevideMember.get(i));
+			}
+			
+			response.setCharacterEncoding("UTF-8");
+			new Gson().toJson(selectDevideMember);
+    		
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    		
+    	}
+    	return null;
+    }
 	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
     

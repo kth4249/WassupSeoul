@@ -14,16 +14,54 @@
 >
 {
 padding
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
  
+
+
+
+
+
 50
 px
+
+
+
+
+
  
+
+
+
+
+
 20
 px
-;
 
-    
+
+
+
+
+
+
+
+
+
+;
 }
 .loungeHeader {
 	width: 100%;
@@ -98,14 +136,14 @@ px
 										<td><button class="btn btn-outline-info nanum"
 												data-toggle="modal" data-target="#adminModal1">상세보기</button></td>
 										<td><button class="btn btn-outline-danger nanum"
-												data-toggle="modal" data-target="#adminModal2">회원강퇴</button></td>
+												data-toggle="modal" data-target="#adminModal2" data-notifyid="${member.memberNo}">회원강퇴</button></td>
 									</tr>
 								</c:forEach>
-							</c:if> 
+							</c:if>
 
 
 
-<!-- 
+							<!-- 
 							<tr class="table-Active">
 								<th scope="row">김태훈</th>
 								<td><button class="btn btn-outline-info nanum"
@@ -134,7 +172,7 @@ px
 								<td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
 							</tr>
 							 -->
-							
+
 						</tbody>
 					</table>
 					<div class="row justify-content-md-center">
@@ -142,7 +180,7 @@ px
 							<option class="nanum" value="nickname">회원 닉네임</option>
 							<option class="nanum" value="nickname">내용</option>
 							<option class="nanum" value="nickname">회원 닉네임 + 내용</option>
-						</select> <input style="width: 150px;"  type="text"
+						</select> <input style="width: 150px;" type="text"
 							class="form-control nanum" name="searchValue">
 						<button class="btn btn-outline-success">검색</button>
 					</div>
@@ -158,6 +196,30 @@ px
 							</tr>
 						</thead>
 						<tbody>
+
+							<c:if test="${empty sList }">
+								<tr>
+									<td colspan="6">존재하는 골목이 없습니다.</td>
+								</tr>
+							</c:if>
+
+
+							<c:if test="${!empty sList }">
+								<c:forEach var="street" items="${sList}" varStatus="vs">
+									<tr class="table-Active">
+										<th scope="row"><a
+											href="${contextPath}/street/streetMain?streetNo=${street.streetNo}"
+											style="text-decoration: none"> ${street.streetNm}</a></th>
+										<td><button class="btn btn-outline-info nanum"
+												data-toggle="modal" data-target="#adminModal3">경고메일</button></td>
+										<td><button class="btn btn-outline-danger nanum"
+												data-toggle="modal" data-target="#adminModal4">골목폐쇄</button></td>
+									</tr>
+								</c:forEach>
+							</c:if>
+
+
+							<!-- 
 							<tr class="table-Active">
 								<th scope="row"><a href="#" style="text-decoration: none">강동구
 										청춘남녀들</a></th>
@@ -190,10 +252,12 @@ px
 								<td><button class="btn btn-outline-info nanum">경고메일</button></td>
 								<td><button class="btn btn-outline-danger nanum">골목폐쇄</button></td>
 							</tr>
+							
+							 -->
 						</tbody>
 					</table>
 					<div class="row justify-content-md-center">
-						<select style="width: 150px;"  class="form-control nanum">
+						<select style="width: 150px;" class="form-control nanum">
 							<option class="nanum" value="nickname">골목 이름</option>
 						</select> <input style="width: 150px;" type="text"
 							class="form-control nanum" name="searchValue">
@@ -212,6 +276,27 @@ px
 							</tr>
 						</thead>
 						<tbody>
+
+
+							<c:if test="${empty hList }">
+								<tr>
+									<td colspan="6">존재하는 관심사가 없습니다.</td>
+								</tr>
+							</c:if>
+
+
+							<c:if test="${!empty hList }">
+								<c:forEach var="hobby" items="${hList}" varStatus="vs">
+									<tr class="table-Active">
+										<th scope="row"><span>${hobby.hobbyName}</span></th>
+										<td><span>${hobby.hobbyCount}명</span></td>
+										<td><a href="" class="btn btn-outline-danger nanum">삭제</a></td>
+									</tr>
+								</c:forEach>
+							</c:if>
+
+
+							<!-- 
 							<tr class="table-Active">
 								<th scope="row"><span>축구</span></th>
 								<td><span>57명</span></td>
@@ -237,6 +322,8 @@ px
 								<td><span>192명</span></td>
 								<td><button class="btn btn-outline-danger nanum">삭제</button></td>
 							</tr>
+							 -->
+
 						</tbody>
 					</table>
 					<div class="row justify-content-md-center">
@@ -257,6 +344,30 @@ px
 							</tr>
 						</thead>
 						<tbody>
+
+
+							<c:if test="${empty rList }">
+								<tr>
+									<td colspan="6">존재하는 활동보고서가 없습니다.</td>
+								</tr>
+							</c:if>
+
+
+							<c:if test="${!empty rList }">
+								<c:forEach var="report" items="${rList}" varStatus="vs">
+									<tr class="table-Active">
+										<th scope="row"><span>${report.streetNm}</span></th>
+										<td><button class="btn btn-outline-info nanum"
+												data-toggle="modal" data-target="#adminModal5">보고서
+												확인</button></td>
+
+									</tr>
+								</c:forEach>
+							</c:if>
+
+
+<!-- 
+
 							<tr class="table-Active">
 								<th scope="row"><a href="#" style="text-decoration: none">강동구
 										청춘남녀들</a></th>
@@ -287,12 +398,14 @@ px
 								<td><button class="btn btn-outline-info nanum">보고서
 										확인</button></td>
 							</tr>
+							
+							 -->
 						</tbody>
 					</table>
 					<div class="row justify-content-md-center">
-						<select style="width: 150px" ; class="form-control nanum">
+						<select style="width: 150px;" class="form-control nanum">
 							<option class="nanum" value="nickname">골목 이름</option>
-						</select> <input style="width: 150px" ; type="text"
+						</select> <input style="width: 150px;" type="text"
 							class="form-control nanum" name="searchValue">
 						<button class="btn btn-outline-success">검색</button>
 					</div>
@@ -400,7 +513,7 @@ px
 						<div class="modal-body" style="font-size: 20px;">
 							<form action="">
 								<div class="nanum text-center" style="font-size: 35px;">
-									<button class="btn btn-outline-danger nanum">강퇴하기</button>
+									<button class="btn btn-outline-danger nanum" id="memberDeleteBtn">강퇴하기</button>
 								</div>
 								<br>
 							</form>
@@ -412,7 +525,43 @@ px
 					</div>
 				</div>
 			</div>
-
+			<script>
+			$(function(){
+				
+				var memberNo;
+				
+				$("#memberDeleteBtn").on("click", function(){
+					
+					console.log(${member.memberNo});
+					
+					memberNo = $(event.relatedTarget).data('notifyid');
+					
+					$.ajax({
+						
+						url : "admin/deleteMember",
+						data : {memberNo : memberNo},
+						type : "post",
+						dataType : "json",
+						success : function(result){
+							
+							if(result > 0){
+								alert("강퇴 실패");								
+							} else{
+								alert("회원이 강퇴되었습니다.");
+							}
+							
+						},
+						
+						error : function(){
+							console.log("ajax통신 실패");
+						}
+					});
+					
+				});
+				
+			});
+			
+			</script>
 
 			<!-- 메일 보내기 모달 (메일 API 도입후 어떻게 할지 결정)-->
 			<div class="modal fade" id="adminModal3">

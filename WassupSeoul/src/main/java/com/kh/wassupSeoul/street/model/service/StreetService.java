@@ -41,7 +41,21 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract Street selectStreet(Integer streetNo) throws Exception;
+	
+	/**  작성자명으로 게시글 검색
+	 * @param checkStreet
+	 * @return List<Board>
+	 * @throws Exception
+	 */
+	public abstract List<Board> searchBoardwithWriter(Reply checkStreet) throws Exception;
 
+	/** 키워드로 골목 게시글 검색
+	 * @param checkStreet
+	 * @return List<Board>
+	 * @throws Exception
+	 */
+	public abstract List<Board> searchBoardwithKeyword(Reply checkStreet) throws Exception;
+	
 	/** 회원 골목 등급 조회
 	 * @param checkStreet
 	 * @return memGradeInSt
@@ -145,11 +159,11 @@ public interface StreetService {
 	public abstract int votePost(Board board, Vote vote, String[] voteOption) throws Exception;
 	
 	/** 투표 선택지 조회용 
-	 * @param streetNo
+	 * @param checkStreet
 	 * @return voteList
 	 * @throws Exception
 	 */
-	public abstract List<Vote> selectVoteOption(Integer streetNo) throws Exception;
+	public abstract List<Vote> selectVoteOption(Reply checkStreet) throws Exception;
 	
 	/** 투표 기록용 Service
 	 * @param vote
@@ -157,6 +171,15 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int recordVote(Vote vote) throws Exception;
+	
+	
+	
+	/* 1/N 회원 선택 목록 가져오기 
+	 * @param streetNo
+	 * @return List<Member>
+	 * @throws Exception
+	 */
+	public abstract List<Member> selectDevideMember(int streetNo) throws Exception;
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
@@ -610,6 +633,10 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int sendReport(Report report) throws Exception;
+
+	
+
+	
 
 	
 	

@@ -19,10 +19,9 @@
 					<div class="container" id="searchBox" style="padding: 0; width: 100%;">
 					
 						<div id="searchWrap">
-							<form method="GET" id="login-form-input">
-							
+							<form action="streetMain" method="get"  onsubmit="return validate();">
 								<div style="width: 100%; background-color: rgb(221, 233, 218);">
-									<input type="text" class="form-control nanum" placeholder=" 내용, @작성자 검색" id="searchBox">
+									<input type="text" class="form-control nanum searchBoxKeyword" placeholder=" 내용, @작성자 검색" id="searchBox" name="searchKeyword">
 								</div>
 								<button type="submit" class="btn" id="searchBtn">
 									<img src="${contextPath}/resources/img/search.png" style="width: 80%; height: 80%;">
@@ -32,6 +31,23 @@
 						</div>
 						
 					</div>
+<script>
+	
+	// submit 동작
+	function validate() {
+			var str = $(".searchBoxKeyword").val();
+			if( str == '' || str == null ){
+			    alert( '검색어를 입력해 주세요' );
+			    return false;
+			}
 
+			var blank_pattern = /^\s+|\s+$/g;
+			if( str.replace( blank_pattern, '' ) == "" ){
+			    alert('검색어를 입력해 주세요');
+			    return false;
+			}
+	}
+
+</script>
 </body>
 </html>

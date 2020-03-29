@@ -23,7 +23,12 @@ public class Board {
 	
 	public Board() {
 	}
+    
 
+	public Board(int boardNo) {
+		super();
+		this.boardNo = boardNo;
+	}
 
 	public Board(int boardNo, String boardWriter, String boardContent, Timestamp boardWriteDt, String boardStatus,
 			String boardLevel, int streetNo, int memberNo, int typeNo, int thumbCount, int replyCount,

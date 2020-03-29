@@ -12,6 +12,7 @@ public class Report {
 	private String reportContent;
 	private int streetNo;
 	private String meetingImgUrl;
+	private String streetNm;
 	
 	
 	public Report() {
@@ -34,6 +35,24 @@ public class Report {
 		this.streetNo = streetNo;
 		this.meetingImgUrl = meetingImgUrl;
 	}
+
+
+
+	public Report(int reportNo, Date meetingStartDate, Date meetingEndDate, String meetingPlace, int meetingMember,
+			String reportContent, int streetNo, String meetingImgUrl, String streetNm) {
+		super();
+		this.reportNo = reportNo;
+		this.meetingStartDate = meetingStartDate;
+		this.meetingEndDate = meetingEndDate;
+		this.meetingPlace = meetingPlace;
+		this.meetingMember = meetingMember;
+		this.reportContent = reportContent;
+		this.streetNo = streetNo;
+		this.meetingImgUrl = meetingImgUrl;
+		this.streetNm = streetNm;
+	}
+
+
 
 
 
@@ -120,13 +139,33 @@ public class Report {
 
 
 
+	public String getStreetNm() {
+		return streetNm;
+	}
+
+
+
+
+
+	public void setStreetNm(String streetNm) {
+		this.streetNm = streetNm;
+	}
+
+
+
+
+
 	@Override
 	public String toString() {
 		return "Report [reportNo=" + reportNo + ", meetingStartDate=" + meetingStartDate + ", meetingEndDate="
 				+ meetingEndDate + ", meetingPlace=" + meetingPlace + ", meetingMember=" + meetingMember
 				+ ", reportContent=" + reportContent + ", streetNo=" + streetNo + ", meetingImgUrl=" + meetingImgUrl
-				+ "]";
+				+ ", streetNm=" + streetNm + "]";
 	}
+
+
+
+
 
 
 

@@ -56,5 +56,15 @@
 	</websocket:handlers>
 	<beans:bean id="echoHandler" class="com.kh.wassupSeoul.common.EchoHandler"/>
 	
+		<!-- 메신저 관련해서 handler 연결 -->
+	<websocket:handlers>
+		<websocket:mapping handler="chatHandler" path="/chat"/>
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+		</websocket:handshake-interceptors>
+		<websocket:sockjs/>
+	</websocket:handlers>
+	<beans:bean id="chatHandler" class="com.kh.wassupSeoul.common.ChatHandler"/>
+	
 	
 </beans:beans>
