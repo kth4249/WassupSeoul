@@ -282,11 +282,41 @@ public class FriendsDAO {
 
 	/**
 	 * @param mMap
-	 * @return
+	 * @return list
 	 * @throws Exception
 	 */
 	public List<Member> selectChater(Map<String, Object> mMap) throws Exception {
 		return sqlSession.selectList("friendsMapper.selectChater", mMap);
+	}
+
+
+	/** 대화방 진입 조회
+	 * @param roomNo
+	 * @return msg
+	 * @throws Exception
+	 */
+	public List<MSG> inToRoom(int roomNo) throws Exception{
+		return sqlSession.selectList("friendsMapper.inToRoom",roomNo);
+	}
+
+
+	/** 프로필 불러오기 1
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	public Member selectMember(int memberNo) throws Exception {
+		return sqlSession.selectOne("friendsMapper.selectMember1", memberNo);
+	}
+
+
+	/** 프로필 불러오기 2
+	 * @param memberNickname
+	 * @return member
+	 * @throws Exception
+	 */
+	public Member selectMember(String memberNickname) throws Exception{
+		return sqlSession.selectOne("friendsMapper.selectMember2", memberNickname);
 	}
 
 	/*-----------------태훈 알람 관련 추가-------------------*/

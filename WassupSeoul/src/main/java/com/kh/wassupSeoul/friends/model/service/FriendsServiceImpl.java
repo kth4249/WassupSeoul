@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.wassupSeoul.friends.model.dao.FriendsDAO;
 import com.kh.wassupSeoul.friends.model.vo.ChatList;
 import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
+import com.kh.wassupSeoul.friends.model.vo.MSG;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
@@ -311,22 +312,47 @@ public class FriendsServiceImpl implements FriendsService{
 		}
 		
 		//System.out.println("cList : " + cList);
-		
-		
-		
-		
 		return cList;
 	}
 
+	
+	/** 대화방 진입
+	 * @param roomNo
+	 * @return msg
+	 * @throws Exception
+	 */
+	@Override
+	public List<MSG> inToRoom(int roomNo) throws Exception {
+		
+		List<MSG> msg = friendsDAO.inToRoom(roomNo);
+		
+		//System.out.println(msg);
+		
+		return msg;
+	}
+	
+	
 
+	/** 프로필 불러오기 1
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	@Override
+	public Member selectMember(int memberNo) throws Exception {
+		return friendsDAO.selectMember(memberNo);
+	}
 	
-	
-	
-	
-	
+	/** 프로필 불러오기 2
+	 * @param memberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	@Override
+	public Member selectMember(String memberNickname) throws Exception {
+		return friendsDAO.selectMember(memberNickname);
+	}
 	// 아마 대화방에서 닫으면 status N 으로 바꾸는 동작도 해야할듯
-	
-	
 
 	/*-----------------태훈 알람 관련 추가-------------------*/
 	@Override

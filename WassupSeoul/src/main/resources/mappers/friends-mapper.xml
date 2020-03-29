@@ -33,12 +33,13 @@
 	
 	<resultMap type="MSG" id="MSGResultSet">
 		<id property="msgNo" column="MSG_NO"/>
-   		<result property="msgContent" column="MSG_STATUS"/>
+   		<result property="msgContent" column="MSG_CONTENT"/>
    		<result property="msgStatus" column="MSG_STATUS"/>
 		<result property="memberNo" column="MEMBER_NO"/>
 		<result property="roomNo" column="ROOM_NO"/>
+		<result property="memberNickname" column="MEMBER_NICKNAME"/>
+		<result property="memberProfileUrl" column="MEMBER_PROFILE_URL"/>
 	</resultMap>
-	
 	
 
 	
@@ -319,6 +320,35 @@
 	ORDER BY ROOM_NO
 
 </select>
+
+
+<select id="inToRoom" parameterType="_int" resultMap="MSGResultSet">
+
+	SELECT MSG_CONTENT, MEMBER_NICKNAME, MEMBER_PROFILE_URL 
+	FROM MSG JOIN MEMBER USING (MEMBER_NO)
+	WHERE ROOM_NO = #{roomNo}
+	ORDER BY MSG_NO
+
+
+</select>
+
+
+<!-- 프로필 불러오기 1  -->
+<select id="selectMember1" parameterType="_int" resultMap="memberResultSet">
+	SELECT * FROM MEMBER
+	WHERE MEMBER_NO = #{memberNo}
+</select>
+
+<!-- 프로필 불러오기 2  -->
+<select id="selectMember2" parameterType="string" resultMap="memberResultSet">
+	SELECT * FROM MEMBER
+	WHERE MEMBER_NICKNAME = #{memberNickname}
+</select>
+
+
+
+
+
 
 
  
