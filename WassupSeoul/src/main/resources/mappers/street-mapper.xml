@@ -264,7 +264,9 @@
 		<!-- 게시글 댓글 개수체크 -->				 
 		LEFT OUTER JOIN (SELECT COUNT(*) AS REPLY_COUNT, BOARD_NO FROM(SELECT * FROM V_BOARD LEFT OUTER JOIN REPLY USING (BOARD_NO)
 						 WHERE REPLY_STATUS='Y' AND REPLY_LEVEL = 1) GROUP BY BOARD_NO) USING (BOARD_NO)
-						 
+		<if test="boardNo != null and boardNo != ''">
+			WHERE BOARD_NO = #{boardNo}
+		</if>
 		ORDER BY BOARD_NO
   	 </select>
   	 
@@ -934,6 +936,7 @@
 	<select id="selectPtList" parameterType="_int" resultType="string"> 
 		SELECT BFILE_URL FROM BFILE 
 		WHERE STREET_BFILE = #{streetNo}
+		ORDER BY BFILE_NO DESC
 	</select>
 	
 	
@@ -950,4 +953,15 @@
 		#{streetNo}, #{meetingImgUrl})  
 	</insert>
 	<!-- 지원 활동보고서 끝 -->
+	
+	
+	<!-- 3/30 미현 사진첩 전체 게시글 수 조회용 시작 -->
+	<select id="getBfileListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM BFILE
+		WHERE STREET_BFILE = #{streetNo}
+	</select>
+	<!-- 3/30 미현 사진첩 전체 게시글 수 조회용 끝-->
+	
+	
+	
 </mapper>

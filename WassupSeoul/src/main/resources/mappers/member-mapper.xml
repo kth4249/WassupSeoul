@@ -279,12 +279,37 @@
 		WHERE ALARM_NO = #{alarmNo}
 	</update>
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 ENDㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ  -->
-	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	<select id="selectCitizenCount" parameterType="_int" resultType="_int">
 		SELECT COUNT(*) FROM STREET_JOIN
   		WHERE STREET_NO = #{streetNo} AND CITIZEN_STATUS = 'Y'
 	</select>
-	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
+	
+	<!-- 정승환 추가코드(20.30.29) 시작 -->
+	<!-- 가입 대기 골목 정보 조회 -->
+	<select id="selectWaitStreet" parameterType="_int" resultMap="profileStreetResultSet">
+		SELECT STREET_NO, STREET_NM, STREET_INTRO, DISTRICT_NM, IMG_URL FROM STREET
+		JOIN DISTRICT USING(DISTRICT_NO)
+		JOIN STREET_JOIN USING(STREET_NO)
+		JOIN STREET_IMG USING(IMG_NO)
+		WHERE MEMBER_NO = #{memberNo} AND STREET_STATUS = 'Y' AND CITIZEN_STATUS='W'
+	</select>
+	
+	<!-- 골목 가입 대기 인원수 조회 -->
+	<select id="selectWaitStreetCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM STREET_JOIN
+		JOIN STREET USING(STREET_NO)
+		WHERE STREET_NO = #{streetNo} AND STREET_STATUS = 'Y' AND CITIZEN_STATUS='W'
+	</select>
+	
+	<!-- 가입 실패 및 탈퇴 골목 정보 조회 -->
+	<select id="selectOutStreet" parameterType="_int" resultMap="profileStreetResultSet">
+		SELECT STREET_NO, STREET_NM, STREET_INTRO, DISTRICT_NM, IMG_URL FROM STREET
+		JOIN DISTRICT USING(DISTRICT_NO)
+		JOIN STREET_JOIN USING(STREET_NO)
+		JOIN STREET_IMG USING(IMG_NO)
+		WHERE MEMBER_NO = #{memberNo} AND STREET_STATUS = 'Y' AND CITIZEN_STATUS='N'
+	</select>
+	<!-- 정승환 추가코드(20.30.29) 끝 -->
 	
 	
 	

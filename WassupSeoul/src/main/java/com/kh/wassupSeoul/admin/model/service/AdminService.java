@@ -38,10 +38,38 @@ public interface AdminService {
 	public abstract List<Report> selectReportList() throws Exception;
 
 	/** 회원 강퇴용 Service
-	 * @param memberNo
+	 * @param deleteMemberNo
 	 * @return result
 	 * @throws Exception
 	 */
-	public abstract int deleteMember(int memberNo) throws Exception;
+	public abstract int deleteMember(int deleteMemberNo) throws Exception;
+
+	/** 골목 폐쇄용 Service
+	 * @param deleteStreetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteStreet(Integer deleteStreetNo) throws Exception;
+
+	/** 관심사 삭제용 Service
+	 * @param hobbyNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteHobby(Integer deleteHobbyNo) throws Exception;
+
+	/** 활동 보고서 상세보기용 Service
+	 * @param selectReportNo
+	 * @return report
+	 * @throws Exception
+	 */
+	public abstract Report selectReport(Integer selectReportNo) throws Exception;
+
+	/** 회원 상세보기용 Service
+	 * @param selectMemberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	public abstract Member selectMember(Integer selectMemberNo) throws Exception;
 
 }

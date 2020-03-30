@@ -34,6 +34,8 @@ import org.springframework.web.socket.WebSocketSession;
 import com.google.gson.Gson;
 import com.kh.wassupSeoul.common.EchoHandler;
 import com.kh.wassupSeoul.common.FileRename;
+import com.kh.wassupSeoul.common.Pagination;
+import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
@@ -65,7 +67,8 @@ public class StreetController {
 	@RequestMapping(value = "streetMain", method = RequestMethod.GET)
 	public String timeLine( Model model, RedirectAttributes rdAttr, HttpServletRequest request,
 			@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
-			@RequestParam(value = "streetNo", required = false) Integer streetNo
+			@RequestParam(value = "streetNo", required = false) Integer streetNo,
+			@RequestParam(value = "boardNo", required = false) Integer boardNo
 			) {
 		
 //		System.out.println("searchKeyword :" +searchKeyword);
@@ -105,7 +108,9 @@ public class StreetController {
 				// 해당 골목 정보 조회
 				street = streetService.selectStreet(streetNo);
 				System.out.println(street);
-				
+				if(boardNo != null) {
+					checkStreet.setBoardNo(boardNo);
+				}
 				board = streetService.selectBoard(checkStreet);
 				Collections.reverse(board);
 				model.addAttribute("streetNo", streetNo);
@@ -249,6 +254,13 @@ public class StreetController {
 		try {
 
 			return streetService.likeCheck(reply) == 1 ? true + "" : false + "";
+			/*
+			// 알람 관련해서 수정 하는 중 -태훈
+			int result = streetService.likeCheck(reply);
+			if(result > 0) {
+				int memberNo = streetService.getBoardWriter(reply);
+			}
+			*/
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1206,7 +1218,7 @@ public class StreetController {
 			// 일정 등록이 되기전 게시글 등록 -> 등록된 게시글 번호가 필요
 			
 			// 일정 참가가 있을 경우 추가할 버튼
-			String btnPlus = "<br><button class='nanum btn btn-primary joinBtn' data-toggle='modal' data-target='#calendarJoinModal\'>일정 참가하기</button>";
+			String btnPlus = "<br><br><button class='nanum btn btn-primary joinBtn' data-toggle='modal' data-target='#calendarJoinModal\'>일정 참가하기</button>";
 			// 일정 참가시 해당 글번호
 			String boardNoPlus = "<input type='hidden' value='" + boardNo + "'>";
 			
@@ -1747,28 +1759,40 @@ public class StreetController {
 		}
 	}
 	
-	/** 사진첩 사진 조회용 
+	/** 사진첩 사진 목록 조회용 
 	 * @param model
 	 * @param board
 	 * @param currentPage
 	 * @return list
 	 */
 	@RequestMapping("photoAlbum")
-	public String photoAlbum(Model model) {
+	public String photoAlbum(Model model, 
+			@RequestParam(value = "currentPage", required = false) Integer currentPage) {
 		
 		try {
+			
+			int streetNo = (int) model.getAttribute("streetNo");
+			System.out.println(streetNo);
+			
+			int listCount = streetService.getListCount(streetNo);
+			
+			// 현재페이지
+			if (currentPage == null)
+				currentPage = 1;
+
+			// 페이지 정보 저장
+			PageInfo pInf = Pagination.getPageInfo(10, 10, currentPage, listCount);
+
 			/*
 			 * if (currentPage == null) currentPage = 1; PageInfo pInf =
 			 * Pagination.getPageInfo(5, 10, currentPage, listCount);
 			 */
-			int streetNo = (int) model.getAttribute("streetNo");
-			System.out.println(streetNo);
-			
-			List<String> list = streetService.selectPtList(streetNo);
+			List<String> list = streetService.selectPtList(streetNo, pInf);
 			
 			System.out.println("list입니당:"+list);
 			
 			model.addAttribute("list", list);
+			model.addAttribute("pInf",pInf);
 			/* model.addAttribute("pInf", pInf); */
 		
 		} catch (Exception e) {

@@ -987,11 +987,14 @@ public class StreetDAO {
 	/*=======================3/26 미현 시작==============================*/
 
 	/** 사진첩 게시글 조회용 DAO
+	 * @param pInf 
 	 * @param pInf
  	 * @return list
 	 */
-	public List<String> selectPtList(int streetNo) {
-		return sqlSession.selectList("streetMapper.selectPtList",streetNo);
+	public List<String> selectPtList(int streetNo, PageInfo pInf) {
+		int offset = (pInf.getCurrentPage()-1)*pInf.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pInf.getLimit());
+		return sqlSession.selectList("streetMapper.selectPtList",streetNo,rowBounds);
   }
 
 
@@ -1020,7 +1023,13 @@ public class StreetDAO {
 		return sqlSession.insert("streetMapper.insertReport", report);
 	}
 
-	
+	/** 사진첩 전체 게시글 조회용 DAO
+	 * @param streetNo
+	 * @return listCount
+	 */
+	public int getListCount(int streetNo) {
+		return sqlSession.selectOne("streetMapper.getBfileListCount",streetNo);
+	}
 
 
 

@@ -346,6 +346,10 @@ public interface StreetService {
 	 * @param map
 	 */
 	public abstract void exileJumin(Map<String, Integer> map) throws Exception;
+	
+	
+	// 게시글 좋아요 관련 알람
+	public abstract int getBoardWriter(Reply reply);
 
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
@@ -617,10 +621,12 @@ public interface StreetService {
 	/*==============================3/26 미현 코드 추가 시작=============================*/
 	
 	/** 사진첩 목록 조회용
+	 * @param pInf 
+	 * @param streetNo 
 	 * @return list
 	 * @throws Exception
 	 */
-	public abstract List<String> selectPtList(int streetNo) throws Exception;
+	public abstract List<String> selectPtList(int streetNo, PageInfo pInf) throws Exception;
 
 
 	/*==============================3/26 미현 코드 추가 끝=============================*/
@@ -633,6 +639,12 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int sendReport(Report report) throws Exception;
+
+	/** 사진첩 게시글 수 조회용 Service
+	 * @param streetNo 
+	 * @return listCount
+	 */
+	public abstract int getListCount(int streetNo);
 
 	
 

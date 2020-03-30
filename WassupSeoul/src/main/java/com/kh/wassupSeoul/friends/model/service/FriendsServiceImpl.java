@@ -266,7 +266,7 @@ public class FriendsServiceImpl implements FriendsService{
 		// 내꺼 방 번호 목록
 		List <Integer> RoomNoList = friendsDAO.selectRoomNo(myNo);
 		
-		if (RoomNoList == null) {
+		if (RoomNoList == null || RoomNoList.isEmpty()) { // 대화방 없으면 익셉션 떠서 수정(태훈)
 			return null;
 		}
 		//System.out.println("RoomNoList : "+ RoomNoList);

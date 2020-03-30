@@ -54,13 +54,53 @@ public class AdminDAO {
 	}
 
 	/** 회원 강퇴용 DAO
-	 * @param memberNo
+	 * @param deleteMemberNo
 	 * @return result
 	 * @throws Exception
 	 */
-	public int deleteMember(int memberNo) throws Exception {
+	public int deleteMember(int deleteMemberNo) throws Exception {
 		
-		return sqlSession.update("adminMapper.deleteMember", memberNo);
+		return sqlSession.update("adminMapper.deleteMember", deleteMemberNo);
+	}
+
+	/** 골목 폐쇄용 DAO
+	 * @param deleteStreetNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteStreet(Integer deleteStreetNo) throws Exception {
+		
+		return sqlSession.update("adminMapper.deleteStreet", deleteStreetNo);
+	}
+
+	/** 관심사 삭제용 DAO
+	 * @param deleteHobbyNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteHobby(Integer deleteHobbyNo) throws Exception {
+		
+		return sqlSession.delete("adminMapper.deleteHobby", deleteHobbyNo);
+	}
+
+	/** 활동보고서 상세보기용 DAO
+	 * @param selectReportNo
+	 * @return report
+	 * @throws Exception
+	 */
+	public Report selectReport(Integer selectReportNo) throws Exception {
+		
+		return sqlSession.selectOne("adminMapper.selectReport", selectReportNo);
+	}
+
+	/** 회원 상세보기용 DAO
+	 * @param selectMemberNo
+	 * @return member
+	 * @throws Exception
+	 */
+	public Member selectMember(Integer selectMemberNo) throws Exception {
+		
+		return sqlSession.selectOne("adminMapper.selectMember", selectMemberNo);
 	}
 
 }
