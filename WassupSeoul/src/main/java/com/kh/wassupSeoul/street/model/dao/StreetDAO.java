@@ -365,8 +365,8 @@ public class StreetDAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Member> selectDevideMember(int streetNo) throws Exception {
-		return sqlSession.selectList("streetMapper.selectDevideMember", streetNo);
+	public List<Member> selectDivideMember(int streetNo) throws Exception {
+		return sqlSession.selectList("streetMapper.selectDivideMember", streetNo);
 	}
 	// -------------------------------------------- 중하 끝
 	// ---------------------------------------------

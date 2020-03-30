@@ -422,8 +422,8 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<Member> selectDevideMember(int streetNo) throws Exception {
-		return streetDAO.selectDevideMember(streetNo);
+	public List<Member> selectDivideMember(int streetNo) throws Exception {
+		return streetDAO.selectDivideMember(streetNo);
 	}
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 

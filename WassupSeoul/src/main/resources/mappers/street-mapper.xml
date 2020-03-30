@@ -115,7 +115,7 @@
 		
 	</resultMap>
 	
-	<resultMap type="Divide" id="devideResultSet">
+	<resultMap type="Divide" id="divideResultSet">
 		<id property="memberNo" column="MEMBER_NO"/>
 		
 		<result property="memberNickName" column="MEMBER_NICKNAME"/>
@@ -489,7 +489,7 @@
 	
 	
 	<!-- 1/N 회원 선택 목록 가져오기  -->
-  	<select id="selectDevideMember" parameterType="_int" resultMap="devideResultSet">
+  	<select id="selectDivideMember" parameterType="_int" resultMap="divideResultSet">
   		SELECT MEMBER_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL, MEMBER_STATUS, DIVIDE_DT 
   		FROM MEMBER
 		LEFT INNER JOIN ( SELECT MEMBER_NO, STREET_NO FROM STREET_JOIN WHERE STREET_NO = #{streetNo}) USING(MEMBER_NO)

@@ -71,7 +71,7 @@
 			           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
 			           <jsp:include page="../street/streetDetail/voteModal.jsp"/> 
 			           <jsp:include page="../street/streetDetail/sketchModal.jsp"/> 
-			           <jsp:include page="../street/streetDetail/devideModal.jsp"/> 
+			           <jsp:include page="../street/streetDetail/divideModal.jsp"/> 
                 		<jsp:include page="../street/streetDetail/post.jsp"/>
 			          </div>
             		  <!-- 글작성 영역 -->
@@ -101,7 +101,7 @@
 			           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
 			           <jsp:include page="../street/streetDetail/voteModal.jsp"/> 
 			           <jsp:include page="../street/streetDetail/sketchModal.jsp"/> 
-			           <jsp:include page="../street/streetDetail/devideModal.jsp"/> 
+			           <jsp:include page="../street/streetDetail/divideModal.jsp"/> 
                 		<jsp:include page="../street/streetDetail/post.jsp"/>
 			          </div>
             		  <!-- 글작성 영역 -->

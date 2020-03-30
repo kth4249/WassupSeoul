@@ -76,8 +76,8 @@
 									<span  id="setDate" style="width: 300px; display: inline-block; float:right; visibility:hidden">
 									<input id="date" type='date' style="width: 140px;"/>
 									</span>
-										
-									<button type="button" id="voteSubmitBtn" style="width: 15%; height: 30px; font-size: 17px; float: right; margin-left: 200px">작성</button>
+									<!-- onclick="return validate2();" -->	
+									<button type="button" id="voteSubmitBtn" style="width: 15%; height: 30px; font-size: 17px; float: right; margin-left: 200px" >작성</button>
  
 									<!-- content end -->
 								</div>
@@ -89,52 +89,59 @@
 					<!-- end -->
 					
 <script>
-	
-	// 투표 게시글작성
-	document.getElementById('voteSubmitBtn').addEventListener('click', function(){
-		var votePostContent = $("#writePostArea").val();
-		var votePostTitle = $("#voteTitle").val();
-		var anonymity = "N";
+	//선택지 공백 우효성 검사
+	/* function validate2() {
+		var optionCount = $(".voteOption").length
 		
-		
-		function validate() {
-			var str = $(".voteOption").val();
+		for( var i = 1; i<optionCount+1; i++){
+			var str = $("#voteOption"+i).val();
+			
 			if( str == '' || str == null ){
 			    alert( '투표 선택지를 입력해 주세요' );
 			    return false;
 			}
-
 			var blank_pattern = /^\s+|\s+$/g;
 			if( str.replace( blank_pattern, '' ) == "" ){
 			    alert('투표 선택지를 입력해 주세요');
 			    return false;
 			}
 		}
+	} */
+	
+	// 투표 게시글작성
+	document.getElementById('voteSubmitBtn').addEventListener('click', function(){
+		
+		// 투표 게시글 내용
+		var votePostContent = $("#writePostArea").val(); 
+		// 투표 제목
+		var votePostTitle = $("#voteTitle").val(); 
+		// 무기명 투표여부
+		var anonymity = "N";  
+		// 중복투표 여부
+		var voteLimit = "N";
 		
 		 //무기명 투표 여부
-		 var checked2 = $("#anonymity").prop('checked');
-		 if(checked2){
+		 if( $("#anonymity").is(":checked") == true ){
 			anonymity = "Y";
 		 }
 		
-		// 복수 선태 개수 받기 
-		 var checked = $("#plurality").prop('checked');
-		 if(checked){
+		//복수 선태 개수 받기 
+		 if ($("#plurality").is(":checked") == true ){
 			 var voteLimit = $("#voteLimit option:selected").attr('value');
-		 }else{
-			 var voteLimit = "N";
 		 }
 		
 		// 종료일 선택  
 		if( $('input:checkbox[id="endDate"]').is(":checked") == true ){
 			var endDate = $('#date').val();    // 종료일
 		}else{
-			var dt = new Date();
-		    dt.setFullYear(2200) ;
-		    dt.setMonth(10);
-		    dt.setDate(12);
-			
-			var endDate = dt;
+			 var date = new Date();
+			 date.setFullYear(2200) ;
+			 date.setMonth(10);
+			 date.setDate(12);
+		   
+		  	 moment(date).format('YYYY-MM-DD');
+		    
+			var endDate = date;
 		}
 		
 		// 투표 옵션 
@@ -212,8 +219,6 @@
    	        	alert("투표 옵션은 10개까지만 추가 가능합니다.");
    	        } 
 	    });
-        
-	
 	
 	// 투표 모달 중복투표 허용 옵션 보이기 
     $("#plurality").change(function(){

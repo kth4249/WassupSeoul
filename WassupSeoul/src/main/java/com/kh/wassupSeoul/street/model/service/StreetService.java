@@ -179,7 +179,7 @@ public interface StreetService {
 	 * @return List<Member>
 	 * @throws Exception
 	 */
-	public abstract List<Member> selectDevideMember(int streetNo) throws Exception;
+	public abstract List<Member> selectDivideMember(int streetNo) throws Exception;
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
