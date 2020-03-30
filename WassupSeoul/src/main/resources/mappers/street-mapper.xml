@@ -110,6 +110,8 @@
 		<result property="streetNo" column="STREET_NO"/>
 		<result property="memberNo" column="MEMBER_NO"/>
 		<result property="voteStatus" column="VOTE_STATUS"/>
+		<result property="voteCount" column="VOTE_COUNT"/>
+		<result property="voteWholeVoteCount" column="WHOLE_VOTE_COUNT"/>
 		
 	</resultMap>
 	
@@ -414,6 +416,11 @@
   		SELECT SEQ_BOARD.NEXTVAL FROM DUAL 
   	</select>  	
   	
+    <!-- 투표 선택지 현재번호 조회  -->
+  	<select id="checkVoteNo" resultType="_int">
+  		SELECT  SEQ_VOTE.NEXTVAL FROM DUAL 
+  	</select>  	
+  	
   	<!-- 투표 게시글 등록용 to Board 테이블  -->
   	<insert id="votePost" parameterType="board">
   		INSERT INTO BOARD VALUES(#{boardNo}, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo}, NULL , NULL )
@@ -421,7 +428,7 @@
 	
 	<!-- 투표 게시글 등록용 to Vote 테이블  -->
   	<insert id="uploadVote" parameterType="Vote">
-  		INSERT INTO VOTE VALUES(#{boardNo}, #{voteTitle}, NULL, SYSDATE, #{voteEndDt}, #{voteDup}, #{voteOtion}, #{anonymity} )
+  		INSERT INTO VOTE VALUES(#{boardNo}, #{voteTitle}, NULL, SYSDATE,  #{voteEndDt}, #{voteDup}, #{voteOtion}, #{anonymity} )
   	</insert>
   	
   	<!-- 투표 게시글 선택지 등록용 to VOTE_PICK 테이블  -->
@@ -429,21 +436,34 @@
       	 INSERT ALL 
      	<foreach collection="list" item="Vote" >
       		 INTO VOTE_PICK (VOTE_NO, VOTE_CONTENT, BOARD_NO)
-      		  VALUES ( get_seq('service_code_seq'), #{Vote.voteOtion}, #{Vote.boardNo})
+      		  VALUES ( #{Vote.voteNo}, #{Vote.voteOtion}, #{Vote.boardNo})
     	</foreach>
     	SELECT * FROM DUAL
 	</insert>
 	 
 	<!-- 투표 게시글 선택지 조회용  --> 
 	<select id="selectVoteOption" parameterType="_int" resultMap="voteResultSet">
-	    SELECT      VOTE_NO, VOTE_CONTENT, BOARD_NO, VOTE_TITLE, VOTE_RESULT, VOTE_ENROLL_DT, VOTE_END_DT, VOTE_DUP, VOTE_ANONYMITY, STREET_NO,
-					MEMBER_NO, VOTE_STATUS
+		
+		SELECT      VOTE_NO, VOTE_CONTENT, BOARD_NO, VOTE_TITLE, VOTE_RESULT, VOTE_ENROLL_DT, VOTE_END_DT, VOTE_DUP, VOTE_ANONYMITY, STREET_NO,
+					MEMBER_NO, VOTE_STATUS,BOARD_STATUS,VOTE_COUNT,WHOLE_VOTE_COUNT
 		FROM V_VOTE
+		
 		LEFT OUTER JOIN (SELECT  VOTE_STATUS, MEMBER_NO, VOTE_NO
 						FROM(SELECT BOARD_NO, VOTE_NO, VOTE_STATUS, MEMBER_NO  FROM VOTE_PICK
 		     			LEFT OUTER JOIN (SELECT VOTE_NO, VOTE_STATUS, MEMBER_NO  FROM VOTER WHERE MEMBER_NO=#{memberNo}) USING(VOTE_NO))) USING(VOTE_NO)
-		WHERE STREET_NO = #{streetNo}
+        <!-- 로그인 회원 해당 선택지 투표 여부     -->             
+        LEFT OUTER JOIN (SELECT  BOARD_STATUS,  BOARD_NO FROM  BOARD ) USING(BOARD_NO) 
+      	<!--득표수  -->
+        LEFT OUTER JOIN (SELECT COUNT(*) AS VOTE_COUNT, VOTE_NO FROM (  SELECT * FROM VOTER WHERE VOTE_STATUS='Y')   GROUP BY VOTE_NO) USING(VOTE_NO) 
+   		<!-- 해당 투표 전체 투표수 --> 
+        LEFT OUTER JOIN (   SELECT COUNT(*) AS WHOLE_VOTE_COUNT, BOARD_NO FROM (
+                                        SELECT VOTE_NO, MEMBER_NO, VOTE_STATUS, BOARD_NO  FROM VOTER  LEFT OUTER JOIN ( SELECT VOTE_NO, BOARD_NO FROM VOTE_PICK )  
+                                        USING(VOTE_NO)  WHERE VOTE_STATUS='Y' ) GROUP BY BOARD_NO) USING(BOARD_NO) 
+        
+		WHERE STREET_NO = #{streetNo} AND BOARD_STATUS= 'Y'
+        
 		ORDER BY VOTE_NO
+		
   	</select> 
   	
   	<!-- 투표 게시글 선택지 투표여부 조회용  --> 
@@ -453,6 +473,7 @@
 		FROM(SELECT BOARD_NO, VOTE_NO, VOTE_STATUS, MEMBER_NO  FROM VOTE_PICK
 		     LEFT OUTER JOIN (SELECT VOTE_NO, VOTE_STATUS, MEMBER_NO  FROM VOTER WHERE MEMBER_NO=#{memberNo} ) USING(VOTE_NO))
 
+		
 		WHERE VOTE_NO=#{voteNo}
   	</select> 
   	

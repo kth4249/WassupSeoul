@@ -48,11 +48,16 @@
 	
 									<div>
 									<span>
-									</span>
 										 <img src="${contextPath}/resources/img/team.png" style="width: 30px; height: 30px; "> 
+									</span>
 									<span>
 										<span id="selectMember" style="margin-left: 15px;" data-toggle="modal" data-target="#selectMemberModal" >멤버선택 ></span>	
 									</span>
+									</div>
+									<div id="divideMemberListShown" style="width: 100%;">
+									
+									
+									
 									</div>	
 										
 									<button type="button" id="devideSubmitBtn" style="width: 15%; height: 30px; font-size: 17px; float: right; margin: 0px">작성</button>
@@ -97,43 +102,28 @@
 	
 	//멤버선택시 멤버 보기 
  	$("#selectMember").on("click",function(){
+ 		$("#divideMemberList").empty();
+ 		
  		$.ajax({
  			url : "selectDevideMember",
  			type : "post",
  			dataType : "json",
  			success : function(selectDevideMember){
- 				
+ 				console.log(selectDevideMember)
       			// 골목 회원 리스트 
- 				/* var $divPlus = $("#divideMemberList"); */
+ 				var $divPlus = $("#divideMemberList");
       		
- 				for(var i=1; i<selectDevideMember.size(); i++){
- 					alert(selectDevideMember.get(i).memberNickName);
- 					
- 					/* var $divPlus1 = $("<div class='col-sm-10'>");
- 					
-       				var $labelPlus = $("<label>");
-       				
-       				var $inputPlus = $("<input>");
-       				
-					$labelPlus.addClass("col-sm-2 col-form-label text-center nanum").css({"font-weight" : "bold","font-size": "16px"}).html("관심분야");
-					
-					$inputPlus.prop({"type":"text","readonly":"true"}).css({"color" : "blue","font-size": "25px"})
-							  .addClass("nanum form-control-plaintext").val("." + mList[1].hobbyName);
-					
-					$divPlus1.append($inputPlus);
-					if(document.getElementByName("writerProfileHobby").childElementCount < (Object.keys(mList).length-1)*2) {
-						$divPlus.append($labelPlus);
-						$divPlus.append($divPlus1);	
-					}
- 					
- 					
-					var html = "<div style=\"border: 1px solid #ced4da; height: 45px;\">"
-							 + "<img src=\"${contextPath}/resources/img/"+selectDevideMember.get(i).memberProfileUrl+"\" style=\"width: 30px; height: 30px; margin-left: 3px; margin-bottom: 1px;\">"		
-						     + "<label style=\"width: 300px; margin-left: 20px; margin-top: 6px;   font-size:17px;\">"+selectDevideMember.get(i).memberNickName+
- 							 + "<input type='checkbox' style=\"margin-top: 6px; width:20px; height:20px; float:right;\" name=\"\" class=\"\" /></label>"
- 							 + "</div>";
-						     
- 					$("#divideMemberList").append(html); */
+ 				for(var i=0; i<selectDevideMember.length; i++){
+ 					alert(selectDevideMember[i].memberNickName);
+ 				
+					var html = '<div style="border: 1px solid #ced4da; height: 45px;"><img src="${contextPath}/resources/img/"'
+							 +  selectDevideMember[i].memberProfileUrl
+							 + '" style="width: 30px; height: 30px; margin-left: 3px; margin-bottom: 1px;">'		
+						     + '<label style="width: 300px; margin-left: 20px; margin-top: 6px; font-size:17px;">'
+						     +  selectDevideMember[i].memberNickName
+						     + '<input type="checkbox" style="margin-top: 6px; width:20px; height:20px; float:right;"/></label></div>'
+					console.log(html)
+ 					$("#divideMemberList").append(html); 
  					
  				}
  			},

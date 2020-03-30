@@ -308,8 +308,9 @@
 												<!-- 선택지 1 -->
 												<div style="margin-top: 10px;  margin-bottom: 30px;">
 												
+													
 													<c:choose>
-															<c:when test="${vote.voteStatus eq 'Y'}">  	 
+															<c:when test="${voteOption.voteStatus eq 'Y'}">  	 
 																<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
 																<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
 																       name="${voteOption.voteNo}" class="voteCheckBox" checked />${voteOption.voteOtion}</label>
@@ -324,18 +325,33 @@
 													</c:choose>
 												
 													
+													<fmt:formatNumber var="barWidth" type="percent" minFractionDigits="0" maxFractionDigits="3" value="${ voteOption.voteCount/voteOption.voteWholeVoteCount }"/>
+													
 													<!-- 득표수 -->
 													<div style="margin-right: 100px; font-size: 13px; display: inline-block; 
-													            float: right; position: relative; top: 41px; left:10px; color:blue; font-weight:bold"><p>3</p></div> 
-													<div class="progress"  style="width:70%; margin-left: 60px;" >
-														<!-- 진행바 -->
-														<div class="progress-bar" style="width:70%; display: inline-block;"></div>
-													</div>
+													            float: right; position: relative; top: 41px; left:10px; color:blue; font-weight:bold"><p class="voteCountArea">${voteOption.voteCount} </p></div> 
+													
+													<c:choose>
+															<c:when test="${barWidth == 'NaN'}">  	 
+																<div class="progress"  style="width:70%; margin-left: 60px;" >
+																	<!-- 진행바 -->
+																	<div class="progress-bar" style="width:0%; display: inline-block;"></div>
+																</div>
+															</c:when>
+															<c:otherwise>
+																<div class="progress"  style="width:70%; margin-left: 60px;" >
+																	<!-- 진행바 -->
+																	<div class="progress-bar" style="width:${barWidth}; display: inline-block;">${barWidth}</div>
+																</div>
+															</c:otherwise>
+													</c:choose>
+													
+													
 													<!-- 투표자 -->
 													<div style="width:80%; margin-left: 60px;" >
 														<!-- 무기명 투표 체크 안했을 시 -->
 														<c:if test="${vote.anonymity eq 'N'}">
-														 	<p style="font-size:13px;" name="${vote.anonymity}">투표 참여자 : 남과여남1</p>
+														 	<p style="font-size:13px;" name="${vote.anonymity}">남과여남1</p>
 														 </c:if>	
 														 <!-- 무기명 투표 체크  시 -->
 														 <c:if test="${vote.anonymity eq 'Y'}">
@@ -721,34 +737,45 @@
 	    	// 선택지 번호
 	    	var voteNo = $(this).attr("name");  
 	    	
-	    	alert(voteNo);
 	    	// 복수 선택 여부, 개수
 	    	var voteDup = $(this).parent().parent().prev("div" > ".voteDup" ).attr("name");
 	    	
-	    	alert(voteDup);
 	    	// 무기명 여부
 	    	var anonymity = $(this).next().next().next().find("p").attr("name");
 	    	// 무기명시 Y   무기명 아닐시 N
 	    	
 	    	var checkStatus = "Y";
 	    	
-	    	alert(anonymity);
+	       	var voteCount = $(this).parent().next("div").first("p").text();
+	      
+	       	alert(voteCount);
 	    	
-	        if($(".voteCheckBox").is(":checked")){   // 체크박스 체크시
+	        if( $(".voteCheckBox").is(":checked")==true){   // 체크박스 체크시
+	        	voteCount++;
 	        	// 체크상태
-		    	
 		    	// 진행막대
 		    	//var progressBar = $(this).next().next().find("progress-bar");
 		    	//wholeP = (int)((double)pBar.getSolvedQuestion()/pBar.getWholeQuestion()*100);
-		    	
 	        	alert("체크박스 체크했음!");
-	        	 
 	        }else{ // 체크박스 체크해제시 
+	        	voteCount--;
 	        	checkStatus = "N";
 	            alert("체크박스 체크 해제!");
 	        }
 	        
-	        alert(checkStatus);
+	        alert(voteCount);
+	        
+	       /*  if ( voteCount == 0 ) {
+	        	voteCount="";
+	        	$(this).$(this).parent().next("div").first("p").text(voteCount);
+	        }else{
+	        	$(this).$(this).parent().next("div").first("p").text(voteCount);
+	        } */
+	      	//alert(voteNo);
+		    //alert(anonymity);
+		    //alert(voteDup);
+	        //alert(checkStatus);
+	        
 	        
 	        // 투표 기록용 Ajax
 	        $.ajax({

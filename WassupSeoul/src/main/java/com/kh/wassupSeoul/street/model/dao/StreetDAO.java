@@ -302,6 +302,16 @@ public class StreetDAO {
 	 */
 	public int uploadVote(Vote vote) throws Exception {
 		return sqlSession.insert("streetMapper.uploadVote", vote);
+		
+	}
+	
+	
+	/** 투표 선택지 현재 번호 조회용 
+	 * @return integer
+	 * @throws Exception
+	 */
+	public Integer checkVoteNo()  throws Exception{
+		return sqlSession.selectOne("streetMapper.checkVoteNo");
 	}
 	
 	

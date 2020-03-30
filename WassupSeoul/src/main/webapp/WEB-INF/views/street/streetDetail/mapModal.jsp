@@ -80,6 +80,9 @@
 					 <script>
 				      function initMap() {
 				    	  
+			    	  var map;
+			          var markers = [];	  
+			    	  
 				    	// 지도 게시글 업로드용 지도  
 				    	var geocoder = new google.maps.Geocoder;
 				        var map = new google.maps.Map(document.getElementById('map'), {
@@ -119,15 +122,43 @@
 				      }
 				
 				      function geocodeAddress(geocoder, resultsMap) {
+			    	 	 
 				        var address = document.getElementById('address').value;
 				        geocoder.geocode({'address': address}, function(results, status) {
 				          if (status === 'OK') {
-				        	  var coords = results[0].geometry.location;
+				        	 var coords = results[0].geometry.location;
 				            	resultsMap.setCenter(coords);
 				           	 var marker = new google.maps.Marker({
 				           		   map: resultsMap,
 				             	   position: coords
 				            });
+				           	 markers.push(marker);
+				          
+				           	 
+				           	 
+				          // Sets the map on all markers in the array.
+				             function setMapOnAll(map) {
+				               for (var i = 0; i < markers.length; i++) {
+				                 markers[i].setMap(map);
+				               }
+				             }
+
+				             // Removes the markers from the map, but keeps them in the array.
+				             function clearMarkers() {
+				               setMapOnAll(null);
+				             }
+
+				             // Shows any markers currently in the array.
+				             function showMarkers() {
+				               setMapOnAll(map);
+				             }
+
+				             // Deletes all markers in the array by removing references to them.
+				             function deleteMarkers() {
+				               clearMarkers();
+				               markers = [];
+				             } 
+				           	 
 				           	 
 				           	$("#mapSubmitBtn").attr("name", coords);	
 				          } else {
