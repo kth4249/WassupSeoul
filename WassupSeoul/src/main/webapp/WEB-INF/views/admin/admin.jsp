@@ -24,13 +24,17 @@ padding
 
 
 
+
+
 :
 
 
 
 
 
+
  
+
 
 
 
@@ -43,7 +47,9 @@ px
 
 
 
+
  
+
 
 
 
@@ -51,6 +57,8 @@ px
 
 20
 px
+
+
 
 
 
@@ -95,7 +103,7 @@ px
 <body>
 
 	<jsp:include page="../common/header.jsp" />
-	<div style="margin-top: 50px;">
+	<div style="margin-top: 50px; text-align: center;">
 		<div class="container">
 			<ul class="nav nav-tabs">
 				<li class="nav-item"><a class="nav-link active"
@@ -106,8 +114,8 @@ px
 					href="#like">관심사관리</a></li>
 				<li class="nav-item"><a class="nav-link" data-toggle="tab"
 					href="#report">활동보고서</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#complain">1:1문의</a></li>
+				<!-- <li class="nav-item"><a class="nav-link" data-toggle="tab"
+					href="#complain">1:1문의</a></li> -->
 			</ul>
 
 			<div id="myTabContent" class="tab-content">
@@ -133,45 +141,16 @@ px
 								<c:forEach var="member" items="${mList}" varStatus="vs">
 									<tr class="table-Active">
 										<th scope="row">${member.memberNm}</th>
-										<td><button class="btn btn-outline-info nanum"
-												data-toggle="modal" data-target="#adminModal1">상세보기</button></td>
-										<td><button class="btn btn-outline-danger nanum"
-												data-toggle="modal" data-target="#adminModal2" data-notifyid="${member.memberNo}">회원강퇴</button></td>
+										<td><button class="btn btn-outline-info nanum selectMember"
+												data-toggle="modal" data-target="#adminModal1"
+												id="${member.memberNo}">상세보기</button></td>
+										<td><button class="btn btn-outline-danger nanum deleteMember"
+												data-toggle="modal" data-target="#adminModal2"
+												id="${member.memberNo}">회원강퇴</button></td>
 									</tr>
 								</c:forEach>
 							</c:if>
 
-
-
-							<!-- 
-							<tr class="table-Active">
-								<th scope="row">김태훈</th>
-								<td><button class="btn btn-outline-info nanum"
-										data-toggle="modal" data-target="#adminModal1">상세보기</button></td>
-								<td><button class="btn btn-outline-danger nanum"
-										data-toggle="modal" data-target="#adminModal2">회원강퇴</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row">김지원</th>
-								<td><button class="btn btn-outline-info nanum">상세보기</button></td>
-								<td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row">정승환</th>
-								<td><button class="btn btn-outline-info nanum">상세보기</button></td>
-								<td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row">안중하</th>
-								<td><button class="btn btn-outline-info nanum">상세보기</button></td>
-								<td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row">조미현</th>
-								<td><button class="btn btn-outline-info nanum">상세보기</button></td>
-								<td><button class="btn btn-outline-danger nanum">회원강퇴</button></td>
-							</tr>
-							 -->
 
 						</tbody>
 					</table>
@@ -212,48 +191,14 @@ px
 											style="text-decoration: none"> ${street.streetNm}</a></th>
 										<td><button class="btn btn-outline-info nanum"
 												data-toggle="modal" data-target="#adminModal3">경고메일</button></td>
-										<td><button class="btn btn-outline-danger nanum"
-												data-toggle="modal" data-target="#adminModal4">골목폐쇄</button></td>
+										<td><button class="btn btn-outline-danger nanum deleteStreet"
+												data-toggle="modal" data-target="#adminModal4"
+												id="${street.streetNo}">골목폐쇄</button></td>
 									</tr>
 								</c:forEach>
 							</c:if>
 
 
-							<!-- 
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">강동구
-										청춘남녀들</a></th>
-								<td><button class="btn btn-outline-info nanum"
-										data-toggle="modal" data-target="#adminModal3">경고메일</button></td>
-								<td><button class="btn btn-outline-danger nanum"
-										data-toggle="modal" data-target="#adminModal4">골목폐쇄</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">영등포구
-										풋살하는 사람 모여라</a></th>
-								<td><button class="btn btn-outline-info nanum">경고메일</button></td>
-								<td><button class="btn btn-outline-danger nanum">골목폐쇄</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">면목동
-										이쁜이들</a></th>
-								<td><button class="btn btn-outline-info nanum">경고메일</button></td>
-								<td><button class="btn btn-outline-danger nanum">골목폐쇄</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">마포구
-										드라마쟁이들</a></th>
-								<td><button class="btn btn-outline-info nanum">경고메일</button></td>
-								<td><button class="btn btn-outline-danger nanum">골목폐쇄</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">테니스치는
-										모임</a></th>
-								<td><button class="btn btn-outline-info nanum">경고메일</button></td>
-								<td><button class="btn btn-outline-danger nanum">골목폐쇄</button></td>
-							</tr>
-							
-							 -->
 						</tbody>
 					</table>
 					<div class="row justify-content-md-center">
@@ -290,46 +235,17 @@ px
 									<tr class="table-Active">
 										<th scope="row"><span>${hobby.hobbyName}</span></th>
 										<td><span>${hobby.hobbyCount}명</span></td>
-										<td><a href="" class="btn btn-outline-danger nanum">삭제</a></td>
+										<td><a href="deleteHobby?deleteHobbyNo=${hobby.hobbyNo}" class="btn btn-outline-danger nanum">삭제</a></td>
 									</tr>
 								</c:forEach>
 							</c:if>
 
-
-							<!-- 
-							<tr class="table-Active">
-								<th scope="row"><span>축구</span></th>
-								<td><span>57명</span></td>
-								<td><button class="btn btn-outline-danger nanum">삭제</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><span>영화</span></th>
-								<td><span>203명</span></td>
-								<td><button class="btn btn-outline-danger nanum">삭제</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><span>술</span></th>
-								<td><span>178명</span></td>
-								<td><button class="btn btn-outline-danger nanum">삭제</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><span>연애</span></th>
-								<td><span>382명</span></td>
-								<td><button class="btn btn-outline-danger nanum">삭제</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><span>운동</span></th>
-								<td><span>192명</span></td>
-								<td><button class="btn btn-outline-danger nanum">삭제</button></td>
-							</tr>
-							 -->
-
 						</tbody>
 					</table>
 					<div class="row justify-content-md-center">
-						<select style="width: 150px" ; class="form-control nanum">
+						<select style="width: 150px"  class="form-control nanum">
 							<option class="nanum" value="nickname">관심사명</option>
-						</select> <input style="width: 150px" ; type="text"
+						</select> <input style="width: 150px"  type="text"
 							class="form-control nanum" name="searchValue">
 						<button class="btn btn-outline-success">검색</button>
 					</div>
@@ -356,50 +272,15 @@ px
 							<c:if test="${!empty rList }">
 								<c:forEach var="report" items="${rList}" varStatus="vs">
 									<tr class="table-Active">
-										<th scope="row"><span>${report.streetNm}</span></th>
-										<td><button class="btn btn-outline-info nanum"
-												data-toggle="modal" data-target="#adminModal5">보고서
+										<th scope="row"><span class="streetNm">${report.streetNm}</span></th>
+										<td><button class="btn btn-outline-info nanum selectReport"
+												data-toggle="modal" data-target="#adminModal5"
+												id="${report.reportNo}">보고서
 												확인</button></td>
-
 									</tr>
 								</c:forEach>
 							</c:if>
 
-
-<!-- 
-
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">강동구
-										청춘남녀들</a></th>
-								<td><button class="btn btn-outline-info nanum"
-										data-toggle="modal" data-target="#adminModal5">보고서 확인</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">영등포구
-										풋살하는 사람 모여라</a></th>
-								<td><button class="btn btn-outline-info nanum">보고서
-										확인</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">면목동
-										이쁜이들</a></th>
-								<td><button class="btn btn-outline-info nanum">보고서
-										확인</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">마포구
-										드라마쟁이들</a></th>
-								<td><button class="btn btn-outline-info nanum">보고서
-										확인</button></td>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">테니스치는
-										모임</a></th>
-								<td><button class="btn btn-outline-info nanum">보고서
-										확인</button></td>
-							</tr>
-							
-							 -->
 						</tbody>
 					</table>
 					<div class="row justify-content-md-center">
@@ -411,7 +292,7 @@ px
 					</div>
 				</div>
 
-
+<!-- 
 				<div class="tab-pane fade" id="complain">
 					<table class="table table-hover">
 						<thead>
@@ -444,16 +325,16 @@ px
 						</tbody>
 					</table>
 					<div class="row justify-content-md-center">
-						<select style="width: 150px" ; class="form-control nanum">
+						<select style="width: 150px"  class="form-control nanum">
 							<option class="nanum" value="title">글 제목</option>
 							<option class="nanum" value="nickname">닉네임</option>
-						</select> <input style="width: 150px" ; type="text"
+						</select> <input style="width: 150px" type="text"
 							class="form-control nanum" name="searchValue">
 						<button class="btn btn-outline-success">검색</button>
 					</div>
 				</div>
 
-
+ -->
 			</div>
 
 			<!-- 프로필 상세보기 모달 -->
@@ -472,14 +353,14 @@ px
 							<form action="">
 								<div>
 									<img src="../img/usericon.png" width="200px" height="200px"
-										class="ml-5 mr-5 mt-5 mb-3">
+										class="ml-5 mr-5 mt-5 mb-3" id="memberProfileUrl">
 								</div>
 								<div class="nanum text-center" style="font-size: 35px;">
-									<span class="">김태훈</span>
+									<span class="" id="memberNickname">김태훈</span>
 								</div>
 								<div class="nanum text-center"
 									style="font-size: 20px; color: darkblue;">
-									<span class="">남성</span> <span class="">25세</span>
+									<span class="" id="memberGender">남성</span> <span class="" id="memberAge">25세</span>
 								</div>
 								<br>
 								<div class="nanum text-center"
@@ -511,11 +392,14 @@ px
 							</button>
 						</div>
 						<div class="modal-body" style="font-size: 20px;">
-							<form action="">
+							<form action="deleteMember"
+								method="POST">
 								<div class="nanum text-center" style="font-size: 35px;">
-									<button class="btn btn-outline-danger nanum" id="memberDeleteBtn">강퇴하기</button>
+									<button class="btn btn-outline-danger nanum"
+										id="memberDeleteBtn">강퇴하기</button>
 								</div>
 								<br>
+								<input type="hidden" id="deleteMemberNo" name="deleteMemberNo">
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -526,37 +410,85 @@ px
 				</div>
 			</div>
 			<script>
+			
+			
 			$(function(){
 				
-				var memberNo;
-				
-				$("#memberDeleteBtn").on("click", function(){
-					
-					console.log(${member.memberNo});
-					
-					memberNo = $(event.relatedTarget).data('notifyid');
+				/* 회원 상세보기 */
+				$(".selectMember").on("click", function(){
+					var selectMemberNo;
+					selectMemberNo = $(this).prop("id");
+					console.log("회원 번호 : " + selectMemberNo);
 					
 					$.ajax({
 						
-						url : "admin/deleteMember",
-						data : {memberNo : memberNo},
+						url : "selectMember",
+						data : {selectMemberNo : selectMemberNo},
 						type : "post",
 						dataType : "json",
-						success : function(result){
-							
-							if(result > 0){
-								alert("강퇴 실패");								
-							} else{
-								alert("회원이 강퇴되었습니다.");
+						success : function(member){
+							if(member != null){
+								console.log(member);
+								console.log(member.memberNickname);
+								$("#memberNickname").text(member.memberNickname);
+								$("#memberAge").text(member.memberAge);
+							} else {
+								alert("데이터가 없습니다.");								
 							}
-							
 						},
-						
 						error : function(){
-							console.log("ajax통신 실패");
+							console.log("ajax 통신 실패");
+							console.log(e);
 						}
 					});
+				});
+				
+				
+				/* 회원 강퇴 */
+				$(".deleteMember").on("click", function(){
+					var deleteMemberNo;
+					deleteMemberNo = $(this).prop("id");
+					$("#deleteMemberNo").val(deleteMemberNo);
+				});
+				
+				/* 경고 메일 */
+				
+				/* 골목 폐쇄 */
+				$(".deleteStreet").on("click", function(){
+					var deleteStreetNo;
+					deleteStreetNo = $(this).prop("id");
+					$("#deleteStreetNo").val(deleteStreetNo);
+				});
+				
+				
+				/* 보고서 확인 */
+				$(".selectReport").on("click", function(){
 					
+					var selectReportNo;
+					selectReportNo = $(this).prop("id");
+					console.log("보고서 번호 : " + selectReportNo);
+					
+					$.ajax({
+						
+						url : "selectReport",
+						data : {selectReportNo : selectReportNo},
+						type : "post",
+						dataType : "json",
+						success : function(report){
+							if(report != null){
+								console.log(report);
+								console.log(report.streetNm);
+								$("#reportStreetNm").text(report.streetNm);
+								$("#reportContent").text(report.reportContent);
+							} else {
+								alert("데이터가 없습니다.");								
+							}
+						},
+						error : function(){
+							console.log("ajax 통신 실패");
+							console.log(e);
+						}
+					});
 				});
 				
 			});
@@ -614,11 +546,12 @@ px
 							</button>
 						</div>
 						<div class="modal-body" style="font-size: 20px;">
-							<form action="">
+							<form action="deleteStreet" method="POST">
 								<div class="nanum text-center" style="font-size: 35px;">
 									<button class="btn btn-outline-danger nanum">폐쇄하기</button>
 								</div>
 								<br>
+								<input type="hidden" id="deleteStreetNo" name="deleteStreetNo">
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -634,8 +567,8 @@ px
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title nanum" style="font-size: 30px;">미니
-								프로필</h5>
+							<h5 class="modal-title nanum" style="font-size: 30px;">보고서
+								확인</h5>
 							<button type="button" class="close" data-dismiss="modal"
 								aria-label="Close">
 								<span aria-hidden="true">&times;</span>
@@ -644,11 +577,11 @@ px
 						<div class="modal-body" style="font-size: 20px;">
 							<form action="">
 								<div class="nanum text-center" style="font-size: 35px;">
-									<span class="">보고서 제목 들어오는 공간</span>
+									<span class="" id="reportStreetNm"></span>
 								</div>
 								<div class="nanum text-center"
 									style="font-size: 20px; color: darkblue;">
-									<span class="">보고서 내용 들어오는 공간</span>
+									<span class="" id="reportContent"></span>
 								</div>
 								<br>
 							</form>

@@ -88,7 +88,7 @@
 			MEETING_END_DT, MEETING_PLACE, MEETING_MEMBER, 
 		REPORT_CONTENT, R.STREET_NO, MEETING_IMG_URL
 		FROM STREET S, REPORT R
-		WHERE S.STREET_NO = R.STREET_NO
+		WHERE S.STREET_NO = R.STREET_NO AND S.STREET_STATUS = 'Y'
 	</select>
 
 
@@ -96,9 +96,42 @@
 	<update id="deleteMember" parameterType="_int">
 		UPDATE MEMBER 
 		SET MEMBER_STATUS = 'N'
-		WHERE MEMBER_NO = #{memberNo}
+		WHERE MEMBER_NO = #{deleteMemberNo}
 	</update>
  
+ 	<!-- 골목 폐쇄 -->
+ 	<update id="deleteStreet" parameterType="_int">
+ 		UPDATE STREET
+ 		SET STREET_STATUS = 'N'
+ 		WHERE STREET_NO = #{deleteStreetNo}
+ 	</update>
+ 	
+ 	<!-- 관심사 삭제 -->
+ 	<delete id="deleteHobby" parameterType="_int">
+ 		DELETE FROM HOBBY
+ 		WHERE HOBBY_NO = #{deleteHobbyNo} 		 
+ 	</delete>
+ 	
+ 	
+ 	<!-- 활동보고서 상세보기 -->
+ 	<select id="selectReport" parameterType="_int" resultMap="reportResultSet">
+ 		SELECT STREET_NM, REPORT_NO, MEETING_START_DT, 
+			MEETING_END_DT, MEETING_PLACE, MEETING_MEMBER, 
+		REPORT_CONTENT, R.STREET_NO, MEETING_IMG_URL
+		FROM STREET S, REPORT R
+		WHERE S.STREET_NO = R.STREET_NO 
+			AND S.STREET_STATUS = 'Y' 
+			AND REPORT_NO = #{selectReportNo} 
+ 	</select>
+ 	
+ 	<!-- 회원 상세보기 -->
+ 	<select id="selectMember" parameterType="_int" resultMap="memberResultSet">
+ 		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_NM, MEMBER_NICKNAME, 
+			MEMBER_PHONE, MEMBER_GENDER, MEMBER_AGE, MEMBER_PROFILE_URL,
+			MEMBER_GRADE, MEMBER_ENROLL_DT, MEMBER_STATUS
+		FROM MEMBER
+		WHERE MEMBER_NO = #{selectMemberNo}
+ 	</select>
  
 
 </mapper>
