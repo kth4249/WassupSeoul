@@ -2,6 +2,7 @@ package com.kh.wassupSeoul.admin.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,6 @@ public class AdminController {
 			// 활동보고서 목록 조회
 			List<Report> rList = null;
 			rList = adminService.selectReportList(); 
-			System.out.println("활동 보고서 목록 조회 : " + rList);
 			
 			if(rList != null) {
 				model.addAttribute("rList", rList);
@@ -73,7 +73,6 @@ public class AdminController {
 			// 관심사 목록 조회
 			List<Hobby> hList = null;
 			hList = adminService.selectHobbyList();
-			System.out.println("전체 관심사 목록 조회 : " + hList);
 			
 			if(hList != null) {
 				model.addAttribute("hList", hList);
@@ -89,34 +88,56 @@ public class AdminController {
 		}
 	}
 	
-	
-	
-	// 회원 강퇴
+	// 회원 상세보기
 	@ResponseBody
-	@RequestMapping(value = "deleteMember", method = RequestMethod.POST,
-			produces = "application/json; charset=utf-8")
-	public String deleteMember(int memberNo, HttpServletResponse response, Model model) {
-		
-		int result = 0;
-		System.out.println("강퇴할 회원 번호 : " + memberNo);
+	@RequestMapping(value="selectMember", method=RequestMethod.POST)
+	public String selectMember(Integer selectMemberNo, HttpServletResponse response, Model model) {
+				
 		try {
 			
-			result = adminService.deleteMember(memberNo);			
+			Member member = adminService.selectMember(selectMemberNo);
+			
+			if(member != null) {
+				return new Gson().toJson(member);
+			} else {
+				member = null;				
+				return new Gson().toJson(member);
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	// 회원 강퇴
+	@RequestMapping(value = "deleteMember", method = RequestMethod.POST)
+	public String deleteMember(Integer deleteMemberNo, Model model) {
+		
+		int result = 0;
+		
+		try {
+			
+			result = adminService.deleteMember(deleteMemberNo);			
 			
 			if(result > 0) {
-				return new Gson().toJson(result);
+				
+				model.addAttribute("msg", "강퇴 성공");
+				return "redirect:admin";
 				
 			} else {
 				
 				result = 0;
-				return new Gson().toJson(result);				
+				model.addAttribute("msg", "강퇴 실패");
+				return "redirect:admin";				
 			}
 			
 			
 		}catch (Exception e) {
 			
 			e.printStackTrace();
-			return null;
+			model.addAttribute("errorMsg", "회원 강퇴 과정에서 오류 발생");
+			return "common/errorPage";
 		}
 		
 		
@@ -127,13 +148,86 @@ public class AdminController {
 	
 	
 	// 골목 폐쇄
-	
+	@RequestMapping(value="deleteStreet", method=RequestMethod.POST)
+	public String deleteStreet(Integer deleteStreetNo, Model model) {
+		
+		int result = 0;
+		
+		try {
+			
+			result = adminService.deleteStreet(deleteStreetNo);
+			
+			if (result > 0) {
+
+				model.addAttribute("msg", "폐쇄 성공");
+				return "redirect:admin";
+
+			} else {
+
+				result = 0;
+				model.addAttribute("msg", "폐쇄 실패");
+				return "redirect:admin";
+			}
+						
+		}catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "골목 폐쇄 과정에서 오류 발생");
+			return "common/errorPage";
+		}
+		
+	}
 	
 	// 관심사 삭제
-	
+	@RequestMapping("deleteHobby")
+	public String deleteHobby(Integer deleteHobbyNo, Model model) {
+		
+		int result = 0;
+		
+		try {
+			
+			result = adminService.deleteHobby(deleteHobbyNo);
+			
+			if (result > 0) {
+
+				model.addAttribute("msg", "삭제 성공");
+				return "redirect:admin";
+
+			} else {
+
+				result = 0;
+				model.addAttribute("msg", "삭제 실패");
+				return "redirect:admin";
+			}
+			
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "관심사 삭제 과정에서 오류 발생");
+			return "common/errorPage";
+		}
+	}
 	
 	// 활동보고서 확인
-	
+	@ResponseBody
+	@RequestMapping(value="selectReport", method=RequestMethod.POST)
+	public String selectReport(Integer selectReportNo, HttpServletResponse response, Model model) {
+				
+		try {
+			
+			Report report = adminService.selectReport(selectReportNo);
+			
+			if(report != null) {
+				return new Gson().toJson(report);
+			} else {
+				report = null;				
+				return new Gson().toJson(report);
+			}
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	
 
