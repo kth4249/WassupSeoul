@@ -796,6 +796,13 @@ public class StreetServiceImpl implements StreetService{
 		streetDAO.exileJumin(map);
 	}
 	
+	
+	@Override
+	public int getBoardWriter(Reply reply) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	
