@@ -348,9 +348,6 @@ public interface StreetService {
 	public abstract void exileJumin(Map<String, Integer> map) throws Exception;
 	
 	
-	// 게시글 좋아요 관련 알람
-	public abstract int getBoardWriter(Reply reply);
-
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	

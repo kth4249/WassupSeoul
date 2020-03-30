@@ -610,8 +610,17 @@ public class StreetDAO {
 		sqlSession.update("friendsMapper.updateAlarm2", map);
 	}
   
-  public void exileJumin(Map<String, Integer> map) throws Exception{
+	public void exileJumin(Map<String, Integer> map) throws Exception{
 		sqlSession.update("streetMapper.exileJumin", map);
+	}
+	
+	
+	/** 게시글 작성자 번호 조회(알람용)
+	 * @param reply
+	 * @return memberNo
+	 */
+	public int getBoardWriter(Reply reply) {
+		return sqlSession.selectOne("streetMapper.getBoardWriter", reply);
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/

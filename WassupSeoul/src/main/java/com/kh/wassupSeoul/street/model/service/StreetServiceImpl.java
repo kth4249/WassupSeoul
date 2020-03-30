@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
+import com.kh.wassupSeoul.common.EchoHandler;
 import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
@@ -37,6 +40,10 @@ public class StreetServiceImpl implements StreetService{
 	
 	@Autowired
 	private StreetDAO streetDAO;
+	
+	
+	@Autowired
+	private EchoHandler eco;
 
 
 	// -------------------------------------------- 중하 ---------------------------------------------
@@ -124,6 +131,26 @@ public class StreetServiceImpl implements StreetService{
 		if( result == null) {
 			
 			result2 = streetDAO.recordLike(reply);
+			// 알람 관련해서 수정 -태훈
+			if(result2 > 0) {
+				int memberNo = streetDAO.getBoardWriter(reply);
+				String streetNm = streetDAO.selectStreetNm(reply.getStreetNo());
+				
+				// 게시글 작성자에게 알람
+				Alarm alarm = new Alarm("["+streetNm+"] 게시글에 좋아요를 눌렀습니다!", '6', 
+						"street/streetMain?streetNo="+reply.getStreetNo() +"&boardNo="+reply.getBoardNo()
+						, reply.getMemberNo() +"", memberNo);
+				streetDAO.insertAlarm(alarm);
+				
+				// 알람 타겟에게 소켓통신
+				List<WebSocketSession> wsList = eco.getSessionList();
+				for(WebSocketSession ws : wsList) {
+					if(((Member)ws.getAttributes().get("loginMember")).getMemberNo() == memberNo) {
+						ws.sendMessage(new TextMessage(ws.toString()));
+					}
+				}
+			}
+			// 알람 관련해서 수정 -태훈
 			
 			return result2 = 1;
 			
@@ -812,11 +839,6 @@ public class StreetServiceImpl implements StreetService{
 	}
 	
 	
-	@Override
-	public int getBoardWriter(Reply reply) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

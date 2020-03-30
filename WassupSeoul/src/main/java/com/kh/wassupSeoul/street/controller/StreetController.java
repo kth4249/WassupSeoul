@@ -250,17 +250,13 @@ public class StreetController {
 		Reply reply = new Reply();
 		reply.setMemberNo(loginMember.getMemberNo());
 		reply.setBoardNo(postNo);
+		// 알람관련하여 수정 (태훈) //
+		int streetNo = (int)model.getAttribute("streetNo");
+		reply.setStreetNo(streetNo);
 
 		try {
 
 			return streetService.likeCheck(reply) == 1 ? true + "" : false + "";
-			/*
-			// 알람 관련해서 수정 하는 중 -태훈
-			int result = streetService.likeCheck(reply);
-			if(result > 0) {
-				int memberNo = streetService.getBoardWriter(reply);
-			}
-			*/
 
 		} catch (Exception e) {
 			e.printStackTrace();
