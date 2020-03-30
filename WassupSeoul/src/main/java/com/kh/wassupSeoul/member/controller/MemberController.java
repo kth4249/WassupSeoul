@@ -666,7 +666,53 @@ public class MemberController {
 	    }
 	
 
-
+	    /*------------------------ 정승환 추가코드(20.03.28,29)시작-----------------------------------*/
+	    // 가입 대기 및 가입 실패(탈퇴) 골목 조회
+		@ResponseBody
+		@RequestMapping("selectWaitNOutStreet")
+		public void selectWaitNOutStreet(HttpServletResponse response, int memberNo) {
+			
+			// 값을 넘겨줄 Map 선언
+    		HashMap<String, Object> waitNOutStreet = new HashMap<String, Object>(); 
+			
+    		try {
+    			System.out.println("대기 골목 회원번호 : " + memberNo);
+    			// 1) 가입 대기 골목 목록 가져오기 -> CITIZEN_STATUS = 'W'
+    			List<ProfileStreet> waitStreetList = memberService.selectWaitStreet(memberNo);
+    			
+    			String StreetMaster = "";
+    			int waitMemberCount = 0;
+    			for(int i=0;i<waitStreetList.size();i++) {
+    				// 1_1) 가입 대기 골목대장 조회
+    				StreetMaster = memberService.selectStreetMaster(waitStreetList.get(i).getStreetNo());
+    				// 각 대기 골목대장 저장
+    				waitStreetList.get(i).setMemberNm(StreetMaster);
+    				
+    				// 1_2)골목 가입대기 인원수 조회
+    				waitMemberCount = memberService.selectWaitStreetCount(waitStreetList.get(i).getStreetNo());
+    				// 각 골목 가입대기 인원수 저장(변수 재사용)
+    				waitStreetList.get(i).setStreetMaxMember(waitMemberCount);
+    			}
+    			
+    			// 2) 가입 실패(탈퇴) 골목 목록 가져오기 -> CITIZEN_STATUS = 'N'
+    			List<ProfileStreet> outStreetList = memberService.selectOutStreet(memberNo);
+    			
+    			// 가입 대기 골목 정보
+    			waitNOutStreet.put("waitStreetList", waitStreetList);
+    			// 가입 실패(탈퇴) 골목 정보
+    			waitNOutStreet.put("outStreetList", outStreetList);
+    			
+    			response.setCharacterEncoding("UTF-8");
+    			new Gson().toJson(waitNOutStreet, response.getWriter());
+    			
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    		}
+			
+		}
+		
+		/*------------------------ 정승환 추가코드(20.03.28,29)끝-----------------------------------*/
+	
 	
 	
 	

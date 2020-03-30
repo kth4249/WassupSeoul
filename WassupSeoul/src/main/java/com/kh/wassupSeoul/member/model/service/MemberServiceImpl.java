@@ -377,7 +377,6 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.selectProfileMember(memberNo);
 	}
 
-	/*------------------------ 정승환 추가 코드 20.03.23-----------------------------------*/
 	/** 현재 주민 수 조회용 Service
 	 * @param streetNo
 	 * @return citizenCount
@@ -387,9 +386,38 @@ public class MemberServiceImpl implements MemberService{
 	public int selectCitizenCount(int streetNo) throws Exception {
 		return memberDAO.selectCitizenCount(streetNo);
 	}
-	/*------------------------ 정승환 추가 코드 20.03.23-----------------------------------*/
 
-
+	/*------------------------ 정승환 추가코드(20.03.28,29)시작-----------------------------------*/
+	/** 가입 대기 골목 정보 조회용 Service
+	 * @param memberNo
+	 * @return waitList
+	 * @throws Exception
+	 */
+	@Override
+	public List<ProfileStreet> selectWaitStreet(int memberNo) throws Exception {
+		return memberDAO.selectWaitStreet(memberNo);
+	}
+	
+	/** 골목 가입 대기 인원수 조회용 Service
+	 * @param streetNo
+	 * @return waitStreetCount
+	 * @throws Exception
+	 */
+	@Override
+	public int selectWaitStreetCount(int streetNo) throws Exception {
+		return memberDAO.selectWaitStreetCount(streetNo);
+	}
+	
+	/** 가입 실패 및 탈퇴 골목 정보 조회용 Service
+	 * @param memberNo
+	 * @return outStreetList
+	 * @throws Exception
+	 */
+	@Override
+	public List<ProfileStreet> selectOutStreet(int memberNo) throws Exception {
+		return memberDAO.selectOutStreet(memberNo);
+	}
+	/*------------------------ 정승환 추가코드(20.03.28,29)끝-----------------------------------*/
 
 
 
