@@ -164,7 +164,7 @@
 #searchBox {
    width: 92%;
    float: left;
-   padding-left: 5%;
+   /* padding-left: 5%; */
    /* border: 0; */
    border-right: 0;
 }

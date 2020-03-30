@@ -5,8 +5,11 @@
 	<!-- 고정 사이드바 왼쪽 시작 -->
     <div class="col-md-2 fixed-top" style="left: 17%; top: 110px;" style="background-color: rgb(221, 233, 218);">
     <!-- <div class="col-md-2 fixed-top" style="left: 366px; top: 110px;" style="background-color: rgb(221, 233, 218);"> -->
-      <div class="card mb-3">
-        <img style="height: 200px; width: 100%; display: block;" src="${contextPath}/resources/streetCoverImage/${imgUrl}" alt="Card image">
+      <div class="card mb-3" >
+	      <div style="width: 286px !important; height: 200px; overflow: hidden; background-color:black;">
+	        <img style="height: 100%; width: 100%; object-fit: cover; display: block;" 
+	        	src="${contextPath}/resources/streetCoverImage/${imgUrl}" alt="Card image">
+	        </div>
         <div class="card-body">
           <div class="row">
             <div class="col-sm-10">
@@ -14,7 +17,7 @@
 			</div>
 			<!-- 골목 등급을 나타내는 이미지 영역 시작 -->
             <div class="col-sm-2" style="padding: 0px;">
-            	<img src="${contextPath}/resources/img/${badgeUrl}" alt="badge" style="height: 40px; width: 30px;">
+            	<img src="${contextPath}/resources/img/${badgeUrl}" alt="badge" style="height: auto; width: 40px; margin-top: 10px;">
             </div>
             <!-- 골목 등급을 나타내는 이미지 영역 끝 -->
           </div>
@@ -37,7 +40,7 @@
           </div>
           
           <c:forEach var="keyword" items="${streetKeyword}" varStatus="vs">
-          	<div class="col-md-12 golmokKeywordBox" style="background-color: #36be81; border-radius: 20px; margin-bottom: 5px;">
+          	<div class="col-md-12 golmokKeywordBox" style="background-color: #F3969A; border-radius: 20px; margin-bottom: 5px;">
           		<input type="text" readonly class="form-control-plaintext nanum" value="#${keyword.keywordContent}" style="color: white;">
           	</div>
           </c:forEach>
@@ -45,19 +48,19 @@
           <div class="row">
           	<c:if test="${citizenStatus eq 'N'}"> <!-- 정승환 추가코드(20.03.26) -->
 	           <div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
-	           	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
+	           	<button type="button" class="btn btn-primary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
 				id="streetJoin">골목 가입하기</button>
 	           </div>
             </c:if>
             <c:if test="${citizenStatus eq 'W'}">
 	            <div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
-	            	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
+	            	<button type="button" class="btn btn-warning btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
 	            	disabled>골목 가입요청중</button>
 	            </div>
             </c:if>
             <c:if test="${citizenStatus ne 'N' && citizenStatus ne 'W'}"> <!-- 정승환 추가코드(20.03.26) -->
             	<div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
-	            	<button type="button" class="btn btn-secondary btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
+	            	<button type="button" class="btn btn-info disabled btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
 	            	disabled>골목 가입완료</button>
 	            </div>
             </c:if>
@@ -94,14 +97,14 @@
 							href="streetDelete?no=${streetNo}" class="btn btn-link nanum"
 							style="color: red; font-weight: bold; font-size: 15px"> <img
 							src="${contextPath}/resources/img/streetOut.svg" alt="이미지"
-							style="width: 15px; height: 15px;"> 골목 삭제하기
+							style="width: 15px; height: 15px;"> 골목 삭제
 						</a>
 					</div>
 					<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
 						<a href="newMaster?no=${streetNo}" class="btn btn-link nanum"
 							style="color: red; font-weight: bold; font-size: 15px"> <img
 							src="${contextPath}/resources/img/streetOut.svg" alt="이미지"
-							style="width: 15px; height: 15px;"> 골목대장위임하기
+							style="width: 15px; height: 15px;"> 대장위임
 						</a>
 					</div>
 				</c:if>
@@ -121,13 +124,13 @@
 		  	    	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
 	             		<a href="streetUpdate?no=${streetNo}" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetChange.svg" alt="이미지" style="width: 15px; height: 15px;">
-	                                   	골목 변경하기
+	                                   	골목 변경
 	             		</a>
 	           	</div>
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
 	             		<a href="streetReport" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px; padding-left: 6px; padding-right: 6px;">
 	               	<img src="${contextPath}/resources/img/actReport.svg" alt="이미지" style="width: 15px; height: 15px;">
-	                                   	활동보고서 작성
+	                                   	활동보고서
 	             		</a>
 	           	</div>
 	  	    </c:if>
@@ -137,12 +140,12 @@
         </div>
         
        <c:if test="${street.streetPublic eq 'Y'.charAt(0)}">
-        	<div class="card-footer text-muted nanum">
+        	<div class="card-footer nanum">
           	누구나 골목을 검색해 찾을 수 있고, <br>게시물을 볼 수 있습니다.
         	</div>
         </c:if>
         <c:if test="${street.streetPublic eq 'N'.charAt(0)}">
-        	<div class="card-footer text-muted nanum">
+        	<div class="card-footer nanum">
          	 이 골목은 누구나 검색해 찾을 수 있지만, 게시물은 주민만 볼 수 있습니다.
         	</div>
         </c:if>
@@ -177,11 +180,11 @@
 		</script>
 		
      	<!-- 친구목록 버튼 -->
-     	<div style="border-radius: 70%; background-color: gray; width: 100px; height: 100px; position: relative;">
+     	<%-- <div style="border-radius: 70%; background-color: gray; width: 100px; height: 100px; position: relative;">
 			<div style="position: absolute; top: 15px; left: 20px;">
 				<img src="${contextPath}/resources/img/iconmonstr-user-8-64.png" alt="이미지" style="cursor: pointer;">
 			</div>
-		</div>
+		</div> --%>
 
       <!-- 탑버튼 -->
       <%-- <a style="display: scroll; position: fixed; bottom: 10px; right: 10px;" href="#" title="맨 위로">

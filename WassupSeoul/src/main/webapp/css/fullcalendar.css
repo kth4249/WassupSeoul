@@ -730,9 +730,9 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 }
 
 .fc-button-primary:disabled {
-  color: #fff;
-  background-color: #2C3E50;
-  border-color: #2C3E50;
+  color: #5a5a5a;
+  background-color: #FFCE67;
+  border-color: #FFCE67;
 }
 
 .fc-button-primary:not(:disabled):active,
