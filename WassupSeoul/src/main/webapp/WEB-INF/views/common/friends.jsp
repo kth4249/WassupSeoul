@@ -920,9 +920,9 @@
 					
 					$chat.html("") // 기존 html 내용 삭제
 					
-					var $div1 = $("<div>");
-					var $xBtn = $("<button>").prop("class", "close xBtn").html("&times");
-					var $div2 = $("<div>");
+					var $div1 = $("<div>").prop("id","div_chat");
+					var $xBtn = $("<button>").prop("id","exitBtn").prop("class", "close xBtn").html("&times");
+					var $div2 = $("<div>").prop("id","menu_scroll_down");
 					var $dBtn = $("<button>").prop("id", "btn_scroll_down").css("float","right").html("↓");
 					var $br1 = $("<br>");
 					
@@ -974,9 +974,9 @@
 					var $tbody2 = $("<tbody>");
 					var $tr1 = $("<tr>");
 					var $td1 = $("<td>");
-					var $input = $("<input>").prop("class", "nanum").css("width","310px");
+					var $input = $("<input>").prop("id","messageM").prop("class", "nanum").css("width","310px");
 					var $td2 = $("<td>");
-					var $sBtn = $("<button>").prop("class", "btn btn-warning nanum").html("전송");
+					var $sBtn = $("<button>").prop("id","btn_append_row").prop("class", "btn btn-warning nanum").html("전송");
 					
 					$colg.append($col1).append($col2);
 					$table1.append($colg).append($thead1).append($tbody1);
@@ -1022,18 +1022,25 @@
 		});
 		
 	});
-	 
-		
 	
 	
-	/* // 채팅방 내부 작동 레디함수 (아무것도 안됨)
-		$(function() {
+	
+	
+	
+	
+	
+	
+	
+	
+	 	
+	 // 채팅방 내부 작동 레디함수 (아무것도 안됨)
+		/* $(function() {
 			var isScrollUp = false;
 			var lastScrollTop;
 			var unreadCnt = 0;
 			
 			var divChat = document.getElementById('chat');
-												//채팅방
+												  //채팅방
 			// 전송 버튼 클릭 시 
 			$('#btn_append_row').on("click",function() {
 						// 라인 추가
@@ -1107,7 +1114,7 @@
 						}
 					}
 				});
-	});  */
+	});   */
 		
 	
 	
@@ -1122,61 +1129,52 @@
 	
 	
 	 ////////////////////////////////  메신저 소켓 시작해보는중.... ////////////////////////////////////
-	// SockJS객체생성 보낼 url경로를 매개변수로 등록 
-	/*var chat = new SockJS("<c:url value='/echo'/>"); // 영준아 알람과 메신저 변수 이름 다르게
-	chat.onmessage = onAlarm;
+	/* SockJS객체생성 보낼 url경로를 매개변수로 등록 */
+	
+	var chat = new SockJS("<c:url value='/chat'/>");
+	chat.onmessage = onMessage;
 	chat.onclose = onClose;
-	var today = null; 
-
-	function sendAlarm(memberNo){
-		// 맵핑된 핸들러 객채의 handleTextMessage매소드가 실행 
-		//console.log(memberNo);
-		chat.send(memberNo);
+	var today = null;
+	
+	$(function(){
+		$("#btn_append_row").click(function(){
+			console.log("send message.....");
+			/* 채팅창에 작성한 메세지 전송 */
+			sendMessage();
+			/* 전송 후 작성창 초기화 */
+ 			$("#messageM").val('');
+		});
+		$("#exitBtn").click(function(){
+			console.log("exit message.....");
+			/* 채팅창에 작성한 메세지 전송 */
+			sock.onclose();
+		});
+	});
+	function sendMessage(){
+		/* 맵핑된 핸들러 객채의 handleTextMessage매소드가 실행 */
+		chat.send($("#messageM").val());
 	
 	};
-	function onAlarm(evt){
+	function onMessage(evt){
 		var data=evt.data;//new text객체로 보내준 값을 받아옴.
 		var host=null;//메세지를 보낸 사용자 ip저장
-		//var strArray=data.split("|");//데이터 파싱처리하기
+		var strArray=data.split("|");//데이터 파싱처리하기
 		var userName=null;//대화명 저장
-		
-
-		//전송된 데이터 출력해보기
-		// for(var i=0;i<strArray.length;i++)
-		//{
-		//	console.log('str['+i+'] :' + strArray[i]);	 		
-		//} 
-		console.log('제대로 잘 전달받았는지 확인 : ' + data)
-		$("#alarmButton>img").prop("src", "${contextPath}/resources/img/alarmActive.png")
-		
-
-	};
-
-	function onClose(evt){
-		location.href='${pageContext.request.contextPath};';
-	};  */
 	
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	/* 에이잭스 실행 함수 */
+// 	/* 에이잭스 실행 함수 */
 	 $(function(){
 		friendRequest(); 	// 친구 요청 목록
 		friendsList(); 		// 친구 목록 불러오기
 		friendtalk();		// 대화 목록 불러오기
 		
 		
-		
-		
 		/* setInterval(function(){ // 갱신 주기
 			friendRequest(); 
 		}, 10000); */
-	}); 
+	});
+		
 </script>
 
 

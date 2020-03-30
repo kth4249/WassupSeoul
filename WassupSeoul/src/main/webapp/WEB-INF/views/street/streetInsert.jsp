@@ -57,9 +57,9 @@
             });
         </script> -->
 		<!-- ------------------------------------------------------------------------- -->
-		<div class="container-fluid headerMargin loungeBack">
+		<div class="container-fluid loungeBack">
 			<div class="row">
-				<div class="col-md-6 offset-md-3">
+				<div class="col-md-6 offset-md-3 headerMargin">
 					<h1 class="nanum" style="font-weight: bold;">골목 개설하기</h1>
 
 					<!-- 예시 -->
@@ -413,8 +413,11 @@
 				<div class="col-md-2" style="text-align: center;">
 					<button type="button"
 						class="btn btn-secondary btn-lg btn-block nanum">취소</button>
+						<br><br>
 				</div>
 			</div>
+			<%-- <%@ include file="../common/footer.jsp"%> --%>
+			<jsp:include page="../common/footer.jsp"/>
 		</div>
 	</form>
 
@@ -562,7 +565,6 @@
 				});
 	</script>
 
-	<%-- <%@ include file="../common/footer.jsp"%> --%>
-	<jsp:include page="../common/footer.jsp"/>
+
 </body>
 </html>

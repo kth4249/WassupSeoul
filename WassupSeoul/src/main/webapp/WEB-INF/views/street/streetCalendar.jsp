@@ -32,8 +32,6 @@
           //locale : "ko", //한글설정,단 nanum설정 안됨
           dateClick: function (info) {
 	          //alert('Clicked on: ' + info.dateStr); // 날짜 관련 데이터,년-월-일
-	          //$("#startDate").val(info.dateStr);
-	          //$("#calEndDate").val(info.dateStr);
 	          
 	          // 현재 로그인 회원이 골목대장(골목 개설 인원)인지 판별
 	          if(memberNo == streetMasterNo) { // 골목대장일 경우 일정 추가 가능
@@ -43,20 +41,38 @@
 	          }
           
           },
+            
           events: [
-        	  {id: 1,title: '새해',start: '2020-01-01',end: '2020-01-01'},
-              {id: 2,title: '설날',start: '2020-01-24',end: '2020-01-27'},
-              {id: 3,title: '삼일절',start: '2020-03-01',end: '2020-03-01'},
-              {id: 4,title: '부처님오신날',start: '2020-04-30',end: '2020-04-30'},
-              {id: 5,title: '어린이날',start: '2020-05-05',end: '2020-05-05'},
-              {id: 6,title: '현충일',start: '2020-06-06',end: '2020-06-06'},
-              {id: 7,title: '광복절',start: '2020-08-15',end: '2020-08-15'},
-              {id: 8,title: '추석',start: '2020-09-30',end: '2020-10-03'},
-              {id: 9,title: '개천절',start: '2020-10-03',end: '2020-10-03'},
-              {id: 10,title: '한글날',start: '2020-10-09',end: '2020-10-09'},
-              {id: 11,title: '성탄절',start: '2020-12-25',end: '2020-12-25'}
+        	  {id: 1,title: '새해',textColor : "#000000",start: '2020-01-01',end: '2020-01-01'},
+              {id: 2,title: '설날',textColor : "#000000",start: '2020-01-24',end: '2020-01-27'},
+              {id: 3,title: '삼일절',textColor : "#000000",start: '2020-03-01',end: '2020-03-01'},
+              {id: 4,title: '부처님오신날',textColor : "#000000",start: '2020-04-30',end: '2020-04-30'},
+              {id: 5,title: '어린이날',textColor : "#000000",start: '2020-05-05',end: '2020-05-05'},
+              {id: 6,title: '현충일',textColor : "#000000",start: '2020-06-06',end: '2020-06-06'},
+              {id: 7,title: '광복절',textColor : "#000000",start: '2020-08-15',end: '2020-08-15'},
+              {id: 8,title: '추석',textColor : "#000000",start: '2020-09-30',end: '2020-10-03'},
+              {id: 9,title: '개천절',textColor : "#000000",start: '2020-10-03',end: '2020-10-03'},
+              {id: 10,title: '한글날',textColor : "#000000",start: '2020-10-09',end: '2020-10-09'},
+              {id: 11,title: '성탄절',textColor : "#000000",start: '2020-12-25',end: '2020-12-25'}
           ]
-                      
+          /*----------------정승환 추가코드(20.03.30)-------------------*/
+          //일정 클릭 이벤트
+          ,eventClick:function(info) {
+        	  var start = info.event.start.getFullYear()+"-"+(info.event.start.getMonth() + 1)+"-"+info.event.start.getDate(); // 년-월-일 형태로 문자열 구성
+        	  if(info.event.end != null) {
+        		  var end = info.event.end.getFullYear()+"-"+(info.event.end.getMonth() + 1)+"-"+info.event.end.getDate(); // 년-월-일 형태로 문자열 구성  
+        	  } else {
+        		  var end = start;
+        	  }
+        	  // 일정 정보 조회용 모달창 값 세팅
+        	  $("#informScheduleTitle").val(info.event.title);
+        	  $("#informScheduleStart").val(start);
+        	  $("#informScheduleEnd").val(end);
+        	  // 일정 정보 모달 출력
+        	  $("#informSchedule").modal();
+          }
+          /*----------------정승환 추가코드(20.03.30)-------------------*/
+          
         });
         
         // 일정 달력에 추가
@@ -74,11 +90,25 @@
    			var tempTitle = calTitle[index];
    			var tempStartDate = calStartDate[index];
    			var tempEndDate = calEndDate[index];
-        	calendar.addEvent({'title': tempTitle, 'start':tempStartDate, 'end':tempEndDate});
+        	calendar.addEvent({'title': tempTitle,textColor : "#000000", 'start':tempStartDate, 'end':tempEndDate});
         });
    		
        	//var abc = calTitle[0];
         //calendar.addEvent({'title':abc, 'start':'2020-03-24', 'end':'2020-03-25'});
+        
+        // 현재 월을 지정함
+        var d = new Date(); // 현재시간
+        var nowMonth = d.getMonth() + 1 // 현재 월
+        var count = 1;
+        // 전월버튼 클릭시 경고창
+        $(document).on("click",".fc-prev-button",function(){
+        	var thisMonth = nowMonth - count; // 바로 전월
+        	if(thisMonth == 0) {
+        		thisMonth = 12;
+        	}
+        	alert(thisMonth);
+        	count++;
+        });
 
         calendar.render();
 
@@ -141,21 +171,74 @@
                                   <textarea rows="2" cols="65" style="resize: none;" id="calendarContent" name="calendarContent" class="form-control nanum" placeholder="일정 설명 입력"></textarea>
                                 </div>
                               </div>
+                              <!-- 정승환 추가코드 (20.03.30) -->
+                              <!-- 지도 변경 시작 -->
                               <div class="form-group row">
-                                <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">위치</label>
-                                <div class="col-sm-10" style="border: 1px solid black;">
-                                  <!-- 지도 추가 -->
-                                  <div id="map" style="width:350px;height:200px;"></div>
-                                  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
-                                  <!-- 지도 추가 -->
-                                </div>
-                              </div>
-                              <div class="form-group row">
-                                <div class="col-md-2"></div>
-                                <div class="col-md-10">
-                                  <input type="text" class="form-control nanum" id="calendarLocation" name="calendarLocation" placeholder="지정된 모임 장소">
-                                </div>
-                              </div>
+		                       <label class="col-sm-3 col-form-label nanum" style="font-weight: bold;">위치검색</label>
+		                       <div class="col-sm-9">
+		                         <div id="insert-floating-panel" style="width:100%">
+									<input id="insertAddress" type="textbox" style="width:70%">
+								    <input id="insertMapSubmit" type="button" value="검색">
+								</div>
+							    <div class="map_wrap">
+									<div id="insertMap" style="width:100%;height:200px;position:relative;overflow:hidden;"></div>
+								</div>
+		                         
+			                     <script>
+							      function initMap() {
+							    	var geocoder = new google.maps.Geocoder;
+							        var map = new google.maps.Map(document.getElementById('insertMap'), {
+							          zoom: 15,
+							          center: {lat: 37.5724723, lng: 126.9737442}
+							        });
+							
+							        document.getElementById('insertMapSubmit').addEventListener('click', function() {
+							          geocodeAddress(geocoder, map);
+							        });
+							        
+							      }
+							
+							      function geocodeAddress(geocoder, resultsMap) {
+							        var address = document.getElementById('insertAddress').value;
+							        var storeAddress = document.getElementById('calendarLocation');
+							        // form태그로 전달할 주소 input
+							        geocoder.geocode({'address': address}, function(results, status) {
+							        	console.log(results);
+							        	var realAddr = results[0].formatted_address;
+							        	// results[0].formatted_address -> 검색된 주소의 상세주소
+							        	storeAddress.value = realAddr;
+							        	// 검색된 상세주소를 아래 입력칸에 넣는다.
+							          if (status === 'OK') {
+							        	  var coords = results[0].geometry.location;
+							            	resultsMap.setCenter(coords);
+							           	 var marker = new google.maps.Marker({
+							           		   map: resultsMap,
+							             	   position: coords
+							            });
+							          } else {
+							            alert('Geocode was not successful for the following reason: ' + status);
+							          }
+							        });
+							     
+							        
+							      }
+							      
+							     </script>
+		                         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
+		                         
+		                       </div>
+		                       <div class="col-sm-3"></div>
+		                       <div class="col-sm-9"><p class="nanum" style="color: blue;">*위치 검색시 상세한 주소를 지정할 수 있습니다.</p></div>
+		                     </div>
+			                     
+		                     <div class="form-group row">
+		                       <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">위치</label>
+		                       <div class="col-md-10">
+		                         <input type="text" class="form-control nanum" id="calendarLocation" name="calendarLocation" placeholder="지정된 모임 장소">
+		                       </div>
+		                     </div>
+                              <!-- 지도 변경끝 -->
+                              <!-- 정승환 추가코드 (20.03.30) -->
                               <div class="form-group row">
                                 <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">시작</label>
                                 <div class="col-sm-5"><input type="date" class="form-control" name="calStartDate" id="calStartDate"></div>
@@ -195,12 +278,16 @@
                                 <div class="col-sm-5"><input type="date" class="form-control" name="cJoinEndDate" id="joinDate"></div>
                                 <div class="col-sm-4"></div>
                               </div>
+                              <!-- 코드수정 정승환(20.03.30) -->
                               <div class="form-group row">
-                                <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" class="custom-control-input" id="customCheck123" checked="" value="Y" name="openBoard">
-                                  <label class="custom-control-label nanum" for="customCheck123">게시글 공유</label>
-                                </div>
+                              	<div class="col-sm-12">
+                              		<div class="custom-control custom-checkbox">
+                                  		<input type="checkbox" class="custom-control-input" id="customCheck123" checked="" value="Y" name="openBoard">
+                                  		<label class="custom-control-label nanum" for="customCheck123">게시글 공유</label>
+                                	</div>
+                              	</div>
                               </div>
+                              <!-- 코드수정 정승환(20.03.30) -->
                               <div class="form-group row">
                                 <div class="col-md-2"></div>
                                 <div class="col-md-4"><button type="submit" class="btn btn-secondary btn-block nanum" style="font-weight: bold;">완료</button></div>
@@ -243,10 +330,10 @@
 		                              <div class="row">
 		                                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; padding: 0px; margin-left: 5px;">참여인원</label>
 		                                <c:if test="${calendar.calendarJoin == 'N'.charAt(0)}">
-		                                	<div class="col-sm-7"><input type="text" readonly class="form-control-plaintext nanum" value="참여인원이 없는 일정입니다." style="font-weight: bold;"></div>
+		                                	<div class="col-sm-8"><input type="text" readonly class="form-control-plaintext nanum" value="참여인원이 없는 일정입니다." style="font-weight: bold;"></div>
 		                                </c:if>
 		                                <c:if test="${calendar.calendarJoin == 'Y'.charAt(0)}">
-		                                	<div class="col-sm-7"><input type="text" readonly class="form-control-plaintext nanum" value="${calendar.calJoinLimit}" style="font-weight: bold; padding: 0px;"></div>
+		                                	<div class="col-sm-8"><input type="text" readonly class="form-control-plaintext nanum" value="${calendar.calJoinLimit}" style="font-weight: bold; padding: 0px;"></div>
 		                                </c:if>
 		                                <!-- 골목 대장인 경우에만 수정,삭제 가능 -->
 		                                <c:if test="${loginMember.memberNo == streetMasterNo}">
@@ -303,26 +390,26 @@
                          <textarea rows="2" cols="65" style="resize: none;" id="updateCalendarContent" name="updateCalendarContent" class="form-control nanum" placeholder="일정 설명 입력"></textarea>
                        </div>
                      </div>
-                     <div class="form-group row">
+                     <!-- 정승환 추가코드 (20.03.30) -->
+                    <!-- 카카오 지도 -->
+                    <div class="form-group row">
+                    	<label class="col-sm-3 col-form-label nanum" style="font-weight: bold;">위치검색</label>
+                    	<!-- 검색창 시작 -->
+                    	<div class="col-sm-6"><input type="text" class="form-control nanum" id="updateSearchLocation"></div>
+                    	<div class="col-sm-3"><button type=button class="btn btn-primary btn-block nanum" id="updateSearchLocationBtn">검색</button></div>
+                    	<!-- 검색창끝  -->
+                    	<div class="col-sm-3"></div>
+		                <div class="col-sm-9">
+		                	<div id="map" style="width:100%;height:250px;"></div>
+		                </div>
+		                <div class="col-sm-3"></div>
+		                <div class="col-sm-9"><p class="nanum" style="color: blue;">*위치 검색을 통해 생성된 마크중 원하는 장소를 <br>클릭시 수정된 장소가 지정됩니다.</p></div>
+                    </div>
+                    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=77161504cfbcd21ef34a3ed0de04dad4&libraries=services"></script>
+                    <!-- 카카오 지도 -->
+                    <!-- 정승환 추가코드 (20.03.30) -->
+                    <div class="form-group row">
                        <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">위치</label>
-                       <div class="col-sm-10" style="border: 1px solid black;">
-                         <!-- 지도 추가 -->
-                         <div id="updateMap" style="width:350px;height:200px;"></div>
-                         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
-                         <script>
-                           var container = document.getElementById('updateMap');
-                           var options = {
-                             center: new kakao.maps.LatLng(33.450701, 126.570667),
-                             level: 3
-                           };
-   
-                           var map = new kakao.maps.Map(container, options);
-                         </script>
-                         <!-- 지도 추가 -->
-                       </div>
-                     </div>
-                     <div class="form-group row">
-                       <div class="col-md-2"></div>
                        <div class="col-md-10">
                          <input type="text" class="form-control nanum" id="updateCalendarLocation" name="updateCalendarLocation" placeholder="지정된 모임 장소">
                        </div>
@@ -341,6 +428,32 @@
              </div>
 			<!-- 수정용 모달창 끝 -->
 			
+			<!-- 정승환 추가코드 (20.03.30) -->
+			<!-- 일정 설명용 모달창 시작 -->
+			<div class="modal" tabindex="-1" role="dialog" id="informSchedule">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title">일정</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			        <div class="form-group row">
+			        	<label class="col-sm-3 col-form-label nanum" style="font-weight: bold;">일정제목</label>
+			        	<div class="col-md-9"><input type="text" class="form-control-plaintext nanum" id="informScheduleTitle"></div>
+			        	<label class="col-sm-3 col-form-label nanum" style="font-weight: bold;">시작일</label>
+			        	<div class="col-md-9"><input type="text" class="form-control-plaintext nanum" id="informScheduleStart"></div>
+			        	<label class="col-sm-3 col-form-label nanum" style="font-weight: bold;">종료일</label>
+			        	<div class="col-md-9"><input type="text" class="form-control-plaintext nanum" id="informScheduleEnd"></div>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<!-- 일정 설명용 모달창 끝 -->
+			<!-- 정승환 추가코드 (20.03.30) -->
 			
 		</div>
 	</div>
@@ -358,7 +471,7 @@
 	var signUpCheck = { 
     		"calendarTitle":false,
     		"calendarContent":false,
-			"calendarLocation":false,
+			"calendarLocation":true, // 코드수정
 			"calendarStartDate":false,
 			"calendarStartTime":false,
 			"calendarEndDate":false,
@@ -534,7 +647,7 @@
 	 		      	if(tempMonth.length == 1){  // 월이 1자리수 이면 0붙이기 -> 0M 형태
 	 		      	  tempMonth = "0" + tempMonth; 
 	 		      	}
-	 		      	if(calDay.length == 1){ // 일이 1자리수 이면 0붙이기 -> 0d 형태
+	 		      	if(tempDay.length == 1){ // 일이 1자리수 이면 0붙이기 -> 0d 형태
 	 		      	  tempDay = "0" + tempDay; 
 	 		      	}
 	 		      	var minDate = changeDate.getFullYear()+"-"+tempMonth+"-"+tempDay; // 년-월-일 형태로 문자열 구성, yyyy-MM-dd 형태 
@@ -684,13 +797,7 @@
      		});
      		
      		$('#updateCalendarModal').modal(); // 값이 세팅되어 모달창 출력
-     		
-     		/*
-     		var result = confirm("정말로 일정을 수정하시겠습니까?");
-     		if(result) {
-     			location.href="${contextPath}/street/updateSchedule?boardNo=" + updateBoardNo;	
-     		}
-     		*/
+
      	});
      	
      	// 일정 삭제 버튼 클릭시 일정 삭제
@@ -704,26 +811,82 @@
      	
      	
       });
-	
-	$("#calendarModal").on('shown.bs.modal', function (e) { 
-		var container = document.getElementById('map');
+      
+    /* ---------------정승환 추가코드 (20.03.30)-----------------------*/
+    // 카카오 지도 검색시 해당하는 화면 출력
+    $("#updateSearchLocationBtn").on("click",function(){
+    	// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+		
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+		
+		// 지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+		
+		// 장소 검색 객체를 생성합니다
+		var ps = new kakao.maps.services.Places(); 
+		
+		// 검색할 장소 키워드
+		var searchVal = $("#updateSearchLocation").val();
+		
+		// 키워드로 장소를 검색합니다
+		ps.keywordSearch(searchVal, placesSearchCB); 
+		
+		// 키워드 검색 완료 시 호출되는 콜백함수 입니다
+		function placesSearchCB (data, status, pagination) {
+		    if (status === kakao.maps.services.Status.OK) {
+		
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+		        // LatLngBounds 객체에 좌표를 추가합니다
+		        var bounds = new kakao.maps.LatLngBounds();
+		
+		        for (var i=0; i<data.length; i++) {
+		            displayMarker(data[i]);    
+		            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+		        }       
+		
+		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+		        map.setBounds(bounds);
+		    } 
+		}
+		
+		// 지도에 마커를 표시하는 함수입니다
+		function displayMarker(place) {
+		    
+		    // 마커를 생성하고 지도에 표시합니다
+		    var marker = new kakao.maps.Marker({
+		        map: map,
+		        position: new kakao.maps.LatLng(place.y, place.x) 
+		    });
+		    
+		    var $insertLocation = $("#updateCalendarLocation");
+		
+		    // 마커에 클릭이벤트를 등록합니다
+		    kakao.maps.event.addListener(marker, 'click', function() {
+		        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+		        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+		        infowindow.open(map, marker);
+		        console.log(place.place_name);
+		        $insertLocation.val(place.place_name);
+		    });
+		}
+    });
+    
+    // 카카오 지도 초기 화면(modal에 띄우기 위해서 기본 설정)
+    $("#updateCalendarModal").on('shown.bs.modal', function (e) { 
+    	var container = document.getElementById('map');
         var options = {
           center: new kakao.maps.LatLng(33.450701, 126.570667),
           level: 3
         };
 
         var map = new kakao.maps.Map(container, options);
-	});
-	
-	$("#updateCalendarModal").on('shown.bs.modal', function (e) { 
-		var container = document.getElementById('updateMap');
-        var options = {
-          center: new kakao.maps.LatLng(33.450701, 126.570667),
-          level: 3
-        };
-
-        var map = new kakao.maps.Map(container, options);
-	});
+  	});
+    /* ---------------정승환 추가코드 (20.03.30)-----------------------*/
 	
 	// 일정 수정 submit 동작
 	function updateValidate(){

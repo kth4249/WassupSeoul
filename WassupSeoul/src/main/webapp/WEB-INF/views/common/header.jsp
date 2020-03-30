@@ -243,6 +243,7 @@ object-fit: cover;
 					<a class="dropdown-item nanum" data-toggle="modal" data-target="#profileModal" id="abcde">내정보 조회</a> 
 					<a class="dropdown-item nanum" data-toggle="modal" data-target="#golmokModal" id="hoho">내골목 조회</a>
 					<a class="dropdown-item nanum" data-toggle="modal" data-target="#blockModal" id="blockFriendsList">차단친구 조회</a>
+					<a class="dropdown-item nanum" data-toggle="modal" data-target="#waitGolmokModal" id="waitGolmokModalList">가입대기 골목 조회</a> <!-- 정승환 추가코드(20.03.30) -->
 					<!-- <a class="dropdown-item nanum" data-toggle="modal">1:1 문의</a> --> 
 					<!-- <a class="dropdown-item nanum" data-toggle="modal">공지사항</a> -->
 					<hr>
@@ -252,7 +253,57 @@ object-fit: cover;
 		</div>
 	</nav>
 	
-	
+	<!-- 정승환 코드 추가 시작(20.03.30) -->
+	<!-- wait golmok Modal -->
+    <div class="modal fade" id="waitGolmokModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="waitGolmokModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="width:800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h2 class="modal-title nanum" id="waitGolmokModalLabel" style="font-weight: bold;">가입대기 골목</h2>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+       	<span aria-hidden="true">&times;</span>
+     	</button>
+            </div>
+            <div class="modal-body">
+            <!-- content start -->
+             <div class="container-fluid">
+             	
+             	<!-- 가입 대기 골목 시작 -->
+				<div class="row">
+	              	<div class="col-md-12"><h3 class="nanum">골목 가입 요청 목록</h3></div>
+	              	<div class="col-md-12"><p class="nanum" style="color: blue;">*가입 취소는 해당 골목에서 가능합니다.</p></div>
+            	</div>
+            	
+            	<div class="row">
+            		<div class="col-md-12"  id="waitStreetInfomation">
+            			<!-- 가입 대기 목록 -->
+            		</div>
+            	</div>
+            	<!-- 가입 대기 골목 끝 -->
+            	
+            	<hr>
+            	
+            	<!-- 탈퇴 및 가입 실패 골목 시작 -->
+            	<div class="row">
+              		<div class="col-md-12"><h3 class="nanum">골목 가입 실패 및 탈퇴 목록</h3></div>
+              		<div class="col-md-12"><p class="nanum" style="color: blue;">*골목 가입 실패시 재가입이 가능하며 가입 거부 사유는 알려드리지 않습니다.</p></div>
+            	</div>
+            	
+            	<div class="row">
+            		<div class="col-md-12" id="outStreetInfomation">
+            			<!-- 탈퇴 및 가입 실패 목록 -->
+            		</div>
+            	</div>
+            	<!-- 탈퇴 및 가입 실패 골목 끝	 -->
+				
+             </div>
+            <!-- content end -->
+             </div>
+        </div>
+        </div>
+    </div>
+   <!-- wait golmok Modal end -->
+   <!-- 정승환 코드 추가 끝(20.03.30) -->
 	
 	<!-- profile Modal -->
     <div class="modal fade" id="profileModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
@@ -494,6 +545,160 @@ object-fit: cover;
 
         
         <script>
+        /*----------------정승환 추가코드(20.03.30)-------------------*/
+     	// 추가용 시작
+        // 가입 대기, 탈퇴(가입실패) 골목 목록 조회용 ajax
+        $("#waitGolmokModalList").on("click",function(){
+        	$.ajax({
+        		url : "${contextPath}/member/selectWaitNOutStreet",
+        		data : {memberNo : ${loginMember.memberNo} },
+        		type : "post",
+       			dataType : "json",
+       			success : function(waitNOutList){
+      				
+       				// 가입 대기 골목이 없는 경우
+       				if(Object.keys(waitNOutList.waitStreetList).length == 0) {
+       					$("#waitStreetInfomation").html("");
+       					var $brPlus = $("<br>");
+       					var $hPlus = $("<h3 class='nanum'>").html("가입 요청 대기 중인 골목이 없습니다.");
+       					$("#waitStreetInfomation").append($brPlus).append($hPlus);    					
+       				} else {
+       					$("#waitStreetInfomation").html("");
+       					var $brPlus1 = $("<br>");
+       					for(var i=0;i<Object.keys(waitNOutList.waitStreetList).length;i++){
+       						var streetNo = ((waitNOutList.waitStreetList)[i]).streetNo;
+       						var $divPlus = $("<div>").addClass("row");
+           					var $divPlus1 = $("<div>").addClass("col-md-4").css({"position":"relative","height":"240px"});
+           					var $divPlus2 = $("<div class='col-md-1'>");
+           					var $divPlus3 = $("<div class='col-md-7'>");
+           					
+           					var $imgPlus = $("<img>").prop({"src":"${contextPath}/resources/streetCoverImage/"+((waitNOutList.waitStreetList)[i]).imgUrl, "alt":"이미지"})
+							.css({"position":"absolute","width":"100%","height":"100%"});
+           					
+           					// 골목 이미지
+           					$divPlus1.append($imgPlus);
+           					
+           					// 여백
+           					
+           					// 골목정보_1
+           					var $divPlus31 = $("<div class='row'>").css("margin-bottom","5px"); 
+							var $sector1 = $("<div class='col-md-9'>");
+							var $sector2 = $("<div class='col-md-3'>");
+           					var $sname = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
+										.css({"font-weight":"bold","font-size":"25px"}).val(((waitNOutList.waitStreetList)[i]).streetNm);
+           					$sector1.append($sname);
+           					var $sdistrict = $("<button class='btn btn-outline-success text-center'>").css({"font-weight":"bold","font-size":"13px"})
+											.prop({"disabled":true,"type":"button"}).html(((waitNOutList.waitStreetList)[i]).districtNm);
+           					$sector2.append($sdistrict);
+           					$divPlus31.append($sector1).append($sector2);
+           					
+           					$divPlus3.append($divPlus31);
+           					
+           					// 골목정보_2
+							var $divPlus32 = $("<div class='row'>").css("margin-bottom","5px"); 
+           					var $sector3 = $("<div class='col-md-12'>");
+           					var $sinfo = $("<textarea class='form-control'>").prop({"rows":"2","cols":"65","readonly":true})
+           								.css("resize","none").html(((waitNOutList.waitStreetList)[i]).streetIntro);
+           					$sector3.append($sinfo);
+           					$divPlus32.append($sector3)
+           					
+           					$divPlus3.append($divPlus32);
+           					
+           					// 골목정보_3
+           					var $divPlus341 = $("<div class='row'>").css("margin-bottom","5px");
+           					var $sector4 = $("<div class='col-md-3'>");
+           					var $labelPlus = $("<label class='col-sm-3 col-form-label text-center nanum'>")
+           									.css({"font-weight":"bold","font-size":"15px"}).html("골목대장");
+							var $inputPlus3 = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
+											.css({"font-weight":"bold","font-size":"20px"}).val(((waitNOutList.waitStreetList)[i]).memberNm);
+							$sector4.append($inputPlus3);
+							$divPlus341.append($labelPlus).append($sector4);
+							
+							var $sector5 = $("<div class='col-md-3'>");
+							var $labelPlus2 = $("<label class='col-sm-3 col-form-label text-center nanum'>")
+											.css({"font-weight":"bold","font-size":"15px"}).html("가입 대기수");
+							var $inputPlus4 = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
+											.css({"font-weight":"bold","font-size":"20px"}).val(((waitNOutList.waitStreetList)[i]).streetMaxMember);
+							$sector5.append($inputPlus4);
+							$divPlus341.append($labelPlus2).append($sector5);
+							
+							$divPlus3.append($divPlus341);
+							
+							// 골목정보_4
+							var $divPlus35 = $("<div class='row'>");
+           					var $sector6 = $("<div class='col-md-12'>");
+           					var $mstreetbtn = $("<button class='btn btn-primary btn-lg btn-block nanum gogoStreet'>").prop("type","button")
+           									.css("font-weight","bold").html("골목 이동");
+           					var $goStreetNoInputPlus = $("<input>").prop("type","hidden").val(streetNo);
+           					$sector6.append($mstreetbtn).append($goStreetNoInputPlus);
+							$divPlus35.append($sector6);
+							
+							$divPlus3.append($divPlus35);
+							
+							// 통합
+							$divPlus.append($divPlus1).append($divPlus2).append($divPlus3);
+							$("#waitStreetInfomation").append($divPlus).append($brPlus1);
+           					
+       					}		
+       					
+       				}
+       				
+       				// 가입 실패 및 탈퇴 골목이 없는 경우
+       				if(Object.keys(waitNOutList.outStreetList).length == 0){
+       					$("#outStreetInfomation").html("");
+       					var $hPlus = $("<h3 class='nanum'>").html("가입 실패 및 탈퇴 골목이 없습니다.");
+       					var $brPlus2 = $("<br>");
+       					$("#outStreetInfomation").append($brPlus2).append($hPlus);
+       				} else {
+       					$("#outStreetInfomation").html("");
+       					var $brPlus3 = $("<br>");
+       					for(var i=0;i<Object.keys(waitNOutList.outStreetList).length;i++){
+       						var $divPlus = $("<div>").addClass("row");
+           					var $divPlus1 = $("<div>").addClass("col-md-4").css({"position":"relative","height":"80px"});
+           					var $divPlus2 = $("<div class='col-md-1'>");
+           					var $divPlus3 = $("<div class='col-md-7'>");
+           					
+           					var $imgPlus = $("<img>").prop({"src":"${contextPath}/resources/streetCoverImage/"+((waitNOutList.outStreetList)[i]).imgUrl, "alt":"이미지"})
+    						.css({"position":"absolute","width":"100%","height":"100%"});
+           					
+           					// 골목 이미지
+           					$divPlus1.append($imgPlus);
+           					
+           					// 여백
+           					
+           					// 골목정보
+           					var $divPlus31 = $("<div class='row'>"); 
+							var $sector1 = $("<div class='col-md-9'>");
+							var $sector2 = $("<div class='col-md-3'>");
+           					var $sname = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
+										.css({"font-weight":"bold","font-size":"25px"}).val(((waitNOutList.outStreetList)[i]).streetNm);
+           					$sector1.append($sname);
+           					var $sdistrict = $("<button class='btn btn-outline-success text-center'>").css({"font-weight":"bold","font-size":"13px"})
+											.prop({"disabled":true,"type":"button"}).html(((waitNOutList.outStreetList)[i]).districtNm);
+           					$sector2.append($sdistrict);
+           					$divPlus31.append($sector1).append($sector2);
+           					
+           					$divPlus3.append($divPlus31);
+           					
+           					// 통합
+							$divPlus.append($divPlus1).append($divPlus2).append($divPlus3);
+							$("#outStreetInfomation").append($divPlus).append($brPlus3);
+           					
+       					}
+       					
+       				}
+       				
+       			},
+       			error : function(e){
+           			console.log("ajax 통신 실패");
+           			console.log(e);
+           		}
+        	});
+        });
+        
+        // 추가용 끝
+        /*----------------정승환 추가코드(20.03.30)-------------------*/
+        
 		/* 내정보 조회용 회원정보,회원관심사 DB조회용 ajax */
        	$("#abcde").on("click",function(){
        		$.ajax({
