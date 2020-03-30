@@ -65,7 +65,8 @@ public class StreetController {
 	@RequestMapping(value = "streetMain", method = RequestMethod.GET)
 	public String timeLine( Model model, RedirectAttributes rdAttr, HttpServletRequest request,
 			@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
-			@RequestParam(value = "streetNo", required = false) Integer streetNo
+			@RequestParam(value = "streetNo", required = false) Integer streetNo,
+			@RequestParam(value = "boardNo", required = false) Integer boardNo
 			) {
 		
 //		System.out.println("searchKeyword :" +searchKeyword);
@@ -105,7 +106,9 @@ public class StreetController {
 				// 해당 골목 정보 조회
 				street = streetService.selectStreet(streetNo);
 				System.out.println(street);
-				
+				if(boardNo != null) {
+					checkStreet.setBoardNo(boardNo);
+				}
 				board = streetService.selectBoard(checkStreet);
 				Collections.reverse(board);
 				model.addAttribute("streetNo", streetNo);
@@ -249,6 +252,13 @@ public class StreetController {
 		try {
 
 			return streetService.likeCheck(reply) == 1 ? true + "" : false + "";
+			/*
+			// 알람 관련해서 수정 하는 중 -태훈
+			int result = streetService.likeCheck(reply);
+			if(result > 0) {
+				int memberNo = streetService.getBoardWriter(reply);
+			}
+			*/
 
 		} catch (Exception e) {
 			e.printStackTrace();

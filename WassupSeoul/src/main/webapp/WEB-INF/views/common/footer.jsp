@@ -11,7 +11,7 @@
           </small></span>
         <hr>
         <span class="ml-5" style="color: black; font-weight: bold"><small> Copyright © 2019
-            Wassup Inc. 모든 권리 보유.</small></span><br> <span class="ml-5"><small>
+            Wassup Inc. 모든 권리 보유.</small></span><br> <span class="ml-5" style="color: black; font-weight: bold"><small>
             사업자등록번호 : 101-01-00000 | 통신판매업신고번호 : 제 2019-서울-00000호 | 대표이사 :
             NUGUNGA HAGETGE | 주소 : 서울 특별시 예쁘구 귀엽동 | 대표전화 : 02-1234-1234 | 팩스 :
             02-4321-4321</small> </span>

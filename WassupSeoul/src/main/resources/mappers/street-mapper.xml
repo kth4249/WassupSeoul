@@ -262,7 +262,9 @@
 		<!-- 게시글 댓글 개수체크 -->				 
 		LEFT OUTER JOIN (SELECT COUNT(*) AS REPLY_COUNT, BOARD_NO FROM(SELECT * FROM V_BOARD LEFT OUTER JOIN REPLY USING (BOARD_NO)
 						 WHERE REPLY_STATUS='Y' AND REPLY_LEVEL = 1) GROUP BY BOARD_NO) USING (BOARD_NO)
-						 
+		<if test="boardNo != null and boardNo != ''">
+			WHERE BOARD_NO = #{boardNo}
+		</if>
 		ORDER BY BOARD_NO
   	 </select>
   	 
