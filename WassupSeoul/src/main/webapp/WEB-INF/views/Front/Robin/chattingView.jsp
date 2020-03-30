@@ -25,6 +25,12 @@
 	sock.onmessage=onMessage;
 	sock.onclose=onClose;
 	var today=null;
+	
+	
+	
+	
+	
+	
 	$(function(){
 		$("#sendBtn").click(function(){
 			console.log("send message.....");
@@ -39,6 +45,7 @@
 			sock.onclose();
 		});
 	});
+	
 	function sendMessage(){
 		/* 맵핑된 핸들러 객채의 handleTextMessage매소드가 실행 */
 		sock.send($("#message").val());

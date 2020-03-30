@@ -360,6 +360,17 @@ public class FriendsServiceImpl implements FriendsService{
 		return friendsDAO.insertAlarm(alarm);
 	}
 	/*-----------------태훈 알람 관련 추가-------------------*/
+
+	/** 메세지 저장용 Service
+	 * @param msg
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int saveMessage(MSG msg) throws Exception {
+		return friendsDAO.saveMessage(msg);
+	}
 	
 
 }

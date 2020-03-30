@@ -324,7 +324,7 @@
 
 <select id="inToRoom" parameterType="_int" resultMap="MSGResultSet">
 
-	SELECT MSG_CONTENT, MEMBER_NICKNAME, MEMBER_PROFILE_URL 
+	SELECT * 
 	FROM MSG JOIN MEMBER USING (MEMBER_NO)
 	WHERE ROOM_NO = #{roomNo}
 	ORDER BY MSG_NO
@@ -345,6 +345,13 @@
 	WHERE MEMBER_NICKNAME = #{memberNickname}
 </select>
 
+<insert id="saveMessage" parameterType="msg">
+
+	INSERT INTO MSG VALUES
+	(SEQ_MSG.NEXTVAL, #{msgContent}, DEFAULT, DEFAULT, #{memberNo}, #{roomNo}) 
+
+
+</insert>
 
 
 

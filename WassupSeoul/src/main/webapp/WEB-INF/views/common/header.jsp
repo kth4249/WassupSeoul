@@ -928,8 +928,8 @@ object-fit: cover;
 			/* 맵핑된 핸들러 객채의 handleTextMessage매소드가 실행 */
 			//console.log(memberNo);
 			sock.send(memberNo);
-		
 		};
+		
 		function onAlarm(evt){
 			var data=evt.data;//new text객체로 보내준 값을 받아옴.
 			var host=null;//메세지를 보낸 사용자 ip저장

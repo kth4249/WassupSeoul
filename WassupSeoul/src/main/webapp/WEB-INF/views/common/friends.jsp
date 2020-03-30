@@ -469,7 +469,7 @@
 	
 	// 사진 클릭시 프로필 모달 (넘버로)
 	$(document).on("click", ".detect1", function(){
-		console.log(this.value);
+		//console.log(this.value);
 		var yourNo = this.value
 		
 		$.ajax({
@@ -483,7 +483,7 @@
 				$("#wassGender").text(result.memberGender);
 				$("#wassAge").html(result.memberAge);
 				$finalPath = $savePath + result.memberProfileUrl;
-				console.log($finalPath);
+				//console.log($finalPath);
 				$("#wasspic").prop("src",$finalPath);
 				
 				
@@ -494,7 +494,7 @@
 				
 			},
 			error : function(){
-				console.log("프로필 띄우는 aJax 실패");
+				//console.log("프로필 띄우는 aJax 실패");
 			}
 		});
 		
@@ -510,7 +510,7 @@
 			type : "POST",
 			data : {"yourNick" : yourNick },
 			success : function(member){
-				console.log(member);
+				//console.log(member);
 				var root = "${contextPath}";
 				var $savePath = root +"/resources/profileImage/";
 				$("#wassNick").text(member.memberNickname);
@@ -527,7 +527,7 @@
 				
 			},
 			error : function(){
-				console.log("프로필 띄우는 aJax 실패");
+				//console.log("프로필 띄우는 aJax 실패");
 			}
 		});
 		
@@ -702,7 +702,7 @@
 			data : {},
 			datatype : "json",
 			success : function(result){
-				console.log(result);
+				//console.log(result);
 				var $friendList = $("#friendList");
 				var $friendInfo = $("#friendInfo");
 				//var root = $("#profileRoot").val();
@@ -898,13 +898,12 @@
 		$("#chatList").hide();
 		var roomNo = this.value
 		
-		
 		$.ajax({
 			url : "${contextPath}/friends/inToRoom",
 			type : "POST",
 			data : {"roomNo" : roomNo},
 			success : function(result){
-				//console.log(result);
+				console.log(result);
 				//console.log("대화방 진입 Ajax 성공");
 				
 				var $chat = $("#chat");
@@ -913,7 +912,7 @@
 				
 				if(result == null){
 					$msg = $("<span>").html("아직 채팅이 개설된 방이 없어요!");
-					$chat.css("text-align","center")
+					$chat.css("text-align","center");
 					$chat.html($msg);
 					
 				}else {
@@ -921,13 +920,14 @@
 					$chat.html("") // 기존 html 내용 삭제
 					
 					var $div1 = $("<div>").prop("id","div_chat");
+					var $mNo = $("<input>").prop("id","mNoo").prop("type", "hidden").val(result[0].memberNo);
+					var $rNo = $("<input>").prop("id","rNoo").prop("type", "hidden").val(result[0].roomNo);
 					var $xBtn = $("<button>").prop("id","exitBtn").prop("class", "close xBtn").html("&times");
 					var $div2 = $("<div>").prop("id","menu_scroll_down");
 					var $dBtn = $("<button>").prop("id", "btn_scroll_down").css("float","right").html("↓");
 					var $br1 = $("<br>");
 					
-					
-					$div1.append($xBtn).append($dBtn).append($br1);
+					$div1.append($mNo).append($rNo).append($xBtn).append($dBtn).append($br1);
 					$chat.append($div1);
 					
 					
@@ -948,6 +948,7 @@
 						var $span2 = $("<span>");
 						var $msg = $msgContent;
 						var $br3 = $("<br>");
+						
 						
 						
 						$div4.append($img);
@@ -976,7 +977,9 @@
 					var $td1 = $("<td>");
 					var $input = $("<input>").prop("id","messageM").prop("class", "nanum").css("width","310px");
 					var $td2 = $("<td>");
-					var $sBtn = $("<button>").prop("id","btn_append_row").prop("class", "btn btn-warning nanum").html("전송");
+					var $sBtn = $("<button>").prop("id","sendBtn").prop("class", "btn btn-warning nanum").html("전송");
+					
+					
 					
 					$colg.append($col1).append($col2);
 					$table1.append($colg).append($thead1).append($tbody1);
@@ -1034,7 +1037,7 @@
 	
 	 	
 	 // 채팅방 내부 작동 레디함수 (아무것도 안됨)
-		/* $(function() {
+		 $(function() {
 			var isScrollUp = false;
 			var lastScrollTop;
 			var unreadCnt = 0;
@@ -1042,7 +1045,8 @@
 			var divChat = document.getElementById('chat');
 												  //채팅방
 			// 전송 버튼 클릭 시 
-			$('#btn_append_row').on("click",function() {
+			$(document).on("click", '#sendBtn' ,function() {
+						console.log("여기오고있는가")
 						// 라인 추가
 						$('#table_chat').append($('<tr>').append($('<td>').append($('#add_name').val()),
 										$('<td>').append($('#add_msg').val())));
@@ -1062,8 +1066,6 @@
 									}, 100);
 						}
 			});
-	
-	
 	
 	
 		// 메뉴 스크롤 ↓ 버튼 클릭 시 
@@ -1114,7 +1116,7 @@
 						}
 					}
 				});
-	});   */
+	});   
 		
 	
 	
@@ -1137,33 +1139,59 @@
 	var today = null;
 	
 	$(function(){
-		$("#btn_append_row").click(function(){
+		$(document).on("click", "#sendBtn", function(){
 			console.log("send message.....");
-			/* 채팅창에 작성한 메세지 전송 */
-			sendMessage();
-			/* 전송 후 작성창 초기화 */
- 			$("#messageM").val('');
+			
+			var rNo = $("#rNoo").val();
+			var mNo = $("#mNoo").val();
+			var message = $("#messageM").val();
+			
+			// 에이잭스로 컨트롤러 ㄱㄱ 저장
+			$.ajax({
+			url : "${contextPath}/friends/saveMessage",
+			type : "POST",
+			data : {"rNo" : rNo , "mNo" : mNo , "message" : message},
+			success : function(result){
+				console.log("채팅내역저장성공");
+			},error : {
+				
+			}
+			
+			});
+			
+			
+			
+			sendMessage(rNo + "," + mNo + "," + message);
+			$("#messageM").val('');
 		});
-		$("#exitBtn").click(function(){
+		
+		$(document).on("click", "#exitBtn", function(){
 			console.log("exit message.....");
 			/* 채팅창에 작성한 메세지 전송 */
 			sock.onclose();
 		});
+		
 	});
-	function sendMessage(){
+	//var message = $roomNo + "," + $memberNo + "," + $input;
+	function sendMessage(message){
 		/* 맵핑된 핸들러 객채의 handleTextMessage매소드가 실행 */
-		chat.send($("#messageM").val());
-	
+		chat.send(message);
 	};
+	
 	function onMessage(evt){
 		var data=evt.data;//new text객체로 보내준 값을 받아옴.
 		var host=null;//메세지를 보낸 사용자 ip저장
 		var strArray=data.split("|");//데이터 파싱처리하기
 		var userName=null;//대화명 저장
+		/* messagefunction(); */
 	
 	}
 	
-// 	/* 에이잭스 실행 함수 */
+	/* function onClose(evt){
+		location.href='${pageContext.request.contextPath};';
+	}; */
+	
+// 	/* 에이잭스 실행 주기 함수 */
 	 $(function(){
 		friendRequest(); 	// 친구 요청 목록
 		friendsList(); 		// 친구 목록 불러오기

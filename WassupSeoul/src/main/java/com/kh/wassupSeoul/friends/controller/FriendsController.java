@@ -300,8 +300,9 @@ public class FriendsController {
 			
 			try {
 				List<MSG> mList = friendsService.inToRoom(roomNo);
+				//System.out.println(mList);
 				return new Gson().toJson(mList);
-				
+				 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -325,7 +326,7 @@ public class FriendsController {
 			public String detect1(Model model, int yourNo) {
 			try {
 				Member member = friendsService.selectMember(yourNo);
-				System.out.println(member);
+				//System.out.println(member);
 				if (member.getMemberGender().equals("M")) {
 					member.setMemberGender("남성");
 				} else {
@@ -362,7 +363,31 @@ public class FriendsController {
 			}
 			return null;
 		} // 프로필 가져오기 2 끝	
-	
+		
+		
+		// 메시지 저장하기
+		@ResponseBody
+		@RequestMapping(value="saveMessage", method = RequestMethod.POST,
+				produces = "application/json; charset=utf-8")
+			public String saveMessage(int mNo, int rNo, String message) {
+			
+			System.out.println("도착부터하자");
+			try {
+				MSG msg = new MSG();
+				msg.setMemberNo(mNo);
+				msg.setRoomNo(rNo);
+				msg.setMsgContent(message);
+				
+				int result = friendsService.saveMessage(msg);
+				
+				System.out.println("result : " + result);
+				return new Gson().toJson(result);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		} // 프로필 가져오기 2 끝	
 	
 	
 	
