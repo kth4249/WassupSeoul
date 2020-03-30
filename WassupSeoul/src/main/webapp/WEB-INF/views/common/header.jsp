@@ -82,7 +82,7 @@ object-fit: cover;
 			<div class="dropdown">
 				<div class="dropdown-toggle headerImg" type="button" onclick="alarmView();"
 					id="alarmButton" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false">
+					aria-expanded="false" style="margin-right:15px">
 					<img src="${contextPath}/resources/img/alarm2.png">
 				</div>
 				<div class="dropdown-menu dropdown-menu-right"
@@ -783,7 +783,7 @@ object-fit: cover;
            				for(var i=0;i<Object.keys(streetInfo.myStreet).length;i++){ 
            					var streetNo = ((streetInfo.myStreet)[i]).streetNo;
            					var $divPlus = $("<div class='row'>");
-           					var $divPlus1 = $("<div>").addClass("col-md-4").css({"position":"relative","height":"364px"});
+           					var $divPlus1 = $("<div>").addClass("col-md-4").css({"position":"relative","height":"364px","overflow":"hidden"});
            					var $divPlus2 = $("<div class='col-md-1'>");
            					var $divPlus3 = $("<div class='col-md-7'>");
            					
@@ -791,8 +791,8 @@ object-fit: cover;
            					var $divPlus5 = $("<div class='col-md-3'>");
            					var $divPlus6 = $("<div class='col-md-12'>");
            					var $imgPlus = $("<img>").prop({"src":"${contextPath}/resources/streetCoverImage/"+((streetInfo.myStreet)[i]).imgUrl, "alt":"이미지"})
-           									.css({"position":"absolute","z-index":"10","width":"100%","height":"100%"});
-           					var $spanPlus = $("<span class='badge badge-pill badge-info'>").css({"position":"absolute", "z-index":"100", "font-size":"15px"})
+           									.css({"position":"absolute","z-index":"10","width":"100%","height":"100%","object-fit":"cover"});
+           					var $spanPlus = $("<span class='badge badge-pill badge-info'>").css({"position":"absolute", "z-index":"100", "font-size":"15px","margin":"10px"})
            									.html("개설 골목");
            					
            					// 1
@@ -807,12 +807,12 @@ object-fit: cover;
            					
            					// 3_1
            					var $divPlus31 = $("<div class='row'>"); 
-							var $sector1 = $("<div class='col-md-9'>");
+							var $sector1 = $("<div class=''>");
 							var $sector2 = $("<div class='col-md-3'>");
            					var $sname = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
 										.css({"font-weight":"bold","font-size":"25px"}).val(((streetInfo.myStreet)[i]).streetNm);
            					$sector1.append($sname);
-           					var $sdistrict = $("<button class='btn btn-outline-success text-center'>").css({"font-weight":"bold","font-size":"13px"})
+           					var $sdistrict = $("<button class='btn btn-warning text-center'>").css({"font-weight":"bold","font-size":"13px","color":"#5a5a5a"})
 											.prop({"disabled":true,"type":"button"}).html(((streetInfo.myStreet)[i]).districtNm);
            					$sector2.append($sdistrict);
            					$divPlus31.append($sector1).append($sector2);
@@ -821,7 +821,7 @@ object-fit: cover;
            					
            					// 3_2
 							var $divPlus32 = $("<div class='row'>"); 
-           					var $sector3 = $("<div class='col-md-12'>");
+           					var $sector3 = $("<div class=''>");
            					var $sinfo = $("<textarea class='form-control'>").prop({"rows":"2","cols":"65","readonly":true})
            								.css("resize","none").html(((streetInfo.myStreet)[i]).streetIntro);
            					$sector3.append($sinfo);
@@ -844,7 +844,7 @@ object-fit: cover;
            					if(count > 0) { 
            						for(var g=0;g<Object.keys(streetInfo.myStreetKeyword).length;g++){
                						if( (streetInfo.myStreetKeyword)[g].streetNo == streetNo ) {
-               							var $divPlus7 = $("<div class='col-md-12 golmokKeywordBox mt-1 mb-1'>").css("background-color","#36be81");
+               							var $divPlus7 = $("<div class='col-md-12 golmokKeywordBox mt-1 mb-1'>").css("background-color","#F3969A");
                							var $inputPlus2 = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
        									.css("color","white").val("#" + (streetInfo.myStreetKeyword)[g].keywordContent);
        									$divPlus7.append($inputPlus2);
@@ -858,7 +858,7 @@ object-fit: cover;
            					var $divPlus341 = $("<div class='row'>");
            					var $sector4 = $("<div class='col-md-3'>");
            					var $labelPlus = $("<label class='col-sm-3 col-form-label text-center nanum'>")
-           									.css({"font-weight":"bold","font-size":"16px"}).html("골목 총 인원");
+           									.css({"font-weight":"bold","font-size":"20px"}).html("총 인원");
 							var $inputPlus3 = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
 											/* .css({"font-weight":"bold","font-size":"25px"}).val(((streetInfo.myStreet)[i]).streetMaxMember); */
 											/* 정승환 추가코드 시작 */

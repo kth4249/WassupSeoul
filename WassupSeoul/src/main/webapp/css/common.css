@@ -8,15 +8,18 @@
   margin-top: 55px;
 }
 
-/* .headerImg{
-  padding-left: 70px;
-} */
+.headerImg{
+  width: 40px;
+  height: 40px; 
+  border-radius: 70%;
+  overflow: hidden;
+} 
 
 
 .headerImg>img{
-  width: 40px;
-  height: 40px;
-  border-radius: 20px 20px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 #alarmButton>img{

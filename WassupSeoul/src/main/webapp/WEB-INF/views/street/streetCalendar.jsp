@@ -119,7 +119,7 @@
     	
     </style>
 </head>
-<body style="background-color : rgb(221, 233, 218);">
+<body style="background-color : rgb(255, 255, 255);">
 	<!-- 골목 네비바 여백 -->
 	<div class="container-fluid" style="margin-top: 57px;">
 		<div class="row"  style="padding: 0px; height:44px"></div>
@@ -328,12 +328,12 @@
 		                              <p class="nanum">${calendar.calStartHour}</p>
 		                              <p class="nanum">${calendar.calLocation}</p>
 		                              <div class="row">
-		                                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold;padding-right: 5px">참여인원</label> <!-- 정승환 코드수정(20.03.30) -->
+		                                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; padding: 0px; margin-left: 5px;">참여인원</label>
 		                                <c:if test="${calendar.calendarJoin == 'N'.charAt(0)}">
-		                                	<div class="col-sm-8"><input type="text" readonly class="form-control-plaintext nanum" value="참여인원이 없는 일정입니다." style="font-weight: bold;"></div> <!-- 정승환 코드수정(20.03.30) -->
+		                                	<div class="col-sm-8"><input type="text" readonly class="form-control-plaintext nanum" value="참여인원이 없는 일정입니다." style="font-weight: bold;"></div>
 		                                </c:if>
 		                                <c:if test="${calendar.calendarJoin == 'Y'.charAt(0)}">
-		                                	<div class="col-sm-8"><input type="text" readonly class="form-control-plaintext nanum" value="${calendar.calJoinLimit}" style="font-weight: bold;"></div> <!-- 정승환 코드수정(20.03.30) -->
+		                                	<div class="col-sm-8"><input type="text" readonly class="form-control-plaintext nanum" value="${calendar.calJoinLimit}" style="font-weight: bold; padding: 0px;"></div>
 		                                </c:if>
 		                                <!-- 골목 대장인 경우에만 수정,삭제 가능 -->
 		                                <c:if test="${loginMember.memberNo == streetMasterNo}">

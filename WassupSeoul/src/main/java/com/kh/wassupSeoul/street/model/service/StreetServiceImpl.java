@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.wassupSeoul.common.vo.PageInfo;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
 import com.kh.wassupSeoul.member.model.vo.Member;
@@ -1292,8 +1293,8 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<String> selectPtList(int streetNo) throws Exception {
-		return streetDAO.selectPtList(streetNo);
+	public List<String> selectPtList(int streetNo, PageInfo pInf) throws Exception {
+		return streetDAO.selectPtList(streetNo,pInf);
 	}
 
 	
@@ -1326,5 +1327,15 @@ public class StreetServiceImpl implements StreetService{
 		return result;
 	}
 	/*============================== 지원 활동보고서 끝 ======================*/
+
+	
+	/** 사진첩 게시글 수 조회용 Service
+	 * @param streetNo 
+	 * @return listCount
+	 */
+	@Override
+	public int getListCount(int streetNo) {
+		return streetDAO.getListCount(streetNo);
+	}
 	
 }
