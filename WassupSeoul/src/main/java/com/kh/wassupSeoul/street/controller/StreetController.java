@@ -156,9 +156,9 @@ public class StreetController {
 			List<Vote> vote = streetService.selectVoteOption(checkStreet);
 			
 			if (street != null) {
-//				for(int k=0;k<board.size();k++) {
-//					System.out.println("게시글 목록 : " + board.get(k));
-//				}
+				for(int k=0;k<vote.size();k++) {
+					System.out.println("투표선택지  목록 : " + vote.get(k));
+				}
 				
 				model.addAttribute("street", street); // 해당골목 정보
 				if(board.isEmpty()) { // 게시물 검색결과 없음 표시하기 위해
@@ -607,6 +607,8 @@ public class StreetController {
 		
 		String[] voteOption = voteOptionList.split(",");
 		
+		System.out.println("투표 입력 넘겨받은값 : " + vote);
+		
 		try {
 	
 			int test = streetService.votePost(board, vote, voteOption);
@@ -630,7 +632,6 @@ public class StreetController {
     @ResponseBody
 	@RequestMapping("recordVote")
 	public String recordVote(int voteNo, Model model, String checkStatus) {
-		
 		
 		  System.out.println("투표 선택지 번호: " + voteNo);
 		  System.out.println("투표 체크 상태 : " + checkStatus);
@@ -668,7 +669,7 @@ public class StreetController {
 	// 1/N용 회원 목록 조회
     @ResponseBody
 	@RequestMapping("selectDevideMember")
-    public ArrayList<Object>  selectDevideMember(HttpServletResponse response, Model model) {
+    public String  selectDevideMember(HttpServletResponse response, Model model) {
     	
     	int streetNo = (int)model.getAttribute("streetNo");
     	
@@ -683,13 +684,13 @@ public class StreetController {
 			}
 			
 			response.setCharacterEncoding("UTF-8");
-			new Gson().toJson(selectDevideMember);
+			return new Gson().toJson(selectDevideMember);
     		
     	} catch(Exception e) {
     		e.printStackTrace();
+    		return null;
     		
     	}
-    	return null;
     }
 	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------

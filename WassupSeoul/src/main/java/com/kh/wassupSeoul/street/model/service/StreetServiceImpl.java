@@ -320,6 +320,12 @@ public class StreetServiceImpl implements StreetService{
 		
 		Integer boardNo = streetDAO.checkVoteBoardNo(); // NEXT.VAL 조회
 		
+		Integer currentVoteNo = streetDAO.checkVoteNo(); // 현재 voteNo 조회
+		
+		int currentVoteNo1 = currentVoteNo;
+		
+		System.out.println("현재 선택지 번호"+ currentVoteNo1);
+		
 		board.setBoardNo(boardNo);
 		
 		int result = streetDAO.votePost(board);  // Board 테이블에 게시글 추가 
@@ -329,12 +335,14 @@ public class StreetServiceImpl implements StreetService{
 		List<Vote> voteSel = new ArrayList();
 		
 		for(int i=0; i<voteOption.length; i++) {
-			voteSel.add(new Vote( boardNo, voteOption[i]));
+			for(int k=1; i<voteOption.length+1; k++) {
+			voteSel.add(new Vote(boardNo, voteOption[i], currentVoteNo1+k));
+			}
 		}
 		
-//		for(int i=0; i<voteSel.size(); i++) {
-//			System.out.println("입력한 투표 선택지 : " + voteSel.get(i));
-//		}
+		for(int i=0; i<voteSel.size(); i++) {
+				System.out.println("입력한 투표 선택지 : " + voteSel.get(i));
+		}
 		
 		if( result > 0) {
 			
@@ -391,9 +399,15 @@ public class StreetServiceImpl implements StreetService{
 		int result = 0;
 		
 		if(checkResult == null) { // 기록없을시 
+			vote.setVoteStatus("Y");
 			result = streetDAO.recordVote(vote);
 			System.out.println("투표기록 완료 : " + vote.getVoteStatus());
-		}else { // 투표 기록 있을떄 
+		}else if(checkResult.equals("Y")) { // 투표 기록 있을떄 
+			vote.setVoteStatus("N");
+			result = streetDAO.updateVoteRecord(vote);
+			System.out.println("투표기록 업데이트 완료 : " + vote.getVoteStatus());
+		}else {
+			vote.setVoteStatus("Y");
 			result = streetDAO.updateVoteRecord(vote);
 			System.out.println("투표기록 업데이트 완료 : " + vote.getVoteStatus());
 		}

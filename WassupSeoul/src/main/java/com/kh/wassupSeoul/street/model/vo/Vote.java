@@ -17,18 +17,22 @@ public class Vote {
 	private int voteNo;
 	private int memberNo;
 	private String voteStatus;
+	private int voteCount;
+	private int voteWholeVoteCount;
 	
 	public Vote() {
 	}
 	
-	public Vote(int boardNo, String voteOtion) {
+	public Vote(int boardNo, String voteOtion, int voteNo) {
 		super();
 		this.boardNo = boardNo;
 		this.voteOtion = voteOtion;
+		this.voteNo = voteNo;
 	}
 
 	public Vote(int streetNo, int boardNo, String voteTitle, String voteResult, Timestamp voteEnrollDt, Date voteEndDt,
-			String voteDup, String voteOtion, String anonymity, int voteNo, int memberNo, String voteStatus) {
+			String voteDup, String voteOtion, String anonymity, int voteNo, int memberNo, String voteStatus,
+			int voteCount, int voteWholeVoteCount) {
 		super();
 		this.streetNo = streetNo;
 		this.boardNo = boardNo;
@@ -42,6 +46,8 @@ public class Vote {
 		this.voteNo = voteNo;
 		this.memberNo = memberNo;
 		this.voteStatus = voteStatus;
+		this.voteCount = voteCount;
+		this.voteWholeVoteCount = voteWholeVoteCount;
 	}
 
 	public int getStreetNo() {
@@ -140,12 +146,31 @@ public class Vote {
 		this.voteStatus = voteStatus;
 	}
 
+	public int getVoteCount() {
+		return voteCount;
+	}
+
+	public void setVoteCount(int voteCount) {
+		this.voteCount = voteCount;
+	}
+
+	public int getVoteWholeVoteCount() {
+		return voteWholeVoteCount;
+	}
+
+	public void setVoteWholeVoteCount(int voteWholeVoteCount) {
+		this.voteWholeVoteCount = voteWholeVoteCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Vote [streetNo=" + streetNo + ", boardNo=" + boardNo + ", voteTitle=" + voteTitle + ", voteResult="
 				+ voteResult + ", voteEnrollDt=" + voteEnrollDt + ", voteEndDt=" + voteEndDt + ", voteDup=" + voteDup
 				+ ", voteOtion=" + voteOtion + ", anonymity=" + anonymity + ", voteNo=" + voteNo + ", memberNo="
-				+ memberNo + ", voteStatus=" + voteStatus + "]";
+				+ memberNo + ", voteStatus=" + voteStatus + ", voteCount=" + voteCount + ", voteWholeVoteCount="
+				+ voteWholeVoteCount + "]";
 	}
+	
+	
 
 }
