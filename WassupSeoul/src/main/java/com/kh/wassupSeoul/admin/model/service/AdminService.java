@@ -73,5 +73,19 @@ public interface AdminService {
 	 */
 	public abstract Map<String, Object> selectMember(Integer selectMemberNo) throws Exception;
 
+	/** 골목 점수 부여용 Service
+	 * @param giveStreetPointReportNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int giveStreetPoint(Integer giveStreetPointReportNo) throws Exception;
+
+	/** 보고서 삭제용 Service
+	 * @param deleteStreetReportNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteReport(Integer deleteStreetReportNo) throws Exception;
+
 
 }

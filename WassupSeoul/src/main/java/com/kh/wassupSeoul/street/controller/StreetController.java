@@ -748,7 +748,7 @@ public class StreetController {
 	// -------------------------------------------- 지원 -----------------------------------------------
 	// 골목 개설 화면 이동
 	@RequestMapping("streetInsert")
-	public String insertStreetForm(Model model) {
+	public String insertStreetForm(Model model, RedirectAttributes rdAttr) {
 		
 		int result = 0;
 		
@@ -760,13 +760,14 @@ public class StreetController {
 			
 			result = streetService.selectMyStreet(memberNo);
 			
-			if (result > 0) {
+			if (result > 0) { // 조건충족 시 골목 개설 화면으로 이동
 				
 				return "street/streetInsert";
 			}
-
-			else {
-				model.addAttribute("msg", "이미 개설한 골목이 있거나 가입한 골목이 3개 있어 골목 개설이 불가합니다.");
+			
+			else { // 조건 충족 안되면 광장 그대로
+				
+				rdAttr.addFlashAttribute("msg", "이미 개설한 골목이 있거나 가입한 골목이 3개 있어 골목 개설이 불가합니다.");
 				return "redirect:/square";
 			}
 			
@@ -829,16 +830,17 @@ public class StreetController {
 				}
 			}
 
-			if(result > 0) {
+			if(result > 0) { // 개설 성공 시 개설한 골목메인으로 이동
+								
+				return "redirect:/street/streetMain?streetNo=" + result;
+			} 
+			 
+			else { // 개설 실패 시 골목 개설 화면으로 다시 이동하게 하기
 				
-				model.addAttribute("msg", "골목 개설 성공~!! 우르르ㄱ끼기ㅣ긱");
-				return "redirect:/square"; // 골목으로 이동하게 바꾸기
-				
-			} else {
-				
-				model.addAttribute("msg", "골목 개설 실패했다ㅠㅠ 흐규흐규");
-				return "redirect:/square";
+				// model.addAttribute("msg", "골목 개설 실패했다ㅠㅠ 흐규흐규");
+				return "redirect:/";
 			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

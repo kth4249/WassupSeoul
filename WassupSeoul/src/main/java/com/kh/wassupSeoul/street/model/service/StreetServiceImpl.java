@@ -611,6 +611,7 @@ public class StreetServiceImpl implements StreetService{
 		} 	
 		
 		if(result > 0) {
+			
 			result = streetNo;			
 		}
 		return result;		
@@ -661,6 +662,7 @@ public class StreetServiceImpl implements StreetService{
 		}
 		
 		if(result > 0) {
+			
 			result = streetNo;
 		}			
 			return result;			
