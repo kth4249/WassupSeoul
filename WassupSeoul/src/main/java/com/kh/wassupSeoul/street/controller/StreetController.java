@@ -589,11 +589,6 @@ public class StreetController {
 		 * System.out.println("입력한 투표 : " + voteOptionList);
 		 */
 		 
-		String[] voteGet = voteOptionList.split(",");
-		
-		for(int k=0; k<voteGet.length;k++) {
-		System.out.println("입력한 투표 옵션 리스트  : " + voteGet[k]); }
-		
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
 		int streetNo = (int)model.getAttribute("streetNo");
@@ -614,6 +609,10 @@ public class StreetController {
 		vote.setAnonymity(anonymity);
 		
 		String[] voteOption = voteOptionList.split(",");
+		
+		for(int k=0; k<voteOption.length;k++) {
+			System.out.println("입력한 투표 옵션 리스트  : " + voteOption[k]); 
+		}
 		
 		System.out.println("투표 입력 넘겨받은값 : " + vote);
 		
@@ -676,23 +675,23 @@ public class StreetController {
 
 	// 1/N용 회원 목록 조회
     @ResponseBody
-	@RequestMapping("selectDevideMember")
-    public String  selectDevideMember(HttpServletResponse response, Model model) {
+	@RequestMapping("selectdivideMember")
+    public String  selectdivideMember(HttpServletResponse response, Model model) {
     	
     	int streetNo = (int)model.getAttribute("streetNo");
     	
     	// 1) 회원 정보 가져오기
     	
     	try {
-    		List<Member> selectDevideMember = streetService.selectDevideMember(streetNo);
+    		List<Member> selectDivideMember = streetService.selectDivideMember(streetNo);
     		
 			
-			for(int i=0;i<selectDevideMember.size();i++) {
-				System.out.println("선택할 수 있는 회원 : " + selectDevideMember.get(i));
+			for(int i=0;i<selectDivideMember.size();i++) {
+				System.out.println("선택할 수 있는 회원 : " + selectDivideMember.get(i));
 			}
 			
 			response.setCharacterEncoding("UTF-8");
-			return new Gson().toJson(selectDevideMember);
+			return new Gson().toJson(selectDivideMember);
     		
     	} catch(Exception e) {
     		e.printStackTrace();
@@ -700,6 +699,46 @@ public class StreetController {
     		
     	}
     }
+    
+    
+   // 1/N 게시글 등록용 
+    @ResponseBody
+   	@RequestMapping("postDivide")
+   public String  postDivide(HttpServletResponse response, int originMoney,  int checkedCount, 
+		   					 Model model, String postContent, String[] memArray) {
+    	
+    	System.out.println("작성중");
+    	System.out.println("입력한 금액 : "  +originMoney);
+    	System.out.println("선택된 회원수 : " +checkedCount);
+    	
+    	for ( int i = 0; i<memArray.length; i++) {
+    		System.out.println("선택된 회원 번호 :" + memArray[i]);
+    	}
+    	
+		/*
+		 * int streetNo = (int)model.getAttribute("streetNo");
+		 * 
+		 * // 1) 회원 정보 가져오기
+		 * 
+		 * try { List<Member> selectDivideMember =
+		 * streetService.selectDivideMember(streetNo);
+		 * 
+		 * 
+		 * for(int i=0;i<selectDivideMember.size();i++) {
+		 * System.out.println("선택할 수 있는 회원 : " + selectDivideMember.get(i)); }
+		 * 
+		 * response.setCharacterEncoding("UTF-8"); return new
+		 * Gson().toJson(selectDivideMember);
+		 * 
+		 * } catch(Exception e) { e.printStackTrace(); return null;
+		 * 
+		 * }
+		 */
+    	
+    	int test = 1;
+    	
+    	return  test == 1 ? true + "" : false + "";
+   }
 	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
     

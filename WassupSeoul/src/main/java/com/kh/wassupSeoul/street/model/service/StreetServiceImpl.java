@@ -360,13 +360,18 @@ public class StreetServiceImpl implements StreetService{
 		
 		int result2 = 0;
 		
-		List<Vote> voteSel = new ArrayList();
-		
+//		List<Vote> voteSel = new ArrayList<Vote>();
+//		
+//		
+//		  for(int i=0; i<voteOption.length; i++) { 
+//			  for(int k=1; i<voteOption.length+1; k++) { 
+//				  voteSel.add(new Vote(boardNo, voteOption[i], currentVoteNo1+k)); } 
+//		  }
+		List<Vote> voteSel = new ArrayList<Vote>();
+
 		for(int i=0; i<voteOption.length; i++) {
-			for(int k=1; i<voteOption.length+1; k++) {
-			voteSel.add(new Vote(boardNo, voteOption[i], currentVoteNo1+k));
-			}
-		}
+			voteSel.add(new Vote( boardNo, voteOption[i]));
+		}  
 		
 		for(int i=0; i<voteSel.size(); i++) {
 				System.out.println("입력한 투표 선택지 : " + voteSel.get(i));
@@ -449,8 +454,8 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<Member> selectDevideMember(int streetNo) throws Exception {
-		return streetDAO.selectDevideMember(streetNo);
+	public List<Member> selectDivideMember(int streetNo) throws Exception {
+		return streetDAO.selectDivideMember(streetNo);
 	}
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 

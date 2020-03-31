@@ -163,7 +163,7 @@
 								<INPUT type="button" id="imgTitle" value="Save" onClick="saveImage()" />
 								</a> 
 								<INPUT type="button" value="Clear" onClick="initPage()" />
-								<button type="button" id="sketchSubmitBtn" style="width: 80px; height: 25px; font-size: 17px; float: right; margin-top: 10px">작성</button>
+								<button type="button" id="sketchSubmitBtn" style="width: 80px; height: 30px; font-size: 17px; float: right; margin-top: 5px">작성</button>
 							</div>	 
 							<!-- content end -->
 							
@@ -200,8 +200,9 @@
 								console.log("ajax 통신 실패");
 								console.log(e);
 					        }
+					        
 					    });
-					 refreshList()
+			 	 refreshList();
 		 	 });
 		 	</script>
 			
