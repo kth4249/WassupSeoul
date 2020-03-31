@@ -132,6 +132,15 @@
 		FROM MEMBER
 		WHERE MEMBER_NO = #{selectMemberNo}
  	</select>
+ 	
+ 	<!-- 회원 상세보기(관심사) -->
+ 	<select id="selectHobby" parameterType="_int" resultMap="hobbyResultSet">
+ 		SELECT HOBBY_NM
+		FROM HOBBY
+		WHERE HOBBY_NO IN(SELECT HOBBY_NO
+						FROM MEMBER_HOBBY
+						WHERE MEMBER_NO = #{selectMemberNo})
+ 	</select>
  
 
 </mapper>
