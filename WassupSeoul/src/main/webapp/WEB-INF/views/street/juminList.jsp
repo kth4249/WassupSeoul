@@ -123,7 +123,7 @@
 				<table class="table table-hover">
 					<thead>
 						<tr class="table-info">
-							<th scope="col">프사</th>
+							<th scope="col"></th>
 							<th scope="col">주민</th>
 							<th scope="col">나이, 성별</th>
 							<th scope="col" style="text-align: center;">관심사</th>

@@ -42,33 +42,40 @@
 	height: 100%;
 	content: "";
 	background:
-		url("${pageContext.request.contextPath}/resources/img/서울2.jpg");
+		url("${pageContext.request.contextPath}/resources/img/서울커버.jpg");
 	position: absolute;
 	top: 0;
 	left: 0;
 	z-index: -1;
-	opacity: 0.5;
+	opacity: 0.6;
 }
 
 body {
-	height: 1400px;
+	height: 1710px;
 }
 
 .infoBox {
 	background-color: white;
 	background-color: rgba(255, 255, 255, 0.5);
 	width: 800px;
-	height: 1200px;
+	height: auto;
 }
 
 .profile {
-	width: 200px;
-	height: 200px;
-	border-radius: 100px;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .profile img {
 	max-width: 100%;
+}
+.profileDiv{
+	width: 200px;
+    height: 200px;
+    border-radius: 70%;
+    overflow: hidden;
+    margin-left: 25%;
 }
 
 /* number 태그 화살표 제거 */
@@ -128,8 +135,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<!-- 이메일 입력 -->
 						<div class="row form-group">
 							<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px">*
-									이메일</label>
+								<label for="" class="nanum float-right" style="font-size: 25px; color: black;" >*이메일</label>
 							</div>
 							<div class="col-md-6">
 								<input type="email" id="email" name="memberEmail"
@@ -145,7 +151,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<!-- 비밀번호 입력 -->
 						<div class="row form-group">
 							<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px;">*비밀번호</label>
+								<label for="" class="nanum float-right" style="font-size: 25px; color: black;">*비밀번호</label>
 							</div>
 							<div class="col-md-6">
 								<input type="password" id="pwd1" name="memberPwd"
@@ -160,8 +166,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<!-- 비밀번호 재확인 -->
 						<div class="row form-group">
 							<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px;">*
-									비밀번호 확인</label>
+								<label for="" class="nanum float-right" style="font-size: 25px; color: black;">*비밀번호 확인</label>
 							</div>
 							<div class="col-md-6">
 								<input type="password" id="pwd2" placeholder=" 비밀번호를 확인해주세요"
@@ -175,8 +180,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<!-- 이름 입력 -->
 						<div class="row form-group">
 							<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px;">*
-									이름</label>
+								<label for="" class="nanum float-right" style="font-size: 25px;color: black;">*이름</label>
 							</div>
 							<div class="col-md-6">
 								<input type="text" id="name" name="memberNm"
@@ -191,8 +195,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<!-- 닉네임 입력 -->
 						<div class="row form-group">
 							<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px;">*
-									닉네임</label>
+								<label for="" class="nanum float-right" style="font-size: 25px; color: black;">*닉네임</label>
 							</div>
 							<div class="col-md-6">
 								<input type="text" id="nickName" name="memberNickname"
@@ -207,9 +210,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<!-- 전화번호 입력 -->
 						<div class="row form-group">
 							<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px;">*
-									전화번호</label>
-									
+								<label for="" class="nanum float-right" style="font-size: 25px; color: black;">*전화번호</label>
 							</div>
 							<div class="col-md-2">
 								<select class="form-control" id="phone1" name="phone1" required>
@@ -237,24 +238,23 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<!-- 성별 선택 -->
 						 <div class="row form-group">
 							<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px;">*성별</label>
+								<label for="" class="nanum float-right" style="font-size: 25px; color: black;">*성별</label>
 							</div>
 							
 							<div class="col-md-3 custom-control custom-radio">
 								<input type="radio" id="man" name="memberGender" value="M" class="custom-control-input"> 
-								<label class="custom-control-label nanum" for="man" style="font-size: 25px;">남자</label>
+								<label class="custom-control-label nanum" for="man" style="font-size: 25px; color: black;">남자</label>
 							</div>
 							<div class="col-md-3 custom-control custom-radio">
 								<input type="radio" id="female" name="memberGender" value="F" class="custom-control-input"> 
-								<label class="custom-control-label nanum" for="female" style="font-size: 25px;">여자</label>
+								<label class="custom-control-label nanum" for="female" style="font-size: 25px; color: black;">여자</label>
 							</div>
 						</div> 
 
 						<!-- 나이 입력 -->
 						<div class="row form-group">
 							<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px;">*
-									나이</label>
+								<label for="" class="nanum float-right" style="font-size: 25px; color: black;">*나이</label>
 							</div>
 
 							<div class="col-md-6">
@@ -266,40 +266,37 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<!-- 관심분야 직접입력 -->
 						<div class="row form-group">
 							<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px;">*
-									관심분야 작성</label>
+								<label for="" class="nanum float-right" style="font-size: 25px; color: black;">*관심분야 작성</label>
 							</div>
 							<div class="col-md-4">
 								<input type="text" class="nanum form-control border-primary" id="writeHobbyNm"
 									placeholder="  관심분야 직접 입력">
 							</div>
 							<div class="col-md-2">
-								<button class="nanum badge badge-primary" id="insertHobby" type="button"
-									style="font-size: 19px;">선 택</button>
+								<button class="nanum btn btn-primary" id="insertHobby" type="button"
+									style="font-size: 19px;">선택</button>
 							</div>
 						</div>
 
 						<!-- 관심분야 검색 -->
 						<div class="row form-group">
 							<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px;">*
-									관심분야</label>
+								<label for="" class="nanum float-right" style="font-size: 25px; color: black;">*관심분야</label>
 							</div>
 							<div class="col-md-4">
 								<input type="text" class="nanum form-control border-primary" id="searchHobbyNm"
 									placeholder="  관심분야 검색">
 							</div>
 							<div class="col-md-2">
-								<button class="nanum badge badge-primary" type="button" id="searchHobby"
-									style="font-size: 19px;">검 색</button>
+								<button class="nanum btn btn-primary" type="button" id="searchHobby"
+									style="font-size: 19px;">검색</button>
 							</div>
 						</div>
 
 						<!-- 관심분야 선택창 -->
 						<div class="row form-group">
 							<div class="col-md-4">
-								<p class="nanum float-right" style="color: midnightblue;">(1개
-									이상의 선택을 꼭 권장합니다.)</p>
+								<p class="nanum float-right" style="color: midnightblue;">(1개 이상의 선택을 권장합니다.)</p>
 							</div>
 							<div class="col-md-6" id="searchHobbyList" style="overflow: auto; max-height: 60px;">
 								<li class="list-group-item">
@@ -325,8 +322,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<!-- 프로필 사진 영역 -->
 						<div class="row form-group">
 							<div class="col-md-4">
-								<label for="" class="nanum float-right" style="font-size: 25px;">프로필
-									사진</label><br>
+								<label for="" class="nanum float-right" style="font-size: 25px; color: black;">프로필사진</label><br>
 								<br>
 								<div>
 									<span id="checkImg"></span>
@@ -336,8 +332,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<div class="col-md-6">
 								<div class="profileDiv">
 									<img id="img" class="profile" src="${pageContext.request.contextPath}/resources/img/wm1.png">
-									<input type="file" id="profile_img" name="originProfileUrl">
 								</div>
+									<input type="file" id="profile_img" name="originProfileUrl">
 							</div>
 						</div>
 
@@ -348,7 +344,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							<div class="col-md-6">
 							    <div class="custom-control custom-checkbox">
 								      <input type="checkbox" class="custom-control-input" id="def_check" name="def_check" checked>
-								      <label class="custom-control-label" for="def_check">기본 프로필 이미지 사용</label>
+								      <label class="custom-control-label" for="def_check" style="color: black;">기본 프로필 이미지 사용</label>
 								      <input type="hidden" id="defaultImg" name="defaultImg">
 								</div>
 							</div>
@@ -373,7 +369,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						<div class="row form-group">
 							<div class="col-md-2"></div>
 							<div class="col-md-8">
-								<button type="submit"
+								<button type="submit" style="margin-bottom:50px"
 									class="nanum btn btn-danger btn-lg btn-block">같이놀기</button>
 							</div>
 							<div class="col-md-2"></div>
@@ -633,12 +629,14 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						var regExp = /^[\w]{1,20}@[\w]+(\.[\w]+){1,3}$/;
 
 						if (!regExp.test($email.val())) {
-							$("#checkEmail").text("이메일 형식이 유효하지 않습니다.").css(
-									"color", "red");
+							$("#checkEmail").text("이메일 형식이 유효하지 않습니다.")
+							.css("color", "red")
+							.css("font-weight","bold");
 							signUpCheck.email = false;
 						} else {
-							$("#checkEmail").text("유효한 이메일 형식입니다.").css(
-									"color", "green");
+							$("#checkEmail").text("유효한 이메일 형식입니다.")
+							.css("color", "green")
+							.css("font-weight","bold");
 							signUpCheck.email = true;
 
 							$.ajax({
@@ -679,10 +677,14 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						//영어 대,소문자 + 숫자, 총 6~12글자
 						var regExp = /^[A-Za-z0-9]{6,12}$/;
 						if(!regExp.test($pwd1.val())){ 
-					    	$("#checkPwd1").text("비밀번호 형식이 유효하지 않습니다.").css("color","red");
+					    	$("#checkPwd1").text("비밀번호 형식이 유효하지 않습니다.")
+					    	.css("color","red")
+					    	.css("font-weight","bold");
 					    	signUpCheck.pwd1 = false;
 					    }else{
-					    	$("#checkPwd1").text("유효한 비밀번호 형식입니다.").css("color","green");
+					    	$("#checkPwd1").text("유효한 비밀번호 형식입니다.")
+					    	.css("color","green")
+					    	.css("font-weight","bold");   	
 					    	signUpCheck.pwd1 = true;
 					    }
 
@@ -691,10 +693,14 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					// 비밀번호 일치 여부
 					$pwd2.on("input", function(){
 						if($pwd1.val().trim() != $pwd2.val().trim()){
-							$("#checkPwd2").text("비밀번호 불일치").css("color","red");
+							$("#checkPwd2").text("비밀번호 불일치")
+							.css("color","red")
+							.css("font-weight","bold");
 							signUpCheck.pwd2 = false;
 						}else{
-							$("#checkPwd2").text("비밀번호 일치").css("color","green");
+							$("#checkPwd2").text("비밀번호 일치")
+							.css("color","green")
+							.css("font-weight","bold");
 							signUpCheck.pwd2 = true;
 						}
 					});
@@ -703,10 +709,14 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					$name.on("input", function(){
 						var regExp =  /^[A-Za-z가-힣\s]{2,15}$/; // 한글 두 글자 이상
 						if(!regExp.test($(this).val())){ 
-							$("#checkName").text("올바르게 작성해주세요").css("color","red");
+							$("#checkName").text("올바르게 작성해주세요")
+							.css("color","red")
+							.css("font-weight","bold");
 							signUpCheck.name = false;
 						}else{
-							$("#checkName").text("").css("color","green");
+							$("#checkName").text("")
+							.css("color","green")
+							.css("font-weight","bold");
 							signUpCheck.name = true;
 						}
 					});
@@ -757,10 +767,10 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					    var regExp2 =  /^\d{4,4}$/; // 숫자 4 글자
 					    
 					    if(!regExp1.test($phone2.val()) || !regExp2.test($phone3.val())){
-					    	$("#checkPhone").text("전화번호가 유효하지 않습니다.").css("color","red");
+					    	$("#checkPhone").text("전화번호가 유효하지 않습니다.").css("color","red").css("font-weight","bold");
 							signUpCheck.phone = false;
 					    }else{
-							$("#checkPhone").text("유효한 전화번호입니다.").css("color","green");
+							$("#checkPhone").text("유효한 전화번호입니다.").css("color","green").css("font-weight","bold");
 							signUpCheck.phone = true;
 						}
 					}); 

@@ -81,9 +81,6 @@
         <input type="password" id="inputPassword" name="memberPwd" class="form-control nanum" placeholder="비밀번호를 입력하세요" required>
         <div class="checkbox mb-3">
           <br>
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
         </div>
         <button class="btn btn-secondary btn-block nanum" type="submit">어울리기</button>
         <br>
@@ -134,7 +131,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success nanum" id="searchEmailBtn">이메일 찾기</button>
+          <button type="button" class="btn btn-secondary nanum" id="searchEmailBtn">이메일 찾기</button>
           <button type="button" class="btn btn-primary nanum" data-dismiss="modal" id="closeBtn1">닫기</button>
         </div>
       </div>
@@ -181,7 +178,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success nanum" id="searchPasswordBtn">비밀번호 찾기</button>
+          <button type="button" class="btn btn-secondary nanum" id="searchPasswordBtn">비밀번호 찾기</button>
           <button type="button" class="btn btn-primary nanum" data-dismiss="modal" id="closeBtn2">닫기</button>
         </div>
       </div>

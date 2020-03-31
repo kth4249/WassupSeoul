@@ -739,11 +739,11 @@ object-fit: cover;
             		
        				for(var i=1;i<Object.keys(mList).length;i++){
        					if(i == 1) { // 제일 처음 관심사
-       						var $divPlus1 = $("<div class='col-sm-10'>");
+       						var $divPlus1 = $("<div class='col-sm-8'>");
        	       				var $labelPlus = $("<label>");
        	       				var $inputPlus = $("<input>");
-       						$labelPlus.addClass("col-sm-2 col-form-label text-center nanum").css({"font-weight" : "bold","font-size": "16px"}).html("관심분야");
-       						$inputPlus.prop({"type":"text","readonly":"true"}).css({"color" : "blue","font-size": "25px"})
+       						$labelPlus.addClass("col-sm-2 col-form-label text-center nanum").css({"font-weight" : "bold","font-size": "16px", "padding":"0px","margin-top":"20px","margin-left":"15px"}).html("관심분야");
+       						$inputPlus.prop({"type":"text","readonly":"true"}).css({"color" : "darkgreen","font-size": "16px", "margin-top":"15px"})
        								  .addClass("nanum form-control-plaintext").val("#" + mList[1].hobbyName);
        						$divPlus1.append($inputPlus);
        						if(document.getElementById("memberProfileHobby").childElementCount < (Object.keys(mList).length-1)*2) {
@@ -751,15 +751,15 @@ object-fit: cover;
            						$divPlus.append($divPlus1);	
        						}
        					} else { // 그 다음 관심사
-       						var $divPlus1 = $("<div class='col-sm-10'>");
+       						var $divPlus1 = $("<div class='col-sm-8' style='margin-left:20%'>");
        	       				var $labelPlus = $("<label>");
        	       				var $inputPlus = $("<input>");
        						$labelPlus.addClass("col-sm-2 col-form-label text-center nanum").css({"font-weight" : "bold","font-size": "16px"});
-       						$inputPlus.prop({"type":"text","readonly":"true"}).css({"color" : "blue","font-size": "25px"})
+       						$inputPlus.prop({"type":"text","readonly":"true"}).css({"color" : "darkgreen","font-size": "16px"})
        								  .addClass("nanum form-control-plaintext").val("#" + mList[i].hobbyName);
        						$divPlus1.append($inputPlus);
        						if(document.getElementById("memberProfileHobby").childElementCount < (Object.keys(mList).length-1)*2) {
-       							$divPlus.append($labelPlus);
+       							/* $divPlus.append($labelPlus); */
            						$divPlus.append($divPlus1);	
        						}
        					}
