@@ -6,6 +6,8 @@ import java.io.File;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Decoder;
@@ -46,6 +48,7 @@ import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Report;
+import com.kh.wassupSeoul.street.model.vo.SettingCalendar;
 import com.kh.wassupSeoul.street.model.vo.Street;
 import com.kh.wassupSeoul.street.model.vo.StreetJoin;
 import com.kh.wassupSeoul.street.model.vo.Vote;
@@ -1511,8 +1514,6 @@ public class StreetController {
 		
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.27)시작-----------------------------------*/
-	
 	// 일정 수정 모달창 일정 정보 조회
 	@ResponseBody
 	@RequestMapping("updateModalInfo")
@@ -1530,7 +1531,71 @@ public class StreetController {
 
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.27)끝-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.31)시작-----------------------------------*/
+	@ResponseBody
+	@RequestMapping("changeCalendar")
+	public void changeCalendar(HttpServletResponse response, String nowMonth, String nowYear, Model model) {
+		int streetNo = (int)model.getAttribute("streetNo"); // 현재 골목번호
+		System.out.println("일정 변경 골목 번호 : " + streetNo);
+		System.out.println("현재 입력 받은 년도 : " + nowYear);
+		System.out.println("현재 입력 받은 월 : " + nowMonth);
+		
+		if(nowMonth.length() == 1) { // 입력받은 월이 1자리수일경우 비교를 위해서 2자리로 변경
+			nowMonth = "0" + nowMonth;
+		}
+		try {
+			// DB저장된 일정을 가져옴
+			List<Calendar> storeCalendar = streetService.selectStoreCalendar(streetNo);
+			ArrayList<SettingCalendar> changeCalList = new ArrayList<SettingCalendar>(); // 화면에 가공처리된 일정을 전달하기 위한 리스트
+			SettingCalendar temp = null; // 값 전달용 객체 
+			
+			// 전달받은 년도,월에만 해당하는 일정을 구분
+			for(int e=0;e<storeCalendar.size();e++) {
+				// 년-월-일(시작일)
+				String calStartDate = new SimpleDateFormat("yyyy-MM-dd").format(storeCalendar.get(e).getCalendarStartDate());
+				// 년-월-일(마감일)
+				String calEndDate = new SimpleDateFormat("yyyy-MM-dd").format(storeCalendar.get(e).getCalendarEndDate());
+				
+				// 요일(시작일)
+				String calStartDayOfWeek = new SimpleDateFormat("E요일").format(storeCalendar.get(e).getCalendarStartDate());
+				// 일(시작일)
+				String calStartDay = new SimpleDateFormat("dd일").format(storeCalendar.get(e).getCalendarStartDate());
+				// 오전/오후 시:분 (시작일)
+				String calStartHour = new SimpleDateFormat("a hh:mm").format(storeCalendar.get(e).getCalendarStartDate());
+				
+				// 참가일정 마감일
+				String calendarJoinEndDate;
+				// 참가일정 마감일이 null인경우 판별 -> 빈문자열 변경
+				if(storeCalendar.get(e).getCalendarJoinEndDate() == null) {
+					calendarJoinEndDate = "noTime";
+				} else {
+					// sql.Date 객체를 문자열로 변환, 년-월-일
+					calendarJoinEndDate = new SimpleDateFormat("yyyy-MM-dd").format(storeCalendar.get(e).getCalendarJoinEndDate());
+				}
+				
+				
+				// 현재 월에 해당하는 일정만 가져오기 위해 판별
+				String tempYear = new SimpleDateFormat("yyyy").format(storeCalendar.get(e).getCalendarStartDate()); // DB에 저장된 일정의 년도
+				String tempMonth = new SimpleDateFormat("MM").format(storeCalendar.get(e).getCalendarStartDate()); // DB에 저장된 일정의 월
+				if(tempMonth.equals(nowMonth) && tempYear.equals(nowYear)) { // 현재 월에 해당하는 일정만 저장
+					temp = new SettingCalendar(storeCalendar.get(e).getBoardNo(), 
+							storeCalendar.get(e).getCalendarTitle(), storeCalendar.get(e).getCalendarContent(), 
+							storeCalendar.get(e).getCalendarLocation(), calStartDate, calStartDay, calStartDayOfWeek, calStartHour, calEndDate, 
+							storeCalendar.get(e).getCalendarJoin(), calendarJoinEndDate, storeCalendar.get(e).getCalendarJoinLimit(), streetNo);
+					changeCalList.add(temp);
+				}
+				
+			}
+			
+			response.setCharacterEncoding("UTF-8");
+			new Gson().toJson(changeCalList, response.getWriter());
+
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	/*------------------------ 정승환 추가코드(20.03.31)끝-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	
