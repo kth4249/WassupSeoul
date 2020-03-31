@@ -733,6 +733,25 @@
 		AND STREET_NO = #{streetNo}
 	</update>
 	
+	
+	<insert id="insertDutchBoard" parameterType="Board">
+		INSERT INTO BOARD
+		VALUES(#{boardNo}, #{boardContent}, DEFAULT, DEFAULT, DEFAULT, 
+				#{streetNo}, #{memberNo}, DEFAULT, NULL, NULL)
+	</insert>
+	
+	
+	<insert id="insertDutch" parameterType="Dutch">
+		INSERT INTO DUTCH
+		VALUES(#{boardNo}, #{dutchTotal}, #{dutchCount})
+	</insert>
+	
+	
+	<insert id="insertDivide" parameterType="Divide">
+		INSERT INTO DIVIDE
+		VALUES(#{boardNo}, #{memberNo}, DEFAULT, NULL, #{dividePrice})
+	</insert>
+	
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->

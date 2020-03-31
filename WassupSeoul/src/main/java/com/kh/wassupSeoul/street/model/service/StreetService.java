@@ -18,6 +18,7 @@ import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.vo.Bfile;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Dutch;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Report;
@@ -352,6 +353,12 @@ public interface StreetService {
 	 * @return result
 	 */
 	public abstract int joinCancel(Map<String, Integer> map);
+	
+	
+	public abstract int insertDutchBoard(Board board) throws Exception;
+	
+	
+	public abstract void insertDutch(Dutch dutch);
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

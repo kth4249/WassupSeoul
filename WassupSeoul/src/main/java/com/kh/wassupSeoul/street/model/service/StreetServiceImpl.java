@@ -26,6 +26,8 @@ import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.dao.StreetDAO;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Divide;
+import com.kh.wassupSeoul.street.model.vo.Dutch;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Report;
@@ -857,6 +859,42 @@ public class StreetServiceImpl implements StreetService{
 	@Override
 	public int joinCancel(Map<String, Integer> map) {
 		return streetDAO.joinCancel(map);
+	}
+	
+	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int insertDutchBoard(Board board) throws Exception{
+		return streetDAO.insertDutchBoard(board);
+	}
+	
+	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public void insertDutch(Dutch dutch) {
+		int result = streetDAO.insertDutch(dutch);
+		Divide divide = new Divide();
+		divide.setBoardNo(dutch.getBoardNo());
+		if(dutch.getDutchTotal() % dutch.getDutchCount() == 0) {
+			divide.setDividePrice(dutch.getDutchTotal() / dutch.getDutchCount());
+			for(int i = 0 ; i < dutch.getDutchCount() ; i++) {
+				divide.setMemberNo(dutch.getMemArray()[i]);
+				streetDAO.insertDivide(divide);
+			}
+		} else {
+			int random = (int) Math.floor((Math.random() * dutch.getDutchCount()));
+			for(int i = 0 ; i < dutch.getDutchCount() ; i++) {
+				divide.setMemberNo(dutch.getMemArray()[i]);
+				if(i == random) {
+					divide.setDividePrice( (dutch.getDutchTotal() / dutch.getDutchCount())
+							+ (dutch.getDutchTotal() % dutch.getDutchCount()));
+					streetDAO.insertDivide(divide);
+				} else {
+					divide.setDividePrice(dutch.getDutchTotal() / dutch.getDutchCount());
+					streetDAO.insertDivide(divide);
+				}
+			}
+		}
 	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

@@ -89,13 +89,13 @@
 	  $("#originMoney").val(x.replace(/\B(?=(\d{3})+(?!\d))/g, ",")); // 정규식을 이용해서 3자리 마다 , 추가 
 	} */
 	
-	function addCommas(x) {
+	/* function addCommas(x) {
 		  return x.toString.replace(/\B(?=(\d{3})+(?!\d))/g, ","); 
 	}
 	
 	$("#originMoney").on('keyup',function(event){
 		addCommas($(this).val().replace(/[^0-9]/g,''));
-	})
+	}) */
 	
 	
 	//멤버선택시 멤버 보기 
@@ -135,7 +135,7 @@
  		});
  	});
 	
- 	document.getElementById('voteSubmitBtn').addEventListener('click', function(){ 	
+ 	document.getElementById('divideSubmitBtn').addEventListener('click', function(){ 	
  			// 1/N 게시글 내용
  			var postContent = $(this).parent().find("textarea").val();	
  			
@@ -143,10 +143,18 @@
  			var originMoney = $("#originMoney").val();
  			
  			// 선택된 인원 수 
- 			//var checkedCount = $("input:checkbox[class='memberSelect']:checked").length
+ 			var checkedCount = $("input:checkbox[class='memberSelect']:checked").length
  		
 			var memArray = new Array();
 			
+ 			$(".memberSelect").each(function(index, item){
+ 				console.log(item);
+ 				if($(item).prop("checked") == true){
+ 					memArray.push($(item).prop("name"));
+ 				}
+ 			})
+ 			
+ 			console.log(memArray);
 			/* $(".memberSelect").is(":checked").each(function() {
 				var memberNo = $(this).attr("name");  
 				memArray.push(memberInfo);
@@ -154,30 +162,30 @@
 			
 			for(var i=0; i<memArray.length; i++){
 	 			alert(memArray[i]);
-			}  , "memArray" : memArray */
+			}  , "memArray" : memArray
+			*/
 			
-		$.ajax({
-			url : "postDivide",
-			data : {"postContent" : postContent, "originMoney" : originMoney,
-					"checkedCount" : checkedCount
-				   },
-			type : "post",
-			success : function(result) {
-				
-				if (result == "true") {
-					alert("1/N 게시글 작성 성공");
-					console.log("1/N 게시글 작성 성공");
-					$("#voteCloseBtn").trigger("click");
-				} else {
-					alert("1/N 게시글 작성 실패");
-					console.log("1/N 게시글 작성 실패");
+			$.ajax({
+				url : "postDivide",
+				data : {"postContent" : postContent, "originMoney" : originMoney,
+						"checkedCount" : checkedCount, "memArray" : memArray
+					   },
+				success : function(result) {
+					
+					if (result == "true") {
+						alert("1/N 게시글 작성 성공");
+						console.log("1/N 게시글 작성 성공");
+						$("#voteCloseBtn").trigger("click");
+					} else {
+						alert("1/N 게시글 작성 실패");
+						console.log("1/N 게시글 작성 실패");
+					}
+				},
+				error : function(e) {
+					console.log("ajax 통신 실패");
+					console.log(e);
 				}
-			},
-			error : function(e) {
-				console.log("ajax 통신 실패");
-				console.log(e);
-			}
-		});
+			});
 		 refreshList()
  	});
 	
