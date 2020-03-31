@@ -41,7 +41,6 @@
 		<result property="memberProfileUrl" column="MEMBER_PROFILE_URL"/>
 	</resultMap>
 	
-
 	
 
 
@@ -247,12 +246,12 @@
 <!-- 2.2) 방 신설 하기 -->
 <insert id = "insertChatRoom1" parameterType="map">
 	INSERT INTO CHAT VALUES
-	(SEQ_CHAT.NEXTVAL,#{RoomNo}, DEFAULT, #{myNo}, #{yourNo})
+	(SEQ_CHAT.NEXTVAL, DEFAULT, #{myNo}, #{yourNo}, #{RoomNo})
 </insert>
 
 <insert id = "insertChatRoom2" parameterType="map">
 	INSERT INTO CHAT VALUES
-	(SEQ_CHAT.NEXTVAL,#{RoomNo}, DEFAULT, #{yourNo}, #{myNo})
+	(SEQ_CHAT.NEXTVAL, DEFAULT, #{yourNo}, #{myNo}, #{RoomNo})
 </insert>
 
 
@@ -324,7 +323,7 @@
 
 <select id="inToRoom" parameterType="_int" resultMap="MSGResultSet">
 
-	SELECT MSG_CONTENT, MEMBER_NICKNAME, MEMBER_PROFILE_URL 
+	SELECT * 
 	FROM MSG JOIN MEMBER USING (MEMBER_NO)
 	WHERE ROOM_NO = #{roomNo}
 	ORDER BY MSG_NO
@@ -345,6 +344,13 @@
 	WHERE MEMBER_NICKNAME = #{memberNickname}
 </select>
 
+<insert id="saveMessage" parameterType="msg">
+
+	INSERT INTO MSG VALUES
+	(SEQ_MSG.NEXTVAL, #{msgContent}, DEFAULT, DEFAULT, #{memberNo}, #{roomNo}) 
+
+
+</insert>
 
 
 

@@ -103,4 +103,14 @@ public class AdminDAO {
 		return sqlSession.selectOne("adminMapper.selectMember", selectMemberNo);
 	}
 
+	/** 회원 상세보기용(관심사조회) DAO
+	 * @param selectMemberNo
+	 * @return hList
+	 * @throws Exception
+	 */
+	public List<Hobby> selectHobby(Integer selectMemberNo) throws Exception {
+		
+		return sqlSession.selectList("adminMapper.selectHobby", selectMemberNo);
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.kh.wassupSeoul.admin.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,7 @@ public interface AdminService {
 	 * @return member
 	 * @throws Exception
 	 */
-	public abstract Member selectMember(Integer selectMemberNo) throws Exception;
+	public abstract Map<String, Object> selectMember(Integer selectMemberNo) throws Exception;
+
 
 }

@@ -136,6 +136,7 @@ object-fit: cover;
 									case '3' : var $alDiv = $("<div>").prop("class", "dropdown-item nanum openMessenger"); break;
 									case '4' : var $alDiv = $("<div>").prop("class", "dropdown-item nanum openFriendList"); break;
 									case '5' : var $alDiv = $("<div>").prop("class", "dropdown-item nanum goStreet"); break;
+									case '6' : var $alDiv = $("<div>").prop("class", "dropdown-item nanum goMyBoard"); break;
 									default : 
 									}
 									var $alUrl = $("<input>").prop("type", "hidden").val(item.alarmAddr);
@@ -207,6 +208,17 @@ object-fit: cover;
 					friendRequest();
 					friendsList();
 				})
+				
+				$(document).on("click", ".goMyBoard", function(){
+					if(confirm("게시글로 이동하시겠습니까?")){
+						location.href="${contextPath}/"+this.firstChild.value;
+					}
+					this.remove();
+					console.log(this.childNodes[1].value);
+					checkAlarm(this.childNodes[1].value) // 알람 checkDt 수정하는 function 호출 및 매개변수로 alarmNo 전달
+					alarmView();
+				})
+				
 				
 				function checkAlarm(alarmNo) { // 알람 확인 체크용 function
 					console.log(alarmNo);
@@ -928,8 +940,8 @@ object-fit: cover;
 			/* 맵핑된 핸들러 객채의 handleTextMessage매소드가 실행 */
 			//console.log(memberNo);
 			sock.send(memberNo);
-		
 		};
+		
 		function onAlarm(evt){
 			var data=evt.data;//new text객체로 보내준 값을 받아옴.
 			var host=null;//메세지를 보낸 사용자 ip저장

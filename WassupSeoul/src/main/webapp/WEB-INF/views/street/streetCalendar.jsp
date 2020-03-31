@@ -95,21 +95,7 @@
    		
        	//var abc = calTitle[0];
         //calendar.addEvent({'title':abc, 'start':'2020-03-24', 'end':'2020-03-25'});
-        
-        // 현재 월을 지정함
-        var d = new Date(); // 현재시간
-        var nowMonth = d.getMonth() + 1 // 현재 월
-        var count = 1;
-        // 전월버튼 클릭시 경고창
-        $(document).on("click",".fc-prev-button",function(){
-        	var thisMonth = nowMonth - count; // 바로 전월
-        	if(thisMonth == 0) {
-        		thisMonth = 12;
-        	}
-        	alert(thisMonth);
-        	count++;
-        });
-
+		
         calendar.render();
 
       });
@@ -308,7 +294,7 @@
 
                   <div class="row">
                     <div class="col-md-12">
-                      <ul class="list-group list-group-flush">
+                      <ul class="list-group list-group-flush" id="rightHere">
                       
                       	<c:if test="${empty setCalList}">
                       		<li class="list-group-item">
@@ -341,13 +327,13 @@
 		                                	<div class="col-sm-1" style="padding-left:5px;padding-right:5px">
 		                                	<!-- 마감일이 현재시간을 보다 더 미래인 경우에만 수정버튼 출력 -->
 	                                		<c:if test="${calendar.calEndDate > compareNowDate }">
-	                                			<img alt="수정버튼" class="scheduleUpdate" src="${contextPath}/resources/img/streetChange.svg" style="cursor:pointer;width: 20px; height: 20px;">
+	                                			<img alt="수정버튼" class="scheduleUpdate" src="${contextPath}/resources/img/streetChange.svg" style="cursor:pointer;width: 30px; height: 20px;"><!-- 정승환 코드 수정(20.03.31) -->
 	                                			수정
 	                                			<input type="hidden" value="${calendar.boardNo}">
 	                                		</c:if>
 	                                		</div>
 		                                	<div class="col-sm-1" style="padding-left:5px;padding-right:5px">
-		                                		<img alt="삭제버튼" class="scheduleDelete" src="${contextPath}/resources/img/iconmonstr-trash-can-1.svg" style="cursor:pointer;width: 20px; height: 20px;">
+		                                		<img alt="삭제버튼" class="scheduleDelete" src="${contextPath}/resources/img/iconmonstr-trash-can-1.svg" style="cursor:pointer;width: 30px; height: 20px;"><!-- 정승환 코드 수정(20.03.31) -->
 		                                		삭제
 		                                		<input type="hidden" value="${calendar.boardNo}">
 		                                	</div>
@@ -757,16 +743,142 @@
         $(".fc-day-top.fc-sat").css("color","#0000FF"); // 토
         $(".fc-day-top.fc-sun").css("color","#FF0000"); // 일
         
-     	// 전월버튼 클릭시 주말에 색상적용
-    	$(".fc-prev-button").click(function() {
-    		$(".fc-day-top.fc-sat").css("color","#0000FF"); // 토
+        ////////////////////////////////////////////// 정승환 코드 추가(20.03.31)
+        
+        // 월 변경 버튼에 따른 아래 일정 출력 
+        // nowMonth가 현재 달력에 출력되는 월
+        
+        // 현재 월을 지정함
+        var d = new Date(); // 현재시간
+        var nowMonth = d.getMonth() + 1 // 현재 월
+        var nowYear = d.getFullYear(); // 현재 년도
+        // 전월버튼 클릭시
+        $(document).on("click",".fc-prev-button",function(){
+        	
+        	// 주말에 색상 지정
+        	$(".fc-day-top.fc-sat").css("color","#0000FF"); // 토
             $(".fc-day-top.fc-sun").css("color","#FF0000"); // 일
+        	
+        	if(nowMonth == 1) { // 작년이므로 해당 년도에서 1감소
+        		nowMonth = 13;
+        		nowYear--;
+        	}
+        	nowMonth--; // 바로 전월값 반환
+        	
+        	// 현재 지정된 월에 해당하는 일정을 출력(이전 달)
+        	$.ajax({
+     			url : "${contextPath}/street/changeCalendar",
+     			data : {nowMonth : nowMonth, nowYear : nowYear},
+     			type : "post",
+     			dataType : "json",
+     			success : function(prevCalendar) {
+     				
+     				// 해당 일정이 존재하는 경우 -> null체크, length이용
+     				if(prevCalendar.length > 0) { 
+     					console.log("존재함");
+     				}
+     				// 해당 일정이 존재하지 않는 경우
+     				else {
+     					var $liPlus = $("<li>").addClass("list-group-item");
+     					var $hPlus = $("<h4>").addClass("nanum").html("예정된 일정이 없습니다.");
+     					$liPlus.append($hPlus);
+     					$("#rightHere").html("");
+     					$("#rightHere").append($liPlus);
+     				}
+     			},
+     			error : function(e) {
+     				console.log("ajax 통신 실패");
+           			console.log(e);
+     			}
+     		});
+        	
         });
-        // 익월버튼 클릭시 주말에 색상적용
-    	$(".fc-next-button").click(function() {
-    		$(".fc-day-top.fc-sat").css("color","#0000FF"); // 토
+        
+     	// 익월버튼 클릭시 
+        $(document).on("click",".fc-next-button",function(){
+        	
+        	// 주말에 색상 지정
+        	$(".fc-day-top.fc-sat").css("color","#0000FF"); // 토
             $(".fc-day-top.fc-sun").css("color","#FF0000"); // 일
+        	
+        	if(nowMonth == 12) { // 다음해이므로 해당년도에서 1증가
+        		nowMonth = 0;
+        		nowYear++;
+        	}
+        	nowMonth++; // 바로 익월값 반환
+        	
+        	// 현재 지정된 월에 해당하는 일정을 출력(다음 달)
+        	$.ajax({
+     			url : "${contextPath}/street/changeCalendar",
+     			data : {nowMonth : nowMonth, nowYear : nowYear},
+     			type : "post",
+     			dataType : "json",
+     			success : function(nextCalendar) {
+     				
+     				// 해당 일정이 존재하는 경우 -> null체크, length이용
+     				if(nextCalendar.length > 0) { 
+     					console.log("존재함");
+     				}
+     				// 해당 일정이 존재하지 않는 경우
+     				else {
+     					var $liPlus = $("<li>").addClass("list-group-item");
+     					var $hPlus = $("<h4>").addClass("nanum").html("예정된 일정이 없습니다.");
+     					$liPlus.append($hPlus);
+     					$("#rightHere").html("");
+     					$("#rightHere").append($liPlus);
+     				}
+     				
+     				
+     			},
+     			error : function(e) {
+     				console.log("ajax 통신 실패");
+           			console.log(e);
+     			}
+     		});
+        	
         });
+     	
+     	// today버튼 클릭시
+    	$(".fc-today-button").click(function() {
+    		
+    		// 주말에 색상 지정
+        	$(".fc-day-top.fc-sat").css("color","#0000FF"); // 토
+            $(".fc-day-top.fc-sun").css("color","#FF0000"); // 일
+    		
+    		nowMonth = d.getMonth() + 1; // 현재 월 가져오기
+    		nowYear = d.getFullYear(); // 현재 년도 가져오기
+			
+    		// 현재 지정된 월에 해당하는 일정을 출력(지금 현재 달)
+        	$.ajax({
+     			url : "${contextPath}/street/changeCalendar",
+     			data : {nowMonth : nowMonth, nowYear : nowYear},
+     			type : "post",
+     			dataType : "json",
+     			success : function(todayCalendar) {
+     				
+     				// 해당 일정이 존재하는 경우 -> null체크, length이용
+     				if(todayCalendar.length > 0) { 
+     					console.log("존재함");
+     				}
+     				// 해당 일정이 존재하지 않는 경우
+     				else {
+     					var $liPlus = $("<li>").addClass("list-group-item");
+     					var $hPlus = $("<h4>").addClass("nanum").html("예정된 일정이 없습니다.");
+     					$liPlus.append($hPlus);
+     					$("#rightHere").html("");
+     					$("#rightHere").append($liPlus);
+     				}
+     				
+     			},
+     			error : function(e) {
+     				console.log("ajax 통신 실패");
+           			console.log(e);
+     			}
+     		});
+            
+        });
+        
+		//////////////////////////////////////////////정승환 코드 추가(20.03.31)
 		
      	// 일정 수정 버튼 클릭시 일정 수정
      	$(".scheduleUpdate").on("click",function(){

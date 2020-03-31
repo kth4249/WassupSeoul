@@ -115,6 +115,13 @@ public interface FriendsService {
 	 */
 	Member selectMember(String memberNickname) throws Exception;
 
+	/** 메세지 저장용 Service
+	 * @param msg
+	 * @return result
+	 * @throws Exception
+	 */
+	int saveMessage(MSG msg)throws Exception;
+
 	
 	
 }

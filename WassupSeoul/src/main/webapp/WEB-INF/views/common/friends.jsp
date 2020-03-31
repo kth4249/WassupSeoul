@@ -469,7 +469,7 @@
 	
 	// 사진 클릭시 프로필 모달 (넘버로)
 	$(document).on("click", ".detect1", function(){
-		console.log(this.value);
+		//console.log(this.value);
 		var yourNo = this.value
 		
 		$.ajax({
@@ -483,7 +483,7 @@
 				$("#wassGender").text(result.memberGender);
 				$("#wassAge").html(result.memberAge);
 				$finalPath = $savePath + result.memberProfileUrl;
-				console.log($finalPath);
+				//console.log($finalPath);
 				$("#wasspic").prop("src",$finalPath);
 				
 				
@@ -494,7 +494,7 @@
 				
 			},
 			error : function(){
-				console.log("프로필 띄우는 aJax 실패");
+				//console.log("프로필 띄우는 aJax 실패");
 			}
 		});
 		
@@ -510,7 +510,7 @@
 			type : "POST",
 			data : {"yourNick" : yourNick },
 			success : function(member){
-				console.log(member);
+				//console.log(member);
 				var root = "${contextPath}";
 				var $savePath = root +"/resources/profileImage/";
 				$("#wassNick").text(member.memberNickname);
@@ -527,7 +527,7 @@
 				
 			},
 			error : function(){
-				console.log("프로필 띄우는 aJax 실패");
+				//console.log("프로필 띄우는 aJax 실패");
 			}
 		});
 		
@@ -702,7 +702,7 @@
 			data : {},
 			datatype : "json",
 			success : function(result){
-				console.log(result);
+				//console.log(result);
 				var $friendList = $("#friendList");
 				var $friendInfo = $("#friendInfo");
 				//var root = $("#profileRoot").val();
@@ -824,7 +824,7 @@
 			data : {},
 			datatype : "json",
 			success : function(result){
-				//console.log(result);
+				console.log(result);
 				var $chatList = $("#chatList");
 				var root = "${contextPath}";
 				var $savePath = root + "/resources/profileImage/";
@@ -889,21 +889,25 @@
 		});
 	};   // 친구 대화 목록 Ajax 완료
 	
-	
+	//////////////////////////태훈 수정 시작하는 시점(ctrl + z)용////////////////////////////////
 	
 	// 대화방 진입 Ajax
 	$(document).on("dblclick", ".chatRoom", function(){
 		//console.log(this.value);
+		chatView(this.value)
+	});
+	
+	function chatView(roomNo) {
 		$("#chat").show();
 		$("#chatList").hide();
-		var roomNo = this.value
-		
+		//console.log(roomNo);
+		//console.log("챗뷰 콘솔")
 		
 		$.ajax({
 			url : "${contextPath}/friends/inToRoom",
 			type : "POST",
 			data : {"roomNo" : roomNo},
-			success : function(result){
+			success : function (result){
 				//console.log(result);
 				//console.log("대화방 진입 Ajax 성공");
 				
@@ -913,7 +917,7 @@
 				
 				if(result == null){
 					$msg = $("<span>").html("아직 채팅이 개설된 방이 없어요!");
-					$chat.css("text-align","center")
+					$chat.css("text-align","center");
 					$chat.html($msg);
 					
 				}else {
@@ -921,13 +925,14 @@
 					$chat.html("") // 기존 html 내용 삭제
 					
 					var $div1 = $("<div>").prop("id","div_chat");
+					var $mNo = $("<input>").prop("id","mNoo").prop("type", "hidden").val(result[0].memberNo);
+					var $rNo = $("<input>").prop("id","rNoo").prop("type", "hidden").val(result[0].roomNo);
 					var $xBtn = $("<button>").prop("id","exitBtn").prop("class", "close xBtn").html("&times");
 					var $div2 = $("<div>").prop("id","menu_scroll_down");
 					var $dBtn = $("<button>").prop("id", "btn_scroll_down").css("float","right").html("↓");
 					var $br1 = $("<br>");
 					
-					
-					$div1.append($xBtn).append($dBtn).append($br1);
+					$div1.append($mNo).append($rNo).append($xBtn).append($br1);
 					$chat.append($div1);
 					
 					
@@ -950,6 +955,7 @@
 						var $br3 = $("<br>");
 						
 						
+						
 						$div4.append($img);
 						$span1.append($nick).append($br2);
 						$span2.append($msg);
@@ -962,7 +968,7 @@
 									
 					}); //$.each 끝
 					
-					var $table1 = $("<table>").prop("id", "table_chat").css("margin-top", "340px");
+					var $table1 = $("<table>").prop("id", "table_chat").css("margin-top", "180px");
 					var $colg = $("<colgroup>");
 					var $col1 = $("<col>").css("width", "300px");
 					var $col2 = $("<col>").css("width", "600px");
@@ -976,7 +982,9 @@
 					var $td1 = $("<td>");
 					var $input = $("<input>").prop("id","messageM").prop("class", "nanum").css("width","310px");
 					var $td2 = $("<td>");
-					var $sBtn = $("<button>").prop("id","btn_append_row").prop("class", "btn btn-warning nanum").html("전송");
+					var $sBtn = $("<button>").prop("id","sendBtn").prop("class", "btn btn-warning nanum").html("전송");
+					
+					
 					
 					$colg.append($col1).append($col2);
 					$table1.append($colg).append($thead1).append($tbody1);
@@ -998,8 +1006,7 @@
 				//console.log("대화방 진입 Ajax 실패");
 			}
 		});
-		
-	});
+	}
 	
 	
 	// 대화방 나가기
@@ -1025,109 +1032,6 @@
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	 	
-	 // 채팅방 내부 작동 레디함수 (아무것도 안됨)
-		/* $(function() {
-			var isScrollUp = false;
-			var lastScrollTop;
-			var unreadCnt = 0;
-			
-			var divChat = document.getElementById('chat');
-												  //채팅방
-			// 전송 버튼 클릭 시 
-			$('#btn_append_row').on("click",function() {
-						// 라인 추가
-						$('#table_chat').append($('<tr>').append($('<td>').append($('#add_name').val()),
-										$('<td>').append($('#add_msg').val())));
-
-						if (isScrollUp) {
-							// 메뉴가 보이는 상태에서 새로운 라인 추가 시 안 읽은 수 표시
-							unreadCnt++;
-							$('#btn_scroll_down').html('↓ ' + unreadCnt);
-						}
-
-						// 기본적으로 스크롤 최하단으로 이동 (애니메이션 적용)
-						if (!isScrollUp) {
-							$('#div_chat').animate(
-									{
-										scrollTop : divChat.scrollHeight
-												- divChat.clientHeight
-									}, 100);
-						}
-			});
-	
-	
-	
-	
-		// 메뉴 스크롤 ↓ 버튼 클릭 시 
-		 $('#btn_scroll_down').on('click', function() {
-			// 마지막으로 보고 있었던 (스크롤을 올리기 시작했던) 위치로 이동
-			$('#div_chat').animate({
-				scrollTop : lastScrollTop
-			}, 100);
-
-			if (lastScrollTop == divChat.scrollHeight - divChat.clientHeight) {
-				// 마지막 위치와 스크롤 최하단이 같다면 (새로 추가된 라인이 없다면) 메뉴 숨김
-				$("#menu_scroll_down").css("top", "200px");
-				isScrollUp = false;
-				unreadCnt = 0;
-				$('#btn_scroll_down').html('↓');
-			} else {
-				// 마지막 위치와 스크롤 최하단이 다르다면 (새로 추가된 라인이 있다면) 마지막 위치를 최하단으로 변경
-				lastScrollTop = divChat.scrollHeight - divChat.clientHeight;
-			}
-		}) 
-		
-	 // 스크롤 이벤트 
-		 $("#div_chat").on(
-				'mousewheel DOMMouseScroll',
-				function(e) {
-					var E = e.originalEvent, delta = E.wheelDelta || -E.detail;
-
-					// 메뉴를 숨겼을 때만 마지막 위치 저장
-					if (!isScrollUp) {
-						lastScrollTop = $(this).scrollTop();
-					}
-
-					// 스크롤이 생겼을 때
-					if ($(this).scrollTop() > 0) {
-						if (delta < 0) {
-							// 스크롤 내리는 이벤트 중 최하단 도달 시 메뉴 숨김 (-1은 오차 제어)
-							if ($(this).scrollTop() > divChat.scrollHeight
-									- divChat.clientHeight - 1) {
-								$("#menu_scroll_down").css("top", "200px");
-								isScrollUp = false;
-								unreadCnt = 0;
-								$('#btn_scroll_down').html('↓');
-							}
-						} else {
-							// 스크롤 올리는 이벤트 발생 시 메뉴 보임
-							$("#menu_scroll_down").css("top", "150px");
-							isScrollUp = true;
-						}
-					}
-				});
-	});   */
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	 ////////////////////////////////  메신저 소켓 시작해보는중.... ////////////////////////////////////
 	/* SockJS객체생성 보낼 url경로를 매개변수로 등록 */
 	
@@ -1137,42 +1041,67 @@
 	var today = null;
 	
 	$(function(){
-		$("#btn_append_row").click(function(){
-			console.log("send message.....");
-			/* 채팅창에 작성한 메세지 전송 */
-			sendMessage();
-			/* 전송 후 작성창 초기화 */
- 			$("#messageM").val('');
+		$(document).on("click", "#sendBtn", function(){
+			
+			var rNo = $("#rNoo").val();
+			var mNo = $("#mNoo").val();
+			var message = $("#messageM").val();
+			
+			// 에이잭스로 컨트롤러 ㄱㄱ 저장
+			$.ajax({
+			url : "${contextPath}/friends/saveMessage",
+			type : "POST",
+			data : {"rNo" : rNo , "mNo" : mNo , "message" : message},
+			success : function(result){
+				chatView(rNo);
+			},error : {
+				
+			}
+			
+			});
+			
+			sendMessage(rNo + "," + mNo + "," + message);
+			$("#messageM").val('');
 		});
-		$("#exitBtn").click(function(){
-			console.log("exit message.....");
+		
+		$(document).on("click", "#exitBtn", function(){
+			//console.log("exit message.....");
 			/* 채팅창에 작성한 메세지 전송 */
-			sock.onclose();
+			//sock.onclose();
 		});
+		
 	});
-	function sendMessage(){
+	//var message = $roomNo + "," + $memberNo + "," + $input;
+	function sendMessage(message){
 		/* 맵핑된 핸들러 객채의 handleTextMessage매소드가 실행 */
-		chat.send($("#messageM").val());
-	
+		chat.send(message);
 	};
+	
 	function onMessage(evt){
 		var data=evt.data;//new text객체로 보내준 값을 받아옴.
 		var host=null;//메세지를 보낸 사용자 ip저장
 		var strArray=data.split("|");//데이터 파싱처리하기
 		var userName=null;//대화명 저장
+		/* messagefunction(); */
+		console.log("소켓통신");
+		console.log(data);
+		chatView(data);
 	
 	}
 	
-// 	/* 에이잭스 실행 함수 */
+	/* function onClose(evt){
+		location.href='${pageContext.request.contextPath};';
+	}; */
+	
+// 	 에이잭스 실행 주기 함수 
 	 $(function(){
 		friendRequest(); 	// 친구 요청 목록
 		friendsList(); 		// 친구 목록 불러오기
 		friendtalk();		// 대화 목록 불러오기
 		
-		
-		/* setInterval(function(){ // 갱신 주기
+		 setInterval(function(){ // 갱신 주기
 			friendRequest(); 
-		}, 10000); */
+		}, 10000); 
 	});
 		
 </script>

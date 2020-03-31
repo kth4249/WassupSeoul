@@ -55,7 +55,7 @@
             <c:if test="${citizenStatus eq 'W'}">
 	            <div class="col-sm-12" style="margin-top:5px;margin-bottom:5px">
 	            	<button type="button" class="btn btn-warning btn-lg btn-block nanum" style="font-size: 20px; font-weight: bold;"
-	            	disabled>골목 가입요청중</button>
+	            	id="joinCancel">골목 가입요청중</button>
 	            </div>
             </c:if>
             <c:if test="${citizenStatus ne 'N' && citizenStatus ne 'W'}"> <!-- 정승환 추가코드(20.03.26) -->
@@ -66,7 +66,7 @@
             </c:if>
           </div>
           <script>
-			$("#streetJoin").on("click", function(){
+			$(document).on("click", "#streetJoin", function(){
 				if (confirm("가입을 신청하시겠습니까?")) {
 					$.ajax({
 						url : "${contextPath}/street/streetJoin",
@@ -76,8 +76,9 @@
 							} else {
 								alert("골목 가입 요청 완료");
 								$("#streetJoin").off("click");
-								$("#streetJoin").prop("disabled", true);
 								$("#streetJoin").text("골목 가입요청중");
+								$("#streetJoin").prop("class", "btn btn-warning btn-lg btn-block nanum");
+								$("#streetJoin").prop("id", "joinCancel");
 								sendAlarm(result);
 							}
 						},
@@ -87,6 +88,28 @@
 					});
 					//sendAlarm("74");
 				}
+			})
+			
+			$(document).on("click", "#joinCancel", function(){
+				alert("스크립트 실행되나");
+				$.ajax({
+					url : "${contextPath}/street/joinCancel",
+					success : function(result) {
+						console.log("골목 가입 취소 ajax 성공");
+						if(result == 0){
+							alert("골목 가입 취소 실패");
+						} else {
+							$("#joinCancel").off("click");
+							$("#joinCancel").text("골목 가입");
+							$("#joinCancel").prop("class","btn btn-primary btn-lg btn-block nanum");
+							$("#joinCancel").prop("id", "streetJoin");
+						}
+						
+					},
+					error : function() {
+						console.log("골목 가입 취소 ajax 실패");
+					}
+				})
 			})
 			<!-- ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ태훈 수정 끝 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 		  </script>

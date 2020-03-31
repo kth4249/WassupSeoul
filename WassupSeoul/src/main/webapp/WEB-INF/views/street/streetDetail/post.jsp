@@ -74,7 +74,7 @@
 								<!-- N빵 --> 
 				                <div class="writeOptionArea shake" style="width: 7%">
 				                  <img class="writeOption" src="${contextPath}/resources/img/dutchIcon.png"
-				                  		data-toggle="modal" data-target="#devideModal">
+				                  		data-toggle="modal" data-target="#divideModal">
 				                  <p class="arrow_box">1/N</p>
 				                </div>
 				

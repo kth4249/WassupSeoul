@@ -1,9 +1,13 @@
 package com.kh.wassupSeoul.admin.model.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.wassupSeoul.admin.model.dao.AdminDAO;
 import com.kh.wassupSeoul.hobby.model.vo.Hobby;
@@ -66,6 +70,7 @@ public class AdminServiceImpl implements AdminService {
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public int deleteMember(int deleteMemberNo) throws Exception {
 		
@@ -77,6 +82,7 @@ public class AdminServiceImpl implements AdminService {
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public int deleteStreet(Integer deleteStreetNo) throws Exception {
 		
@@ -88,6 +94,7 @@ public class AdminServiceImpl implements AdminService {
 	 * @return result
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public int deleteHobby(Integer deleteHobbyNo) throws Exception {
 		
@@ -111,8 +118,35 @@ public class AdminServiceImpl implements AdminService {
 	 * @throws Exception
 	 */
 	@Override
-	public Member selectMember(Integer selectMemberNo) throws Exception {
+	public Map<String, Object> selectMember(Integer selectMemberNo) throws Exception {
 		
-		return adminDAO.selectMember(selectMemberNo);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		Member member = adminDAO.selectMember(selectMemberNo);
+		
+		if(member != null) {
+
+			map.put("member", member);
+			
+			List<Hobby> hList = adminDAO.selectHobby(selectMemberNo);
+			
+			System.out.println(hList);
+			
+			List<String> hobby = new ArrayList<String>();
+			
+			for(int i = 0; i<hList.size(); i++) {
+				
+				hobby.add(hList.get(i).getHobbyName());
+			}
+			
+			map.put("hobby", hobby);
+			
+		} else {
+			
+			map = null;
+			
+		}		
+		
+		return map;
 	}
 }

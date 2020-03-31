@@ -179,7 +179,7 @@ public interface StreetService {
 	 * @return List<Member>
 	 * @throws Exception
 	 */
-	public abstract List<Member> selectDevideMember(int streetNo) throws Exception;
+	public abstract List<Member> selectDivideMember(int streetNo) throws Exception;
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
@@ -347,10 +347,12 @@ public interface StreetService {
 	 */
 	public abstract void exileJumin(Map<String, Integer> map) throws Exception;
 	
+	/** 골목 가입 취소용
+	 * @param map
+	 * @return result
+	 */
+	public abstract int joinCancel(Map<String, Integer> map);
 	
-	// 게시글 좋아요 관련 알람
-	public abstract int getBoardWriter(Reply reply);
-
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	

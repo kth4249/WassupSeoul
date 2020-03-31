@@ -269,11 +269,11 @@ public class FriendsServiceImpl implements FriendsService{
 		if (RoomNoList == null || RoomNoList.isEmpty()) { // 대화방 없으면 익셉션 떠서 수정(태훈)
 			return null;
 		}
-		//System.out.println("RoomNoList : "+ RoomNoList);
+		System.out.println("RoomNoList : "+ RoomNoList);
 		
 		// 방 번호에 따른 안읽은 메시지 수
 		List <Integer> noReadMsgCount = friendsDAO.selectnoReadCount(RoomNoList);
-		//System.out.println("noReadMsgCount : " + noReadMsgCount);
+		System.out.println("noReadMsgCount : " + noReadMsgCount);
 		
 		List <String> lastMessage = new ArrayList<String>();
 		
@@ -282,7 +282,7 @@ public class FriendsServiceImpl implements FriendsService{
 			String what = friendsDAO.lastMessage(RoomNoList.get(i));
 			lastMessage.add(what);
 		}
-		//System.out.println("lastSentence : " + lastMessage);
+		System.out.println("lastSentence : " + lastMessage);
 		
 		// 상대방 정보 알아와라
 		List <Member> mList = new ArrayList<Member>();
@@ -302,10 +302,19 @@ public class FriendsServiceImpl implements FriendsService{
 			
 			ChatList chatlist = new ChatList();
 			chatlist.setRoomNo(RoomNoList.get(i));
-			chatlist.setNoReadCount(noReadMsgCount.get(i));
-			chatlist.setLastMessage((lastMessage.get(i)));
+			if( noReadMsgCount != null){
+				chatlist.setNoReadCount(noReadMsgCount.get(i));
+			} else {
+				chatlist.setNoReadCount(0);
+			}
+			if( lastMessage != null){
+				chatlist.setLastMessage((lastMessage.get(i)));
+			} else {
+				chatlist.setLastMessage("");
+			}
 			chatlist.setMemberNickname(mList.get(i).getMemberNickname());
 			chatlist.setMemberProfileUrl(mList.get(i).getMemberProfileUrl());
+			chatlist.setOtherNo(mList.get(i).getMemberNo());
 			
 			cList.add(chatlist);
 			
@@ -360,6 +369,17 @@ public class FriendsServiceImpl implements FriendsService{
 		return friendsDAO.insertAlarm(alarm);
 	}
 	/*-----------------태훈 알람 관련 추가-------------------*/
+
+	/** 메세지 저장용 Service
+	 * @param msg
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int saveMessage(MSG msg) throws Exception {
+		return friendsDAO.saveMessage(msg);
+	}
 	
 
 }

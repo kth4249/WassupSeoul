@@ -77,7 +77,7 @@
   		var boardNo = $("#thisJoinBoardNo").val(); // 현재 게시글 번호
   		var inCalJoinLimit = new Array(); // 현재 모든 일정의 참여제한 인원수를 저장한 배열
   		var joinIndex = $("#indexCheckInput").val(); // 현재 참여할려는 일정 게시글을 지정할 인덱스,참가신청 모달출력시 세팅됨
-  		<c:forEach var="calendar" items="${setCalList}">
+  		<c:forEach var="calendar" items="${allCalList}">
   			inCalJoinLimit.push("${calendar.calJoinLimit}")
   		</c:forEach>
   		location.href="${contextPath}/street/insertCalendarMember?boardNo=" + boardNo + "&inCalJoinLimit=" + inCalJoinLimit[joinIndex];
@@ -92,6 +92,7 @@
  	// 정승환 추가 코드(20.03.25 ,26) 
 	$(document).on("click",".joinBtn",function(){
 		var joinBoardNo = $(this).next().val();
+		
 		$("#thisJoinBoardNo").val(joinBoardNo);
 		
 		var calBoardNo = new Array(); // 일정 게시글 번호
@@ -102,7 +103,7 @@
 		var calJoinHour = new Array(); // 오전오후 시:분
 		var cJoinLimit = new Array(); // 일정의 참여 제한수
 		var calendarLimitDates = new Array(); // 일정의 참여 제한 날짜,  년-월-일
-		<c:forEach var="calendar" items="${setCalList}">
+		<c:forEach var="calendar" items="${allCalList}">
 			calBoardNo.push("${calendar.boardNo}");
 			calJoinDay.push("${calendar.calStartDay}");
 			calJoinDayOfWeek.push("${calendar.calStartDayOfWeek}");

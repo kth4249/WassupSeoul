@@ -112,10 +112,11 @@
 		<result property="voteStatus" column="VOTE_STATUS"/>
 		<result property="voteCount" column="VOTE_COUNT"/>
 		<result property="voteWholeVoteCount" column="WHOLE_VOTE_COUNT"/>
+		<result property="memberVoteCount" column="MEMBER_VOTE_COUNT"/>
 		
 	</resultMap>
 	
-	<resultMap type="Divide" id="devideResultSet">
+	<resultMap type="Divide" id="divideResultSet">
 		<id property="memberNo" column="MEMBER_NO"/>
 		
 		<result property="memberNickName" column="MEMBER_NICKNAME"/>
@@ -432,20 +433,40 @@
   	</insert>
   	
   	<!-- 투표 게시글 선택지 등록용 to VOTE_PICK 테이블  -->
-  	<insert id="uploadVoteOption" parameterType="Vote">
+	<insert id="uploadVoteOption" parameterType="list">
+      	 INSERT ALL 
+     	<foreach collection="list" item="Vote" >
+      		 INTO VOTE_PICK (VOTE_NO, VOTE_CONTENT, BOARD_NO)
+      		  VALUES ( get_seq('service_code_seq'), #{Vote.voteOtion}, #{Vote.boardNo})
+    	</foreach>
+    	SELECT * FROM DUAL
+	</insert>
+	<!-- <insert id="uploadVoteOption" parameterType="Vote">
       	 INSERT ALL 
      	<foreach collection="list" item="Vote" >
       		 INTO VOTE_PICK (VOTE_NO, VOTE_CONTENT, BOARD_NO)
       		  VALUES ( #{Vote.voteNo}, #{Vote.voteOtion}, #{Vote.boardNo})
     	</foreach>
     	SELECT * FROM DUAL
-	</insert>
+	</insert> -->
+	
+		<!-- Create Sequence service_code_seq;
+			create or replace function get_seq( seq_name in varchar2 ) 
+			return  number is
+			  v_num number;
+			  sql_stmt varchar2(64);
+			begin
+			  sql_stmt := 'select ' || seq_name || '.nextval from dual';
+			  execute immediate sql_stmt into v_num;
+			  return v_num;
+			end; -->
+	
 	 
 	<!-- 투표 게시글 선택지 조회용  --> 
 	<select id="selectVoteOption" parameterType="_int" resultMap="voteResultSet">
 		
 		SELECT      VOTE_NO, VOTE_CONTENT, BOARD_NO, VOTE_TITLE, VOTE_RESULT, VOTE_ENROLL_DT, VOTE_END_DT, VOTE_DUP, VOTE_ANONYMITY, STREET_NO,
-					MEMBER_NO, VOTE_STATUS,BOARD_STATUS,VOTE_COUNT,WHOLE_VOTE_COUNT
+					MEMBER_NO, VOTE_STATUS,BOARD_STATUS,VOTE_COUNT,WHOLE_VOTE_COUNT,MEMBER_VOTE_COUNT
 		FROM V_VOTE
 		
 		LEFT OUTER JOIN (SELECT  VOTE_STATUS, MEMBER_NO, VOTE_NO
@@ -459,6 +480,11 @@
         LEFT OUTER JOIN (   SELECT COUNT(*) AS WHOLE_VOTE_COUNT, BOARD_NO FROM (
                                         SELECT VOTE_NO, MEMBER_NO, VOTE_STATUS, BOARD_NO  FROM VOTER  LEFT OUTER JOIN ( SELECT VOTE_NO, BOARD_NO FROM VOTE_PICK )  
                                         USING(VOTE_NO)  WHERE VOTE_STATUS='Y' ) GROUP BY BOARD_NO) USING(BOARD_NO) 
+                                        
+        <!-- 로그인 회원 해당 투표 전체 투표수  -->                                 
+        LEFT OUTER JOIN (SELECT COUNT(*) AS MEMBER_VOTE_COUNT, BOARD_NO FROM(SELECT  VOTE_NO, VOTE_CONTENT, BOARD_NO, MEMBER_NO, VOTE_STATUS FROM VOTE_PICK  
+                                    LEFT OUTER JOIN ( SELECT VOTE_NO, MEMBER_NO, VOTE_STATUS FROM VOTER WHERE VOTE_STATUS = 'Y' AND MEMBER_NO = #{memberNo} ) USING (VOTE_NO)
+                                    WHERE VOTE_STATUS = 'Y' ) GROUP BY BOARD_NO) USING(BOARD_NO)                                  
         
 		WHERE STREET_NO = #{streetNo} AND BOARD_STATUS= 'Y'
         
@@ -489,7 +515,7 @@
 	
 	
 	<!-- 1/N 회원 선택 목록 가져오기  -->
-  	<select id="selectDevideMember" parameterType="_int" resultMap="devideResultSet">
+  	<select id="selectDivideMember" parameterType="_int" resultMap="divideResultSet">
   		SELECT MEMBER_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL, MEMBER_STATUS, DIVIDE_DT 
   		FROM MEMBER
 		LEFT INNER JOIN ( SELECT MEMBER_NO, STREET_NO FROM STREET_JOIN WHERE STREET_NO = #{streetNo}) USING(MEMBER_NO)
@@ -672,6 +698,35 @@
 	
 	
 	<update id="exileJumin" parameterType="map">
+		UPDATE STREET_JOIN
+		SET CITIZEN_STATUS = 'N'
+		WHERE MEMBER_NO = #{memberNo}
+		AND STREET_NO = #{streetNo}
+	</update>
+	
+	
+	<select id="getBoardWriter" parameterType="reply" resultType="_int">
+		SELECT MEMBER_NO
+		FROM BOARD
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	
+	<select id="streetJoinCheck" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM STREET_JOIN
+		WHERE STREET_NO = #{streetNo}
+		AND MEMBER_NO = #{memberNo}
+	</select>
+	
+	<update id="streetJoin2" parameterType="map">
+		UPDATE STREET_JOIN
+		SET CITIZEN_STATUS = 'W'
+		WHERE MEMBER_NO = #{memberNo}
+		AND STREET_NO = #{streetNo}
+	</update>
+	
+	<update id="joinCancel" parameterType="map">
 		UPDATE STREET_JOIN
 		SET CITIZEN_STATUS = 'N'
 		WHERE MEMBER_NO = #{memberNo}
