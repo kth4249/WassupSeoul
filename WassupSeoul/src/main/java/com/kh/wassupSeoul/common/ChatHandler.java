@@ -21,20 +21,28 @@ public class ChatHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		sessionList.add(session);
 		Member loginMember = (Member)session.getAttributes().get("loginMember");
-		System.out.println("채팅방 입장자 :"+ loginMember.getMemberNickname());
+		//System.out.println("채팅방 입장자 :"+ loginMember.getMemberNickname());
 	}
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		Member loginMember = null;
 		System.out.println("보낸 메시지 :" + message);
-										// 받을놈 번호, 룸번호, 메시지 내용
+										// 룸번호, 받을놈 번호, 메시지 내용
+		
+		String[] msgArr = message.getPayload().split(",", 3);
+		
+		
+//		System.out.println(msgArr[0]);
+//		System.out.println(msgArr[1]);
+//		System.out.println(msgArr[2]);
+		
+		
 		
 		for (WebSocketSession sss : sessionList) {
 			loginMember = (Member)sss.getAttributes().get("loginMember");
-		
-			if(loginMember.getMemberNo() == Integer.parseInt(message.getPayload())) {
-			sss.sendMessage(message);
+			if(loginMember.getMemberNo() == Integer.parseInt(msgArr[1])) {
+			sss.sendMessage(new TextMessage(msgArr[0]));
 		}
 			
 		}

@@ -369,9 +369,8 @@ public class FriendsController {
 		@ResponseBody
 		@RequestMapping(value="saveMessage", method = RequestMethod.POST,
 				produces = "application/json; charset=utf-8")
-			public String saveMessage(int mNo, int rNo, String message) {
-			
-			System.out.println("도착부터하자");
+			public String saveMessage(Model model, int rNo, String message) {
+			int mNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
 			try {
 				MSG msg = new MSG();
 				msg.setMemberNo(mNo);
@@ -380,14 +379,13 @@ public class FriendsController {
 				
 				int result = friendsService.saveMessage(msg);
 				
-				System.out.println("result : " + result);
 				return new Gson().toJson(result);
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return null;
-		} // 프로필 가져오기 2 끝	
+		} //메시지 저장하기 
 	
 	
 	
