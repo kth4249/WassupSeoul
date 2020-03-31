@@ -176,9 +176,9 @@
                               <div class="form-group row">
 		                       <label class="col-sm-3 col-form-label nanum" style="font-weight: bold;">위치검색</label>
 		                       <div class="col-sm-9">
-		                         <div id="insert-floating-panel" style="width:100%">
-									<input id="insertAddress" type="textbox" style="width:70%">
-								    <input id="insertMapSubmit" type="button" value="검색">
+		                         <div id="insert-floating-panel" style="width:100%; margin-left: 1px;" class="row" >
+									<input id="insertAddress" type="textbox" style="width:83%" class="form-control">
+								    <input id="insertMapSubmit" type="button" value="검색" class="btn btn-primary">
 								</div>
 							    <div class="map_wrap">
 									<div id="insertMap" style="width:100%;height:200px;position:relative;overflow:hidden;"></div>
@@ -228,7 +228,7 @@
 		                         
 		                       </div>
 		                       <div class="col-sm-3"></div>
-		                       <div class="col-sm-9"><p class="nanum" style="color: blue;">*위치 검색시 상세한 주소를 지정할 수 있습니다.</p></div>
+		                       <div class="col-sm-9"><p class="nanum" style="color: darksalmon;">*위치 검색시 상세한 주소를 지정할 수 있습니다.</p></div>
 		                     </div>
 			                     
 		                     <div class="form-group row">
@@ -243,7 +243,7 @@
                                 <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">시작</label>
                                 <div class="col-sm-5"><input type="date" class="form-control" name="calStartDate" id="calStartDate"></div>
                                 <div class="col-sm-5"><input type="time" class="form-control" name="calStartTime" id="calStartTime"></div>
-								<div class="col-sm-12 nanum" style="font-weight: bold;color: blue">*일정 시작일은 현재 시간보다 1일 후 날짜부터 지정할 수 있습니다.</div>
+								<div class="col-sm-12 nanum" style="font-weight: bold;color: darksalmon">*일정 시작일은 현재 시간보다 1일 후 날짜부터 지정할 수 있습니다.</div>
                               </div>
                               <div class="form-group row">
                                 <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">종료</label>
@@ -281,17 +281,18 @@
                               <!-- 코드수정 정승환(20.03.30) -->
                               <div class="form-group row">
                               	<div class="col-sm-12">
-                              		<div class="custom-control custom-checkbox">
+                              		<div class="custom-control custom-checkbox"><br>
                                   		<input type="checkbox" class="custom-control-input" id="customCheck123" checked="" value="Y" name="openBoard">
                                   		<label class="custom-control-label nanum" for="customCheck123">게시글 공유</label>
                                 	</div>
                               	</div>
                               </div>
                               <!-- 코드수정 정승환(20.03.30) -->
+                              <br><br>
                               <div class="form-group row">
                                 <div class="col-md-2"></div>
-                                <div class="col-md-4"><button type="submit" class="btn btn-secondary btn-block nanum" style="font-weight: bold;">완료</button></div>
-                                <div class="col-md-4"><button type="button" class="btn btn-secondary btn-block nanum" data-dismiss="modal" style="font-weight: bold;">나가기</button></div>
+                                <div class="col-md-4"><button type="submit" class="btn btn-success btn-block nanum" style="font-weight: bold;">완료</button></div>
+                                <div class="col-md-4"><button type="button" class="btn btn-warning btn-block nanum" data-dismiss="modal" style="font-weight: bold;">나가기</button></div>
                                 <div class="col-md-2"></div>
                               </div>
                             </form>
@@ -330,10 +331,10 @@
 		                              <div class="row">
 		                                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; padding: 0px; margin-left: 5px;">참여인원</label>
 		                                <c:if test="${calendar.calendarJoin == 'N'.charAt(0)}">
-		                                	<div class="col-sm-8"><input type="text" readonly class="form-control-plaintext nanum" value="참여인원이 없는 일정입니다." style="font-weight: bold;"></div>
+		                                	<div class="col-sm-7"><input type="text" readonly class="form-control-plaintext nanum" value="참여인원이 없는 일정입니다." style="font-weight: bold;"></div>
 		                                </c:if>
 		                                <c:if test="${calendar.calendarJoin == 'Y'.charAt(0)}">
-		                                	<div class="col-sm-8"><input type="text" readonly class="form-control-plaintext nanum" value="${calendar.calJoinLimit}" style="font-weight: bold; padding: 0px;"></div>
+		                                	<div class="col-sm-7"><input type="text" readonly class="form-control-plaintext nanum" value="${calendar.calJoinLimit}" style="font-weight: bold; padding: 0px;"></div>
 		                                </c:if>
 		                                <!-- 골목 대장인 경우에만 수정,삭제 가능 -->
 		                                <c:if test="${loginMember.memberNo == streetMasterNo}">
@@ -403,7 +404,7 @@
 		                	<div id="map" style="width:100%;height:250px;"></div>
 		                </div>
 		                <div class="col-sm-3"></div>
-		                <div class="col-sm-9"><p class="nanum" style="color: blue;">*위치 검색을 통해 생성된 마크중 원하는 장소를 <br>클릭시 수정된 장소가 지정됩니다.</p></div>
+		                <div class="col-sm-9"><p class="nanum" style="color: darksalmon;">*위치 검색을 통해 생성된 마크중 원하는 장소를 <br>클릭시 수정된 장소가 지정됩니다.</p></div>
                     </div>
                     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=77161504cfbcd21ef34a3ed0de04dad4&libraries=services"></script>
                     <!-- 카카오 지도 -->

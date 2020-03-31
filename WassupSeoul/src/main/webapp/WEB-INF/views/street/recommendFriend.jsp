@@ -17,7 +17,7 @@
 }
 </style>
 </head>
-<body style="background-color: rgb(221, 233, 218);">
+<body style="background-color: rgb(255,255,255);">
 	<!-- 골목 네비바 여백 -->
 	<div class="container-fluid" style="margin-top: 57px;">
 		<div class="row" style="padding: 0px; height: 44px"></div>

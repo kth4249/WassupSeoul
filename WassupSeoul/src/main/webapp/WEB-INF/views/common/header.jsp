@@ -18,7 +18,7 @@
 <title>header</title>
 <style>
 .profileBox{
-  width: 100%;
+  width: 160px;
   height: 160px; 
   border-radius: 70%;
   overflow: hidden;
@@ -271,7 +271,7 @@ object-fit: cover;
              	<!-- 가입 대기 골목 시작 -->
 				<div class="row">
 	              	<div class="col-md-12"><h3 class="nanum">골목 가입 요청 목록</h3></div>
-	              	<div class="col-md-12"><p class="nanum" style="color: blue;">*가입 취소는 해당 골목에서 가능합니다.</p></div>
+	              	<div class="col-md-12"><p class="nanum" style="color: darksalmon;">*가입 취소는 해당 골목에서 가능합니다.</p></div>
             	</div>
             	
             	<div class="row">
@@ -286,7 +286,7 @@ object-fit: cover;
             	<!-- 탈퇴 및 가입 실패 골목 시작 -->
             	<div class="row">
               		<div class="col-md-12"><h3 class="nanum">골목 가입 실패 및 탈퇴 목록</h3></div>
-              		<div class="col-md-12"><p class="nanum" style="color: blue;">*골목 가입 실패시 재가입이 가능하며 가입 거부 사유는 알려드리지 않습니다.</p></div>
+              		<div class="col-md-12"><p class="nanum" style="color: darksalmon;">*골목 가입 실패시 재가입이 가능하며 가입 거부 사유는 알려드리지 않습니다.</p></div>
             	</div>
             	
             	<div class="row">
@@ -337,28 +337,28 @@ object-fit: cover;
                 </div>
                 <div class="row">
                 <div class="col-md-2"></div>
-                <div class="col-md-8"><input type="text" id="memberEmail" class="nanum form-control-plaintext text-center" style="font-size: 25px;font-weight: bold;" readonly></div>
+                <div class="col-md-8"><input type="text" id="memberEmail" class="nanum form-control-plaintext text-center" style="font-size: 25px;font-weight: bold; margin-bottom: 20px;" readonly></div>
                 <div class="col-md-2"></div>
                 </div>
                 <div class="row">
-                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">이름</label>
+                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px; padding:0px; padding-top: 3px;">이름</label>
                 <div class="col-sm-4">
-                    <input type="text" readonly id="memberName" class="nanum form-control-plaintext text-center"  style="font-size: 25px;">
+                    <input type="text" readonly id="memberName" class="nanum form-control-plaintext text-center"  style="font-size: 20px; padding:0px; text-align: left!important;">
                 </div>
-                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">나이</label>
+                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px; padding:0px; padding-top: 3px; text-align:left !important">나이</label>
                 <div class="col-sm-4">
-                    <input type="text" readonly id="memberAge" class="nanum form-control-plaintext text-center" style="font-size: 25px;">
+                    <input type="text" readonly id="memberAge" class="nanum form-control-plaintext text-center" style="font-size: 20px; padding:0px; text-align: left!important;">
                 </div>
                 </div>
 
                 <div class="row">
-                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">성별</label>
+                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px; padding:0px; padding-top: 3px;">성별</label>
                 <div class="col-sm-4">
-                	<input type="text" readonly id="memberGender" class="nanum form-control-plaintext text-center" style="font-size: 25px;">
+                	<input type="text" readonly id="memberGender" class="nanum form-control-plaintext text-center" style="font-size: 20px; padding:0px; text-align: left!important;">
                 </div>
-                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px;">전화번호</label>
+                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; font-size: 16px; padding:0px; padding-top: 3px; text-align:left !important">전화번호</label>
                 <div class="col-sm-4">
-                    <input type="text" readonly id="memberPhone" class="nanum form-control-plaintext text-center" style="font-size: 22px;">
+                    <input type="text" readonly id="memberPhone" class="nanum form-control-plaintext text-center" style="font-size: 19px; padding:0px; text-align: left!important;">
                 </div>
                 </div>
 
@@ -368,10 +368,10 @@ object-fit: cover;
             
                 <div class="row">
                 <div class="col-md-6">
-                    <a class="btn btn-primary btn-lg btn-block nanum" href="${contextPath}/member/MoveupdateForm?memberNo=${loginMember.memberNo}" role="button" style="font-weight: bold;">내정보 수정</a>
+                    <a class="btn btn-primary btn-lg btn-block nanum" href="${contextPath}/member/MoveupdateForm?memberNo=${loginMember.memberNo}" role="button" style="font-weight: bold; margin-top: 40px;">내정보 수정</a>
                 </div>
                 <div class="col-md-6">
-                    <a class="btn btn-primary btn-lg btn-block nanum" href="${contextPath}/member/deleteForm" role="button" style="font-weight: bold;">회원 탈퇴</a>
+                    <a class="btn btn-danger btn-lg btn-block nanum" href="${contextPath}/member/deleteForm" role="button" style="font-weight: bold; margin-top: 40px;">회원 탈퇴</a>
                 </div>
                 </div>
                 <!-- content end -->
@@ -568,12 +568,12 @@ object-fit: cover;
        					for(var i=0;i<Object.keys(waitNOutList.waitStreetList).length;i++){
        						var streetNo = ((waitNOutList.waitStreetList)[i]).streetNo;
        						var $divPlus = $("<div>").addClass("row");
-           					var $divPlus1 = $("<div>").addClass("col-md-4").css({"position":"relative","height":"240px"});
-           					var $divPlus2 = $("<div class='col-md-1'>");
+           					var $divPlus1 = $("<div>").addClass("col-md-4").css({"position":"relative","height":"200px","overflow":"hidden","background-color":"black","margin-left":"10px","margin-top":"20px"});
+           					var $divPlus2 = $("<div class=''>");
            					var $divPlus3 = $("<div class='col-md-7'>");
            					
            					var $imgPlus = $("<img>").prop({"src":"${contextPath}/resources/streetCoverImage/"+((waitNOutList.waitStreetList)[i]).imgUrl, "alt":"이미지"})
-							.css({"position":"absolute","width":"100%","height":"100%"});
+							.css({/* "position":"absolute" */"width":"100%","height":"100%","object-fit":"cover"});
            					
            					// 골목 이미지
            					$divPlus1.append($imgPlus);
@@ -587,7 +587,7 @@ object-fit: cover;
            					var $sname = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
 										.css({"font-weight":"bold","font-size":"25px"}).val(((waitNOutList.waitStreetList)[i]).streetNm);
            					$sector1.append($sname);
-           					var $sdistrict = $("<button class='btn btn-outline-success text-center'>").css({"font-weight":"bold","font-size":"13px"})
+           					var $sdistrict = $("<button class='btn btn-warning text-center'>").css({"font-weight":"bold","font-size":"13px","margin-top":"10px","color":"#5a5a5a"})
 											.prop({"disabled":true,"type":"button"}).html(((waitNOutList.waitStreetList)[i]).districtNm);
            					$sector2.append($sdistrict);
            					$divPlus31.append($sector1).append($sector2);
@@ -654,12 +654,12 @@ object-fit: cover;
        					var $brPlus3 = $("<br>");
        					for(var i=0;i<Object.keys(waitNOutList.outStreetList).length;i++){
        						var $divPlus = $("<div>").addClass("row");
-           					var $divPlus1 = $("<div>").addClass("col-md-4").css({"position":"relative","height":"80px"});
-           					var $divPlus2 = $("<div class='col-md-1'>");
+           					var $divPlus1 = $("<div>").addClass("col-md-4").css({"position":"relative","height":"150px","overflow":"hidden","background-color":"black","margin-left":"10px"});
+           					var $divPlus2 = $("<div class=''>");
            					var $divPlus3 = $("<div class='col-md-7'>");
            					
            					var $imgPlus = $("<img>").prop({"src":"${contextPath}/resources/streetCoverImage/"+((waitNOutList.outStreetList)[i]).imgUrl, "alt":"이미지"})
-    						.css({"position":"absolute","width":"100%","height":"100%"});
+    						.css({/* "position":"absolute", */"width":"100%","height":"100%","object-fit":"cover"});
            					
            					// 골목 이미지
            					$divPlus1.append($imgPlus);
@@ -673,7 +673,7 @@ object-fit: cover;
            					var $sname = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
 										.css({"font-weight":"bold","font-size":"25px"}).val(((waitNOutList.outStreetList)[i]).streetNm);
            					$sector1.append($sname);
-           					var $sdistrict = $("<button class='btn btn-outline-success text-center'>").css({"font-weight":"bold","font-size":"13px"})
+           					var $sdistrict = $("<button class='btn btn-warning text-center'>").css({"font-weight":"bold","font-size":"13px","margin-top":"10px","color":"#5a5a5a"})
 											.prop({"disabled":true,"type":"button"}).html(((waitNOutList.outStreetList)[i]).districtNm);
            					$sector2.append($sdistrict);
            					$divPlus31.append($sector1).append($sector2);
