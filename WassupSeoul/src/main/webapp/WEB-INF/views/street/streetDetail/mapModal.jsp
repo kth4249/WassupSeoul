@@ -66,7 +66,7 @@
 											<div id="map" style="width:100%;height:400px;position:relative;overflow:hidden;"></div>
 										</div>
 										
-										<button type="submit" id="mapSubmitBtn"
+										<button type="submit" id="mapSubmitBtn" name="default"
 										style="width: 10%; height: 30px; font-size: 17px; float: right; margin: 0px">작성</button>
 									
 									<div class="modal_layer"></div>
@@ -95,32 +95,6 @@
 				        	geocodeAddress(geocoder, map);
 				        });
 				     	
-				     	
-				     	
-				    /* 	// 지도 게시글 출력용 지도 
-				    	var showMap = document.getElementsByClassName('boardMap');
-				        var geocoder2 = new google.maps.Geocoder;
-				        var map2 = new google.maps.Map(showMap, {
-				            zoom: 15,
-				            center: {lat: 37.5724723, lng: 126.9737442}
-				         });
-				        
-				        var address2 =  showMap.attr("name");
-				      	geocoder2.geocode({'address': address2}, function(results, status) {
-					          if (status === 'OK') {
-					        	 var coords2 = results[0].geometry.location;
-					            	resultsMap2.setCenter(coords2);
-					           	 var marker2 = new google.maps.Marker({
-					           		   map: resultsMap2,
-					             	   position: coords2
-				            });
-				          } else {
-				            alert('Geocode was not successful for the following reason: ' + status);
-				          }
-				        });  
-				      	
-				      	geocodeAddress(geocoder2, map2); */
-				     	
 				      }
 				
 				      function geocodeAddress(geocoder, resultsMap) {
@@ -132,9 +106,9 @@
 				           	 var marker = new google.maps.Marker({
 				           		   map: resultsMap,
 				             	   position: coords
+				           		$("#mapSubmitBtn").attr("name", coords);
 				            });
 				           	 markers.push(marker);
-				          	 
 			           	 /*  // Sets the map on all markers in the array.
 				             function setMapOnAll(map) {
 				               for (var i = 0; i < markers.length; i++) {
@@ -158,7 +132,7 @@
 				               markers = [];
 				             }  */
 				           	 
-				           	$("#mapSubmitBtn").attr("name", coords);	
+				           		
 				          } else {
 				            alert('Geocode was not successful for the following reason: ' + status);
 				          }
