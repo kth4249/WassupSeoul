@@ -114,11 +114,11 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					<fieldset class="join_contentback">
 					<form class="form1" action="${pageContext.request.contextPath}/member/signUpForm" method="GET" name="agreeForm" id="form1"
                      onsubmit="return validate();">
-						<div class="custom-control custom-checkbox">
+						<div class="custom-control custom-checkbox" style="margin-top:50px">
 							<input type="checkbox" id="total_agree"
 								class="check-all custom-control-input"> <label
 								for="total_agree" class="mt-3 custom-control-label">
-								<h5 class="nanum" style="font-size: 35px;">
+								<h5 class="nanum" style="font-size: 35px; ">
 									<strong>모두 확인, 동의합니다.</strong>
 								</h5>
 							</label>
@@ -186,7 +186,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							onclick="location.href='${pageContext.request.contextPath}/member/signUpForm'">다음
 							단계로 !</button> --%>
 						<button id="nextnext" type="submit"
-							class="btn btn-danger btn-lg nanum">다음 단계로 !</button>
+							class="btn btn-info btn-lg nanum">다음 단계로 !</button>
 						</form>
 
 						<p class="mt-5 mb-3 text-muted small text-center">&copy; WS

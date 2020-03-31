@@ -9,7 +9,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>주민 목록</title>
 </head>
-<body style="background-color : rgb(221, 233, 218);">
+<body style="background-color : rgb(255, 255, 255);">
 	<!-- 골목 네비바 여백 -->
 	<div class="container-fluid" style="margin-top: 57px;">
 		<div class="row"  style="padding: 0px; height:44px"></div>
@@ -46,8 +46,12 @@
 								<c:if test="${member.citizenStatus eq 'W'}">
 									<tr class="table-success">
 										<input type="hidden" value="${member.memberNo}">
-										<td><img src="${contextPath}/resources/profileImage/${member.memberProfileUrl}" width="45px"
-											height="45px" class="openProfile"></td>
+										<td>
+										<div style="border-radius: 70%; overflow: hidden; width:45px; height:45px">
+											<img src="${contextPath}/resources/profileImage/${member.memberProfileUrl}" style="width:100%;
+											height:100%; object-fit: cover;" class="openProfile">
+										</div>
+										</td>
 										<td>${member.memberNickname }</td>
 										<td>${member.memberAge}세, ${member.memberGender}</td>
 										<td>
@@ -122,8 +126,8 @@
 							<th scope="col">프사</th>
 							<th scope="col">주민</th>
 							<th scope="col">나이, 성별</th>
-							<th scope="col">관심사</th>
-							<th>친구 요청</th>
+							<th scope="col" style="text-align: center;">관심사</th>
+							<th style="text-align: center;">친구 요청</th>
 						</tr>
 					</thead>
 					<tbody id="juminList">
@@ -133,10 +137,14 @@
 								<c:if test="${member.citizenStatus eq 'Y'}">
 									<tr class="table-light">
 										<input type="hidden" value="${member.memberNo}">
-										<td scope="row"><img src="${contextPath}/resources/profileImage/${member.memberProfileUrl}" width="45px"
-											height="45px" class="openProfile"></td>
-										<td>${member.memberNickname }</td>
-										<td>${member.memberAge}세,
+										<td scope="row">
+										<div style="border-radius: 70%; overflow: hidden; width:45px; height:45px">
+											<img src="${contextPath}/resources/profileImage/${member.memberProfileUrl}" style="width:100%;
+											height:100%; object-fit: cover;" class="openProfile">
+										</div>
+										</td>
+										<td style="padding-top: 20px;">${member.memberNickname }</td>
+										<td style="padding-top: 20px;">${member.memberAge}세,
 											<c:if test="${member.memberGender eq 'M' }">
 												남
 											</c:if>
@@ -145,7 +153,7 @@
 											</c:if>
 										
 										</td>
-										<td>
+										<td style="padding-top: 20px;">
 											<c:if test="${!empty hList}">
 												<c:forEach items="${hList}" var="hobby" >
 													<c:if test="${member.memberNo == hobby.memberNo }">
@@ -155,7 +163,7 @@
 											</c:if>
 										</td>
 										<c:set var="count" value="0"/>
-										<td class="text-center">
+										<td class="text-center" style="padding-top: 20px;">
 											<c:if test="${!empty rList and loginMember.memberNo != member.memberNo}">
 												<c:forEach items="${rList}" var="relationShip" varStatus="vs">
 													<c:if test="${relationShip.yourNum == member.memberNo}">

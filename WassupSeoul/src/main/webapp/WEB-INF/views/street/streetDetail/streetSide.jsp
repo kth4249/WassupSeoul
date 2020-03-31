@@ -6,7 +6,7 @@
     <div class="col-md-2 fixed-top" style="left: 17%; top: 110px;" style="background-color: rgb(221, 233, 218);">
     <!-- <div class="col-md-2 fixed-top" style="left: 366px; top: 110px;" style="background-color: rgb(221, 233, 218);"> -->
       <div class="card mb-3" >
-	      <div style="width: 286px !important; height: 200px; overflow: hidden; background-color:black;">
+	      <div style="width: 100% !important; height: 200px; overflow: hidden; background-color:black;">
 	        <img style="height: 100%; width: 100%; object-fit: cover; display: block;" 
 	        	src="${contextPath}/resources/streetCoverImage/${imgUrl}" alt="Card image">
 	        </div>
@@ -136,7 +136,7 @@
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
 	             		<a href="" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">
-	              	 	골목 탈퇴하기
+	              	 	골목 탈퇴
 	             		</a>
 	           	</div>
 		  	</c:if>
