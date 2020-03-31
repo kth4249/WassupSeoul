@@ -105,24 +105,17 @@
 			<div class="row">
 				<br>
 			</div>
-			<!-- 내용 전체 지우기 스크립트 -->
-			<script>
-				var $ipt = $('#streetTitle'), $clearIpt = $('#streetTitleClear');
-
-				$ipt.keyup(function() {
-					$("#streetTitleClear").toggle(Boolean($(this).val()));
-				});
-
-				$clearIpt.toggle(Boolean($ipt.val()));
-				$clearIpt.click(function() {
-					$("#streetTitle").val('').focus();
-					$(this).hide();
-				});
+			
+<!-- 
 
 				// src가 존재할 때만 넘어가게 
 				// onsubmit 동작이 일어났을때 -> c:set 을 이용해서 thumbnailArea의 src 를 el 변수로 저장 
 				// -> form action에 넘기고 싶은 주소랑 함께 뒤에 쿼리스트링으로 src를 함께 넘긴다
-			</script>
+
+
+ -->
+
+		
 
 
 
@@ -245,7 +238,7 @@
 								<input type="text" class="form-control nanum"
 									name="" id="writeKeyword"
 									placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
-									class="nanum" id="checkStreetKeyword"
+									class="nanum" id="checkWriteKeyword"
 									style="font-size: smaller;">&nbsp;</span> <br>
 							</div>
 						</div>
@@ -517,12 +510,12 @@
 					var regExp = /^[A-Za-z가-힣0-9\s]{0,15}$/;
 
 					if (!regExp.test($(this).val())) {
-						$("#checkStreetKeyword").text("키워드 형식이 유효하지 않습니다.")
+						$("#checkWriteKeyword").text("키워드 형식이 유효하지 않습니다.")
 											.css("color", "red");
 						//insertStreetCheck.streetKeyword = false;
 						$("#insertKeyword").prop("disabled", true);
 					} else {
-						$("#checkStreetKeyword").text("유효한 키워드 형식입니다.")
+						$("#checkWriteKeyword").text("유효한 키워드 형식입니다.")
 											.css("color", "green");
 						//insertStreetCheck.streetKeyword = true;
 						$("#insertKeyword").prop("disabled", false);

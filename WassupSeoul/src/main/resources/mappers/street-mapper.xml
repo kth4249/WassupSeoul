@@ -910,7 +910,7 @@
 	<!-- 수정 키워드 조회 -->
 	<select id="selectKeywords" parameterType="_int" resultMap="keywordResultSet">
 		SELECT * FROM KEYWORD 
-		WHERE STREET_NO = #{no}
+		WHERE STREET_NO = #{streetNo}
 	</select>
 	
 	<!-- 골목 수정 -->

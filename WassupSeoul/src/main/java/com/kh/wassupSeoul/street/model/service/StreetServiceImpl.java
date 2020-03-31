@@ -882,9 +882,9 @@ public class StreetServiceImpl implements StreetService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<Keyword> selectKeywords(Integer no) throws Exception {
+	public List<Keyword> selectKeywords(int streetNo) throws Exception {
 		
-		return streetDAO.selectKeywords(no);
+		return streetDAO.selectKeywords(streetNo);
 	}
 	
 	/** 골목 수정용 Service1
@@ -1295,11 +1295,6 @@ public class StreetServiceImpl implements StreetService{
 			
 			result = streetDAO.updateOriginalMaster(map);
 			
-			if(result > 0) {
-				
-				return result;
-				
-			} 
 		} 
 			
 		return result;
@@ -1375,6 +1370,8 @@ public class StreetServiceImpl implements StreetService{
 		if(reportNo > 0) {
 			
 			report.setReportNo(reportNo);
+			
+			report.setReportContent(report.getReportContent().replace("\r\n", "<br>"));
 			
 			result = streetDAO.sendReport(report);
 			
