@@ -593,11 +593,6 @@ public class StreetController {
 		 * System.out.println("입력한 투표 : " + voteOptionList);
 		 */
 		 
-		String[] voteGet = voteOptionList.split(",");
-		
-		for(int k=0; k<voteGet.length;k++) {
-		System.out.println("입력한 투표 옵션 리스트  : " + voteGet[k]); }
-		
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
 		int streetNo = (int)model.getAttribute("streetNo");
@@ -618,6 +613,10 @@ public class StreetController {
 		vote.setAnonymity(anonymity);
 		
 		String[] voteOption = voteOptionList.split(",");
+		
+		for(int k=0; k<voteOption.length;k++) {
+			System.out.println("입력한 투표 옵션 리스트  : " + voteOption[k]); 
+		}
 		
 		System.out.println("투표 입력 넘겨받은값 : " + vote);
 		

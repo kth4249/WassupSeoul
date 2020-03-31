@@ -167,7 +167,7 @@
 			
 			<!-- 게시글1-->
 			<div class="container box111" id="postArea">
-				<div class="postLayoutView" style="padding: 0%; border: solid #ced4da 1px">
+				<div class="postLayoutView" style="padding: 0%; border: solid #ced4da 1px ">
 
 					<!-- 프로필사진, 작성자명, 날짜 -->
 					<div class="post MainWrap mb-3" style="margin-top: 10px; margin-left: 10px; margin-bottom: 20px">
@@ -251,7 +251,7 @@
 							 		  <c:if test="${vote.boardNo eq board.boardNo}">
 										<c:set var="doneLoop" value="true"/>  <!-- 반복 제어.  break와 같음 -->	
 									   <!-- 투표 출력 양식 -->	 
-										<div class="voteMainWrap nanum" style="border: 1px solid #ced4da;  height: 400px; width:100%; margin-top:20px;">
+										<div class="voteMainWrap nanum" style="border: 1px solid #ced4da;  height: auto; width:100%; margin-top:20px;">
 											<!-- 투표 상단 제목 영역 -->	
 											<div style="height: 60px; width:100%; margin-bottom: 45px;">
 												
@@ -280,7 +280,7 @@
 															</c:otherwise>
 														</c:choose>
 														<!-- 현재 날짜와 비교 후 투표 종료 여부 출력-->
-														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px; font-size:14px;">5명 참여</p>
+														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px; font-size:14px; font-weight:bold; color:black;">${vote.voteWholeVoteCount}명 참여</p>
 													</div>
 													<div style="margin-bottom: 0;">
 														<p style="margin-bottom: 0; font-size:20px; font-weigh: bold; color:black;">${vote.voteTitle}</p>
@@ -289,10 +289,10 @@
 													
 													<c:choose>
 															<c:when test="${vote.voteDup eq 'N'}">  	 
-																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}">복수선택 불가  </p>
+																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}" style="font-weight:bold; color:black;">복수선택 불가  </p>
 															</c:when>
 															<c:otherwise>
-																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}">복수선택 가능 </p>
+																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}" style="font-weight:bold; color:black;">복수선택 가능 (최대 ${vote.voteDup}표)</p>
 															</c:otherwise>
 													</c:choose>
 												  </div>	
@@ -301,7 +301,7 @@
 											</div>
 										
 											<!-- 투표  컨텐츠 영역 영역 -->
-											<div style=" height: 300px; width:100%; border: 1px solid #ced4da; border-bottom: 0; border-left: 0; border-right: 0;">
+											<div style=" height: auto; width:100%; border: 1px solid #ced4da; border-bottom: 0; border-left: 0; border-right: 0;">
 										
 											 <c:forEach var="voteOption" items="${voteOption}" varStatus="vs">
 							 				 	<c:if test="${voteOption.boardNo eq board.boardNo}">
@@ -310,19 +310,39 @@
 												
 													
 													<c:choose>
-															<c:when test="${voteOption.voteStatus eq 'Y'}">  	 
-																<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
-																<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
-																       name="${voteOption.voteNo}" class="voteCheckBox" checked />${voteOption.voteOtion}</label>
-																       <!-- checked onclick="return false;" 투표 종료시 투표안되게 막음-->
+															<c:when test="${today < voteEndDt }">  	 
+																<!-- 투표 진행시 -->
+																<c:choose>
+																<c:when test="${voteOption.voteStatus eq 'Y'}">  	 
+																	<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																	<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
+																	       name="${voteOption.voteNo}" class="voteCheckBox" checked />${voteOption.voteOtion}</label>
+																</c:when>
+																<c:otherwise>
+																	<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																	<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
+																	       name="${voteOption.voteNo}" class="voteCheckBox" />${voteOption.voteOtion}</label>
+																</c:otherwise>
+																</c:choose>
+																<!-- 투표 진행시 -->
 															</c:when>
 															<c:otherwise>
-																<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
-																<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
-																       name="${voteOption.voteNo}" class="voteCheckBox" />${voteOption.voteOtion}</label>
-																       <!-- checked onclick="return false;" 투표 종료시 투표안되게 막음-->
+																<!-- 투표 종료시 -->
+																<c:choose>
+																	<c:when test="${voteOption.voteStatus eq 'Y'}">  	 
+																		<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																		<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
+																		       name="${voteOption.voteNo}" class="voteCheckBox" checked onclick="return false;"/>${voteOption.voteOtion}</label>
+																	</c:when>
+																	<c:otherwise>
+																		<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																		<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
+																		       name="${voteOption.voteNo}" class="voteCheckBox" onclick="return false;" />${voteOption.voteOtion}</label>
+																	</c:otherwise>
+																</c:choose>
+																<!-- 투표 종료시 -->
 															</c:otherwise>
-													</c:choose>
+														</c:choose>
 												
 													
 													<fmt:formatNumber var="barWidth" type="percent" minFractionDigits="0" maxFractionDigits="3" value="${ voteOption.voteCount/voteOption.voteWholeVoteCount }"/>
@@ -341,7 +361,7 @@
 															<c:otherwise>
 																<div class="progress"  style="width:70%; margin-left: 60px;" >
 																	<!-- 진행바 -->
-																	<div class="progress-bar" style="width:${barWidth}; display: inline-block;">${barWidth}</div>
+																	<div class="progress-bar" style="width:${barWidth}; display: inline-block;"></div>
 																</div>
 															</c:otherwise>
 													</c:choose>
@@ -732,14 +752,18 @@
 	
 	<script>
 	/* 투표 참여 반영용 Ajax */
-	$(document).ready(function(){
+	//$(document).ready(function(){
 	    $(".voteCheckBox").change(function(){
 	    	// 선택지 번호
 	    	var voteNo = $(this).attr("name");  
 	    	
 	    	// 복수 선택 여부, 개수
 	    	var voteDup = $(this).parent().parent().prev("div" > ".voteDup" ).attr("name");
-	    	
+	    	// var progressBar = $(this).parent("div" > ".progress-bar").progressbar("value");
+	        
+	        //alert("다음이 프로그레스바 진행률");
+	        //alert(progressBar);
+	       
 	    	// 무기명 여부
 	    	var anonymity = $(this).next().next().next().find("p").attr("name");
 	    	// 무기명시 Y   무기명 아닐시 N
@@ -748,22 +772,37 @@
 	    	
 	       	var voteCount = $(this).parent().next("div").first("p").text();
 	      
-	       	alert(voteCount);
+	        //	alert(voteCount);
 	    	
 	        if( $(".voteCheckBox").is(":checked")==true){   // 체크박스 체크시
+	        	//progressBar = progressBar+15;
 	        	voteCount++;
 	        	// 체크상태
 		    	// 진행막대
 		    	//var progressBar = $(this).next().next().find("progress-bar");
 		    	//wholeP = (int)((double)pBar.getSolvedQuestion()/pBar.getWholeQuestion()*100);
-	        	alert("체크박스 체크했음!");
+	        	//alert("체크박스 체크했음!");
 	        }else{ // 체크박스 체크해제시 
+	        	//progressBar = progressBar-15;
 	        	voteCount--;
 	        	checkStatus = "N";
-	            alert("체크박스 체크 해제!");
+	            //alert("체크박스 체크 해제!");
 	        }
 	        
-	        alert(voteCount);
+	        // 체크박스 일정개수 제한 
+	/*         if(count <= 2) {
+	            return true;
+	        } else {
+	            count--;
+	            return false;
+	        } */
+
+	        
+	        
+	       //alert("변경된 프로그레스바 진행률");
+	        //alert(progressBar);
+	        //$(this).parent("div" > ".progress-bar").width(progressBar);
+	        //alert(voteCount);
 	        
 	       /*  if ( voteCount == 0 ) {
 	        	voteCount="";
@@ -795,8 +834,9 @@
     			console.log(e);
     			}
     		});
+	        refreshList()
 	    });
-	});
+	//});
 	/* 투표 참여 반영용 Ajax */
 	
 	

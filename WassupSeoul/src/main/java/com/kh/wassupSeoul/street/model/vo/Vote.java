@@ -19,8 +19,15 @@ public class Vote {
 	private String voteStatus;
 	private int voteCount;
 	private int voteWholeVoteCount;
+	private int memberVoteCount;
 	
 	public Vote() {
+	}
+	
+	public Vote(int boardNo, String voteOtion) {
+		super();
+		this.boardNo = boardNo;
+		this.voteOtion = voteOtion;
 	}
 	
 	public Vote(int boardNo, String voteOtion, int voteNo) {
@@ -32,7 +39,7 @@ public class Vote {
 
 	public Vote(int streetNo, int boardNo, String voteTitle, String voteResult, Timestamp voteEnrollDt, Date voteEndDt,
 			String voteDup, String voteOtion, String anonymity, int voteNo, int memberNo, String voteStatus,
-			int voteCount, int voteWholeVoteCount) {
+			int voteCount, int voteWholeVoteCount, int memberVoteCount) {
 		super();
 		this.streetNo = streetNo;
 		this.boardNo = boardNo;
@@ -48,6 +55,7 @@ public class Vote {
 		this.voteStatus = voteStatus;
 		this.voteCount = voteCount;
 		this.voteWholeVoteCount = voteWholeVoteCount;
+		this.memberVoteCount = memberVoteCount;
 	}
 
 	public int getStreetNo() {
@@ -162,15 +170,21 @@ public class Vote {
 		this.voteWholeVoteCount = voteWholeVoteCount;
 	}
 
+	public int getMemberVoteCount() {
+		return memberVoteCount;
+	}
+
+	public void setMemberVoteCount(int memberVoteCount) {
+		this.memberVoteCount = memberVoteCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Vote [streetNo=" + streetNo + ", boardNo=" + boardNo + ", voteTitle=" + voteTitle + ", voteResult="
 				+ voteResult + ", voteEnrollDt=" + voteEnrollDt + ", voteEndDt=" + voteEndDt + ", voteDup=" + voteDup
 				+ ", voteOtion=" + voteOtion + ", anonymity=" + anonymity + ", voteNo=" + voteNo + ", memberNo="
 				+ memberNo + ", voteStatus=" + voteStatus + ", voteCount=" + voteCount + ", voteWholeVoteCount="
-				+ voteWholeVoteCount + "]";
+				+ voteWholeVoteCount + ", memberVoteCount=" + memberVoteCount + "]";
 	}
-	
-	
 
 }

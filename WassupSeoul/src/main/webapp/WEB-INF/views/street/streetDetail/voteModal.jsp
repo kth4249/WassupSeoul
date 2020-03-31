@@ -37,7 +37,7 @@
 									<!-- content start -->
 									<textarea class=" nanum" id="writePostArea" rows="6" placeholder="게시글내용을 입력하세요."	
 									  style="border: 1px solid black; color: black; font-size: 17px; height: 100px; padding-bottom: 20px; width:100%"></textarea>	
-									<input type="text" id="voteTitle" placeholder="투표 제목" style="width:80%; margin-left: 14px; margin-bottom:10px;"><br>	
+									<input type="text" id="voteTitle" placeholder="투표 제목(필수 입력)" style="width:80%; margin-left: 14px; margin-bottom:10px;"><br>	
 								
 									<div style="width:100%" id="optionArea">
 									<label>1</label><input type="text" id="voteOption1" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>	
@@ -74,7 +74,7 @@
 									<label style="width: 340px;" ><input type='checkbox' id='endDate' style="margin-left: 10px; display: inline-block;" />종료일 설정</label>
 									
 									<span  id="setDate" style="width: 300px; display: inline-block; float:right; visibility:hidden">
-									<input id="date" type='date' style="width: 140px;"/>
+									<input id="date" type='date'  style="width: 140px;"/>
 									</span>
 									<!-- onclick="return validate2();" -->	
 									<button type="button" id="voteSubmitBtn" style="width: 15%; height: 30px; font-size: 17px; float: right; margin-left: 200px" >작성</button>
@@ -89,23 +89,59 @@
 					<!-- end -->
 					
 <script>
+	/* $(document).ready(function(){
+	  	 	var today = new Date();
+	  	 	var dd = today.getDate();
+	  	 	var mm = today.getMonth()+1; 
+	  	 	var yyyy = today.getFullYear();
+	  	 	 if(dd<10){
+	  	 	        dd='0'+dd
+	  	 	    } 
+	  	 	    if(mm<10){
+	  	 	        mm='0'+mm
+	  	 	    } 
+	  	 	today = yyyy+'-'+mm+'-'+dd;
+	  	  	moment(today).format('YYYY-MM-DD');
+	  	  
+	  	 	document.getElementById("date").setAttribute("min", today);	 	
+	}); */
+		
+
+	 document.getElementById('date').value= new Date().toISOString().slice(0, 7);
+
+
 	//선택지 공백 우효성 검사
 	/* function validate2() {
-		var optionCount = $(".voteOption").length
+		    var optionCount = $(".voteOption").length
 		
-		for( var i = 1; i<optionCount+1; i++){
-			var str = $("#voteOption"+i).val();
+			for( var i = 1; i<optionCount+1; i++){
+				var str = $("#voteOption"+i).val();
+				
+				if( str == '' || str == null ){
+				    alert( '투표 선택지를 입력해 주세요' );
+				    return false;
+				}
+				var blank_pattern = /^\s+|\s+$/g;
+				if( str.replace( blank_pattern, '' ) == "" ){
+				    alert('투표 선택지를 입력해 주세요');
+				    return false;
+				}
+			} 
 			
+		    // 날짜 유효성 검사 필요 
+			
+			// 투표제목 공백시 
+			var str = $("#voteTitle").val();
 			if( str == '' || str == null ){
-			    alert( '투표 선택지를 입력해 주세요' );
+			    alert( '투표제목을 입력해 주세요' );
 			    return false;
 			}
+
 			var blank_pattern = /^\s+|\s+$/g;
 			if( str.replace( blank_pattern, '' ) == "" ){
-			    alert('투표 선택지를 입력해 주세요');
+			    alert('투표제목을 입력해 주세요');
 			    return false;
 			}
-		}
 	} */
 	
 	// 투표 게시글작성
@@ -122,7 +158,7 @@
 		
 		 //무기명 투표 여부
 		 if( $("#anonymity").is(":checked") == true ){
-			anonymity = "Y";
+			 anonymity = "Y";
 		 }
 		
 		//복수 선태 개수 받기 
@@ -132,30 +168,30 @@
 		
 		// 종료일 선택  
 		if( $('input:checkbox[id="endDate"]').is(":checked") == true ){
-			var endDate = $('#date').val();    // 종료일
+			 var today = new Date();
+			   
+		  	 moment(today).format('YYYY-MM-DD');
+		  	 
+		  	var endDate = $('#date').val(); 
+		  	 
+		  	 if( endDate.getTime() <= today.getTime() ){
+		  		alert("종료일은 오늘 날짜 이후 선택가능 ");
+		  	 }
+			
+		// 종료일 선택안했을 때 
 		}else{
-			 var date = new Date();
-			 date.setFullYear(2200) ;
-			 date.setMonth(10);
-			 date.setDate(12);
+			 var endDate = new Date();
+				 endDate.setFullYear(2200) ;
+				 endDate.setMonth(10);
+				 endDate.setDate(12);
 		   
-		  	 moment(date).format('YYYY-MM-DD');
-		    
-			var endDate = date;
+		  	 	 moment(endDate).format('YYYY-MM-DD');
 		}
 		
 		// 투표 옵션 
 		var optionCount = $(".voteOption").length
 		
-		console.log("선택지 개수 : " + optionCount);
-		
-		//var voteOptionList = new Array();
 		var voteOptionList = "";
-		
-		/*for (var i = 0; i < optionCount ; i++ ){
-			voteOptionList.push($(".voteOption").eq(i).val());
-			alert($(".voteOption").eq(i).val());
-		}*/
 		
 		for (var i = 0; i < optionCount ; i++ ){
 			voteOptionList += $(".voteOption").eq(i).val();
@@ -166,12 +202,12 @@
 			//alert($(".voteOption").eq(i).val());
 		}
 		
-		alert(votePostTitle);
-		alert(voteLimit);
+		//alert(votePostTitle);
+		//alert(voteLimit);
 		alert("다음이 무기명 여부");
 		alert(anonymity);
 		alert(endDate);
-		alert(voteOptionList);
+		//alert(voteOptionList);
 		
 		$.ajax({
 			url : "votePost",
