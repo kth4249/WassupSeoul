@@ -319,6 +319,16 @@ public class FriendsDAO {
 		return sqlSession.selectOne("friendsMapper.selectMember2", memberNickname);
 	}
 
+
+	/** 메시지 저장용 DAO
+	 * @param msg
+	 * @return result
+	 * @throws Exception
+	 */
+	public int saveMessage(MSG msg) throws Exception{
+		return sqlSession.insert("friendsMapper.saveMessage", msg);
+	}
+
 	/*-----------------태훈 알람 관련 추가-------------------*/
 
 	

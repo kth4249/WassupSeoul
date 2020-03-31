@@ -4,14 +4,14 @@ import java.sql.Date;
 
 public class MSG {
 
-	int msgNo;
-	String msgContent;
-	String msgStatus;
-	Date msgTime;
-	int memberNo;
-	int roomNo;
-	String memberNickname;
-	String memberProfileUrl;
+	private int msgNo;
+	private String msgContent;
+	private String msgStatus;
+	private Date msgTime;
+	private int memberNo;
+	private int roomNo;
+	private String memberNickname;
+	private String memberProfileUrl;
 	
 	public MSG() {
 		// TODO Auto-generated constructor stub
