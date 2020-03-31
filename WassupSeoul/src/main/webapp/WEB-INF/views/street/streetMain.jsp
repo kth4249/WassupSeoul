@@ -65,16 +65,22 @@
 						</div>
 						<!-- 검색Bar -->
 		
-					  <!-- 글작성 영역 -->
-			          <div class="container box111" id="postArea">
-                 		<jsp:include page="../street/streetDetail/summernote.jsp"/>
-			           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
-			           <jsp:include page="../street/streetDetail/voteModal.jsp"/> 
-			           <jsp:include page="../street/streetDetail/sketchModal.jsp"/> 
-			           <jsp:include page="../street/streetDetail/divideModal.jsp"/> 
-                		<jsp:include page="../street/streetDetail/post.jsp"/>
-			          </div>
-            		  <!-- 글작성 영역 -->
+						<c:if test="${memGradeInSt.citizenStatus eq 'N'}">
+	
+						</c:if>
+						
+						<c:if test="${memGradeInSt.citizenStatus eq 'Y'}">
+							<!-- 글작성 영역 -->
+					          <div class="container box111" id="postArea">
+		                 		<jsp:include page="../street/streetDetail/summernote.jsp"/>
+					           <jsp:include page="../street/streetDetail/mapModal.jsp"/> 
+					           <jsp:include page="../street/streetDetail/voteModal.jsp"/> 
+					           <jsp:include page="../street/streetDetail/sketchModal.jsp"/> 
+					           <jsp:include page="../street/streetDetail/divideModal.jsp"/> 
+		                		<jsp:include page="../street/streetDetail/post.jsp"/>
+					          </div>
+		            		  <!-- 글작성 영역 -->
+						</c:if>
 																			
 						<!-- 중간여백 --><div style="height: 20px;"></div>
 		
@@ -110,7 +116,7 @@
 		
 						<!-- 게시글영역-->
 						<div class="postWrapView">
-						<jsp:include page="../street/streetDetail/timeLine.jsp"/> 
+							<jsp:include page="../street/streetDetail/timeLine.jsp"/> 
 						</div>
 						<!-- 게시글영역 끝-->
 						
@@ -490,6 +496,16 @@
 		   			console.log(e);
 		   		}
 				});
+			});
+			/* 회원 프로필 정보 조회용  */
+			
+			
+			// 지도 게시글 상세보기 
+			$(".mapShowAddress, .mapShowImg" ).on("click",function(){
+				var addr = $(this).attr("name");
+						
+				$("#mapShowModalCloseBtn").attr('name',addr);
+				
 			});
 			/* 회원 프로필 정보 조회용  */
 		

@@ -13,20 +13,33 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script>
 
-<title>타임라인 게시글 영역</title>
+<title>타임라인  영역</title>
 </head>
 
 <style>
-	.writerImg:hover{
-		cursor : pointer;
-	}
-	.writerNickName:hover{
-		cursor : pointer;
-	}
+.writerImg:hover{
+	cursor : pointer;
+}
+.writerNickName:hover{
+	cursor : pointer;
+}
+
+.optionChevron:hover{
+	cursor : pointer;
+}
 	
-	.optionChevron:hover{
-		cursor : pointer;
-	}
+ .mapShowAddress:hover{
+   cursor:pointer;
+ }
+ 
+ .mapShowImg:hover{
+    cursor:pointer;
+ }
+ 
+ .mapShowArea:hover{
+    cursor:pointer;
+ }
+	
 	
 	a{
 	style="color: black; text-decoration: none;"
@@ -84,33 +97,7 @@
      	
 </style>
 <body>
-	  <!-- <script>
-      function initMap2() {
-    	var geocoder = new google.maps.Geocoder;  
-        var map2 = new google.maps.Map(document.getElementsByClassName('boardMap'), {
-          zoom: 15,
-          center: {lat: 37.5724723, lng: 126.9737442}
-        });
-       		 geocodeAddress(geocoder, map2);
-      }
-
-      function geocodeAddress(geocoder, resultsMap) {
-    	var address2 =  $(".boardMap").attr("name");
-        geocoder.geocode({'address': address2}, function(results, status) {
-          if (status === 'OK') {
-        	  var coords = results[0].geometry.location;
-            	resultsMap.setCenter(coords);
-           	 var marker2 = new google.maps.Marker({
-           		   map: resultsMap,
-             	   position: coords
-            });
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-          }
-        });
-      }
-    </script>     -->
-
+	
 	<c:if test="${empty board }">
 
 		<!-- 게시글 없을때-->
@@ -121,7 +108,7 @@
 					<div style="height: 200px"></div>
 					<div class="noPostSignArea container" style="width: 50%;">
 						<p class="noPostSign">
-							게시물이 없습니다. <br> 첫 게시물을 작성해 보세요.
+							작성된 게시물이 없습니다. <br>
 						</p>
 					</div>
 
@@ -132,7 +119,6 @@
 		<!-- 게시물 없을때 끝-->
 		
 	</c:if>
-
 
 	<script>
 	/* 미현 고침!!  */
@@ -221,7 +207,9 @@
 					</div>
 					<!-- 프로필사진, 작성자명, 날짜 -->
 										
+										
 					<jsp:include page="../streetDetail/profileModal.jsp"/> 
+					<jsp:include page="../streetDetail/mapShowModal.jsp"/> 
 
 					<!-- 게시글내용 -->
 					<div class="postMainWrap nanum" style="width: 100%">
@@ -232,8 +220,20 @@
 								<c:when test="${board.typeNo eq '6'}">  <!-- 지도 출력 양식 -->	 
 								
 									${board.boardContent}    
-									 <div class="map" style="width:350px;height:200px;" name="${board.mapAddress}"></div>
-									
+									 	<div class="mapShowArea" style="height: 100px; width:100%; margin-bottom: 10px;" data-toggle="modal" data-target="#mapShowModal">
+											<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
+																								padding-left: 10px;">
+												<img src="${contextPath}/resources/img/mapIcon.png" style="width: 40px; height: 30px; margin-top: 30px;" class="mapShowImg"
+															data-toggle="modal" data-target="#mapShowModal" name="${board.mapAddress}" >
+											</div>
+											
+											<div class="profileNameArea nanum" id="profileNameArea" style="display: inline-block; width: 81%; margin-bottom: 0px; height: 100%;
+																											position: relative; top: 14px">
+												<div style="margin-left: 30px;">
+													<p class="mapShowAddress" name="${board.mapAddress}" style="margin-top: 20px; font-size:17px;  color:black;" data-toggle="modal" data-target="#mapShowModal">${board.mapAddress}</p>
+												</div>
+											</div>	
+										</div>
 								</c:when>
 								<c:when test="${board.typeNo eq '5'}">  <!-- 스케치 출력 양식 -->	
 								
@@ -280,7 +280,7 @@
 															</c:otherwise>
 														</c:choose>
 														<!-- 현재 날짜와 비교 후 투표 종료 여부 출력-->
-														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px; font-size:14px; font-weight:bold; color:black;">${vote.voteWholeVoteCount}명 참여</p>
+														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px; font-size:14px; font-weight:bold; color:black;">총 ${vote.voteWholeVoteCount}표 투표중</p>
 													</div>
 													<div style="margin-bottom: 0;">
 														<p style="margin-bottom: 0; font-size:20px; font-weigh: bold; color:black;">${vote.voteTitle}</p>
@@ -444,7 +444,13 @@
 							</c:choose>
 						</div>
 
-						<div style="height: 100%; float: right;" class="mr-2">
+						<!-- 회원 골목 가입 안되어있을때 좋아요 버튼 -->
+						<c:if test="${memGradeInSt.citizenStatus eq 'N'}">
+						</c:if>
+						
+						<!-- 회원 골목 가입 되어있을때 좋아요 버튼 -->
+						<c:if test="${memGradeInSt.citizenStatus eq 'Y'}">
+							<div style="height: 100%; float: right;" class="mr-2">
 							<button type="submit" class="btn nanum"
 								style="padding: 0px; position: relative; bottom: 4px; right:5px;">
 								<c:choose>
@@ -473,31 +479,43 @@
 										style="margin-bottom: 0; display: inline-block;">${board.thumbCount}</p>
 								</c:otherwise>
 							</c:choose>
-						</div>
+							</div>
+						</c:if>
+
+						
 					</div>
 					<!-- 댓글수, 좋아요버튼 -->
 
 					<!-- 댓글영역 -->
 					<div class="CommentWrap" style="display: none;">
 
-						<!-- 댓글작성 -->
-						<div class="inputCommentWrap" style="border: 1px solid #ced4da;">
-
-							<div class="writePost" style="width: 80%; display: inline-block; margin-left: 3px;  height: 60px;" >
-							
-								<textarea class="writeCommentArea nanum"
-									id="writeCommentAreaStyle" rows="3" style="font-size: 15px;"
-									placeholder="댓글을 작성해 보세요"></textarea>
+						<!-- 골목 가입 안되어있을때 댓글 작성 못함  -->
+						<c:if test="${memGradeInSt.citizenStatus eq 'N'}">
+						</c:if>
+						
+						<!-- 골목 가입 되어있을때 댓글 작성  -->
+						<c:if test="${memGradeInSt.citizenStatus eq 'Y'}">
+							<!-- 댓글작성 -->
+							<div class="inputCommentWrap" style="border: 1px solid #ced4da;">
+	
+								<div class="writePost" style="width: 80%; display: inline-block; margin-left: 3px;  height: 60px;" >
+								
+									<textarea class="writeCommentArea nanum"
+										id="writeCommentAreaStyle" rows="3" style="font-size: 15px;"
+										placeholder="댓글을 작성해 보세요"></textarea>
+								</div>
+								
+								<div style="width: 20%; display: inline-block; position: absolute;">
+									<button type="submit" class="btn btn-secondary nanum commentBtn" id="commentBtn" name="${board.boardNo}"
+										style="width: 50%; font-size: 15px; font-weight: bolder; 
+										left: 10px; margin-top: 14px; float:right; margin-right:20px">작성</button>
+								</div>
+								
 							</div>
-							
-							<div style="width: 20%; display: inline-block; position: absolute;">
-								<button type="submit" class="btn btn-secondary nanum commentBtn" id="commentBtn" name="${board.boardNo}"
-									style="width: 50%; font-size: 15px; font-weight: bolder; 
-									left: 10px; margin-top: 14px; float:right; margin-right:20px">작성</button>
-							</div>
-							
-						</div>
-						<!-- 댓글작성 -->
+							<!-- 댓글작성 -->
+						</c:if>
+						<!-- 골목 가입 되어있을때 댓글 작성  -->
+						
 						<c:if test="${empty reply}">
 						</c:if>
 
@@ -544,33 +562,38 @@
 															</c:choose>
 
 														</div>
-														<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 100%;">
+															<!-- 골목 가입 안되어있을때 좋아요 버튼 -->
+															<c:if test="${memGradeInSt.citizenStatus eq 'N'}">
+															</c:if>
 															
-															<c:choose>
-																<c:when test="${reply.thumbStatus eq 'Y'}">
-																	<!-- 내가 좋아요 누른 게시글 활성화로 표시 -->
-																	<img class="likeBtn2 shake"
-																		src="${contextPath}/resources/img/like2.png" name="${reply.replyNo}" id="${board.boardNo}"
-																		style="bottom: 3px; right:10px;">
-																</c:when>
-																<c:otherwise>
-																	<img class="likeBtn2 shake"
-																		src="${contextPath}/resources/img/like.png" name="${reply.replyNo}" id="${board.boardNo}"
-																		style="bottom: 3px; right:10px;">
-																</c:otherwise>
-															</c:choose>
-															
-															
-														</div>
-															<c:choose>
-																<c:when test="${reply.replyThumbCount eq '0'}">
-																	<!-- 좋아요 개수 0 일때 공백처리 -->
-																	<p style="margin-bottom: 0; font-size: 13px; display: inline-block;"></p>
-																</c:when>
-																<c:otherwise>
-																	<p style="margin-bottom: 0; font-size: 13px; display: inline-block;">${reply.replyThumbCount}</p>
-																</c:otherwise>
-															</c:choose>
+															<!-- 골목 가입 되어있을때 좋아요 버튼 -->
+															<c:if test="${memGradeInSt.citizenStatus eq 'Y'}">
+																<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 100%;">
+																	<c:choose>
+																		<c:when test="${reply.thumbStatus eq 'Y'}">
+																			<!-- 내가 좋아요 누른 게시글 활성화로 표시 -->
+																			<img class="likeBtn2 shake"
+																				src="${contextPath}/resources/img/like2.png" name="${reply.replyNo}" id="${board.boardNo}"
+																				style="bottom: 3px; right:10px;">
+																		</c:when>
+																		<c:otherwise>
+																			<img class="likeBtn2 shake"
+																				src="${contextPath}/resources/img/like.png" name="${reply.replyNo}" id="${board.boardNo}"
+																				style="bottom: 3px; right:10px;">
+																		</c:otherwise>
+																	</c:choose>
+																</div>
+																	<c:choose>
+																		<c:when test="${reply.replyThumbCount eq '0'}">
+																			<!-- 좋아요 개수 0 일때 공백처리 -->
+																			<p style="margin-bottom: 0; font-size: 13px; display: inline-block;"></p>
+																		</c:when>
+																		<c:otherwise>
+																			<p style="margin-bottom: 0; font-size: 13px; display: inline-block;">${reply.replyThumbCount}</p>
+																		</c:otherwise>
+																	</c:choose>
+															</c:if>	
+															<!-- 골목 가입 되어있을때 좋아요 버튼 -->
 													</div>
 													
 													<!-- 로그인 사용자가 댓글 작성자와 다를때 삭제메뉴 안보임 -->
@@ -641,7 +664,13 @@
 																					<%-- <p style="margin-bottom: 0; font-size: 13px;">댓글${reReply.rereplyCount}</p> --%>
 																				</div>
 																				
-																				<div style="display: inline-block; width: 8%; margin-bottom: 0px; height: 100%;">
+																				<!-- 골목 가입 안되어있을때 좋아요 버튼 -->
+																				<c:if test="${memGradeInSt.citizenStatus eq 'N'}">
+																				</c:if>
+																				
+																				<!-- 골목 가입되어있을때 좋아요 버튼 -->
+																				<c:if test="${memGradeInSt.citizenStatus eq 'Y'}">
+																					<div style="display: inline-block; width: 8%; margin-bottom: 0px; height: 100%;">
 																					
 																					<c:choose>
 																						<c:when test="${reReply.thumbStatus eq 'Y'}">
@@ -657,15 +686,18 @@
 																						</c:otherwise>
 																					</c:choose>
 																				</div>
-																				<c:choose>
-																					<c:when test="${reReply.reReplyThumbCount eq '0'}">
-																						<!-- 좋아요 개수 0 일때 공백처리 -->
-																						<p style="margin-left: 1.5rem; margin-bottom: 0; font-size: 13px; display: inline-block;"></p>
-																					</c:when>
-																					<c:otherwise>
-																						<p style="margin-left: 1.5rem; margin-bottom: 0; font-size: 13px; display: inline-block;">${reReply.reReplyThumbCount}</p>
-																					</c:otherwise>
-																				</c:choose>
+																					<c:choose>
+																						<c:when test="${reReply.reReplyThumbCount eq '0'}">
+																							<!-- 좋아요 개수 0 일때 공백처리 -->
+																							<p style="margin-left: 1.5rem; margin-bottom: 0; font-size: 13px; display: inline-block;"></p>
+																						</c:when>
+																						<c:otherwise>
+																							<p style="margin-left: 1.5rem; margin-bottom: 0; font-size: 13px; display: inline-block;">${reReply.reReplyThumbCount}</p>
+																						</c:otherwise>
+																					</c:choose>
+																				</c:if>
+																					<!-- 골목 가입되어있을때 좋아요 버튼 -->
+																					
 
 																			</div>
 																				<!-- 3/28  미현 위치바꿈 -->
@@ -708,20 +740,31 @@
 
 												<c:if test="${empty reReply}">
 												</c:if>
-												<!-- 대댓글작성 -->
-												<div class="inputCommentWrap" style="border-top: 1px solid #ced4da;">
-
-													<div class="writePost" style="width: 80%; display: inline-block; margin-left: 3px;">
-														<textarea class="writeCommentArea2 nanum" id="writeCommentAreaStyle" rows="2"
-															style="border-left: none;" placeholder="댓글을 작성해 보세요"></textarea>
+												
+												
+												<!-- 회원 골목 가입 안되어있을때 대댓글 작성 영역 -->
+												<c:if test="${memGradeInSt.citizenStatus eq 'N'}">
+												</c:if>
+												
+												<!-- 회원 골목 가입 되어있을때 대댓글 작성 영역 -->
+												<c:if test="${memGradeInSt.citizenStatus eq 'Y'}">
+													<!-- 대댓글작성 -->
+													<div class="inputCommentWrap" style="border-top: 1px solid #ced4da;">
+														<div class="writePost" style="width: 80%; display: inline-block; margin-left: 3px;">
+															<textarea class="writeCommentArea2 nanum" id="writeCommentAreaStyle" rows="2"
+																style="border-left: none;" placeholder="댓글을 작성해 보세요"></textarea>
+														</div>
+														<div style="width: 20%; display: inline-block; position: absolute;">
+															<button type="submit" class="btn btn-secondary nanum reCommentBtn" id="${board.boardNo}" name="${reply.replyNo}" 
+															style="width: 50%; font-size: 15px; font-weight: bolder; left: 10px;
+															margin-top: 11px; float:right; margin-right:20px">작성</button>
+														</div>
 													</div>
-													<div style="width: 20%; display: inline-block; position: absolute;">
-														<button type="submit" class="btn btn-secondary nanum reCommentBtn" id="${board.boardNo}" name="${reply.replyNo}" 
-														style="width: 50%; font-size: 15px; font-weight: bolder; left: 10px;
-														margin-top: 11px; float:right; margin-right:20px">작성</button>
-													</div>
-												</div>
-												<!-- 대댓글작성 -->
+													<!-- 대댓글작성 -->
+												</c:if>
+												<!-- 회원 골목 가입 되어있을때 대댓글 작성 영역 -->
+												
+												
 											</div>
 											<!-- 대댓글 -->
 

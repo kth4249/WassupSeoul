@@ -92,8 +92,10 @@
 					          
 				     	// 지도 게시글 업로드용 지도 생성       
 				        document.getElementById('mapSubmit').addEventListener('click', function() {
-				          geocodeAddress(geocoder, map);
+				        	geocodeAddress(geocoder, map);
 				        });
+				     	
+				     	
 				     	
 				    /* 	// 지도 게시글 출력용 지도 
 				    	var showMap = document.getElementsByClassName('boardMap');
@@ -122,7 +124,6 @@
 				      }
 				
 				      function geocodeAddress(geocoder, resultsMap) {
-			    	 	 
 				        var address = document.getElementById('address').value;
 				        geocoder.geocode({'address': address}, function(results, status) {
 				          if (status === 'OK') {
@@ -133,10 +134,8 @@
 				             	   position: coords
 				            });
 				           	 markers.push(marker);
-				          
-				           	 
-				           	 
-				          // Sets the map on all markers in the array.
+				          	 
+			           	 /*  // Sets the map on all markers in the array.
 				             function setMapOnAll(map) {
 				               for (var i = 0; i < markers.length; i++) {
 				                 markers[i].setMap(map);
@@ -157,8 +156,7 @@
 				             function deleteMarkers() {
 				               clearMarkers();
 				               markers = [];
-				             } 
-				           	 
+				             }  */
 				           	 
 				           	$("#mapSubmitBtn").attr("name", coords);	
 				          } else {
@@ -171,12 +169,15 @@
 				 	<script>
 				 	// 지도 게시글 업로드
 				 	  document.getElementById('mapSubmitBtn').addEventListener('click', function() {
-				 		 /* var address = $("#address").val(); */
-				 		 var address = 	$("#mapSubmitBtn").attr("name");
+			 			    var address = $("#address").val(); 
+			 			    var address2 = $("#mapSubmitBtn").attr("name");
 							var mapPostContent = $("#mapPostArea").val();
-													
+												
+							alert(address);
+							alert(address2);
+							
 							console.log("사용자가 입력한 장소:"+address);
-							console.log("개시글 입력내용:"+mapPostContent);
+							console.log("게시글 입력내용:"+mapPostContent);
 															
 							$.ajax({
 								url : "mapPost",
@@ -202,7 +203,6 @@
 			        });
 				 	
 					/* $(".mapSubmitBtn").click(function() {
-						
 					}); */
 				 	</script>
 			
