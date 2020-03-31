@@ -151,9 +151,10 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 							storeCalendar.get(e).getCalendarJoin(), calendarJoinEndDate, storeCalendar.get(e).getCalendarJoinLimit(), streetNo);
 					setCalList.add(temp);
 				}
-				
+			
 				
 			}
+
 			request.setAttribute("allCalList", allCalList); // DB에 저장된 모든 일정 저장
 			request.setAttribute("compareNowDate", compareNowDate);
 			request.setAttribute("setCalList",setCalList); // 현재 월에만 해당하는 일정 저장
