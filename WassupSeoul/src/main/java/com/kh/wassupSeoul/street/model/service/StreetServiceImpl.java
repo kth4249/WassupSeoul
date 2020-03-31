@@ -465,7 +465,13 @@ public class StreetServiceImpl implements StreetService{
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int streetJoin(Map<String, Object> map) {
-		return streetDAO.streetJoin(map);
+		int result = streetDAO.streetJoinCheck(map);
+		if(result > 0) {
+			result = streetDAO.streetJoin2(map);
+		} else {
+			result = streetDAO.streetJoin(map);
+		}
+		return result;
 	}
 	
 
@@ -839,7 +845,14 @@ public class StreetServiceImpl implements StreetService{
 	}
 	
 	
-	
+	/** 골목 가입 취소용
+	 * @param map
+	 * @return result
+	 */
+	@Override
+	public int joinCancel(Map<String, Integer> map) {
+		return streetDAO.joinCancel(map);
+	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	

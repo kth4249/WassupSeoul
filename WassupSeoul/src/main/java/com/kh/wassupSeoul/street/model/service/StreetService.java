@@ -347,6 +347,11 @@ public interface StreetService {
 	 */
 	public abstract void exileJumin(Map<String, Integer> map) throws Exception;
 	
+	/** 골목 가입 취소용
+	 * @param map
+	 * @return result
+	 */
+	public abstract int joinCancel(Map<String, Integer> map);
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	

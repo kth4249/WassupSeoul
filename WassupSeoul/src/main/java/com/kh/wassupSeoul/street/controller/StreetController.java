@@ -1061,6 +1061,17 @@ public class StreetController {
 		}
 	}
 	
+	@ResponseBody
+	@RequestMapping("joinCancel")
+	public int joinCancel(Model model) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		int streetNo = (int)model.getAttribute("streetNo");
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("streetNo", streetNo);
+		map.put("memberNo", loginMember.getMemberNo());
+		return streetService.joinCancel(map);
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	/* 지원 골목 수정 시작 */

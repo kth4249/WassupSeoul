@@ -623,6 +623,18 @@ public class StreetDAO {
 		return sqlSession.selectOne("streetMapper.getBoardWriter", reply);
 	}
 	
+	
+	public int joinCancel(Map<String, Integer> map) {
+		return sqlSession.delete("streetMapper.joinCancel", map);
+	}
+	
+	public int streetJoinCheck(Map<String, Object> map) {
+		return sqlSession.selectOne("streetMapper.streetJoinCheck", map);
+	}
+
+	public int streetJoin2(Map<String, Object> map) {
+		return sqlSession.update("streetMapper.streetJoin2", map);
+	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 
 	/* 지원 골목 수정 시작 */
