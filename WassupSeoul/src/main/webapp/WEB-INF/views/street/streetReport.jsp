@@ -17,7 +17,7 @@
 
 			<div class="row">
 				<div class="col-md-6 offset-md-3">
-					<h1 class="nanum">활동보고서 작성</h1>
+					<h1 class="nanum" style="margin-top: 50px;">활동보고서 작성</h1>
 				</div>
 			</div>
 			<div class="row">
@@ -26,7 +26,7 @@
 
 			<div class="row form-inline my-2 my-lg-0">
 				<div class="col-md-6 offset-md-3">
-					<h3 class="nanum">오프라인모임 일</h3>
+					<h3 class="nanum">오프라인모임 날짜</h3>
 					<hr>
 					<div class="row">
 						<div class="col-md-6" style="display: inline-block;">
@@ -194,24 +194,18 @@
 				</div>
 				<div class="col-md-6 offset-md-3">
 					<textarea class="form-control nanum" id="reportContent"
-						name="reportContent" rows="20" cols="20" style="resize: none;"></textarea>
+						name="reportContent" rows="20" cols="20" style="resize: none;" placeholder="1500자  내외로 작성해주세요 :)"></textarea>
 				</div>
 				<div class="col-md-6 offset-md-3">
 					<div class="col-md-12 nanum" style="margin: 3px auto;">
 						<div style="float: left; margin: 1px;">
-							<div
-								style="margin-left: 1px; margin-right: 1px; box-sizing: border-box;">
-								<p style="display: inline-block; margin-bottom: 1px;">활동 사진</p>
-								<div
-									style="border: 1px solid black; width: 702px; height: 402px; background-color: rgb(236, 233, 233); position: relative; cursor: pointer;"
-									id="reportImgArea">
-									<img style="width: 700px; height: 400px" id="reportImg">
-									<div
-										style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
-										id="addImgArea">
-										<img id="addImg"
-											src="${contextPath}/resources/img/camera3(64px).png"
-											style="width: 64px; height: 64px;">
+							<div style="margin-left: 1px; margin-right: 1px; box-sizing: border-box;">
+								<p style="display: inline-block; margin-bottom: 10px; font-size: 25px;">+ 활동 사진</p>
+								<div class="form-control" style="width: 800px; height: 500px; position: relative; padding: 0; 
+											cursor: pointer; overflow: hidden; margin-left: 5%;" id="reportImgArea">
+									<img style="width: 100%; height: 100%; object-fit: cover;" id="reportImg">
+									<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" id="addImgArea">
+										<img id="addImg" src="${contextPath}/resources/img/camera3(64px).png" style="width: 64px; height: 64px;">
 									</div>
 								</div>
 							</div>
@@ -227,7 +221,7 @@
 
 			<div class="row">
 				<div class="col-md-6 offset-md-3" style="text-align: center;">
-					<span class="nanum" style="font-size: 12px; color: red;"> *
+					<span class="nanum" style="font-size: 15px; color: red;"> *
 						제출된 활동보고서 일부 정보가 누락되거나 위조시 활동점수에 반영되지 않으며 해당 골목에 패널티가 부여될수 있습니다. </span>
 				</div>
 			</div>
@@ -241,8 +235,7 @@
 					<div class="custom-control custom-checkbox"
 						style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
 						<input type="checkbox" class="custom-control-input" id="check">
-						<label class="nanum custom-control-label" for="check">주의사항을
-							확인했습니다.</label>
+						<label class="nanum custom-control-label" for="check">주의사항을 확인했습니다.</label>
 					</div>
 				</div>
 			</div>
@@ -254,11 +247,11 @@
 			<div class="row">
 				<div class="col-md-2 offset-md-4" style="text-align: center;">
 					<button type="submit"
-						class="btn btn-primary btn-lg btn-block nanum">제출하기</button>
+						class="btn btn-primary btn-lg btn-block nanum mb-5">제출하기</button>
 				</div>
 				<div class="col-md-2" style="text-align: center;">
 					<a href="${header.referer}"
-						class="btn btn-secondary btn-lg btn-block nanum">취소</a>
+						class="btn btn-warning btn-lg btn-block nanum mb-5">취소</a>
 				</div>
 			</div>
 

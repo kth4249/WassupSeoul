@@ -874,7 +874,7 @@ object-fit: cover;
 							var $inputPlus3 = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
 											/* .css({"font-weight":"bold","font-size":"25px"}).val(((streetInfo.myStreet)[i]).streetMaxMember); */
 											/* 정승환 추가코드 시작 */
-											.css({"font-weight":"bold","font-size":"25px"}).val((streetInfo.citizenCounts)[i]);
+											.css({"font-weight":"bold","font-size":"20px"}).val((streetInfo.citizenCounts)[i]);
 											/* 정승환 추가코드 끝 */
 							$sector4.append($inputPlus3);
 							$divPlus341.append($labelPlus).append($sector4);
@@ -883,7 +883,7 @@ object-fit: cover;
 							var $labelPlus2 = $("<label class='col-sm-3 col-form-label text-center nanum'>")
 											.css({"font-weight":"bold","font-size":"20px"}).html("골목대장");
 							var $inputPlus4 = $("<input class='form-control-plaintext nanum'>").prop({"type":"text","readonly":true})
-											.css({"font-weight":"bold","font-size":"25px"}).val(((streetInfo.myStreet)[i]).memberNm);
+											.css({"font-weight":"bold","font-size":"20px"}).val(((streetInfo.myStreet)[i]).memberNm);
 							$sector5.append($inputPlus4);
 							$divPlus341.append($labelPlus2).append($sector5);
 							
