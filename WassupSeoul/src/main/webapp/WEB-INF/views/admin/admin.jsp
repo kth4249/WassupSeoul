@@ -352,15 +352,16 @@ px
 						<div class="modal-body" style="font-size: 20px;">
 							<form action="">
 								<div>
-									<img src="../img/usericon.png" width="200px" height="200px"
-										class="ml-5 mr-5 mt-5 mb-3" id="memberProfileUrl">
+									<img width="200px" height="200px"
+										class="ml-5 mr-5 mt-5 mb-3" id="adminPageMemberProfileUrl">
 								</div>
 								<div class="nanum text-center" style="font-size: 35px;">
-									<span class="" id="memberNickname">김태훈</span>
+									<span class="" id="adminPageMemberNickname"></span>
 								</div>
 								<div class="nanum text-center"
 									style="font-size: 20px; color: darkblue;">
-									<span class="" id="memberGender">남성</span> <span class="" id="memberAge">25세</span>
+									<span id="adminPageMemberGender"></span> 
+									<span id="adminPageMemberAge"></span>
 								</div>
 								<br>
 								<div class="nanum text-center"
@@ -420,18 +421,38 @@ px
 					selectMemberNo = $(this).prop("id");
 					console.log("회원 번호 : " + selectMemberNo);
 					
+					
 					$.ajax({
 						
 						url : "selectMember",
 						data : {selectMemberNo : selectMemberNo},
 						type : "post",
 						dataType : "json",
-						success : function(member){
-							if(member != null){
-								console.log(member);
-								console.log(member.memberNickname);
-								$("#memberNickname").text(member.memberNickname);
-								$("#memberAge").text(member.memberAge);
+						success : function(map){
+							if(map != null){
+								
+								var member = map.member;
+								var hobby = map.hobby;
+								
+								var memberNickname = member.memberNickname;
+								
+								var memberGender;
+								
+								if(member.memberGender == 'M'){
+									memberGender = "남성";
+								} else if(member.memberGender == 'F'){
+									memberGender = "여성";
+								}
+																
+								var memberAge = member.memberAge;
+								var memberProfileUrl = member.memberProfileUrl;
+																
+								
+								$("#adminPageMemberNickname").text(memberNickname);
+								$("#adminPageMemberGender").text(memberGender);
+								$("#adminPageMemberAge").text(memberAge + "세");
+								$("#adminPageMemberProfileUrl")
+									.prop("src", "${contextPath}/resources/profileImage/" + memberProfileUrl);
 							} else {
 								alert("데이터가 없습니다.");								
 							}
@@ -466,7 +487,6 @@ px
 					
 					var selectReportNo;
 					selectReportNo = $(this).prop("id");
-					console.log("보고서 번호 : " + selectReportNo);
 					
 					$.ajax({
 						
@@ -476,10 +496,10 @@ px
 						dataType : "json",
 						success : function(report){
 							if(report != null){
-								console.log(report);
-								console.log(report.streetNm);
+								
 								$("#reportStreetNm").text(report.streetNm);
 								$("#reportContent").text(report.reportContent);
+								
 							} else {
 								alert("데이터가 없습니다.");								
 							}
@@ -594,7 +614,9 @@ px
 				</div>
 			</div>
 
-			<!-- 1:1 문의글 확인 모달 -->
+<!-- 
+
+			1:1 문의글 확인 모달
 			<div class="modal fade" id="adminModal6">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
@@ -625,7 +647,7 @@ px
 					</div>
 				</div>
 			</div>
-
+ -->
 		</div>
 	</div>
 	<jsp:include page="../common/footer.jsp" />

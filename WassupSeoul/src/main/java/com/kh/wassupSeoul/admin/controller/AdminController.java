@@ -1,6 +1,8 @@
 package com.kh.wassupSeoul.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -95,13 +97,16 @@ public class AdminController {
 				
 		try {
 			
-			Member member = adminService.selectMember(selectMemberNo);
+			Map<String, Object> map = new HashMap<String, Object>();
 			
-			if(member != null) {
-				return new Gson().toJson(member);
+			map = adminService.selectMember(selectMemberNo);
+						
+			
+			if(map != null) {
+				return new Gson().toJson(map);
 			} else {
-				member = null;				
-				return new Gson().toJson(member);
+				map = null;				
+				return new Gson().toJson(map);
 			}
 			
 		}catch (Exception e) {
