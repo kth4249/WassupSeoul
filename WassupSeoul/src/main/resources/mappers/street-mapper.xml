@@ -678,6 +678,35 @@
 		AND STREET_NO = #{streetNo}
 	</update>
 	
+	
+	<select id="getBoardWriter" parameterType="reply" resultType="_int">
+		SELECT MEMBER_NO
+		FROM BOARD
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	
+	<select id="streetJoinCheck" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM STREET_JOIN
+		WHERE STREET_NO = #{streetNo}
+		AND MEMBER_NO = #{memberNo}
+	</select>
+	
+	<update id="streetJoin2" parameterType="map">
+		UPDATE STREET_JOIN
+		SET CITIZEN_STATUS = 'W'
+		WHERE MEMBER_NO = #{memberNo}
+		AND STREET_NO = #{streetNo}
+	</update>
+	
+	<update id="joinCancel" parameterType="map">
+		UPDATE STREET_JOIN
+		SET CITIZEN_STATUS = 'N'
+		WHERE MEMBER_NO = #{memberNo}
+		AND STREET_NO = #{streetNo}
+	</update>
+	
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->

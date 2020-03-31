@@ -610,10 +610,31 @@ public class StreetDAO {
 		sqlSession.update("friendsMapper.updateAlarm2", map);
 	}
   
-  public void exileJumin(Map<String, Integer> map) throws Exception{
+	public void exileJumin(Map<String, Integer> map) throws Exception{
 		sqlSession.update("streetMapper.exileJumin", map);
 	}
 	
+	
+	/** 게시글 작성자 번호 조회(알람용)
+	 * @param reply
+	 * @return memberNo
+	 */
+	public int getBoardWriter(Reply reply) {
+		return sqlSession.selectOne("streetMapper.getBoardWriter", reply);
+	}
+	
+	
+	public int joinCancel(Map<String, Integer> map) {
+		return sqlSession.delete("streetMapper.joinCancel", map);
+	}
+	
+	public int streetJoinCheck(Map<String, Object> map) {
+		return sqlSession.selectOne("streetMapper.streetJoinCheck", map);
+	}
+
+	public int streetJoin2(Map<String, Object> map) {
+		return sqlSession.update("streetMapper.streetJoin2", map);
+	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 
 	/* 지원 골목 수정 시작 */
