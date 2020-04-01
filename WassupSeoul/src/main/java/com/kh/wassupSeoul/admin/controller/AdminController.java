@@ -215,7 +215,7 @@ public class AdminController {
 	// 활동보고서 확인
 	@ResponseBody
 	@RequestMapping(value="selectReport", method=RequestMethod.POST)
-	public String selectReport(Integer selectReportNo, HttpServletResponse response, Model model) {
+	public String selectReport(Integer selectReportNo, HttpServletResponse response) {
 				
 		try {
 			
@@ -230,10 +230,49 @@ public class AdminController {
 			
 		}catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
-		return null;
 	}
 	
 	
+	// 보고서 점수 부여 후 보고서 삭제
+	@ResponseBody
+	@RequestMapping(value="giveStreetPoint", method=RequestMethod.POST)
+	public String giveStreetPoint(Integer giveStreetPointReportNo, HttpServletResponse response) {
+		
+		try {
+			
+			int result = 0;
+			
+			result = adminService.giveStreetPoint(giveStreetPointReportNo);
+			
+			return new Gson().toJson(result);			
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	
+	// 보고서 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteReport", method=RequestMethod.POST)
+	public String deleteReport(Integer deleteStreetReportNo, HttpServletResponse response) {
+		
+		try {
+			
+			int result = 0;
+			
+			result = adminService.deleteReport(deleteStreetReportNo);
+			
+			return new Gson().toJson(result);			
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }

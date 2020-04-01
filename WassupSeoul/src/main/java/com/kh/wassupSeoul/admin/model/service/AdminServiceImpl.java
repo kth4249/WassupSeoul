@@ -149,4 +149,41 @@ public class AdminServiceImpl implements AdminService {
 		
 		return map;
 	}
+	
+	/** 골목 점수 부여용 Service(보고서 삭제)
+	 * @param giveStreetPointReportNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	@Override
+	public int giveStreetPoint(Integer giveStreetPointReportNo) throws Exception {
+		
+		int result = 0;
+		
+		int no = giveStreetPointReportNo;
+		
+		result = adminDAO.giveStreetPoint(no);
+		
+		if(result > 0) {
+			
+			result = adminDAO.deleteReport(no);
+		}
+		
+		return result;
+	}
+	
+	/** 보고서 삭제용 Service
+	 * @param deleteStreetReportNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor=Exception.class)
+	@Override
+	public int deleteReport(Integer deleteStreetReportNo) throws Exception {
+				
+		int no = deleteStreetReportNo;
+		
+		return adminDAO.deleteReport(no); 
+	}
 }

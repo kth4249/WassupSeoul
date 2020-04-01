@@ -141,6 +141,20 @@
 						FROM MEMBER_HOBBY
 						WHERE MEMBER_NO = #{selectMemberNo})
  	</select>
+ 	
+ 	<!-- 골목 점수 부여 -->
+ 	<update id="giveStreetPoint" parameterType="_int">
+ 		UPDATE STREET SET STREET_POINT = STREET_POINT + 30
+ 		WHERE STREET_NO = (SELECT STREET_NO 
+ 						FROM REPORT 
+ 						WHERE REPORT_NO = #{no})
+ 	</update>
+ 	
+ 	<!-- 보고서 삭제 -->
+ 	<delete id="deleteReport" parameterType="_int">
+ 		DELETE FROM REPORT
+ 		WHERE REPORT_NO = #{no}
+ 	</delete>
  
 
 </mapper>

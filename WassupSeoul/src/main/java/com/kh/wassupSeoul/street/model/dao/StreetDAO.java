@@ -657,9 +657,9 @@ public class StreetDAO {
 	 * @return kList
 	 * @throws Exception
 	 */
-	public List<Keyword> selectKeywords(Integer no) throws Exception {
+	public List<Keyword> selectKeywords(int streetNo) throws Exception {
 
-		return sqlSession.selectList("streetMapper.selectKeywords", no);
+		return sqlSession.selectList("streetMapper.selectKeywords", streetNo);
 	}
 
 	/**
