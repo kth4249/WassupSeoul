@@ -58,8 +58,7 @@
 										<div class="col-md-4"></div>
 										<div class="col-md-4">
 											<div class="profileBox">
-												<img class="profileImage" src="" alt="이미지"
-													class="checkMemProfileUrl">
+												<img class="profileImage checkMemProfileUrl" src="" alt="이미지">
 											</div>
 										</div>
 										<div class="col-md-4"></div>
@@ -69,7 +68,7 @@
 					                <div class="col-md-3"></div>
 					                <div class="col-md-6">
 					                    <input type="text" class="checkMemNickName" class="nanum form-control-plaintext text-center" 
-					                    					style="font-size: 35px;font-weight: bold;" readonly>
+					                    					style="font-size: 35px;font-weight: bold; border : 0px solid black; width: 200px; margin-left:30px;" readonly>
 					                </div>
 										<div class="col-md-3"></div>
 									</div>
@@ -80,34 +79,34 @@
 							              </div> -->
 									<div class="row">
 										<label class="col-sm-2 col-form-label text-center nanum"
-											style="font-weight: bold; font-size: 16px;">이름</label>
+											style="font-weight: bold; font-size: 16px; margin-top:10px; color:black;">이름</label>
 										<div class="col-sm-4">
-											<input type="text" readonly class="checkMemName"
-												class="nanum form-control-plaintext text-center"
-												style="font-size: 25px;">
+											<input type="text" readonly 
+												class="nanum form-control-plaintext text-center checkMemName"
+												style="font-size: 25px; margin-bottom:20px;">
 										</div>
 										<label class="col-sm-2 col-form-label text-center nanum"
-											style="font-weight: bold; font-size: 16px;">나이</label>
+											style="font-weight: bold; font-size: 16px; margin-top:; color:black;">나이</label>
 										<div class="col-sm-4">
-											<input type="text" readonly class="checkMemAge"
-												class="nanum form-control-plaintext text-center"
+											<input type="text" readonly 
+												class="nanum form-control-plaintext text-center checkMemAge"
 												style="font-size: 25px;">
 										</div>
 									</div>
 
 									<div class="row">
 										<label class="col-sm-2 col-form-label text-center nanum"
-											style="font-weight: bold; font-size: 16px;">성별</label>
+											style="font-weight: bold; font-size: 16px; margin-top:10px; color:black;">성별</label>
 										<div class="col-sm-4">
-											<input type="text" readonly class="checkMemGender"
-												class="nanum form-control-plaintext text-center"
+											<input type="text" readonly 
+												class="nanum form-control-plaintext text-center checkMemGender"
 												style="font-size: 25px;">
 										</div>
 										<label class="col-sm-2 col-form-label text-center nanum"
-											style="font-weight: bold; font-size: 16px;">전화번호</label>
+											style="font-weight: bold; font-size: 16px; margin-top:10px; color:black; width:140px;">전화번호</label>
 										<div class="col-sm-4">
-											<input type="text" readonly class="checkMemPhone"
-												class="nanum form-control-plaintext text-center"
+											<input type="text" readonly 
+												class="nanum form-control-plaintext text-center checkMemPhone"
 												style="font-size: 22px;">
 										</div>
 									</div>

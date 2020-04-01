@@ -107,7 +107,7 @@
 	}); */
 		
 
-	 document.getElementById('date').value= new Date().toISOString().slice(0, 7);
+	 //document.getElementById('date').value= new Date().toISOString().slice(0, 7);
 
 
 	//선택지 공백 우효성 검사
