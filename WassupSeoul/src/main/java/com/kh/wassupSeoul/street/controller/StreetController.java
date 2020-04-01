@@ -805,13 +805,13 @@ public class StreetController {
 			if(!sampleImg.equals("")) {
 								
 				if(sampleImg.equals("골목.jpg")) {					
-					street.setImgNo(6);
+					street.setImgNo(1);
 				} else if(sampleImg.equals("골목2.jpg")) {
-					street.setImgNo(7);
+					street.setImgNo(2);
 				} else if(sampleImg.equals("골목3.jpg")) {
-					street.setImgNo(8);
+					street.setImgNo(3);
 				} else if (sampleImg.equals("골목4.jpg")) { 
-					street.setImgNo(9);
+					street.setImgNo(4);
 				}
 								
 				result = streetService.insertStreet1(street, memberNo, streetKeywords);
@@ -1187,13 +1187,13 @@ public class StreetController {
 			if(!sampleImg.equals("")) {
 				
 				if(sampleImg.equals("골목.jpg")) {					
-					street.setImgNo(6);
+					street.setImgNo(1);
 				} else if(sampleImg.equals("골목2.jpg")) {
-					street.setImgNo(7);
+					street.setImgNo(2);
 				} else if(sampleImg.equals("골목3.jpg")) {
-					street.setImgNo(8);
+					street.setImgNo(3);
 				} else if (sampleImg.equals("골목4.jpg")) { 
-					street.setImgNo(9);
+					street.setImgNo(4);
 				}
 				
 				result = streetService.updateStreet1(street, streetKeywords);
