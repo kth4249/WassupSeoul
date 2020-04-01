@@ -354,7 +354,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						$("#def_check").change(
 								function(){
 									//체크박스 값에 따라 히든 값 변경
-									if($("#def_check").is(":checked")){
+									if($("#def_check").prop("checked")){
 										$("#defaultImg").val('Y');
 									}else {
 										$("#defaultImg").val('N');
@@ -390,8 +390,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			"name" : false,
 			"nickName" : false,
 			"phone" : false,
-			"profile_img" : false,
-			"def_check" : false
+			"profile_img" : true,
+			"def_check" : true
 		};
 		
 		/* 관심사 제거 버튼 클릭시 관심사 제거 */
@@ -601,10 +601,11 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						$("#checkImg").prop("class","nanum float-right").html("프로필 사진 또는 기본이미지를 체크해주세요.")
 						.css("color" , "red");
 						signUpCheck.def_check = false;	
-					}else {
+					}else if ($("#def_check").prop("checked") ) {
 						$("#checkImg").html("");
 						signUpCheck.def_check = true;
-					}				
+					}
+					
 				}); 
 					
 					
@@ -618,9 +619,6 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 							signUpCheck.profile_img = true;
 						}				
 					}); 
-					
-					
-					
 					
 					
 
