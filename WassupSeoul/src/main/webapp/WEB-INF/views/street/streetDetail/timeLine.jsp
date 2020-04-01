@@ -46,7 +46,7 @@
 	}
 	.profileBox{
 	  width: 100%;
-	  height: 160px; 
+	  height: 140px; 
 	  border-radius: 70%;
 	  overflow: hidden;
 	}
