@@ -12,7 +12,7 @@
 
 		 <script src="${pageContext.request.contextPath}/resources/js/drawengine.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/painter.js"></script> 
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
+		
 		<%-- <script src="${pageContext.request.contextPath}/resources/js/canvas.js"></script> --%>
 		
 
@@ -25,7 +25,7 @@
 
 		<div class="postLayoutView " style="padding: 0%;">
 				<form action="insert" method="post" enctype="multipart/form-data"
-					role="form" onsubmit="return validate();">
+					role="form" > <!-- onsubmit="return validate();" -->
 
 					<div class="writePost">
 						<textarea class="postArea nanum form-control" style="border-radius: 10px !important"

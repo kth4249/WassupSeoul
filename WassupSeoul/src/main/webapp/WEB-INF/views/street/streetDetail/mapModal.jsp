@@ -106,9 +106,9 @@
 				           	 var marker = new google.maps.Marker({
 				           		   map: resultsMap,
 				             	   position: coords
-				           		$("#mapSubmitBtn").attr("name", coords);
 				            });
 				           	 markers.push(marker);
+			           		//$("#mapSubmitBtn").attr("name", coords);
 			           	 /*  // Sets the map on all markers in the array.
 				             function setMapOnAll(map) {
 				               for (var i = 0; i < markers.length; i++) {
@@ -144,11 +144,11 @@
 				 	// 지도 게시글 업로드
 				 	  document.getElementById('mapSubmitBtn').addEventListener('click', function() {
 			 			    var address = $("#address").val(); 
-			 			    var address2 = $("#mapSubmitBtn").attr("name");
+			 			    //var address2 = $("#mapSubmitBtn").attr("name");
 							var mapPostContent = $("#mapPostArea").val();
 												
 							alert(address);
-							alert(address2);
+							//alert(address2);
 							
 							console.log("사용자가 입력한 장소:"+address);
 							console.log("게시글 입력내용:"+mapPostContent);
