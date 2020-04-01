@@ -620,7 +620,7 @@
   		SELECT COUNT(*)
   		FROM STREET_JOIN
   		WHERE MEMBER_NO = #{memberNo}
-  		AND CITIZEN_STATUS = 'Y'
+  		AND CITIZEN_STATUS IN ('Y', 'W')
   	</select>
   	
   	<!-- 추천친구에 조회된 회원들의 관심사 목록 조회 -->

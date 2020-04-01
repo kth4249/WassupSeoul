@@ -362,6 +362,10 @@ public class MemberController {
 							   int[] hobbyNoArr, String[] hobbyNmArr,
 							   Model model, HttpServletRequest request) {
 		try {
+			// 정승환 추가 코드(20.04.01)
+			// 파일을 서버에 저장하는 경우는 새로운 프로필 이미지가 들어오기 때문에 loginMember세션에 이미지 경로값을 변경해준다
+			Member loginMember = (Member)model.getAttribute("loginMember"); //세션에 이미지 경로를 저장하기 위해서 지금 로그인 회원 세션값을 가져옴
+			
 			int memberNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
 			// 기존 DB에 있는 회원 정보 불러옴
 			Member member = memberService.selectProfileMember(memberNo);
@@ -406,6 +410,10 @@ public class MemberController {
 				// 파일을 서버에 저장
 				if(!memberProfileUrl.getOriginalFilename().equals("")) {
 					memberProfileUrl.transferTo(new File(savePath+"/"+member.getMemberProfileUrl()));
+					
+					/////////////정승환 코드 추가(20.04.01)
+					// 변경된 이미지 경로로 세션을 변경해준다.
+					loginMember.setMemberProfileUrl(member.getMemberProfileUrl());
 				}
 			
 			// 2)Member_Hobby , Hobby 테이블 update -> 중복된 값, 새로 추가된 값 구별하여 추가
@@ -440,7 +448,7 @@ public class MemberController {
 				if(result1 > 0) {
 					result1 = memberService.updateMemberHobby(changeHobby);
 					if(result1 > 0) {
-						
+						model.addAttribute("loginMember",loginMember); // 변경된 이미지 경로를 저장한 로그인 세션
 						model.addAttribute("msg","회원정보 수정 성공");
 						model.addAttribute("memberNo",memberNo);
 						return "redirect:MoveupdateForm";

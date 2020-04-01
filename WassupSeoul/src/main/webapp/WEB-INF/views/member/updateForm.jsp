@@ -467,8 +467,8 @@
     		
     		// 닉네임 유효성 검사
     		$nickName.on("input",function(){
-    			// 총 1~14글자,모든 문자 가능
-    			var regExp = /^[a-zA-z0-9가-힣]{1,14}$/;
+    			// 총 1~14글자,모든 문자 가능  --> 1~5글자로 변경
+    			var regExp = /^[a-zA-z0-9가-힣]{1,5}$/;
     			if(!regExp.test($nickName.val())) {
     				$nickName.addClass("is-invalid");
     				$("#nickNameCheck").text("닉네임 형식이 유효하지 않습니다.").css({"color":"red","font-weight":"bold"});
