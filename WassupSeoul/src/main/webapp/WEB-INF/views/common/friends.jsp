@@ -538,31 +538,11 @@
 
 
 	
-
-												
-
-		
-		
-		
-
-		
-	
-	
-	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////        		여기부터 친구요청 기능           ///////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	/* 친구 요청 목록 조회 함수 */
@@ -573,7 +553,8 @@
 			data : {},
 			datatype : "json",
 			success : function(result){
-				//console.log("친구요청 Ajax : " + result);
+ 				console.log("친구요청목록");
+				console.log(result);
 				var $friendReq = $("#friendReq");
 				var $friendRequestArea = $("#friendRequestArea");
 				//var root = $("#profileRoot").val();
@@ -705,14 +686,15 @@
 			data : {},
 			datatype : "json",
 			success : function(result){
-				//console.log(result);
+				console.log("친구목록불러오기");
+				console.log(result);
 				var $friendList = $("#friendList");
 				var $friendInfo = $("#friendInfo");
 				//var root = $("#profileRoot").val();
 				var root = "${contextPath}";
 				var $savePath = root + "/resources/profileImage/";
 				if(result == null){
-					$msg = $("<span>").html("빨리 친구 만들러 가죠! 관심사와 맞는 골목부터 찾아볼까요?");
+					$msg = $("<span>").html("지금은 친구가 없네요.");
 					$friendInfo.css("text-align","center")
 					$friendInfo.html($msg);
 					
@@ -831,6 +813,7 @@
 			data : {},
 			datatype : "json",
 			success : function(result){
+				console.log("대화방 목록 출력");
 				console.log(result);
 				var $chatList = $("#chatList");
 				var root = "${contextPath}";
@@ -914,15 +897,16 @@
 			url : "${contextPath}/friends/inToRoom",
 			type : "POST",
 			data : {"roomNo" : roomNo},
+			dataType : "json",
 			success : function (result){
-				//console.log(result);
-				//console.log("대화방 진입 Ajax 성공");
+				console.log(result);
+				console.log("대화방 진입 Ajax 성공");
 				
 				var $chat = $("#chat");
 				var root = "${contextPath}";
 				var $savePath = root + "/resources/profileImage/";
 				
-				if(result == null){
+				if(result.length == 0){
 					$msg = $("<span>").html("아직 채팅이 개설된 방이 없어요!");
 					$chat.css("text-align","center");
 					$chat.html($msg);
@@ -1090,8 +1074,8 @@
 		var strArray=data.split("|");//데이터 파싱처리하기
 		var userName=null;//대화명 저장
 		/* messagefunction(); */
-		console.log("소켓통신");
-		console.log(data);
+		//console.log("소켓통신");
+		//console.log(data);
 		chatView(data);
 	
 	}
@@ -1106,9 +1090,9 @@
 		friendsList(); 		// 친구 목록 불러오기
 		friendtalk();		// 대화 목록 불러오기
 		
-		 setInterval(function(){ // 갱신 주기
+		 /* setInterval(function(){ // 갱신 주기
 			friendRequest(); 
-		}, 10000); 
+		}, 10000); */ 
 	});
 		
 </script>

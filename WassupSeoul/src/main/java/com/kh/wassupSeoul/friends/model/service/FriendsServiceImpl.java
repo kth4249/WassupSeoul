@@ -35,18 +35,11 @@ public class FriendsServiceImpl implements FriendsService{
 	 * @throws Exception
 	 */
 	@Override
-	public List<Member> friendRequest(int myNum) throws Exception {
-	      List<Relationship> fList = friendsDAO.friendRequest(myNum);
-	      List<Member> ffList = null;
-	      if (!fList.isEmpty()) {
-	    	 Map<String, Object> fMap = new HashMap<String, Object>();
-	    	 fMap.put("fList", fList);
-	    	 fMap.put("myNum", myNum); 
-	    	 //System.out.println(fList); 
-	         ffList = friendsDAO.justFriendReq(fMap);
-	         //System.out.println(ffList);
-	      }
-	      return ffList;
+	public List<Relationship> friendRequest(int myNum) throws Exception {
+	    
+		List<Relationship> fList = friendsDAO.friendRequest(myNum);
+	      
+	      return fList;
 	   }
 
 	/** 친구 요청 수락 Service
@@ -152,36 +145,36 @@ public class FriendsServiceImpl implements FriendsService{
 		
 		// 1) 대화방 존재 확인 (select)
 		ChatRoom chatRoom = friendsDAO.selectChatRoom(nMap);
-		//System.out.println(chatRoom);
+		System.out.println("호텔룸 : "+ chatRoom);
 		
 		
 		// 2) 없다면 개설하기 
 		if (chatRoom == null) {
-			//System.out.println("방 없음");
+			System.out.println("방 없음");
 			// 2.1) 방 번호 얻기
 			int nextRoomNo1 = friendsDAO.getChatRoom();
-			//System.out.println("nextRoomNo1 :" + nextRoomNo1);
+			System.out.println("nextRoomNo1 :" + nextRoomNo1);
 			nMap.put("RoomNo", nextRoomNo1);
 			//System.out.println(nMap.get("chatNo"));
 			
 			// 2.2) 방 개설 하기  (2행 추가)
 			result = friendsDAO.insertChatRoom1(nMap);
 			if (result > 0) {
-				int nextRoomNo2 = friendsDAO.getChatRoom();
-				nMap.put("RoomNo", nextRoomNo2);
+				//int nextRoomNo2 = friendsDAO.getChatRoom();
+				nMap.put("RoomNo", nextRoomNo1);
 				result = friendsDAO.insertChatRoom2(nMap);
-				//System.out.println("2개의 방 생성 완료");
+				System.out.println("2개의 방 생성 완료");
 			} else {
 				return result;
 			}
 			
 		// 3) 있다면 status (update)
 		} else {
-			//System.out.println("방 있음");
+			System.out.println("방 있음");
 			result = friendsDAO.updateChatRoom1(nMap);
 			if (result > 0) {
 				result = friendsDAO.updateChatRoom2(nMap);
-				//System.out.println("2개의 방 존재 확인 완료");
+				System.out.println("2개의 방 존재 확인 완료");
 			} else {
 				return result;
 			}
@@ -275,9 +268,14 @@ public class FriendsServiceImpl implements FriendsService{
 		
 		List <Integer> noReadMsgCount = friendsDAO.selectnoReadCount(RoomNoList);
 		if (noReadMsgCount == null || noReadMsgCount.isEmpty()) { // 대화방 없으면 익셉션 떠서 수정(영준)
-			return null;
+		
+			for(int i = 0 ; i < RoomNoList.size() ; i++) {
+				noReadMsgCount.add(0);
+			}
+			System.out.println("noReadMsgCount : " + noReadMsgCount);
 		}
-		System.out.println("noReadMsgCount : " + noReadMsgCount);
+		
+		
 		
 		List <String> lastMessage = new ArrayList<String>();
 		
@@ -286,7 +284,7 @@ public class FriendsServiceImpl implements FriendsService{
 		for (int i = 0 ; i < RoomNoList.size() ; i++) {
 			String what = friendsDAO.lastMessage(RoomNoList.get(i));
 			if (what == null) { // 대화방 없으면 익셉션 떠서 수정(영준)
-				return null;
+				what = "대화방이 개설되었습니다.";
 			}
 			lastMessage.add(what);
 		}
@@ -318,7 +316,7 @@ public class FriendsServiceImpl implements FriendsService{
 			chatlist.setOtherNo(mList.get(i).getMemberNo());
 			
 			cList.add(chatlist);
-			
+			 
 		}
 		
 		System.out.println("cList : " + cList);
@@ -331,13 +329,16 @@ public class FriendsServiceImpl implements FriendsService{
 	 * @return msg
 	 * @throws Exception
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public List<MSG> inToRoom(int roomNo) throws Exception {
 		
 		List<MSG> msg = friendsDAO.inToRoom(roomNo);
-		if (msg!=null) {
-			int result = friendsDAO.msgRead(msg);
-		}
+		System.out.println("msg : " + msg);
+		
+		/*
+		 * if (msg!=null || !msg.isEmpty()) { int result = friendsDAO.msgRead(msg); }
+		 */
 		//System.out.println(msg);
 		
 		return msg;

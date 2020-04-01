@@ -31,17 +31,6 @@ public class FriendsDAO {
 	}
 
 
-	/** 친구목록 조회용 DAO 2
-	 * @param yourNo
-	 * @return ffList
-	 * @throws Exception
-	 */
-
-	public List<Member> justFriendReq(Map<String, Object> fMap) {
-		return sqlSession.selectList("friendsMapper.justFriendsReq", fMap);
-	}
-
-
 	/** 친구 추가용 DAO
 	 * @param memberNo
 	 * @return result

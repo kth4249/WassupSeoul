@@ -18,7 +18,12 @@ public class Member {
 	private String memberStatus;
 	private String citizenStatus; // 03/22 태훈 추가
 	
+	
 	public Member() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Member(String string, String string2, String string3, String string4, String memberPhone2, String string5, int i) {
 		// TODO Auto-generated constructor stub
 	}
 

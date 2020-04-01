@@ -75,29 +75,33 @@ public class MemberController {
 				
 				Member signUpMember = null;
 				
-				if(defaultImg.equals("Y")) {
+				System.out.println(defaultImg);
+				
+				/*if(defaultImg.equals("Y")) {
 					
 					if (member.getMemberGender().equals("M")) {
 					
 						signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
-						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), "man.png");
+						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge());
+						signUpMember.setMemberProfileUrl("man.png");
 					} else {
 						signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
-						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), "woman.png");
+						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge());
+						signUpMember.setMemberProfileUrl("woman.png");
 					}
-				
-				} else {
+				System.out.println("signUpMember : " + signUpMember);	
+				} else {*/
 					
 				String newProfileImg = FileRename.rename(originProfileUrl.getOriginalFilename());
 				signUpMember = new Member(member.getMemberEmail(), member.getMemberPwd(), member.getMemberNm(),
 						member.getMemberNickname(), memberPhone, member.getMemberGender(), member.getMemberAge(), newProfileImg);
-				}
+				/*}*/
 				
 				int result = memberService.signUp(signUpMember);
-				
-				if (result > 0) {
+				if (originProfileUrl != null) {
 					originProfileUrl.transferTo(new File(savePath+"/"+signUpMember.getMemberProfileUrl()));
-					
+				}
+				if (result > 0) {
 					// 추가부분(관심사) 시작
 					List<MemberHobby> insertHobby = new ArrayList<MemberHobby>(); // MEMBER_HOBBY에 저장할때 사용하는 리스트
 					

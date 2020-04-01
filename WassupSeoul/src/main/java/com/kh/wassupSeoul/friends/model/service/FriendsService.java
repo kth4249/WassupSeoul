@@ -6,6 +6,7 @@ import java.util.Map;
 import com.kh.wassupSeoul.friends.model.vo.ChatList;
 import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
 import com.kh.wassupSeoul.friends.model.vo.MSG;
+import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 
@@ -16,7 +17,7 @@ public interface FriendsService {
 	 * @return fList
 	 * @throws Exception
 	 */
-	List<Member> friendRequest(int myNum) throws Exception;
+	List<Relationship> friendRequest(int myNum) throws Exception;
 
 	/** 친구 요청 수락 Service
 	 * @param memberNo
