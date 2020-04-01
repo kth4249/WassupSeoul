@@ -253,7 +253,7 @@
 		
 		FROM (SELECT BOARD_CONTENT,	BOARD_WRITE_DT,	BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO,	MEMBER_NO, TYPE_NO,	MEMBER_NICKNAME, MEMBER_PROFILE_URL,
 			MAP_ADDR, SKETCH_URL 
-			FROM V_BOARD WHERE STREET_NO = #{streetNo} AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y'  )
+			FROM V_BOARD WHERE STREET_NO = #{streetNo} AND BOARD_STATUS = 'Y'  )
 			
 		<!-- 골목대장일때  게시글 상단고정 기능 추가할것 -->
 		
@@ -278,7 +278,7 @@
 		
 		FROM (SELECT BOARD_CONTENT,	BOARD_WRITE_DT,	BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO,	MEMBER_NO, TYPE_NO,	MEMBER_NICKNAME, MEMBER_PROFILE_URL,
 			MAP_ADDR, SKETCH_URL 
-			FROM V_BOARD WHERE STREET_NO = #{streetNo} AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y' AND  MEMBER_NICKNAME LIKE '%'||#{replyWriter}||'%' )
+			FROM V_BOARD WHERE STREET_NO = #{streetNo} AND BOARD_STATUS = 'Y' AND  MEMBER_NICKNAME LIKE '%'||#{replyWriter}||'%' )
 		
 		<!-- 로그인회원 해당 게시글 좋아요 여부 체크 -->  
 		LEFT OUTER JOIN ( SELECT THUMB_STATUS, BOARD_NO FROM THUMB WHERE MEMBER_NO = #{memberNo} AND REPLY_NO IS NULL  ) USING (BOARD_NO)
@@ -299,7 +299,7 @@
 		
 		FROM (SELECT BOARD_CONTENT,	BOARD_WRITE_DT,	BOARD_STATUS, BOARD_LEVEL, BOARD_NO, STREET_NO,	MEMBER_NO, TYPE_NO,	MEMBER_NICKNAME, MEMBER_PROFILE_URL,
 			MAP_ADDR, SKETCH_URL 
-			FROM V_BOARD WHERE STREET_NO = #{streetNo} AND BOARD_LEVEL = 0 AND BOARD_STATUS = 'Y' AND BOARD_CONTENT LIKE '%'||#{replyContent}||'%'  )
+			FROM V_BOARD WHERE STREET_NO = #{streetNo} AND BOARD_STATUS = 'Y' AND BOARD_CONTENT LIKE '%'||#{replyContent}||'%'  )
 		
 		<!-- 로그인회원 해당 게시글 좋아요 여부 체크 -->  
 		LEFT OUTER JOIN ( SELECT THUMB_STATUS, BOARD_NO FROM THUMB WHERE MEMBER_NO = #{memberNo} AND REPLY_NO IS NULL  ) USING (BOARD_NO)
@@ -333,6 +333,16 @@
 	<update id="updateLike"  parameterType="reply" >
 		UPDATE THUMB SET THUMB_STATUS = #{thumbStatus}	WHERE MEMBER_NO=#{memberNo} AND BOARD_NO=#{boardNo}
 	</update>
+	
+	 <!-- 게시글 공지사항 확인용 -->
+	<select id="checkBoardLevel" parameterType="_int" resultType="_int">
+		SELECT BOARD_LEVEL FROM BOARD WHERE BOARD_NO=#{boardNo} 
+	</select>
+	
+	 <!-- 게시글 공지사항 등록용 -->
+  	 <update id="PinPost"  parameterType="board" >
+		UPDATE BOARD SET BOARD_LEVEL = #{boardLevel} WHERE BOARD_NO=#{boardNo}
+	</update>
   	 
   	 <!-- 댓글 좋아요조회  -->
 	<select id="replyLikeCheck" parameterType="reply" resultType="string">
@@ -349,7 +359,7 @@
 		UPDATE THUMB SET THUMB_STATUS = #{thumbStatus}	WHERE MEMBER_NO=#{memberNo} AND REPLY_NO=#{replyNo}
 	</update>
   	 
-  	  <!-- 대댓글 좋아요조회  -->
+  	 <!-- 대댓글 좋아요조회  -->
 	<select id="reReplyLikeFunction" parameterType="reply" resultType="string">
 		SELECT THUMB_STATUS	FROM THUMB	WHERE MEMBER_NO = #{memberNo} AND REPLY_NO = #{replyNo}
 	</select>
@@ -404,7 +414,7 @@
   	
   	<!-- 지도 게시글 등록용  -->
   	<insert id="mapPost" parameterType="board">
-  		INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo}, NULL, #{mapAddress})
+  		INSERT INTO BOARD VALUES(SEQ_BOARD.NEXTVAL, #{boardContent}, SYSDATE, 'Y', 0, #{streetNo}, #{memberNo}, #{typeNo}, #{sketchUrl}, #{mapAddress})
   	</insert>
   	
   	<!-- 스케치 게시글 등록용  -->
@@ -617,11 +627,11 @@
   	
   	<!-- 로그인된 회원이 가입한 골목의 수 조회 -->
   	<select id="myStreetCount" parameterType="_int" resultType="_int">
-  		SELECT COUNT(*)
-  		FROM STREET_JOIN
-  		WHERE MEMBER_NO = #{memberNo}
-  		AND CITIZEN_STATUS = 'Y'
-  	</select>
+        SELECT COUNT(*)
+        FROM STREET_JOIN
+        WHERE MEMBER_NO = #{memberNo}
+        AND CITIZEN_STATUS IN ('Y', 'W')
+     </select>
   	
   	<!-- 추천친구에 조회된 회원들의 관심사 목록 조회 -->
   	<select id="selectHobbyList" parameterType="list" resultMap="hobbyResultSet">

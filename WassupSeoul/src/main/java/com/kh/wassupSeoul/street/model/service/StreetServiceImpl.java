@@ -271,6 +271,29 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.deletePost(postNo);
 	}
 	
+	
+	
+	/** 공지사항 확인용 
+	 * @param postNo
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public int checkBoardLevel(int postNo) throws Exception {
+		return streetDAO.checkBoardLevel(postNo);
+	}
+
+	/** 게시글 공지사항 등록용  Service
+	 * @param postNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int PinPost(Board board) throws Exception {
+		return streetDAO.PinPost(board);
+	}
+
 	/**	댓글 입력용 Service
 	 * @param reply
 	 * @return result
