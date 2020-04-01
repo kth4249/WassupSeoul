@@ -19,6 +19,8 @@ import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.vo.Bfile;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Divide;
+import com.kh.wassupSeoul.street.model.vo.Dutch;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Report;
@@ -634,6 +636,19 @@ public class StreetDAO {
 
 	public int streetJoin2(Map<String, Object> map) {
 		return sqlSession.update("streetMapper.streetJoin2", map);
+	}
+	
+
+	public int insertDutchBoard(Board board) {
+		return sqlSession.insert("streetMapper.insertDutchBoard", board);
+	}
+	
+	public int insertDutch(Dutch dutch) {
+		return sqlSession.insert("streetMapper.insertDutch", dutch);
+	}
+	
+	public void insertDivide(Divide divide) {
+		sqlSession.insert("streetMapper.insertDivide", divide);
 	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 

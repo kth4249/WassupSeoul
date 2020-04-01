@@ -45,6 +45,7 @@ import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Dutch;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
 import com.kh.wassupSeoul.street.model.vo.Report;
@@ -707,13 +708,12 @@ public class StreetController {
     	}
     }
     
-    
+    /*@@@@@@@@@@@@@@@@@@@@@@@@ 태훈 수정 중 @@@@@@@@@@@@@@@@@@@@@@@@*/
    // 1/N 게시글 등록용 
     @ResponseBody
    	@RequestMapping("postDivide")
    public String  postDivide(HttpServletResponse response, int originMoney,  int checkedCount, 
-		   					 Model model, String postContent, String[] memArray) {
-    	
+		   					 Model model, String postContent, @RequestParam(value="memArray[]") int[] memArray) {
     	System.out.println("작성중");
     	System.out.println("입력한 금액 : "  +originMoney);
     	System.out.println("선택된 회원수 : " +checkedCount);
@@ -722,29 +722,40 @@ public class StreetController {
     		System.out.println("선택된 회원 번호 :" + memArray[i]);
     	}
     	
-		/*
-		 * int streetNo = (int)model.getAttribute("streetNo");
-		 * 
-		 * // 1) 회원 정보 가져오기
-		 * 
-		 * try { List<Member> selectDivideMember =
-		 * streetService.selectDivideMember(streetNo);
-		 * 
-		 * 
-		 * for(int i=0;i<selectDivideMember.size();i++) {
-		 * System.out.println("선택할 수 있는 회원 : " + selectDivideMember.get(i)); }
-		 * 
-		 * response.setCharacterEncoding("UTF-8"); return new
-		 * Gson().toJson(selectDivideMember);
-		 * 
-		 * } catch(Exception e) { e.printStackTrace(); return null;
-		 * 
-		 * }
-		 */
+    	Dutch dutch = new Dutch();
+    	dutch.setDutchTotal(originMoney);
+    	dutch.setDutchCount(checkedCount);
+    	dutch.setMemArray(memArray);
     	
-    	int test = 1;
     	
-    	return  test == 1 ? true + "" : false + "";
+		Member loginMember = (Member) model.getAttribute("loginMember");
+		int boardWriter = loginMember.getMemberNo();
+
+		int streetNo = (int) model.getAttribute("streetNo");
+		Board board = new Board();
+		board.setBoardContent(postContent.replace("\r\n", "<br>"));
+		board.setMemberNo(boardWriter);
+		board.setStreetNo(streetNo);
+		board.setTypeNo(4);
+
+		System.out.println("board.getBoardContent : " + board.getBoardContent());
+    	
+    	try {
+    		int boardNo = streetService.selectBoardNo();
+    		board.setBoardNo(boardNo);
+    		int result = streetService.insertDutchBoard(board);
+    		if(result > 0) {
+    			dutch.setBoardNo(boardNo);
+    			streetService.insertDutch(dutch);
+    			return true + "";
+    		} else {
+    			return false + "";
+    		}
+    		
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false + "";
+		}
    }
 	
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
