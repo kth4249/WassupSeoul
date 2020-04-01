@@ -151,8 +151,8 @@
 			 			    var coords = $("#mapSubmitBtn").attr("name");
 							var mapPostContent = $("#mapPostArea").val();
 												
-							alert(address);
-							alert(coords);
+							//alert(address);
+							//alert(coords);
 							
 							console.log("사용자가 입력한 장소:"+address);
 							console.log("게시글 입력내용:"+mapPostContent);
@@ -164,7 +164,7 @@
 								success : function(result) {
 									
 									if (result == "true") {
-										alert("지도 업로드 성공");
+										//alert("지도 업로드 성공");
 										$("#mapCloseBtn").trigger("click");
 										
 									} else {

@@ -113,6 +113,7 @@
 		<result property="voteCount" column="VOTE_COUNT"/>
 		<result property="voteWholeVoteCount" column="WHOLE_VOTE_COUNT"/>
 		<result property="memberVoteCount" column="MEMBER_VOTE_COUNT"/>
+		<result property="memberNickname" column="MEMBER_NICKNAME"/>
 		
 	</resultMap>
 	
@@ -323,6 +324,21 @@
 						 
 		ORDER BY BOARD_NO
   	 </select>
+  	 
+  	 <!-- 투표 참여자 목록 조회용 -->
+  	 <select id="selectVoteMemList" parameterType="reply" resultMap="voteResultSet">
+  	 	SELECT VOTE_NO, MEMBER_NO, VOTE_STATUS, MEMBER_NICKNAME, BOARD_NO, STREET_NO
+        
+        FROM(SELECT VOTE_NO, MEMBER_NO, VOTE_STATUS FROM VOTER WHERE VOTE_STATUS = 'Y')
+        
+        LEFT OUTER JOIN (SELECT MEMBER_NO, MEMBER_NICKNAME FROM MEMBER) USING(MEMBER_NO)
+        
+        LEFT OUTER JOIN (SELECT VOTE_NO, BOARD_NO FROM VOTE_PICK) USING(VOTE_NO)
+        
+        LEFT OUTER JOIN (SELECT BOARD_NO, STREET_NO FROM BOARD) USING(BOARD_NO)
+         
+        WHERE STREET_NO=#{streetNo}
+  	 </select>
   	
   	<!-- 게시글 등록용 -->
    <insert id="insertBoard" parameterType="Board">
@@ -389,11 +405,17 @@
   	 <update id="deletePost"  parameterType="_int" >
 		UPDATE BOARD SET BOARD_STATUS = 'N'	WHERE BOARD_NO=#{boardNo}
 	</update>
+	
+	 <!-- 대댓글 삭제용 -->
+  	 <update id="deleteRereply"  parameterType="_int" >
+		UPDATE REPLY SET REPLY_STATUS = 'N'	WHERE REPLY_NO=#{rereplyNo}
+	</update>
   	
   	<!-- 댓글 입력 -->
   	<insert id="writeComment" parameterType="reply">
   		INSERT INTO REPLY VALUES(SEQ_REPLY.NEXTVAL, #{replyContent}, SYSDATE, 'Y', 1, #{memberNo}, #{boardNo}, null )
   	</insert>
+  
   	
   	<!-- 대댓글 입력 -->
   	<insert id="writeReComment" parameterType="reply">

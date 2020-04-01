@@ -68,7 +68,7 @@
 					                <div class="col-md-3"></div>
 					                <div class="col-md-6">
 					                    <input type="text" class="checkMemNickName" class="nanum form-control-plaintext text-center" 
-					                    					style="font-size: 35px;font-weight: bold; border : 0px solid black; width: 200px; margin-left:30px;" readonly>
+					                    					style="font-size: 35px; border : 0px solid black; width: 200px; margin-left:30px;" readonly>
 					                </div>
 										<div class="col-md-3"></div>
 									</div>

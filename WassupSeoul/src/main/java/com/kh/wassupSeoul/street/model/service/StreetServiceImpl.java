@@ -102,6 +102,17 @@ public class StreetServiceImpl implements StreetService{
 	}
 
 	
+	
+	/** 투표 참여자 목록 조회용 
+	 * @param checkStreet
+	 * @return list
+	 * @throws Exception
+	 */
+	@Override
+	public List<Vote> selectVoteMemList(Reply checkStreet) throws Exception {
+		return streetDAO.selectVoteMemList(checkStreet);
+	}
+
 	/** 게시글 등록용 Service
 	 * @param board
 	 * @return result
@@ -271,8 +282,17 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.deletePost(postNo);
 	}
 	
-	
-	
+	/** 댓글 삭제용
+	 * @param rereplyNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteRereply(int rereplyNo) throws Exception {
+		return streetDAO.deleteRereply(rereplyNo);
+	}
+
 	/** 공지사항 확인용 
 	 * @param postNo
 	 * @return
