@@ -18,6 +18,7 @@ import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.vo.Bfile;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Divide;
 import com.kh.wassupSeoul.street.model.vo.Dutch;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
@@ -360,6 +361,19 @@ public interface StreetService {
 	
 	public abstract void insertDutch(Dutch dutch);
 	
+	/** N빵 리스트 조회
+	 * @param checkStreet
+	 * @return dutch
+	 */
+	public abstract List<Dutch> selectDutch(List<Board> board) throws Exception;
+	
+	
+	
+	/** N빵 참가자 리스트 조회
+	 * @param dutch
+	 * @return divide
+	 */
+	public abstract List<Divide> selectDivide(List<Dutch> dutch) throws Exception;
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	
