@@ -172,10 +172,13 @@ public class StreetController {
 			
 			List<Vote> vote = streetService.selectVoteOption(checkStreet);
 			/*------------------------태훈 엔빵 관련해서 추가------------------------*/
-			List<Dutch> dutch = streetService.selectDutch(board);
+			List<Dutch> dutch = null;
 			List<Divide> divide = null;
-			if(!dutch.isEmpty()) {
-				divide = streetService.selectDivide(dutch);
+			if(!board.isEmpty()) {
+				dutch = streetService.selectDutch(board);
+				if(!dutch.isEmpty()) {
+					divide = streetService.selectDivide(dutch);
+				}
 			}
 			/*------------------------태훈 엔빵 관련해서 추가------------------------*/
 			
