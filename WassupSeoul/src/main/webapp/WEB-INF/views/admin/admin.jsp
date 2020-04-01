@@ -112,7 +112,7 @@ px
 
 	<jsp:include page="../common/header.jsp" />
 	<div style="margin-top: 50px; text-align: center;">
-		<div class="container">
+		<div class="container nanum">
 			<ul class="nav nav-tabs">
 				<li class="nav-item"><a class="nav-link active"
 					data-toggle="tab" href="#member">회원관리</a></li>
@@ -259,6 +259,7 @@ px
 
 						</tbody>
 					</table>
+					<!-- 검색창 삭제 
 					<div class="row justify-content-md-center">
 						<select style="width: 150px" class="form-control nanum">
 							<option class="nanum" value="nickname">관심사명</option>
@@ -266,6 +267,7 @@ px
 							class="form-control nanum" name="searchValue">
 						<button class="btn btn-outline-success">검색</button>
 					</div>
+					-->
 				</div>
 
 				<div class="tab-pane fade" id="report">
@@ -485,7 +487,7 @@ px
 									
 								</div>
 								<div class="nanum text-center" 
-									style="font-size: 15px; margin-top: 10px; float:left">
+									style="font-size: 15px; margin-top: 10px;">
 									<span>활동사진 : </span>
 									<div style="margin-top: 10px">
 										<img id="reportImgUrl" style="width: 150px; height: 150px;">
@@ -605,7 +607,7 @@ px
 
 									$("#reportStreetNm").text(report.streetNm);
 									$("#reportContent").html(report.reportContent);
-									$("#reportImgUrl").prop("src", "${contextPath}/resources/reportImage/"+ report.reportImgUrl);
+									$("#reportImgUrl").prop("src", "${contextPath}/resources/reportImage/"+ report.meetingImgUrl);
 
 								} else {
 									alert("데이터가 없습니다.");
