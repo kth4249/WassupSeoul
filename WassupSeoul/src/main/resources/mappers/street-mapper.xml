@@ -118,13 +118,24 @@
 	
 	<resultMap type="Divide" id="divideResultSet">
 		<id property="memberNo" column="MEMBER_NO"/>
-		
+		<id property="boardNo" column="BOARD_NO"/>
 		<result property="memberNickName" column="MEMBER_NICKNAME"/>
 		<result property="memberProfileUrl" column="MEMBER_PROFILE_URL"/>
 		<result property="memberStatus" column="MEMBER_STATUS"/>
 		<result property="divideDt" column="DIVIDE_DT"/>
-		
+		<result property="dividePrice" column="DIVIDE_PRICE"/>
 	</resultMap>
+	
+	
+	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ김태훈 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
+	<resultMap type="Dutch" id="dutchResultSet">
+		<id property="boardNo" column="BOARD_NO"/>
+		
+		<result property="dutchTotal" column="DUTCH_TOTAL"/>
+		<result property="dutchCount" column="DUTCH_COUNT"/>
+	</resultMap>
+	
+	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ김태훈 추가코드 끝ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
 	
@@ -627,11 +638,11 @@
   	
   	<!-- 로그인된 회원이 가입한 골목의 수 조회 -->
   	<select id="myStreetCount" parameterType="_int" resultType="_int">
-        SELECT COUNT(*)
-        FROM STREET_JOIN
-        WHERE MEMBER_NO = #{memberNo}
-        AND CITIZEN_STATUS IN ('Y', 'W') 
-     </select>
+  		SELECT COUNT(*)
+  		FROM STREET_JOIN
+  		WHERE MEMBER_NO = #{memberNo}
+  		AND CITIZEN_STATUS IN ('Y', 'W')
+  	</select>
   	
   	<!-- 추천친구에 조회된 회원들의 관심사 목록 조회 -->
   	<select id="selectHobbyList" parameterType="list" resultMap="hobbyResultSet">
@@ -747,7 +758,7 @@
 	<insert id="insertDutchBoard" parameterType="Board">
 		INSERT INTO BOARD
 		VALUES(#{boardNo}, #{boardContent}, DEFAULT, DEFAULT, DEFAULT, 
-				#{streetNo}, #{memberNo}, DEFAULT, NULL, NULL)
+				#{streetNo}, #{memberNo}, #{typeNo}, NULL, NULL)
 	</insert>
 	
 	
@@ -762,6 +773,26 @@
 		VALUES(#{boardNo}, #{memberNo}, DEFAULT, NULL, #{dividePrice})
 	</insert>
 	
+	
+	<select id="selectDutch" parameterType="list" resultMap="dutchResultSet">
+		SELECT *
+		FROM DUTCH
+		WHERE BOARD_NO IN
+		<foreach collection="list" item="boa" separator="," open="(" close=")">
+			#{boa.boardNo}
+		</foreach>
+	</select>
+	
+	
+	<select id="selectDivide" parameterType="list" resultMap="divideResultSet">
+		SELECT BOARD_NO, MEMBER_NO, DIVIDE_CHECK, DIVIDE_DT, DIVIDE_PRICE, MEMBER_NICKNAME, MEMBER_PROFILE_URL
+		FROM DIVIDE
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE BOARD_NO IN
+		<foreach collection="list" item="dut" separator="," open="(" close=")">
+			#{dut.boardNo}
+		</foreach>
+	</select>
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->

@@ -668,6 +668,15 @@ public class StreetDAO {
 	public void insertDivide(Divide divide) {
 		sqlSession.insert("streetMapper.insertDivide", divide);
 	}
+	
+	public List<Dutch> selectDutch(List<Board> board) throws Exception{
+		return sqlSession.selectList("streetMapper.selectDutch", board);
+	}
+	
+	
+	public List<Divide> selectDivide(List<Dutch> dutch) {
+		return sqlSession.selectList("streetMapper.selectDivide", dutch);
+	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 
 	/* 지원 골목 수정 시작 */

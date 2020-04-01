@@ -921,6 +921,24 @@ public class StreetServiceImpl implements StreetService{
 			}
 		}
 	}
+	
+	/** N빵 리스트 조회
+	 * @param checkStreet
+	 * @return dutch
+	 */
+	@Override
+	public List<Dutch> selectDutch(List<Board> board) throws Exception {
+		return streetDAO.selectDutch(board);
+	}
+	
+	/** N빵 참가자 리스트 조회
+	 * @param dutch
+	 * @return divide
+	 */
+	@Override
+	public List<Divide> selectDivide(List<Dutch> dutch) throws Exception{
+		return streetDAO.selectDivide(dutch);
+	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	

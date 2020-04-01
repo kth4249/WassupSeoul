@@ -45,6 +45,7 @@ import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Divide;
 import com.kh.wassupSeoul.street.model.vo.Dutch;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
@@ -170,6 +171,13 @@ public class StreetController {
 			List<Reply> reply  = streetService.selectReply(checkStreet);
 			
 			List<Vote> vote = streetService.selectVoteOption(checkStreet);
+			/*------------------------태훈 엔빵 관련해서 추가------------------------*/
+			List<Dutch> dutch = streetService.selectDutch(board);
+			List<Divide> divide = null;
+			if(!dutch.isEmpty()) {
+				divide = streetService.selectDivide(dutch);
+			}
+			/*------------------------태훈 엔빵 관련해서 추가------------------------*/
 			
 			if (street != null) {
 				for(int k=0;k<vote.size();k++) {
@@ -184,6 +192,8 @@ public class StreetController {
 				model.addAttribute("reReply", reply);  // 해당골목 댓글 리스트 (대댓글용)
 				model.addAttribute("vote", vote);     // 해당 골목 투표 게시글 정보
 				model.addAttribute("voteOption", vote);     // 해당 골목 투표 선택지 
+				model.addAttribute("dutch", dutch); // N빵 게시글
+				model.addAttribute("divide", divide); // N빵 참여자
 
 				// 회원 해당 골목 등급, 가입여부 
 				//model.addAttribute("memGradeInSt", memGradeInSt);
@@ -1160,6 +1170,13 @@ public class StreetController {
 		map.put("streetNo", streetNo);
 		map.put("memberNo", loginMember.getMemberNo());
 		return streetService.joinCancel(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping("divideCheck")
+	public String divideCheck(Model model, int boardNo, int memberNo) {
+		System.out.println(boardNo + ", " + memberNo);
+		return true + "";
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/
