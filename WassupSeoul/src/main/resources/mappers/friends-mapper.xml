@@ -325,11 +325,15 @@
 </select>
 
 
-<update id="msgRead" parameterType="MSG">
+<update id="msgRead" parameterType="list">
 
 	UPDATE MSG SET
 	MSG_STATUS = 'Y'
-	WHERE ROOM_NO= #{roomNo}
+	WHERE ROOM_NO IN
+	<foreach item="roomNo" collection="list" open="(" separator="," close=")">
+	 	#{roomNo.roomNo}
+	</foreach> 
+	 
 
 </update>
 
@@ -351,10 +355,17 @@
 	INSERT INTO MSG VALUES
 	(SEQ_MSG.NEXTVAL, #{msgContent}, DEFAULT, DEFAULT, #{memberNo}, #{roomNo}) 
 
-
 </insert>
 
 
+<update id="offRoom" parameterType="map">
+
+	UPDATE CHAT SET CHAT_STATUS = 'N'
+	WHERE MY_NO = #{myNo}
+    OR YOUR_NO  = #{myNo}
+
+
+</update>
 
 
 

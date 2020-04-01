@@ -110,6 +110,9 @@ public class FriendsServiceImpl implements FriendsService{
 		
 	      return fffList;
 	}
+	
+//	-----------------------------------------아래에 대화방 뽀개는 코드 추가할 것------------------------------------ 
+
 
 	/** 친구목록에서의 친구 차단 Service
 	 * @param nMap
@@ -127,6 +130,10 @@ public class FriendsServiceImpl implements FriendsService{
 			result = 0;
 			// 상대방의 친구목록에서 날 지우는 과정
 			result = friendsDAO.blockFriendInList2(nMap);
+		}  if (result > 0) {
+			
+			result = friendsDAO.offRoom(nMap);
+			
 		}
 		
 		return result;
@@ -184,6 +191,8 @@ public class FriendsServiceImpl implements FriendsService{
 		return result;
 	}
 
+//	-----------------------------------------아래에 대화방 뽀개는 코드 추가할 것------------------------------------ 
+	
 	/** 친구목록에서 친구 삭제
 	 * @param nMap
 	 * @return result
@@ -197,8 +206,11 @@ public class FriendsServiceImpl implements FriendsService{
 		
 		if (result > 0) {
 			result = friendsDAO.friendsBye2(nMap);
+		}	if (result > 0) {
+			
+			result = friendsDAO.offRoom(nMap);
+			
 		}
-		
 		
 		return result;
 	}
@@ -267,11 +279,12 @@ public class FriendsServiceImpl implements FriendsService{
 		// 방 번호에 따른 안읽은 메시지 수
 		
 		List <Integer> noReadMsgCount = friendsDAO.selectnoReadCount(RoomNoList);
-		if (noReadMsgCount == null || noReadMsgCount.isEmpty()) { // 대화방 없으면 익셉션 떠서 수정(영준)
+		if (noReadMsgCount == null || noReadMsgCount.isEmpty()) { 
 		
 			for(int i = 0 ; i < RoomNoList.size() ; i++) {
 				noReadMsgCount.add(0);
 			}
+			
 			System.out.println("noReadMsgCount : " + noReadMsgCount);
 		}
 		
@@ -336,9 +349,11 @@ public class FriendsServiceImpl implements FriendsService{
 		List<MSG> msg = friendsDAO.inToRoom(roomNo);
 		System.out.println("msg : " + msg);
 		
-		/*
-		 * if (msg!=null || !msg.isEmpty()) { int result = friendsDAO.msgRead(msg); }
-		 */
+		
+		if (msg!=null || !msg.isEmpty()) { 
+			friendsDAO.msgRead(msg); 
+			}
+		 
 		//System.out.println(msg);
 		
 		return msg;
