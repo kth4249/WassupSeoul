@@ -102,7 +102,7 @@
 
 		<!-- 게시글 없을때-->
 		<div class="container box111" id="postArea">
-			<div class="postLayoutView" style="height: 500px; border: solid black 1px">
+			<div class="postLayoutView" style="height: 500px;">
 
 				<div class="nanum " style="font-size: 20px; text-align: center;">
 					<div style="height: 200px"></div>
