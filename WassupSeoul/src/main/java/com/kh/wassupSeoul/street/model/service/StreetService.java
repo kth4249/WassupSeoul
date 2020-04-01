@@ -79,6 +79,14 @@ public interface StreetService {
 	 */
 	public abstract int insertBoard(Board board) throws Exception ;
 
+	
+	
+	/** 공지사항 확인용 
+	 * @param postNo
+	 * @return
+	 * @throws Exception
+	 */
+	public abstract int checkBoardLevel(int postNo) throws Exception;
 
 	/** 좋아요 기록용 Service
 	 * @param reply
@@ -108,6 +116,13 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract int deletePost(int postNo) throws Exception;
+	
+	/** 게시글 공지사항 등록용  Service
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int PinPost(Board board) throws Exception; 
 	
 	/**	댓글 입력용 Service
 	 * @param reply
@@ -654,6 +669,9 @@ public interface StreetService {
 	 * @return listCount
 	 */
 	public abstract int getListCount(int streetNo);
+
+	
+
 
 	
 

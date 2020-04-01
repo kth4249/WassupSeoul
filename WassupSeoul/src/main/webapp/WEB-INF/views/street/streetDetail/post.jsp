@@ -12,6 +12,7 @@
 
 		 <script src="${pageContext.request.contextPath}/resources/js/drawengine.js"></script>
 		<script src="${pageContext.request.contextPath}/resources/js/painter.js"></script> 
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
 		
 		<%-- <script src="${pageContext.request.contextPath}/resources/js/canvas.js"></script> --%>
 		
