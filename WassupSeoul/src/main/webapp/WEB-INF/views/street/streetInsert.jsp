@@ -453,7 +453,7 @@
 				
 				// 골목이름 실시간 유효성 검사
 				$streetNm.on("input", function() {
-					var regExp = /^[A-Za-z가-힣0-9]{2,15}$/;
+					var regExp = /^.{2,15}$/;
 
 					if (!regExp.test($(this).val())) {
 						$("#checkStreetNm").text("골목이름 형식이 유효하지 않습니다.")
@@ -468,7 +468,7 @@
 
 				// 골목소개 실시간 유효성 검사
 				$streetIntro.on("input", function() {
-					var regExp = /^[A-Za-z가-힣0-9\s]{0,15}$/;
+					var regExp = /^.{0,15}$/;
 
 					if (!regExp.test($(this).val())) {
 						$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.")
@@ -485,7 +485,7 @@
 				
 				// 골목 키워드 실시간 유효성 검사
 				$writeKeyword.on("input", function() {
-					var regExp = /^[A-Za-z가-힣0-9\s]{0,15}$/;
+					var regExp = /^.{0,15}$/;
 
 					if (!regExp.test($(this).val())) {
 						$("#checkWriteKeyword").text("키워드 형식이 유효하지 않습니다.")
