@@ -164,6 +164,8 @@ px
 
 						</tbody>
 					</table>
+					
+					<!-- 검색창 지움
 					<div class="row justify-content-md-center">
 						<select style="width: 150px;" class="form-control nanum">
 							<option class="nanum" value="nickname">회원 닉네임</option>
@@ -173,6 +175,7 @@ px
 							class="form-control nanum" name="searchValue">
 						<button class="btn btn-outline-success">검색</button>
 					</div>
+					 -->
 				</div>
 
 				<div class="tab-pane fade" id="street">
@@ -212,6 +215,7 @@ px
 
 						</tbody>
 					</table>
+				<!--	검색창 지움
 					<div class="row justify-content-md-center">
 						<select style="width: 150px;" class="form-control nanum">
 							<option class="nanum" value="nickname">골목 이름</option>
@@ -219,6 +223,7 @@ px
 							class="form-control nanum" name="searchValue">
 						<button class="btn btn-outline-success">검색</button>
 					</div>
+				  -->
 				</div>
 
 
@@ -295,6 +300,8 @@ px
 
 						</tbody>
 					</table>
+					
+					<!-- 검색창 지움 
 					<div class="row justify-content-md-center">
 						<select style="width: 150px;" class="form-control nanum">
 							<option class="nanum" value="nickname">골목 이름</option>
@@ -302,51 +309,10 @@ px
 							class="form-control nanum" name="searchValue">
 						<button class="btn btn-outline-success">검색</button>
 					</div>
+					
+					-->
 				</div>
 
-				<!-- 
-				<div class="tab-pane fade" id="complain">
-					<table class="table table-hover">
-						<thead>
-							<tr class="table-dark">
-								<th scope="col">1:1 문의글</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none"
-									data-toggle="modal" data-target="#adminModal6">이런 기능을 추가해줄
-										수 없나요?</a></th>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">자꾸
-										광고목적으로 가입해서 도배하는 사람좀 어떻게 해줘잉</a></th>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">골목대장이
-										잠수 타서 골목 관리가 안돼요 ㅡㅡ</a></th>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">아니
-										ㅡㅡ 관리자 뭐함 </a></th>
-							</tr>
-							<tr class="table-Active">
-								<th scope="row"><a href="#" style="text-decoration: none">비밀번호가
-										안 찾아져요</a></th>
-							</tr>
-						</tbody>
-					</table>
-					<div class="row justify-content-md-center">
-						<select style="width: 150px"  class="form-control nanum">
-							<option class="nanum" value="title">글 제목</option>
-							<option class="nanum" value="nickname">닉네임</option>
-						</select> <input style="width: 150px" type="text"
-							class="form-control nanum" name="searchValue">
-						<button class="btn btn-outline-success">검색</button>
-					</div>
-				</div>
-
- -->
 			</div>
 
 			<!-- 프로필 상세보기 모달 -->
@@ -422,213 +388,7 @@ px
 					</div>
 				</div>
 			</div>
-			<script>
-				$(function() {
 
-					/* 회원 상세보기 */
-					$(".selectMember")
-							.on(
-									"click",
-									function() {
-										var selectMemberNo;
-										selectMemberNo = $(this).prop("id");
-										console
-												.log("회원 번호 : "
-														+ selectMemberNo);
-
-										$
-												.ajax({
-
-													url : "selectMember",
-													data : {
-														selectMemberNo : selectMemberNo
-													},
-													type : "post",
-													dataType : "json",
-													success : function(map) {
-														if (map != null) {
-
-															var member = map.member;
-
-															var hobby = map.hobby;
-
-															var memberNickname = member.memberNickname;
-
-															var memberGender;
-															if (member.memberGender == 'M') {
-																memberGender = "남성";
-															} else if (member.memberGender == 'F') {
-																memberGender = "여성";
-															}
-
-															var memberAge = member.memberAge;
-															var memberProfileUrl = member.memberProfileUrl;
-
-															$(
-																	"#adminPageMemberNickname")
-																	.text(
-																			memberNickname);
-															$(
-																	"#adminPageMemberGender")
-																	.text(
-																			memberGender);
-															$(
-																	"#adminPageMemberAge")
-																	.text(
-																			memberAge
-																					+ "세");
-															$(
-																	"#adminPageMemberProfileUrl")
-																	.prop(
-																			"src",
-																			"${contextPath}/resources/profileImage/"
-																					+ memberProfileUrl);
-
-															if (hobby != null) {
-																hobby
-																		.forEach(function(
-																				item,
-																				index) {
-																			$(
-																					"#adminPageHobby"
-																							+ index)
-																					.text(
-																							"#"
-																									+ item);
-																		});
-															}
-														} else {
-															alert("데이터가 없습니다.");
-														}
-													},
-													error : function() {
-														console
-																.log("ajax 통신 실패");
-														console.log(e);
-													}
-												});
-									});
-
-					/* 회원 강퇴 */
-					$(".deleteMember").on("click", function() {
-						var deleteMemberNo;
-						deleteMemberNo = $(this).prop("id");
-						$("#deleteMemberNo").val(deleteMemberNo);
-					});
-
-					/* 경고 메일 */
-
-					/* 골목 폐쇄 */
-					$(".deleteStreet").on("click", function() {
-						var deleteStreetNo;
-						deleteStreetNo = $(this).prop("id");
-						$("#deleteStreetNo").val(deleteStreetNo);
-					});
-
-					/* 보고서 확인 */
-					$(".selectReport").on(
-							"click",
-							function() {
-
-								var selectReportNo;
-								selectReportNo = $(this).prop("id");
-
-								$(".giveStreetPoint")
-										.prop("id", selectReportNo);
-								$(".deleteStreetReport").prop("id",
-										selectReportNo);
-
-
-								$.ajax({
-
-									url : "selectReport",
-									data : {
-										selectReportNo : selectReportNo
-									},
-									type : "post",
-									dataType : "json",
-									success : function(report) {
-										if (report != null) {
-
-											$("#reportStreetNm").text(
-													report.streetNm);
-											$("#reportContent").text(
-													report.reportContent);
-
-										} else {
-											alert("데이터가 없습니다.");
-										}
-									},
-									error : function() {
-										console.log("ajax 통신 실패");
-										console.log(e);
-									}
-								});
-							});
-
-					/* 골목 점수 부여 후 삭제*/
-					$(".giveStreetPoint").on("click", function() {
-						var giveStreetPointReportNo;
-						giveStreetPointReportNo = $(this).prop("id");
-						
-						$.ajax({
-							
-							
-							url : "giveStreetPoint",
-							data : {
-								giveStreetPointReportNo : giveStreetPointReportNo
-							},
-							type : "post",
-							dataType : "json",
-							success : function(result) {
-								if (result > 0) {
-									alert("점수 부여 성공");
-
-								} else {
-									alert("점수 부여 실패");
-								}
-							},
-							error : function() {
-								console.log("ajax 통신 실패");
-								console.log(e);
-							}
-							
-						});
-					});
-
-					/* 보고서 삭제 */
-					$(".deleteStreetReport").on("click", function(){
-						var deleteStreetReportNo;
-						deleteStreetReportNo = $(this).prop("id");
-						
-						$.ajax({
-							
-							
-							url : "deleteReport",
-							data : {
-								deleteStreetReportNo : deleteStreetReportNo
-							},
-							type : "post",
-							dataType : "json",
-							success : function(result) {
-								if (result > 0) {
-									alert("보고서 삭제 성공");
-
-								} else {
-									alert("보고서 삭제 실패");
-								}
-							},
-							error : function() {
-								console.log("ajax 통신 실패");
-								console.log(e);
-							}
-							
-						});
-						
-					});
-
-				});
-			</script>
 
 			<!-- 메일 보내기 모달 (메일 API 도입후 어떻게 할지 결정)-->
 			<div class="modal fade" id="adminModal3">
@@ -699,7 +459,7 @@ px
 
 			<!-- 보고서 확인하기 모달 -->
 			<div class="modal fade" id="adminModal5">
-				<div class="modal-dialog" role="document">
+				<div class="modal-dialog" role="document" >
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title nanum" style="font-size: 30px;">보고서
@@ -709,15 +469,28 @@ px
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
-						<div class="modal-body" style="font-size: 20px;">
+						<div class="modal-body" style="height: 500px; width: 500px; font-size: 20px; overflow: scroll;">
 							<form action="">
-								<div class="nanum text-center" style="font-size: 35px;">
-									<span class="" id="reportStreetNm"></span>
+								<div class="nanum text-center" style="font-size: 20px;">
+									<span>골목이름 : </span>
+									<br>
+									<span id="reportStreetNm"></span>
 								</div>
-								<div class="nanum text-center"
-									style="font-size: 20px; color: darkblue;">
-									<span class="" id="reportContent"></span>
+								<div class="nanum text-center" 
+									style="font-size: 15px; color: darkblue; margin-top: 10px">
+									
+									<span>활동보고서 내용 : </span>
+									<br>
+									<span id="reportContent"></span>
+									
 								</div>
+								<div class="nanum text-center" 
+									style="font-size: 15px; margin-top: 10px; float:left">
+									<span>활동사진 : </span>
+									<div style="margin-top: 10px">
+										<img id="reportImgUrl" style="width: 150px; height: 150px;">
+									</div>
+								</div>								
 								<br>
 							</form>
 						</div>
@@ -736,43 +509,173 @@ px
 					</div>
 				</div>
 			</div>
-
-			<!-- 
-
-			1:1 문의글 확인 모달
-			<div class="modal fade" id="adminModal6">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title nanum" style="font-size: 30px;">미니
-								프로필</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body" style="font-size: 20px;">
-							<form action="">
-								<div class="nanum text-center" style="font-size: 35px;">
-									<span class="">문의글 제목 들어오는 공간</span>
-								</div>
-								<div class="nanum text-center"
-									style="font-size: 20px; color: darkblue;">
-									<span class="">문의글 내용 들어오는 공간</span>
-								</div>
-								<br>
-							</form>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-primary nanum"
-								data-dismiss="modal">닫기</button>
-						</div>
-					</div>
-				</div>
-			</div>
- -->
 		</div>
 	</div>
+	
+	
+			<script>
+				$(function() {
+
+					/* 회원 상세보기 */
+					$(".selectMember").on("click",function() {
+						var selectMemberNo;
+						selectMemberNo = $(this).prop("id");
+						console.log("회원 번호 : "+ selectMemberNo);
+
+						$.ajax({
+							url : "selectMember",
+							data : {selectMemberNo : selectMemberNo},
+							type : "post",
+							dataType : "json",
+							success : function(map) {
+								if (map != null) {
+
+									var member = map.member;
+
+									var hobby = map.hobby;
+
+									var memberNickname = member.memberNickname;
+
+									var memberGender;
+									if (member.memberGender == 'M') {
+										memberGender = "남성";
+									} else if (member.memberGender == 'F') {
+										memberGender = "여성";
+									}
+
+									var memberAge = member.memberAge;
+									var memberProfileUrl = member.memberProfileUrl;
+
+									$("#adminPageMemberNickname").text(memberNickname);
+									$("#adminPageMemberGender").text(memberGender);
+									$("#adminPageMemberAge").text(memberAge+ "세");
+									$("#adminPageMemberProfileUrl").prop("src","${contextPath}/resources/profileImage/"+ memberProfileUrl);
+
+									if (hobby != null) {
+										hobby.forEach(function(item,index) {
+											$("#adminPageHobby"+ index).text("#"+ item);
+										});
+									}
+								} else {
+									alert("데이터가 없습니다.");
+								}
+							},
+							error : function() {
+								console
+										.log("ajax 통신 실패");
+								console.log(e);
+							}
+						});
+					});
+
+					/* 회원 강퇴 */
+					$(".deleteMember").on("click", function() {
+						var deleteMemberNo;
+						deleteMemberNo = $(this).prop("id");
+						$("#deleteMemberNo").val(deleteMemberNo);
+					});
+
+					/* 경고 메일 */
+
+					/* 골목 폐쇄 */
+					$(".deleteStreet").on("click", function() {
+						var deleteStreetNo;
+						deleteStreetNo = $(this).prop("id");
+						$("#deleteStreetNo").val(deleteStreetNo);
+					});
+
+					/* 보고서 확인 */
+					$(".selectReport").on("click",function() {
+
+						var selectReportNo;
+						selectReportNo = $(this).prop("id");
+
+						$(".giveStreetPoint").prop("id", selectReportNo);
+						$(".deleteStreetReport").prop("id",selectReportNo);
+
+
+						$.ajax({
+
+							url : "selectReport",
+							data : {selectReportNo : selectReportNo},
+							type : "post",
+							dataType : "json",
+							success : function(report) {
+								if (report != null) {
+
+									$("#reportStreetNm").text(report.streetNm);
+									$("#reportContent").html(report.reportContent);
+									$("#reportImgUrl").prop("src", "${contextPath}/resources/reportImage/"+ report.reportImgUrl);
+
+								} else {
+									alert("데이터가 없습니다.");
+								}
+							},
+							error : function() {
+								console.log("ajax 통신 실패");
+								console.log(e);
+							}
+						});
+					});
+
+					/* 골목 점수 부여 후 삭제*/
+					$(".giveStreetPoint").on("click", function() {
+						var giveStreetPointReportNo;
+						giveStreetPointReportNo = $(this).prop("id");
+						
+						$.ajax({
+														
+							url : "giveStreetPoint",
+							data : {giveStreetPointReportNo : giveStreetPointReportNo},
+							type : "post",
+							dataType : "json",
+							success : function(result) {
+								if (result > 0) {
+									alert("점수 부여 성공");
+
+								} else {
+									alert("점수 부여 실패");
+								}
+							},
+							error : function() {
+								console.log("ajax 통신 실패");
+								console.log(e);
+							}
+							
+						});
+					});
+
+					/* 보고서 삭제 */
+					$(".deleteStreetReport").on("click", function(){
+						var deleteStreetReportNo;
+						deleteStreetReportNo = $(this).prop("id");
+						
+						$.ajax({
+							
+							url : "deleteReport",
+							data : {deleteStreetReportNo : deleteStreetReportNo},
+							type : "post",
+							dataType : "json",
+							success : function(result) {
+								if (result > 0) {
+									alert("보고서 삭제 성공");
+
+								} else {
+									alert("보고서 삭제 실패");
+								}
+							},
+							error : function() {
+								console.log("ajax 통신 실패");
+								console.log(e);
+							}
+							
+						});
+						
+					});
+
+				});
+			</script>
+	
 	<jsp:include page="../common/footer.jsp" />
 
 

@@ -9,7 +9,7 @@ public class Board {
 	private String boardContent;
 	private Timestamp boardWriteDt;
 	private String boardStatus;
-	private String boardLevel;
+	private int boardLevel;
 	private int streetNo;
 	private int memberNo;
 	private int typeNo; // 게시글 타입
@@ -30,8 +30,14 @@ public class Board {
 		this.boardNo = boardNo;
 	}
 
+	public Board(int boardNo, int boardLevel) {
+		super();
+		this.boardNo = boardNo;
+		this.boardLevel = boardLevel;
+	}
+
 	public Board(int boardNo, String boardWriter, String boardContent, Timestamp boardWriteDt, String boardStatus,
-			String boardLevel, int streetNo, int memberNo, int typeNo, int thumbCount, int replyCount,
+			int boardLevel, int streetNo, int memberNo, int typeNo, int thumbCount, int replyCount,
 			String memberProfile, String thumbStatus, String mapAddress, String sketchUrl) {
 		super();
 		this.boardNo = boardNo;
@@ -102,12 +108,12 @@ public class Board {
 	}
 
 
-	public String getBoardLevel() {
+	public int getBoardLevel() {
 		return boardLevel;
 	}
 
 
-	public void setBoardLevel(String boardLevel) {
+	public void setBoardLevel(int boardLevel) {
 		this.boardLevel = boardLevel;
 	}
 
