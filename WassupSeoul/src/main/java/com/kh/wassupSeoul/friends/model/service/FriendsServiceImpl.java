@@ -335,7 +335,9 @@ public class FriendsServiceImpl implements FriendsService{
 	public List<MSG> inToRoom(int roomNo) throws Exception {
 		
 		List<MSG> msg = friendsDAO.inToRoom(roomNo);
-		
+		if (msg!=null) {
+			int result = friendsDAO.msgRead(msg);
+		}
 		//System.out.println(msg);
 		
 		return msg;
