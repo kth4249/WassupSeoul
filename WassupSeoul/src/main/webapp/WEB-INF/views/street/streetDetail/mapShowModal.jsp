@@ -84,7 +84,7 @@
 		var searchVal = $("#mapShowModalCloseBtn").attr("name");
 
 		alert(searchVal);
-/* 	  
+  
 	// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
   	  var container = document.getElementById('map22');
       var options = {
@@ -93,9 +93,9 @@
       };
 		
       
-      var map = new kakao.maps.Map(container, options); */
+      var map = new kakao.maps.Map(container, options); 
 			
-     /*  var markerPosition  = new kakao.maps.LatLng(37.57593689999999, 126.9768157); 
+       var markerPosition  = new kakao.maps.LatLng(37.57593689999999, 126.9768157); 
 
 	   // 마커를 생성합니다
 	   var marker = new kakao.maps.Marker({
@@ -105,7 +105,7 @@
 	   // 마커가 지도 위에 표시되도록 설정합니다
 	   marker.setMap(map);
 	   
-	   var iwContent = '<div style="padding:5px;">+ Hello World! <br>'
+	   var iwContent = '<div style="padding:5px;"> Hello World! <br>'
 	   				 + '<a href="https://map.kakao.com/link/map/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">'
 	 				 + ' 큰지도보기</a>' 
 	 				 
@@ -118,8 +118,9 @@
 		});
 		  
 		// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-		infowindow.open(map, marker);  */
-		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
+		infowindow.open(map, marker);  
+		
+		/* // 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
 		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 		
 		var mapContainer = document.getElementById('map22'), // 지도를 표시할 div 
@@ -177,7 +178,7 @@
 		        console.log(place.place_name);
 		        $insertLocation.val(place.place_name);
 		    });
-		}
+		} */
 		
   }); 
    </script>
