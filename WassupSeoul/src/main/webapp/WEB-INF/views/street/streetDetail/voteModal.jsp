@@ -10,7 +10,7 @@
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
 
-<title>타임라인 글작성 영역</title>
+<title>투표 모달</title>
 </head>
 <style>
 

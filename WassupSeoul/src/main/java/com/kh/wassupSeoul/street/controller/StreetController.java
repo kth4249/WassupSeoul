@@ -139,6 +139,9 @@ public class StreetController {
 					//System.out.println("@제거후 회원닉네임만 검색 : "+searchKeyword.substring(idx+1));
 					
 					board = streetService.searchBoardwithWriter(checkStreet);
+					if(board.isEmpty()) { // 게시물 검색결과 없음 표시하기 위해
+						board.add(0, new Board(0));
+					}
 					Collections.reverse(board);
 					
 				}else { // 게시글 내용 검색
@@ -154,6 +157,10 @@ public class StreetController {
 					checkStreet.setReplyContent(searchKeyword);
 					
 					board = streetService.searchBoardwithKeyword(checkStreet);
+					
+					if(board.isEmpty()) { // 게시물 검색결과 없음 표시하기 위해
+						board.add(0, new Board(0));
+					}
 					Collections.reverse(board);
 				}
 			}
@@ -169,9 +176,6 @@ public class StreetController {
 				}
 				
 				model.addAttribute("street", street); // 해당골목 정보
-				if(board.isEmpty()) { // 게시물 검색결과 없음 표시하기 위해
-					board.add(0, new Board(0));
-				}
 				
 				model.addAttribute("board", board);  // 해당 골목 게시글 조회
 				//request.getSession().setAttribute("board", board);
@@ -461,8 +465,8 @@ public class StreetController {
 	@RequestMapping("mapPost")
 	public String mapPost(String address, Model model, String mapPostContent ) {
 		
-//		System.out.println("입력한 주소 : " + address);
-//		System.out.println("입력한 게시글 내용 : " + mapPostContent);
+		System.out.println("입력한 주소 : " + address);
+		System.out.println("입력한 게시글 내용 : " + mapPostContent);
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
@@ -748,7 +752,7 @@ public class StreetController {
 	// -------------------------------------------- 지원 -----------------------------------------------
 	// 골목 개설 화면 이동
 	@RequestMapping("streetInsert")
-	public String insertStreetForm(Model model) {
+	public String insertStreetForm(Model model, RedirectAttributes rdAttr) {
 		
 		int result = 0;
 		
@@ -760,13 +764,14 @@ public class StreetController {
 			
 			result = streetService.selectMyStreet(memberNo);
 			
-			if (result > 0) {
+			if (result > 0) { // 조건충족 시 골목 개설 화면으로 이동
 				
 				return "street/streetInsert";
 			}
-
-			else {
-				model.addAttribute("msg", "이미 개설한 골목이 있거나 가입한 골목이 3개 있어 골목 개설이 불가합니다.");
+			
+			else { // 조건 충족 안되면 광장 그대로
+				
+				rdAttr.addFlashAttribute("msg", "이미 개설한 골목이 있거나 가입한 골목이 3개 있어 골목 개설이 불가합니다.");
 				return "redirect:/square";
 			}
 			
@@ -804,13 +809,13 @@ public class StreetController {
 			if(!sampleImg.equals("")) {
 								
 				if(sampleImg.equals("골목.jpg")) {					
-					street.setImgNo(6);
+					street.setImgNo(1);
 				} else if(sampleImg.equals("골목2.jpg")) {
-					street.setImgNo(7);
+					street.setImgNo(2);
 				} else if(sampleImg.equals("골목3.jpg")) {
-					street.setImgNo(8);
+					street.setImgNo(3);
 				} else if (sampleImg.equals("골목4.jpg")) { 
-					street.setImgNo(9);
+					street.setImgNo(4);
 				}
 								
 				result = streetService.insertStreet1(street, memberNo, streetKeywords);
@@ -829,16 +834,17 @@ public class StreetController {
 				}
 			}
 
-			if(result > 0) {
+			if(result > 0) { // 개설 성공 시 개설한 골목메인으로 이동
+								
+				return "redirect:/street/streetMain?streetNo=" + result;
+			} 
+			 
+			else { // 개설 실패 시 골목 개설 화면으로 다시 이동하게 하기
 				
-				model.addAttribute("msg", "골목 개설 성공~!! 우르르ㄱ끼기ㅣ긱");
-				return "redirect:/square"; // 골목으로 이동하게 바꾸기
-				
-			} else {
-				
-				model.addAttribute("msg", "골목 개설 실패했다ㅠㅠ 흐규흐규");
-				return "redirect:/square";
+				// model.addAttribute("msg", "골목 개설 실패했다ㅠㅠ 흐규흐규");
+				return "redirect:/";
 			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1119,15 +1125,17 @@ public class StreetController {
 	/* 지원 골목 수정 시작 */
 	// 골목 수정 페이지 이동
 	@RequestMapping("streetUpdate")
-	public String streetUpdateForm(Integer no, Model model, HttpServletRequest request) {
+	public String streetUpdateForm(Model model, HttpServletRequest request) {
 		
 		String detailUrl = request.getHeader("referer");
 		
 		model.addAttribute("detailUrl", detailUrl);
+		
+		int streetNo = (int) model.getAttribute("streetNo");
 				
 		try {
 			
-			Street street = streetService.selectStreet(no);
+			Street street = streetService.selectStreet(streetNo);
 			
 			if(street != null) {
 				
@@ -1135,9 +1143,10 @@ public class StreetController {
 				model.addAttribute("imgNo", street.getImgNo());
 				model.addAttribute("imgUrl", imgUrl);
 				
-				List<Keyword> keywords = streetService.selectKeywords(no);
+				List<Keyword> keywords = streetService.selectKeywords(streetNo);
 				
 				if(keywords != null) {
+					
 					model.addAttribute("keywords", keywords);
 				}
 			}
@@ -1157,7 +1166,7 @@ public class StreetController {
 	
 	// 골목 수정
 	@RequestMapping("updateStreet")
-	public String updateStreet(Integer imgNo, Integer no, Street street,
+	public String updateStreet(Integer imgNo, Street street,
 			@RequestParam(value = "streetKeywords", required = false) String[] streetKeywords,
 			@RequestParam(value = "sampleImg", required = false) String sampleImg,
 			@RequestParam(value = "streetCoverUpload", required = false) MultipartFile streetCoverUpload,
@@ -1165,7 +1174,9 @@ public class StreetController {
 		
 		String detailUrl = (String) model.getAttribute("detailUrl");
 		
-		street.setStreetNo(no);
+		System.out.println("이게 뭐야 : " + detailUrl);
+		int streetNo = (int) model.getAttribute("streetNo");
+		street.setStreetNo(streetNo);
 		
 		String root = request.getSession().getServletContext().getRealPath("resources");
 		String savePath = root + "/" + "streetCoverImage";
@@ -1180,13 +1191,13 @@ public class StreetController {
 			if(!sampleImg.equals("")) {
 				
 				if(sampleImg.equals("골목.jpg")) {					
-					street.setImgNo(6);
+					street.setImgNo(1);
 				} else if(sampleImg.equals("골목2.jpg")) {
-					street.setImgNo(7);
+					street.setImgNo(2);
 				} else if(sampleImg.equals("골목3.jpg")) {
-					street.setImgNo(8);
+					street.setImgNo(3);
 				} else if (sampleImg.equals("골목4.jpg")) { 
-					street.setImgNo(9);
+					street.setImgNo(4);
 				}
 				
 				result = streetService.updateStreet1(street, streetKeywords);
@@ -1211,7 +1222,7 @@ public class StreetController {
 				
 			}
 			
-			return "redirect:" + detailUrl;
+			return "redirect:streetMain?streetNo=" + streetNo;
 			
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -1577,14 +1588,11 @@ public class StreetController {
 
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.31)시작-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.31, 04.01)시작-----------------------------------*/
 	@ResponseBody
 	@RequestMapping("changeCalendar")
 	public void changeCalendar(HttpServletResponse response, String nowMonth, String nowYear, Model model) {
 		int streetNo = (int)model.getAttribute("streetNo"); // 현재 골목번호
-		System.out.println("일정 변경 골목 번호 : " + streetNo);
-		System.out.println("현재 입력 받은 년도 : " + nowYear);
-		System.out.println("현재 입력 받은 월 : " + nowMonth);
 		
 		if(nowMonth.length() == 1) { // 입력받은 월이 1자리수일경우 비교를 위해서 2자리로 변경
 			nowMonth = "0" + nowMonth;
@@ -1641,7 +1649,7 @@ public class StreetController {
 		}
 		
 	}
-	/*------------------------ 정승환 추가코드(20.03.31)끝-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.31, 04.01)끝-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	
@@ -1651,11 +1659,12 @@ public class StreetController {
 	/*------------------------ 지원 골목삭제 시작-----------------------------------*/
 	// 골목 삭제
 	@RequestMapping("streetDelete")
-	public String streetDeleteForm(Integer no, Model model, HttpServletRequest request) {
+	public String streetDeleteForm(Integer no, Model model, HttpServletRequest request,
+								RedirectAttributes rdAttr) {
 
-		String detailUrl = request.getHeader("referer");
+		//String detailUrl = request.getHeader("referer");
 
-		model.addAttribute("detailUrl", detailUrl);
+		//model.addAttribute("detailUrl", detailUrl);
 		
 		int result = 0;
 		
@@ -1665,14 +1674,16 @@ public class StreetController {
 			
 			result = streetService.deleteStreet(streetNo);
 			
+			result = 0;
+			
 			if(result > 0) {
 				
 				return "square";
 				
 			} else {
 				
-				model.addAttribute("msg", "골목 삭제 실패");
-				return "redirect:" + detailUrl;
+				rdAttr.addFlashAttribute("msg", "골목 삭제 실패 관리자에게 문의 바람");
+				return "redirect:streetMain?streetNo=" + streetNo;
 			}
 			
 		}catch (Exception e) {

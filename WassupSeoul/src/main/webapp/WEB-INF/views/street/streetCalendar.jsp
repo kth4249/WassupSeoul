@@ -315,7 +315,7 @@
 		                              <p class="nanum">${calendar.calStartHour}</p>
 		                              <p class="nanum">${calendar.calLocation}</p>
 		                              <div class="row">
-		                                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; padding: 0px; margin-left: 5px;">참여인원</label>
+		                                <label class="col-sm-2 col-form-label text-center nanum" style="font-weight: bold; padding: 0px; margin-left: 5px;">참여 가능수</label> <!-- 정승환 코드수정(20.04.01) -->
 		                                <c:if test="${calendar.calendarJoin == 'N'.charAt(0)}">
 		                                	<div class="col-sm-7"><input type="text" readonly class="form-control-plaintext nanum" value="참여인원이 없는 일정입니다." style="font-weight: bold;"></div>
 		                                </c:if>
@@ -743,7 +743,7 @@
         $(".fc-day-top.fc-sat").css("color","#0000FF"); // 토
         $(".fc-day-top.fc-sun").css("color","#FF0000"); // 일
         
-        ////////////////////////////////////////////// 정승환 코드 추가(20.03.31)
+        ////////////////////////////////////////////// 정승환 코드 추가(20.03.31, 04.01)
         
         // 월 변경 버튼에 따른 아래 일정 출력 
         // nowMonth가 현재 달력에 출력되는 월
@@ -775,7 +775,88 @@
      				
      				// 해당 일정이 존재하는 경우 -> null체크, length이용
      				if(prevCalendar.length > 0) { 
-     					console.log("존재함");
+     					$("#rightHere").html("");
+     					
+     					// 해당하는 일정 수 만큼 일정 추가 
+     					for(var i=0; i<prevCalendar.length; i++) {
+     						var $liPlus = $("<li>").addClass("list-group-item");
+         					var $divPlus = $("<div>").addClass("row");
+         					var $divPlus1 = $("<div>").addClass("col-md-2");
+         					var $divPlus2 = $("<div>").addClass("col-md-10");
+         					
+         					// 일,요일
+         					var $hPlus1 = $("<h4>").addClass("nanum");
+         					var $hPlus2 = $("<h6>").addClass("nanum");
+         					$hPlus1.html(prevCalendar[i].calStartDay);
+         					$hPlus2.html(prevCalendar[i].calStartDayOfWeek);
+         					$divPlus1.append($hPlus1).append($hPlus2);
+         					
+         					// 일정 정보
+							var $pPlus1 = $("<p>").addClass("nanum");
+							var $pPlus2 = $("<p>").addClass("nanum");
+							var $pPlus3 = $("<p>").addClass("nanum");
+							$pPlus1.html(prevCalendar[i].calTitle);
+							$pPlus2.html(prevCalendar[i].calStartHour);
+							$pPlus3.html(prevCalendar[i].calLocation);
+							$divPlus2.append($pPlus1).append($pPlus2).append($pPlus3);
+							
+							var $divPlus3 = $("<div>").addClass("row");
+							var $labelPlus = $("<label>").addClass("col-sm-2 col-form-label text-center nanum")
+								.css({"font-weight": "bold", "padding": "0px", "margin-left": "5px"}).html("참여 가능수");
+         					$divPlus3.append($labelPlus);
+         					
+         					var $divPlus4 = $("<div>").addClass("col-sm-7");
+         					if(prevCalendar[i].calendarJoin == 'N'.charAt(0)) {
+         						var $inputPlus1 = $("<input>").addClass("form-control-plaintext nanum").prop({"type":"text","readonly":true})
+         											.css("font-weight","bold").val("참여인원이 없는 일정입니다.");
+         					} else {
+         						var $inputPlus1 = $("<input>").addClass("form-control-plaintext nanum").prop({"type":"text","readonly":true})
+													.css("font-weight","bold").val(prevCalendar[i].calJoinLimit);
+         					}
+         					$divPlus4.append($inputPlus1);
+         					$divPlus3.append($divPlus4);
+         					
+         					//1. 로그인 회원이 골목대장인지 구분
+         					var memberNo = "<c:out value='${loginMember.memberNo}'/>";
+    						var streetMasterNo = "<c:out value='${streetMasterNo}'/>";
+    						// 로그인 회원이 골목대장(골목 생성 회원)인 경우
+    						if(memberNo == streetMasterNo) {
+    							var calEndDate = prevCalendar[i].calEndDate;
+    							var compareNowDate = "<c:out value='${compareNowDate}'/>";
+    							
+    							//2. 현재일보다 종료일이 미래인 경우 수정가능
+    							if(calEndDate > compareNowDate) {
+    								// 수정
+        							var $divPlus5 = $("<div>").addClass("col-sm-1").css({"padding-left":"5px","padding-right":"5px"});
+        							var $imgPlus1 = $("<img>").addClass("scheduleUpdate").css({"cursor":"pointer","width":"30px","height":"20px"})
+        											.prop({"alt":"수정버튼","src":"${contextPath}/resources/img/streetChange.svg"});
+        							var $inputPlus2 = $("<input>").prop("type","hidden").val(prevCalendar[i].boardNo);
+        							var $pPlus4 = $("<p>").addClass("nanum").html("수정").css("margin-bottom","0px");
+        							$divPlus5.append($imgPlus1).append($inputPlus2).append($pPlus4);
+        							$divPlus3.append($divPlus5);
+    							} else { // 수정이 불가능한 경우 여백만 추가할 것
+    								var $divPlus5 = $("<div>").addClass("col-sm-1").css({"padding-left":"5px","padding-right":"5px"});
+    								$divPlus3.append($divPlus5);
+    							}
+    							
+    							// 삭제
+    							var $divPlus6 = $("<div>").addClass("col-sm-1").css({"padding-left":"5px","padding-right":"5px"});
+    							var $imgPlus2 = $("<img>").addClass("scheduleDelete").css({"cursor":"pointer","width":"30px","height":"20px"})
+    											.prop({"alt":"삭제버튼","src":"${contextPath}/resources/img/iconmonstr-trash-can-1.svg"});
+								var $inputPlus3 = $("<input>").prop("type","hidden").val(prevCalendar[i].boardNo);
+								var $pPlus5 = $("<p>").addClass("nanum").html("삭제").css("margin-bottom","0px");
+								$divPlus6.append($imgPlus2).append($inputPlus3).append($pPlus5);
+								$divPlus3.append($divPlus6);
+    						}
+         					
+    						$divPlus2.append($divPlus3);
+    						
+    						// 통합
+    						$divPlus.append($divPlus1).append($divPlus2);
+    						$liPlus.append($divPlus);
+    						$("#rightHere").append($liPlus);
+     					}
+     					
      				}
      				// 해당 일정이 존재하지 않는 경우
      				else {
@@ -817,7 +898,88 @@
      				
      				// 해당 일정이 존재하는 경우 -> null체크, length이용
      				if(nextCalendar.length > 0) { 
-     					console.log("존재함");
+     					$("#rightHere").html("");
+     					
+     					// 해당하는 일정 수 만큼 일정 추가 
+     					for(var i=0; i<nextCalendar.length; i++) {
+     						var $liPlus = $("<li>").addClass("list-group-item");
+         					var $divPlus = $("<div>").addClass("row");
+         					var $divPlus1 = $("<div>").addClass("col-md-2");
+         					var $divPlus2 = $("<div>").addClass("col-md-10");
+         					
+         					// 일,요일
+         					var $hPlus1 = $("<h4>").addClass("nanum");
+         					var $hPlus2 = $("<h6>").addClass("nanum");
+         					$hPlus1.html(nextCalendar[i].calStartDay);
+         					$hPlus2.html(nextCalendar[i].calStartDayOfWeek);
+         					$divPlus1.append($hPlus1).append($hPlus2);
+         					
+         					// 일정 정보
+							var $pPlus1 = $("<p>").addClass("nanum");
+							var $pPlus2 = $("<p>").addClass("nanum");
+							var $pPlus3 = $("<p>").addClass("nanum");
+							$pPlus1.html(nextCalendar[i].calTitle);
+							$pPlus2.html(nextCalendar[i].calStartHour);
+							$pPlus3.html(nextCalendar[i].calLocation);
+							$divPlus2.append($pPlus1).append($pPlus2).append($pPlus3);
+							
+							var $divPlus3 = $("<div>").addClass("row");
+							var $labelPlus = $("<label>").addClass("col-sm-2 col-form-label text-center nanum")
+								.css({"font-weight": "bold", "padding": "0px", "margin-left": "5px"}).html("참여 가능수");
+         					$divPlus3.append($labelPlus);
+         					
+         					var $divPlus4 = $("<div>").addClass("col-sm-7");
+         					if(nextCalendar[i].calendarJoin == 'N'.charAt(0)) {
+         						var $inputPlus1 = $("<input>").addClass("form-control-plaintext nanum").prop({"type":"text","readonly":true})
+         											.css("font-weight","bold").val("참여인원이 없는 일정입니다.");
+         					} else {
+         						var $inputPlus1 = $("<input>").addClass("form-control-plaintext nanum").prop({"type":"text","readonly":true})
+													.css("font-weight","bold").val(nextCalendar[i].calJoinLimit);
+         					}
+         					$divPlus4.append($inputPlus1);
+         					$divPlus3.append($divPlus4);
+         					
+         					//1. 로그인 회원이 골목대장인지 구분
+         					var memberNo = "<c:out value='${loginMember.memberNo}'/>";
+    						var streetMasterNo = "<c:out value='${streetMasterNo}'/>";
+    						// 로그인 회원이 골목대장(골목 생성 회원)인 경우
+    						if(memberNo == streetMasterNo) {
+    							var calEndDate = nextCalendar[i].calEndDate;
+    							var compareNowDate = "<c:out value='${compareNowDate}'/>";
+    							
+    							//2. 현재일보다 종료일이 미래인 경우 수정가능
+    							if(calEndDate > compareNowDate) {
+    								// 수정
+        							var $divPlus5 = $("<div>").addClass("col-sm-1").css({"padding-left":"5px","padding-right":"5px"});
+        							var $imgPlus1 = $("<img>").addClass("scheduleUpdate").css({"cursor":"pointer","width":"30px","height":"20px"})
+        											.prop({"alt":"수정버튼","src":"${contextPath}/resources/img/streetChange.svg"});
+        							var $inputPlus2 = $("<input>").prop("type","hidden").val(nextCalendar[i].boardNo);
+        							var $pPlus4 = $("<p>").addClass("nanum").html("수정").css("margin-bottom","0px");
+        							$divPlus5.append($imgPlus1).append($inputPlus2).append($pPlus4);
+        							$divPlus3.append($divPlus5);
+    							} else { // 수정이 불가능한 경우 여백만 추가할 것
+    								var $divPlus5 = $("<div>").addClass("col-sm-1").css({"padding-left":"5px","padding-right":"5px"});
+    								$divPlus3.append($divPlus5);
+    							}
+    							
+    							// 삭제
+    							var $divPlus6 = $("<div>").addClass("col-sm-1").css({"padding-left":"5px","padding-right":"5px"});
+    							var $imgPlus2 = $("<img>").addClass("scheduleDelete").css({"cursor":"pointer","width":"30px","height":"20px"})
+    											.prop({"alt":"삭제버튼","src":"${contextPath}/resources/img/iconmonstr-trash-can-1.svg"});
+								var $inputPlus3 = $("<input>").prop("type","hidden").val(nextCalendar[i].boardNo);
+								var $pPlus5 = $("<p>").addClass("nanum").html("삭제").css("margin-bottom","0px");
+								$divPlus6.append($imgPlus2).append($inputPlus3).append($pPlus5);
+								$divPlus3.append($divPlus6);
+    						}
+         					
+    						$divPlus2.append($divPlus3);
+    						
+    						// 통합
+    						$divPlus.append($divPlus1).append($divPlus2);
+    						$liPlus.append($divPlus);
+    						$("#rightHere").append($liPlus);
+     					}
+     					
      				}
      				// 해당 일정이 존재하지 않는 경우
      				else {
@@ -857,8 +1019,89 @@
      			success : function(todayCalendar) {
      				
      				// 해당 일정이 존재하는 경우 -> null체크, length이용
-     				if(todayCalendar.length > 0) { 
-     					console.log("존재함");
+     				if(todayCalendar.length > 0) {
+     					$("#rightHere").html("");
+     					
+     					// 해당하는 일정 수 만큼 일정 추가 
+     					for(var i=0; i<todayCalendar.length; i++) {
+     						var $liPlus = $("<li>").addClass("list-group-item");
+         					var $divPlus = $("<div>").addClass("row");
+         					var $divPlus1 = $("<div>").addClass("col-md-2");
+         					var $divPlus2 = $("<div>").addClass("col-md-10");
+         					
+         					// 일,요일
+         					var $hPlus1 = $("<h4>").addClass("nanum");
+         					var $hPlus2 = $("<h6>").addClass("nanum");
+         					$hPlus1.html(todayCalendar[i].calStartDay);
+         					$hPlus2.html(todayCalendar[i].calStartDayOfWeek);
+         					$divPlus1.append($hPlus1).append($hPlus2);
+         					
+         					// 일정 정보
+							var $pPlus1 = $("<p>").addClass("nanum");
+							var $pPlus2 = $("<p>").addClass("nanum");
+							var $pPlus3 = $("<p>").addClass("nanum");
+							$pPlus1.html(todayCalendar[i].calTitle);
+							$pPlus2.html(todayCalendar[i].calStartHour);
+							$pPlus3.html(todayCalendar[i].calLocation);
+							$divPlus2.append($pPlus1).append($pPlus2).append($pPlus3);
+							
+							var $divPlus3 = $("<div>").addClass("row");
+							var $labelPlus = $("<label>").addClass("col-sm-2 col-form-label text-center nanum")
+								.css({"font-weight": "bold", "padding": "0px", "margin-left": "5px"}).html("참여 가능수");
+         					$divPlus3.append($labelPlus);
+         					
+         					var $divPlus4 = $("<div>").addClass("col-sm-7");
+         					if(todayCalendar[i].calendarJoin == 'N'.charAt(0)) {
+         						var $inputPlus1 = $("<input>").addClass("form-control-plaintext nanum").prop({"type":"text","readonly":true})
+         											.css("font-weight","bold").val("참여인원이 없는 일정입니다.");
+         					} else {
+         						var $inputPlus1 = $("<input>").addClass("form-control-plaintext nanum").prop({"type":"text","readonly":true})
+													.css("font-weight","bold").val(todayCalendar[i].calJoinLimit);
+         					}
+         					$divPlus4.append($inputPlus1);
+         					$divPlus3.append($divPlus4);
+         					
+         					//1. 로그인 회원이 골목대장인지 구분
+         					var memberNo = "<c:out value='${loginMember.memberNo}'/>";
+    						var streetMasterNo = "<c:out value='${streetMasterNo}'/>";
+    						// 로그인 회원이 골목대장(골목 생성 회원)인 경우
+    						if(memberNo == streetMasterNo) {
+    							var calEndDate = todayCalendar[i].calEndDate;
+    							var compareNowDate = "<c:out value='${compareNowDate}'/>";
+    							
+    							//2. 현재일보다 종료일이 미래인 경우 수정가능
+    							if(calEndDate > compareNowDate) {
+    								// 수정
+        							var $divPlus5 = $("<div>").addClass("col-sm-1").css({"padding-left":"5px","padding-right":"5px"});
+        							var $imgPlus1 = $("<img>").addClass("scheduleUpdate").css({"cursor":"pointer","width":"30px","height":"20px"})
+        											.prop({"alt":"수정버튼","src":"${contextPath}/resources/img/streetChange.svg"});
+        							var $inputPlus2 = $("<input>").prop("type","hidden").val(todayCalendar[i].boardNo);
+        							var $pPlus4 = $("<p>").addClass("nanum").html("수정").css("margin-bottom","0px");
+        							$divPlus5.append($imgPlus1).append($inputPlus2).append($pPlus4);
+        							$divPlus3.append($divPlus5);
+    							} else { // 수정이 불가능한 경우 여백만 추가할 것
+    								var $divPlus5 = $("<div>").addClass("col-sm-1").css({"padding-left":"5px","padding-right":"5px"});
+    								$divPlus3.append($divPlus5);
+    							}
+    							
+    							// 삭제
+    							var $divPlus6 = $("<div>").addClass("col-sm-1").css({"padding-left":"5px","padding-right":"5px"});
+    							var $imgPlus2 = $("<img>").addClass("scheduleDelete").css({"cursor":"pointer","width":"30px","height":"20px"})
+    											.prop({"alt":"삭제버튼","src":"${contextPath}/resources/img/iconmonstr-trash-can-1.svg"});
+								var $inputPlus3 = $("<input>").prop("type","hidden").val(todayCalendar[i].boardNo);
+								var $pPlus5 = $("<p>").addClass("nanum").html("삭제").css("margin-bottom","0px");
+								$divPlus6.append($imgPlus2).append($inputPlus3).append($pPlus5);
+								$divPlus3.append($divPlus6);
+    						}
+         					
+    						$divPlus2.append($divPlus3);
+    						
+    						// 통합
+    						$divPlus.append($divPlus1).append($divPlus2);
+    						$liPlus.append($divPlus);
+    						$("#rightHere").append($liPlus);
+     					}
+     					
      				}
      				// 해당 일정이 존재하지 않는 경우
      				else {
@@ -878,10 +1121,10 @@
             
         });
         
-		//////////////////////////////////////////////정승환 코드 추가(20.03.31)
+		//////////////////////////////////////////////정승환 코드 추가(20.03.31, 04.01)
 		
      	// 일정 수정 버튼 클릭시 일정 수정
-     	$(".scheduleUpdate").on("click",function(){
+     	$(document).on("click",".scheduleUpdate",function(){
      		var updateBoardNo = $(this).next().val();
      		$.ajax({
      			url : "${contextPath}/street/updateModalInfo",
@@ -914,7 +1157,7 @@
      	});
      	
      	// 일정 삭제 버튼 클릭시 일정 삭제
-     	$(".scheduleDelete").on("click",function(){
+     	$(document).on("click",".scheduleDelete",function(){
      		var result = confirm("정말로 일정을 삭제하시겠습니까?");
      		var deleteBoardNo = $(this).next().val();
      		if(result) {

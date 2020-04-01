@@ -131,8 +131,8 @@
  
  <!-- 친구 차단 -->
  <insert id="blockFriend" parameterType="map">
- 	INSERT INTO RELATIONSHIP
- 	VALUES(#{yourNo}, #{myNo}, 3)
+ 	UPDATE RELATIONSHIP SET REQUEST_STATUS = 3
+ 	WHERE YOUR_NO = #{myNo}
  </insert>
  
  
@@ -327,9 +327,16 @@
 	FROM MSG JOIN MEMBER USING (MEMBER_NO)
 	WHERE ROOM_NO = #{roomNo}
 	ORDER BY MSG_NO
-
-
 </select>
+
+
+<update id="msgRead" parameterType="MSG">
+
+	UPDATE MSG SET
+	MSG_STATUS = 'Y'
+	WHERE ROOM_NO= #{roomNo}
+
+</update>
 
 
 <!-- 프로필 불러오기 1  -->

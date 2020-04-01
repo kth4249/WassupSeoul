@@ -73,36 +73,13 @@ a:hover {
 			<!-- 사이드1 여백 -->
 			<div class="col-md-4" id="devideArea"></div>
 			<!-- 사이드1 여백 -->
-			
+
 			<div class="col-md-4" id="devideArea" style="margin-top: 10px;">
 
-				<form method="POST"
-					action="updateStreet?no=${streetNo}&imgNo=${imgNo}"
-					enctype="multipart/form-data" role="form" onsubmit="">
+				<form method="POST" action="updateStreet?imgNo=${imgNo}"
+					enctype="multipart/form-data" role="form" onsubmit="return validate();">
 
-					<!-- input 태그 clear 버튼 -->
-					<!-- <div class="input-group">
-            <div class="form-group has-feedback has-clear">
-                <input type="text" class="form-control" placeholder="Enter">
-                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
-            </div>
-            <div class="input-group-btn">
-                <button>X</button>
-            </div>
-        </div>
-        <script>
-            $('.form-control').on('input change', function(){
-                var $this = $(this);
-                var visible = Boolean($this.val());
-                $('.form-control-clear').toggleClass('hidden', !visible);
-            }).trigger('propertychange');
 
-            $('.form-control-clear').on('click', function(){
-                $('.form-control').val('').trigger('change').focus();
-                $(this).toggleClass('hidden', true);
-            });
-        </script> -->
-					<!-- ------------------------------------------------------------------------- -->
 					<div class="container-fluid">
 						<div class="row">
 							<h1 class="nanum" style="margin-left: 10px;">골목 수정하기</h1>
@@ -188,21 +165,7 @@ a:hover {
 						<div class="row">
 							<br>
 						</div>
-						<!-- 내용 전체 지우기 스크립트 -->
-						<script>
-							var $ipt = $('#streetTitle'), $clearIpt = $('#streetTitleClear');
 
-							$ipt.keyup(function() {
-								$("#streetTitleClear").toggle(
-										Boolean($(this).val()));
-							});
-
-							$clearIpt.toggle(Boolean($ipt.val()));
-							$clearIpt.click(function() {
-								$("#streetTitle").val('').focus();
-								$(this).hide();
-							});
-						</script>
 
 
 
@@ -264,6 +227,81 @@ a:hover {
 								<h3 class="nanum" style="">골목 키워드</h3>
 							</div>
 						</div>
+
+
+
+
+						<!-- 키워드 직접입력 -->
+						<!--  <div class="row">
+							<div class="col-md-6 offset-md-3">-->
+						<div class="row">
+							<div class="form-group col-md-3 nanum"
+								style="float: left; text-align: center;">
+								<label for="writeKeyword" class="nanum"
+									style="font-size: 20px; font-weight: bolder;">키워드 추가 </label>
+							</div>
+							<div class="form-group col-md-6 nanum" style="float: left;">
+
+								<input type="text" class="form-control nanum" name=""
+									id="writeKeyword" placeholder="15글자 이하로 작성하기(특수문자 제외)">
+								<span class="nanum" id="checkWriteKeyword"
+									style="font-size: smaller;">&nbsp;</span> <br>
+
+							</div>
+							<div class="form-group col-md-2">
+								<button class="nanum badge badge-primary" id="insertKeyword"
+									type="button" style="font-size: 19px;">추가</button>
+							</div>
+						</div>
+
+						<!-- </div>
+						</div> -->
+
+
+
+
+						<!-- 키워드 출력 창-->
+						<div class="row form-group">
+							<div class="col-md-3">
+								<label for=""></label>
+							</div>
+							<div class="col-md-6">
+								<div class="card" style="max-width: 30rem;">
+									<div class="card-body" id="printKeyword">
+										<!-- 키워드 출력부분 -->
+										<c:forEach var="key" items="${keywords}" varStatus="vs">
+											<div class="form-group row">
+												<div class="col-sm-9">
+													<input type="text" class="form-control-plaintext nanum"
+														name="streetKeywords" value="${key.keywordContent}"
+														style="font-size: 20px; color: blue;" readonly>
+												</div>
+												<div class="col-sm-3">
+													<button type="button"
+														class="btn btn-primary nanum deleteKeyword">제거</button>
+												</div>
+												<div class="col-sm-11"
+													style="background-color: black; height: 2px;"></div>
+												<%-- <input type="hidden" name="hobbyNoArr"
+													value="${hobby.hobbyNo}"> --%>
+											</div>
+										</c:forEach>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+
+
+
+
+
+<%-- 
+
 						<!-- 골목 키워드 1 -->
 						<div class="row">
 							<div class="form-group col-md-2 nanum"
@@ -316,12 +354,15 @@ a:hover {
 							</div>
 						</div>
 
+                  --%>
+              
 						<div class="row">
 							<div class="col-md-12">
 								<br>
 							</div>
 						</div>
 
+<!--  
 						<c:forEach var="key" items="${keywords}" varStatus="vs">
 							<script>
 								console.log("${key.keywordContent}");
@@ -337,7 +378,7 @@ a:hover {
 								});
 							</script>
 						</c:forEach>
-
+-->
 
 						<!-- 골목 커버-->
 						<div class="row">
@@ -487,6 +528,146 @@ a:hover {
 
 
 	<script>
+		var updateStreetCheck = {
+				
+				"streetNm" : true,
+				"streetIntro" : true
+				//"streetKeyword" : false
+				//"districtNo" : false,
+				//"streetMaxMember" : false,
+				//"streetPublic" : false,
+				//"streetCoverImage" : false
+				
+				
+		};
+	
+		$(document).ready(function(){
+			
+			var $streetNm = $("#streetNm");
+			var $streetIntro = $("#streetIntro");
+			var $districtNo = $("#districtNo");
+			var $streetMaxMember = $("#streetMaxMember");
+			var $streetPublic = $("#streetPublic");
+			var $streetCoverImage = $("#streetCoverImage");
+			var $writeKeyword = $("#writeKeyword");
+			
+			
+			
+			// 골목이름 실시간 유효성 검사
+			$streetNm.on("input", function() {
+				var regExp = /^[A-Za-z가-힣0-9]{2,15}$/;
+
+				if (!regExp.test($(this).val())) {
+					$("#checkStreetNm").text("골목이름 형식이 유효하지 않습니다.")
+									.css("color", "red");
+					updateStreetCheck.streetNm = false;
+				} else {
+					$("#checkStreetNm").text("유효한 골목이름 형식입니다.")
+									.css("color", "green");
+					updateStreetCheck.streetNm = true;
+				}
+			});
+
+			// 골목소개 실시간 유효성 검사
+			$streetIntro.on("input", function() {
+				var regExp = /^[A-Za-z가-힣0-9\s]{0,15}$/;
+
+				if (!regExp.test($(this).val())) {
+					$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.")
+										.css("color", "red");
+					updateStreetCheck.streetIntro = false;
+					
+				} else {
+					$("#checkStreetIntro").text("유효한 골목소개 형식입니다.")
+									.css("color", "green");
+					updateStreetCheck.streetIntro = true;
+				}
+			});
+			
+			
+			// 골목 키워드 실시간 유효성 검사
+			$writeKeyword.on("input", function() {
+				var regExp = /^[A-Za-z가-힣0-9\s]{0,15}$/;
+
+				if (!regExp.test($(this).val())) {
+					$("#checkWriteKeyword").text("키워드 형식이 유효하지 않습니다.")
+										.css("color", "red");
+					//insertStreetCheck.streetKeyword = false;
+					$("#insertKeyword").prop("disabled", true);
+				} else {
+					$("#checkWriteKeyword").text("유효한 키워드 형식입니다.")
+										.css("color", "green");
+					//insertStreetCheck.streetKeyword = true;
+					$("#insertKeyword").prop("disabled", false);
+				}
+			});
+			
+			
+	});
+	
+	
+	
+		/* 관심사 제거 버튼 클릭시 관심사 제거 */
+		$(document).on("click", ".deleteKeyword", function() {
+			$(this).parent().parent().remove();
+		});
+
+		/* 키워드 추가 삭제 관련 */
+		$(document).on(
+				"click",
+				"#insertKeyword",
+				function() {
+
+					console.log("클릭했다");
+
+					if ($("input[name=streetKeywords]").length > 2) {
+						alert("골목 키워드는 최대 3개까지만 입력 가능합니다.");
+						$("#writeKeyword").val("");
+					} else if ($("#writeKeyword").val() == "") {
+						alert("키워드를 입력하세요.");
+					} else { //키워드 3개 미만
+						var inputs = $("#printKeyword").find("input");
+						var insertVal = $("#writeKeyword").val();
+						var count = 0;
+						$.each(inputs, function(index, item) {
+							if (insertVal == $(item).val()) {
+								count++;
+							}
+						});
+
+						var writeKeyword = $("#writeKeyword").val();
+						var $divPlus = $("<div></div>").addClass(
+								"form-group row");
+
+						var $divPlus1 = $("<div></div>").addClass("col-sm-9");
+						var $divPlus2 = $("<div></div>").addClass("col-sm-3");
+						var $divPlus3 = $("<div></div>").addClass("col-sm-11")
+								.css({
+									"background-color" : "black",
+									"height" : "2px"
+								});
+						var inputPlus = $("<input></input>").prop({
+							"type" : "text",
+							"readonly" : "true",
+							"name" : "streetKeywords"
+						}).val(writeKeyword).addClass(
+								"form-control-plaintext nanum").css({
+							"font-size" : "18px",
+							"color" : "blue"
+						});
+						var buttonPlus = $("<button></button>").prop("type",
+								"button").addClass("btn btn-primary nanum deleteKeyword").html("제거");
+
+						$divPlus1 = $divPlus1.append(inputPlus);
+						$divPlus2 = $divPlus2.append(buttonPlus);
+						$divPlus = $divPlus.append($divPlus1).append($divPlus2)
+								.append($divPlus3);
+
+						$("#printKeyword").append($divPlus);
+						$("#writeKeyword").val("");
+					}
+				});
+
 		$(function() {
 			// <input type="file"> 숨기기
 			$("#fileArea").hide();
@@ -506,7 +687,6 @@ a:hover {
 						var a = $(this).attr("src");
 						$("#streetThumbnail").prop("src", a);
 
-						
 						// 기본이미지 값 등록
 						// 미리보기 이미지 src 갖고오기
 						var $streetThumbnail = $("#streetThumbnail")
@@ -556,7 +736,29 @@ a:hover {
 				reader.readAsDataURL(value.files[0]);
 			}
 		}
+		
+		// submit 동작
+		function validate() {
 
+			for ( var key in updateStreetCheck) {
+				if (!updateStreetCheck[key]) {
+					alert("일부 입력값이 잘못되었습니다.");
+					return false;
+				}
+			}
+			
+			/* // 지정 관심사가 0개인 경우
+			if( $("input[name=hobbyNmArr]").length < 1) {
+				alert("관심사를 최소 1개이상 지정해야 합니다.");
+				return false;
+			} */
+		}
+		
+		
+		
+
+		/*
+		
 		// 골목이름 실시간 유효성 검사
 		$("#streetNm").on(
 				"input",
@@ -586,7 +788,9 @@ a:hover {
 								"color", "green");
 					}
 				});
-
+*/
+		/*
+		
 		// 골목 키워드 실시간 유효성 검사
 		$("#streetKeyword1").on(
 				"input",
@@ -627,6 +831,11 @@ a:hover {
 								"color", "green");
 					}
 				});
+		*/
+		
+		
+		
+		
 	</script>
 
 	<%-- <%@ include file="../common/footer.jsp"%> --%>

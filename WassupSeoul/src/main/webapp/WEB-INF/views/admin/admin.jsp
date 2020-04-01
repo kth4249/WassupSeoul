@@ -26,6 +26,8 @@ padding
 
 
 
+
+
 :
 
 
@@ -33,7 +35,9 @@ padding
 
 
 
+
  
+
 
 
 
@@ -48,7 +52,9 @@ px
 
 
 
+
  
+
 
 
 
@@ -57,6 +63,8 @@ px
 
 20
 px
+
+
 
 
 
@@ -141,10 +149,12 @@ px
 								<c:forEach var="member" items="${mList}" varStatus="vs">
 									<tr class="table-Active">
 										<th scope="row">${member.memberNm}</th>
-										<td><button class="btn btn-outline-info nanum selectMember"
+										<td><button
+												class="btn btn-outline-info nanum selectMember"
 												data-toggle="modal" data-target="#adminModal1"
 												id="${member.memberNo}">상세보기</button></td>
-										<td><button class="btn btn-outline-danger nanum deleteMember"
+										<td><button
+												class="btn btn-outline-danger nanum deleteMember"
 												data-toggle="modal" data-target="#adminModal2"
 												id="${member.memberNo}">회원강퇴</button></td>
 									</tr>
@@ -191,7 +201,8 @@ px
 											style="text-decoration: none"> ${street.streetNm}</a></th>
 										<td><button class="btn btn-outline-info nanum"
 												data-toggle="modal" data-target="#adminModal3">경고메일</button></td>
-										<td><button class="btn btn-outline-danger nanum deleteStreet"
+										<td><button
+												class="btn btn-outline-danger nanum deleteStreet"
 												data-toggle="modal" data-target="#adminModal4"
 												id="${street.streetNo}">골목폐쇄</button></td>
 									</tr>
@@ -235,7 +246,8 @@ px
 									<tr class="table-Active">
 										<th scope="row"><span>${hobby.hobbyName}</span></th>
 										<td><span>${hobby.hobbyCount}명</span></td>
-										<td><a href="deleteHobby?deleteHobbyNo=${hobby.hobbyNo}" class="btn btn-outline-danger nanum">삭제</a></td>
+										<td><a href="deleteHobby?deleteHobbyNo=${hobby.hobbyNo}"
+											class="btn btn-outline-danger nanum">삭제</a></td>
 									</tr>
 								</c:forEach>
 							</c:if>
@@ -243,9 +255,9 @@ px
 						</tbody>
 					</table>
 					<div class="row justify-content-md-center">
-						<select style="width: 150px"  class="form-control nanum">
+						<select style="width: 150px" class="form-control nanum">
 							<option class="nanum" value="nickname">관심사명</option>
-						</select> <input style="width: 150px"  type="text"
+						</select> <input style="width: 150px" type="text"
 							class="form-control nanum" name="searchValue">
 						<button class="btn btn-outline-success">검색</button>
 					</div>
@@ -273,10 +285,10 @@ px
 								<c:forEach var="report" items="${rList}" varStatus="vs">
 									<tr class="table-Active">
 										<th scope="row"><span class="streetNm">${report.streetNm}</span></th>
-										<td><button class="btn btn-outline-info nanum selectReport"
+										<td><button
+												class="btn btn-outline-info nanum selectReport"
 												data-toggle="modal" data-target="#adminModal5"
-												id="${report.reportNo}">보고서
-												확인</button></td>
+												id="${report.reportNo}">보고서 확인</button></td>
 									</tr>
 								</c:forEach>
 							</c:if>
@@ -292,7 +304,7 @@ px
 					</div>
 				</div>
 
-<!-- 
+				<!-- 
 				<div class="tab-pane fade" id="complain">
 					<table class="table table-hover">
 						<thead>
@@ -352,22 +364,23 @@ px
 						<div class="modal-body" style="font-size: 20px;">
 							<form action="">
 								<div>
-									<img width="200px" height="200px"
-										class="ml-5 mr-5 mt-5 mb-3" id="adminPageMemberProfileUrl">
+									<img width="200px" height="200px" class="ml-5 mr-5 mt-5 mb-3"
+										id="adminPageMemberProfileUrl">
 								</div>
 								<div class="nanum text-center" style="font-size: 35px;">
 									<span class="" id="adminPageMemberNickname"></span>
 								</div>
 								<div class="nanum text-center"
 									style="font-size: 20px; color: darkblue;">
-									<span id="adminPageMemberGender"></span> 
-									<span id="adminPageMemberAge"></span>
+									<span id="adminPageMemberGender"></span> <span
+										id="adminPageMemberAge"></span>
 								</div>
 								<br>
 								<div class="nanum text-center"
 									style="font-size: 20px; color: brown;">
-									<span class="">#음주</span> <span class="">#연애</span> <span
-										class="">#흡연</span>
+									<span id="adminPageHobby0" class="adminPageHobby"></span> <span
+										id="adminPageHobby1" class="adminPageHobby"></span> <span
+										id="adminPageHobby2" class="adminPageHobby"></span>
 								</div>
 								<br>
 							</form>
@@ -393,14 +406,13 @@ px
 							</button>
 						</div>
 						<div class="modal-body" style="font-size: 20px;">
-							<form action="deleteMember"
-								method="POST">
+							<form action="deleteMember" method="POST">
 								<div class="nanum text-center" style="font-size: 35px;">
 									<button class="btn btn-outline-danger nanum"
 										id="memberDeleteBtn">강퇴하기</button>
 								</div>
-								<br>
-								<input type="hidden" id="deleteMemberNo" name="deleteMemberNo">
+								<br> <input type="hidden" id="deleteMemberNo"
+									name="deleteMemberNo">
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -411,108 +423,211 @@ px
 				</div>
 			</div>
 			<script>
-			
-			
-			$(function(){
-				
-				/* 회원 상세보기 */
-				$(".selectMember").on("click", function(){
-					var selectMemberNo;
-					selectMemberNo = $(this).prop("id");
-					console.log("회원 번호 : " + selectMemberNo);
-					
-					
-					$.ajax({
+				$(function() {
+
+					/* 회원 상세보기 */
+					$(".selectMember")
+							.on(
+									"click",
+									function() {
+										var selectMemberNo;
+										selectMemberNo = $(this).prop("id");
+										console
+												.log("회원 번호 : "
+														+ selectMemberNo);
+
+										$
+												.ajax({
+
+													url : "selectMember",
+													data : {
+														selectMemberNo : selectMemberNo
+													},
+													type : "post",
+													dataType : "json",
+													success : function(map) {
+														if (map != null) {
+
+															var member = map.member;
+
+															var hobby = map.hobby;
+
+															var memberNickname = member.memberNickname;
+
+															var memberGender;
+															if (member.memberGender == 'M') {
+																memberGender = "남성";
+															} else if (member.memberGender == 'F') {
+																memberGender = "여성";
+															}
+
+															var memberAge = member.memberAge;
+															var memberProfileUrl = member.memberProfileUrl;
+
+															$(
+																	"#adminPageMemberNickname")
+																	.text(
+																			memberNickname);
+															$(
+																	"#adminPageMemberGender")
+																	.text(
+																			memberGender);
+															$(
+																	"#adminPageMemberAge")
+																	.text(
+																			memberAge
+																					+ "세");
+															$(
+																	"#adminPageMemberProfileUrl")
+																	.prop(
+																			"src",
+																			"${contextPath}/resources/profileImage/"
+																					+ memberProfileUrl);
+
+															if (hobby != null) {
+																hobby
+																		.forEach(function(
+																				item,
+																				index) {
+																			$(
+																					"#adminPageHobby"
+																							+ index)
+																					.text(
+																							"#"
+																									+ item);
+																		});
+															}
+														} else {
+															alert("데이터가 없습니다.");
+														}
+													},
+													error : function() {
+														console
+																.log("ajax 통신 실패");
+														console.log(e);
+													}
+												});
+									});
+
+					/* 회원 강퇴 */
+					$(".deleteMember").on("click", function() {
+						var deleteMemberNo;
+						deleteMemberNo = $(this).prop("id");
+						$("#deleteMemberNo").val(deleteMemberNo);
+					});
+
+					/* 경고 메일 */
+
+					/* 골목 폐쇄 */
+					$(".deleteStreet").on("click", function() {
+						var deleteStreetNo;
+						deleteStreetNo = $(this).prop("id");
+						$("#deleteStreetNo").val(deleteStreetNo);
+					});
+
+					/* 보고서 확인 */
+					$(".selectReport").on(
+							"click",
+							function() {
+
+								var selectReportNo;
+								selectReportNo = $(this).prop("id");
+
+								$(".giveStreetPoint")
+										.prop("id", selectReportNo);
+								$(".deleteStreetReport").prop("id",
+										selectReportNo);
+
+
+								$.ajax({
+
+									url : "selectReport",
+									data : {
+										selectReportNo : selectReportNo
+									},
+									type : "post",
+									dataType : "json",
+									success : function(report) {
+										if (report != null) {
+
+											$("#reportStreetNm").text(
+													report.streetNm);
+											$("#reportContent").text(
+													report.reportContent);
+
+										} else {
+											alert("데이터가 없습니다.");
+										}
+									},
+									error : function() {
+										console.log("ajax 통신 실패");
+										console.log(e);
+									}
+								});
+							});
+
+					/* 골목 점수 부여 후 삭제*/
+					$(".giveStreetPoint").on("click", function() {
+						var giveStreetPointReportNo;
+						giveStreetPointReportNo = $(this).prop("id");
 						
-						url : "selectMember",
-						data : {selectMemberNo : selectMemberNo},
-						type : "post",
-						dataType : "json",
-						success : function(map){
-							if(map != null){
-								
-								var member = map.member;
-								var hobby = map.hobby;
-								
-								var memberNickname = member.memberNickname;
-								
-								var memberGender;
-								
-								if(member.memberGender == 'M'){
-									memberGender = "남성";
-								} else if(member.memberGender == 'F'){
-									memberGender = "여성";
+						$.ajax({
+							
+							
+							url : "giveStreetPoint",
+							data : {
+								giveStreetPointReportNo : giveStreetPointReportNo
+							},
+							type : "post",
+							dataType : "json",
+							success : function(result) {
+								if (result > 0) {
+									alert("점수 부여 성공");
+
+								} else {
+									alert("점수 부여 실패");
 								}
-																
-								var memberAge = member.memberAge;
-								var memberProfileUrl = member.memberProfileUrl;
-																
-								
-								$("#adminPageMemberNickname").text(memberNickname);
-								$("#adminPageMemberGender").text(memberGender);
-								$("#adminPageMemberAge").text(memberAge + "세");
-								$("#adminPageMemberProfileUrl")
-									.prop("src", "${contextPath}/resources/profileImage/" + memberProfileUrl);
-							} else {
-								alert("데이터가 없습니다.");								
+							},
+							error : function() {
+								console.log("ajax 통신 실패");
+								console.log(e);
 							}
-						},
-						error : function(){
-							console.log("ajax 통신 실패");
-							console.log(e);
-						}
+							
+						});
 					});
-				});
-				
-				
-				/* 회원 강퇴 */
-				$(".deleteMember").on("click", function(){
-					var deleteMemberNo;
-					deleteMemberNo = $(this).prop("id");
-					$("#deleteMemberNo").val(deleteMemberNo);
-				});
-				
-				/* 경고 메일 */
-				
-				/* 골목 폐쇄 */
-				$(".deleteStreet").on("click", function(){
-					var deleteStreetNo;
-					deleteStreetNo = $(this).prop("id");
-					$("#deleteStreetNo").val(deleteStreetNo);
-				});
-				
-				
-				/* 보고서 확인 */
-				$(".selectReport").on("click", function(){
-					
-					var selectReportNo;
-					selectReportNo = $(this).prop("id");
-					
-					$.ajax({
+
+					/* 보고서 삭제 */
+					$(".deleteStreetReport").on("click", function(){
+						var deleteStreetReportNo;
+						deleteStreetReportNo = $(this).prop("id");
 						
-						url : "selectReport",
-						data : {selectReportNo : selectReportNo},
-						type : "post",
-						dataType : "json",
-						success : function(report){
-							if(report != null){
-								
-								$("#reportStreetNm").text(report.streetNm);
-								$("#reportContent").text(report.reportContent);
-								
-							} else {
-								alert("데이터가 없습니다.");								
+						$.ajax({
+							
+							
+							url : "deleteReport",
+							data : {
+								deleteStreetReportNo : deleteStreetReportNo
+							},
+							type : "post",
+							dataType : "json",
+							success : function(result) {
+								if (result > 0) {
+									alert("보고서 삭제 성공");
+
+								} else {
+									alert("보고서 삭제 실패");
+								}
+							},
+							error : function() {
+								console.log("ajax 통신 실패");
+								console.log(e);
 							}
-						},
-						error : function(){
-							console.log("ajax 통신 실패");
-							console.log(e);
-						}
+							
+						});
+						
 					});
+
 				});
-				
-			});
-			
 			</script>
 
 			<!-- 메일 보내기 모달 (메일 API 도입후 어떻게 할지 결정)-->
@@ -570,8 +685,8 @@ px
 								<div class="nanum text-center" style="font-size: 35px;">
 									<button class="btn btn-outline-danger nanum">폐쇄하기</button>
 								</div>
-								<br>
-								<input type="hidden" id="deleteStreetNo" name="deleteStreetNo">
+								<br> <input type="hidden" id="deleteStreetNo"
+									name="deleteStreetNo">
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -607,6 +722,14 @@ px
 							</form>
 						</div>
 						<div class="modal-footer">
+								<button type="button"
+									class="btn btn-primary nanum giveStreetPoint"
+									data-dismiss="modal">점수부여</button>
+								<input type="hidden" id="giveStreetPointReportNo" name="giveStreetPointReportNo">
+								<button type="button"
+									class="btn btn-primary nanum deleteStreetReport"
+									data-dismiss="modal">삭제</button>
+								<input type="hidden" id="deleteStreetReportNo" name="deleteStreetReportNo">
 							<button type="button" class="btn btn-primary nanum"
 								data-dismiss="modal">닫기</button>
 						</div>
@@ -614,7 +737,7 @@ px
 				</div>
 			</div>
 
-<!-- 
+			<!-- 
 
 			1:1 문의글 확인 모달
 			<div class="modal fade" id="adminModal6">

@@ -113,4 +113,24 @@ public class AdminDAO {
 		return sqlSession.selectList("adminMapper.selectHobby", selectMemberNo);
 	}
 
+	/** 골목 점수 부여용 DAO
+	 * @param giveStreetPointReportNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int giveStreetPoint(int no) throws Exception {
+		
+		return sqlSession.update("adminMapper.giveStreetPoint", no);
+	}
+
+	/** 보고서 삭제용 DAO
+	 * @param no
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteReport(int no) throws Exception {
+		
+		return sqlSession.delete("adminMapper.deleteReport", no); 
+	}
+
 }

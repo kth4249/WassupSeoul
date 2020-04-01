@@ -372,7 +372,7 @@ public interface StreetService {
 	 * @return kList
 	 * @throws Exception
 	 */
-	public abstract List<Keyword> selectKeywords(Integer no) throws Exception;
+	public abstract List<Keyword> selectKeywords(int streetNo) throws Exception;
 
 
 	/** 골목 수정용 Service1
