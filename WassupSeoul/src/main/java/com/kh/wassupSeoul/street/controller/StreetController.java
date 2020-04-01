@@ -1581,14 +1581,11 @@ public class StreetController {
 
 	}
 	
-	/*------------------------ 정승환 추가코드(20.03.31)시작-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.31, 04.01)시작-----------------------------------*/
 	@ResponseBody
 	@RequestMapping("changeCalendar")
 	public void changeCalendar(HttpServletResponse response, String nowMonth, String nowYear, Model model) {
 		int streetNo = (int)model.getAttribute("streetNo"); // 현재 골목번호
-		System.out.println("일정 변경 골목 번호 : " + streetNo);
-		System.out.println("현재 입력 받은 년도 : " + nowYear);
-		System.out.println("현재 입력 받은 월 : " + nowMonth);
 		
 		if(nowMonth.length() == 1) { // 입력받은 월이 1자리수일경우 비교를 위해서 2자리로 변경
 			nowMonth = "0" + nowMonth;
@@ -1645,7 +1642,7 @@ public class StreetController {
 		}
 		
 	}
-	/*------------------------ 정승환 추가코드(20.03.31)끝-----------------------------------*/
+	/*------------------------ 정승환 추가코드(20.03.31, 04.01)끝-----------------------------------*/
 	
 /*------------------------ 정승환 추가코드 끝-----------------------------------*/
 	
