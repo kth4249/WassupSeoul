@@ -272,14 +272,22 @@ public class FriendsServiceImpl implements FriendsService{
 		System.out.println("RoomNoList : "+ RoomNoList);
 		
 		// 방 번호에 따른 안읽은 메시지 수
+		
 		List <Integer> noReadMsgCount = friendsDAO.selectnoReadCount(RoomNoList);
+		if (noReadMsgCount == null || noReadMsgCount.isEmpty()) { // 대화방 없으면 익셉션 떠서 수정(영준)
+			return null;
+		}
 		System.out.println("noReadMsgCount : " + noReadMsgCount);
 		
 		List <String> lastMessage = new ArrayList<String>();
 		
+		
 		// 방 별로 마지막 메시지
 		for (int i = 0 ; i < RoomNoList.size() ; i++) {
 			String what = friendsDAO.lastMessage(RoomNoList.get(i));
+			if (what == null) { // 대화방 없으면 익셉션 떠서 수정(영준)
+				return null;
+			}
 			lastMessage.add(what);
 		}
 		System.out.println("lastSentence : " + lastMessage);
@@ -290,28 +298,21 @@ public class FriendsServiceImpl implements FriendsService{
 		mMap.put("myNo", myNo);
 		mMap.put("RoomNoList", RoomNoList);
 		mList = friendsDAO.selectChater(mMap);
-		
-		//System.out.println("mList 정보 가져온나!!!!!!!!!!" + mList);
+		if (mList == null || mList.isEmpty()) { // 대화방 없으면 익셉션 떠서 수정(영준)
+			return null;
+		}
+		System.out.println("mList 정보 가져온나!!!!!!!!!!" + mList);
 		
 
 		// 얘네 담을 리스트 객체 선언
 		List <ChatList> cList = new ArrayList<ChatList>();
 		
 		for (int i = 0 ; i < RoomNoList.size() ; i++) {
-			 
 			
 			ChatList chatlist = new ChatList();
 			chatlist.setRoomNo(RoomNoList.get(i));
-			if( noReadMsgCount != null){
-				chatlist.setNoReadCount(noReadMsgCount.get(i));
-			} else {
-				chatlist.setNoReadCount(0);
-			}
-			if( lastMessage != null){
-				chatlist.setLastMessage((lastMessage.get(i)));
-			} else {
-				chatlist.setLastMessage("");
-			}
+			chatlist.setNoReadCount(noReadMsgCount.get(i));
+			chatlist.setLastMessage((lastMessage.get(i)));
 			chatlist.setMemberNickname(mList.get(i).getMemberNickname());
 			chatlist.setMemberProfileUrl(mList.get(i).getMemberProfileUrl());
 			chatlist.setOtherNo(mList.get(i).getMemberNo());
@@ -320,7 +321,7 @@ public class FriendsServiceImpl implements FriendsService{
 			
 		}
 		
-		//System.out.println("cList : " + cList);
+		System.out.println("cList : " + cList);
 		return cList;
 	}
 
