@@ -228,14 +228,21 @@
 					
 					$(document).on("click", ".openProfile", function(){
 						//console.log($(this).parent().parent().children().eq(2).text());
-						var memberNo = $(this).parent().parent().children().eq(0).val();
-						var memberNickName = $(this).parent().parent().children().eq(2).text();
-						var memberAgeGender = $(this).parent().parent().children().eq(3).text();
-						var memberHobby = $(this).parent().parent().children().eq(4).text();
+						var memberNo = $(this).parent().parent().parent().children().eq(0).val();
+						var memberNickName = $(this).parent().parent().parent().children().eq(2).text();
+						var memberAgeGender = $(this).parent().parent().parent().children().eq(3).text();
+						var memberHobby = $(this).parent().parent().parent().children().eq(4).text();
 						$("#miniProfileImg").prop("src", $(this).prop("src"));
 						$("#miniProfileName").text(memberNickName);
 						$("#miniProfileGender").text(memberAgeGender);
 						$("#miniProfileHobby").text(memberHobby);
+						console.log(memberNo)
+						console.log("${loginMember.memberNo}")
+						if(memberNo == "${loginMember.memberNo}"){
+							$("#exileBtn").hide();
+						} else {
+							$("#exileBtn").show();
+						}
 						$("#exileBtn").val(memberNo);
 						$("#profileBtn").click();
 						/* $.ajax({
