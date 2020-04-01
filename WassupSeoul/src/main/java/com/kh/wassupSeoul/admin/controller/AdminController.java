@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.kh.wassupSeoul.admin.model.service.AdminService;
@@ -44,16 +45,6 @@ public class AdminController {
 				model.addAttribute("mList", mList);
 			}
 			
-			// 회원 관심사 목록 조회
-			/*
-			List<Hobby> mhList = null;
-			mhList = adminService.selectMemberHobbyList();
-			System.out.println("회원 관심사 조회 : " + mhList);			
-			
-			if(mhList != null) { 
-				model.addAttribute("mhList", mhList);
-			}
-			*/
 			
 			// 골목 목록 조회
 			List<Street> sList = null;
@@ -117,7 +108,7 @@ public class AdminController {
 	
 	// 회원 강퇴
 	@RequestMapping(value = "deleteMember", method = RequestMethod.POST)
-	public String deleteMember(Integer deleteMemberNo, Model model) {
+	public String deleteMember(Integer deleteMemberNo, Model model, RedirectAttributes rdAttr) {
 		
 		int result = 0;
 		
@@ -127,13 +118,13 @@ public class AdminController {
 			
 			if(result > 0) {
 				
-				model.addAttribute("msg", "강퇴 성공");
+				rdAttr.addFlashAttribute("msg", "회원이 강퇴되었습니다.");
 				return "redirect:admin";
 				
 			} else {
 				
 				result = 0;
-				model.addAttribute("msg", "강퇴 실패");
+				rdAttr.addFlashAttribute("msg", "회원 강퇴에 실패하셨습니다.");
 				return "redirect:admin";				
 			}
 			
@@ -154,7 +145,7 @@ public class AdminController {
 	
 	// 골목 폐쇄
 	@RequestMapping(value="deleteStreet", method=RequestMethod.POST)
-	public String deleteStreet(Integer deleteStreetNo, Model model) {
+	public String deleteStreet(Integer deleteStreetNo, Model model, RedirectAttributes rdAttr) {
 		
 		int result = 0;
 		
@@ -164,13 +155,13 @@ public class AdminController {
 			
 			if (result > 0) {
 
-				model.addAttribute("msg", "폐쇄 성공");
+				rdAttr.addFlashAttribute("msg", "골목이 폐쇄되었습니다.");
 				return "redirect:admin";
 
 			} else {
 
 				result = 0;
-				model.addAttribute("msg", "폐쇄 실패");
+				rdAttr.addFlashAttribute("msg", "골목 폐쇄에 실패하셨습니다.");
 				return "redirect:admin";
 			}
 						
@@ -184,7 +175,7 @@ public class AdminController {
 	
 	// 관심사 삭제
 	@RequestMapping("deleteHobby")
-	public String deleteHobby(Integer deleteHobbyNo, Model model) {
+	public String deleteHobby(Integer deleteHobbyNo, Model model, RedirectAttributes rdAttr) {
 		
 		int result = 0;
 		
@@ -194,13 +185,13 @@ public class AdminController {
 			
 			if (result > 0) {
 
-				model.addAttribute("msg", "삭제 성공");
+				rdAttr.addFlashAttribute("msg", "관심사가 삭제되었습니다.");
 				return "redirect:admin";
 
 			} else {
 
 				result = 0;
-				model.addAttribute("msg", "삭제 실패");
+				rdAttr.addFlashAttribute("msg", "관심사 삭제에 실패하셨습니다.");
 				return "redirect:admin";
 			}
 			
