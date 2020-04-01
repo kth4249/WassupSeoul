@@ -298,6 +298,17 @@ public class FriendsDAO {
 	public List<MSG> inToRoom(int roomNo) throws Exception{
 		return sqlSession.selectList("friendsMapper.inToRoom",roomNo);
 	}
+	
+	/** msg 상태 변경용
+	 * @param msg
+	 * @return result
+	 * @throws Exception
+	 */
+	public int msgRead(List<MSG> msg) throws Exception{
+		return sqlSession.update("friendsMapper.msgRead", msg);
+	}
+	
+	
 
 
 	/** 프로필 불러오기 1
@@ -328,6 +339,9 @@ public class FriendsDAO {
 	public int saveMessage(MSG msg) throws Exception{
 		return sqlSession.insert("friendsMapper.saveMessage", msg);
 	}
+
+
+	
 
 	/*-----------------태훈 알람 관련 추가-------------------*/
 
