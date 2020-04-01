@@ -45,6 +45,7 @@ import com.kh.wassupSeoul.square.model.vo.Alarm;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Board;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
+import com.kh.wassupSeoul.street.model.vo.Divide;
 import com.kh.wassupSeoul.street.model.vo.Dutch;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
 import com.kh.wassupSeoul.street.model.vo.Reply;
@@ -170,6 +171,13 @@ public class StreetController {
 			List<Reply> reply  = streetService.selectReply(checkStreet);
 			
 			List<Vote> vote = streetService.selectVoteOption(checkStreet);
+			/*------------------------태훈 엔빵 관련해서 추가------------------------*/
+			List<Dutch> dutch = streetService.selectDutch(board);
+			List<Divide> divide = null;
+			if(!dutch.isEmpty()) {
+				divide = streetService.selectDivide(dutch);
+			}
+			/*------------------------태훈 엔빵 관련해서 추가------------------------*/
 			
 			if (street != null) {
 				for(int k=0;k<vote.size();k++) {
@@ -184,10 +192,14 @@ public class StreetController {
 				model.addAttribute("reReply", reply);  // 해당골목 댓글 리스트 (대댓글용)
 				model.addAttribute("vote", vote);     // 해당 골목 투표 게시글 정보
 				model.addAttribute("voteOption", vote);     // 해당 골목 투표 선택지 
+				model.addAttribute("dutch", dutch); // N빵 게시글
+				model.addAttribute("divide", divide); // N빵 참여자
 
 				// 회원 해당 골목 등급, 가입여부 
 				//model.addAttribute("memGradeInSt", memGradeInSt);
 				request.getSession().setAttribute("memGradeInSt", memGradeInSt);
+				
+				System.out.println(memGradeInSt);
 				
 				model.addAttribute("loginMember", loginMember);
 
@@ -351,6 +363,32 @@ public class StreetController {
 			return "/common/errorPage";
 		}
 	}
+	// 공지사항 등록용 
+		@ResponseBody
+		@RequestMapping("PinPost")
+		public String PinPost(int postNo, Model model) {
+			try {
+				int checkBoardLevel = streetService.checkBoardLevel(postNo);
+				
+				Board board = new Board();
+				board.setBoardNo(postNo);
+				
+				if( checkBoardLevel == 0 ) {    
+					board.setBoardLevel(1);
+					System.out.println("공지사항 등록 ");
+				}else {
+					board.setBoardLevel(0);
+					System.out.println("공지사항 해제 ");
+				}
+				int test = streetService.PinPost(board);
+				
+				return test == 1 ? true + "" : false + "";
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("errorMsg", "공지사항 등록 과정에서 오류발생");
+				return "/common/errorPage";
+			}
+		}
 	
 	// 댓글 작성
 	@ResponseBody
@@ -464,10 +502,12 @@ public class StreetController {
     // 지도 게시글 입력
     @ResponseBody
 	@RequestMapping("mapPost")
-	public String mapPost(String address, Model model, String mapPostContent ) {
+	public String mapPost(String address, Model model, String mapPostContent, String coords ) {
 		
 		System.out.println("입력한 주소 : " + address);
+		System.out.println("받아온 좌표 : " + coords);
 		System.out.println("입력한 게시글 내용 : " + mapPostContent);
+		
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
@@ -479,6 +519,7 @@ public class StreetController {
 		board.setMemberNo(loginMember.getMemberNo());
 		board.setBoardContent(mapPostContent );
 		board.setMapAddress(address);
+		board.setSketchUrl(coords);
 		board.setTypeNo(6);
 	
 		/* 게시글타입
@@ -1129,6 +1170,13 @@ public class StreetController {
 		map.put("streetNo", streetNo);
 		map.put("memberNo", loginMember.getMemberNo());
 		return streetService.joinCancel(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping("divideCheck")
+	public String divideCheck(Model model, int boardNo, int memberNo) {
+		System.out.println(boardNo + ", " + memberNo);
+		return true + "";
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/

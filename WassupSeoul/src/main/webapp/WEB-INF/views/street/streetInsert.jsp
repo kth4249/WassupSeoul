@@ -92,32 +92,17 @@
 							</select>
 						</div>
 					</div>
-
-
-
-
-					<!-- 내용 전체 지우기 -->
-					<div class="col-md-12">
-						<!-- <span id="streetTitleClear">X</span> -->
-					</div>
 				</div>
 			</div>
 			<div class="row">
 				<br>
 			</div>
 			
-<!-- 
-
+<!--
 				// src가 존재할 때만 넘어가게 
 				// onsubmit 동작이 일어났을때 -> c:set 을 이용해서 thumbnailArea의 src 를 el 변수로 저장 
 				// -> form action에 넘기고 싶은 주소랑 함께 뒤에 쿼리스트링으로 src를 함께 넘긴다
-
-
  -->
-
-		
-
-
 
 			<div class="row">
 				<div class="col-md-6 offset-md-3">
@@ -162,71 +147,11 @@
 				</div>
 			</div>
 			
-			<%-- 
-			<!-- 골목 키워드 1 -->
-			<div class="row">
-				<div class="col-md-6 offset-md-3">
-					<div class="form-group col-md-2 nanum"
-						style="float: left; text-align: center;">
-						<label for="streetKeyword1" class="nanum"
-							style="font-size: 20px; color: dimgray">키워드1 : </label>
-					</div>
-					<div class="form-group col-md-5 nanum" style="float: left;">
-						<div class="col-xs-4">
-							<input type="text" class="form-control nanum"
-								name="streetKeywords" id="streetKeyword1"
-								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
-								class="nanum" id="checkStreetKeyword1"
-								style="font-size: smaller;">&nbsp;</span> <br>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 골목 키워드 2 -->
-			<div class="row">
-				<div class="col-md-6 offset-md-3">
-					<div class="form-group col-md-2 nanum"
-						style="float: left; text-align: center;">
-						<label for="streetKeyword2" class="nanum"
-							style="font-size: 20px; color: dimgray">키워드2 : </label>
-					</div>
-					<div class="form-group col-md-5 nanum" style="float: left;">
-						<div class="col-xs-4">
-							<input type="text" class="form-control nanum"
-								name="streetKeywords" id="streetKeyword2"
-								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
-								class="nanum" id="checkStreetKeyword2"
-								style="font-size: smaller;">&nbsp;</span> <br>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 골목 키워드 3 -->
-			<div class="row">
-				<div class="col-md-6 offset-md-3">
-					<div class="form-group col-md-2 nanum"
-						style="float: left; text-align: center;">
-						<label for="streetKeyword3" class="nanum"
-							style="font-size: 20px; color: dimgray">키워드3 : </label>
-					</div>
-					<div class="form-group col-md-5 nanum" style="float: left;">
-						<div class="col-xs-4">
-							<input type="text" class="form-control nanum"
-								name="streetKeywords" id="streetKeyword3"
-								placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
-								class="nanum" id="checkStreetKeyword3"
-								style="font-size: smaller;">&nbsp;</span> <br>
-						</div>
-					</div>
-				</div>
-			</div>
-			--%>
 			
 			
 			<!-- 키워드 직접입력 -->
 			<div class="row">
 				<div class="col-md-6 offset-md-3">
-
 					<div class="row">
 						<div class="form-group col-md-2 nanum"
 							style="float: left; text-align: center;">
@@ -267,19 +192,6 @@
 					</div>
 				</div>
 			</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 			<div class="row">
 				<div class="col-md-12">
 					<br>
@@ -351,11 +263,6 @@
 					</div>
 				</div>
 			</div>
-
-
-
-
-
 			<div class="row">
 				<div class="col-md-12">
 					<br>
@@ -381,7 +288,7 @@
 					<div class="col-md-12 nanum form-group">
 						<div class="custom-control custom-radio">
 							<input type="radio" id="public" name="streetPublic" value="Y"
-								class="custom-control-input"> <label
+								class="custom-control-input" onclick="checkPublic(this.value);"> <label
 								class="custom-control-label" for="public"
 								style="font-size: larger; color: darkgreen;">공개</label>
 							<p style="font-size: smaller; color: #5a5a5a;">
@@ -390,7 +297,7 @@
 						</div>
 						<div class="custom-control custom-radio">
 							<input type="radio" id="private" name="streetPublic" value="N"
-								class="custom-control-input"> <label
+								class="custom-control-input" onclick="checkPublic(this.value);"> <label
 								class="custom-control-label" for="private"
 								style="font-size: larger; color: darkred">비공개</label>
 							<p style="font-size: smaller; color: #5a5a5a;">
@@ -425,82 +332,83 @@
 
 	<script>
 		
-	
 		var insertStreetCheck = {
 				
 				"streetNm" : false,
-				"streetIntro" : false
-				//"streetKeyword" : false
-				//"districtNo" : false,
-				//"streetMaxMember" : false,
-				//"streetPublic" : false,
-				//"streetCoverImage" : false
-				
-				
+				"streetIntro" : false,
+				"streetPublic" : false,
+				"streetPrivate" : false
 		};
+		
+		function checkPublic(value){
+			
+			if(value == 'Y'){
+				insertStreetCheck.streetPublic = true;
+				insertStreetCheck.streetPrivate = true;	
+			}
+			else if(value == 'N'){
+				insertStreetCheck.streetPublic = true;
+				insertStreetCheck.streetPrivate = true;
+			}
+		}
 		
 		$(document).ready(function(){
 				
-				var $streetNm = $("#streetNm");
-				var $streetIntro = $("#streetIntro");
-				var $districtNo = $("#districtNo");
-				var $streetMaxMember = $("#streetMaxMember");
-				var $streetPublic = $("#streetPublic");
-				var $streetCoverImage = $("#streetCoverImage");
-				var $writeKeyword = $("#writeKeyword");
-				
-				
-				
-				// 골목이름 실시간 유효성 검사
-				$streetNm.on("input", function() {
-					var regExp = /^.{2,15}$/;
-
-					if (!regExp.test($(this).val())) {
-						$("#checkStreetNm").text("골목이름 형식이 유효하지 않습니다.")
-										.css("color", "red");
-						insertStreetCheck.streetNm = false;
-					} else {
-						$("#checkStreetNm").text("유효한 골목이름 형식입니다.")
-										.css("color", "green");
-						insertStreetCheck.streetNm = true;
-					}
-				});
-
-				// 골목소개 실시간 유효성 검사
-				$streetIntro.on("input", function() {
-					var regExp = /^.{0,15}$/;
-
-					if (!regExp.test($(this).val())) {
-						$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.")
-											.css("color", "red");
-						insertStreetCheck.streetIntro = false;
+			var $streetNm = $("#streetNm");
+			var $streetIntro = $("#streetIntro");
+			var $writeKeyword = $("#writeKeyword");
 						
-					} else {
-						$("#checkStreetIntro").text("유효한 골목소개 형식입니다.")
-										.css("color", "green");
-						insertStreetCheck.streetIntro = true;
-					}
-				});
-				
-				
-				// 골목 키워드 실시간 유효성 검사
-				$writeKeyword.on("input", function() {
-					var regExp = /^.{0,15}$/;
+			
+			// 골목이름 실시간 유효성 검사
+			$streetNm.on("input", function() {
+				var regExp = /^.{2,15}$/;
 
-					if (!regExp.test($(this).val())) {
-						$("#checkWriteKeyword").text("키워드 형식이 유효하지 않습니다.")
-											.css("color", "red");
-						//insertStreetCheck.streetKeyword = false;
-						$("#insertKeyword").prop("disabled", true);
-					} else {
-						$("#checkWriteKeyword").text("유효한 키워드 형식입니다.")
-											.css("color", "green");
-						//insertStreetCheck.streetKeyword = true;
-						$("#insertKeyword").prop("disabled", false);
-					}
-				});
-				
-				
+				if (!regExp.test($(this).val())) {
+					$("#checkStreetNm").text("골목이름 형식이 유효하지 않습니다.")
+									.css("color", "red");
+					insertStreetCheck.streetNm = false;
+				} else {
+					$("#checkStreetNm").text("유효한 골목이름 형식입니다.")
+									.css("color", "green");
+					insertStreetCheck.streetNm = true;
+				}
+			});
+
+			// 골목소개 실시간 유효성 검사
+			$streetIntro.on("input", function() {
+				var regExp = /^.{0,15}$/;
+
+				if (!regExp.test($(this).val())) {
+					$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.")
+										.css("color", "red");
+					insertStreetCheck.streetIntro = false;
+					
+				} else {
+					$("#checkStreetIntro").text("유효한 골목소개 형식입니다.")
+									.css("color", "green");
+					insertStreetCheck.streetIntro = true;
+				}
+			});
+			
+			
+			// 골목 키워드 실시간 유효성 검사
+			$writeKeyword.on("input", function() {
+				var regExp = /^.{0,15}$/;
+
+				if (!regExp.test($(this).val())) {
+					$("#checkWriteKeyword").text("키워드 형식이 유효하지 않습니다.")
+										.css("color", "red");
+					//insertStreetCheck.streetKeyword = false;
+					$("#insertKeyword").prop("disabled", true);
+				} else {
+					$("#checkWriteKeyword").text("유효한 키워드 형식입니다.")
+										.css("color", "green");
+					//insertStreetCheck.streetKeyword = true;
+					$("#insertKeyword").prop("disabled", false);
+				}
+			});
+			
+			
 		});
 		
 		/* 관심사 제거 버튼 클릭시 관심사 제거 */
@@ -510,8 +418,6 @@
 	
 		/* 키워드 추가 삭제 관련 */
 		$(document).on("click", "#insertKeyword", function(){	
-			
-			console.log("클릭했다");
 			
 			if( $("input[name=streetKeywords]").length > 2){
 				alert("골목 키워드는 최대 3개까지만 입력 가능합니다.");
@@ -564,47 +470,43 @@
 			});
 
 			// 기본 제공 이미지 클릭 시 이벤트
-			$(".streetCover").on(
-					"click",
-					function() {
+			$(".streetCover").on("click", function() {
 
-						// 기본 이미지 미리보기
-						var a = $(this).attr("src");
-						$("#streetThumbnail").prop("src", a);
+				// 기본 이미지 미리보기
+				var a = $(this).attr("src");
+				$("#streetThumbnail").prop("src", a);
 
 
 
-						// 미리보기 이미지 src 갖고오기
-						var $streetThumbnail = $("#streetThumbnail")
-								.attr("src");
+				// 미리보기 이미지 src 갖고오기
+				var $streetThumbnail = $("#streetThumbnail").attr("src");
 
-						// src 중 서버에 저장된 이름만 잘라내기
-						var serverNm = $streetThumbnail.substring(40,
-								$streetThumbnail.length);
+				// src 중 서버에 저장된 이름만 잘라내기
+				var serverNm = $streetThumbnail.substring(40,$streetThumbnail.length);
 
-						// string 값에 따라 #sampleImg value 변경
-						if (serverNm == "골목.jpg") {
+				// string 값에 따라 #sampleImg value 변경
+				if (serverNm == "골목.jpg") {
 
-							$("#sampleImg").val("");
-							$("#sampleImg").val("골목.jpg");
+					$("#sampleImg").val("");
+					$("#sampleImg").val("골목.jpg");
 
-						} else if (serverNm == "골목2.jpg") {
+				} else if (serverNm == "골목2.jpg") {
 
-							$("#sampleImg").val("");
-							$("#sampleImg").val("골목2.jpg");
+					$("#sampleImg").val("");
+					$("#sampleImg").val("골목2.jpg");
 
-						} else if (serverNm == "골목3.jpg") {
+				} else if (serverNm == "골목3.jpg") {
 
-							$("#sampleImg").val("");
-							$("#sampleImg").val("골목3.jpg");
+					$("#sampleImg").val("");
+					$("#sampleImg").val("골목3.jpg");
 
-						} else if (serverNm == "골목4.jpg") {
+				} else if (serverNm == "골목4.jpg") {
 
-							$("#sampleImg").val("");
-							$("#sampleImg").val("골목4.jpg");
-						}
+					$("#sampleImg").val("");
+					$("#sampleImg").val("골목4.jpg");
+				}
 
-					});
+			});
 		});
 
 		// 골목커버 미리보기
@@ -615,87 +517,29 @@
 					if (num == 1) {
 						$("#streetThumbnail").prop("src", e.target.result);
 						$("#sampleImg").val("");
-						console.log("sampleImg 비어있는지 확인  : " + $("#sampleImg").val());
 					}
 				}
 				reader.readAsDataURL(value.files[0]);
 			}
 		}
-/*
-		// 골목이름 실시간 유효성 검사
-		$("#streetNm").on(
-				"input",
-				function() {
-					var regExp = /^[A-Za-z가-힣0-9]{2,15}$/;
 
-					if (!regExp.test($(this).val())) {
-						$("#checkStreetNm").text("골목이름 형식이 유효하지 않습니다.").css(
-								"color", "red");
-					} else {
-						$("#checkStreetNm").text("유효한 골목이름 형식입니다.").css(
-								"color", "green");
-					}
-				});
-
-		// 골목소개 실시간 유효성 검사
-		$("#streetIntro").on(
-				"input",
-				function() {
-					var regExp = /^[A-Za-z가-힣0-9\s]{0,15}$/;
-
-					if (!regExp.test($(this).val())) {
-						$("#checkStreetIntro").text("골목소개 형식이 유효하지 않습니다.").css(
-								"color", "red");
-					} else {
-						$("#checkStreetIntro").text("유효한 골목소개 형식입니다.").css(
-								"color", "green");
-					}
-				});
-*/
-		
-		/*$("#streetKeyword2").on(
-				"input",
-				function() {
-					var regExp = /^[A-Za-z가-힣0-9]{0,15}$/;
-
-					if (!regExp.test($(this).val())) {
-						$("#checkStreetKeyword2").text("키워드 형식이 유효하지 않습니다.")
-								.css("color", "red");
-					} else {
-						$("#checkStreetKeyword2").text("유효한 키워드 형식입니다.").css(
-								"color", "green");
-					}
-				});
-		$("#streetKeyword3").on(
-				"input",
-				function() {
-					var regExp = /^[A-Za-z가-힣0-9]{0,15}$/;
-
-					if (!regExp.test($(this).val())) {
-						$("#checkStreetKeyword3").text("키워드 형식이 유효하지 않습니다.")
-								.css("color", "red");
-					} else {
-						$("#checkStreetKeyword3").text("유효한 키워드 형식입니다.").css(
-								"color", "green");
-					}
-				});*/
-				
 				
 			// submit 동작
 			function validate() {
 
 				for ( var key in insertStreetCheck) {
 					if (!insertStreetCheck[key]) {
-						alert("일부 입력값이 잘못되었습니다.");
+						alert("입력되지 않은 값이 있습니다. 입력해주세요.");
 						return false;
 					}
 				}
 				
-				/* // 지정 관심사가 0개인 경우
-				if( $("input[name=hobbyNmArr]").length < 1) {
-					alert("관심사를 최소 1개이상 지정해야 합니다.");
+				var streetThumbnail = $("#streetThumbnail").prop("src");
+				
+			
+				if(streetThumbnail == ""){
 					return false;
-				} */
+				}
 			}		
 				
 	</script>

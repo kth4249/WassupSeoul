@@ -214,6 +214,24 @@ public class StreetDAO {
 	public int deletePost(int postNo) throws Exception {
 		return sqlSession.update("streetMapper.deletePost", postNo);
 	}
+	
+	/** 게시글 공지사항 확인용 DAO
+	 * @param postNo
+	 * @return
+	 * @throws Exception
+	 */
+	public int checkBoardLevel(int postNo) throws Exception {
+		return sqlSession.selectOne("streetMapper.checkBoardLevel", postNo);
+	}
+	
+	/** 게시글 공지사항 등록용 DAO
+	 * @param board
+	 * @return result
+	 * @throws Exception
+	 */
+	public int PinPost(Board board) throws Exception {
+		return sqlSession.update("streetMapper.PinPost", board);
+	}
 
 	/**
 	 * 댓글 입력용 DAO
@@ -650,6 +668,15 @@ public class StreetDAO {
 	public void insertDivide(Divide divide) {
 		sqlSession.insert("streetMapper.insertDivide", divide);
 	}
+	
+	public List<Dutch> selectDutch(List<Board> board) throws Exception{
+		return sqlSession.selectList("streetMapper.selectDutch", board);
+	}
+	
+	
+	public List<Divide> selectDivide(List<Dutch> dutch) {
+		return sqlSession.selectList("streetMapper.selectDivide", dutch);
+	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 
 	/* 지원 골목 수정 시작 */
@@ -1067,6 +1094,7 @@ public class StreetDAO {
 		return sqlSession.selectOne("streetMapper.getBfileListCount",streetNo);
 	}
 
+	
 
 
 	

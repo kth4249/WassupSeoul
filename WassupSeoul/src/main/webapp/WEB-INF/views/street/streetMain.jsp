@@ -10,7 +10,7 @@
 		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" type="text/css">
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/timeline.css" type="text/css">
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3B2jMzpJSy5YG5-T11FaB4SCKPkjQ3Sc&callback=initMap"></script>
+		
 		
 <title>타임라인 메인 화면</title>
 </head>
@@ -182,8 +182,35 @@
 				location.reload();
 			}
 			// 글삭제
+			$(".PinPost").click(function() {
+				var postNo = $(this).attr("name");
+				//var divBox = $(this).parent(".box111");
+
+				$.ajax({
+					url : "PinPost",
+					data : {postNo : postNo},
+					type : "post",
+					success : function(result) {
+						if (result == "true") {
+							system.out.println("게시글 삭제 성공")
+							//divBox.remove();
+						} else {
+							system.out.println("게시글 삭제 실패")
+						}
+					},
+					error : function(e) {
+						console.log("ajax 통신 실패");
+						console.log(e);
+					}
+				});
+				refreshList()
+			}); 
+			
+			
+			
+			// 글삭제
 			$(".deletePost").click(function() {
-				var postNo = $(this).attr("id");
+				var postNo = $(this).attr("name");
 				//var divBox = $(this).parent(".box111");
 
 				$.ajax({
@@ -504,8 +531,11 @@
 			// 지도 게시글 상세보기 
 			$(".mapShowAddress, .mapShowImg" ).on("click",function(){
 				var addr = $(this).attr("name");
-						
+				var coords = $(this).parent().parent().parent("div" > ".mapShowArea").attr("name");
+				
 				$("#mapShowModalCloseBtn").attr('name',addr);
+				$("#mapShowModal").attr('name',coords);
+				
 				
 			});
 			/* 회원 프로필 정보 조회용  */

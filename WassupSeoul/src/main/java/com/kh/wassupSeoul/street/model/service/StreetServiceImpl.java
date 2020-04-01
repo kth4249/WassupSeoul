@@ -271,6 +271,29 @@ public class StreetServiceImpl implements StreetService{
 		return streetDAO.deletePost(postNo);
 	}
 	
+	
+	
+	/** 공지사항 확인용 
+	 * @param postNo
+	 * @return
+	 * @throws Exception
+	 */
+	@Override
+	public int checkBoardLevel(int postNo) throws Exception {
+		return streetDAO.checkBoardLevel(postNo);
+	}
+
+	/** 게시글 공지사항 등록용  Service
+	 * @param postNo
+	 * @return result
+	 * @throws Exception
+	 */
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int PinPost(Board board) throws Exception {
+		return streetDAO.PinPost(board);
+	}
+
 	/**	댓글 입력용 Service
 	 * @param reply
 	 * @return result
@@ -897,6 +920,24 @@ public class StreetServiceImpl implements StreetService{
 				}
 			}
 		}
+	}
+	
+	/** N빵 리스트 조회
+	 * @param checkStreet
+	 * @return dutch
+	 */
+	@Override
+	public List<Dutch> selectDutch(List<Board> board) throws Exception {
+		return streetDAO.selectDutch(board);
+	}
+	
+	/** N빵 참가자 리스트 조회
+	 * @param dutch
+	 * @return divide
+	 */
+	@Override
+	public List<Divide> selectDivide(List<Dutch> dutch) throws Exception{
+		return streetDAO.selectDivide(dutch);
 	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
