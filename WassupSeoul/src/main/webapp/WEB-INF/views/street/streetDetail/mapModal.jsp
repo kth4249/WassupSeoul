@@ -103,12 +103,16 @@
 				          if (status === 'OK') {
 				        	 var coords = results[0].geometry.location;
 				            	resultsMap.setCenter(coords);
+				            	
+				            $("#mapSubmitBtn").attr("name", coords);	
+				            
 				           	 var marker = new google.maps.Marker({
 				           		   map: resultsMap,
 				             	   position: coords
 				            });
 				           	 markers.push(marker);
-			           		//$("#mapSubmitBtn").attr("name", coords);
+				           	 
+			           		
 			           	 /*  // Sets the map on all markers in the array.
 				             function setMapOnAll(map) {
 				               for (var i = 0; i < markers.length; i++) {
@@ -144,18 +148,18 @@
 				 	// 지도 게시글 업로드
 				 	  document.getElementById('mapSubmitBtn').addEventListener('click', function() {
 			 			    var address = $("#address").val(); 
-			 			    //var address2 = $("#mapSubmitBtn").attr("name");
+			 			    var coords = $("#mapSubmitBtn").attr("name");
 							var mapPostContent = $("#mapPostArea").val();
 												
 							alert(address);
-							//alert(address2);
+							alert(coords);
 							
 							console.log("사용자가 입력한 장소:"+address);
 							console.log("게시글 입력내용:"+mapPostContent);
 															
 							$.ajax({
 								url : "mapPost",
-								data : {"address" : address, "mapPostContent" : mapPostContent },
+								data : {"address" : address, "mapPostContent" : mapPostContent, "coords" : coords },
 								type : "post",
 								success : function(result) {
 									

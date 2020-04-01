@@ -46,7 +46,7 @@
 	}
 	.profileBox{
 	  width: 100%;
-	  height: 160px; 
+	  height: 140px; 
 	  border-radius: 70%;
 	  overflow: hidden;
 	}
@@ -141,7 +141,9 @@
 								<div style="height: 200px"></div>
 								<div class="noPostSignArea container" style="width: 50%;">
 									<p class="noPostSign">
+									
 										게시물 검색결과가 없습니다. <br>
+										
 									</p>
 								</div>
 							</div>
@@ -149,8 +151,9 @@
 					</div>
 					<!-- 게시물 검색결과 없을때  -->	
 				</c:when>
+				<%-- <c:when test="${board.boardLevel eq '0'}">   --%>
+				
 				<c:otherwise>
-			
 			<!-- 게시글1-->
 			<div class="container box111" id="postArea">
 				<div class="postLayoutView" style="padding: 0%; border: solid #ced4da 1px ">
@@ -161,7 +164,7 @@
 
 							 <img src="${contextPath}/resources/profileImage/${board.memberProfile}" 
 									data-toggle="modal" data-target="#writerModal" id="writerImg" class="writerImg"
-									style="width: 100%; height: 100%; object-fit: cover; position: relative; name="${board.memberNo}"> 
+									style="width: 100%; height: 100%; object-fit: cover; position: relative;" name="${board.memberNo}"> 
 							<%-- <img src="${contextPath}/resources/img/account.png" >  --%>
 
 						</div>
@@ -178,10 +181,114 @@
 						</div>
 
 						<c:if test="${loginMember.memberNickname ne board.boardWriter}">
-
+							<c:if test="${memGradeInSt.citizenGrade eq 'M'}">
+							
+							
+								<!-- 공지사항 등록되어 있을때, 해제버튼 보이기 -->
+								<c:if test="${board.boardLevel eq '1'}">
+								<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
+									<div>
+										<div class="optionChevron">
+											<img src="${contextPath}/resources/img/download.png"
+												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
+												id="chev">
+											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
+												<ul>
+													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 해제</a></li>
+													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
+													 
+												</ul>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								 </c:if>
+								 
+								 <!-- 공지사항 등록안되어 있을때, 등록버튼 보이기 -->
+								 <c:if test="${board.boardLevel eq '0'}">
+								<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
+									<div>
+										<div class="optionChevron">
+											<img src="${contextPath}/resources/img/download.png"
+												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
+												id="chev">
+											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
+												<ul>
+													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 등록</a></li>
+													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
+													 
+												</ul>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								 </c:if>
+								 
+						  </c:if>
+						  
+						  <c:if test="${memGradeInSt.citizenGrade eq 'G'}">
+						  </c:if>
+							
 						</c:if>
 
 						<c:if test="${loginMember.memberNickname eq board.boardWriter}">
+						  <!--  로그인회원이 골목 대장 일때 -->
+						  <c:if test="${memGradeInSt.citizenGrade eq 'M'}">
+						  
+						  
+								<!-- 공지사항 등록되어 있을때, 해제버튼 보이기 -->
+								<c:if test="${board.boardLevel eq '1'}">
+								<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
+									<div>
+										<div class="optionChevron">
+											<img src="${contextPath}/resources/img/download.png"
+												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
+												id="chev">
+											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
+												<ul>
+													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 해제</a></li>
+													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
+													 
+												</ul>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								 </c:if>
+								 
+								 <!-- 공지사항 등록안되어 있을때, 등록버튼 보이기 -->
+								 <c:if test="${board.boardLevel eq '0'}">
+								<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
+									<div>
+										<div class="optionChevron">
+											<img src="${contextPath}/resources/img/download.png"
+												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
+												id="chev">
+											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
+												<ul>
+													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 등록</a></li>
+													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
+													 
+												</ul>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								 </c:if>
+							
+							
+							
+						  </c:if>
+						   <!--  로그인회원이 골목 일반 회원일때 -->
+					      <c:if test="${memGradeInSt.citizenGrade eq 'G'}">
 							<div style="display: inline-block; width: 5%; margin-bottom: 0px; height: 50px; float: right;">
 								<div>
 									<div class="optionChevron">
@@ -202,6 +309,8 @@
 									</div>
 								</div>
 							</div>
+						  </c:if>
+						  
 						</c:if>
 
 					</div>
@@ -219,9 +328,9 @@
 							<c:choose>
 								<c:when test="${board.typeNo eq '6'}">  <!-- 지도 출력 양식 -->	 
 								
-									${board.boardContent}    
-									 	<div class="mapShowArea" style="height: 100px; width:100%; margin-bottom: 10px;" data-toggle="modal" data-target="#mapShowModal">
-											<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
+										${board.boardContent}    
+									 	<div class="mapShowArea" name="${board.sketchUrl}" style="height: 100px; width:100%; margin-bottom: 10px;" data-toggle="modal" data-target="#mapShowModal">
+											<div class="profileImgArea"  id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
 																								padding-left: 10px;">
 												<img src="${contextPath}/resources/img/mapIcon.png" style="width: 40px; height: 30px; margin-top: 30px;" class="mapShowImg"
 															data-toggle="modal" data-target="#mapShowModal" name="${board.mapAddress}" >
@@ -373,7 +482,8 @@
 															</c:otherwise>
 														</c:choose>
 														<!-- 현재 날짜와 비교 후 투표 종료 여부 출력-->
-														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px; font-size:14px; font-weight:bold; color:black;">총 ${vote.voteWholeVoteCount}표 투표중</p>
+														
+														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px; font-size:14px; font-weight:bold; color:black;">  투표 종료일  :  <fmt:formatDate value="${vote.voteEndDt}" pattern="yyyy년 MM월 dd일 " /></p>
 													</div>
 													<div style="margin-bottom: 0;">
 														<p style="margin-bottom: 0; font-size:20px; font-weigh: bold; color:black;">${vote.voteTitle}</p>
@@ -407,12 +517,12 @@
 																<!-- 투표 진행시 -->
 																<c:choose>
 																<c:when test="${voteOption.voteStatus eq 'Y'}">  	 
-																	<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																	<label style="width: 300px; margin-left: 20px; color:black; font-weight:bold"> 
 																	<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
 																	       name="${voteOption.voteNo}" class="voteCheckBox" checked />${voteOption.voteOtion}</label>
 																</c:when>
 																<c:otherwise>
-																	<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																	<label style="width: 300px; margin-left: 20px; color:black; font-weight:bold"> 
 																	<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
 																	       name="${voteOption.voteNo}" class="voteCheckBox" />${voteOption.voteOtion}</label>
 																</c:otherwise>
@@ -902,6 +1012,9 @@
 
 			<div style="height: 20px; z-index: -5;"></div>
 			<!-- 게시글1 후 여백-->
+				<%-- 	</c:when>
+		  		<c:otherwise> --%>
+			
 				</c:otherwise>
 			</c:choose>
 		
@@ -912,17 +1025,14 @@
 	
 	<script>
 	/* 투표 참여 반영용 Ajax */
-	//$(document).ready(function(){
+	$(document).ready(function(){
 	    $(".voteCheckBox").change(function(){
 	    	// 선택지 번호
 	    	var voteNo = $(this).attr("name");  
 	    	
 	    	// 복수 선택 여부, 개수
-	    	var voteDup = $(this).parent().parent().prev("div" > ".voteDup" ).attr("name");
-	    	// var progressBar = $(this).parent("div" > ".progress-bar").progressbar("value");
-	        
-	        //alert("다음이 프로그레스바 진행률");
-	        //alert(progressBar);
+	    	var voteDup = $(this).parent().parent().parent().prev("div" > ".voteDup" ).attr("name");
+	    	alert(voteDup);
 	       
 	    	// 무기명 여부
 	    	var anonymity = $(this).next().next().next().find("p").attr("name");
@@ -931,22 +1041,12 @@
 	    	var checkStatus = "Y";
 	    	
 	       	var voteCount = $(this).parent().next("div").first("p").text();
-	      
-	        //	alert(voteCount);
 	    	
 	        if( $(".voteCheckBox").is(":checked")==true){   // 체크박스 체크시
-	        	//progressBar = progressBar+15;
 	        	voteCount++;
-	        	// 체크상태
-		    	// 진행막대
-		    	//var progressBar = $(this).next().next().find("progress-bar");
-		    	//wholeP = (int)((double)pBar.getSolvedQuestion()/pBar.getWholeQuestion()*100);
-	        	//alert("체크박스 체크했음!");
 	        }else{ // 체크박스 체크해제시 
-	        	//progressBar = progressBar-15;
 	        	voteCount--;
 	        	checkStatus = "N";
-	            //alert("체크박스 체크 해제!");
 	        }
 	        
 	        // 체크박스 일정개수 제한 
@@ -956,13 +1056,6 @@
 	            count--;
 	            return false;
 	        } */
-
-	        
-	        
-	       //alert("변경된 프로그레스바 진행률");
-	        //alert(progressBar);
-	        //$(this).parent("div" > ".progress-bar").width(progressBar);
-	        //alert(voteCount);
 	        
 	       /*  if ( voteCount == 0 ) {
 	        	voteCount="";
@@ -970,11 +1063,6 @@
 	        }else{
 	        	$(this).$(this).parent().next("div").first("p").text(voteCount);
 	        } */
-	      	//alert(voteNo);
-		    //alert(anonymity);
-		    //alert(voteDup);
-	        //alert(checkStatus);
-	        
 	        
 	        // 투표 기록용 Ajax
 	        $.ajax({
@@ -996,8 +1084,31 @@
     		});
 	        refreshList()
 	    });
-	//});
+	});
 	/* 투표 참여 반영용 Ajax */
+	
+	$(document).ready(function(){
+		 $.ajax({
+ 			url : "recordVote",
+ 			data : {"voteNo" : voteNo, "checkStatus" : checkStatus },
+ 			type : "post",
+ 			success : function(result) {
+ 				
+ 				if (result == "true") {
+ 					alert("투표 기록 성공  투표 감사합니다");
+ 				} else {
+ 					alert("투표 기록 실패");
+ 				}
+ 			},
+ 			error : function(e) {
+ 			console.log("ajax 통신 실패");
+ 			console.log(e);
+ 			}
+ 		});
+		 
+		 
+	});
+
 	
 	
 	</script>

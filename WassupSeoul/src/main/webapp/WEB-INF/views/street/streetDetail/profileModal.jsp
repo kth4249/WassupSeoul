@@ -86,7 +86,7 @@
 												style="font-size: 25px; margin-bottom:20px;">
 										</div>
 										<label class="col-sm-2 col-form-label text-center nanum"
-											style="font-weight: bold; font-size: 16px; margin-top:; color:black;">나이</label>
+											style="font-weight: bold; font-size: 16px; margin-top:7px; color:black;">나이</label>
 										<div class="col-sm-4">
 											<input type="text" readonly 
 												class="nanum form-control-plaintext text-center checkMemAge"
@@ -102,12 +102,12 @@
 												class="nanum form-control-plaintext text-center checkMemGender"
 												style="font-size: 25px;">
 										</div>
-										<label class="col-sm-2 col-form-label text-center nanum"
-											style="font-weight: bold; font-size: 16px; margin-top:10px; color:black; width:140px;">전화번호</label>
-										<div class="col-sm-4">
+										<label class="col-md-3 col-form-label text-center nanum"
+											style="font-weight: bold; font-size: 16px; margin-top:10px; color:black; padding-left:5px; width:50px;">전화번호</label>
+										<div class="col-sm-1">
 											<input type="text" readonly 
 												class="nanum form-control-plaintext text-center checkMemPhone"
-												style="font-size: 22px;">
+												style="font-size: 22px; margin-left:20px;">
 										</div>
 									</div>
 

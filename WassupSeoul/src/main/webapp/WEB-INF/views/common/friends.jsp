@@ -35,9 +35,9 @@
 	text-align: center;
 }
 
-.tab-content22 {
+/* .tab-content22 {
 	border: 2px solid black;
-}
+} */
 
 .modal {
 	text-align: center;
@@ -102,7 +102,7 @@
 	<div class="container2">
 		<div class="messengerbox">
 			<div class="bs-component tabBox">
-				<ul class="nav nav-tabs nanum">
+				<ul class="nav nav-tabs nanum" style="background-color:white; border:1px solid #ced4da">
 					<li class="nav-item col-md-4"><a class="nav-link active"
 						data-toggle="tab" href="#friendsList">친구목록</a></li>
 					<li class="nav-item col-md-4"><a class="nav-link"
@@ -144,7 +144,7 @@
 			</script>
 			
 			<div id="myTabContent" class="tab-content22"
-				style="overflow: auto; height: 500px; background-color: #FFFFFF;">
+				style="height: 500px; background-color: #FFFFFF; padding: 0; border:1px solid #ced4da">
 				
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 				<!-- 친구 목록 -->	
@@ -165,7 +165,6 @@
 							class="btn btn-outline-info btn-sm nanum float-right mr-3 talkFriend" 
 							id="chatBtn">대화</button>
 					</div>
-					<hr>
 				</div>
 
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
@@ -190,7 +189,7 @@
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 				<!-- 친구요청 div -->
 				<div class="tab-pane fade tgl" id="friendReq">
-					<div class="nanum mt-3 ml-3" id="friendRequestArea">
+					<div class="nanum" id="friendRequestArea">
 						<input type="hidden" id="profileRoot">
 						<img class="rImg" src="${contextPath}/resources/img/usericon.png" width="40px"
 							height="40px" data-toggle="modal" data-target="#profilePicture"
@@ -421,15 +420,14 @@
 							</div>
 							<div class="modal-body" style="font-size: 20px;">
 								<form action="">
-									<div>
-										<img id="wasspic" src="${contextPath}/resources/img/usericon.png" width="200px"
-											height="200px" class="ml-5 mr-5 mt-5 mb-3">
+									<div style="width:200px; height:200px; border-radius: 70%; overflow: hidden" class="mt-5 ml-5 mr-5 mb-3">
+										<img id="wasspic" src="${contextPath}/resources/img/usericon.png" style="width:100%; height:100%; object-fit:cover" class="">
 									</div>
-									<div class="nanum text-center" style="font-size: 35px;">
+									<div class="nanum text-center" style="font-size: 25px;">
 										<span id="wassNick"class="">프로필</span>
 									</div>
 									<div class="nanum text-center"
-										style="font-size: 20px; color: darkblue;">
+										style="font-size: 20px; color: darksalmon;">
 										<span id="wassGender"class="">중성</span> <span id="wassAge"class="">1세</span>
 									</div>
 									<br>
@@ -441,7 +439,7 @@
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-primary nanum"
+								<button type="button" class="btn btn-primary nanum form-control"
 									data-dismiss="modal">닫기</button>
 							</div>
 						</div>
@@ -590,13 +588,13 @@
 					$.each(result, function(i){
 						
 						var $finalPath = $savePath + result[i].memberProfileUrl;
-						var $div0 = $("<div>").prop("class", "row");
+						var $div0 = $("<div>").prop("class", "row col-md-12").css({"margin-bottom":"5px"});
 						
-						var $div1 = $("<div>").prop("class", "col-md-2");
-						var $rImg = $("<img>").prop("class", "rImg detect1").prop("src", $finalPath).css({"width":"40px","height":"40px"}).attr('data-toggle', "modal").attr('data-target', "#profilePicture").val(result[i].memberNo);
-						var $div2 = $("<div>").prop("class", "col-md-5");
+						var $div1 = $("<div>").css({"width":"40px","height":"40px","border-radius":"70%","overflow":"hidden","margin-left":"15px","margin-top":"15px"});
+						var $rImg = $("<img>").prop("class", "rImg detect1").prop("src", $finalPath).css({"width":"100%","height":"100%","object-fit":"cover"}).attr('data-toggle', "modal").attr('data-target', "#profilePicture").val(result[i].memberNo);
+						var $div2 = $("<div>").prop("class", "col-md-5").css({"margin-top":"20px"});
 						var $rUser = $("<span>").prop("class", "rUser").html(result[i].memberNickname);
-						var $div3 = $("<div>").prop("class", "col-md-5");
+						var $div3 = $("<div>").prop("class", "btnClass").css({"margin-top":"20px","margin-left":"27px"});
 						var $rOk = $("<button>").prop("class", "btn btn-info btn-sm nanum addFriend").attr('data-toggle', "modal").attr('data-target', "#yesBtn").
 						html("수락").val(result[i].memberNo);
 						var $rNo = $("<button>").prop("class", "btn btn-warning btn-sm nanum rejectFriend").attr('data-toggle', "modal").attr('data-target', "#noBtn").
@@ -610,7 +608,7 @@
 						$div3.append($rOk).append($rNo).append($block);
 						
 						$div0.append($div1).append($div2).append($div3);
-						$friendRequestArea.append($div0).append($hr);
+						$friendRequestArea.append($div0);
 						$friendReq.append($friendRequestArea); 
 						
 						
@@ -712,8 +710,8 @@
 				var root = "${contextPath}";
 				var $savePath = root + "/resources/profileImage/";
 				if(result == null){
-					$msg = $("<span>").html("빨리 친구 만들러 가죠! 관심사와 맞는 골목부터 찾아볼까요?");
-					$friendInfo.css("text-align","center")
+					$msg = $("<span>").html("지금은 친구가 없네요.");
+					$friendInfo.css("text-align","center").css("margin-top","15px");
 					$friendInfo.html($msg);
 					
 				}else {
@@ -721,21 +719,21 @@
 					$friendInfo.html("") // 기존 html 내용 삭제
 					
 					$.each(result, function(i){
-						var $div0 = $("<div>").prop("class", "row");
+						var $div0 = $("<div>").prop("class", "row col-md-12").css({"margin":"0px","padding-bottom":"5px"});
 						var $finalPath = $savePath + result[i].memberProfileUrl;
-						var $div1 = $("<div>").prop("class", "col-md-7");
+						var $div1 = $("<div>").prop("class", "col-md-6 row").css({"margin-left": "1px","margin-top": "10px","padding":"0px"});
 						/* 미현수정 */
 						var $imgDiv = $("<div>").css({"width":"40px","height":"40px","border-radius":"70%","overflow":"hidden"});
 						/* 미현수정 */
 						var $fImg = $("<img>").prop("class", "fImg detect1").prop("src", $finalPath).css({"width":"100%","height":"100%","object-fit":"cover"}).attr('data-toggle', "modal").attr('data-target', "#profilePicture").val(result[i].memberNo);
-						var $fUser = $("<span>").prop("class", "fUser").html(result[i].memberNickname);
-						var $div2 = $("<div>").prop("class", "col-md-5");
+						var $fUser = $("<span>").prop("class", "fUser").css({"margin-top":"5px","margin-left":"10px"}).html(result[i].memberNickname);
+						var $div2 = $("<div>").prop("class", "btnclass").css({"margin-top":"15px","padding":"0px","margin-left":"56px"});
 						var $fTalk = $("<button>").prop("class", "btn btn-info btn-sm nanum friendTalk").html("대화").val(result[i].memberNo);
 						var $fbye = $("<button>").prop("class", "btn btn-warning btn-sm nanum friendBye").attr('data-toggle', "modal").attr('data-target', "#byeBtn").
 						html("삭제").val(result[i].memberNo);
 						var $block = $("<button>").prop("class", "btn btn-danger btn-sm nanum blockFriendInList").attr('data-toggle', "modal").attr('data-target', "#blockBtn").
 						html("차단").val(result[i].memberNo);
-						var $hr = $("<hr>");
+			/* 			var $hr = $("<hr>"); */
 						var $br = $("<br>");
 						
 						$imgDiv.append($fImg);
@@ -745,8 +743,8 @@
 						
 						$div0.append($div1).append($div2);
 						
-						$friendInfo.append($div0).append($hr);
-						$friendList.append($friendInfo);
+						$friendInfo.append($div0);
+						$friendList.append($friendInfo);/* .append($hr); */
 						
 									
 					}); //$.each 끝
@@ -838,7 +836,7 @@
 				
 				if(result == null){
 					$msg = $("<span>").html("아직 채팅이 개설된 방이 없어요!");
-					$chatList.css("text-align","center")
+					$chatList.css("text-align","center").css("margin-top","15px");
 					$chatList.html($msg);
 					
 				}else {

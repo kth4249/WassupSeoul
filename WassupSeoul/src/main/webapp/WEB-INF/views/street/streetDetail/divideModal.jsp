@@ -19,7 +19,7 @@
 	
 	.box {
         width: 100%;
-        height: 500px;
+        height: auto;
         float: left;
         margin-right: 10px;
     }
@@ -37,7 +37,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h2 class="modal-title nanum" id="divideModalLabel"
-										style="font-weight: bold; color:black;">1 / N 나누기 </h2>
+										style="color:#5a5a5a; font-weight: bold;">1 / N 나누기 </h2>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -45,24 +45,25 @@
 								</div>
 								<div class="modal-body">
 									<!-- content start -->
-									<textarea class=" nanum" id="writePostArea" rows="6" placeholder="게시글내용을 입력하세요."	
-									  style="border: 1px solid black; color: black; font-size: 17px; height: 100px; padding-bottom: 20px; width:100%"></textarea><br>	
-									<select id="vote" style="display: inline-block; height: 30px; " >
-									<option value="KOR">KOR ₩</option>
-									<option value="USD">USD $</option>
-									<option value="USD">EUR €</option>
-									<option value="CNY">CNY ¥</option>
-									</select>
-									<input type="text" id="originMoney" placeholder="총 금액을 입력해 주세요" 
-											style="width:81%;  height: 30px; margin-left: 12px; margin-bottom:10px;"><br>	
-	
-									<div>
-									<span>
-										 <img src="${contextPath}/resources/img/team.png" style="width: 30px; height: 30px; "> 
-									</span>
-									<span>
-										<span id="selectMember" style="margin-left: 15px;"  >멤버선택 ></span>	
-									</span>
+									<textarea class="nanum" id="writePostArea" rows="6" placeholder="게시글내용을 입력하세요."	
+									  style="color: black; font-size: 17px; height: 150px; padding: 20px; width:100%"></textarea><br>	
+									<div class="row" style="padding-left:7%">
+										<select class="form-control" id="vote" style="width:23%" >
+											<option value="KOR">KOR ₩</option>
+											<option value="USD">USD $</option>
+											<option value="USD">EUR €</option>
+											<option value="CNY">CNY ¥</option>
+										</select>
+										<input type="text" id="originMoney" placeholder="총 금액을 입력해 주세요" class="form-control"
+											style="width: 70%;">
+									</div>
+									<div class="mt-3">
+										<span>
+											 <img src="${contextPath}/resources/img/team.png" style="width: 30px; height: 30px;"> 
+										</span>
+										<span>
+											<span id="selectMember" style="margin-left: 15px;">멤버선택 ></span>	
+										</span>
 									</div>
 									<div id="divideMemberList" class="box au">
 									
