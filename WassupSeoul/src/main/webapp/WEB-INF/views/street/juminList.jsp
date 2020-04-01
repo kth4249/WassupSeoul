@@ -170,7 +170,7 @@
 														<c:choose>
 															<c:when test="${relationShip.requestStatus eq '1'.charAt(0)}">
 																<c:remove var="count"/>
-																<button type="button" class="btn btn-sm btn-success disabled" value="${member.memberNo}">친구 요청중</button>
+																<button type="button" class="btn btn-sm btn-success disabled" value="${member.memberNo}">요청중</button>
 															</c:when>
 															<c:when test="${relationShip.requestStatus eq '2'.charAt(0)}">
 																<c:remove var="count"/>
@@ -217,7 +217,7 @@
 							data : {"yourNum" : yourNum},
 							success : function() {
 								alert("친구 신청 완료");
-								$(event.target).prop("class", "btn btn-sm btn-success disabled").text("친구 요청중");
+								$(event.target).prop("class", "btn btn-sm btn-success disabled").text("요청중");
 								sendAlarm(yourNum);
 							},
 							error : function() {

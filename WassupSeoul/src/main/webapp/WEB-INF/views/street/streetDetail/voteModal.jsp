@@ -27,7 +27,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h2 class="modal-title nanum" id="voteModalLabel"
-										style="font-weight: bold; color:black;">투표 게시글 작성</h2>
+										style="font-weight: bold;">투표 게시글 작성</h2>
 									<button type="button" id="voteCloseBtn" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -35,23 +35,27 @@
 								</div>
 								<div class="modal-body">
 									<!-- content start -->
-									<textarea class=" nanum" id="writePostArea" rows="6" placeholder="게시글내용을 입력하세요."	
-									  style="border: 1px solid black; color: black; font-size: 17px; height: 100px; padding-bottom: 20px; width:100%"></textarea>	
-									<input type="text" id="voteTitle" placeholder="투표 제목(필수 입력)" style="width:80%; margin-left: 14px; margin-bottom:10px;"><br>	
+									<textarea class="nanum" id="writePostArea" rows="6" placeholder="게시글내용을 입력하세요."	
+									  style="color: black; font-size: 17px;"></textarea>	
+									<input type="text" class="form-control" id="voteTitle" placeholder="투표 제목(필수 입력)" style=""><br>	
 								
 									<div style="width:100%" id="optionArea">
-									<label>1</label><input type="text" id="voteOption1" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>	
-									<label>2</label><input type="text" id="voteOption2" class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>
-									
+										<div class="col-md-12 row">
+											<label class="col-md-2" style="text-align:center; margin-left: 10%; margin-top: 5px;">1</label>
+											<input type="text" id="voteOption1" class="voteOption col-md-8 form-control" placeholder="항목 입력" style="margin-bottom: 10px;"><br>	
+										</div>
+										<div class="col-md-12 row">
+											<label class="col-md-2" style="text-align:center; margin-left: 10%; margin-top: 5px;">2</label>
+											<input type="text" id="voteOption2" class="voteOption col-md-8 form-control" placeholder="항목 입력" style="margin-bottom: 10px;"><br>
+										</div>
 									</div>	
 	
 									<div class="container">
-										<div class="row">
-											<div style="text-align: center; margin: auto; font-size: 20px;">
-												<img src="${contextPath}/resources/img/plus.png" alt="학습노트 추가 버튼" class="addBtn"
-													style="width: 10px; height: 10px;">
-												<span class="addBtn" id="addOptionBtn"style="color:black; font-weight:bold;" >추가하기</span> <span style="size:7px; color:gray;">(최대 10개까지 가능)</span>
-											</div>
+										<div class="form-control mb-3" style="text-align: center; margin: auto; font-size: 20px; background-color:#c7dbaf">
+											<img src="${contextPath}/resources/img/plus.png" alt="학습노트 추가 버튼" class="addBtn"
+												style="width: 10px; height: 10px;">
+											<span class="addBtn" id="addOptionBtn"style="color:black;">추가하기</span> 
+											<span style="font-size:15px; color:red;">(최대 10개까지 가능)</span>
 										</div>
 									</div>	
 		
@@ -63,11 +67,11 @@
 									<label for="vote" style="width: 110px;">복수 선택 개수:</label>
 	
 									<select id="voteLimit" style="display: inline-block; " >
-									<option value="Y">제한없음</option>
-									<option value="2">2개</option>
-									<option value="3">3개</option>
-									<option value="4">4개</option>
-									<option value="5">5개</option>
+										<option value="Y">제한없음</option>
+										<option value="2">2개</option>
+										<option value="3">3개</option>
+										<option value="4">4개</option>
+										<option value="5">5개</option>
 									</select>
 									</span><br>
 	
@@ -77,12 +81,11 @@
 									<input id="date" type='date'  style="width: 140px;"/>
 									</span>
 									<!-- onclick="return validate2();" -->	
-									<button type="button" id="voteSubmitBtn" style="width: 15%; height: 30px; font-size: 17px; float: right; margin-left: 200px" >작성</button>
+									<button type="button" id="voteSubmitBtn" class="mt-3 form-control btn btn-primary">작성</button>
  
 									<!-- content end -->
 								</div>
 							 </div>
-
 							<!-- content end -->
 						</div>
 					</div>
@@ -243,11 +246,11 @@
 			
    		 		optionCount +1;
 			
-			var html = '<label>'
+			var html = '<div class="col-md-12 row"><label class="col-md-2" style="text-align:center; margin-left: 10%; margin-top: 5px;">'
 					 + optionCount
 					 + '</label><input type="text" id="voteOption'
 					 + optionCount
-					 + '"class="voteOption" placeholder="항목 입력" style="width:80%; margin-left: 5px"><br>'
+					 + '"class="voteOption col-md-8 form-control" placeholder="항목 입력" style="margin-bottom: 10px"></div>'
 			
    	        if ( optionCount < 11) {
    	        	$("#optionArea").append(html);
