@@ -1,5 +1,7 @@
 package com.kh.wassupSeoul.friends.controller;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ import com.google.gson.Gson;
 import com.kh.wassupSeoul.friends.model.service.FriendsService;
 import com.kh.wassupSeoul.friends.model.vo.ChatList;
 import com.kh.wassupSeoul.friends.model.vo.MSG;
+import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
 
@@ -36,7 +39,7 @@ public class FriendsController {
 	public String friendRequest(Model model, HttpServletResponse response) {
 		int myNum = ((Member)model.getAttribute("loginMember")).getMemberNo();
 		try {
-			List<Member> fList = friendsService.friendRequest(myNum);
+			List<Relationship> fList = friendsService.friendRequest(myNum);
 			return new Gson().toJson(fList);
 		} catch (Exception e){
 			e.printStackTrace();
@@ -118,9 +121,9 @@ public class FriendsController {
 			int result = friendsService.blockFriend(nMap);
 			
 			if (result>0) {
-				//System.out.println("친구 차단 성공");
+				System.out.println("친구 차단 성공");
 			} else {
-				//System.out.println("친구 차단 실패");
+				System.out.println("친구 차단 실패");
 			}
 			return null;
 		} catch (Exception e) {
@@ -164,9 +167,9 @@ public class FriendsController {
 			int result = friendsService.friendTalk(nMap);
 			
 			if (result>0) {
-				//System.out.println("대화방 진입 성공");
+				System.out.println("대화방 진입 성공");
 			} else {
-				//System.out.println("대화방 진입 실패");
+				System.out.println("대화방 진입 실패");
 			}
 			return null;
 		} catch (Exception e) {
@@ -216,9 +219,9 @@ public class FriendsController {
 				int result = friendsService.blockFriendsInList(nMap);
 				
 				if (result>0) {
-					//System.out.println("친구목록에서 차단 성공");
+					System.out.println("친구목록에서 차단 성공");
 				} else {
-					//System.out.println("친구목록에서 차단 실패");
+					System.out.println("친구목록에서 차단 실패");
 				}
 				return null;
 			} catch (Exception e) {
@@ -238,7 +241,7 @@ public class FriendsController {
 			//System.out.println("myNo" + myNo);
 			try {
 				List<Object> bList = friendsService.blockFriendsList(myNo);
-				//System.out.println("컨트롤러 bList : " + bList);
+				System.out.println("차단목록조회 : " + bList);
 				return new Gson().toJson(bList);
 				
 			} catch (Exception e) {
@@ -261,9 +264,9 @@ public class FriendsController {
 				int result = friendsService.noBlock(bMap);
 				
 				if (result>0) {
-					//System.out.println("친구차단에서 제거 성공");
+					System.out.println("친구차단에서 제거 성공");
 				} else {
-					//System.out.println("친구차단에서 제거 실패");
+					System.out.println("친구차단에서 제거 실패");
 				}
 				return null;
 			} catch (Exception e) {
@@ -282,6 +285,7 @@ public class FriendsController {
 			int myNo = ((Member)model.getAttribute("loginMember")).getMemberNo();
 			try {
 				List<ChatList> cList = friendsService.selectRoomList(myNo);
+				System.out.println("채팅목록 리스트 : " + cList);
 				return new Gson().toJson(cList);
 				
 			} catch (Exception e) {
@@ -298,9 +302,27 @@ public class FriendsController {
 				produces = "application/json; charset=utf-8")
 		public String inToRoom(int roomNo) {
 			
+			System.out.println("대화방 확인 : " + roomNo);
+			
 			try {
 				List<MSG> mList = friendsService.inToRoom(roomNo);
 				//System.out.println(mList);
+				MSG temp = new MSG();
+				
+				if (mList.isEmpty()) {
+					temp.setMsgNo(10000);
+					temp.setMsgContent("환영합니다.");
+					temp.setMsgStatus("Y");
+					temp.setMemberNo(46);
+					temp.setRoomNo(roomNo);
+					temp.setMemberNickname("관리자");
+					temp.setMemberProfileUrl("man.png");
+					System.out.println("채팅방 개설 : " + temp);
+					ArrayList<MSG> mmList = new ArrayList<MSG>();
+					mmList.add(temp);
+					return new Gson().toJson(mmList);
+				}
+				
 				return new Gson().toJson(mList);
 				 
 			} catch (Exception e) {

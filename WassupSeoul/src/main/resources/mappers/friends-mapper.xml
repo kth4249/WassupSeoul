@@ -6,6 +6,9 @@
 		<id property="myNum" column="MY_NO"/>
 		<id property="yourNum" column="YOUR_NO"/>
 		<result property="requestStatus" column="REQUEST_STATUS"/>
+		<result property="memberNo" column="MEMBER_NO"/>
+		<result property="memberNickname" column="MEMBER_NICKNAME"/>
+		<result property="memberProfileUrl" column="MEMBER_PROFILE_URL"/>
 	</resultMap>
 	
 	<resultMap type="Member" id="memberResultSet">
@@ -48,25 +51,17 @@
 <!-- 친구요청 조회용 1-->
 <select id="friendsRequest" parameterType='_int' resultMap="RelationshipResultSet">
 	SELECT * FROM RELATIONSHIP
-	JOIN MEMBER ON(MY_NO = MEMBER_NO)
-	WHERE YOUR_NO = #{myNum} 
-	AND REQUEST_STATUS = 1
-	AND MEMBER_STATUS = 'Y'
+    JOIN MEMBER ON(MY_NO = MEMBER_NO)
+	WHERE YOUR_NO = #{myNum} AND REQUEST_STATUS = 1
+	AND MY_NO NOT IN (SELECT YOUR_NO FROM RELATIONSHIP 
+	WHERE MY_NO = #{myNum} AND REQUEST_STATUS IN (2,3,4))
+	AND MEMBER_STATUS = 'Y' 
 </select> 
 
 
-<!-- 친구요청 조회용 2-->
-<select id="justFriendsReq" parameterType='map' resultMap="memberResultSet">
-	SELECT * FROM MEMBER
-	JOIN RELATIONSHIP ON(MY_NO = MEMBER_NO)
-	<where>
-		AND YOUR_NO = #{myNum} 
-		AND MEMBER_STATUS = 'Y'
-		AND REQUEST_STATUS = 1
-	</where>
-</select>
 <!-- @@@@@@@@@@@@@@@ 태훈 시작 @@@@@@@@@@@@@@@  -->
 <!-- 친구요청 (태훈)-->
+
  <insert id="addRelation" parameterType="Relationship">
  	INSERT INTO RELATIONSHIP
  	VALUES(#{myNum}, #{yourNum}, #{requestStatus})
@@ -131,8 +126,8 @@
  
  <!-- 친구 차단 -->
  <insert id="blockFriend" parameterType="map">
- 	UPDATE RELATIONSHIP SET REQUEST_STATUS = 3
- 	WHERE YOUR_NO = #{myNo}
+ 	INSERT INTO RELATIONSHIP VALUES
+ 	(#{myNo}, #{yourNo} , 3) 
  </insert>
  
  

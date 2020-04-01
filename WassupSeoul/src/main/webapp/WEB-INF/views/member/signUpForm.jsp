@@ -327,7 +327,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<div>
 									<span id="checkImg"></span>
 								</div>
-								<!-- <p class="nanum float-right" style="color: midnightblue;">(선택사항)</p> -->
+								<p class="nanum float-right" style="color: midnightblue;">(필수사항)</p>
 							</div>
 							<div class="col-md-6">
 								<div class="profileDiv">
@@ -342,11 +342,11 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 								<label for=""></label>
 							</div>
 							<div class="col-md-6">
-							    <div class="custom-control custom-checkbox">
-								      <input type="checkbox" class="custom-control-input" id="def_check" name="def_check" checked>
+							    <!-- <div class="custom-control custom-checkbox">
+								      <input type="checkbox" class="custom-control-input" id="def_check" name="def_check">
 								      <label class="custom-control-label" for="def_check" style="color: black;">기본 프로필 이미지 사용</label>
 								      <input type="hidden" id="defaultImg" name="defaultImg">
-								</div>
+								</div> -->
 							</div>
 						</div>
 						<script>
@@ -354,7 +354,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 						$("#def_check").change(
 								function(){
 									//체크박스 값에 따라 히든 값 변경
-									if($("#def_check").prop("checked")){
+									if($("#def_check").is(":checked")){
 										$("#defaultImg").val('Y');
 									}else {
 										$("#defaultImg").val('N');
@@ -390,8 +390,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 			"name" : false,
 			"nickName" : false,
 			"phone" : false,
-			"profile_img" : true,
-			"def_check" : true
+			"img" : false
+			
 		};
 		
 		/* 관심사 제거 버튼 클릭시 관심사 제거 */
@@ -589,34 +589,22 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					var $phone2 = $("#phone2");
 					var $phone3 = $("#phone3");
 					var $profile_img = $("#profile_img");
-					var $def_check = $("#def_check");
 					var $br = $("<br>");
 
 					//!$("#def_check").prop("checked")
 					//$profile_img.get(0).files.length === 0
 					// 프로필 사진 유효성 검사
 						
-				 $def_check.on("input" , function() {		
-					if(	!$("#def_check").prop("checked") ){
-						$("#checkImg").prop("class","nanum float-right").html("프로필 사진 또는 기본이미지를 체크해주세요.")
-						.css("color" , "red");
-						signUpCheck.def_check = false;	
-					}else if ($("#def_check").prop("checked") ) {
-						$("#checkImg").html("");
-						signUpCheck.def_check = true;
-					}
-					
-				}); 
 					
 					
 				 $profile_img.on("input" , function() {		
 						if(	$profile_img.get(0).files.length === 0 ){
 							$("#checkImg").prop("class","nanum float-right").html("프로필 사진 또는 기본이미지를 체크해주세요.")
 							.css("color" , "red");
-							signUpCheck.profile_img = false;
+							signUpCheck.img = false;
 						}else {
 							$("#checkImg").html("");
-							signUpCheck.profile_img = true;
+							signUpCheck.img = true;
 						}				
 					}); 
 					
@@ -721,8 +709,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					
 					 // 닉네임  유효성 검사
 					$nickName.on("input", function(){
-						// 한글,영어 대,소문자 + 숫자, 총 1~12글자
-						var regExp = /^[A-Za-z0-9가-힣\s]{1,12}$/;
+						// 한글,영어 대,소문자 + 숫자, 총 1~5글자
+						var regExp = /^[A-Za-z0-9가-힣\s]{1,5}$/;
 						if(!regExp.test($nickName.val())){
 					    	$("#checknickName").text("닉네임 형식이 유효하지 않습니다.").css({"color":"red","font-weight":"bold"});
 					    	signUpCheck.nickName = false;
