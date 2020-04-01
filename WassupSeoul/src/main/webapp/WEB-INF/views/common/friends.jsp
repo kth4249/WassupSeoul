@@ -151,9 +151,12 @@
 				<div class="tab-pane fade active show tgl" id="friendsList">
 					<div class="nanum" id="friendInfo">
 						<br> 
-						<img src="${contextPath}/resources/img/usericon.png"
-							width="40px" height="40px" class="ml-3 fImg" data-toggle="modal"
-							data-target="#profilePicture" style="cursor: pointer"> &nbsp;
+						<div style="width: 40px; height: 40px; border-radius: 70%; overflow: hidden;">
+							<img src="${contextPath}/resources/img/usericon.png"
+								style="width:100%; height:100%; object-fit: cover;" class="ml-3 fImg" data-toggle="modal"
+								data-target="#profilePicture" style="cursor: pointer">
+						</div>
+							 &nbsp;
 						<span class="fUser" style="font-size: 20px;">안중하</span> &nbsp;
 						<button type="button"
 							class="btn btn-outline-danger btn-sm nanum float-right mr-3"
@@ -721,7 +724,10 @@
 						var $div0 = $("<div>").prop("class", "row");
 						var $finalPath = $savePath + result[i].memberProfileUrl;
 						var $div1 = $("<div>").prop("class", "col-md-7");
-						var $fImg = $("<img>").prop("class", "fImg detect1").prop("src", $finalPath).css({"width":"40px","height":"40px"}).attr('data-toggle', "modal").attr('data-target', "#profilePicture").val(result[i].memberNo);
+						/* 미현수정 */
+						var $imgDiv = $("<div>").css({"width":"40px","height":"40px","border-radius":"70%","overflow":"hidden"});
+						/* 미현수정 */
+						var $fImg = $("<img>").prop("class", "fImg detect1").prop("src", $finalPath).css({"width":"100%","height":"100%","object-fit":"cover"}).attr('data-toggle', "modal").attr('data-target', "#profilePicture").val(result[i].memberNo);
 						var $fUser = $("<span>").prop("class", "fUser").html(result[i].memberNickname);
 						var $div2 = $("<div>").prop("class", "col-md-5");
 						var $fTalk = $("<button>").prop("class", "btn btn-info btn-sm nanum friendTalk").html("대화").val(result[i].memberNo);
@@ -732,8 +738,9 @@
 						var $hr = $("<hr>");
 						var $br = $("<br>");
 						
-						
-						$div1.append($fImg).append($fUser);
+						$imgDiv.append($fImg);
+						$div1.append($imgDiv).append($fUser);
+						//$div1.append($imgDiv).append($fImg).append($fUser);
 						$div2.append($fTalk).append($fbye).append($block);
 						
 						$div0.append($div1).append($div2);
