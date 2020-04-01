@@ -42,7 +42,7 @@
               <div class="card-body">
              	  <!-- 추가코드 시작(20.03.26) -->
 	              <div class="row">
-                      <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">일정 마감일</label>
+                      <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">참가 마감일</label><!--정승환 코드 변경(20.04.01) -->
                       <div class="col-sm-8"> 
                       	<input type="text" class="form-control-plaintext nanum" id="joinCalLimitDate" readonly style="font-weight:bolder;font-size:17px;">	    
                       </div>

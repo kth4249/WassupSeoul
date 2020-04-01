@@ -666,7 +666,7 @@ object-fit: cover;
        					var $brPlus3 = $("<br>");
        					for(var i=0;i<Object.keys(waitNOutList.outStreetList).length;i++){
        						var $divPlus = $("<div>").addClass("row");
-           					var $divPlus1 = $("<div>").addClass("col-md-4").css({"position":"relative","height":"150px","overflow":"hidden","background-color":"black","margin-left":"10px"});
+           					var $divPlus1 = $("<div>").addClass("col-md-4").css({"position":"relative","height":"100px","overflow":"hidden","background-color":"black","margin-left":"10px"}); /* 정승환 코드 변경(20.04.01) */
            					var $divPlus2 = $("<div class=''>");
            					var $divPlus3 = $("<div class='col-md-7'>");
            					
@@ -742,7 +742,7 @@ object-fit: cover;
        						var $divPlus1 = $("<div class='col-sm-10'>");
        	       				var $labelPlus = $("<label>");
        	       				var $inputPlus = $("<input>");
-       						$labelPlus.addClass("col-sm-2 col-form-label text-center nanum").css({"font-weight" : "bold","font-size": "16px"}).html("관심분야");
+       						$labelPlus.addClass("col-sm-2 col-form-label text-center nanum").css({"font-weight" : "bold","font-size": "14px"}).html("관심분야"); /* 정승환 코드변경(20.04.01) */
        						$inputPlus.prop({"type":"text","readonly":"true"}).css({"color" : "blue","font-size": "25px"})
        								  .addClass("nanum form-control-plaintext").val("#" + mList[1].hobbyName);
        						$divPlus1.append($inputPlus);

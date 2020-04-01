@@ -59,7 +59,7 @@
                 </div>
                 <br>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*회원 탈퇴 약관</label>
+                    <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;font-size: 19px;">*회원 탈퇴 약관</label>
                     <div class="col-sm-5"></div>
                     <div class="col-sm-5"></div>
                 </div>
