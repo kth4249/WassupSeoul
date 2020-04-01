@@ -59,20 +59,20 @@
                     <!-- 제목끝 -->
                     <hr>
 
-                    <form action="${contextPath}/member/update" method="POST" style="background-color: rgba(211, 211, 211, 0.8);" 
+                    <form action="${contextPath}/member/update" method="POST" style="" 
                     enctype="multipart/form-data" role="form" onsubmit="return validate();">
                     <br>
                     <!-- 프로필변경 시작 -->
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*프로필 변경</label>
-                        <div class="col-sm-3">
+                        <label class="col-sm-4 col-form-label nanum" style="font-size: 20px;">*프로필 변경</label>
+                        <div class="col-sm-3" style="margin-left: 5%;">
                             <div id="profileBox"><img class="profileImage" src="${contextPath}/resources/profileImage/${member.memberProfileUrl}" alt="이미지" id="updateProfile"></div>
                             <div class="uploadImage">
                                 <label for="imgInp" style="width: 100%; height: 100%;text-align: center;"><img src="${contextPath}/resources/img/iconmonstr-photo-camera-4-64.png" style="cursor: pointer;margin: 8px 0px;" width="40px" height="40px"></label>
                                 <input id="imgInp" type="file" name="memberProfileUrl" style="display : none">
                             </div>
                         </div>
-                        <div class="col-sm-5 nanum" style="color: green;">(*사진 아이콘을 누르면 프로필사진을 <br>변경할 수 있습니다.)</div>
+                        <div class="col-sm-12 nanum mt-3" style="color: darksalmon; text-align: center;">(*사진 아이콘을 누르면 프로필사진을 변경할 수 있습니다.)</div>
                     </div>
                     <!-- 프로필 변경 끝 -->
 
@@ -80,8 +80,8 @@
 
                     <!-- 닉네임 변경 시작 -->
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*닉네임 변경</label>
-                        <div class="col-sm-5">
+                        <label class="col-sm-3 col-form-label nanum" style="font-size: 20px;">*닉네임 변경</label>
+                        <div class="col-sm-6">
                           <input type="text" class="form-control nanum" id="nickName" name="memberNickname" value="${member.memberNickname}" style="font-size: 20px;" placeholder="변경할 닉네임을 입력하세요">
                         </div>
                         <div class="col-sm-3"></div>
@@ -99,7 +99,7 @@
 					
                     <!-- 전화번호 변경 시작 -->
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*전화번호 변경</label>
+                        <label class="col-sm-3 col-form-label nanum" style="font-size: 20px;">*전화번호 변경</label>
                         <div class="col-sm-2">
                             <select class="form-control nanum" name="phone1" style="font-size: 20px;">
                                 <option <c:if test="${phone[0] == '010'}"> selected </c:if>>010</option>
@@ -123,8 +123,8 @@
 
                     <!-- 비밀번호 변경 시작 -->
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*현재 비밀번호</label>
-                        <div class="col-sm-5">
+                        <label class="col-sm-3 col-form-label nanum" style="font-size: 20px;">*현재 비밀번호</label>
+                        <div class="col-sm-6">
                           <input type="password" class="form-control nanum" id="beforePwd" style="font-size: 20px;" placeholder="현재 비밀번호 입력">
                         </div>
                         <div class="col-sm-3">
@@ -143,8 +143,8 @@
                     <br>
                     <div class="form-group row">
                         <!-- 새로운 비밀번호1 -->
-                        <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*새 비밀번호</label>
-                        <div class="col-sm-5">
+                        <label class="col-sm-3 col-form-label nanum" style="font-size: 20px;">*새 비밀번호</label>
+                        <div class="col-sm-6">
                           <input type="password" class="form-control nanum" id="newPwd1" name="newPwd" readonly style="font-size: 20px;" placeholder="현재 비밀번호가 일치하여야 입력가능">
                         </div>
                         <div class="col-sm-3"></div>
@@ -158,8 +158,8 @@
                     <br>    
                     <div class="form-group row">
                         <!-- 새로운 비밀번호2 -->
-                        <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*새 비밀번호 확인</label>
-                        <div class="col-sm-5">
+                        <label class="col-sm-3 col-form-label nanum" style="font-size: 20px;">*새 비밀번호 확인</label>
+                        <div class="col-sm-6">
                           <input type="password" class="form-control nanum" id="newPwd2" style="font-size: 20px;" readonly placeholder="현재 비밀번호가 일치하여야 입력가능">
                         </div>
                         <div class="col-sm-3"></div>
@@ -175,8 +175,8 @@
                     <br>
                     <!-- 관심사 직접입력 시작 -->
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*관심사 변경(직접입력)</label>
-                        <div class="col-sm-5">
+                        <label class="col-sm-3 col-form-label nanum" style="font-size: 20px;">*관심사 변경(직접입력)</label>
+                        <div class="col-sm-6">
 	                        <div class="input-group mb-3">
 		                      	<input type="text" class="form-control nanum" id="writeHobbyNm" style="font-size: 20px;" placeholder="관심사 직접 입력">
 		                        <div class="input-group-append">
@@ -190,12 +190,12 @@
                     
                     <!-- 관심사 검색창 시작 -->
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*관심사 변경(검색)</label>
-                        <div class="col-sm-5">
+                        <label class="col-sm-3 col-form-label nanum" style="font-size: 20px;">*관심사 변경(검색)</label>
+                        <div class="col-sm-6">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control nanum" id="searchHobbyNm" style="font-size: 20px;" placeholder="관심사 검색">
                                 <div class="input-group-append">
-                                	<button type="button" class="btn btn-primary nanum" id="searchHobby" style="font-size: 20px;">검 색</button>
+                                	<button type="button" class="btn btn-primary nanum" id="searchHobby" style="font-size: 20px;">검색</button>
                                 </div>
                             </div>    
                         </div>
@@ -205,8 +205,8 @@
 
                     <!-- DB저장 관심사 출력 -->
                     <div class="form-group row">
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-5" style="overflow: auto; height: 270px;">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-6" style="overflow: auto; height: 80px;">
                             <ul class="list-group list-group-flush" id="searchHobbyList">
                             	<li class="list-group-item">
                             		<h5 class="nanum">검색한 관심사가 조회됩니다.</h5>
@@ -220,15 +220,15 @@
                     
                     <!-- 선택된 관심사 출력 -->
                     <div class="form-group row">
-                        <label class="col-sm-4 col-form-label nanum" style="font-weight: bold;font-size: 20px;">*지정 관심사</label>
-                        <div class="col-sm-5" id="selectHobby">
+                        <label class="col-sm-3 col-form-label nanum" style="font-size: 20px;">*지정 관심사</label>
+                        <div class="col-sm-6" id="selectHobby">
 	                        <c:forEach var="hobby" items="${myHobby}" varStatus="vs">
 		                       <div class="form-group row">
 	                                <div class="col-sm-9">
-	                                	<input type="text" class="form-control-plaintext nanum" name="hobbyNmArr" value="#${hobby.hobbyName}" style="font-size: 20px;color: blue;" readonly>
+	                                	<input type="text" class="form-control-plaintext nanum" name="hobbyNmArr" value="#${hobby.hobbyName}" style="font-size: 20px;color: darkslateblue;" readonly>
 	                                </div>
 	                                <div class="col-sm-3">
-	                                	<button type="button" class="btn btn-primary nanum deleteHobby">제거</button>
+	                                	<button type="button" class="btn btn-danger nanum deleteHobby">제거</button>
 	                                </div>
 	                                <div class="col-sm-11" style="background-color: black;height: 2px;"></div>
 	                                <input type="hidden" name="hobbyNoArr" value="${hobby.hobbyNo}">
@@ -242,7 +242,7 @@
                     <!-- 버튼 -->
                     <div class="form-group row">
                         <div class="col-sm-2"></div>
-                        <div class="col-sm-4"><a class="btn btn-secondary btn-lg btn-block nanum" href="${contextPath}/square" role="button" style="font-size: 25px;">광장으로</a></div>
+                        <div class="col-sm-4"><a class="btn btn-warning btn-lg btn-block nanum" href="${contextPath}/square" role="button" style="font-size: 25px;">광장으로</a></div>
                         <div class="col-sm-4"><button type="submit" class="btn btn-primary btn-lg btn-block nanum" style="font-size: 25px;">수정하기</button></div>
                         <div class="col-sm-2"></div>
                     </div>
@@ -334,8 +334,8 @@
     	       		var inputPlus = $("<input></input>")
     	       						.prop({"type":"text", "readonly":"true", "name":"hobbyNmArr"})
     	       						.val("#" + writeHobby).addClass("form-control-plaintext nanum")
-    	       						.css({"font-size":"20px","color":"blue"});
-    	       		var buttonPlus = $("<button></button>").prop("type","button").addClass("btn btn-primary nanum deleteHobby").html("제거");
+    	       						.css({"font-size":"20px","color":"darkslateblue"});
+    	       		var buttonPlus = $("<button></button>").prop("type","button").addClass("btn btn-danger nanum deleteHobby").html("제거");
     	       		
     	            $divPlus1 = $divPlus1.append(inputPlus);
     	            $divPlus2 = $divPlus2.append(buttonPlus);
@@ -444,7 +444,7 @@
     	       						.prop({"type":"text", "readonly":"true", "name":"hobbyNmArr"})
     	       						.val(searchHobbyVal).addClass("form-control-plaintext nanum")
     	       						.css({"font-size":"20px","color":"blue"});
-    	       		var buttonPlus = $("<button></button>").prop("type","button").addClass("btn btn-primary nanum deleteHobby").html("제거");
+    	       		var buttonPlus = $("<button></button>").prop("type","button").addClass("btn btn-danger nanum deleteHobby").html("제거");
     	       		var hobbyNoPlus = $("<input>").prop({"type": "hidden","name" : "hobbyNoArr"}).val(searchHobbyNo);
     	       		
     	            divPlus1 = divPlus1.append(inputPlus);
@@ -582,13 +582,12 @@
 				if(!regExp.test($newPwd1.val())){ 
 					$newPwd1.removeClass("is-valid");
     				$newPwd1.addClass("is-invalid");
-                	$("#newPwd1Check").text("비밀번호 형식이 유효하지 않습니다.").css("color","red");
-                	
+                	$("#newPwd1Check").text("비밀번호 형식이 유효하지 않습니다.").css("color","red").css("font-weight","bold");      	
                 	signUpCheck.newPwd1 = false;
                 }else{
                 	$newPwd1.removeClass("is-invalid");
     				$newPwd1.addClass("is-valid");
-                	$("#newPwd1Check").text("유효한 비밀번호 형식입니다.").css("color","green");
+                	$("#newPwd1Check").text("유효한 비밀번호 형식입니다.").css("color","green").css("font-weight","bold");
                 	
                 	signUpCheck.newPwd1 = true;
                 }
@@ -599,13 +598,13 @@
 				if($newPwd1.val().trim() != $newPwd2.val().trim()){
 					$newPwd2.removeClass("is-valid");
     				$newPwd2.addClass("is-invalid");
-					$("#newPwd2Check").text("비밀번호 불일치").css("color","red");
+					$("#newPwd2Check").text("비밀번호 불일치").css("color","red").css("font-weight","bold");;
 					
 					signUpCheck.newPwd2 = false;
 				}else{
 					$newPwd2.removeClass("is-invalid");
     				$newPwd2.addClass("is-valid");
-					$("#newPwd2Check").text("비밀번호 일치").css("color","green");
+					$("#newPwd2Check").text("비밀번호 일치").css("color","green").css("font-weight","bold");;
 					
 					signUpCheck.newPwd2 = true;
 				}

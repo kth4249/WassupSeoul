@@ -185,8 +185,10 @@ strong {
 						<c:forEach var="street" items="${sList}" varStatus="vs">
 							<div class="streetSize" onclick="location.href='street/streetMain?streetNo=${street.streetNo}'">
 								<div class="card h-100">
-									<a><img
-										class="card-img-top" src="${contextPath}/resources/streetCoverImage/${street.imgUrl}"></a>
+									<div style="width: 100%; height: 200px; overflow: hidden">
+										<a><img class="card-img-top" style="width: 100%; height: 100%; object-fit: cover;" 
+											src="${contextPath}/resources/streetCoverImage/${street.imgUrl}"></a>
+									</div>
 									<div class="card-body">
 										<h4 class="card-title nanum">
 											<a>${street.streetNm }</a>

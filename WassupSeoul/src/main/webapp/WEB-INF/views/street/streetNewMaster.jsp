@@ -58,7 +58,7 @@
 								<input class="form-control nanum" type="text"
 									placeholder="주민 닉네임" id="juminNickName">
 							</div>
-							<div class="col-md-2 nanum form-group">
+							<div class="nanum form-group">
 								<button class="nanum btn btn-primary" type="button"
 									id="juminSearch">검색</button>
 							</div>
@@ -70,7 +70,8 @@
 
 
 						<div class="row">
-							<div class="col-md-12 nanum form-group">
+						
+							<div class="col-md-12">
 								<h3 class="nanum">새로운 골목대장</h3>
 							</div>
 							<div class="col-md-6 nanum form-group">
@@ -79,24 +80,17 @@
 									placeholder="지정된 골목대장 닉네임">
 								<input type="hidden" id="newNo" name="newNo">
 							</div>
-						</div>
-
-						<div class="row">
-							<br>
-						</div>
-
-
-						<div class="row">
-							<div class="col-md-6" style="text-align: center;">
+							<div style="text-align: center;">
 								<div style="display: inline-block;">
-									<button type="submit" class="btn btn-warning nanum" id="yesMaster">위임하기</button>
+									<button type="submit" class="btn btn-info nanum" id="yesMaster">위임하기</button>
 								</div>
 							</div>
-							<div class="col-md-6" style="text-align: center;">
-								<div style="display: inline-block;">
-									<button class="btn btn-primary nanum" type="button">나가기</button>
+							<div style="text-align: center;">
+								<div style="display: inline-block; margin-left:10px">
+									<button class="btn btn-warning nanum" type="button">나가기</button>
 								</div>
 							</div>
+							<span style="color:darksalmon"> * 골목대장 위임은 취소 할 수 없으므로, 다시 한번 확인하여 주시길 바랍니다 * </span>
 						</div>
 					</div>
 				</form>

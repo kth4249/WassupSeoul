@@ -36,10 +36,9 @@
 		<div class="row">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
-				<div class="card">
-					<div class="card-body">
-						<h1 class="nanum" style="display: inline;">추천 친구</h1>
-						&nbsp;&nbsp;&nbsp;
+				<div>
+					<div>
+						<h1 class="nanum" style="display: inline;">추천 친구</h1><br><br>
 						<h5 class="nanum" style="display: inline; color: tomato;">
 							회원님의 관심사 :
 							<c:if test="${!empty myHobby }">
@@ -61,17 +60,16 @@
 
 				<c:if test="${!empty mList }">
 					<c:forEach items="${mList}" var="member">
-						<div class="card mb-1">
-							<div class="card-body">
+						<div class="mb-1">
+							<div>
 								<div class="row">
-									<div class="col-md-2">
-										<img
-											src="${contextPath}/resources/profileImage/${member.memberProfileUrl}"
-											class="friendRecommendProfile">
+									<div style="width: 50px !important; height: 50px !important; overflow: hidden; border-radius: 70%; margin-left: 30px;">
+										<img src="${contextPath}/resources/profileImage/${member.memberProfileUrl}"
+											class="friendRecommendProfile" style="width: 100%; height: 100%; object-fit: cover;">
 									</div>
 									<div class="col-md-6">
 										<h4 class="nanum friendRecommendName">${member.memberNm }</h4>
-										<h5 class="nanum">
+										<h5 class="nanum" style="color: darkgreen; font-size: 18px;">
 											<c:if test="${!empty hList}">
 												<c:forEach items="${hList}" var="hobby">
 													<c:if test="${member.memberNo == hobby.memberNo }">
