@@ -57,21 +57,21 @@
 										<input type="text" id="originMoney" placeholder="총 금액을 입력해 주세요" class="form-control"
 											style="width: 70%;">
 									</div>
-									<div class="mt-3">
-										<span>
-											 <img src="${contextPath}/resources/img/team.png" style="width: 30px; height: 30px;"> 
-										</span>
-										<span>
+									<div class="mt-3 mb-3 row" style="margin-left: 5%;">
+										<div style="width: 30px; height: 30px; border-radius: 70%; overflow: hidden">
+											 <img src="${contextPath}/resources/img/team.png" style="width: 100%; height: 100%; object-fit: cover"> 
+										</div>
+										<div>
 											<span id="selectMember" style="margin-left: 15px;">멤버선택 ></span>	
-										</span>
+										</div>
 									</div>
-									<div id="divideMemberList" class="box au">
+									<div id="divideMemberList" class="box">
 									
 									
 									
 									</div>	
 										
-									<button type="button" id="divideSubmitBtn" style="width: 15%; height: 30px; font-size: 17px; float: right; margin: 0px">작성</button>
+									<button type="button" id="divideSubmitBtn" style="background-color:#5eb69d; color:white; border-color: #55b298" class="form-control">작성</button>
  
 									<!-- content end -->
 								</div>
@@ -115,10 +115,10 @@
  				for(var i=0; i<selectDevideMember.length; i++){
  					//alert(selectDevideMember[i].memberNickName);
  				
-					var html = '<div style="border: 1px solid #ced4da; height: 45px;"><img src="${contextPath}/resources/img/'
+					var html = '<div class="row"><div style="width:45px; height: 45px; border-radius: 70%; overflow: hidden; margin-left: 7%;"><img src="${contextPath}/resources/img/'
 							 +  selectDevideMember[i].memberProfileUrl
-							 + '" style="width: 30px; height: 30px; margin-left: 3px; margin-top: 7px;" class="'
-							 +  selectDevideMember[i].memberNickName +'">'		
+							 + '" style="width: 100%; height: 100%; object-fit: cover;" class="'
+							 +  selectDevideMember[i].memberNickName +'"></div>'		
 						     + '<label style="width: 260px; margin-left: 30px; margin-bottom: 30px; font-size:17px;">'
 						     +  selectDevideMember[i].memberNickName
 						     + '<input type="checkbox" class="memberSelect" name="'
