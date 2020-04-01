@@ -54,7 +54,11 @@
 											</div>
 										</div>
 									</div>	
-		
+									
+									<br><span style="width: 300px; margin-left:25px;" >종료일 설정</span>								
+									<span  id="setDate" style="width: 200px; display: inline-block;">
+									<input id="date" type='date'  style="width: 140px;"/>
+									</span><br>
 	
 	    							<label style="width: 130px;" ><input type='checkbox' id="anonymity " style="margin-left: 10px;" />무기명 투표</label><br>
 									<label style="width: 340px;" ><input type='checkbox' id="plurality" class='check2' style="margin-left: 10px; display: inline-block;" />복수 선택 허용</label>
@@ -71,11 +75,7 @@
 									</select>
 									</span><br>
 	
-									<label style="width: 340px;" ><input type='checkbox' id='endDate' style="margin-left: 10px; display: inline-block;" />종료일 설정</label>
 									
-									<span  id="setDate" style="width: 300px; display: inline-block; float:right; visibility:hidden">
-									<input id="date" type='date'  style="width: 140px;"/>
-									</span>
 									<!-- onclick="return validate2();" -->	
 									<button type="button" id="voteSubmitBtn" style="width: 15%; height: 30px; font-size: 17px; float: right; margin-left: 200px" >작성</button>
  
@@ -151,42 +151,23 @@
 		var votePostContent = $("#writePostArea").val(); 
 		// 투표 제목
 		var votePostTitle = $("#voteTitle").val(); 
-		// 무기명 투표여부
-		var anonymity = "N";  
-		// 중복투표 여부
-		var voteLimit = "N";
 		
 		 //무기명 투표 여부
-		 if( $("#anonymity").is(":checked") == true ){
-			 anonymity = "Y";
+		 if( $('input:checkbox[id="anonymity"]').is(":checked")== true ){
+			 var anonymity = "Y";
+		 } else {
+			 var anonymity = "N";  
 		 }
 		
 		//복수 선태 개수 받기 
-		 if ($("#plurality").is(":checked") == true ){
+		 if ( $('input:checkbox[id="plurality"]').is(":checked")== true ){
 			 var voteLimit = $("#voteLimit option:selected").attr('value');
+		 }else{
+			 var voteLimit = "N";
 		 }
+	
+		var endDate = $('#date').val(); 
 		
-		// 종료일 선택  
-		if( $('input:checkbox[id="endDate"]').is(":checked") == true ){
-			 var today = new Date();
-			   
-		  	 moment(today).format('YYYY-MM-DD');
-		  	 
-		  	var endDate = $('#date').val(); 
-		  	 
-		  	 if( endDate.getTime() <= today.getTime() ){
-		  		alert("종료일은 오늘 날짜 이후 선택가능 ");
-		  	 }
-			
-		// 종료일 선택안했을 때 
-		}else{
-			 var endDate = new Date();
-				 endDate.setFullYear(2200) ;
-				 endDate.setMonth(10);
-				 endDate.setDate(12);
-		   
-		  	 	 moment(endDate).format('YYYY-MM-DD');
-		}
 		
 		// 투표 옵션 
 		var optionCount = $(".voteOption").length
@@ -207,6 +188,8 @@
 		alert("다음이 무기명 여부");
 		alert(anonymity);
 		alert(endDate);
+		alert("다음이 복수선택 여부");
+		alert(voteLimit);
 		//alert(voteOptionList);
 		
 		$.ajax({
