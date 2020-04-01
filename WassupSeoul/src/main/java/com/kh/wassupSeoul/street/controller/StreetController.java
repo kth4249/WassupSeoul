@@ -139,6 +139,9 @@ public class StreetController {
 					//System.out.println("@제거후 회원닉네임만 검색 : "+searchKeyword.substring(idx+1));
 					
 					board = streetService.searchBoardwithWriter(checkStreet);
+					if(board.isEmpty()) { // 게시물 검색결과 없음 표시하기 위해
+						board.add(0, new Board(0));
+					}
 					Collections.reverse(board);
 					
 				}else { // 게시글 내용 검색
@@ -154,6 +157,10 @@ public class StreetController {
 					checkStreet.setReplyContent(searchKeyword);
 					
 					board = streetService.searchBoardwithKeyword(checkStreet);
+					
+					if(board.isEmpty()) { // 게시물 검색결과 없음 표시하기 위해
+						board.add(0, new Board(0));
+					}
 					Collections.reverse(board);
 				}
 			}
@@ -169,9 +176,6 @@ public class StreetController {
 				}
 				
 				model.addAttribute("street", street); // 해당골목 정보
-				if(board.isEmpty()) { // 게시물 검색결과 없음 표시하기 위해
-					board.add(0, new Board(0));
-				}
 				
 				model.addAttribute("board", board);  // 해당 골목 게시글 조회
 				//request.getSession().setAttribute("board", board);
@@ -461,8 +465,8 @@ public class StreetController {
 	@RequestMapping("mapPost")
 	public String mapPost(String address, Model model, String mapPostContent ) {
 		
-//		System.out.println("입력한 주소 : " + address);
-//		System.out.println("입력한 게시글 내용 : " + mapPostContent);
+		System.out.println("입력한 주소 : " + address);
+		System.out.println("입력한 게시글 내용 : " + mapPostContent);
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
