@@ -11,7 +11,6 @@
 
 	<form action="sendReport" method="POST" enctype="multipart/form-data"
 		role="form">
-		<!-- class="form-inline my-2 my-lg-0"  -->
 
 		<div class="container-fluid headerMargin loungeBack">
 
@@ -58,7 +57,7 @@
 						</div>
 						<div class="col-md-4">
 							<input type="text" name="post"
-								class="form-control nanum postcodify_postcode5">
+								class="form-control nanum postcodify_postcode5" id="post">
 						</div>
 						<div class="col-md-3">
 							<button type="button" class="btn btn-info nanum"
@@ -133,37 +132,7 @@
 			</div>
 
 
-			<script>
-				$(function() {
-					// <input type="file"> 숨기기
-					$("#fileArea").hide();
-
-					
-					$("#reportImgArea").click(function() {
-
-						$("#reportImgUpload").click();
-					});
-
-				});
-
-				
-				function LoadImg(value, num) {
-					if (value.files && value.files[0]) {
-						var reader = new FileReader();
-						reader.onload = function(e) {
-							if (num == 1) {
-								$("#reportImg").prop("src", e.target.result);
-								$("#addImgArea").css("display", "none");
-								$("#reportImgArea").css("background-color",
-										"white");
-							}
-						}
-						reader.readAsDataURL(value.files[0]);
-					}
-				}
-			</script>
-
-
+			
 
 
 
@@ -234,7 +203,8 @@
 					style="position: relative;">
 					<div class="custom-control custom-checkbox"
 						style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-						<input type="checkbox" class="custom-control-input" id="check">
+						<input type="checkbox" class="custom-control-input" id="checkAll" name="checkAll"
+						onchange="checkcheckcheck();">
 						<label class="nanum custom-control-label" for="check">주의사항을 확인했습니다.</label>
 					</div>
 				</div>
@@ -257,6 +227,148 @@
 
 		</div>
 	</form>
+	
+	<script>
+				/* var allCheck = {
+						
+						"meetingStartDate" : false,
+						"meetingEndDate" : false,
+						"post" : false,
+						"address1" : false,
+						"address2" : false,
+						"meetingMember" : false,
+						"reportContent" : false,
+						"checkAll" : false					
+						
+				}
+			
+				
+				$(document).ready(function(){
+					
+					var $meetingStartDate = $("#meetingStartDate");
+					var $meetingEndDate = $("#meetingEndDate");
+					var $post = $("#post");
+					var $address1 = $("#address1");
+					var $address2 = $("#address2");
+					var $meetingMember = $("#meetingMember");
+					var $reportImg = $("#reportImg");
+					var $reportContent = $("#reportContent");
+					var $checkAll = $("#checkAll");					
+					
+					 $meetingStartDate.on("input", function(){
+						if($(this).val() == ""){
+							allCheck.meetingStarDate = false;
+						} else{
+							allCheck.meetingStartDate = true;
+						}
+					});
+					
+					$meetingEndDate.on("input", function(){
+						if($(this).val() == ""){
+							allCheck.meetingEndDate = false;
+						} else{
+							allCheck.meetingEndDate = true;
+						}
+					}); 
+					$post.on("input", function(){
+						if($(this).val() == ""){
+							allCheck.post = false;
+						} else{
+							allCheck.post = true;
+						}
+					});
+					$address1.on("input", function(){
+						if($(this).val() == ""){
+							allCheck.address1 = false;
+						} else{
+							allCheck.address1 = true;
+						}
+					});
+					$address2.on("input", function(){
+						if($(this).val() == ""){
+							allCheck.address2 = false;
+						} else{
+							allCheck.address2 = true;
+						}
+					});
+					$meetingMember.on("input", function(){
+						if($(this).val() == ""){
+							allCheck.meetingMember = false;
+						} else{
+							allCheck.meetingMember = true;
+						}
+					});
+					$reportContent.on("input", function(){
+						if($(this).val() == ""){
+							allCheck.reportContent = false;
+						} else{
+							allCheck.reportContent = true;
+						}
+					});
+					
+				});
+				
+				function checkcheckcheck(){
+					
+					if($(this).prop("checked") == true){
+						allCheck.checkAll = true;
+					}
+					else($(this).prop("checke") == false){
+						allCheck.checkAll = false;
+					}
+				}
+				
+				 */
+			
+				$(function() {
+					// <input type="file"> 숨기기
+					$("#fileArea").hide();
+
+					
+					$("#reportImgArea").click(function() {
+
+						$("#reportImgUpload").click();
+					});
+
+				});
+
+				
+				function LoadImg(value, num) {
+					if (value.files && value.files[0]) {
+						var reader = new FileReader();
+						reader.onload = function(e) {
+							if (num == 1) {
+								$("#reportImg").prop("src", e.target.result);
+								$("#addImgArea").css("display", "none");
+								$("#reportImgArea").css("background-color",
+										"white");
+							}
+						}
+						reader.readAsDataURL(value.files[0]);
+					}
+				}
+				
+				/* 
+				function validate(){
+					for( var key in allCheck){
+						if(!allCheck[key]){
+							alert("입력되지 않은 값이 있습니다. 입력해주세요.");
+							return false;
+						}
+					}
+					
+					var reportImg = $("#reportImg").prop("src");
+					
+					if(reportImg == ""){
+						return false;
+					}
+				} */
+			</script>
+
+	
+	
+	
 	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>
+
