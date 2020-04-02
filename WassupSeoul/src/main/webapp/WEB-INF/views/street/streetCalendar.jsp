@@ -494,7 +494,7 @@
 			<!-- 정승환 추가코드 (20.03.30) -->
 			<!-- 일정 설명용 모달창 시작 -->
 			<div class="modal" tabindex="-1" role="dialog" id="informSchedule">
-			  <div class="modal-dialog" role="document">
+			  <div class="modal-dialog" role="document" style="width:400px;">
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <h5 class="modal-title">일정</h5>
