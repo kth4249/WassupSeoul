@@ -183,7 +183,7 @@ px
 						<thead>
 							<tr class="table-dark">
 								<th scope="col">골목이름</th>
-								<th scope="col">경고메일</th>
+								<!-- <th scope="col">경고메일</th> -->
 								<th scope="col">골목폐쇄</th>
 							</tr>
 						</thead>
@@ -202,8 +202,8 @@ px
 										<th scope="row"><a
 											href="${contextPath}/street/streetMain?streetNo=${street.streetNo}"
 											style="text-decoration: none"> ${street.streetNm}</a></th>
-										<td><button class="btn btn-outline-info nanum"
-												data-toggle="modal" data-target="#adminModal3">경고메일</button></td>
+										<!-- <td><button class="btn btn-outline-info nanum"
+												data-toggle="modal" data-target="#adminModal3">경고메일</button></td> -->
 										<td><button
 												class="btn btn-outline-danger nanum deleteStreet"
 												data-toggle="modal" data-target="#adminModal4"
