@@ -14,9 +14,6 @@
 
 </head>
 <style>
- 	  #canvas {
-        border: 1px solid black;
-      }
 
       .jb_table {
         display: table;
@@ -42,7 +39,7 @@
          cursor: pointer;
       }
       #title{
-        width: 200px;
+        width: 60%;
       } 
 
  </style>
@@ -54,7 +51,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h2 class="modal-title nanum" id="sketchModalLabel"
-										style="font-weight: bold; color:black;">스케치 게시글 작성</h2>
+										style="font-weight: bold;">스케치 게시글 작성</h2>
 									<button type="button" id="sketchCloseBtn" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -64,13 +61,14 @@
 								
 									<!-- content start -->
 										<textarea class=" nanum" id="sketchPostArea" rows="6" placeholder="게시글내용을 입력하세요." 
-													style="border: 1px solid black; color: black; font-size: 17px; height: 100px; width:100%;"></textarea>
+													style="color: black; font-size: 17px; height: 100px; width:100%;"></textarea>
+													<hr>
 										<div class="jb_table">
 											<div class="row drawing">
 												<span class="cell">
 													<div>
-							                              <canvas id="canvas" width="420" height="485" 
-							                              	style="background-color:white; cursor:crosshair;"></canvas>
+						                              <canvas id="canvas" width="420" height="485" 
+						                              	style="background-color:white; cursor:crosshair;"></canvas>
 							                        </div>
 							                     </span>
 							                     
@@ -158,15 +156,14 @@
 										</span>
 									</div>
 								</div>
-							<div> Title<input id="title" size="15" style="display: inline-block;" /> 
+							<div class="mb-3">Title&nbsp;&nbsp;&nbsp;<input id="title" size="15" style="display: inline-block;" /> 
 								<a id="saveImage" download="image.png" style="display: inline-block;">
-								<INPUT type="button" id="imgTitle" value="Save" onClick="saveImage()" />
+								<input type="button" id="imgTitle" value="Save" onClick="saveImage()" class="btn btn-outline-secondary"/>
 								</a> 
-								<INPUT type="button" value="Clear" onClick="initPage()" />
-								<button type="button" id="sketchSubmitBtn" style="width: 80px; height: 30px; font-size: 17px; float: right; margin-top: 5px">작성</button>
+								<input type="button" value="Clear" onClick="initPage()" class="btn btn-outline-warning"/>
+								<button type="button" id="sketchSubmitBtn" class="btn btn-primary form-control mt-3">작성</button>
 							</div>	 
 							<!-- content end -->
-							
 						</div>
 					</div>
 				</div>

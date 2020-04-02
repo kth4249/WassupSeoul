@@ -52,7 +52,7 @@
 						<h3 class="nanum" style="font-size:1.5rem !important">골목이름</h3>
 						<div class="col-xs-4">
 							<input type="text" class="form-control nanum" name="streetNm"
-								id="streetNm" placeholder="2글자이상 15글자이하로 작성하기(특수문자제외)">
+								id="streetNm" placeholder="2글자이상 8글자이하로 작성">
 							<span class="nanum" id="checkStreetNm"
 								style="font-size: smaller;">&nbsp;</span>
 						</div>
@@ -111,7 +111,7 @@
 						<h3 class="nanum" style="font-size:1.5rem !important">골목소개</h3>
 						<div class="col-xs-4">
 							<input type="text" class="form-control nanum" name="streetIntro"
-								id="streetIntro" placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
+								id="streetIntro" placeholder="15글자 이하로 작성"> <span
 								class="nanum" id="checkStreetIntro" style="font-size: smaller;">&nbsp;</span>
 						</div>
 					</div>
@@ -162,7 +162,7 @@
 							<div class="col-xs-4">
 								<input type="text" class="form-control nanum"
 									name="" id="writeKeyword"
-									placeholder="15글자 이하로 작성하기(특수문자 제외)"> <span
+									placeholder="15글자 이하로 작성"> <span
 									class="nanum" id="checkWriteKeyword"
 									style="font-size: smaller;">&nbsp;</span> <br>
 							</div>
@@ -319,8 +319,8 @@
 						class="btn btn-primary btn-lg btn-block nanum">개설하기</button>
 				</div>
 				<div class="col-md-2" style="text-align: center;">
-					<button type="button"
-						class="btn btn-warning btn-lg btn-block nanum">취소</button>
+					<a href="${contextPath}/square" role="button"
+						class="btn btn-warning btn-lg btn-block nanum">취소</a>
 						<br><br>
 				</div>
 			</div>
@@ -361,7 +361,7 @@
 			
 			// 골목이름 실시간 유효성 검사
 			$streetNm.on("input", function() {
-				var regExp = /^.{2,15}$/;
+				var regExp = /^.{2,8}$/;
 
 				if (!regExp.test($(this).val())) {
 					$("#checkStreetNm").text("골목이름 형식이 유효하지 않습니다.")

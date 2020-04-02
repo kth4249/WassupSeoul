@@ -1229,7 +1229,7 @@
 									 	<div class="mapShowArea" name="${board.sketchUrl}" style="height: 100px; width:100%; margin-bottom: 10px;" data-toggle="modal" data-target="#mapShowModal">
 											<div class="profileImgArea"  id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
 																								padding-left: 10px;">
-												<img src="${contextPath}/resources/img/mapIcon.png" style="width: 40px; height: 30px; margin-top: 30px;" class="mapShowImg"
+												<img src="${contextPath}/resources/img/mapIcon.png" style="margin-top: 30px;" class="mapShowImg"
 															data-toggle="modal" data-target="#mapShowModal" name="${board.mapAddress}" >
 											</div>
 											
@@ -1314,18 +1314,20 @@
 																<input type="hidden" value="${board.boardNo}">
 															</td>
 															<td style="width:20%">
-															    <div class="custom-control custom-switch">
-															      <input type="checkbox" class="custom-control-input divideCheck"
-															      		id="divideMem${board.boardNo}-${divi.memberNo}" 
-															      		<c:if test='${empty divi.divideDt}'>
-															      		 checked 
-															      		</c:if>
-															      		<c:if test='${!empty divi.divideDt}'>
-															      		 disabled 
-															      		</c:if>
-															      		 value="${divi.memberNo}">
-															      <label class="custom-control-label" for="divideMem${board.boardNo}-${divi.memberNo}"></label>
-															    </div>
+																<c:if test="${loginMember.memberNo == board.memberNo or loginMember.memberNo == divi.memberNo }">
+																    <div class="custom-control custom-switch">
+																      <input type="checkbox" class="custom-control-input divideCheck"
+																      		id="divideMem${board.boardNo}-${divi.memberNo}" 
+																      		<c:if test='${empty divi.divideDt}'>
+																      		 checked 
+																      		</c:if>
+																      		<c:if test='${!empty divi.divideDt}'>
+																      		 disabled 
+																      		</c:if>
+																      		 value="${divi.memberNo}">
+																      <label class="custom-control-label" for="divideMem${board.boardNo}-${divi.memberNo}"></label>
+																    </div>
+															    </c:if>
 															</td>
 														</tr>
 													</c:forEach>
@@ -1354,9 +1356,8 @@
 											<!-- 투표 상단 제목 영역 -->	
 											<div style="height: 60px; width:100%; margin-bottom: 45px;">
 												
-												<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
-																									padding-left: 10px;">
-													<img src="${contextPath}/resources/img/politics.png" style="width: 30px; height: 30px; margin-bottom: 45px;">
+												<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-left: 2%; margin-right: 2%;">
+													<img src="${contextPath}/resources/img/politics2.png" style="margin-bottom: 30px;">
 										
 												</div>
 												<!-- 투표 제목, 투표참여 인원 수  양식 -->	
@@ -1372,27 +1373,27 @@
 														<!-- 현재 날짜와 비교 후 투표 종료 여부 출력-->
 														<c:choose>
 															<c:when test="${today < voteEndDt }">  	 
-																<p style="margin-bottom: 0; display: inline-block; color:blue; font-size:14px;">투표중</p>
+																<p style="display: inline-block; color:royalblue; font-size:14px;">투표중</p>
 															</c:when>
 															<c:otherwise>
-																<p style="margin-bottom: 0; display: inline-block; color:red; font-size:14px;">투표종료</p>
+																<p style="display: inline-block; color:firebrick; font-size:14px;">투표종료</p>
 															</c:otherwise>
 														</c:choose>
 														<!-- 현재 날짜와 비교 후 투표 종료 여부 출력-->
 														
-														<p style="margin-bottom: 0; display: inline-block; margin-left: 20px; font-size:14px; font-weight:bold; color:black;">  투표 종료일  :  <fmt:formatDate value="${vote.voteEndDt}" pattern="yyyy년 MM월 dd일 " /></p>
+														<p style="display: inline-block; margin-left: 20px; font-size:14px; color:firebrick;">  투표 종료일  :  <fmt:formatDate value="${vote.voteEndDt}" pattern="yyyy년 MM월 dd일 " /></p>
 													</div>
 													<div style="margin-bottom: 0;">
-														<p style="margin-bottom: 0; font-size:20px; font-weigh: bold; color:black;">${vote.voteTitle}</p>
+														<p style="font-size:20px; font-weigh: bold; color:#5a5a5a;">${vote.voteTitle}</p>
 													</div>
 													<div style="margin-bottom: 40px;">
 													
 													<c:choose>
 															<c:when test="${vote.voteDup eq 'N'}">  	 
-																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}" style="font-weight:bold; color:black;">복수선택 불가  </p>
+																<p style="font-size:14px; font-weight:bold; color:black;" class="voteDup" name="${vote.voteDup}">복수선택 불가  </p>
 															</c:when>
 															<c:otherwise>
-																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}" style="font-weight:bold; color:black;">복수선택 가능 (최대 ${vote.voteDup}표)</p>
+																<p style="font-size:14px; font-weight:bold; color:black;" class="voteDup" name="${vote.voteDup}">복수선택 가능 (최대 ${vote.voteDup}표)</p>
 															</c:otherwise>
 													</c:choose>
 												  </div>	
@@ -1413,7 +1414,7 @@
 															<c:when test="${today < voteEndDt }">  	 
 																<!-- 투표 진행시 -->
 																<c:choose>
-																<c:when test="${voteOption.voteStatus eq 'Y'}">  	 
+																<c:when test="${voteOption.voteStatus eq 'Y'}"> 
 																	<label style="width: 300px; margin-left: 20px; color:black; font-weight:bold"> 
 																	<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
 																	       name="${voteOption.voteNo}" class="voteCheckBox" checked />${voteOption.voteOtion}</label>
@@ -1430,12 +1431,12 @@
 																<!-- 투표 종료시 -->
 																<c:choose>
 																	<c:when test="${voteOption.voteStatus eq 'Y'}">  	 
-																		<label style="width: 300px; margin-left: 20px; color:black; font-weight:bold"> 
+																		<label style="width: 50%; margin-left: 20px; color:black; font-weight:bold"> 
 																		<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
 																		       name="${voteOption.voteNo}" class="voteCheckBox" checked onclick="return false;"/>${voteOption.voteOtion}</label>
 																	</c:when>
 																	<c:otherwise>
-																		<label style="width: 300px; margin-left: 20px; color:black; font-weight:bold"> 
+																		<label style="width: 50%; margin-left: 20px; color:black; font-weight:bold"> 
 																		<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
 																		       name="${voteOption.voteNo}" class="voteCheckBox" onclick="return false;" />${voteOption.voteOtion}</label>
 																	</c:otherwise>
@@ -1448,8 +1449,8 @@
 													<fmt:formatNumber var="barWidth" type="percent" minFractionDigits="0" maxFractionDigits="3" value="${ voteOption.voteCount/voteOption.voteWholeVoteCount }"/>
 													
 													<!-- 득표수 -->
-													<div style="margin-right: 100px; font-size: 13px; display: inline-block; 
-													            float: right; position: relative; top: 41px; left:10px; color:blue; font-weight:bold"><p class="voteCountArea">${voteOption.voteCount} </p></div> 
+													<div style="margin-right: 100px; font-size: 15px; display: inline-block; 
+													            float: right; position: relative; top: 41px; left:10px; color:darkcyan; font-weight:bold"><p class="voteCountArea">${voteOption.voteCount} </p></div> 
 													
 													<c:choose>
 															<c:when test="${barWidth == 'NaN'}">  	 

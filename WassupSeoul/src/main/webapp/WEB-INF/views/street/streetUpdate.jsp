@@ -95,7 +95,7 @@ a:hover {
 								<h3 class="nanum" style="">골목이름</h3>
 								<div class="col-xs-4">
 									<input type="text" class="form-control nanum" name="streetNm"
-										id="streetNm" placeholder="2글자이상 15글자이하로 작성하기(특수문자제외)"
+										id="streetNm" placeholder="2글자이상 8글자이하로 작성"
 										value="${street.streetNm}"> <span class="nanum"
 										id="checkStreetNm" style="font-size: smaller;">&nbsp;</span>
 								</div>
@@ -163,7 +163,7 @@ a:hover {
 								<div class="col-xs-4">
 									<input type="text" class="form-control nanum"
 										name="streetIntro" id="streetIntro"
-										placeholder="15글자 이하로 작성하기(특수문자 제외)"
+										placeholder="15글자 이하로 작성"
 										value="${street.streetIntro }"> <span class="nanum"
 										id="checkStreetIntro" style="font-size: smaller;">&nbsp;</span>
 								</div>
@@ -212,19 +212,19 @@ a:hover {
 							<div class="form-group col-md-3 nanum"
 								style="float: left; text-align: center;">
 								<label for="writeKeyword" class="nanum"
-									style="font-size: 20px; font-weight: bolder;">키워드 추가 </label>
+									style="font-size: 20px;">키워드 추가 </label>
 							</div>
 							<div class="form-group col-md-6 nanum" style="float: left;">
 
 								<input type="text" class="form-control nanum" name=""
-									id="writeKeyword" placeholder="15글자 이하로 작성하기(특수문자 제외)">
+									id="writeKeyword" placeholder="15글자 이하(특수문자 제외)">
 								<span class="nanum" id="checkWriteKeyword"
 									style="font-size: smaller;">&nbsp;</span> <br>
 
 							</div>
 							<div class="form-group col-md-2">
-								<button class="nanum badge badge-primary" id="insertKeyword"
-									type="button" style="font-size: 19px;">추가</button>
+								<button class="nanum btn btn-info" id="insertKeyword"
+									type="button" style="font-size: 18px;">추가</button>
 							</div>
 						</div>
 
@@ -245,15 +245,12 @@ a:hover {
 												<div class="col-sm-9">
 													<input type="text" class="form-control-plaintext nanum"
 														name="streetKeywords" value="${key.keywordContent}"
-														style="font-size: 20px; color: blue;" readonly>
+														style="font-size: 20px; color: darkgreen;" readonly>
 												</div>
-												<div class="col-sm-3">
-													<button type="button"
-														class="btn btn-primary nanum deleteKeyword">제거</button>
+												<div>
+													<button type="button" class="btn btn-danger nanum deleteKeyword">제거</button>
 												</div>
-												<div class="col-sm-11"
-													style="background-color: black; height: 2px;"></div>
-												
+												<div class="col-md-12" style="background-color: black; height: 2px;"></div>
 											</div>
 										</c:forEach>
 
@@ -402,7 +399,7 @@ a:hover {
 								<button type="submit" class="btn btn-primary btn-lg btn-block nanum">수정하기</button>
 							</div>
 							<div class="col-md-6 mb-5" style="text-align: center;">
-								<button type="button" class="btn btn-warning btn-lg btn-block nanum">취소</button>
+								<a href="${header.referer}" class="btn btn-warning btn-lg btn-block nanum">취소</a>
 							</div>
 						</div>
 					</div>
@@ -452,7 +449,7 @@ a:hover {
 			
 			// 골목이름 실시간 유효성 검사
 			$streetNm.on("input", function() {
-				var regExp = /^.{2,15}$/;
+				var regExp = /^.{2,8}$/;
 
 				if (!regExp.test($(this).val())) {
 					$("#checkStreetNm").text("골목이름 형식이 유효하지 않습니다.")

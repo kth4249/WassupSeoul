@@ -1227,7 +1227,10 @@ public class StreetController {
 	@RequestMapping("divideCheck")
 	public String divideCheck(Model model, int boardNo, int memberNo) {
 		System.out.println(boardNo + ", " + memberNo);
-		return true + "";
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("memberNo", memberNo);
+		map.put("boardNo", boardNo);
+		return null;
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/

@@ -46,7 +46,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h2 class="modal-title nanum" id="mapModalLabel"
-										style="font-weight: bold; color:black;">지도 게시글 작성</h2>
+										style="font-weight: bold; color:#5a5a5a;">지도 게시글 작성</h2>
 									<button type="button" class="close" data-dismiss="modal" id="mapCloseBtn"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -56,18 +56,18 @@
 									<!-- content start -->
 
 									<textarea class=" nanum" id="mapPostArea" rows="6" placeholder="게시글내용을 입력하세요."
-											style="border: 1px solid black; color: black; font-size: 17px; height: 150px; width:100%"></textarea>
+											style="color: black; font-size: 17px; height: 150px; width:100%"></textarea>
  									
  										<div id="floating-panel" style="width:50%">
 									      <input id="address" type="textbox" value="광화문" style="width:85%">
-									      <input id="mapSubmit" type="button" value="검색">
+									      <input id="mapSubmit" type="button" class="btn btn-secondary" value="검색">
 									    </div>
 									    <div class="map_wrap">
 											<div id="map" style="width:100%;height:400px;position:relative;overflow:hidden;"></div>
 										</div>
 										
-										<button type="submit" id="mapSubmitBtn" name="default"
-										style="width: 10%; height: 30px; font-size: 17px; float: right; margin: 0px">작성</button>
+										<button type="submit" id="mapSubmitBtn" name="default" class="btn btn-primary form-control"
+										style="margin-top:20px">작성</button>
 									
 									<div class="modal_layer"></div>
 								 	

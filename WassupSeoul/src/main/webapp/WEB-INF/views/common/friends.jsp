@@ -171,10 +171,10 @@
 				<!-- 대화방 목록 -->		
 				<div class="tab-pane fade tgl" id="chatList">
 					<div id="roomOne" class="nanum mt-3 ml-3 chatRoom">
-						<div class="roomImg" style="display: inline-block;">
+						<div class="roomImg" style="display: inline-block; width:40px; height:40px; overflow:hidden; border-radius: 70%; ">
 							<img class="cImg" src="${contextPath}/resources/img/usericon.png" width="40px"
 								height="40px" class="chatProfile" data-toggle="modal"
-								data-target="#profilePicture" style="cursor: pointer">&nbsp;
+								data-target="#profilePicture" style="cursor: pointer; width:100%; height:100%; object-fit: cover;">&nbsp;
 						</div>
 						<div class="roomTitle" style="display: inline-block;">
 							<span class="cUser1">천사</span> <span class="mr-0 cUser2">: 밥먹어 </span>
@@ -204,7 +204,7 @@
 				
 				
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->			
-				                    <!-- 채티창 div 시작 -->
+				                    <!-- 채팅창 div 시작 -->
                     <div class="tab-pane chat nanum" id="chat">
                         <!-- 닫기 버튼 -->
                         <div id="div_chat">
@@ -833,19 +833,19 @@
 						var $lastMSG = result[i].lastMessage;
 						var $div0 = $("<div>").prop("class","nanum mt-3 ml-3 chatRoom").val(result[i].roomNo);
 						
-						var $divrow1 = $("<div>").prop("class", "row");
-						var $div1 = $("<div>").prop("class","roomImg col-md-2");
-						var $img = $("<img>").prop("class", "cImg detect2").prop("src", $finalPath).css({"width":"40px","height":"40px"}).attr('data-toggle', "modal").attr('data-target', "#profilePicture").val(result[i].memberNickname);
+						var $divrow1 = $("<div>").prop("class", "row col-md-12");
+						var $div1 = $("<div>").prop("class","roomImg").css({"width":"40px","height":"40px","overflow":"hidden","border-radius": "70%"});
+						var $img = $("<img>").prop("class", "cImg detect2").prop("src", $finalPath).css({"width":"100%","height":"100%","object-fit":"cover"}).attr('data-toggle', "modal").attr('data-target', "#profilePicture").val(result[i].memberNickname);
 						var $div2 = $("<div>").prop("class","roomTitle col-md-10");
 						var $span1 = $("<span>").prop("class", "cUser1");
 						var $nick = $nickname;
 						
 						var $divrow2 = $("<div>").prop("class", "row");
-						var $div3 = $("<div>").prop("class","roomImg col-md-10");
+						var $div3 = $("<div>").prop("class","roomImg col-md-8").css({"margin-left": "14%"});
 						var $span2 = $("<span>").prop("class", "cUser2");
 						var $lastMessage = $lastMSG;
-						var $div4 = $("<div>").prop("class","roomImg col-md-2");
-						var $span3 = $("<span>").prop("class", "badge badge-pill badge-danger float-right mr-3 mt-2 cUser3");
+						var $div4 = $("<div>").prop("class","roomImg");
+						var $span3 = $("<span>").prop("class", "badge badge-pill badge-danger mr-3 mt-2 cUser3").css({"margin-left": "55%"});
 						var $noRead = $noReadCount;
 						
 						var $hr = $("<hr>");
@@ -916,7 +916,7 @@
 					var $div1 = $("<div>").prop("id","div_chat");
 					var $mNo = $("<input>").prop("id","mNoo").prop("type", "hidden").val(result[0].memberNo);
 					var $rNo = $("<input>").prop("id","rNoo").prop("type", "hidden").val(result[0].roomNo);
-					var $xBtn = $("<button>").prop("id","exitBtn").prop("class", "close xBtn").html("&times");
+					var $xBtn = $("<button>").prop("id","exitBtn").prop("class", "close xBtn mr-2").html("&times");
 					var $div2 = $("<div>").prop("id","menu_scroll_down");
 					var $dBtn = $("<button>").prop("id", "btn_scroll_down").css("float","right").html("↓");
 					var $br1 = $("<br>");
@@ -933,8 +933,8 @@
 						
 						
 						var $div3 = $("<div>").prop("class", "row");
-						var $div4 = $("<div>").prop("class", "col-md-2 nanum").css("padding-right", "0px");
-						var $img = $("<img>").prop("class", "cImg").prop("src", $finalPath).css({"width":"40px","height":"40px"});
+						var $div4 = $("<div>").prop("class", "nanum").css({"width":"40px","height":"40px","overflow":"hidden","border-radius":"70%"});
+						var $img = $("<img>").prop("class", "cImg").prop("src", $finalPath).css({"width":"100%","height":"100%","object-fit":"cover"});
 						var $div5 = $("<div>").prop("class", "col-md-10 nanum");
 						var $span1 = $("<span>");
 						var $nick = $nickname;
@@ -1088,9 +1088,9 @@
 		friendsList(); 		// 친구 목록 불러오기
 		friendtalk();		// 대화 목록 불러오기
 		
-/* 		 setInterval(function(){ // 갱신 주기
+ 		 setInterval(function(){ // 갱신 주기
 			friendRequest(); 
-		}, 10000);  */
+		}, 1000);  
 	});
 		
 </script>
