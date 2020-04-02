@@ -282,15 +282,24 @@
 
 <!-- 해당 방에서 안읽은 번호의 수 -->
 <select id = "selectnoReadCount" parameterType="list" resultType="_int">
-		SELECT COUNT(*) FROM MSG
-		WHERE ROOM_NO IN 
+		SELECT SUM(CASE WHEN MSG_STATUS = 'N'
+		THEN 1 ELSE 0
+        END) FROM MSG
+        WHERE ROOM_NO IN
 		<foreach item="roomNo" collection="list" open="(" separator="," close=")">
 			 	#{roomNo}
 		</foreach>
-		AND MSG_STATUS = 'N'
 		GROUP BY ROOM_NO
 		ORDER BY ROOM_NO
 </select>
+
+
+        
+
+
+
+
+
 
 
 <!-- 해당 방에서 가장 마지막 메시지 조회 -->
@@ -370,8 +379,8 @@
 
 
 
+</mapper>
  
  <!--  <<<<<<<<<<<<<<<<<<<<대화방 목록 출력 끝 >>>>>>>>>>>>>>>>>    -->
 
-</mapper>
  

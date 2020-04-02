@@ -78,6 +78,11 @@ public class ChatList {
 				+ ", memberNickname=" + memberNickname + ", memberProfileUrl=" + memberProfileUrl + ", otherNo="
 				+ otherNo + "]";
 	}
+
+	public void setNoReadCount(NoReadCount noReadCount2) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	
