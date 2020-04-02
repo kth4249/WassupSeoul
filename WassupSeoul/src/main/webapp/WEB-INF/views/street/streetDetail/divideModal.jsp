@@ -156,38 +156,35 @@
  			})
  			
  			console.log(memArray);
-			/* $(".memberSelect").is(":checked").each(function() {
-				var memberNo = $(this).attr("name");  
-				memArray.push(memberInfo);
-			});
-			
-			for(var i=0; i<memArray.length; i++){
-	 			alert(memArray[i]);
-			}  , "memArray" : memArray
-			*/
-			
-			$.ajax({
-				url : "postDivide",
-				data : {"postContent" : postContent, "originMoney" : originMoney,
-						"checkedCount" : checkedCount, "memArray" : memArray
-					   },
-				success : function(result) {
-					
-					if (result == "true") {
-						alert("1/N 게시글 작성 성공");
-						console.log("1/N 게시글 작성 성공");
-						$("#voteCloseBtn").trigger("click");
-					} else {
-						alert("1/N 게시글 작성 실패");
-						console.log("1/N 게시글 작성 실패");
+ 			
+ 			
+ 			if(memArray != ""){
+				$.ajax({
+					url : "postDivide",
+					data : {"postContent" : postContent, "originMoney" : originMoney,
+							"checkedCount" : checkedCount, "memArray" : memArray
+						   },
+					success : function(result) {
+						
+						if (result == "true") {
+							alert("1/N 게시글 작성 성공");
+							console.log("1/N 게시글 작성 성공");
+							$("#voteCloseBtn").trigger("click");
+						} else {
+							alert("1/N 게시글 작성 실패");
+							console.log("1/N 게시글 작성 실패");
+						}
+					},
+					error : function(e) {
+						console.log("ajax 통신 실패");
+						console.log(e);
 					}
-				},
-				error : function(e) {
-					console.log("ajax 통신 실패");
-					console.log(e);
-				}
-			});
-		 refreshList()
+				});
+			 //refreshList()
+ 			} else {
+ 				alert("멤버를 최소 1명 이상 선택해주세요");
+ 			}
+			
  	});
 	
 </script>		

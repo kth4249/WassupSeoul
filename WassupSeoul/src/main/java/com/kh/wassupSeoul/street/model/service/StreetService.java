@@ -409,6 +409,14 @@ public interface StreetService {
 	 * @return divide
 	 */
 	public abstract List<Divide> selectDivide(List<Dutch> dutch) throws Exception;
+	
+	
+	
+	/** N빵 확인
+	 * @param map
+	 * @return result
+	 */
+	public abstract int divideCheck(Map<String, Integer> map);
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	

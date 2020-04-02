@@ -35,6 +35,20 @@
 	          
 	          // 현재 로그인 회원이 골목대장(골목 개설 인원)인지 판별
 	          if(memberNo == streetMasterNo) { // 골목대장일 경우 일정 추가 가능
+	        	  // 일정 추가 모달창 띄우기 전에 모달창에 기존에 입력된 값 제거
+	        	  $("#calendarTitle").val("");
+	        	  $("#calendarContent").val("");
+	        	  $("#calendarLocation").val("");
+	        	  $("#insertAddress").val("");
+	        	  $("#calStartDate").val("");
+	        	  $("#calStartTime").val("");
+	        	  $("#calEndDate").val("");
+	        	  $("#calEndTime").val("");
+	        	  $("#joinNumber").val("");
+	        	  $("#joinDate").val("");
+	          	  $("#notJoin").prop("checked",false);
+	          	  $("#join").prop("checked",false);
+	        	  // 모달창 출력
 	        	  $('#calendarModal').modal();  
 	          } else { // 골목대장이 아닐경우 일정 추가 불가
 	        	  alert("골목대장만 일정을 추가할 수 있습니다.");
@@ -171,6 +185,11 @@
 								</div>
 		                         
 			                     <script>
+			                  	  // 추가 시작
+		                  		  // 기존 마커를 제거하기 위한 변수
+						          var clickMarker; // 클릭시 생성되는 마커
+						          var searchMarker; // 검색시 생성되는 마커
+							        
 							      function initMap() {
 							    	var geocoder = new google.maps.Geocoder;
 							        var map = new google.maps.Map(document.getElementById('insertMap'), {
@@ -182,25 +201,82 @@
 							          geocodeAddress(geocoder, map);
 							        });
 							        
+							     	// 추가 시작
+							        
+							        // 지도 클릭시 해당하는 주소, 좌표 얻기
+							        map.addListener('click',function(e){
+							        	
+							        	// 기존 마커 제거
+							        	if(clickMarker != null) {
+								        	clickMarker.setMap(null);	
+							        	}
+							        	if(searchMarker != null) {
+							        		searchMarker.setMap(null);
+							        	}
+							        	
+							        	var latlng = {
+							        		lat : e.latLng.lat(),
+							        		lng : e.latLng.lng()
+							        	}
+							        	
+							        	console.log(latlng);
+							        	
+							        	geocoder.geocode({'location': latlng}, function(results, status) {
+							        		var storeAddress = document.getElementById('calendarLocation'); // 일정 위치
+							        		if (status === 'OK') {
+							        			var realAddr = results[0].formatted_address;
+									        	// results[0].formatted_address -> 검색된 주소의 상세주소
+									        	console.log(results);
+									        	console.log(realAddr);
+									        	// 대한민국 서울특별시 제거
+									        	realAddr = realAddr.substring(11);
+									        	storeAddress.value = realAddr;
+							        			var coords = results[0].geometry.location;
+								            	map.setCenter(coords);
+									           	var marker = new google.maps.Marker({
+									           		   map: map,
+									             	   position: coords
+									            });
+									           	clickMarker = marker; // 클릭시 생성한 마커 지정
+							        		} else {
+							        			alert('Geocode was not successful for the following reason: ' + status);
+							        		}
+							        	});
+							        });
+							        
+							        // 추가 끝
+							        
 							      }
 							
-							      function geocodeAddress(geocoder, resultsMap) {
+							      function geocodeAddress(geocoder, resultsMap) { 
+							    	// 기존 마커 제거
+						        	if(clickMarker != null) {
+							        	clickMarker.setMap(null);	
+						        	}
+						        	if(searchMarker != null) {
+						        		searchMarker.setMap(null);
+						        	}
+							        	
 							        var address = document.getElementById('insertAddress').value;
 							        var storeAddress = document.getElementById('calendarLocation');
 							        // form태그로 전달할 주소 input
 							        geocoder.geocode({'address': address}, function(results, status) {
-							        	console.log(results);
 							        	var realAddr = results[0].formatted_address;
+							        	console.log(results);
+							        	console.log(realAddr);
 							        	// results[0].formatted_address -> 검색된 주소의 상세주소
+							        	// 대한민국 서울특별시 제거
+									    realAddr = realAddr.substring(11);
 							        	storeAddress.value = realAddr;
 							        	// 검색된 상세주소를 아래 입력칸에 넣는다.
 							          if (status === 'OK') {
 							        	  var coords = results[0].geometry.location;
 							            	resultsMap.setCenter(coords);
-							           	 var marker = new google.maps.Marker({
+							           	  var marker = new google.maps.Marker({
 							           		   map: resultsMap,
 							             	   position: coords
-							            });
+							              });
+							           	  searchMarker = marker; // 검색시 발생한 마커 지정
 							          } else {
 							            alert('Geocode was not successful for the following reason: ' + status);
 							          }
@@ -214,7 +290,7 @@
 		                         
 		                       </div>
 		                       <div class="col-sm-3"></div>
-		                       <div class="col-sm-9"><p class="nanum" style="color: darksalmon;">*위치 검색시 상세한 주소를 지정할 수 있습니다.</p></div>
+		                       <div class="col-sm-9"><p class="nanum" style="color: darksalmon;">*위치 검색 또는 지도 클릭시 상세한 주소를 지정할 수 있습니다.</p></div>
 		                     </div>
 			                     
 		                     <div class="form-group row">
@@ -1210,7 +1286,7 @@
 		    } 
 		}
 		
-		// 지도에 마커를 표시하는 함수입니다
+		// 카카오 지도에 마커를 표시하는 함수입니다
 		function displayMarker(place) {
 		    
 		    // 마커를 생성하고 지도에 표시합니다

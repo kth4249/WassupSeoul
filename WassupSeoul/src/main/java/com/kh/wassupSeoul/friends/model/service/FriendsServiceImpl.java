@@ -288,7 +288,7 @@ public class FriendsServiceImpl implements FriendsService{
 			System.out.println("noReadMsgCount : " + noReadMsgCount);
 		}
 		
-		
+		 
 		
 		List <String> lastMessage = new ArrayList<String>();
 		

@@ -175,7 +175,7 @@ public class StreetController {
 			List<Vote> voteMemList = streetService.selectVoteMemList(checkStreet);
 			
 			for(int i = 0; i <voteMemList.size(); i++ ) {
-				System.out.println("투표 참여자 목록 : "+voteMemList.get(i));
+				//System.out.println("투표 참여자 목록 : "+voteMemList.get(i));
 			}
 			
 			
@@ -191,8 +191,8 @@ public class StreetController {
 			/*------------------------태훈 엔빵 관련해서 추가------------------------*/
 			
 			if (street != null) {
-				for(int k=0;k<vote.size();k++) {
-					System.out.println("투표선택지  목록 : " + vote.get(k));
+				for(int k=0;k<board.size();k++) {
+					//System.out.println("투표선택지  목록 : " + board.get(k));
 				}
 				
 				model.addAttribute("street", street); // 해당골목 정보
@@ -256,10 +256,8 @@ public class StreetController {
 
 			int result = streetService.insertBoard(board);
 
-			if (result > 0)
-				System.out.println("게시글 등록 성공" + result);
-			else
-				System.out.println("게시글 등록 실패" + result);
+			if (result > 0)			System.out.println("게시글 등록 성공" + result);
+			else          			System.out.println("게시글 등록 실패" + result);
 
 			return "redirect:streetMain?streetNo=" + streetNo;
 
@@ -362,7 +360,7 @@ public class StreetController {
 	@RequestMapping("deletePost")
 	public String deletePost(int postNo, Model model) {
 
-//		System.out.println("글삭제 번호 출력 : " + postNo);
+		System.out.println("글삭제 번호 출력 : " + postNo);
 
 		try {
 
@@ -426,10 +424,10 @@ public class StreetController {
 				
 				if( checkBoardLevel == 0 ) {    
 					board.setBoardLevel(1);
-					System.out.println("공지사항 등록 ");
+					//System.out.println("공지사항 등록 ");
 				}else {
 					board.setBoardLevel(0);
-					System.out.println("공지사항 해제 ");
+					//System.out.println("공지사항 해제 ");
 				}
 				int test = streetService.PinPost(board);
 				
@@ -446,7 +444,7 @@ public class StreetController {
 	@RequestMapping("writeComment")
 	public String writeComment(int postNo, Model model, String commentContent) {
 		
-		System.out.println("댓글 달릴 게시글  번호 출력 : " + postNo);
+		//System.out.println("댓글 달릴 게시글  번호 출력 : " + postNo);
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
@@ -463,9 +461,9 @@ public class StreetController {
 			int test = streetService.writeComment(reply);
 			
 			if ( test > 0) {
-				System.out.println("댓글 입력 완료");
+				//System.out.println("댓글 입력 완료");
 			}else {
-				System.out.println("댓글 입력 실패");
+				//System.out.println("댓글 입력 실패");
 			}
 			
 			return  test == 1 ? true + "" : false + "";
@@ -500,9 +498,9 @@ public class StreetController {
 				int test = streetService.writeReComment(reply);
 				
 				if ( test > 0) {
-					System.out.println("대댓글 입력 완료");
+					//System.out.println("대댓글 입력 완료");
 				}else {
-					System.out.println("대댓글 입력 실패");
+					//System.out.println("대댓글 입력 실패");
 				}
 				
 				return  test == 1 ? true + "" : false + "";
@@ -532,12 +530,12 @@ public class StreetController {
         	// 2) 회원 관심사 가져오기
     		List<Hobby> myHobby = streetService.selectHobby(memberNo);
 			for(int k=0;k<myHobby.size();k++) {
-				System.out.println("작성자 관심사 : " + myHobby.get(k));
+				//System.out.println("작성자 관심사 : " + myHobby.get(k));
 				mList.add(myHobby.get(k)); // 1~3번 인덱스에 회원 관심사
 			}
 			
 			for(int i=0;i<mList.size();i++) {
-				System.out.println("작성자 회원 : " + mList.get(i));
+				//System.out.println("작성자 회원 : " + mList.get(i));
 			}
 			
 			response.setCharacterEncoding("UTF-8");
@@ -555,9 +553,9 @@ public class StreetController {
 	@RequestMapping("mapPost")
 	public String mapPost(String address, Model model, String mapPostContent, String coords ) {
 		
-		System.out.println("입력한 주소 : " + address);
-		System.out.println("받아온 좌표 : " + coords);
-		System.out.println("입력한 게시글 내용 : " + mapPostContent);
+		//System.out.println("입력한 주소 : " + address);
+		//System.out.println("받아온 좌표 : " + coords);
+		//System.out.println("입력한 게시글 내용 : " + mapPostContent);
 		
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
@@ -587,9 +585,9 @@ public class StreetController {
 			int test = streetService.mapPost(board);
 			
 			if ( test > 0) {
-				System.out.println("지도 게시글 입력 완료");
+				//System.out.println("지도 게시글 입력 완료");
 			}else {
-				System.out.println("지도 게시글 입력 실패");
+				//System.out.println("지도 게시글 입력 실패");
 			}
 			
 			return  test == 1 ? true + "" : false + "";
@@ -649,17 +647,17 @@ public class StreetController {
    		if( outputFile.exists()) outputFile.delete();
    		ImageIO.write(image, "png", outputFile); // 서버에 파일로 저장
    		
-   		System.out.println("스케치 업로드 완료. 파일경로  : " + outputFile );
-   		System.out.println("파일이름  : " + filenm );
+   		//System.out.println("스케치 업로드 완료. 파일경로  : " + outputFile );
+   		//System.out.println("파일이름  : " + filenm );
    		
    		board.setSketchUrl(filenm);   		   		
 		
 			int test = streetService.sketchUpload(board);
 			
 			if ( test > 0) {
-				System.out.println("스케치 게시글 입력 완료");
+				//System.out.println("스케치 게시글 입력 완료");
 			}else {
-				System.out.println("스케치 게시글 입력 실패");
+				//System.out.println("스케치 게시글 입력 실패");
 			}
 			
 			return  test == 1 ? true + "" : false + "";
@@ -711,19 +709,19 @@ public class StreetController {
 		String[] voteOption = voteOptionList.split(",");
 		
 		for(int k=0; k<voteOption.length;k++) {
-			System.out.println("입력한 투표 옵션 리스트  : " + voteOption[k]); 
+			//System.out.println("입력한 투표 옵션 리스트  : " + voteOption[k]); 
 		}
 		
-		System.out.println("투표 입력 넘겨받은값 : " + vote);
+		//System.out.println("투표 입력 넘겨받은값 : " + vote);
 		
 		try {
 	
 			int test = streetService.votePost(board, vote, voteOption);
 			
 			if ( test > 0) {
-				System.out.println("투표 게시글 입력 완료");
+				//System.out.println("투표 게시글 입력 완료");
 			}else {
-				System.out.println("투표 게시글 입력 실패");
+				//System.out.println("투표 게시글 입력 실패");
 			}
 			
 			return  test == 1 ? true + "" : false + "";
@@ -740,8 +738,8 @@ public class StreetController {
 	@RequestMapping("recordVote")
 	public String recordVote(int voteNo, Model model, String checkStatus) {
 		
-		  System.out.println("투표 선택지 번호: " + voteNo);
-		  System.out.println("투표 체크 상태 : " + checkStatus);
+		  //System.out.println("투표 선택지 번호: " + voteNo);
+		  //System.out.println("투표 체크 상태 : " + checkStatus);
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
@@ -758,9 +756,9 @@ public class StreetController {
 			int test = streetService.recordVote(vote);
 			
 			if ( test > 0) {
-				System.out.println("투표 기록 완료");
+				//System.out.println("투표 기록 완료");
 			}else {
-				System.out.println("투표 기록 실패");
+				//System.out.println("투표 기록 실패");
 			}
 			
 			return  test == 1 ? true + "" : false + "";
@@ -787,7 +785,7 @@ public class StreetController {
     		
 			
 			for(int i=0;i<selectDivideMember.size();i++) {
-				System.out.println("선택할 수 있는 회원 : " + selectDivideMember.get(i));
+				//System.out.println("선택할 수 있는 회원 : " + selectDivideMember.get(i));
 			}
 			
 			response.setCharacterEncoding("UTF-8");
@@ -1230,7 +1228,7 @@ public class StreetController {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("memberNo", memberNo);
 		map.put("boardNo", boardNo);
-		return null;
+		return streetService.divideCheck(map) == 1 ? true + "" : false + "";
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/

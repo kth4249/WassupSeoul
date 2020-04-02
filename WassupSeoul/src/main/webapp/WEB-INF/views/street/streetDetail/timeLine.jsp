@@ -101,6 +101,8 @@
      	
 </style>
 <body>
+
+	<!-- 공지사항 게시물 -->
 	<c:if test="${!empty notice}">
 		<c:forEach var="notice" items="${notice}" varStatus="vs">
 			<c:choose>
@@ -417,9 +419,8 @@
 											<!-- 투표 상단 제목 영역 -->	
 											<div style="height: 60px; width:100%; margin-bottom: 45px;">
 												
-												<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
-																									padding-left: 10px;">
-													<img src="${contextPath}/resources/img/politics.png" style="width: 30px; height: 30px; margin-bottom: 45px;">
+												<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-left: 2%; margin-right: 2%;">
+													<img src="${contextPath}/resources/img/politics2.png" style="margin-bottom: 30px;">
 										
 												</div>
 												<!-- 투표 제목, 투표참여 인원 수  양식 -->	
@@ -585,10 +586,12 @@
 								$.ajax({
 									url : "divideCheck",
 									data : {"memberNo":memberNo, "boardNo":boardNo},
-									success : function() {
-										$id.prop("disabled", true);
-										$id.closest("tr").prop("class", "table-active")
-										$id.closest("tr").children().eq(2).css("text-decoration", "line-through");
+									success : function(result) {
+										if(result == "true"){
+											$id.prop("disabled", true);
+											$id.closest("tr").prop("class", "table-active")
+											$id.closest("tr").children().eq(2).css("text-decoration", "line-through");
+										}
 									},
 									error : function() {
 										console.log("N빵 금액 체크 ajax 통신 실패")
@@ -807,7 +810,7 @@
 																		style="width: 100px; height:auto;
 																		float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																		<ul>
-																			<li><a href="#" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover deleteRereply">댓글 삭제</a></li>
+																			<li><a href="#" class="deleteRereply" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
 																			<li><a href="#" name="deletePost" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																		</ul>
 																	</div>
@@ -904,7 +907,7 @@
 																								style="width: 100px; height:auto; 
 																								float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																								<ul>
-																									<li><a href="#" name="${reReply.replyNo}" style="color: #5a5a5a;" class="lihover deleteRereply">댓글 삭제</a></li>
+																									<li><a href="#" class="deleteRereply" name="${reReply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
 																									<li><a href="#" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																								</ul>
 																							</div>
@@ -987,8 +990,11 @@
 			</c:choose>	 
 		</c:forEach>
 	</c:if>
+	<!-- 공지사항 게시물 -->
 	
 	
+		
+	<!-- 공지사항 아닌 일반 게시물 -->
 	<c:if test="${empty board }">
 
 		<!-- 게시글 없을때-->
@@ -1244,40 +1250,6 @@
 								<c:when test="${board.typeNo eq '4'}">  <!-- N빵 출력 양식 -->	
 								
 									${board.boardContent}
-									<br><br>
-									<table class="table table-hover">
-										<thead>
-											<tr class="table-primary">
-												<th colspan="5">42000원 / 2명</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr class="table-light">
-												<td>프사</td>
-												<td>김태훈</td>
-												<td>21000원</td>
-												<td></td>
-												<td>
-												    <div class="custom-control custom-switch">
-												      <input type="checkbox" class="custom-control-input" id="divideMem1" checked="">
-												      <label class="custom-control-label" for="divideMem1"></label>
-												    </div>
-												</td>
-											</tr>
-											<tr class="table-active">
-												<td>프사</td>
-												<td><del>김태훈</del></td>
-												<td style="text-decoration: line-through;">21000원</td>
-												<td></td>
-												<td>
-													<div class="custom-control custom-switch">
-												      <input type="checkbox" class="custom-control-input" id="divideMemasdf" disabled>
-												      <label class="custom-control-label" for="divideMemasdf"></label>
-												    </div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
 									<c:forEach items="${dutch}" var="dut">
 										<c:if test="${board.boardNo == dut.boardNo }">
 											<br><br>
@@ -1289,47 +1261,49 @@
 												</thead>
 												<tbody>
 													<c:forEach items="${divide}" var="divi">
-														<tr class="
-															<c:if test='${empty divi.divideDt}'>
-															table-light
-															</c:if>
-															<c:if test='${!empty divi.divideDt}'>
-															table-active
-															</c:if>
-															">
-															<td style="width:15%">
-																<div style="display: inline-block; width: 30px; height: 30px; border-radius: 70%; overflow: hidden;">
-																	<img src="${contextPath}/resources/profileImage/${divi.memberProfileUrl}"
-																		style="width: 100%; height: 100%; object-fit: cover; position: relative;"
-																	>
-																</div>
-															</td>
-															<td style="width:20%">${divi.memberNickName}</td>
-															<td style="width:25%"
-															<c:if test='${!empty divi.divideDt}'>
-															style = "text-decoration: line-through;"
-															</c:if>
-															>${divi.dividePrice}원</td>
-															<td style="width:20%">
-																<input type="hidden" value="${board.boardNo}">
-															</td>
-															<td style="width:20%">
-																<c:if test="${loginMember.memberNo == board.memberNo or loginMember.memberNo == divi.memberNo }">
-																    <div class="custom-control custom-switch">
-																      <input type="checkbox" class="custom-control-input divideCheck"
-																      		id="divideMem${board.boardNo}-${divi.memberNo}" 
-																      		<c:if test='${empty divi.divideDt}'>
-																      		 checked 
-																      		</c:if>
-																      		<c:if test='${!empty divi.divideDt}'>
-																      		 disabled 
-																      		</c:if>
-																      		 value="${divi.memberNo}">
-																      <label class="custom-control-label" for="divideMem${board.boardNo}-${divi.memberNo}"></label>
-																    </div>
-															    </c:if>
-															</td>
-														</tr>
+														<c:if test="${divi.boardNo == dut.boardNo}">
+															<tr class="
+																<c:if test='${empty divi.divideDt}'>
+																table-light
+																</c:if>
+																<c:if test='${!empty divi.divideDt}'>
+																table-active
+																</c:if>
+																">
+																<td style="width:15%">
+																	<div style="display: inline-block; width: 30px; height: 30px; border-radius: 70%; overflow: hidden;">
+																		<img src="${contextPath}/resources/profileImage/${divi.memberProfileUrl}"
+																			style="width: 100%; height: 100%; object-fit: cover; position: relative;"
+																		>
+																	</div>
+																</td>
+																<td style="width:20%">${divi.memberNickName}</td>
+																<td style="width:25%;
+																<c:if test='${!empty divi.divideDt}'>
+																text-decoration: line-through;
+																</c:if>
+																">${divi.dividePrice}원</td>
+																<td style="width:20%">
+																	<input type="hidden" value="${board.boardNo}">
+																</td>
+																<td style="width:20%">
+																	<c:if test="${loginMember.memberNo == board.memberNo or loginMember.memberNo == divi.memberNo }">
+																	    <div class="custom-control custom-switch">
+																	      <input type="checkbox" class="custom-control-input divideCheck"
+																	      		id="divideMem${board.boardNo}-${divi.memberNo}" 
+																	      		<c:if test='${empty divi.divideDt}'>
+																	      		 checked 
+																	      		</c:if>
+																	      		<c:if test='${!empty divi.divideDt}'>
+																	      		 disabled 
+																	      		</c:if>
+																	      		 value="${divi.memberNo}">
+																	      <label class="custom-control-label" for="divideMem${board.boardNo}-${divi.memberNo}"></label>
+																	    </div>
+																    </c:if>
+																</td>
+															</tr>
+														</c:if>
 													</c:forEach>
 												</tbody>
 											</table>
@@ -1745,7 +1719,7 @@
 																		style="width: 100px; height:auto;
 																		float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																		<ul>
-																			<li><a href="#" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover deleteRereply">댓글 삭제</a></li>
+																			<li><a href="#"  class="deleteRereply" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
 																			<li><a href="#" name="deletePost" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																		</ul>
 																	</div>
@@ -1842,7 +1816,7 @@
 																								style="width: 100px; height:auto; 
 																								float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																								<ul>
-																									<li><a href="#" name="${reReply.replyNo}" style="color: #5a5a5a;" class="lihover deleteRereply">댓글 삭제</a></li>
+																									<li><a href="#" class="deleteRereply" name="${reReply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
 																									<li><a href="#" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																								</ul>
 																							</div>
@@ -1934,6 +1908,17 @@
 	<script>
 	/* 투표 참여 반영용 Ajax */
 	$(document).ready(function(){
+		
+		
+		
+		
+		$('input:checkbox[id="anonymity22"]').is(":checked")== true
+		
+		
+		
+		
+		
+		
 	    $(".voteCheckBox").change(function(){
 	    	// 선택지 번호
 	    	var voteNo = $(this).attr("name");  

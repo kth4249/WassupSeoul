@@ -696,6 +696,11 @@ public class StreetDAO {
 	public List<Divide> selectDivide(List<Dutch> dutch) {
 		return sqlSession.selectList("streetMapper.selectDivide", dutch);
 	}
+	
+	
+	public int divideCheck(Map<String, Integer> map) {
+		return sqlSession.update("streetMapper.divideCheck", map);
+	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 
 	/* 지원 골목 수정 시작 */
