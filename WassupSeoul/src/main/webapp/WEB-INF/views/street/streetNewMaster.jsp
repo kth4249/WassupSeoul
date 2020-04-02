@@ -87,7 +87,7 @@
 							</div>
 							<div style="text-align: center;">
 								<div style="display: inline-block; margin-left:10px">
-									<button class="btn btn-warning nanum" type="button">나가기</button>
+									<a href="${header.referer}" class="btn btn-warning nanum" type="button">나가기</a>
 								</div>
 							</div>
 							<span style="color:darksalmon"> * 골목대장 위임은 취소 할 수 없으므로, 다시 한번 확인하여 주시길 바랍니다 * </span>
