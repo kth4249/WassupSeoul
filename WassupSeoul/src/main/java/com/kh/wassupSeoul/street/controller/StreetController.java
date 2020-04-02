@@ -1228,7 +1228,7 @@ public class StreetController {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("memberNo", memberNo);
 		map.put("boardNo", boardNo);
-		return null;
+		return streetService.divideCheck(map) == 1 ? true + "" : false + "";
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/

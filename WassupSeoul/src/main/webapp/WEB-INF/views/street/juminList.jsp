@@ -53,12 +53,19 @@
 										</div>
 										</td>
 										<td>${member.memberNickname }</td>
-										<td>${member.memberAge}세, ${member.memberGender}</td>
+										<td>${member.memberAge}세, 
+											<c:if test="${member.memberGender eq 'M' }">
+											남
+											</c:if>
+											<c:if test="${member.memberGender eq 'F' }">
+											여
+											</c:if>
+										</td>
 										<td>
 											<c:if test="${!empty hList}">
 												<c:forEach items="${hList}" var="hobby" >
 													<c:if test="${member.memberNo == hobby.memberNo }">
-														${hobby.hobbyName}
+														#${hobby.hobbyName}
 													</c:if>
 												</c:forEach>
 											</c:if>

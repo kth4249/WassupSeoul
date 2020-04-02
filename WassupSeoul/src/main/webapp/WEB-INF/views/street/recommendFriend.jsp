@@ -68,7 +68,7 @@
 											class="friendRecommendProfile" style="width: 100%; height: 100%; object-fit: cover;">
 									</div>
 									<div class="col-md-6">
-										<h4 class="nanum friendRecommendName">${member.memberNm }</h4>
+										<h4 class="nanum friendRecommendName">${member.memberNickname }</h4>
 										<h5 class="nanum" style="color: darkgreen; font-size: 18px;">
 											<c:if test="${!empty hList}">
 												<c:forEach items="${hList}" var="hobby">
