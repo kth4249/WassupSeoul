@@ -350,7 +350,7 @@ public class FriendsServiceImpl implements FriendsService{
 		System.out.println("msg : " + msg);
 		
 		
-		if (!msg.isEmpty()) { 
+		if (!msg.isEmpty()) {  
 			friendsDAO.msgRead(msg); 
 			}
 		 

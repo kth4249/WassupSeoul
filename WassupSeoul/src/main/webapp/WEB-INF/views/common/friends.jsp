@@ -36,9 +36,9 @@
 	text-align: center;
 }
 
-/* .tab-content22 {
-	border: 2px solid black;
-} */
+.tab-content22 {
+	overflow: auto;
+}
 
 .modal {
 	text-align: center;
@@ -90,6 +90,8 @@
 	top: 0;
 	right: 0;
 } */
+
+
 </style>
 
 
@@ -190,7 +192,7 @@
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
 				<!-- 친구요청 div -->
 				<div class="tab-pane fade tgl" id="friendReq">
-					<div class="nanum" id="friendRequestArea">
+					<div class="nanum mt-3" id="friendRequestArea">
 						<input type="hidden" id="profileRoot">
 						<img class="rImg" src="${contextPath}/resources/img/usericon.png" width="40px"
 							height="40px" data-toggle="modal" data-target="#profilePicture"
@@ -206,15 +208,12 @@
 				
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->			
 				                    <!-- 채팅창 div 시작 -->
-                    <div class="tab-pane chat nanum" id="chat">
+                    <div class="tab-pane chat nanum" id="chat" style="height: 496px; overflow-y: auto; position: relative;">
                         <!-- 닫기 버튼 -->
                         <div id="div_chat">
                         	<button type="button" class="close xBtn">&times;</button>
                         </div>
                         <!-- 스크롤 다운 버튼 -->
-                        <div id="menu_scroll_down mr-5">
-                            <button id="btn_scroll_down" style="float: right;">↓</button>
-                        </div>
 
                         <br>
 
@@ -559,7 +558,7 @@
 				//var root = $("#profileRoot").val();
 				var root = "${contextPath}";
 				var $savePath = root +"/resources/profileImage/";
-				if(result == null){
+				if(result == ""){
 					$msg = $("<span>").html("지금은 친구요청이 없네요.");
 					$friendRequestArea.css("text-align","center");
 					$friendRequestArea.html($msg);
@@ -832,7 +831,7 @@
 						var $nickname = result[i].memberNickname;
 						var $noReadCount = result[i].noReadCount;
 						var $lastMSG = result[i].lastMessage;
-						var $div0 = $("<div>").prop("class","nanum mt-3 ml-3 chatRoom").val(result[i].roomNo);
+						var $div0 = $("<div>").prop("class","nanum mt-3 ml-3 chatRoom").css({"overflow":"hidden","height":"70px"}).val(result[i].roomNo);
 						
 						var $divrow1 = $("<div>").prop("class", "row col-md-12");
 						var $div1 = $("<div>").prop("class","roomImg").css({"width":"40px","height":"40px","overflow":"hidden","border-radius": "70%"});
@@ -933,7 +932,7 @@
 						var $msgContent = result[i].msgContent;
 						
 						
-						var $div3 = $("<div>").prop("class", "row");
+						var $div3 = $("<div>").prop("class", "col-md-12 row").css({"padding-bottom":"10px","padding-left":"20px","margin":"0px"});
 						var $div4 = $("<div>").prop("class", "nanum").css({"width":"40px","height":"40px","overflow":"hidden","border-radius":"70%"});
 						var $img = $("<img>").prop("class", "cImg").prop("src", $finalPath).css({"width":"100%","height":"100%","object-fit":"cover"});
 						var $div5 = $("<div>").prop("class", "col-md-10 nanum");
@@ -958,7 +957,7 @@
 									
 					}); //$.each 끝
 					
-					var $table1 = $("<table>").prop("id", "table_chat").css("margin-top", "180px");
+					var $table1 = $("<table>").prop("id", "table_chat");
 					var $colg = $("<colgroup>");
 					var $col1 = $("<col>").css("width", "300px");
 					var $col2 = $("<col>").css("width", "600px");
@@ -967,12 +966,12 @@
 					
 					var $table2 = $("<table>").prop("id","append_table");
 					var $thead2 = $("<thead>");
-					var $tbody2 = $("<tbody>");
+					var $tbody2 = $("<tbody>").css({"position":"fixed","top": "826px"});
 					var $tr1 = $("<tr>");
 					var $td1 = $("<td>");
-					var $input = $("<input>").prop("id","messageM").prop("class", "nanum").css("width","310px");
+					var $input = $("<input>").prop("id","messageM").prop("class", "nanum form-control").css("width","320px");
 					var $td2 = $("<td>");
-					var $sBtn = $("<button>").prop("id","sendBtn").prop("class", "btn btn-warning nanum").html("전송");
+					var $sBtn = $("<button>").prop("id","sendBtn").prop("class", "btn btn-success nanum").html("전송");
 					
 					
 					
@@ -987,7 +986,7 @@
 					
 					
 					$chat.append($table1).append($table2);
-					
+					$("#chat").scrollTop($("#chat")[0].scrollHeight);
 					
 				} //else 끝
 				
@@ -1093,7 +1092,12 @@
 			friendRequest(); 
 		}, 1000);  
 	});
-		
+	
+	/* 대화방 스크롤 */
+	/* $(document).ready(function(){
+		$("#chat").scrollTop($("#chat")[0].scrollHeight);
+	});
+		 */
 </script>
 
 

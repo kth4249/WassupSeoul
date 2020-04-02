@@ -109,7 +109,7 @@
 				<c:when test="${notice.boardLevel eq '1'}">
 					<!-- 게시글1-->
 			<div class="container box111" id="postArea">
-				<div class="postLayoutView" style="padding: 0%; border: solid black 2px ">
+				<div class="postLayoutView" style="padding: 0%; border: solid #ffa3a3 2px ">
 
 					<!-- 프로필사진, 작성자명, 날짜 -->
 					<div class="post MainWrap mb-3" style="margin-top: 10px; margin-left: 10px; margin-bottom: 20px">
@@ -126,8 +126,6 @@
 								<p class="writerNickName" name="${notice.memberNo}" style="width: 50% !important;"
 									data-toggle="modal" data-target="#writerModal" >${notice.boardWriter}</p>
 							</div>
-							 <img src="${contextPath}/resources/img/pushpin.png" style="width: 15px; height: 15px; object-fit: cover; float:right;
-							 															position: relative; display:inline-block;"> 
 							
 							<div style="width: 60% !important;">
 								<p style="width:100%">
@@ -135,6 +133,8 @@
 								</p>
 							</div>
 						</div>
+
+						<%-- <img src="${contextPath}/resources/img/pushpin.png" style="width: 15px; height: 15px; object-fit: cover; float:right;position: relative; display:inline-block;"> --%>
 
 						<c:if test="${loginMember.memberNickname ne notice.boardWriter}">
 							<c:if test="${memGradeInSt.citizenGrade eq 'M'}">
