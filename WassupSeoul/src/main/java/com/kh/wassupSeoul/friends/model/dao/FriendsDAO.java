@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.wassupSeoul.friends.model.vo.ChatRoom;
 import com.kh.wassupSeoul.friends.model.vo.MSG;
+import com.kh.wassupSeoul.friends.model.vo.NoReadCount;
 import com.kh.wassupSeoul.friends.model.vo.Relationship;
 import com.kh.wassupSeoul.member.model.vo.Member;
 import com.kh.wassupSeoul.square.model.vo.Alarm;
