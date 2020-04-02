@@ -277,8 +277,10 @@ public class FriendsServiceImpl implements FriendsService{
       System.out.println("RoomNoList : "+ RoomNoList);
       
       // 방 번호에 따른 안읽은 메시지 수
-      
-      List <Integer> noReadMsgCount = friendsDAO.selectnoReadCount(RoomNoList);
+      List <Integer> noReadMsgCount = null;
+      if(!RoomNoList.isEmpty()) {
+    	  noReadMsgCount = friendsDAO.selectnoReadCount(RoomNoList);
+      }
        
 //      if (noReadMsgCount == null || noReadMsgCount.isEmpty()) { 
 //    	  
@@ -286,9 +288,9 @@ public class FriendsServiceImpl implements FriendsService{
 //    		  noReadMsgCount.add(0);
 //    	  }
 //    	  
-//    	  System.out.println("noReadMsgCount : " + noReadMsgCount);
 //      }
 //      
+    	  System.out.println("noReadMsgCount : " + noReadMsgCount);
       
       List <String> lastMessage = new ArrayList<String>();
       
@@ -317,19 +319,20 @@ public class FriendsServiceImpl implements FriendsService{
 
       // 얘네 담을 리스트 객체 선언
       List <ChatList> cList = new ArrayList<ChatList>();
-      
-      for (int i = 0 ; i < RoomNoList.size() ; i++) {
-         
-         ChatList chatlist = new ChatList();
-         chatlist.setRoomNo(RoomNoList.get(i));
-         chatlist.setNoReadCount(noReadMsgCount.get(i));
-         chatlist.setLastMessage((lastMessage.get(i)));
-         chatlist.setMemberNickname(mList.get(i).getMemberNickname());
-         chatlist.setMemberProfileUrl(mList.get(i).getMemberProfileUrl());
-         chatlist.setOtherNo(mList.get(i).getMemberNo());
-         
-         cList.add(chatlist);
-          
+      if(!RoomNoList.isEmpty()) {
+    	  for (int i = 0 ; i < RoomNoList.size() ; i++) {
+    		  
+    		  ChatList chatlist = new ChatList();
+    		  chatlist.setRoomNo(RoomNoList.get(i));
+    		  chatlist.setNoReadCount(noReadMsgCount.get(i));
+    		  chatlist.setLastMessage((lastMessage.get(i)));
+    		  chatlist.setMemberNickname(mList.get(i).getMemberNickname());
+    		  chatlist.setMemberProfileUrl(mList.get(i).getMemberProfileUrl());
+    		  chatlist.setOtherNo(mList.get(i).getMemberNo());
+    		  
+    		  cList.add(chatlist);
+    		  
+    	  }
       }
       
       System.out.println("cList : " + cList);
