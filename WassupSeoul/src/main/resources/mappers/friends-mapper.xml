@@ -256,7 +256,7 @@
 	UPDATE CHAT SET 
 	CHAT_STATUS = 'Y'
 	WHERE MY_NO = #{myNo}
-	AND YOUR_NO = #{yourNo}	
+	AND YOUR_NO = #{yourNo}
 </update>
 
 <update id = "updateChatRoom2" parameterType="map">
@@ -330,9 +330,9 @@
 	UPDATE MSG SET
 	MSG_STATUS = 'Y'
 	WHERE ROOM_NO IN
-	<foreach item="roomNo" collection="list" open="(" separator="," close=")">
-	 	#{roomNo.roomNo}
-	</foreach> 
+		<foreach item="roomNo" collection="list" open="(" separator="," close=")">
+		 	#{roomNo.roomNo}
+		</foreach> 
 	 
 
 </update>

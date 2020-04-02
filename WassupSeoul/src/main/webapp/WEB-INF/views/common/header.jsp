@@ -530,7 +530,7 @@ object-fit: cover;
 	</script>
         
         
-        
+        <jsp:include page="friends.jsp"/>
         
         
         <!-- golmok Modal -->

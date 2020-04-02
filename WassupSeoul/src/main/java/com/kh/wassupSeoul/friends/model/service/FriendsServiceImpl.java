@@ -288,7 +288,7 @@ public class FriendsServiceImpl implements FriendsService{
 			System.out.println("noReadMsgCount : " + noReadMsgCount);
 		}
 		
-		
+		 
 		
 		List <String> lastMessage = new ArrayList<String>();
 		
@@ -350,7 +350,7 @@ public class FriendsServiceImpl implements FriendsService{
 		System.out.println("msg : " + msg);
 		
 		
-		if (msg!=null || !msg.isEmpty()) { 
+		if (!msg.isEmpty()) { 
 			friendsDAO.msgRead(msg); 
 			}
 		 
