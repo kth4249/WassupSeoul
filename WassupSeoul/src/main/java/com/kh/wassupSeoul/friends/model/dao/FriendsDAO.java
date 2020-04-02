@@ -330,6 +330,16 @@ public class FriendsDAO {
 	}
 
 
+	/** 차단 및 삭제 대화방 N
+	 * @param nMap
+	 * @return result
+	 * @throws Exception
+	 */
+	public int offRoom(Map<String, Object> nMap) throws Exception {
+		return sqlSession.update("friendsMapper.offRoom", nMap);
+	}
+
+
 	
 
 	/*-----------------태훈 알람 관련 추가-------------------*/

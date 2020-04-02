@@ -95,7 +95,7 @@ a:hover {
 								<h3 class="nanum" style="">골목이름</h3>
 								<div class="col-xs-4">
 									<input type="text" class="form-control nanum" name="streetNm"
-										id="streetNm" placeholder="2글자이상 15글자이하로 작성하기(특수문자제외)"
+										id="streetNm" placeholder="2글자이상 8글자이하로 작성"
 										value="${street.streetNm}"> <span class="nanum"
 										id="checkStreetNm" style="font-size: smaller;">&nbsp;</span>
 								</div>
@@ -163,7 +163,7 @@ a:hover {
 								<div class="col-xs-4">
 									<input type="text" class="form-control nanum"
 										name="streetIntro" id="streetIntro"
-										placeholder="15글자 이하로 작성하기(특수문자 제외)"
+										placeholder="15글자 이하로 작성"
 										value="${street.streetIntro }"> <span class="nanum"
 										id="checkStreetIntro" style="font-size: smaller;">&nbsp;</span>
 								</div>
@@ -399,7 +399,7 @@ a:hover {
 								<button type="submit" class="btn btn-primary btn-lg btn-block nanum">수정하기</button>
 							</div>
 							<div class="col-md-6 mb-5" style="text-align: center;">
-								<button type="button" class="btn btn-warning btn-lg btn-block nanum">취소</button>
+								<a href="${header.referer}" class="btn btn-warning btn-lg btn-block nanum">취소</a>
 							</div>
 						</div>
 					</div>
@@ -449,7 +449,7 @@ a:hover {
 			
 			// 골목이름 실시간 유효성 검사
 			$streetNm.on("input", function() {
-				var regExp = /^.{2,15}$/;
+				var regExp = /^.{2,8}$/;
 
 				if (!regExp.test($(this).val())) {
 					$("#checkStreetNm").text("골목이름 형식이 유효하지 않습니다.")

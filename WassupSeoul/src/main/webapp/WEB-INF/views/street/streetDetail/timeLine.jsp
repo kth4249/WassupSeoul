@@ -417,18 +417,20 @@
 																<input type="hidden" value="${board.boardNo}">
 															</td>
 															<td style="width:20%">
-															    <div class="custom-control custom-switch">
-															      <input type="checkbox" class="custom-control-input divideCheck"
-															      		id="divideMem${board.boardNo}-${divi.memberNo}" 
-															      		<c:if test='${empty divi.divideDt}'>
-															      		 checked 
-															      		</c:if>
-															      		<c:if test='${!empty divi.divideDt}'>
-															      		 disabled 
-															      		</c:if>
-															      		 value="${divi.memberNo}">
-															      <label class="custom-control-label" for="divideMem${board.boardNo}-${divi.memberNo}"></label>
-															    </div>
+																<c:if test="${loginMember.memberNo == board.memberNo or loginMember.memberNo == divi.memberNo }">
+																    <div class="custom-control custom-switch">
+																      <input type="checkbox" class="custom-control-input divideCheck"
+																      		id="divideMem${board.boardNo}-${divi.memberNo}" 
+																      		<c:if test='${empty divi.divideDt}'>
+																      		 checked 
+																      		</c:if>
+																      		<c:if test='${!empty divi.divideDt}'>
+																      		 disabled 
+																      		</c:if>
+																      		 value="${divi.memberNo}">
+																      <label class="custom-control-label" for="divideMem${board.boardNo}-${divi.memberNo}"></label>
+																    </div>
+															    </c:if>
 															</td>
 														</tr>
 													</c:forEach>
