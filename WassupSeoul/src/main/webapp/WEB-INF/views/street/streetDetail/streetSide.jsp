@@ -134,7 +134,7 @@
 				<!-- 일반 주민 영역 -->
 		  	<c:if test="${citizenGrade eq 'G'}">
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-	             		<a href="" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
+	             		<a href="${contextPath}/street/secessionStreet" onclick="return secessionValidate();" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">
 	              	 	골목 탈퇴
 	             		</a>
@@ -161,7 +161,15 @@
             
           </div>
         </div>
-        
+        <script>
+        	function secessionValidate(){
+        		if(confirm("정말 골목에서 탈퇴하시겠습니까?")){
+        			return true;
+        		} else {
+        			return false;
+        		}
+        	}
+        </script>
        <c:if test="${street.streetPublic eq 'Y'.charAt(0)}">
         	<div class="card-footer nanum">
           	누구나 골목을 검색해 찾을 수 있고, <br>게시물을 볼 수 있습니다.

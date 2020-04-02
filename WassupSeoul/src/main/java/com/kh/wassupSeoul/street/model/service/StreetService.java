@@ -417,6 +417,14 @@ public interface StreetService {
 	 * @return result
 	 */
 	public abstract int divideCheck(Map<String, Integer> map);
+	
+	
+
+	/** 골목 탈퇴
+	 * @param map
+	 * @throws Exception
+	 */
+	public abstract void secessionStreet(Map<String, Integer> map) throws Exception;
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	

@@ -1044,7 +1044,7 @@ public class StreetController {
 	// 주민목록 조회
 	@RequestMapping
 	public String juminList(Integer streetNo, Model model) {
-		model.addAttribute("streetNo", streetNo);
+		//model.addAttribute("streetNo", streetNo);
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		try {
 			
@@ -1229,6 +1229,24 @@ public class StreetController {
 		map.put("memberNo", memberNo);
 		map.put("boardNo", boardNo);
 		return streetService.divideCheck(map) == 1 ? true + "" : false + "";
+	}
+	
+	@RequestMapping("secessionStreet")
+	public String secessionStreet(Model model) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		int memberNo = loginMember.getMemberNo();
+		int streetNo = (int)model.getAttribute("streetNo");
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("memberNo", memberNo);
+		map.put("streetNo", streetNo);
+		try {
+			streetService.secessionStreet(map);
+			return "redirect:streetMain";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "골목 탈퇴 과정 중 오류 발생");
+			return "redirect:streetMain";
+		}
 	}
 	
 	/*--------------------------------태훈 끝-------------------------------------*/

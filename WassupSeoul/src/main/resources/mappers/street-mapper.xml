@@ -824,6 +824,13 @@
 		DIVIDE_CHECK = 'Y', DIVIDE_DT = SYSDATE
 		WHERE BOARD_NO = #{boardNo} AND MEMBER_NO = #{memberNo}
 	</update>
+	
+	<update id="secessionStreet" parameterType="map">
+		UPDATE STREET_JOIN SET
+		CITIZEN_STATUS = 'N'
+		WHERE MEMBER_NO = #{memberNo}
+		AND STREET_NO = #{streetNo}
+	</update>
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->
