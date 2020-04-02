@@ -15,6 +15,7 @@
 	bottom: 70px;
 	right: 10px;
 	display : none;
+	z-index : 100 !important;
 }
 
 .messengerbox {
@@ -376,7 +377,7 @@
 					</div>
 				</div>
 				
-\<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->			
+<!-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->			
 				
 				
 				<!-- 친구목록 : 제거버튼 -->
@@ -560,7 +561,7 @@
 				var $savePath = root +"/resources/profileImage/";
 				if(result == null){
 					$msg = $("<span>").html("지금은 친구요청이 없네요.");
-					$friendRequestArea.css("text-align","center")
+					$friendRequestArea.css("text-align","center");
 					$friendRequestArea.html($msg);
 					
 				}else {
@@ -1026,7 +1027,7 @@
 	
 	var chat = new SockJS("<c:url value='/chat'/>");
 	chat.onmessage = onMessage;
-	chat.onclose = onClose;
+	//chat.onclose = onClose;
 	var today = null;
 	
 	$(function(){
