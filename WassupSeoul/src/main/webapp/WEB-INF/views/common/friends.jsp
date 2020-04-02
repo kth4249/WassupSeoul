@@ -208,7 +208,7 @@
 				
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->			
 				                    <!-- 채팅창 div 시작 -->
-                    <div class="tab-pane chat nanum" id="chat" style="height: 496px; overflow-y: auto; position: relative;">
+                    <div class="tab-pane chat nanum" id="chat" style="height: 458px; overflow-y: auto; position: relative;">
                         <!-- 닫기 버튼 -->
                         <div id="div_chat">
                         	<button type="button" class="close xBtn">&times;</button>

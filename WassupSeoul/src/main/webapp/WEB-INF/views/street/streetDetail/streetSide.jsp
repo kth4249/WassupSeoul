@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 	<!-- 고정 사이드바 왼쪽 시작 -->
-    <div class="col-md-2 fixed-top" style="left: 17%; top: 110px; background-color: rgb(255, 255, 255);">
+    <div class="col-md-2 fixed-top" style="left: 16.5%; top: 110px; background-color: rgb(255, 255, 255);">
     <!-- <div class="col-md-2 fixed-top" style="left: 366px; top: 110px;" style="background-color: rgb(221, 233, 218);"> -->
       <div class="card mb-3" >
 	      <div style="width: 100% !important; height: 200px; overflow: hidden; background-color:black;">
@@ -178,7 +178,7 @@
     <!-- 고정사이드바 왼쪽 끝 -->
 
     <!-- 고정사이드바 오른쪽 시작 -->
-    <div class="col-md-2 fixed-top" style="left: 66%; top: 110px; opacity: 1.0; z-index: 0">
+    <div class="col-md-2 fixed-top" style="left: 67%; top: 110px; opacity: 1.0; z-index: 0">
     <!-- <div class="col-md-2 fixed-top" style="left: 1223px; top: 110px;"> -->
     	<div class="card border-primary mb-3" style="max-width: 20rem;">
 			<div class="card-header nanum" style="font-size: 25px;">다가오는 일정</div>
