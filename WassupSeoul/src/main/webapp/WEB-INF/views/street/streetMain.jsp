@@ -27,7 +27,7 @@
 
 <!-- 3/27 미현 css 대부분 건듦 -->
 
-<body style="background-color : rgb(255, 255, 255);" onclick="getAllOnClick();">
+<body style="background-color : rgb(255, 255, 255);">
 
 	<!-- 골목 네비바 여백 -->
 	<div class="container-fluid" style="margin-top: 57px;">

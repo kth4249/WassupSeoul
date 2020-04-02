@@ -234,7 +234,7 @@
 					})
 					
 					$(document).on("click", ".openProfile", function(){
-						//console.log($(this).parent().parent().children().eq(2).text());
+						console.log($(this).parent().parent().parent().children().eq(2).text());
 						var memberNo = $(this).parent().parent().parent().children().eq(0).val();
 						var memberNickName = $(this).parent().parent().parent().children().eq(2).text();
 						var memberAgeGender = $(this).parent().parent().parent().children().eq(3).text();
@@ -271,11 +271,10 @@
 				</script>
 			</div>
 			<div class="col-md-4">
-			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#profilePicture" id="profileBtn"
+			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#miniProfile" id="profileBtn"
 					style="display:none">
 			</button>
-            <!-- 친구목록 : 프로필사진 -->
-	            <div class="modal fade" id="profilePicture">
+	            <div class="modal fade" id="miniProfile">
 	               <div class="modal-dialog" role="document">
 	                  <div class="modal-content">
 	                     <div class="modal-header">
@@ -287,9 +286,9 @@
 	                     </div>
 	                     <div class="modal-body" style="font-size: 20px;">
 	                        <form action="">
-	                           <div class="text-center">
-	                              <img src="${contextPath}/resources/img/usericon.png" width="200px"
-	                                 height="200px" class="ml-5 mr-5 mt-5 mb-3" id="miniProfileImg">
+	                           <div class="text-center ml-5 mr-5 mt-5 mb-3" style="width:200px;height:200px; border-radius: 70%; overflow: hidden">
+	                              <img src="${contextPath}/resources/img/usericon.png"
+	                                 style="object-fit:cover; width: 100%; height: 100%" id="miniProfileImg">
 	                           </div>
 	                           <div class="nanum text-center" style="font-size: 35px;">
 	                              <span id="miniProfileName"class="">프로필</span>
