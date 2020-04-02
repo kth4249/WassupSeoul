@@ -283,9 +283,12 @@
 <!-- 해당 방에서 안읽은 번호의 수 -->
 <select id = "selectnoReadCount" parameterType="list" resultType="_int">
 		SELECT SUM(CASE WHEN MSG_STATUS = 'N'
-		THEN 1 ELSE 0
-        END) FROM MSG
-        WHERE ROOM_NO IN
+                                    THEN 1
+            ELSE 0
+        END)
+        FROM CHAT
+        LEFT JOIN MSG USING(ROOM_NO)
+		WHERE ROOM_NO IN
 		<foreach item="roomNo" collection="list" open="(" separator="," close=")">
 			 	#{roomNo}
 		</foreach>
