@@ -296,7 +296,7 @@
 		                     <div class="form-group row">
 		                       <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">위치</label>
 		                       <div class="col-md-10">
-		                         <input type="text" class="form-control nanum" id="calendarLocation" name="calendarLocation" placeholder="지정된 모임 장소">
+		                         <input type="text" readonly class="form-control nanum" id="calendarLocation" name="calendarLocation" placeholder="지정된 모임 장소">
 		                       </div>
 		                     </div>
                               <!-- 지도 변경끝 -->
@@ -325,7 +325,7 @@
                                 <div class="col-md-4">
                                   <div class="form-check">
                                     <label class="form-check-label nanum">
-                                      <input type="radio" class="form-check-input" name="joinCalendar" id="join" value="Y" checked>
+                                      <input type="radio" class="form-check-input" name="joinCalendar" id="join" value="Y">
                                      	 참석 일정
                                     </label>
                                   </div>
@@ -474,7 +474,7 @@
                     <div class="form-group row">
                        <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">위치</label>
                        <div class="col-md-10">
-                         <input type="text" class="form-control nanum" id="updateCalendarLocation" name="updateCalendarLocation" placeholder="지정된 모임 장소">
+                         <input type="text" class="form-control nanum" id="updateCalendarLocation" name="updateCalendarLocation" placeholder="지정된 모임 장소" readonly>
                        </div>
                      </div>
                      <div class="form-group row">
@@ -794,12 +794,26 @@
             if($calStartDate.val() == "" || $calStartDate.val() == null) {
             	alert("일정 시작일을 우선 지정하세요.");
             	$joinDate.blur();
-            	signUpCheck.calendarJoinDate = false;
+            	var noneJoinCheck = $("#notJoin").prop("checked");
+            	if(noneJoinCheck) {
+            		$joinDate.val("");
+            		signUpCheck.calendarJoinDate = true;
+            		console.log("참가마감:" + signUpCheck.calendarJoinDate);
+            	} else {
+            		$joinDate.val("");
+            		signUpCheck.calendarJoinDate = false;	
+            		console.log("참가마감:" + signUpCheck.calendarJoinDate);
+            	}
             }
             // 1)일정 시작일이 지정된 경우 -> 일정 시작일을 최대값으로 지정 
             else {
             	var maxJoinDate = $calStartDate.val();
-        		$joinDate.prop("max",maxJoinDate);		
+        		$joinDate.prop("max",maxJoinDate);
+        		var noneJoinCheck = $("#notJoin").prop("checked");
+            	if(noneJoinCheck) {
+            		signUpCheck.calendarJoinDate = true;
+            		console.log("참가마감:" + signUpCheck.calendarJoinDate);
+            	}
             }
         });
         
@@ -1336,6 +1350,13 @@
 	
 	// 일정 추가 submit 동작
 	function validate(){
+		
+		var noneJoinCheck = $("#notJoin").prop("checked");
+		var joinCheck = $("#join").prop("checked");
+		if (!noneJoinCheck && !joinCheck) {
+			alert("일정의 참석여부를 결정하십시요");
+			return false;
+		}
 		
 		for(var key in signUpCheck){
 			if(!signUpCheck[key]){
