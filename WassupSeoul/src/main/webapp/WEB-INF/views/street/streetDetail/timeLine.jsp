@@ -258,7 +258,7 @@
 											style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 											id="chev">
 										<div id="postMenu" class="hide nanum form-control" style="width: 100px; height: auto; 
-												 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
+												 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
 											<ul>
 												<li><a class="deletePost" name="${notice.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
 												<li><a data-toggle="modal" data-target="#updateSummerModal" class="updateSummer" style="color: #5a5a5a;" class="lihover">글 수정</a>
@@ -1029,7 +1029,7 @@
 												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 												id="chev">
 											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
-													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
 												<ul>
 													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 해제</a></li>
 													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
@@ -1051,7 +1051,7 @@
 												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 												id="chev">
 											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
-													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
 												<ul>
 													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 등록</a></li>
 													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
@@ -1085,7 +1085,7 @@
 												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 												id="chev">
 											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
-													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
 												<ul>
 													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 해제</a></li>
 													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
@@ -1110,7 +1110,7 @@
 												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 												id="chev">
 											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
-													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
 												<ul>
 													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 등록</a></li>
 													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
@@ -1138,7 +1138,7 @@
 											style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 											id="chev">
 										<div id="postMenu" class="hide nanum form-control" style="width: 100px; height: auto; 
-												 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
+												 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
 											<ul>
 												<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
 												<li><a data-toggle="modal" data-target="#updateSummerModal" class="updateSummer" style="color: #5a5a5a;" class="lihover">글 수정</a>
