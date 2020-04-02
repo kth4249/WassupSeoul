@@ -59,9 +59,9 @@
 										</div>
 									</div>	
 									
-									<br><span style="width: 300px; margin-left:25px;" >종료일 설정</span>								
-									<span  id="setDate" style="width: 200px; display: inline-block;">
-									<input id="date" type='date'  style="width: 140px;"/>
+									<br><span style="width: 300px; margin-left:10px;" >종료일 설정</span>								
+									<span  id="setDate" style="width: 200px; display: inline-block; margin-bottom:10px">
+									<input id="date" type='date'  style="width: 200px;"/>
 									</span><br>
 	
 	    							<label style="width: 130px;" ><input type='checkbox' id="anonymity " style="margin-left: 10px;" />무기명 투표</label><br>

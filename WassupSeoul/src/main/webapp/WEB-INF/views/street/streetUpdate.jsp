@@ -212,19 +212,19 @@ a:hover {
 							<div class="form-group col-md-3 nanum"
 								style="float: left; text-align: center;">
 								<label for="writeKeyword" class="nanum"
-									style="font-size: 20px; font-weight: bolder;">키워드 추가 </label>
+									style="font-size: 20px;">키워드 추가 </label>
 							</div>
 							<div class="form-group col-md-6 nanum" style="float: left;">
 
 								<input type="text" class="form-control nanum" name=""
-									id="writeKeyword" placeholder="15글자 이하로 작성">
+									id="writeKeyword" placeholder="15글자 이하(특수문자 제외)">
 								<span class="nanum" id="checkWriteKeyword"
 									style="font-size: smaller;">&nbsp;</span> <br>
 
 							</div>
 							<div class="form-group col-md-2">
-								<button class="nanum badge badge-primary" id="insertKeyword"
-									type="button" style="font-size: 19px;">추가</button>
+								<button class="nanum btn btn-info" id="insertKeyword"
+									type="button" style="font-size: 18px;">추가</button>
 							</div>
 						</div>
 
@@ -245,15 +245,12 @@ a:hover {
 												<div class="col-sm-9">
 													<input type="text" class="form-control-plaintext nanum"
 														name="streetKeywords" value="${key.keywordContent}"
-														style="font-size: 20px; color: blue;" readonly>
+														style="font-size: 20px; color: darkgreen;" readonly>
 												</div>
-												<div class="col-sm-3">
-													<button type="button"
-														class="btn btn-primary nanum deleteKeyword">제거</button>
+												<div>
+													<button type="button" class="btn btn-danger nanum deleteKeyword">제거</button>
 												</div>
-												<div class="col-sm-11"
-													style="background-color: black; height: 2px;"></div>
-												
+												<div class="col-md-12" style="background-color: black; height: 2px;"></div>
 											</div>
 										</c:forEach>
 

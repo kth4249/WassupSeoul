@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 	<!-- 고정 사이드바 왼쪽 시작 -->
-    <div class="col-md-2 fixed-top" style="left: 17%; top: 110px;" style="background-color: rgb(221, 233, 218);">
+    <div class="col-md-2 fixed-top" style="left: 17%; top: 110px; background-color: rgb(255, 255, 255);">
     <!-- <div class="col-md-2 fixed-top" style="left: 366px; top: 110px;" style="background-color: rgb(221, 233, 218);"> -->
       <div class="card mb-3" >
 	      <div style="width: 100% !important; height: 200px; overflow: hidden; background-color:black;">
@@ -35,7 +35,7 @@
               <input type="text" readonly class="form-control-plaintext nanum" value="${street.streetPoint}" style="font-size: 15px;">
             </div>
           </div>
-          <div class="col-sm-12" style="margin:5px">
+          <div style="margin:5px">
           	<textarea class="form-control nanum" rows="2" readonly style="resize: none;">${street.streetIntro}</textarea>
           </div>
           
