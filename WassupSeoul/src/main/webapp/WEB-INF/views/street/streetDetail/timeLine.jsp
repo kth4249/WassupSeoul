@@ -493,12 +493,12 @@
 																<!-- 투표 종료시 -->
 																<c:choose>
 																	<c:when test="${voteOption.voteStatus eq 'Y'}">  	 
-																		<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																		<label style="width: 400px; margin-left: 20px; color:black; font-weight:bold"> 
 																		<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
 																		       name="${voteOption.voteNo}" class="voteCheckBox" checked onclick="return false;"/>${voteOption.voteOtion}</label>
 																	</c:when>
 																	<c:otherwise>
-																		<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																		<label style="width: 400px; margin-left: 20px; color:black; font-weight:bold"> 
 																		<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
 																		       name="${voteOption.voteNo}" class="voteCheckBox" onclick="return false;" />${voteOption.voteOtion}</label>
 																	</c:otherwise>
@@ -1430,12 +1430,12 @@
 																<!-- 투표 종료시 -->
 																<c:choose>
 																	<c:when test="${voteOption.voteStatus eq 'Y'}">  	 
-																		<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																		<label style="width: 300px; margin-left: 20px; color:black; font-weight:bold"> 
 																		<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
 																		       name="${voteOption.voteNo}" class="voteCheckBox" checked onclick="return false;"/>${voteOption.voteOtion}</label>
 																	</c:when>
 																	<c:otherwise>
-																		<label style="width: 130px; margin-left: 20px; color:black; font-weight:bold"> 
+																		<label style="width: 300px; margin-left: 20px; color:black; font-weight:bold"> 
 																		<input type='checkbox' style="margin-right: 10px; width:30px; height:30px; position: relative; top: 37px;" 
 																		       name="${voteOption.voteNo}" class="voteCheckBox" onclick="return false;" />${voteOption.voteOtion}</label>
 																	</c:otherwise>
