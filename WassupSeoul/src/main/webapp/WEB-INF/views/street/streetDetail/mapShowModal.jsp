@@ -64,14 +64,12 @@
 					                    <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=77161504cfbcd21ef34a3ed0de04dad4&libraries=services"></script> -->
 				                    <!-- 카카오 지도 -->
 								
-								
 								<div class="modal_layer"></div>
 								<!-- 	content end -->
 								</div>
 							</div>
 						</div>
 					</div>
-					
 
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3a32d3d818847c093a324db2e8ffc840"></script> 
   <script>
@@ -99,7 +97,6 @@
         center: new kakao.maps.LatLng(x, y),
         level: 4
       };
-		
       
       var map = new kakao.maps.Map(container, options); 
 			

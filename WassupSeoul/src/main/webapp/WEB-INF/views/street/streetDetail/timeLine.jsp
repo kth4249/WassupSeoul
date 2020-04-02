@@ -1384,6 +1384,12 @@
 												<!-- 선택지 1 -->
 												<div style="margin-top: 10px;  margin-bottom: 30px;">
 												
+												
+													<!-- 날짜 비교를 위한 현재 날짜 출력 -->															
+													<c:set var="today" value="<%=new java.util.Date()%>"/>
+													<fmt:formatDate type="date" value="${today}" pattern="yyyy-MM-dd" var="today" />
+													<fmt:formatDate type="date" value="${vote.voteEndDt }" pattern="yyyy-MM-dd" var="voteEndDt"/>
+												
 													
 													<c:choose>
 															<c:when test="${today < voteEndDt }">  	 

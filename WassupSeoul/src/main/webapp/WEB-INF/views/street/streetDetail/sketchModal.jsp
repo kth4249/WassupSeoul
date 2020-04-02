@@ -171,6 +171,10 @@
 			<!-- end -->
 			
 			<script>
+			
+			function refreshList() {
+				location.reload();
+			}
 		 	  // 스케치 게시글 업로드
 		 	  document.getElementById('sketchSubmitBtn').addEventListener('click', function() {
 		 		  var canvas = document.getElementById('canvas'); 
@@ -187,10 +191,10 @@
 					        data : { "canvasImgStr" : canvasImgStr, "sketchPostContent" : sketchPostContent },
 					        success : function (result) {
 					        	if (result == "true") {
-									alert("스케치 업로드 성공");
+									//alert("스케치 업로드 성공");
 									$("#sketchCloseBtn").trigger("click");
 								} else {
-									alert("스케치 업로드 실패");
+									//alert("스케치 업로드 실패");
 								}
 					        },	
 					        	error : function(e) {
