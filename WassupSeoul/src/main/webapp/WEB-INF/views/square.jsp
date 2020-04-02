@@ -279,11 +279,29 @@ strong {
 					<div class="col-md-12 d-flex justify-content-center">
 						<div class="text-center">
 							<br><br>
-						  	<ul class="pagination">
-							
-							<c:if test="${pInf.currentPage >= pInf.startPage + 10}">
-							    <li class="page-item">
-				    			  	<c:url var="detailUrl" value="square">
+							<c:if test="${!empty sList }">
+							  	<ul class="pagination">
+								
+								<c:if test="${pInf.currentPage >= pInf.startPage + 10}">
+								    <li class="page-item">
+					    			  	<c:url var="detailUrl" value="square">
+											<c:if test="${!empty param.districtNo}">
+												<c:param name="districtNo" value="${param.districtNo}" />
+											</c:if>
+											<c:if test="${!empty param.streetSort}">
+												<c:param name="streetSort" value="${param.streetSort}" />
+											</c:if>
+											<c:if test="${!empty param.searchStreet}">
+												<c:param name="searchStreet" value="${param.searchStreet}" />
+											</c:if>
+											<c:param name="currentPage" value="${pInf.currentPage-1}" />
+										</c:url>
+													    	
+								    	<a class="page-link" href="${detailUrl}">&laquo;</a>
+								    </li>
+								</c:if>
+								<c:if test="${pInf.currentPage < pInf.startPage + 10}">
+									<c:url var="detailUrl" value="square">
 										<c:if test="${!empty param.districtNo}">
 											<c:param name="districtNo" value="${param.districtNo}" />
 										</c:if>
@@ -293,100 +311,84 @@ strong {
 										<c:if test="${!empty param.searchStreet}">
 											<c:param name="searchStreet" value="${param.searchStreet}" />
 										</c:if>
-										<c:param name="currentPage" value="${pInf.currentPage-1}" />
+										<c:param name="currentPage" value="${pInf.startPage}" />
 									</c:url>
-												    	
-							    	<a class="page-link" href="${detailUrl}">&laquo;</a>
-							    </li>
-							</c:if>
-							<c:if test="${pInf.currentPage < pInf.startPage + 10}">
-								<c:url var="detailUrl" value="square">
-									<c:if test="${!empty param.districtNo}">
-										<c:param name="districtNo" value="${param.districtNo}" />
-									</c:if>
-									<c:if test="${!empty param.streetSort}">
-										<c:param name="streetSort" value="${param.streetSort}" />
-									</c:if>
-									<c:if test="${!empty param.searchStreet}">
-										<c:param name="searchStreet" value="${param.searchStreet}" />
-									</c:if>
-									<c:param name="currentPage" value="${pInf.startPage}" />
-								</c:url>
-							    <li class="page-item 
-							    	<c:if test="${pInf.currentPage == pInf.startPage }">
-							    		disabled
-							    	</c:if>">
-							      <a class="page-link" href="${detailUrl}">&laquo;</a>
-							    </li>
-							</c:if>
-						    
-						    <c:forEach var="p" begin="${pInf.startPage}" end="${pInf.endPage}">
-						    	<c:url var="detailUrl" value="square">
-									<c:if test="${!empty param.districtNo}">
-										<c:param name="districtNo" value="${param.districtNo}" />
-									</c:if>
-									<c:if test="${!empty param.streetSort}">
-										<c:param name="streetSort" value="${param.streetSort}" />
-									</c:if>
-									<c:if test="${!empty param.searchStreet}">
-										<c:param name="searchStreet" value="${param.searchStreet}" />
-									</c:if>
-									<c:param name="currentPage" value="${p}" />
-								</c:url>
-						    	<c:if test="${p == pInf.currentPage}">
-								    <li class="page-item active">
-								      <a class="page-link">${p}</a>
+								    <li class="page-item 
+								    	<c:if test="${pInf.currentPage == pInf.startPage }">
+								    		disabled
+								    	</c:if>">
+								      <a class="page-link" href="${detailUrl}">&laquo;</a>
 								    </li>
 								</c:if>
-								<c:if test="${p != pInf.currentPage}">
+							    
+							    <c:forEach var="p" begin="${pInf.startPage}" end="${pInf.endPage}">
+							    	<c:url var="detailUrl" value="square">
+										<c:if test="${!empty param.districtNo}">
+											<c:param name="districtNo" value="${param.districtNo}" />
+										</c:if>
+										<c:if test="${!empty param.streetSort}">
+											<c:param name="streetSort" value="${param.streetSort}" />
+										</c:if>
+										<c:if test="${!empty param.searchStreet}">
+											<c:param name="searchStreet" value="${param.searchStreet}" />
+										</c:if>
+										<c:param name="currentPage" value="${p}" />
+									</c:url>
+							    	<c:if test="${p == pInf.currentPage}">
+									    <li class="page-item active">
+									      <a class="page-link">${p}</a>
+									    </li>
+									</c:if>
+									<c:if test="${p != pInf.currentPage}">
+									    <li class="page-item">
+									      <a class="page-link" 
+									      	href="${detailUrl}">${p}</a>
+									    </li>
+									</c:if>
+								</c:forEach>
+								
+								<c:if test="${pInf.currentPage <= pInf.maxPage - 10 }">
+									<c:url var="detailUrl" value="square">
+										<c:if test="${!empty param.districtNo}">
+											<c:param name="districtNo" value="${param.districtNo}" />
+										</c:if>
+										<c:if test="${!empty param.streetSort}">
+											<c:param name="streetSort" value="${param.streetSort}" />
+										</c:if>
+										<c:if test="${!empty param.searchStreet}">
+											<c:param name="searchStreet" value="${param.searchStreet}" />
+										</c:if>
+										<c:param name="currentPage" value="${pInf.currentPage+10}" />
+									</c:url>
 								    <li class="page-item">
-								      <a class="page-link" 
-								      	href="${detailUrl}">${p}</a>
+								    	<a class="page-link" href="${detailUrl}">&raquo;</a>
 								    </li>
-								</c:if>
-							</c:forEach>
-							
-							<c:if test="${pInf.currentPage <= pInf.maxPage - 10 }">
-								<c:url var="detailUrl" value="square">
-									<c:if test="${!empty param.districtNo}">
-										<c:param name="districtNo" value="${param.districtNo}" />
-									</c:if>
-									<c:if test="${!empty param.streetSort}">
-										<c:param name="streetSort" value="${param.streetSort}" />
-									</c:if>
-									<c:if test="${!empty param.searchStreet}">
-										<c:param name="searchStreet" value="${param.searchStreet}" />
-									</c:if>
-									<c:param name="currentPage" value="${pInf.currentPage+10}" />
-								</c:url>
-							    <li class="page-item">
-							    	<a class="page-link" href="${detailUrl}">&raquo;</a>
-							    </li>
-							 </c:if>
-							<c:if test="${pInf.currentPage > pInf.maxPage - 10 }">
-								<c:url var="detailUrl" value="square">
-									<c:if test="${!empty param.districtNo}">
-										<c:param name="districtNo" value="${param.districtNo}" />
-									</c:if>
-									<c:if test="${!empty param.streetSort}">
-										<c:param name="streetSort" value="${param.streetSort}" />
-									</c:if>
-									<c:if test="${!empty param.searchStreet}">
-										<c:param name="searchStreet" value="${param.searchStreet}" />
-									</c:if>
-									<c:param name="currentPage" value="${pInf.maxPage}" />
-								</c:url>
-							    <li class="page-item 
-							    	<c:if test="${pInf.currentPage == pInf.maxPage}">
-							    		disabled
-							    	</c:if>"
-							    >
-							    	<a class="page-link" href="${detailUrl}">&raquo;</a>
-							    </li>
-							 </c:if>
-						    
-						    
-						  </ul>
+								 </c:if>
+								<c:if test="${pInf.currentPage > pInf.maxPage - 10 }">
+									<c:url var="detailUrl" value="square">
+										<c:if test="${!empty param.districtNo}">
+											<c:param name="districtNo" value="${param.districtNo}" />
+										</c:if>
+										<c:if test="${!empty param.streetSort}">
+											<c:param name="streetSort" value="${param.streetSort}" />
+										</c:if>
+										<c:if test="${!empty param.searchStreet}">
+											<c:param name="searchStreet" value="${param.searchStreet}" />
+										</c:if>
+										<c:param name="currentPage" value="${pInf.maxPage}" />
+									</c:url>
+								    <li class="page-item 
+								    	<c:if test="${pInf.currentPage == pInf.maxPage}">
+								    		disabled
+								    	</c:if>"
+								    >
+								    	<a class="page-link" href="${detailUrl}">&raquo;</a>
+								    </li>
+								 </c:if>
+							    
+							    
+							  </ul>
+						  </c:if>
 						</div>
 					</div>
 				</div>
