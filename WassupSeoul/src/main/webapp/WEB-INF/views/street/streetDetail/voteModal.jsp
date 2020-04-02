@@ -61,7 +61,7 @@
 									
 									<br><span style="width: 300px; margin-left:10px;" >종료일 설정</span>								
 									<span  id="setDate" style="width: 200px; display: inline-block; margin-bottom:10px">
-									<input id="date" type='date'  style="width: 200px;"/>
+									<input id="voteEndDate" type='date'  style="width: 200px;"/>
 									</span><br>
 	
 	    							<label style="width: 130px;" ><input type='checkbox' id="anonymity22" style="margin-left: 10px;" />무기명 투표</label><br>
@@ -92,6 +92,29 @@
 					<!-- end -->
 					
 <script>
+
+$(function(){
+	
+	// 현재 날짜 가져오기
+  	var d = new Date();
+  	
+  	// ---일정 시작일---  
+    // 일정시작일 최소값 지정 : 현재시간으로 부터 최소 1일 뒤부터 지정가능
+  	d.setDate(d.getDate()+1); // 일정 시작일은 최소 내일부터 지정가능
+  	var calMonth = new String(d.getMonth() + 1); // 월
+  	var calDay = new String(d.getDate()); // 일
+  	if(calMonth.length == 1){  // 월이 1자리수 이면 0붙이기 -> 0M 형태
+  	  calMonth = "0" + calMonth; 
+  	}
+  	if(calDay.length == 1){ // 일이 1자리수 이면 0붙이기 -> 0d 형태
+  	  calDay = "0" + calDay; 
+  	}
+  	var nowDate = d.getFullYear()+"-"+calMonth+"-"+calDay; // 년-월-일 형태로 문자열 구성, yyyy-MM-dd 형태 
+    $("#voteEndDate").prop("min",nowDate); // 일정 시작일의 최소값이 현재 시간으로 지정, 현재 시간보다 이전 시간으로 시작일 지정 불가
+	
+
+});
+
 	/* $(document).ready(function(){
 	  	 	var today = new Date();
 	  	 	var dd = today.getDate();
@@ -150,11 +173,10 @@
 	// 투표 게시글작성
 	document.getElementById('voteSubmitBtn').addEventListener('click', function(){
 		
-		// 투표 게시글 내용
-		var votePostContent = $("#writePostArea").val(); 
-		// 투표 제목
-		var votePostTitle = $("#voteTitle").val(); 
-		
+		 // 투표 게시글 내용
+		 var votePostContent = $("#writePostArea").val(); 
+		 // 투표 제목
+		 var votePostTitle = $("#voteTitle").val(); 
 		
 		 var anonymity = "";
 		 //무기명 투표 여부
@@ -171,7 +193,7 @@
 			 var voteLimit = "N";
 		 }
 	
-		var endDate = $('#date').val(); 
+		var endDate = $('#voteEndDate').val(); 
 		
 		// 투표 옵션 
 		var optionCount = $(".voteOption").length
@@ -189,38 +211,58 @@
 		
 		//alert(votePostTitle);
 		//alert(voteLimit);
-		alert("다음이 무기명 여부");
-		alert(anonymity);
-		alert(endDate);
-		alert("다음이 복수선택 여부");
-		alert(voteLimit);
+		//alert("다음이 무기명 여부");
+		//alert(anonymity);
+		//alert(endDate);
+		//alert("다음이 복수선택 여부");
+		//alert(voteLimit);
 		//alert(voteOptionList);
 		
-		$.ajax({
-			url : "votePost",
-			data : {"anonymity" : anonymity, 
-					"votePostContent" : votePostContent,
-					"endDate" : endDate,
-					"voteOptionList" : voteOptionList,
-					"votePostTitle" : votePostTitle,
-					"voteLimit" : voteLimit
+		var flag = "true";
+		
+		// 투표 제목 공백 검사 
+		if( votePostTitle == '' || str == null ){
+		    //alert( '검색어를 입력해 주세요' );
+		     flag = "false";
+		}
+		
+		/* // 투표 제목 공백 검사 
+		var blank_pattern = /^\s+|\s+$/g;
+		if( votePostTitle.replace( blank_pattern, '' ) == "" ){
+		   // alert('검색어를 입력해 주세요');
+		    flag = "false";
+		}
+		
+		if( flag == "true" ) {
+							 */
+				$.ajax({
+					url : "votePost",
+					data : {"anonymity" : anonymity, 
+							"votePostContent" : votePostContent,
+							"endDate" : endDate,
+							"voteOptionList" : voteOptionList,
+							"votePostTitle" : votePostTitle,
+							"voteLimit" : voteLimit
+							},
+					type : "post",
+					success : function(result) {
+						
+						if (result == "true") {
+							//alert("투표 업로드 성공");
+							$("#voteCloseBtn").trigger("click");
+						} else {
+							//alert("투표 업로드 실패");
+						}
 					},
-			type : "post",
-			success : function(result) {
-				
-				if (result == "true") {
-					alert("투표 업로드 성공");
-					$("#voteCloseBtn").trigger("click");
-				} else {
-					alert("투표 업로드 실패");
-				}
-			},
-			error : function(e) {
-			console.log("ajax 통신 실패");
-			console.log(e);
-			}
-		});
-		 refreshList()
+					error : function(e) {
+					console.log("ajax 통신 실패");
+					console.log(e);
+					}
+				});
+				 refreshList()
+		/* }else{
+			alert("투표 제목을 입력해야 합니다.");
+		} */
 	});
 	
 	// 선택지창 추가 
@@ -252,14 +294,15 @@
         }
     });
      
-	// 투표 종료일 선택창  보이기 
+	/* // 투표 종료일 선택창  보이기 
     $("#endDate").change(function(){
         if($("#endDate").is(":checked")){
         	$("#setDate").attr("style", "visibility:visible");
         }else{
         	$("#setDate").attr("style", "visibility:hidden");
         }
-    });
+    }); */
+	
 	
 </script>		
 			

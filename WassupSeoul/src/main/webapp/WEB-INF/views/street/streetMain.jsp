@@ -27,7 +27,7 @@
 
 <!-- 3/27 미현 css 대부분 건듦 -->
 
-<body style="background-color : rgb(255, 255, 255);">
+<body style="background-color : rgb(255, 255, 255);" onclick="getAllOnClick();">
 
 	<!-- 골목 네비바 여백 -->
 	<div class="container-fluid" style="margin-top: 57px;">
@@ -171,7 +171,6 @@
 			var c = document.getElementsByTagName("script")[0];
 			c.parentNode.insertBefore(cp, c); })(); 
 			</script> -->
-			
 	
 	</div>
 	<!-- 컨텐츠영역 종료 -->
@@ -234,7 +233,6 @@
 			// 글삭제
 			$(".deletePost").click(function() {
 				var postNo = $(this).attr("name");
-				//var divBox = $(this).parent(".box111");
 
 				$.ajax({
 					url : "deletePost",
@@ -576,6 +574,11 @@
   			$('.writeCommentArea2').focus();
   		});
     	
+  		/* function getAllOnClick(){
+  			$(".optionChevron>img").next("div").toggleClass("hide");
+  		} */
+  		
+  		
    		//  게시글, 댓글 수정/삭제 메뉴창 보이기, 숨기기
    		$(".optionChevron>img").click(function() {
    			$(this).next("div").toggleClass("hide");
@@ -620,6 +623,10 @@
    		});
  		
  		// 정승환 코드 삭제(20.03.25)
+ 		
+ 		
+ 		
+ 		
     	     
 	</script>
 </body>

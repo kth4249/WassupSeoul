@@ -101,6 +101,8 @@
      	
 </style>
 <body>
+
+	<!-- 공지사항 게시물 -->
 	<c:if test="${!empty notice}">
 		<c:forEach var="notice" items="${notice}" varStatus="vs">
 			<c:choose>
@@ -417,9 +419,8 @@
 											<!-- 투표 상단 제목 영역 -->	
 											<div style="height: 60px; width:100%; margin-bottom: 45px;">
 												
-												<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
-																									padding-left: 10px;">
-													<img src="${contextPath}/resources/img/politics.png" style="width: 30px; height: 30px; margin-bottom: 45px;">
+												<div class="profileImgArea" id="profileImgArea" style="display: inline-block; width: 12%; margin-left: 2%; margin-right: 2%;">
+													<img src="${contextPath}/resources/img/politics2.png" style="margin-bottom: 30px;">
 										
 												</div>
 												<!-- 투표 제목, 투표참여 인원 수  양식 -->	
@@ -807,7 +808,7 @@
 																		style="width: 100px; height:auto;
 																		float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																		<ul>
-																			<li><a href="#" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover deleteRereply">댓글 삭제</a></li>
+																			<li><a href="#" class="deleteRereply" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
 																			<li><a href="#" name="deletePost" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																		</ul>
 																	</div>
@@ -904,7 +905,7 @@
 																								style="width: 100px; height:auto; 
 																								float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																								<ul>
-																									<li><a href="#" name="${reReply.replyNo}" style="color: #5a5a5a;" class="lihover deleteRereply">댓글 삭제</a></li>
+																									<li><a href="#" class="deleteRereply" name="${reReply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
 																									<li><a href="#" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																								</ul>
 																							</div>
@@ -987,8 +988,11 @@
 			</c:choose>	 
 		</c:forEach>
 	</c:if>
+	<!-- 공지사항 게시물 -->
 	
 	
+		
+	<!-- 공지사항 아닌 일반 게시물 -->
 	<c:if test="${empty board }">
 
 		<!-- 게시글 없을때-->
@@ -1745,7 +1749,7 @@
 																		style="width: 100px; height:auto;
 																		float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																		<ul>
-																			<li><a href="#" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover deleteRereply">댓글 삭제</a></li>
+																			<li><a href="#"  class="deleteRereply" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
 																			<li><a href="#" name="deletePost" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																		</ul>
 																	</div>
@@ -1842,7 +1846,7 @@
 																								style="width: 100px; height:auto; 
 																								float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																								<ul>
-																									<li><a href="#" name="${reReply.replyNo}" style="color: #5a5a5a;" class="lihover deleteRereply">댓글 삭제</a></li>
+																									<li><a href="#" class="deleteRereply" name="${reReply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
 																									<li><a href="#" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																								</ul>
 																							</div>
@@ -1934,6 +1938,17 @@
 	<script>
 	/* 투표 참여 반영용 Ajax */
 	$(document).ready(function(){
+		
+		
+		
+		
+		$('input:checkbox[id="anonymity22"]').is(":checked")== true
+		
+		
+		
+		
+		
+		
 	    $(".voteCheckBox").change(function(){
 	    	// 선택지 번호
 	    	var voteNo = $(this).attr("name");  
