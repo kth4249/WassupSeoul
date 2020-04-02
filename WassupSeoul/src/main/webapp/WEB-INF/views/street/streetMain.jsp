@@ -27,7 +27,7 @@
 
 <!-- 3/27 미현 css 대부분 건듦 -->
 
-<body style="background-color : rgb(255, 255, 255);">
+<body style="background-color : rgb(255, 255, 255);" >
 
 	<!-- 골목 네비바 여백 -->
 	<div class="container-fluid" style="margin-top: 57px;">
@@ -206,10 +206,10 @@
 				refreshList()
 			}); 
 			
-			// 대댓글 삭제
+			// 댓글 삭제
 			$(".deleteRereply").click(function() {
 				var rereplyNo = $(this).attr("name");
-
+				alert("댓글 삭제 중")
 				$.ajax({
 					url : "deleteRereply",
 					data : {"rereplyNo" : rereplyNo},
@@ -493,7 +493,6 @@
 					type : "post",
 					dataType : "json",
 					success : function(mList){
-						
 						// 회원정보
 						$(".checkMemProfileUrl").prop("src","${contextPath}/resources/profileImage/"+mList[0].memberProfileUrl);
 						$(".checkMemNickName").val(mList[0].memberNickname);
@@ -548,7 +547,6 @@
 			});
 			/* 회원 프로필 정보 조회용  */
 			
-			
 			// 지도 게시글 상세보기 
 			$(".mapShowAddress, .mapShowImg" ).on("click",function(){
 				var addr = $(this).attr("name");
@@ -556,8 +554,6 @@
 				
 				$("#mapShowModalCloseBtn").attr('name',addr);
 				$("#mapShowModal").attr('name',coords);
-				
-				
 			});
 			/* 회원 프로필 정보 조회용  */
 		
@@ -574,10 +570,9 @@
   			$('.writeCommentArea2').focus();
   		});
     	
-  		/* function getAllOnClick(){
+  		/* function getAllOnClick(){    // body 클릭시 메뉴 닫히게 하는       onclick="getAllOnClick();"   
   			$(".optionChevron>img").next("div").toggleClass("hide");
   		} */
-  		
   		
    		//  게시글, 댓글 수정/삭제 메뉴창 보이기, 숨기기
    		$(".optionChevron>img").click(function() {

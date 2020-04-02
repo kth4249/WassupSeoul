@@ -86,7 +86,7 @@
 		color : darkcyan;
 	}
 	
-	lihover:hover{
+	.lihover:hover{
 		cursor : pointer;
 		color : white;
 		
@@ -260,7 +260,7 @@
 										<div id="postMenu" class="hide nanum form-control" style="width: 100px; height: auto; 
 												 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
 											<ul>
-												<li><a class="deletePost" id="${notice.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
+												<li><a class="deletePost" name="${notice.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
 												<li><a data-toggle="modal" data-target="#updateSummerModal" class="updateSummer" style="color: #5a5a5a;" class="lihover">글 수정</a>
 												<input type="hidden" value="${notice.boardNo}">
 												</li>
@@ -294,7 +294,7 @@
 									 	<div class="mapShowArea" name="${notice.sketchUrl}" style="height: 100px; width:100%; margin-bottom: 10px;" data-toggle="modal" data-target="#mapShowModal">
 											<div class="profileImgArea"  id="profileImgArea" style="display: inline-block; width: 12%; margin-bottom: 0px; height: 50px;
 																								padding-left: 10px;">
-												<img src="${contextPath}/resources/img/mapIcon.png" style="width: 40px; height: 30px; margin-top: 30px;" class="mapShowImg"
+												<img src="${contextPath}/resources/img/mapIcon.png" style="margin-top: 30px;" class="mapShowImg"
 															data-toggle="modal" data-target="#mapShowModal" name="${notice.mapAddress}" >
 											</div>
 											
@@ -422,8 +422,11 @@
 															<c:when test="${vote.voteDup eq 'N'}">  	 
 																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}" style="font-weight:bold; color:black;">복수선택 불가  </p>
 															</c:when>
+															<c:when test="${vote.voteDup eq 'Y'}">  	 
+																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}" style="font-weight:bold; color:black;">복수선택 가능 (제한없음)  </p>
+															</c:when>
 															<c:otherwise>
-																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}" style="font-weight:bold; color:black;">복수선택 가능 (최대 ${vote.voteDup}표)</p>
+																		<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}" style="font-weight:bold; color:black;">복수선택 가능 (최대 ${vote.voteDup}표)</p>
 															</c:otherwise>
 													</c:choose>
 												  </div>	
@@ -751,8 +754,8 @@
 																		style="width: 100px; height:auto;
 																		float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																		<ul>
-																			<li><a href="#" class="deleteRereply" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
-																			<li><a href="#" name="deletePost" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
+																			<li><a  class="deleteRereply" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
+																			<li><a  style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																		</ul>
 																	</div>
 																</div>
@@ -762,7 +765,6 @@
 													</c:if>
 
 												</div>
-
 
 												<div class="commentContentWrap nanum mt-3">
 													<div style="padding-left: 47px; padding-right: 50px; font-weight: bolder; margin-bottom : 1rem;">
@@ -848,8 +850,8 @@
 																								style="width: 100px; height:auto; 
 																								float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																								<ul>
-																									<li><a href="#" class="deleteRereply" name="${reReply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
-																									<li><a href="#" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
+																									<li><a class="deleteRereply" name="${reReply.replyNo}" style="color: #5a5a5a;" >댓글 삭제</a></li>
+																									<li><a style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																								</ul>
 																							</div>
 																						</div>
@@ -857,16 +859,12 @@
 																				</c:if>
 																					<!-- 끝 -->
 
-																			<c:if
-																				test="${loginMember.memberNickname ne reReply.replyWriter}">
-
+																			<c:if test="${loginMember.memberNickname ne reReply.replyWriter}">
 																			</c:if>
-
 																			
 																		</div>
 
-																		<div class="commentContentWrap nanum" 
-																			style="font-weight: bolder; padding-left: 47px; padding-right: 50px; margin-bottom : 1rem; margin-top: 15px;">
+																		<div class="commentContentWrap nanum" style="font-weight: bolder; padding-left: 47px; padding-right: 50px; margin-bottom : 1rem; margin-top: 15px;">
 																			<p>${reReply.replyContent}</p>
 																		</div>
 																	</div>
@@ -1142,7 +1140,7 @@
 										<div id="postMenu" class="hide nanum form-control" style="width: 100px; height: auto; 
 												 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
 											<ul>
-												<li><a class="deletePost" id="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
+												<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
 												<li><a data-toggle="modal" data-target="#updateSummerModal" class="updateSummer" style="color: #5a5a5a;" class="lihover">글 수정</a>
 												<input type="hidden" value="${board.boardNo}">
 												</li>
@@ -1305,10 +1303,13 @@
 													
 													<c:choose>
 															<c:when test="${vote.voteDup eq 'N'}">  	 
-																<p style="font-size:14px; font-weight:bold; color:black;" class="voteDup" name="${vote.voteDup}">복수선택 불가  </p>
+																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}" style="font-weight:bold; color:black;">복수선택 불가  </p>
+															</c:when>
+															<c:when test="${vote.voteDup eq 'Y'}">  	 
+																<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}" style="font-weight:bold; color:black;">복수선택 가능 (제한없음)  </p>
 															</c:when>
 															<c:otherwise>
-																<p style="font-size:14px; font-weight:bold; color:black;" class="voteDup" name="${vote.voteDup}">복수선택 가능 (최대 ${vote.voteDup}표)</p>
+																		<p style="font-size:14px;" class="voteDup" name="${vote.voteDup}" style="font-weight:bold; color:black;">복수선택 가능 (최대 ${vote.voteDup}표)</p>
 															</c:otherwise>
 													</c:choose>
 												  </div>	
@@ -1663,19 +1664,15 @@
 																		style="width: 100px; height:auto;
 																		float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																		<ul>
-																			<li><a href="#"  class="deleteRereply" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
-																			<li><a href="#" name="deletePost" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
+																			<li><a  class="deleteRereply" name="${reply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
+																			<li><a  style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																		</ul>
 																	</div>
 																</div>
 															</div>
-
 														</div>
 													</c:if>
-
 												</div>
-
-
 												<div class="commentContentWrap nanum mt-3">
 													<div style="padding-left: 47px; padding-right: 50px; font-weight: bolder; margin-bottom : 1rem;">
 														<p>${reply.replyContent}</p>
@@ -1751,30 +1748,26 @@
 																					
 
 																			</div>
+																			
 																				<!-- 3/28  미현 위치바꿈 -->
 																				<c:if test="${loginMember.memberNickname eq reReply.replyWriter}">
 																					<div style="display: inline-block; width: 4%; height: 50px; float: right; margin-right: 13px">
 																						<div class="optionChevron">
 																							<img src="${contextPath}/resources/img/download.png" style="width: 15px; height: 15px;">
-																							<div class="hide nanum form-control" id="postMenu2"
-																								style="width: 100px; height:auto; 
-																								float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
+																							<div class="hide nanum form-control" id="postMenu2" style="width: 100px; height:auto; 
+																								        float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px;">
 																								<ul>
-																									<li><a href="#" class="deleteRereply" name="${reReply.replyNo}" style="color: #5a5a5a;" class="lihover">댓글 삭제</a></li>
-																									<li><a href="#" style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
+																									<li><a class="deleteRereply" name="${reReply.replyNo}" style="color: #5a5a5a;" >댓글 삭제</a></li>
+																									<li><a style="color: #5a5a5a;" class="lihover">댓글 수정</a></li>
 																								</ul>
 																							</div>
 																						</div>
 																					</div>
 																				</c:if>
-																					<!-- 끝 -->
-
-																			<c:if
-																				test="${loginMember.memberNickname ne reReply.replyWriter}">
-
+																				<!-- 끝 -->
+																				
+																			<c:if test="${loginMember.memberNickname ne reReply.replyWriter}">
 																			</c:if>
-
-																			
 																		</div>
 
 																		<div class="commentContentWrap nanum" 
@@ -1854,14 +1847,7 @@
 	$(document).ready(function(){
 		
 		
-		
-		
-		$('input:checkbox[id="anonymity22"]').is(":checked")== true
-		
-		
-		
-		
-		
+		//$('input:checkbox[id="anonymity22"]').is(":checked")== true
 		
 	    $(".voteCheckBox").change(function(){
 	    	// 선택지 번호
