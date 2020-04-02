@@ -559,10 +559,13 @@
 	
 	<!-- 1/N 회원 선택 목록 가져오기  -->
   	<select id="selectDivideMember" parameterType="_int" resultMap="divideResultSet">
-  		SELECT MEMBER_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL, MEMBER_STATUS, DIVIDE_DT 
+  		SELECT MEMBER_NO, MEMBER_NICKNAME, MEMBER_PROFILE_URL, MEMBER_STATUS
   		FROM MEMBER
-		LEFT INNER JOIN ( SELECT MEMBER_NO, STREET_NO FROM STREET_JOIN WHERE STREET_NO = #{streetNo}) USING(MEMBER_NO)
-		LEFT OUTER JOIN ( SELECT MEMBER_NO, DIVIDE_DT FROM DIVIDE ) USING(MEMBER_NO)
+		LEFT INNER JOIN ( 
+			SELECT MEMBER_NO, STREET_NO FROM STREET_JOIN
+			WHERE STREET_NO = #{streetNo}
+			AND CITIZEN_STATUS = 'Y'
+			) USING(MEMBER_NO)
 		WHERE MEMBER_STATUS = 'Y'
 		ORDER BY MEMBER_NO
 	</select>
@@ -815,6 +818,12 @@
 			#{dut.boardNo}
 		</foreach>
 	</select>
+	
+	<update id="divideCheck" parameterType="map">
+		UPDATE DIVIDE SET 
+		DIVIDE_CHECK = 'Y', DIVIDE_DT = SYSDATE
+		WHERE BOARD_NO = #{boardNo} AND MEMBER_NO = #{memberNo}
+	</update>
 	<!--ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ 태훈 끝ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ -->
 	
 	<!--   ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ정승환 추가코드 시작ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    -->

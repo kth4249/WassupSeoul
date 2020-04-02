@@ -959,6 +959,16 @@ public class StreetServiceImpl implements StreetService{
 	public List<Divide> selectDivide(List<Dutch> dutch) throws Exception{
 		return streetDAO.selectDivide(dutch);
 	}
+	
+	
+	/** N빵 확인
+	 * @param map
+	 * @return result
+	 */
+	@Override
+	public int divideCheck(Map<String, Integer> map) {
+		return streetDAO.divideCheck(map);
+	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	
