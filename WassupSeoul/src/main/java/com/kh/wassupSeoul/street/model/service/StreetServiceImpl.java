@@ -133,8 +133,8 @@ public class StreetServiceImpl implements StreetService{
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int likeCheck( Reply reply) throws Exception {
-		System.out.println("serviceImple boardNo 확인 : " + reply.getBoardNo());
-		System.out.println("serviceImple boardNo 확인 : " + reply.getMemberNo());
+		//System.out.println("serviceImple boardNo 확인 : " + reply.getBoardNo());
+		//System.out.println("serviceImple boardNo 확인 : " + reply.getMemberNo());
 		
 		String result = streetDAO.likeCheck(reply);
 		int result2 = 0;
@@ -199,7 +199,7 @@ public class StreetServiceImpl implements StreetService{
 		String result = streetDAO.replyLikeFunction(reply);
 		int result2 = 0;
 		
-		System.out.println("serviceImple 체크결과 기존기록  : "+result);
+		//System.out.println("serviceImple 체크결과 기존기록  : "+result);
 		
 		// 좋아요 기록안되어 있을시 기록 
 		if( result == null) {
@@ -240,7 +240,7 @@ public class StreetServiceImpl implements StreetService{
 		String result = streetDAO.reReplyLikeFunction(reply);
 		int result2 = 0;
 		
-		System.out.println("serviceImple 체크결과 기존기록  : "+result);
+		//System.out.println("serviceImple 체크결과 기존기록  : "+result);
 		
 		// 좋아요 기록안되어 있을시 기록 
 		if( result == null) {
@@ -397,7 +397,7 @@ public class StreetServiceImpl implements StreetService{
 		
 		int currentVoteNo1 = currentVoteNo;
 		
-		System.out.println("현재 선택지 번호"+ currentVoteNo1);
+		//System.out.println("현재 선택지 번호"+ currentVoteNo1);
 		
 		board.setBoardNo(boardNo);
 		
@@ -419,12 +419,12 @@ public class StreetServiceImpl implements StreetService{
 		}  
 		
 		for(int i=0; i<voteSel.size(); i++) {
-				System.out.println("입력한 투표 선택지 : " + voteSel.get(i));
+				//System.out.println("입력한 투표 선택지 : " + voteSel.get(i));
 		}
 		
 		if( result > 0) {
 			
-			System.out.println("투표 게시글 BOARD 테이블 업로드 성공");
+			//System.out.println("투표 게시글 BOARD 테이블 업로드 성공");
 				
 			vote.setBoardNo(boardNo);
 			
@@ -433,9 +433,9 @@ public class StreetServiceImpl implements StreetService{
 			result2 = streetDAO.uploadVote(vote); // Vote 테이블에 게시글 추가
 			
 			if( result2 > 0 ) {
-				System.out.println("투표 게시글 Vote 테이블 업로드 성공");
+				//System.out.println("투표 게시글 Vote 테이블 업로드 성공");
 			}else {
-				System.out.println("투표 게시글 Vote 테이블 업로드 실패");
+				//System.out.println("투표 게시글 Vote 테이블 업로드 실패");
 			}
 			
 			int result3 = streetDAO.uploadVoteOption(voteSel); // Vote_pick 테이블에 투표 선택지 추가
@@ -479,15 +479,15 @@ public class StreetServiceImpl implements StreetService{
 		if(checkResult == null) { // 기록없을시 
 			vote.setVoteStatus("Y");
 			result = streetDAO.recordVote(vote);
-			System.out.println("투표기록 완료 : " + vote.getVoteStatus());
+			//System.out.println("투표기록 완료 : " + vote.getVoteStatus());
 		}else if(checkResult.equals("Y")) { // 투표 기록 있을떄 
 			vote.setVoteStatus("N");
 			result = streetDAO.updateVoteRecord(vote);
-			System.out.println("투표기록 업데이트 완료 : " + vote.getVoteStatus());
+			//System.out.println("투표기록 업데이트 완료 : " + vote.getVoteStatus());
 		}else {
 			vote.setVoteStatus("Y");
 			result = streetDAO.updateVoteRecord(vote);
-			System.out.println("투표기록 업데이트 완료 : " + vote.getVoteStatus());
+			//System.out.println("투표기록 업데이트 완료 : " + vote.getVoteStatus());
 		}
 		
 		return result;
