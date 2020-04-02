@@ -64,7 +64,7 @@
 									<input id="date" type='date'  style="width: 200px;"/>
 									</span><br>
 	
-	    							<label style="width: 130px;" ><input type='checkbox' id="anonymity " style="margin-left: 10px;" />무기명 투표</label><br>
+	    							<label style="width: 130px;" ><input type='checkbox' id="anonymity22" style="margin-left: 10px;" />무기명 투표</label><br>
 									<label style="width: 340px;" ><input type='checkbox' id="plurality" class='check2' style="margin-left: 10px; display: inline-block;" />복수 선택 허용</label>
 									
 									<span  id="repeatVote" style="width: 10%; margin-left: 400px; display: none; float:right; ">
@@ -155,11 +155,13 @@
 		// 투표 제목
 		var votePostTitle = $("#voteTitle").val(); 
 		
+		
+		 var anonymity = "";
 		 //무기명 투표 여부
-		 if( $('input:checkbox[id="anonymity"]').is(":checked")== true ){
-			 var anonymity = "Y";
+		 if( $('input:checkbox[id="anonymity22"]').is(":checked")== true){
+			anonymity = "Y";
 		 } else {
-			 var anonymity = "N";  
+			anonymity = "N";  
 		 }
 		
 		//복수 선태 개수 받기 
@@ -170,7 +172,6 @@
 		 }
 	
 		var endDate = $('#date').val(); 
-		
 		
 		// 투표 옵션 
 		var optionCount = $(".voteOption").length

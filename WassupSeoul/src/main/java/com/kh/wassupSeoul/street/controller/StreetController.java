@@ -171,6 +171,14 @@ public class StreetController {
 			List<Reply> reply  = streetService.selectReply(checkStreet);
 			
 			List<Vote> vote = streetService.selectVoteOption(checkStreet);
+			
+			List<Vote> voteMemList = streetService.selectVoteMemList(checkStreet);
+			
+			for(int i = 0; i <voteMemList.size(); i++ ) {
+				System.out.println("투표 참여자 목록 : "+voteMemList.get(i));
+			}
+			
+			
 			/*------------------------태훈 엔빵 관련해서 추가------------------------*/
 			List<Dutch> dutch = null;
 			List<Divide> divide = null;
@@ -190,11 +198,13 @@ public class StreetController {
 				model.addAttribute("street", street); // 해당골목 정보
 				
 				model.addAttribute("board", board);  // 해당 골목 게시글 조회
+				model.addAttribute("notice", board);  // 해당 골목 게시글 조회
 				//request.getSession().setAttribute("board", board);
 				model.addAttribute("reply", reply);  // 해당 골목 댓글 리스트 (댓글용)
 				model.addAttribute("reReply", reply);  // 해당골목 댓글 리스트 (대댓글용)
 				model.addAttribute("vote", vote);     // 해당 골목 투표 게시글 정보
 				model.addAttribute("voteOption", vote);     // 해당 골목 투표 선택지 
+				model.addAttribute("voteMemList", voteMemList);  // 투표 참여자 목록 
 				model.addAttribute("dutch", dutch); // N빵 게시글
 				model.addAttribute("divide", divide); // N빵 참여자
 
@@ -366,6 +376,44 @@ public class StreetController {
 			return "/common/errorPage";
 		}
 	}
+	
+	
+	
+	/*
+	 * // 댓글, 대댓글 삭제
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("deleteReply") public String deleteReply(int replyNo, Model
+	 * model) { // System.out.println("글삭제 번호 출력 : " + postNo); try { int test =
+	 * streetService.deleteRereply(replyNo); return test == 1 ? true + "" : false +
+	 * "";
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); model.addAttribute("errorMsg",
+	 * "게시글 삭제 과정에서 오류발생"); return "/common/errorPage"; } }
+	 */
+	
+	
+	
+	// 대댓글 삭제
+	@ResponseBody
+	@RequestMapping("deleteRereply")
+	public String deleteRereply(int rereplyNo, Model model) {
+//			System.out.println("글삭제 번호 출력 : " + postNo);
+		try {
+			int test = streetService.deleteRereply(rereplyNo);
+			return test == 1 ? true + "" : false + "";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "게시글 삭제 과정에서 오류발생");
+			return "/common/errorPage";
+		}
+	}
+
+	
+	
+	
 	// 공지사항 등록용 
 		@ResponseBody
 		@RequestMapping("PinPost")

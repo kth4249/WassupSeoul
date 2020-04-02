@@ -71,6 +71,14 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract List<Board> selectBoard(Reply checkStreet) throws Exception;
+	
+	
+	/** 투표 참여자 목록 조회용 
+	 * @param checkStreet
+	 * @return list
+	 * @throws Exception
+	 */
+	public abstract List<Vote> selectVoteMemList(Reply checkStreet)throws Exception;
 
 
 	/** 게시글 등록용 Service
@@ -197,6 +205,18 @@ public interface StreetService {
 	 * @throws Exception
 	 */
 	public abstract List<Member> selectDivideMember(int streetNo) throws Exception;
+	
+	
+	
+	/** 댓글, 대댓글 삭제용
+	 * @param rereplyNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public abstract int deleteRereply(int rereplyNo) throws Exception;
+	
+	/* public abstract int deleteReply(int replyNo) throws Exception; */
+
 
 	// -------------------------------------------- 중하 끝  ---------------------------------------------
 	
@@ -683,6 +703,11 @@ public interface StreetService {
 	 * @return listCount
 	 */
 	public abstract int getListCount(int streetNo);
+
+
+
+
+
 
 	
 

@@ -87,7 +87,7 @@
 		
 						<!-- 게시글영역-->
 						<div class="postWrapView">
-						<jsp:include page="../street/streetDetail/timeLine.jsp"/> 
+						  <jsp:include page="../street/streetDetail/timeLine.jsp"/> 
 						</div>
 						<!-- 게시글영역 끝-->
 						
@@ -181,14 +181,15 @@
 			function refreshList() {
 				location.reload();
 			}
-			// 글삭제
+			
+			// 공지사항 등록
 			$(".PinPost").click(function() {
 				var postNo = $(this).attr("name");
 				//var divBox = $(this).parent(".box111");
 
 				$.ajax({
 					url : "PinPost",
-					data : {postNo : postNo},
+					data : {"postNo" : postNo},
 					type : "post",
 					success : function(result) {
 						if (result == "true") {
@@ -206,7 +207,29 @@
 				refreshList()
 			}); 
 			
-			
+			// 대댓글 삭제
+			$(".deleteRereply").click(function() {
+				var rereplyNo = $(this).attr("name");
+
+				$.ajax({
+					url : "deleteRereply",
+					data : {"rereplyNo" : rereplyNo},
+					type : "post",
+					success : function(result) {
+						if (result == "true") {
+							alert("댓글 삭제 성공")
+							//divBox.remove();
+						} else {
+							alert("댓글 삭제 실패")
+						}
+					},
+					error : function(e) {
+						console.log("ajax 통신 실패");
+						console.log(e);
+					}
+				});
+				refreshList()
+			}); 
 			
 			// 글삭제
 			$(".deletePost").click(function() {

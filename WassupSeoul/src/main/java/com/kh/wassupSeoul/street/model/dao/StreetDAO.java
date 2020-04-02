@@ -92,6 +92,16 @@ public class StreetDAO {
 	public List<Board> selectBoard(Reply checkStreet) throws Exception {
 		return sqlSession.selectList("streetMapper.selectBoardList", checkStreet);
 	}
+	
+	
+	/** 투표 참여자 조회용  DAO
+	 * @param checkStreet
+	 * @return list
+	 * @throws Exception
+	 */
+	public List<Vote> selectVoteMemList(Reply checkStreet) throws Exception {
+		return sqlSession.selectList("streetMapper.selectVoteMemList", checkStreet);
+	}
 
 	/**
 	 * 게시글 등록용 DAO
@@ -213,6 +223,15 @@ public class StreetDAO {
 	 */
 	public int deletePost(int postNo) throws Exception {
 		return sqlSession.update("streetMapper.deletePost", postNo);
+	}
+	
+	/** 댓글 삭제용 DAO
+	 * @param rereplyNo
+	 * @return result
+	 * @throws Exception
+	 */
+	public int deleteRereply(int rereplyNo) throws Exception {
+		return sqlSession.update("streetMapper.deleteRereply", rereplyNo);
 	}
 	
 	/** 게시글 공지사항 확인용 DAO
@@ -1095,7 +1114,6 @@ public class StreetDAO {
 	}
 
 	
-
 
 	
 	
