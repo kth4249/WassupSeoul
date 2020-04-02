@@ -115,7 +115,7 @@
  				for(var i=0; i<selectDevideMember.length; i++){
  					//alert(selectDevideMember[i].memberNickName);
  				
-					var html = '<div style="border: 1px solid #ced4da; height: 45px;"><img src="${contextPath}/resources/img/'
+					var html = '<div style="border: 1px solid #ced4da; height: 45px;"><img src="${contextPath}/resources/profileImage/'
 							 +  selectDevideMember[i].memberProfileUrl
 							 + '" style="width: 30px; height: 30px; margin-left: 3px; margin-top: 7px;" class="'
 							 +  selectDevideMember[i].memberNickName +'">'		
