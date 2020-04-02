@@ -28,8 +28,6 @@ padding
 
 
 
-
-
 :
 
 
@@ -38,9 +36,7 @@ padding
 
 
 
-
  
-
 
 
 
@@ -57,9 +53,7 @@ px
 
 
 
-
  
-
 
 
 
@@ -69,8 +63,6 @@ px
 
 20
 px
-
-
 
 
 
@@ -172,7 +164,7 @@ px
 
 						</tbody>
 					</table>
-
+					
 					<!-- 검색창 지움
 					<div class="row justify-content-md-center">
 						<select style="width: 150px;" class="form-control nanum">
@@ -210,9 +202,8 @@ px
 										<th scope="row"><a
 											href="${contextPath}/street/streetMain?streetNo=${street.streetNo}"
 											style="text-decoration: none"> ${street.streetNm}</a></th>
-										<td><button class="btn btn-outline-info nanum sendEmail"
-												data-toggle="modal" data-target="#adminModal3"
-												id="${street.streetNo}">경고메일</button></td>
+										<td><button class="btn btn-outline-info nanum"
+												data-toggle="modal" data-target="#adminModal3">경고메일</button></td>
 										<td><button
 												class="btn btn-outline-danger nanum deleteStreet"
 												data-toggle="modal" data-target="#adminModal4"
@@ -224,7 +215,7 @@ px
 
 						</tbody>
 					</table>
-					<!--	검색창 지움
+				<!--	검색창 지움
 					<div class="row justify-content-md-center">
 						<select style="width: 150px;" class="form-control nanum">
 							<option class="nanum" value="nickname">골목 이름</option>
@@ -311,7 +302,7 @@ px
 
 						</tbody>
 					</table>
-
+					
 					<!-- 검색창 지움 
 					<div class="row justify-content-md-center">
 						<select style="width: 150px;" class="form-control nanum">
@@ -413,41 +404,24 @@ px
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
-						<div class="modal-body"
-							style="font-size: 20px; height: 500px; width: 500px; font-size: 20px;">
+						<div class="modal-body" style="font-size: 20px;">
 							<form action="">
 								<div class="nanum text-center" style="font-size: 35px;">
 									<div class="form-group">
-										<input type="hidden" id="sendEmailNo" name="sendEmailNo">
 										<label class="col-form-label" for="inputDefault">제목</label> <input
-											type="text" class="form-control" id="emailTitle"
-											name="emailTitle">
+											type="text" class="form-control" id="inputDefault">
 									</div>
 								</div>
 								<div class="nanum text-center" style="font-size: 35px;">
 									<div class="form-group">
 										<label for="exampleTextarea">내용</label>
-										<textarea class="form-control" id="exampleTextarea" rows="10"
-											style="resize: none;" id="emailContent" name="emailContent"></textarea>
+										<textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
 									</div>
 								</div>
 								<br>
 							</form>
-							<div id="resultArea">
-								<div class="result-body">
-									<span class="nanum" style="font-size: 25px;">회원님의 Email로
-										임시 비밀번호를 발송하였습니다 !</span>
-								</div>
-							</div>
-							<div id="resultFalseArea">
-								<div class="result-body">
-									<span class="nanum" style="font-size: 25px;">가입된 계정이
-										없습니다 !</span>
-								</div>
-							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-primary nanum sendEmailBtn">보내기</button>
 							<button type="button" class="btn btn-primary nanum"
 								data-dismiss="modal">닫기</button>
 						</div>
@@ -487,7 +461,7 @@ px
 
 			<!-- 보고서 확인하기 모달 -->
 			<div class="modal fade" id="adminModal5">
-				<div class="modal-dialog" role="document">
+				<div class="modal-dialog" role="document" >
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title nanum" style="font-size: 30px;">보고서
@@ -497,39 +471,40 @@ px
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
-						<div class="modal-body"
-							style="height: 500px; width: 500px; font-size: 20px; overflow: scroll;">
+						<div class="modal-body" style="height: 500px; width: 500px; font-size: 20px; overflow: scroll;">
 							<form action="">
 								<div class="nanum text-center" style="font-size: 20px;">
-									<span>골목이름 : </span> <br> <span id="reportStreetNm"></span>
+									<span>골목이름 : </span>
+									<br>
+									<span id="reportStreetNm"></span>
 								</div>
-								<div class="nanum text-center"
+								<div class="nanum text-center" 
 									style="font-size: 15px; color: darkblue; margin-top: 10px">
-
-									<span>활동보고서 내용 : </span> <br> <span id="reportContent"></span>
-
+									
+									<span>활동보고서 내용 : </span>
+									<br>
+									<span id="reportContent"></span>
+									
 								</div>
-								<div class="nanum text-center"
+								<div class="nanum text-center" 
 									style="font-size: 15px; margin-top: 10px;">
 									<span>활동사진 : </span>
 									<div style="margin-top: 10px">
 										<img id="reportImgUrl" style="width: 150px; height: 150px;">
 									</div>
-								</div>
+								</div>								
 								<br>
 							</form>
 						</div>
 						<div class="modal-footer">
-							<button type="button"
-								class="btn btn-primary nanum giveStreetPoint"
-								data-dismiss="modal">점수부여</button>
-							<input type="hidden" id="giveStreetPointReportNo"
-								name="giveStreetPointReportNo">
-							<button type="button"
-								class="btn btn-primary nanum deleteStreetReport"
-								data-dismiss="modal">삭제</button>
-							<input type="hidden" id="deleteStreetReportNo"
-								name="deleteStreetReportNo">
+								<button type="button"
+									class="btn btn-primary nanum giveStreetPoint"
+									data-dismiss="modal">점수부여</button>
+								<input type="hidden" id="giveStreetPointReportNo" name="giveStreetPointReportNo">
+								<button type="button"
+									class="btn btn-primary nanum deleteStreetReport"
+									data-dismiss="modal">삭제</button>
+								<input type="hidden" id="deleteStreetReportNo" name="deleteStreetReportNo">
 							<button type="button" class="btn btn-primary nanum"
 								data-dismiss="modal">닫기</button>
 						</div>
@@ -538,11 +513,10 @@ px
 			</div>
 		</div>
 	</div>
-
-
-	<script>
+	
+	
+			<script>
 				$(function() {
-					
 
 					/* 회원 상세보기 */
 					$(".selectMember").on("click",function() {
@@ -603,48 +577,7 @@ px
 						$("#deleteMemberNo").val(deleteMemberNo);
 					});
 
-					
-					
 					/* 경고 메일 */
-					
-					$("#resultArea").hide();
-					$("#resultFalseArea").hide();
-					
-					$(".sendEmail").on("click", function(){
-						var emailStreetNo;
-						emailStreetNo = $(this).prop("id");
-						$("#sendEmailNo").val(emailStreetNo);					
-					});
-					
-					$(".sendEmailBtn").on("click", funtion(){
-						
-						var emailTitle = $("#emailTitle").val();
-						var emailContent = $("#emailContent").val();
-						var sendEamilNo  = $("#sendEmailNo").val();
-						
-						$.ajax({
-							
-							url : "sendEmail",
-							data : {sendEmailNo : sendEmailNo, emailTitle : emailTitle, emailContent : emailContent},
-							type : "post",
-							dataType : "json",
-							success : function(result){
-								if(result != null){
-									$("#resultArea").show();
-									$("#resultFalseArea").hide();
-								} else{
-									$("#resultFalseArea").show();
-									$("#resultArea").hide();
-								}
-							},
-							error : function(){
-								console.log("ajax통신 실패");
-							}
-							
-						});
-						
-					});
-					
 
 					/* 골목 폐쇄 */
 					$(".deleteStreet").on("click", function() {
@@ -744,7 +677,7 @@ px
 
 				});
 			</script>
-
+	
 	<jsp:include page="../common/footer.jsp" />
 
 
