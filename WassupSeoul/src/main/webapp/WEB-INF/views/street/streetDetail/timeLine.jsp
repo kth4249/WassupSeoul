@@ -310,39 +310,6 @@
 								
 									${notice.boardContent}
 									<br><br>
-									<table class="table table-hover">
-										<thead>
-											<tr class="table-primary">
-												<th colspan="5">42000원 / 2명</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr class="table-light">
-												<td>프사</td>
-												<td>김태훈</td>
-												<td>21000원</td>
-												<td></td>
-												<td>
-												    <div class="custom-control custom-switch">
-												      <input type="checkbox" class="custom-control-input" id="divideMem1" checked="">
-												      <label class="custom-control-label" for="divideMem1"></label>
-												    </div>
-												</td>
-											</tr>
-											<tr class="table-active">
-												<td>프사</td>
-												<td><del>김태훈</del></td>
-												<td style="text-decoration: line-through;">21000원</td>
-												<td></td>
-												<td>
-													<div class="custom-control custom-switch">
-												      <input type="checkbox" class="custom-control-input" id="divideMemasdf" disabled>
-												      <label class="custom-control-label" for="divideMemasdf"></label>
-												    </div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
 									<c:forEach items="${dutch}" var="dut">
 										<c:if test="${notice.boardNo == dut.boardNo }">
 											<br><br>
@@ -380,7 +347,7 @@
 															</td>
 															<td style="width:20%">
 															    <div class="custom-control custom-switch">
-															      <input type="checkbox" class="custom-control-input divideCheck"
+															      <input type="checkbox" class="custom-control-input" onclick="divideCheck(event)"
 															      		id="divideMem${notice.boardNo}-${divi.memberNo}" 
 															      		<c:if test='${empty divi.divideDt}'>
 															      		 checked 
@@ -577,32 +544,6 @@
 
 						</div>
 					</div>
-					<!-- N빵 체크 관련 스크립트 -->
-					<script>
-						$(".divideCheck").on("click", function(){
-							if(confirm("N빵을 완료하면 변경할 수 없습니다. 계속 하시겠습니까?")){
-								var $id = $(this)
-								console.log($id)
-								var memberNo = $(this).val();
-								var boardNo = $(this).parent().parent().prev().children().val()
-								
-								$.ajax({
-									url : "divideCheck",
-									data : {"memberNo":memberNo, "boardNo":boardNo},
-									success : function(result) {
-										if(result == "true"){
-											$id.prop("disabled", true);
-											$id.closest("tr").prop("class", "table-active")
-											$id.closest("tr").children().eq(2).css("text-decoration", "line-through");
-										}
-									},
-									error : function() {
-										console.log("N빵 금액 체크 ajax 통신 실패")
-									}
-								})
-							}
-						})
-					</script>
 					<!-- 게시글내용 -->
 					
 					<!-- 댓글 출력  코드 순서  -->
@@ -1287,7 +1228,7 @@
 																<td style="width:20%">
 																	<c:if test="${loginMember.memberNo == board.memberNo or loginMember.memberNo == divi.memberNo }">
 																	    <div class="custom-control custom-switch">
-																	      <input type="checkbox" class="custom-control-input divideCheck"
+																	      <input type="checkbox" class="custom-control-input" onclick="divideCheck(event)"
 																	      		id="divideMem${board.boardNo}-${divi.memberNo}" 
 																	      		<c:if test='${empty divi.divideDt}'>
 																	      		 checked 
@@ -1488,12 +1429,15 @@
 					</div>
 					<!-- N빵 체크 관련 스크립트 -->
 					<script>
-						$(".divideCheck").on("click", function(){
+						//$(".divideCheck").on("click", function(){
+						function divideCheck(event){
+							console.log($(event.target).val())
+							console.log($(event.target).parent().parent().prev().children().val())
 							if(confirm("N빵을 완료하면 변경할 수 없습니다. 계속 하시겠습니까?")){
-								var $id = $(this)
+								var $id = $(event.target)
 								console.log($id)
-								var memberNo = $(this).val();
-								var boardNo = $(this).parent().parent().prev().children().val()
+								var memberNo = $(event.target).val();
+								var boardNo = $(event.target).parent().parent().prev().children().val();
 								
 								$.ajax({
 									url : "divideCheck",
@@ -1508,7 +1452,7 @@
 									}
 								})
 							}
-						})
+						}
 					</script>
 					<!-- 게시글내용 -->
 					

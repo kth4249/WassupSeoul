@@ -180,7 +180,7 @@
 						console.log(e);
 					}
 				});
-			 //refreshList()
+			refreshList()
  			} else {
  				alert("멤버를 최소 1명 이상 선택해주세요");
  			}
