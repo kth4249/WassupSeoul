@@ -258,7 +258,7 @@
 											style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 											id="chev">
 										<div id="postMenu" class="hide nanum form-control" style="width: 100px; height: auto; 
-												 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
+												 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
 											<ul>
 												<li><a class="deletePost" name="${notice.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
 												<li><a data-toggle="modal" data-target="#updateSummerModal" class="updateSummer" style="color: #5a5a5a;" class="lihover">글 수정</a>
@@ -310,6 +310,39 @@
 								
 									${notice.boardContent}
 									<br><br>
+									<table class="table table-hover">
+										<thead>
+											<tr class="table-primary">
+												<th colspan="5">42000원 / 2명</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="table-light">
+												<td>프사</td>
+												<td>김태훈</td>
+												<td>21000원</td>
+												<td></td>
+												<td>
+												    <div class="custom-control custom-switch">
+												      <input type="checkbox" class="custom-control-input" id="divideMem1" checked="">
+												      <label class="custom-control-label" for="divideMem1"></label>
+												    </div>
+												</td>
+											</tr>
+											<tr class="table-active">
+												<td>프사</td>
+												<td><del>김태훈</del></td>
+												<td style="text-decoration: line-through;">21000원</td>
+												<td></td>
+												<td>
+													<div class="custom-control custom-switch">
+												      <input type="checkbox" class="custom-control-input" id="divideMemasdf" disabled>
+												      <label class="custom-control-label" for="divideMemasdf"></label>
+												    </div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
 									<c:forEach items="${dutch}" var="dut">
 										<c:if test="${notice.boardNo == dut.boardNo }">
 											<br><br>
@@ -347,7 +380,7 @@
 															</td>
 															<td style="width:20%">
 															    <div class="custom-control custom-switch">
-															      <input type="checkbox" class="custom-control-input" onclick="divideCheck(event)"
+															      <input type="checkbox" class="custom-control-input divideCheck"
 															      		id="divideMem${notice.boardNo}-${divi.memberNo}" 
 															      		<c:if test='${empty divi.divideDt}'>
 															      		 checked 
@@ -544,6 +577,32 @@
 
 						</div>
 					</div>
+					<!-- N빵 체크 관련 스크립트 -->
+					<script>
+						$(".divideCheck").on("click", function(){
+							if(confirm("N빵을 완료하면 변경할 수 없습니다. 계속 하시겠습니까?")){
+								var $id = $(this)
+								console.log($id)
+								var memberNo = $(this).val();
+								var boardNo = $(this).parent().parent().prev().children().val()
+								
+								$.ajax({
+									url : "divideCheck",
+									data : {"memberNo":memberNo, "boardNo":boardNo},
+									success : function(result) {
+										if(result == "true"){
+											$id.prop("disabled", true);
+											$id.closest("tr").prop("class", "table-active")
+											$id.closest("tr").children().eq(2).css("text-decoration", "line-through");
+										}
+									},
+									error : function() {
+										console.log("N빵 금액 체크 ajax 통신 실패")
+									}
+								})
+							}
+						})
+					</script>
 					<!-- 게시글내용 -->
 					
 					<!-- 댓글 출력  코드 순서  -->
@@ -1029,7 +1088,7 @@
 												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 												id="chev">
 											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
-													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
 												<ul>
 													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 해제</a></li>
 													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
@@ -1051,7 +1110,7 @@
 												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 												id="chev">
 											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
-													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
 												<ul>
 													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 등록</a></li>
 													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
@@ -1085,7 +1144,7 @@
 												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 												id="chev">
 											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
-													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
 												<ul>
 													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 해제</a></li>
 													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
@@ -1110,7 +1169,7 @@
 												style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 												id="chev">
 											<div id="postMenu" class="hide nanum form-control" style="width: 130px; height: auto; 
-													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
+													 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
 												<ul>
 													<li><a class="PinPost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">공지사항 등록</a></li>
 													<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
@@ -1138,7 +1197,7 @@
 											style="width: 17px; height: 15px; position: relative; bottom: 2px;"
 											id="chev">
 										<div id="postMenu" class="hide nanum form-control" style="width: 100px; height: auto; 
-												 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative; z-index:5">
+												 float: right; right: 25px; bottom: 12px; font-size: 14px; margin-right: 15px; position: relative">
 											<ul>
 												<li><a class="deletePost" name="${board.boardNo}" style="color: #5a5a5a;" class="lihover">글 삭제</a></li>
 												<li><a data-toggle="modal" data-target="#updateSummerModal" class="updateSummer" style="color: #5a5a5a;" class="lihover">글 수정</a>
@@ -1228,7 +1287,7 @@
 																<td style="width:20%">
 																	<c:if test="${loginMember.memberNo == board.memberNo or loginMember.memberNo == divi.memberNo }">
 																	    <div class="custom-control custom-switch">
-																	      <input type="checkbox" class="custom-control-input" onclick="divideCheck(event)"
+																	      <input type="checkbox" class="custom-control-input divideCheck"
 																	      		id="divideMem${board.boardNo}-${divi.memberNo}" 
 																	      		<c:if test='${empty divi.divideDt}'>
 																	      		 checked 
@@ -1324,6 +1383,12 @@
 							 				 	<c:if test="${voteOption.boardNo eq board.boardNo}">
 												<!-- 선택지 1 -->
 												<div style="margin-top: 10px;  margin-bottom: 30px;">
+												
+												
+													<!-- 날짜 비교를 위한 현재 날짜 출력 -->															
+													<c:set var="today" value="<%=new java.util.Date()%>"/>
+													<fmt:formatDate type="date" value="${today}" pattern="yyyy-MM-dd" var="today" />
+													<fmt:formatDate type="date" value="${vote.voteEndDt }" pattern="yyyy-MM-dd" var="voteEndDt"/>
 												
 													
 													<c:choose>
@@ -1429,15 +1494,12 @@
 					</div>
 					<!-- N빵 체크 관련 스크립트 -->
 					<script>
-						//$(".divideCheck").on("click", function(){
-						function divideCheck(event){
-							console.log($(event.target).val())
-							console.log($(event.target).parent().parent().prev().children().val())
+						$(".divideCheck").on("click", function(){
 							if(confirm("N빵을 완료하면 변경할 수 없습니다. 계속 하시겠습니까?")){
-								var $id = $(event.target)
+								var $id = $(this)
 								console.log($id)
-								var memberNo = $(event.target).val();
-								var boardNo = $(event.target).parent().parent().prev().children().val();
+								var memberNo = $(this).val();
+								var boardNo = $(this).parent().parent().prev().children().val()
 								
 								$.ajax({
 									url : "divideCheck",
@@ -1452,7 +1514,7 @@
 									}
 								})
 							}
-						}
+						})
 					</script>
 					<!-- 게시글내용 -->
 					
@@ -1847,7 +1909,6 @@
 	$(document).ready(function(){
 		
 		
-		//$('input:checkbox[id="anonymity22"]').is(":checked")== true
 		
 	    $(".voteCheckBox").change(function(){
 	    	// 선택지 번호

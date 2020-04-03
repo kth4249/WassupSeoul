@@ -78,6 +78,10 @@
 					</div>
 					
 					 <script>
+					 
+					 function refreshList() {
+							location.reload();
+						}
 				      function initMap() {
 				    	  
 			    	  var map;
@@ -145,6 +149,10 @@
 				    </script>
 				    
 				 	<script>
+				 	
+				 	function refreshList() {
+						location.reload();
+					}
 				 	// 지도 게시글 업로드
 				 	  document.getElementById('mapSubmitBtn').addEventListener('click', function() {
 			 			    var address = $("#address").val(); 
