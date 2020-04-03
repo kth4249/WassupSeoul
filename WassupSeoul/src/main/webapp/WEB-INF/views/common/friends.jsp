@@ -916,7 +916,7 @@
 					var $div1 = $("<div>").prop("id","div_chat");
 					var $mNo = $("<input>").prop("id","mNoo").prop("type", "hidden").val(result[0].memberNo);
 					var $rNo = $("<input>").prop("id","rNoo").prop("type", "hidden").val(result[0].roomNo);
-					var $xBtn = $("<button>").prop("id","exitBtn").prop("class", "close xBtn mr-2").html("&times");
+					var $xBtn = $("<button>").prop("id","exitBtn").prop("class", "close xBtn mr-2").css({"position":"fixed","margin-left":"19%","z-index":"5"}).html("&times");
 					var $div2 = $("<div>").prop("id","menu_scroll_down");
 					var $dBtn = $("<button>").prop("id", "btn_scroll_down").css("float","right").html("↓");
 					var $br1 = $("<br>");
@@ -1088,13 +1088,12 @@
 		friendsList(); 		// 친구 목록 불러오기
 		friendtalk();		// 대화 목록 불러오기
 		
-		
- 		    setInterval(function(){ // 갱신 주기
+ 	 setInterval(function(){ // 갱신 주기
 			friendRequest(); 
 			friendsList();
 			friendtalk();
-			
-		}, 1000); 
+		}, 1000);   
+		
 	});
 	
 	/* 대화방 스크롤 */
