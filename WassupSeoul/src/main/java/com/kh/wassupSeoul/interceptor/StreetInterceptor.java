@@ -66,7 +66,7 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 			ModelAndView modelAndView) throws Exception {
 
 		HttpSession session = request.getSession();
-		int streetNo = Integer.parseInt(request.getParameter("streetNo"));
+		int streetNo = (int)session.getAttribute("streetNo");
 		Member loginMember = (Member)session.getAttribute("loginMember");
 
 		try {

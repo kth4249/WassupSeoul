@@ -306,7 +306,7 @@
 		                     <div class="form-group row">
 		                       <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">위치</label>
 		                       <div class="col-md-10">
-		                         <input type="text" readonly class="form-control nanum" id="calendarLocation" name="calendarLocation" placeholder="지정된 모임 장소">
+		                         <input type="text" required class="form-control nanum" id="calendarLocation" name="calendarLocation" placeholder="지정된 모임 장소">
 		                       </div>
 		                     </div>
                               <!-- 지도 변경끝 -->

@@ -736,7 +736,7 @@ object-fit: cover;
        				
             		// 회원 관심사
        				var $divPlus = $("#memberProfileHobby");
-            		
+       				$divPlus.html("");
        				for(var i=1;i<Object.keys(mList).length;i++){
        					if(i == 1) { // 제일 처음 관심사
        						var $divPlus1 = $("<div class='col-sm-8'>");
