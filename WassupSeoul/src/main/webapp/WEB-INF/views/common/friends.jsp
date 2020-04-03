@@ -1088,11 +1088,13 @@
 		friendsList(); 		// 친구 목록 불러오기
 		friendtalk();		// 대화 목록 불러오기
 		
- 		 /* setInterval(function(){ // 갱신 주기
+		
+ 		    setInterval(function(){ // 갱신 주기
 			friendRequest(); 
 			friendsList();
 			friendtalk();
-		}, 1000);   */
+			
+		}, 1000); 
 	});
 	
 	/* 대화방 스크롤 */

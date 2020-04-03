@@ -152,15 +152,15 @@ public class FriendsServiceImpl implements FriendsService{
       
       // 1) 대화방 존재 확인 (select)
       ChatRoom chatRoom = friendsDAO.selectChatRoom(nMap);
-      System.out.println("호텔룸 : "+ chatRoom);
+     //System.out.println("호텔룸 : "+ chatRoom);
       
       
       // 2) 없다면 개설하기 
       if (chatRoom == null) {
-         System.out.println("방 없음");
+         //System.out.println("방 없음");
          // 2.1) 방 번호 얻기
          int nextRoomNo1 = friendsDAO.getChatRoom();
-         System.out.println("nextRoomNo1 :" + nextRoomNo1);
+         //System.out.println("nextRoomNo1 :" + nextRoomNo1);
          nMap.put("RoomNo", nextRoomNo1);
          //System.out.println(nMap.get("chatNo"));
          
@@ -170,18 +170,18 @@ public class FriendsServiceImpl implements FriendsService{
             //int nextRoomNo2 = friendsDAO.getChatRoom();
             nMap.put("RoomNo", nextRoomNo1);
             result = friendsDAO.insertChatRoom2(nMap);
-            System.out.println("2개의 방 생성 완료");
+            //System.out.println("2개의 방 생성 완료");
          } else {
             return result;
          }
          
       // 3) 있다면 status (update)
       } else {
-         System.out.println("방 있음");
+         //System.out.println("방 있음");
          result = friendsDAO.updateChatRoom1(nMap);
          if (result > 0) {
             result = friendsDAO.updateChatRoom2(nMap);
-            System.out.println("2개의 방 존재 확인 완료");
+            //System.out.println("2개의 방 존재 확인 완료");
          } else {
             return result;
          }
@@ -252,7 +252,7 @@ public class FriendsServiceImpl implements FriendsService{
       
       int freeNo = freeMan.getMemberNo();
       bMap.put("yourNo", freeNo);
-      System.out.println(bMap.get("filepath2"));;
+      //System.out.println(bMap.get("filepath2"));;
       int result = friendsDAO.noBlock2(bMap);
       
       return result;
@@ -274,7 +274,7 @@ public class FriendsServiceImpl implements FriendsService{
       if (RoomNoList == null || RoomNoList.isEmpty()) { // 대화방 없으면 익셉션 떠서 수정(태훈)
          return null;
       }
-      System.out.println("RoomNoList : "+ RoomNoList);
+      //System.out.println("RoomNoList : "+ RoomNoList);
       
       // 방 번호에 따른 안읽은 메시지 수
       List <Integer> noReadMsgCount = null;
@@ -290,7 +290,7 @@ public class FriendsServiceImpl implements FriendsService{
 //    	  
 //      }
 //      
-    	  System.out.println("noReadMsgCount : " + noReadMsgCount);
+    	  //System.out.println("noReadMsgCount : " + noReadMsgCount);
       
       List <String> lastMessage = new ArrayList<String>();
       
@@ -303,7 +303,7 @@ public class FriendsServiceImpl implements FriendsService{
          }
          lastMessage.add(what);
       }
-      System.out.println("lastSentence : " + lastMessage);
+      //System.out.println("lastSentence : " + lastMessage);
       
       // 상대방 정보 알아와라
       List <Member> mList = new ArrayList<Member>();
@@ -314,7 +314,7 @@ public class FriendsServiceImpl implements FriendsService{
       if (mList == null || mList.isEmpty()) { // 대화방 없으면 익셉션 떠서 수정(영준)
          return null;
       }
-      System.out.println("mList 정보 가져온나!!!!!!!!!!" + mList);
+      //System.out.println("mList 정보 가져온나!!!!!!!!!!" + mList);
       
 
       // 얘네 담을 리스트 객체 선언
@@ -335,7 +335,7 @@ public class FriendsServiceImpl implements FriendsService{
     	  }
       }
       
-      System.out.println("cList : " + cList);
+      //System.out.println("cList : " + cList);
       return cList;
    }
 
@@ -350,7 +350,7 @@ public class FriendsServiceImpl implements FriendsService{
    public List<MSG> inToRoom(int roomNo) throws Exception {
       
       List<MSG> msg = friendsDAO.inToRoom(roomNo);
-      System.out.println("msg : " + msg);
+      //System.out.println("msg : " + msg);
       
       
       if (!msg.isEmpty()) {  
