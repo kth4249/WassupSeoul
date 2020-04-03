@@ -599,8 +599,6 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 					
 				 $profile_img.on("input" , function() {		
 						if(	$profile_img.get(0).files.length === 0 ){
-							$("#checkImg").prop("class","nanum float-right").html("프로필 사진 또는 기본이미지를 체크해주세요.")
-							.css("color" , "red");
 							signUpCheck.img = false;
 						}else {
 							$("#checkImg").html("");
