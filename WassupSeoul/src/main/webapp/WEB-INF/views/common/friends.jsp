@@ -1093,6 +1093,7 @@
 			friendsList();
 			friendtalk();
 		}, 1000);   
+		
 	});
 	
 	/* 대화방 스크롤 */

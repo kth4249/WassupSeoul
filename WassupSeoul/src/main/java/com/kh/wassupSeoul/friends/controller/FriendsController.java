@@ -314,9 +314,9 @@ public class FriendsController {
 					temp.setMsgContent("환영합니다.");
 					temp.setMsgStatus("Y");
 					temp.setMemberNo(46);
-					temp.setRoomNo(roomNo);
+					temp.setRoomNo(roomNo); 
 					temp.setMemberNickname("관리자");
-					temp.setMemberProfileUrl("man.png");
+					temp.setMemberProfileUrl("admin.png");
 					//System.out.println("채팅방 개설 : " + temp);
 					ArrayList<MSG> mmList = new ArrayList<MSG>();
 					mmList.add(temp);
