@@ -198,7 +198,12 @@
 							        });
 							
 							        document.getElementById('insertMapSubmit').addEventListener('click', function() {
-							          geocodeAddress(geocoder, map);
+							        	if($("#insertAddress").val().length < 2) {
+							        		alert("2글자 이상 입력해주세요.");
+							        	} else {
+									          geocodeAddress(geocoder, map);							        		
+							        	}
+
 							        });
 							        
 							     	// 추가 시작
@@ -261,25 +266,30 @@
 							        var storeAddress = document.getElementById('calendarLocation');
 							        // form태그로 전달할 주소 input
 							        geocoder.geocode({'address': address}, function(results, status) {
-							        	var realAddr = results[0].formatted_address;
-							        	console.log(results);
-							        	console.log(realAddr);
-							        	// results[0].formatted_address -> 검색된 주소의 상세주소
-							        	// 대한민국 서울특별시 제거
-									    realAddr = realAddr.substring(11);
-							        	storeAddress.value = realAddr;
-							        	// 검색된 상세주소를 아래 입력칸에 넣는다.
-							          if (status === 'OK') {
-							        	  var coords = results[0].geometry.location;
-							            	resultsMap.setCenter(coords);
-							           	  var marker = new google.maps.Marker({
-							           		   map: resultsMap,
-							             	   position: coords
-							              });
-							           	  searchMarker = marker; // 검색시 발생한 마커 지정
-							          } else {
-							            alert('Geocode was not successful for the following reason: ' + status);
-							          }
+							        	console.log(address);
+							        	if(Object.keys(results).length == 0){
+							        		storeAddress.value = "일정 위치가 지정 안됨";
+							        	} else {
+							        		var realAddr = results[0].formatted_address;
+								        	console.log(results);
+								        	console.log(realAddr);
+								        	// results[0].formatted_address -> 검색된 주소의 상세주소
+								        	// 대한민국 서울특별시 제거
+										    realAddr = realAddr.substring(11);
+								        	storeAddress.value = realAddr;
+								        	// 검색된 상세주소를 아래 입력칸에 넣는다.
+							        	}
+							        	if (status === 'OK') {
+								        	var coords = results[0].geometry.location;
+								           	resultsMap.setCenter(coords);
+								           	var marker = new google.maps.Marker({
+								           		   map: resultsMap,
+								             	   position: coords
+								            });
+								           	  searchMarker = marker; // 검색시 발생한 마커 지정
+									    } else {
+									        alert('위치검색이 되지 않습니다: ' + status);
+									    }
 							        });
 							     
 							        
@@ -296,7 +306,7 @@
 		                     <div class="form-group row">
 		                       <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">위치</label>
 		                       <div class="col-md-10">
-		                         <input type="text" class="form-control nanum" id="calendarLocation" name="calendarLocation" placeholder="지정된 모임 장소">
+		                         <input type="text" readonly class="form-control nanum" id="calendarLocation" name="calendarLocation" placeholder="지정된 모임 장소">
 		                       </div>
 		                     </div>
                               <!-- 지도 변경끝 -->
@@ -325,7 +335,7 @@
                                 <div class="col-md-4">
                                   <div class="form-check">
                                     <label class="form-check-label nanum">
-                                      <input type="radio" class="form-check-input" name="joinCalendar" id="join" value="Y" checked>
+                                      <input type="radio" class="form-check-input" name="joinCalendar" id="join" value="Y">
                                      	 참석 일정
                                     </label>
                                   </div>
@@ -474,7 +484,7 @@
                     <div class="form-group row">
                        <label class="col-sm-2 col-form-label nanum" style="font-weight: bold;">위치</label>
                        <div class="col-md-10">
-                         <input type="text" class="form-control nanum" id="updateCalendarLocation" name="updateCalendarLocation" placeholder="지정된 모임 장소">
+                         <input type="text" class="form-control nanum" id="updateCalendarLocation" name="updateCalendarLocation" placeholder="지정된 모임 장소" readonly>
                        </div>
                      </div>
                      <div class="form-group row">
@@ -767,6 +777,8 @@
         		signUpCheck.calendarJoin = true;
         		signUpCheck.calendarJoinDate = true;
         	} else {
+        		$joinNumber.val("");
+        		$joinDate.val("");
         		signUpCheck.calendarJoin = false;
         		signUpCheck.calendarJoinDate = false;
         	}
@@ -794,12 +806,26 @@
             if($calStartDate.val() == "" || $calStartDate.val() == null) {
             	alert("일정 시작일을 우선 지정하세요.");
             	$joinDate.blur();
-            	signUpCheck.calendarJoinDate = false;
+            	var noneJoinCheck = $("#notJoin").prop("checked");
+            	if(noneJoinCheck) {
+            		$joinDate.val("");
+            		signUpCheck.calendarJoinDate = true;
+            		console.log("참가마감:" + signUpCheck.calendarJoinDate);
+            	} else {
+            		$joinDate.val("");
+            		signUpCheck.calendarJoinDate = false;	
+            		console.log("참가마감:" + signUpCheck.calendarJoinDate);
+            	}
             }
             // 1)일정 시작일이 지정된 경우 -> 일정 시작일을 최대값으로 지정 
             else {
             	var maxJoinDate = $calStartDate.val();
-        		$joinDate.prop("max",maxJoinDate);		
+        		$joinDate.prop("max",maxJoinDate);
+        		var noneJoinCheck = $("#notJoin").prop("checked");
+            	if(noneJoinCheck) {
+            		signUpCheck.calendarJoinDate = true;
+            		console.log("참가마감:" + signUpCheck.calendarJoinDate);
+            	}
             }
         });
         
@@ -1336,6 +1362,13 @@
 	
 	// 일정 추가 submit 동작
 	function validate(){
+		
+		var noneJoinCheck = $("#notJoin").prop("checked");
+		var joinCheck = $("#join").prop("checked");
+		if (!noneJoinCheck && !joinCheck) {
+			alert("일정의 참석여부를 결정하십시요");
+			return false;
+		}
 		
 		for(var key in signUpCheck){
 			if(!signUpCheck[key]){
