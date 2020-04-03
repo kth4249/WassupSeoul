@@ -1295,7 +1295,7 @@ public class StreetController {
 	
 	// 골목 수정
 	@RequestMapping("updateStreet")
-	public String updateStreet(Integer imgNo, Street street,
+	public String updateStreet(Integer imgNo, Street street, int streetNo,
 			@RequestParam(value = "streetKeywords", required = false) String[] streetKeywords,
 			@RequestParam(value = "sampleImg", required = false) String sampleImg,
 			@RequestParam(value = "streetCoverUpload", required = false) MultipartFile streetCoverUpload,
@@ -1304,7 +1304,7 @@ public class StreetController {
 		String detailUrl = (String) model.getAttribute("detailUrl");
 		
 		System.out.println("이게 뭐야 : " + detailUrl);
-		int streetNo = (int) model.getAttribute("streetNo");
+		//int streetNo = (int) model.getAttribute("streetNo");
 		street.setStreetNo(streetNo);
 		
 		String root = request.getSession().getServletContext().getRealPath("resources");
@@ -1788,7 +1788,7 @@ public class StreetController {
 	/*------------------------ 지원 골목삭제 시작-----------------------------------*/
 	// 골목 삭제
 	@RequestMapping("streetDelete")
-	public String streetDeleteForm(Integer no, Model model, HttpServletRequest request,
+	public String streetDeleteForm(Model model, HttpServletRequest request,
 								RedirectAttributes rdAttr) {
 
 		//String detailUrl = request.getHeader("referer");
@@ -1802,8 +1802,6 @@ public class StreetController {
 		try {
 			
 			result = streetService.deleteStreet(streetNo);
-			
-			result = 0;
 			
 			if(result > 0) {
 				
@@ -1824,8 +1822,8 @@ public class StreetController {
 	
 	// 골목대장 위임 화면 이동
 	@RequestMapping("newMaster")
-	public String newMaster(Integer no, Model model) {
-		model.addAttribute("no", no);
+	public String newMaster(Model model) {
+		//model.addAttribute("no", no);
 		return "street/streetNewMaster";
 	}
 	

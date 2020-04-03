@@ -91,7 +91,6 @@
 			})
 			
 			$(document).on("click", "#joinCancel", function(){
-				alert("스크립트 실행되나");
 				$.ajax({
 					url : "${contextPath}/street/joinCancel",
 					success : function(result) {
@@ -117,14 +116,14 @@
 				<c:if test="${citizenGrade eq 'M'}">
 					<div class="col-sm-6">
 						<a onclick="return confirm('정말로 이 골목을 삭제하시겠습니까?');"
-							href="streetDelete?no=${streetNo}" class="btn btn-link nanum"
+							href="streetDelete?streetNo=${streetNo}" class="btn btn-link nanum"
 							style="color: red; font-weight: bold; font-size: 15px"> <img
 							src="${contextPath}/resources/img/streetOut.svg" alt="이미지"
 							style="width: 15px; height: 15px;"> 골목 삭제
 						</a>
 					</div>
 					<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-						<a href="newMaster?no=${streetNo}" class="btn btn-link nanum"
+						<a href="newMaster?streetNo=${streetNo}" class="btn btn-link nanum"
 							style="color: red; font-weight: bold; font-size: 15px"> <img
 							src="${contextPath}/resources/img/streetOut.svg" alt="이미지"
 							style="width: 15px; height: 15px;"> 대장위임
@@ -145,7 +144,7 @@
             <!-- 골목대장 영역 -->
            <c:if test="${citizenGrade eq 'M'}"> 
 		  	    	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-	             		<a href="streetUpdate?no=${streetNo}" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px">
+	             		<a href="streetUpdate?streetNo=${streetNo}" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetChange.svg" alt="이미지" style="width: 15px; height: 15px;">
 	                                   	골목 변경
 	             		</a>

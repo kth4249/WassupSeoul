@@ -76,7 +76,7 @@ a:hover {
 
 			<div class="col-md-4" id="devideArea" style="margin-top: 10px;">
 
-				<form method="POST" action="updateStreet?imgNo=${imgNo}"
+				<form method="POST" action="updateStreet?imgNo=${imgNo}&streetNo=${streetNo}"
 					enctype="multipart/form-data" role="form" onsubmit="return validate();">
 
 

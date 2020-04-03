@@ -221,9 +221,9 @@ strong {
 								<c:if test="${!empty param.streetSort}">
 									<c:param name="streetSort" value="${param.streetSort}" />
 								</c:if>
-								<c:if test="${!empty param.searchStreet}">
+								/* <c:if test="${!empty param.searchStreet}">
 									<c:param name="searchStreet" value="${param.searchStreet}" />
-								</c:if>
+								</c:if> */
 								<c:param name="currentPage" value="1"/>
 							</c:url>
 			        		location.href = "${detailUrl}&districtNo="+districtNo;

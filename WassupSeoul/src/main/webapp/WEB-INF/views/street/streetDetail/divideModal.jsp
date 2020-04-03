@@ -65,7 +65,7 @@
 											<span id="selectMember" style="margin-left: 15px;">멤버선택 ></span>	
 										</div>
 									</div>
-									<div id="divideMemberList" class="box">
+									<div id="divideMemberList" class="box" style="height:300px; overflow-y:auto; overflow-x:none">
 									
 									
 									

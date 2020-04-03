@@ -309,7 +309,6 @@
 								<c:when test="${notice.typeNo eq '4'}">  <!-- N빵 출력 양식 -->	
 								
 									${notice.boardContent}
-									<br><br>
 									<c:forEach items="${dutch}" var="dut">
 										<c:if test="${notice.boardNo == dut.boardNo }">
 											<br><br>
@@ -321,45 +320,49 @@
 												</thead>
 												<tbody>
 													<c:forEach items="${divide}" var="divi">
-														<tr class="
-															<c:if test='${empty divi.divideDt}'>
-															table-light
-															</c:if>
-															<c:if test='${!empty divi.divideDt}'>
-															table-active
-															</c:if>
-															">
-															<td style="width:15%">
-																<div style="display: inline-block; width: 30px; height: 30px; border-radius: 70%; overflow: hidden;">
-																	<img src="${contextPath}/resources/profileImage/${divi.memberProfileUrl}"
-																		style="width: 100%; height: 100%; object-fit: cover; position: relative;"
-																	>
-																</div>
-															</td>
-															<td style="width:20%">${divi.memberNickName}</td>
-															<td style="width:25%"
-															<c:if test='${!empty divi.divideDt}'>
-															style = "text-decoration: line-through;"
-															</c:if>
-															>${divi.dividePrice}원</td>
-															<td style="width:20%">
-																<input type="hidden" value="${notice.boardNo}">
-															</td>
-															<td style="width:20%">
-															    <div class="custom-control custom-switch">
-															      <input type="checkbox" class="custom-control-input" onclick="divideCheck(event)"
-															      		id="divideMem${notice.boardNo}-${divi.memberNo}" 
-															      		<c:if test='${empty divi.divideDt}'>
-															      		 checked 
-															      		</c:if>
-															      		<c:if test='${!empty divi.divideDt}'>
-															      		 disabled 
-															      		</c:if>
-															      		 value="${divi.memberNo}">
-															      <label class="custom-control-label" for="divideMem${notice.boardNo}-${divi.memberNo}"></label>
-															    </div>
-															</td>
-														</tr>
+														<c:if test="${dut.boardNo == divi.boardNo}">
+															<tr class="
+																<c:if test='${empty divi.divideDt}'>
+																table-light
+																</c:if>
+																<c:if test='${!empty divi.divideDt}'>
+																table-active
+																</c:if>
+																">
+																<td style="width:15%">
+																	<div style="display: inline-block; width: 30px; height: 30px; border-radius: 70%; overflow: hidden;">
+																		<img src="${contextPath}/resources/profileImage/${divi.memberProfileUrl}"
+																			style="width: 100%; height: 100%; object-fit: cover; position: relative;"
+																		>
+																	</div>
+																</td>
+																<td style="width:20%">${divi.memberNickName}</td>
+																<td style="width:25%;
+																<c:if test='${!empty divi.divideDt}'>
+																text-decoration: line-through;
+																</c:if>
+																">${divi.dividePrice}원</td>
+																<td style="width:20%">
+																	<input type="hidden" value="${notice.boardNo}">
+																</td>
+																<td style="width:20%">
+																	<c:if test="${loginMember.memberNo == notice.memberNo or loginMember.memberNo == divi.memberNo }">
+																	    <div class="custom-control custom-switch">
+																	      <input type="checkbox" class="custom-control-input" onclick="divideCheck(event)"
+																	      		id="divideMem${notice.boardNo}-${divi.memberNo}" 
+																	      		<c:if test='${empty divi.divideDt}'>
+																	      		 checked 
+																	      		</c:if>
+																	      		<c:if test='${!empty divi.divideDt}'>
+																	      		 disabled 
+																	      		</c:if>
+																	      		 value="${divi.memberNo}">
+																	      <label class="custom-control-label" for="divideMem${notice.boardNo}-${divi.memberNo}"></label>
+																	    </div>
+																    </c:if>
+																</td>
+															</tr>
+														</c:if>
 													</c:forEach>
 												</tbody>
 											</table>
@@ -1433,8 +1436,8 @@
 						function divideCheck(event){
 							console.log($(event.target).val())
 							console.log($(event.target).parent().parent().prev().children().val())
+							var $id = $(event.target)
 							if(confirm("N빵을 완료하면 변경할 수 없습니다. 계속 하시겠습니까?")){
-								var $id = $(event.target)
 								console.log($id)
 								var memberNo = $(event.target).val();
 								var boardNo = $(event.target).parent().parent().prev().children().val();
@@ -1451,7 +1454,10 @@
 										console.log("N빵 금액 체크 ajax 통신 실패")
 									}
 								})
+							} else {
+								$id.prop("checked", true);
 							}
+							
 						}
 					</script>
 					<!-- 게시글내용 -->
