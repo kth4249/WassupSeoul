@@ -1044,7 +1044,7 @@ public class StreetController {
 	// 주민목록 조회
 	@RequestMapping
 	public String juminList(Integer streetNo, Model model) {
-		model.addAttribute("streetNo", streetNo);
+		//model.addAttribute("streetNo", streetNo);
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		try {
 			
@@ -1231,6 +1231,24 @@ public class StreetController {
 		return streetService.divideCheck(map) == 1 ? true + "" : false + "";
 	}
 	
+	@RequestMapping("secessionStreet")
+	public String secessionStreet(Model model) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		int memberNo = loginMember.getMemberNo();
+		int streetNo = (int)model.getAttribute("streetNo");
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("memberNo", memberNo);
+		map.put("streetNo", streetNo);
+		try {
+			streetService.secessionStreet(map);
+			return "redirect:streetMain";
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("errorMsg", "골목 탈퇴 과정 중 오류 발생");
+			return "redirect:streetMain";
+		}
+	}
+	
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	/* 지원 골목 수정 시작 */
@@ -1277,7 +1295,7 @@ public class StreetController {
 	
 	// 골목 수정
 	@RequestMapping("updateStreet")
-	public String updateStreet(Integer imgNo, Street street,
+	public String updateStreet(Integer imgNo, Street street, int streetNo,
 			@RequestParam(value = "streetKeywords", required = false) String[] streetKeywords,
 			@RequestParam(value = "sampleImg", required = false) String sampleImg,
 			@RequestParam(value = "streetCoverUpload", required = false) MultipartFile streetCoverUpload,
@@ -1286,7 +1304,7 @@ public class StreetController {
 		String detailUrl = (String) model.getAttribute("detailUrl");
 		
 		System.out.println("이게 뭐야 : " + detailUrl);
-		int streetNo = (int) model.getAttribute("streetNo");
+		//int streetNo = (int) model.getAttribute("streetNo");
 		street.setStreetNo(streetNo);
 		
 		String root = request.getSession().getServletContext().getRealPath("resources");
@@ -1770,7 +1788,7 @@ public class StreetController {
 	/*------------------------ 지원 골목삭제 시작-----------------------------------*/
 	// 골목 삭제
 	@RequestMapping("streetDelete")
-	public String streetDeleteForm(Integer no, Model model, HttpServletRequest request,
+	public String streetDeleteForm(Model model, HttpServletRequest request,
 								RedirectAttributes rdAttr) {
 
 		//String detailUrl = request.getHeader("referer");
@@ -1784,8 +1802,6 @@ public class StreetController {
 		try {
 			
 			result = streetService.deleteStreet(streetNo);
-			
-			result = 0;
 			
 			if(result > 0) {
 				
@@ -1806,8 +1822,8 @@ public class StreetController {
 	
 	// 골목대장 위임 화면 이동
 	@RequestMapping("newMaster")
-	public String newMaster(Integer no, Model model) {
-		model.addAttribute("no", no);
+	public String newMaster(Model model) {
+		//model.addAttribute("no", no);
 		return "street/streetNewMaster";
 	}
 	

@@ -701,6 +701,10 @@ public class StreetDAO {
 	public int divideCheck(Map<String, Integer> map) {
 		return sqlSession.update("streetMapper.divideCheck", map);
 	}
+	
+	public void secessionStreet(Map<String, Integer> map) {
+		sqlSession.update("streetMapper.secessionStreet",map);
+	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 
 	/* 지원 골목 수정 시작 */

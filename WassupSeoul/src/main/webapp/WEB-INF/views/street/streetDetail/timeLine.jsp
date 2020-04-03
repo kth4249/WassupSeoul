@@ -309,40 +309,6 @@
 								<c:when test="${notice.typeNo eq '4'}">  <!-- N빵 출력 양식 -->	
 								
 									${notice.boardContent}
-									<br><br>
-									<table class="table table-hover">
-										<thead>
-											<tr class="table-primary">
-												<th colspan="5">42000원 / 2명</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr class="table-light">
-												<td>프사</td>
-												<td>김태훈</td>
-												<td>21000원</td>
-												<td></td>
-												<td>
-												    <div class="custom-control custom-switch">
-												      <input type="checkbox" class="custom-control-input" id="divideMem1" checked="">
-												      <label class="custom-control-label" for="divideMem1"></label>
-												    </div>
-												</td>
-											</tr>
-											<tr class="table-active">
-												<td>프사</td>
-												<td><del>김태훈</del></td>
-												<td style="text-decoration: line-through;">21000원</td>
-												<td></td>
-												<td>
-													<div class="custom-control custom-switch">
-												      <input type="checkbox" class="custom-control-input" id="divideMemasdf" disabled>
-												      <label class="custom-control-label" for="divideMemasdf"></label>
-												    </div>
-												</td>
-											</tr>
-										</tbody>
-									</table>
 									<c:forEach items="${dutch}" var="dut">
 										<c:if test="${notice.boardNo == dut.boardNo }">
 											<br><br>
@@ -354,45 +320,49 @@
 												</thead>
 												<tbody>
 													<c:forEach items="${divide}" var="divi">
-														<tr class="
-															<c:if test='${empty divi.divideDt}'>
-															table-light
-															</c:if>
-															<c:if test='${!empty divi.divideDt}'>
-															table-active
-															</c:if>
-															">
-															<td style="width:15%">
-																<div style="display: inline-block; width: 30px; height: 30px; border-radius: 70%; overflow: hidden;">
-																	<img src="${contextPath}/resources/profileImage/${divi.memberProfileUrl}"
-																		style="width: 100%; height: 100%; object-fit: cover; position: relative;"
-																	>
-																</div>
-															</td>
-															<td style="width:20%">${divi.memberNickName}</td>
-															<td style="width:25%"
-															<c:if test='${!empty divi.divideDt}'>
-															style = "text-decoration: line-through;"
-															</c:if>
-															>${divi.dividePrice}원</td>
-															<td style="width:20%">
-																<input type="hidden" value="${notice.boardNo}">
-															</td>
-															<td style="width:20%">
-															    <div class="custom-control custom-switch">
-															      <input type="checkbox" class="custom-control-input divideCheck"
-															      		id="divideMem${notice.boardNo}-${divi.memberNo}" 
-															      		<c:if test='${empty divi.divideDt}'>
-															      		 checked 
-															      		</c:if>
-															      		<c:if test='${!empty divi.divideDt}'>
-															      		 disabled 
-															      		</c:if>
-															      		 value="${divi.memberNo}">
-															      <label class="custom-control-label" for="divideMem${notice.boardNo}-${divi.memberNo}"></label>
-															    </div>
-															</td>
-														</tr>
+														<c:if test="${dut.boardNo == divi.boardNo}">
+															<tr class="
+																<c:if test='${empty divi.divideDt}'>
+																table-light
+																</c:if>
+																<c:if test='${!empty divi.divideDt}'>
+																table-active
+																</c:if>
+																">
+																<td style="width:15%">
+																	<div style="display: inline-block; width: 30px; height: 30px; border-radius: 70%; overflow: hidden;">
+																		<img src="${contextPath}/resources/profileImage/${divi.memberProfileUrl}"
+																			style="width: 100%; height: 100%; object-fit: cover; position: relative;"
+																		>
+																	</div>
+																</td>
+																<td style="width:20%">${divi.memberNickName}</td>
+																<td style="width:25%;
+																<c:if test='${!empty divi.divideDt}'>
+																text-decoration: line-through;
+																</c:if>
+																">${divi.dividePrice}원</td>
+																<td style="width:20%">
+																	<input type="hidden" value="${notice.boardNo}">
+																</td>
+																<td style="width:20%">
+																	<c:if test="${loginMember.memberNo == notice.memberNo or loginMember.memberNo == divi.memberNo }">
+																	    <div class="custom-control custom-switch">
+																	      <input type="checkbox" class="custom-control-input" onclick="divideCheck(event)"
+																	      		id="divideMem${notice.boardNo}-${divi.memberNo}" 
+																	      		<c:if test='${empty divi.divideDt}'>
+																	      		 checked 
+																	      		</c:if>
+																	      		<c:if test='${!empty divi.divideDt}'>
+																	      		 disabled 
+																	      		</c:if>
+																	      		 value="${divi.memberNo}">
+																	      <label class="custom-control-label" for="divideMem${notice.boardNo}-${divi.memberNo}"></label>
+																	    </div>
+																    </c:if>
+																</td>
+															</tr>
+														</c:if>
 													</c:forEach>
 												</tbody>
 											</table>
@@ -1494,9 +1464,12 @@
 					</div>
 					<!-- N빵 체크 관련 스크립트 -->
 					<script>
-						$(".divideCheck").on("click", function(){
+						//$(".divideCheck").on("click", function(){
+						function divideCheck(event){
+							console.log($(event.target).val())
+							console.log($(event.target).parent().parent().prev().children().val())
+							var $id = $(event.target)
 							if(confirm("N빵을 완료하면 변경할 수 없습니다. 계속 하시겠습니까?")){
-								var $id = $(this)
 								console.log($id)
 								var memberNo = $(this).val();
 								var boardNo = $(this).parent().parent().prev().children().val()
@@ -1513,8 +1486,11 @@
 										console.log("N빵 금액 체크 ajax 통신 실패")
 									}
 								})
+							} else {
+								$id.prop("checked", true);
 							}
-						})
+							
+						}
 					</script>
 					<!-- 게시글내용 -->
 					

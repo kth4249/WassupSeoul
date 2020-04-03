@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.kh.wassupSeoul.member.model.service.MemberService;
 import com.kh.wassupSeoul.member.model.vo.Member;
+import com.kh.wassupSeoul.member.model.vo.ProfileStreet;
 import com.kh.wassupSeoul.street.model.service.StreetService;
 import com.kh.wassupSeoul.street.model.vo.Calendar;
 import com.kh.wassupSeoul.street.model.vo.Keyword;
@@ -28,10 +30,33 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 	@Autowired
 	private StreetService streetService;
 	
+	@Autowired
+	private MemberService memberService;
+	
 	// StreetController 보다 먼저 수행
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		if(!request.getServletPath().equals("/street/streetMain")) {
+			//System.out.println("인터셉터 메인");
+			HttpSession session = request.getSession();
+			int streetNo = Integer.parseInt(request.getParameter("streetNo"));
+			Member loginMember = (Member)session.getAttribute("loginMember");
+			
+			List<ProfileStreet> pList = memberService.selectProfileStreet(loginMember.getMemberNo());
+			
+			
+			for(ProfileStreet ps : pList) {
+				if(ps.getStreetNo() == streetNo) {
+					return true;
+				}
+			}
+			session.setAttribute("msg", "권한이 없습니다");
+			response.sendRedirect(request.getContextPath() + "/square");
+			
+			return false;
+			
+		}
 		return super.preHandle(request, response, handler);
 	}
 	
@@ -41,7 +66,7 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 			ModelAndView modelAndView) throws Exception {
 
 		HttpSession session = request.getSession();
-		int streetNo = (int) session.getAttribute("streetNo");
+		int streetNo = Integer.parseInt(request.getParameter("streetNo"));
 		Member loginMember = (Member)session.getAttribute("loginMember");
 
 		try {
@@ -154,12 +179,13 @@ public class StreetInterceptor extends HandlerInterceptorAdapter{
 			
 				
 			}
-
-			request.setAttribute("allCalList", allCalList); // DB에 저장된 모든 일정 저장
-			request.setAttribute("compareNowDate", compareNowDate);
-			request.setAttribute("setCalList",setCalList); // 현재 월에만 해당하는 일정 저장
-			request.setAttribute("citizenStatus", citizenStatus);
-			request.setAttribute("street", street);
+			
+			session.setAttribute("streetNo", street.getStreetNo());
+			session.setAttribute("allCalList", allCalList); // DB에 저장된 모든 일정 저장
+			session.setAttribute("compareNowDate", compareNowDate);
+			session.setAttribute("setCalList",setCalList); // 현재 월에만 해당하는 일정 저장
+			session.setAttribute("citizenStatus", citizenStatus);
+			session.setAttribute("street", street);
 			// 사이드바 정보 끝
 			
 			super.postHandle(request, response, handler, modelAndView);

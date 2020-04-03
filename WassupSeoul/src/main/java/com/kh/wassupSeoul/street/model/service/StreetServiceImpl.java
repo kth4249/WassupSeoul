@@ -969,6 +969,16 @@ public class StreetServiceImpl implements StreetService{
 	public int divideCheck(Map<String, Integer> map) {
 		return streetDAO.divideCheck(map);
 	}
+	
+	
+	/** 골목 탈퇴
+	 * @param map
+	 * @throws Exception
+	 */
+	@Override
+	public void secessionStreet(Map<String, Integer> map) throws Exception {
+		streetDAO.secessionStreet(map);
+	}
 	/*--------------------------------태훈 끝-------------------------------------*/
 	
 	

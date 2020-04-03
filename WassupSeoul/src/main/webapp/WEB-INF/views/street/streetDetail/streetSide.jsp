@@ -91,7 +91,6 @@
 			})
 			
 			$(document).on("click", "#joinCancel", function(){
-				alert("스크립트 실행되나");
 				$.ajax({
 					url : "${contextPath}/street/joinCancel",
 					success : function(result) {
@@ -117,14 +116,14 @@
 				<c:if test="${citizenGrade eq 'M'}">
 					<div class="col-sm-6">
 						<a onclick="return confirm('정말로 이 골목을 삭제하시겠습니까?');"
-							href="streetDelete?no=${streetNo}" class="btn btn-link nanum"
+							href="streetDelete?streetNo=${streetNo}" class="btn btn-link nanum"
 							style="color: red; font-weight: bold; font-size: 15px"> <img
 							src="${contextPath}/resources/img/streetOut.svg" alt="이미지"
 							style="width: 15px; height: 15px;"> 골목 삭제
 						</a>
 					</div>
 					<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-						<a href="newMaster?no=${streetNo}" class="btn btn-link nanum"
+						<a href="newMaster?streetNo=${streetNo}" class="btn btn-link nanum"
 							style="color: red; font-weight: bold; font-size: 15px"> <img
 							src="${contextPath}/resources/img/streetOut.svg" alt="이미지"
 							style="width: 15px; height: 15px;"> 대장위임
@@ -134,7 +133,7 @@
 				<!-- 일반 주민 영역 -->
 		  	<c:if test="${citizenGrade eq 'G'}">
 	           	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-	             		<a href="" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
+	             		<a href="${contextPath}/street/secessionStreet" onclick="return secessionValidate();" class="btn btn-link nanum" style="color : red; font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetOut.svg" alt="이미지" style="width: 15px; height: 15px;">
 	              	 	골목 탈퇴
 	             		</a>
@@ -145,7 +144,7 @@
             <!-- 골목대장 영역 -->
            <c:if test="${citizenGrade eq 'M'}"> 
 		  	    	<div class="col-sm-6" style="padding: 0px; padding-left: 12px;">
-	             		<a href="streetUpdate?no=${streetNo}" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px">
+	             		<a href="streetUpdate?streetNo=${streetNo}" class="btn btn-link nanum" style="font-weight : bold; font-size: 15px">
 	               	<img src="${contextPath}/resources/img/streetChange.svg" alt="이미지" style="width: 15px; height: 15px;">
 	                                   	골목 변경
 	             		</a>
@@ -161,7 +160,15 @@
             
           </div>
         </div>
-        
+        <script>
+        	function secessionValidate(){
+        		if(confirm("정말 골목에서 탈퇴하시겠습니까?")){
+        			return true;
+        		} else {
+        			return false;
+        		}
+        	}
+        </script>
        <c:if test="${street.streetPublic eq 'Y'.charAt(0)}">
         	<div class="card-footer nanum">
           	누구나 골목을 검색해 찾을 수 있고, <br>게시물을 볼 수 있습니다.
