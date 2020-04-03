@@ -198,7 +198,12 @@
 							        });
 							
 							        document.getElementById('insertMapSubmit').addEventListener('click', function() {
-							          geocodeAddress(geocoder, map);
+							        	if($("#insertAddress").val().length < 2) {
+							        		alert("2글자 이상 입력해주세요.");
+							        	} else {
+									          geocodeAddress(geocoder, map);							        		
+							        	}
+
 							        });
 							        
 							     	// 추가 시작
@@ -261,25 +266,30 @@
 							        var storeAddress = document.getElementById('calendarLocation');
 							        // form태그로 전달할 주소 input
 							        geocoder.geocode({'address': address}, function(results, status) {
-							        	var realAddr = results[0].formatted_address;
-							        	console.log(results);
-							        	console.log(realAddr);
-							        	// results[0].formatted_address -> 검색된 주소의 상세주소
-							        	// 대한민국 서울특별시 제거
-									    realAddr = realAddr.substring(11);
-							        	storeAddress.value = realAddr;
-							        	// 검색된 상세주소를 아래 입력칸에 넣는다.
-							          if (status === 'OK') {
-							        	  var coords = results[0].geometry.location;
-							            	resultsMap.setCenter(coords);
-							           	  var marker = new google.maps.Marker({
-							           		   map: resultsMap,
-							             	   position: coords
-							              });
-							           	  searchMarker = marker; // 검색시 발생한 마커 지정
-							          } else {
-							            alert('Geocode was not successful for the following reason: ' + status);
-							          }
+							        	console.log(address);
+							        	if(Object.keys(results).length == 0){
+							        		storeAddress.value = "일정 위치가 지정 안됨";
+							        	} else {
+							        		var realAddr = results[0].formatted_address;
+								        	console.log(results);
+								        	console.log(realAddr);
+								        	// results[0].formatted_address -> 검색된 주소의 상세주소
+								        	// 대한민국 서울특별시 제거
+										    realAddr = realAddr.substring(11);
+								        	storeAddress.value = realAddr;
+								        	// 검색된 상세주소를 아래 입력칸에 넣는다.
+							        	}
+							        	if (status === 'OK') {
+								        	var coords = results[0].geometry.location;
+								           	resultsMap.setCenter(coords);
+								           	var marker = new google.maps.Marker({
+								           		   map: resultsMap,
+								             	   position: coords
+								            });
+								           	  searchMarker = marker; // 검색시 발생한 마커 지정
+									    } else {
+									        alert('위치검색이 되지 않습니다: ' + status);
+									    }
 							        });
 							     
 							        
@@ -767,6 +777,8 @@
         		signUpCheck.calendarJoin = true;
         		signUpCheck.calendarJoinDate = true;
         	} else {
+        		$joinNumber.val("");
+        		$joinDate.val("");
         		signUpCheck.calendarJoin = false;
         		signUpCheck.calendarJoinDate = false;
         	}
