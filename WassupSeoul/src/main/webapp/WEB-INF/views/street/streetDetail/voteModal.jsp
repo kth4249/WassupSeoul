@@ -92,6 +92,9 @@
 					<!-- end -->
 					
 <script>
+function refreshList() {
+	location.reload();
+}
 
 $(function(){
 	
@@ -115,60 +118,6 @@ $(function(){
 
 });
 
-	/* $(document).ready(function(){
-	  	 	var today = new Date();
-	  	 	var dd = today.getDate();
-	  	 	var mm = today.getMonth()+1; 
-	  	 	var yyyy = today.getFullYear();
-	  	 	 if(dd<10){
-	  	 	        dd='0'+dd
-	  	 	    } 
-	  	 	    if(mm<10){
-	  	 	        mm='0'+mm
-	  	 	    } 
-	  	 	today = yyyy+'-'+mm+'-'+dd;
-	  	  	moment(today).format('YYYY-MM-DD');
-	  	  
-	  	 	document.getElementById("date").setAttribute("min", today);	 	
-	}); */
-		
-
-	 //document.getElementById('date').value= new Date().toISOString().slice(0, 7);
-
-
-	//선택지 공백 우효성 검사
-	/* function validate2() {
-		    var optionCount = $(".voteOption").length
-		
-			for( var i = 1; i<optionCount+1; i++){
-				var str = $("#voteOption"+i).val();
-				
-				if( str == '' || str == null ){
-				    alert( '투표 선택지를 입력해 주세요' );
-				    return false;
-				}
-				var blank_pattern = /^\s+|\s+$/g;
-				if( str.replace( blank_pattern, '' ) == "" ){
-				    alert('투표 선택지를 입력해 주세요');
-				    return false;
-				}
-			} 
-			
-		    // 날짜 유효성 검사 필요 
-			
-			// 투표제목 공백시 
-			var str = $("#voteTitle").val();
-			if( str == '' || str == null ){
-			    alert( '투표제목을 입력해 주세요' );
-			    return false;
-			}
-
-			var blank_pattern = /^\s+|\s+$/g;
-			if( str.replace( blank_pattern, '' ) == "" ){
-			    alert('투표제목을 입력해 주세요');
-			    return false;
-			}
-	} */
 	
 	// 투표 게시글작성
 	document.getElementById('voteSubmitBtn').addEventListener('click', function(){
@@ -218,14 +167,14 @@ $(function(){
 		//alert(voteLimit);
 		//alert(voteOptionList);
 		
-		var flag = "true";
+		/* var flag = "true";
 		
 		// 투표 제목 공백 검사 
-		if( votePostTitle == '' || str == null ){
+		if( votePostTitle == '' || votePostTitle == null ){
 		    //alert( '검색어를 입력해 주세요' );
 		     flag = "false";
 		}
-		
+		 */
 		/* // 투표 제목 공백 검사 
 		var blank_pattern = /^\s+|\s+$/g;
 		if( votePostTitle.replace( blank_pattern, '' ) == "" ){
@@ -259,7 +208,7 @@ $(function(){
 					console.log(e);
 					}
 				});
-				 refreshList()
+				 refreshList();
 		/* }else{
 			alert("투표 제목을 입력해야 합니다.");
 		} */

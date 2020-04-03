@@ -64,31 +64,31 @@
 						<div class="col-xs-4">
 							<select class="form-control nanum" name="districtNo"
 								id="districtNo" required>
-								<option selected value="10">강서구</option>
-								<option value="8">양천구</option>
-								<option value="11">구로구</option>
-								<option value="9">영등포구</option>
-								<option value="7">금천구</option>
-								<option value="5">동작구</option>
-								<option value="6">관악구</option>
-								<option value="4">서초구</option>
 								<option value="3">강남구</option>
-								<option value="2">송파구</option>
 								<option value="1">강동구</option>
+								<option value="12">강북구</option>
+								<option selected value="10">강서구</option>
+								<option value="6">관악구</option>
 								<option value="15">광진구</option>
-								<option value="16">중랑구</option>
+								<option value="11">구로구</option>
+								<option value="7">금천구</option>
 								<option value="13">노원구</option>
 								<option value="14">도봉구</option>
-								<option value="17">성동구</option>
 								<option value="18">동대문구</option>
-								<option value="19">성북구</option>
-								<option value="12">강북구</option>
-								<option value="20">중구</option>
-								<option value="21">종로구</option>
-								<option value="22">용산구</option>
-								<option value="23">서대문구</option>
-								<option value="24">은평구</option>
+								<option value="5">동작구</option>
 								<option value="25">마포구</option>
+								<option value="23">서대문구</option>
+								<option value="4">서초구</option>
+								<option value="17">성동구</option>
+								<option value="19">성북구</option>
+								<option value="2">송파구</option>
+								<option value="8">양천구</option>
+								<option value="9">영등포구</option>
+								<option value="22">용산구</option>
+								<option value="24">은평구</option>
+								<option value="21">종로구</option>
+								<option value="20">중구</option>
+								<option value="16">중랑구</option>
 							</select>
 						</div>
 					</div>
