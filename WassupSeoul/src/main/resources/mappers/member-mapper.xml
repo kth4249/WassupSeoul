@@ -62,7 +62,7 @@
 	<!-- 회원가입용 -->
 	<insert id="signUp" parameterType="Member">
   		INSERT INTO MEMBER
-  		VALUES(SEQ_MEMBER.CURRVAL, #{memberEmail}, #{memberPwd}, 
+  		VALUES(SEQ_MEMBER.NEXTVAL, #{memberEmail}, #{memberPwd}, 
   				#{memberNm}, #{memberNickname}, #{memberPhone},
   				#{memberGender}, #{memberAge}, #{memberProfileUrl},	DEFAULT, DEFAULT, DEFAULT)
   	</insert>
